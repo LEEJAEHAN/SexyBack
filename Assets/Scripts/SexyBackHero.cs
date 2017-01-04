@@ -29,6 +29,9 @@ namespace SexyBackPlayScene
                 Gain(totaldamage);
                 GameManager.SexyBackLog("Crit");
                 // CriticalGAmeOBject 풀 
+                //GameObject.Find("hitparticle").GetComponent<ParticleSystem>().Play();
+                GameObject.Find("slash").GetComponent<Slash>().Play();
+
             }
             else
             {
@@ -36,6 +39,10 @@ namespace SexyBackPlayScene
                 GameManager.SexyBackLog("NOrmal");
                 target.Hit(DPC, true);
                 Gain(DPC);
+                //EffectMaker.GetInstance().PlayAttackEffect();
+                //GameObject.Find("hitparticle").GetComponent<ParticleSystem>().Play();
+                GameObject.Find("slash").GetComponent<Slash>().Play();
+                //GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/slash") as GameObject);
             }
         }
 

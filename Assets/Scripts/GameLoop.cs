@@ -28,7 +28,7 @@ namespace SexyBackPlayScene
             if (sender.name == "button_tap")
             {
                 gameManager.Tap();
-                GameManager.SexyBackLog("tap"); 
+//                GameManager.SexyBackLog("tap"); 
             }
             //
             gameManager.noticeEvent(sender);
