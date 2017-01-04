@@ -15,14 +15,14 @@ namespace SexyBackPlayScene
         {
             MAXHP = maxhp;
             HP = maxhp;
-            noticeHPChanged();
+            UIUpdater.getInstance().noticeHPChanged(HP, MAXHP);
             hitparticle = GameObject.Find("hitparticle") as GameObject;
             avatar = GameObject.Find("monster");
         }
         public void Hit(double damage, bool HitMotion)
         {
             HP -= damage;
-            noticeHPChanged();
+            UIUpdater.getInstance().noticeHPChanged(HP,MAXHP);
             if(HitMotion)
             {
 //                GameManager.SexyBackLog("hitmotion");
@@ -32,12 +32,6 @@ namespace SexyBackPlayScene
             }
         }
 
-        void noticeHPChanged()
-        {
-            string dpsString = GameManager.SexyBackToInt(HP) + " / " + GameManager.SexyBackToInt(MAXHP);
-            // hp bar
-            GameObject.Find("label_monsterhp").GetComponent<UILabel>().text = dpsString;
-        }
 
 
     }

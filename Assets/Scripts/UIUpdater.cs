@@ -4,7 +4,7 @@ using UnityEngine;
 namespace SexyBackPlayScene
 {
     public class UIUpdater
-    {
+    { // publisher 
         private static UIUpdater Instance;
 
         private UIUpdater()
@@ -37,5 +37,14 @@ namespace SexyBackPlayScene
             string expstring = GameManager.SexyBackToInt(EXP) + " EXP";
             GameObject.Find("label_exp").GetComponent<UILabel>().text = expstring;
         }
+
+        internal void noticeHPChanged(double HP, double MAXHP)
+        {
+            string dpsString = GameManager.SexyBackToInt(HP) + " / " + GameManager.SexyBackToInt(MAXHP);
+            // hp bar
+            GameObject.Find("label_monsterhp").GetComponent<UILabel>().text = dpsString;
+        }
+
+
     }
 }

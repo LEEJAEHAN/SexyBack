@@ -13,43 +13,37 @@ namespace SexyBackPlayScene
 
         public bool ISCRITICAL { get { return CRIRATE > UnityEngine.Random.Range(0.0f,1.0f); } }
 
+        public GameObject slash;
         
         public SexyBackHero()
         {
-
+            slash = GameObject.Find("slash") as GameObject;
         }
 
         public void AttackDPC(SexyBackMonster target)
         {
             if (ISCRITICAL)
             {
-                // CriticalACtion Play;
+                // GameManager.SexyBackLog("Crit");
                 double totaldamage = DPC * CRIDMG;
                 target.Hit(totaldamage, true);
-                Gain(totaldamage);
-                GameManager.SexyBackLog("Crit");
-                // CriticalGAmeOBject 풀 
-                //GameObject.Find("hitparticle").GetComponent<ParticleSystem>().Play();
-                GameObject.Find("slash").GetComponent<Slash>().Play();
-
+                GainEXP(totaldamage);
+                // 크리티컬 글자 필요 
+                slash.GetComponent<Slash>().Play();
             }
             else
             {
-                //AttackAction Play;
-                GameManager.SexyBackLog("NOrmal");
-                target.Hit(DPC, true);
-                Gain(DPC);
-                //EffectMaker.GetInstance().PlayAttackEffect();
-                //GameObject.Find("hitparticle").GetComponent<ParticleSystem>().Play();
-                GameObject.Find("slash").GetComponent<Slash>().Play();
                 //GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/slash") as GameObject);
+                target.Hit(DPC, true);
+                GainEXP(DPC);
+                slash.GetComponent<Slash>().Play();
             }
         }
 
         public void AttackDPS(float deltaTime, SexyBackMonster target)
         {
             target.Hit(deltaTime * DPS, false);
-            Gain(deltaTime * DPS);
+            GainEXP(deltaTime * DPS);
         }
 
         public void IncreaseDPC(double amount)
@@ -58,10 +52,15 @@ namespace SexyBackPlayScene
             UIUpdater.getInstance().noticeDamageChanged(DPC, DPS);
         }
 
-        void Gain(double exp)
+        public void IncreaseDPS(double amount)
+        {
+            DPS += amount;
+            UIUpdater.getInstance().noticeDamageChanged(DPC, DPS);
+        }
+
+        void GainEXP(double exp)
         {
             EXP += exp;
-
             UIUpdater.getInstance().noteiceExpChanged(EXP);
         }
     }

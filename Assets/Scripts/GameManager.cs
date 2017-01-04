@@ -56,7 +56,7 @@ namespace SexyBackPlayScene
             {
                 gameTime -= testTimeTick;
                 hero.IncreaseDPC(3);
-                hero.DPS++;
+                hero.IncreaseDPS(1);
             }
 
         }
