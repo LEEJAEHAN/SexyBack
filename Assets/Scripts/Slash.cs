@@ -13,7 +13,13 @@ namespace SexyBackPlayScene
         public Vector3 NormalPosition;
         public Vector3 YX_flipPosition;
         public Vector3 Y_filpPosition;
-        
+
+        bool flipx = false;
+        bool flipy = false;
+        int xVec = 1;
+        int yVec = 1;
+        double ActionTime = 0.5;
+
         Color[] colorbucket = new Color[6];
         
         // Use this for initialization
@@ -32,7 +38,10 @@ namespace SexyBackPlayScene
         // Update is called once per frame
         void Update()
         {
-
+            float deltaTime = Time.deltaTime;
+            ActionTime -= deltaTime;
+            if(ActionTime > 0)
+                transform.Translate(new Vector3(deltaTime * xVec, deltaTime * yVec, 0));
 
         }
 
@@ -41,10 +50,9 @@ namespace SexyBackPlayScene
         {
             GameManager.SexyBackLog("change color");
 
-
-            bool flipx = (Random.Range(1, 10) >= 5f);
+            flipx = (Random.Range(1, 10) >= 5f);
             GetComponent<SpriteRenderer>().flipX = flipx;
-            bool flipy = (Random.Range(1, 10) >= 5f);
+            flipy = (Random.Range(1, 10) >= 5f);
             GetComponent<SpriteRenderer>().flipY = flipy;
             if(flipy)
             {
@@ -58,9 +66,20 @@ namespace SexyBackPlayScene
                 transform.position = NormalPosition;
             }
 
+
+            if (flipx)
+                xVec = -1;
+            else
+                xVec = 1;
+            if (flipy)
+                yVec = -1;
+            else
+                yVec = 1;
+
+
+            ActionTime = 0.3;
             int index = Random.Range(0, 5);
             GetComponent<SpriteRenderer>().color = colorbucket[index];
-
             GetComponent<Animator>().SetTrigger("Play");
 
         }

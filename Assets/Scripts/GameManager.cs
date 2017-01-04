@@ -22,7 +22,9 @@ namespace SexyBackPlayScene
                 GameManagerInstance = new GameManager();
             return GameManagerInstance;
         }
-        
+
+
+
         // Use this for initialization
         public void Init()
         {
@@ -64,12 +66,19 @@ namespace SexyBackPlayScene
         internal void Tap()
         {
             hero.AttackDPC(monster);
+            GameObject.Find("proj").GetComponent<proj>().Throw();
         }
 
         public static void SexyBackLog(object msg)
         {
             Debug.Log(msg);
         }
+
+        internal static void SexyBackDebug(object msg)
+        {
+            GameObject.Find("label_debug").GetComponent<UILabel>().text = msg.ToString();
+        }
+
 
         public static string SexyBackToInt(double value)
         {
