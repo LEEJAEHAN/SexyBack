@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    internal class SexyBackMonster
+    public class SexyBackMonster
     {
         public double HP;
         public double MAXHP;
@@ -18,7 +18,10 @@ namespace SexyBackPlayScene
             UIUpdater.getInstance().noticeHPChanged(HP, MAXHP);
             hitparticle = GameObject.Find("hitparticle") as GameObject;
             avatar = GameObject.Find("monster");
+            avatar.GetComponent<MonsterAvatar>().monster = this;
         }
+        
+        // mvc 어기고있음
         public void Hit(double damage, bool HitMotion)
         {
             HP -= damage;

@@ -28,9 +28,16 @@ namespace SexyBackPlayScene
         // Use this for initialization
         public void Init()
         {
+            Physics.gravity = new Vector3(0, -20.0f, 0);
+
+
+            inputlisteners = new List<InputListener>();
+
             hero = new SexyBackHero();
             monster = new SexyBackMonster(2500);
-            inputlisteners = new List<InputListener>(); 
+            elementals = new List<Elemental>();
+
+            elementals.Add(new FireElemental());
         }
 
 
@@ -43,22 +50,27 @@ namespace SexyBackPlayScene
 
         SexyBackHero hero;
         SexyBackMonster monster;
+        List<Elemental> elementals;
+
         public double testTimeTick = 1;
         double gameTime;
 
         // Update is called once per frame
         public void Update()
         {
-            hero.AttackDPS(Time.deltaTime, monster);
+            foreach(Elemental elemenatal in elementals)
+            {
+                elemenatal.Update();
+            }
 
 
-            //            SexyBackLog("GamaManager Updating;;");;
+            //hero.AttackDPS(Time.deltaTime, monster);
+
             gameTime += Time.deltaTime;
             if(gameTime > testTimeTick)
             {
                 gameTime -= testTimeTick;
                 hero.IncreaseDPC(3);
-                hero.IncreaseDPS(1);
             }
 
         }
@@ -66,7 +78,6 @@ namespace SexyBackPlayScene
         internal void Tap()
         {
             hero.AttackDPC(monster);
-            GameObject.Find("proj").GetComponent<proj>().Throw();
         }
 
         public static void SexyBackLog(object msg)
@@ -78,7 +89,6 @@ namespace SexyBackPlayScene
         {
             GameObject.Find("label_debug").GetComponent<UILabel>().text = msg.ToString();
         }
-
 
         public static string SexyBackToInt(double value)
         {
