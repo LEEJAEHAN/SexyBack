@@ -38,6 +38,16 @@ namespace SexyBackPlayScene
             elementals = new List<Elemental>();
 
             elementals.Add(new FireElemental());
+            elementals.Add(new AirElemental());
+            elementals.Add(new EarthElemental());
+            elementals.Add(new ElectricElemental());
+            elementals.Add(new IceElemental());
+            elementals.Add(new MagmaElemental());
+            elementals.Add(new RockElemental());
+            elementals.Add(new SnowElemental());
+            elementals.Add(new WaterElemental());
+
+
         }
 
 
@@ -58,7 +68,7 @@ namespace SexyBackPlayScene
         // Update is called once per frame
         public void Update()
         {
-            foreach(Elemental elemenatal in elementals)
+            foreach (Elemental elemenatal in elementals)
             {
                 elemenatal.Update();
             }
@@ -67,7 +77,7 @@ namespace SexyBackPlayScene
             //hero.AttackDPS(Time.deltaTime, monster);
 
             gameTime += Time.deltaTime;
-            if(gameTime > testTimeTick)
+            if (gameTime > testTimeTick)
             {
                 gameTime -= testTimeTick;
                 hero.IncreaseDPC(3);
@@ -101,7 +111,7 @@ namespace SexyBackPlayScene
             // 소수 세째짜리까지
             if (value > 1000)
             {
-                if(value > 10000)// 갓넘었을때는 안줄인다.
+                if (value > 10000)// 갓넘었을때는 안줄인다.
                 {
                     value = value / 1000;
                     return value.ToString("N1") + "K";

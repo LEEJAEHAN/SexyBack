@@ -20,9 +20,10 @@ namespace SexyBackPlayScene
 
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider collider)
         {
-            if (collision.gameObject.tag == "Projectile")
+
+            if (collider.gameObject.tag == "Projectile")
             {
                 //                double damage = source.gameObject.GetComponent<Projectile>().damage;
 
@@ -30,7 +31,9 @@ namespace SexyBackPlayScene
                 monster.Hit(damage, true);
             }
 
+
         }
+
     }
 
 }

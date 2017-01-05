@@ -45,9 +45,9 @@ namespace SexyBackPlayScene
 
         }
 
-        void OnCollisionEnter(Collision coll)
+        private void OnTriggerEnter(Collider collider)
         {
-            if (coll.gameObject.name != null)
+            if (collider.gameObject.tag == "Monster")
             {
                 anim.SetBool("Shoot", false);
                 anim.SetBool("Hit", true);

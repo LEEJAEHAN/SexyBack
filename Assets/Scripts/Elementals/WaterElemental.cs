@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    internal class FireElemental : Elemental
+    internal class WaterElemental : Elemental
     {
-        public FireElemental() : base()
+        public WaterElemental() : base()
         {
-            string name = "fireball";
+            string name = "waterball";
             ShooterName = "shooter_" + name;
             ProjectilePrefabName = "prefabs/" + name;
             ProjectileReadyStateName = name + "_spot";
