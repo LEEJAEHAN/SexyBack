@@ -78,6 +78,12 @@ namespace SexyBackPlayScene
         internal void Tap()
         {
             hero.AttackDPC(monster);
+
+            foreach (Elemental elemenatal in elementals)
+            {
+                elemenatal.Shoot();
+            }
+
         }
 
         public static void SexyBackLog(object msg)

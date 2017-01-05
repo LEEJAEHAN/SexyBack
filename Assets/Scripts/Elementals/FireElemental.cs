@@ -7,6 +7,10 @@ namespace SexyBackPlayScene
     {
         double AttackTimer;
         double AttackInterval;
+        double CreateActionTime;
+
+
+
         double DPS;
         double Damage;
 
@@ -16,12 +20,13 @@ namespace SexyBackPlayScene
 
         public FireElemental()
         {
-            AttackInterval = 1.5;
+            AttackInterval = 2;
+            CreateActionTime = 1;
             Damage = 10;
             DPS = Damage / AttackInterval;
 
             shooter = GameObject.Find("shooter_fire");
-            projectile = GameObject.Instantiate<GameObject>(Resources.Load("prefabs/fireball") as GameObject);
+            //projectile = GameObject.Instantiate<GameObject>(Resources.Load("prefabs/fireball") as GameObject);
             target = GameObject.Find("monster");
 
         }
@@ -29,47 +34,70 @@ namespace SexyBackPlayScene
         {
         }
 
-        public override void Shoot()
-        {
-            projectile.GetComponent<Projectile>().damage = Damage;
-            projectile.transform.position = shooter.transform.position;
-            projectile.transform.localScale = shooter.transform.localScale;
-
-            projectile.SetActive(true);
-            projectile.GetComponent<Rigidbody>().useGravity = true;
-
-            float xDistance;
-            float yDistance;
-            float zDistance;
-
-            xDistance = target.transform.position.x - shooter.transform.position.x;
-            yDistance = target.transform.position.y - shooter.transform.position.y;
-            zDistance = target.transform.position.z - shooter.transform.position.z;
-
-            // yz 앵글이랑
-            // xy 앵글
-            float throwangle_xy;
-
-            throwangle_xy = Mathf.Atan((yDistance + (-Physics.gravity.y / 2)) / xDistance);
-
-            float totalVelo = xDistance / Mathf.Cos(throwangle_xy);
-
-            float xVelo, yVelo;
-            xVelo = xDistance;
-            yVelo = xDistance * Mathf.Tan(throwangle_xy);
-            float zVelo = zDistance;
-
-            projectile.GetComponent<Rigidbody>().velocity = new Vector3(xVelo, yVelo, zVelo);
-        }
-
         public override void Update()
         {
+
             AttackTimer += Time.deltaTime;
-            if(AttackTimer > AttackInterval)
+            if (AttackTimer > AttackInterval - CreateActionTime)
             {
-                Shoot();
-                AttackTimer -= AttackInterval;
+
+                // 만들어진다.
+                if (projectile == null)
+                {
+                    //createProjectile
+                    projectile = GameObject.Instantiate<GameObject>(Resources.Load("prefabs/fireball") as GameObject);
+                    //projectile.GetComponent<Projectile>().damage = Damage;
+                    //projectile.transform.localScale = shooter.transform.localScale;
+                    projectile.transform.position = shooter.transform.position;
+                    projectile.SetActive(true);
+
+                    GameManager.SexyBackLog("Create fire");
+
+                }
+
+                if (AttackTimer > AttackInterval)
+                {
+                    //                    Shoot();
+                    AttackTimer -= AttackInterval;
+                }
             }
         }
+
+        public override void Shoot()
+        {
+            if (projectile != null && projectile.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("fireball_spot"))
+            {
+
+                //            projectile = GameObject.Instantiate<GameObject>(Resources.Load("prefabs/fireball") as GameObject);
+                projectile.GetComponent<Animator>().SetBool("Shoot", true);
+                projectile.GetComponent<Rigidbody>().useGravity = true;
+
+
+                float xDistance;
+                float yDistance;
+                float zDistance;
+
+                xDistance = target.transform.position.x - shooter.transform.position.x;
+                yDistance = target.transform.position.y - shooter.transform.position.y;
+                zDistance = target.transform.position.z - shooter.transform.position.z;
+
+                // yz 앵글이랑
+                // xy 앵글
+                float throwangle_xy;
+
+                throwangle_xy = Mathf.Atan((yDistance + (-Physics.gravity.y / 2)) / xDistance);
+
+                float totalVelo = xDistance / Mathf.Cos(throwangle_xy);
+
+                float xVelo, yVelo;
+                xVelo = xDistance;
+                yVelo = xDistance * Mathf.Tan(throwangle_xy);
+                float zVelo = zDistance;
+
+                projectile.GetComponent<Rigidbody>().velocity = new Vector3(xVelo, yVelo, zVelo);
+            }
+
+        }
+
     }
 }
