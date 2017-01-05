@@ -9,23 +9,21 @@ namespace SexyBackPlayScene
         double AttackInterval;
         double CreateActionTime;
 
-
-
         double DPS;
         double Damage;
 
-        GameObject shooter;
+        GameObject shooter; // avatar
         GameObject projectile;
         GameObject target;
 
         public FireElemental()
         {
-            AttackInterval = 2;
-            CreateActionTime = 1;
+            AttackInterval = 10;
+            CreateActionTime = 5;
             Damage = 10;
             DPS = Damage / AttackInterval;
 
-            shooter = GameObject.Find("shooter_fire");
+            shooter = GameObject.Find("shooter_fireball");
             //projectile = GameObject.Instantiate<GameObject>(Resources.Load("prefabs/fireball") as GameObject);
             target = GameObject.Find("monster");
 
@@ -34,30 +32,34 @@ namespace SexyBackPlayScene
         {
         }
 
+        void CreateProjectile()
+        {
+            //createProjectile
+            projectile = GameObject.Instantiate<GameObject>(Resources.Load("prefabs/fireball") as GameObject);
+            //projectile.GetComponent<Projectile>().damage = Damage;
+            //projectile.transform.localScale = shooter.transform.localScale;
+            projectile.transform.parent = shooter.transform;
+            projectile.transform.localPosition = Vector3.zero;
+
+//            projectile.transform.position = shooter.transform.position;
+            projectile.SetActive(true);
+
+            GameManager.SexyBackLog("Create fire");
+        }
         public override void Update()
         {
 
             AttackTimer += Time.deltaTime;
             if (AttackTimer > AttackInterval - CreateActionTime)
             {
-
                 // 만들어진다.
                 if (projectile == null)
                 {
-                    //createProjectile
-                    projectile = GameObject.Instantiate<GameObject>(Resources.Load("prefabs/fireball") as GameObject);
-                    //projectile.GetComponent<Projectile>().damage = Damage;
-                    //projectile.transform.localScale = shooter.transform.localScale;
-                    projectile.transform.position = shooter.transform.position;
-                    projectile.SetActive(true);
-
-                    GameManager.SexyBackLog("Create fire");
-
+                    CreateProjectile();
                 }
-
                 if (AttackTimer > AttackInterval)
                 {
-                    //                    Shoot();
+                    Shoot();
                     AttackTimer -= AttackInterval;
                 }
             }

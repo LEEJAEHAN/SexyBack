@@ -15,15 +15,13 @@ namespace SexyBackPlayScene
         public bool ISCRITICAL { get { return CRIRATE > UnityEngine.Random.Range(0.0f,1.0f); } }
 
         public GameObject slash;
-
-
-
-
+        public GameObject avatar;
 
 
         public SexyBackHero()
         {
             slash = GameObject.Find("slash") as GameObject;
+            avatar = GameObject.Find("hero") as GameObject;
         }
 
         
@@ -37,6 +35,7 @@ namespace SexyBackPlayScene
                 GainEXP(totaldamage);
                 // 크리티컬 글자 필요 
                 slash.GetComponent<Slash>().Play();
+                avatar.GetComponent<Animator>().SetTrigger("Attack");
             }
             else
             {
@@ -44,6 +43,8 @@ namespace SexyBackPlayScene
                 target.Hit(DPC, true);
                 GainEXP(DPC);
                 slash.GetComponent<Slash>().Play();
+                avatar.GetComponent<Animator>().SetTrigger("Attack");
+                
             }
         }
 
