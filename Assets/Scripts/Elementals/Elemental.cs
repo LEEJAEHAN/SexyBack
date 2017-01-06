@@ -2,60 +2,52 @@
 
 namespace SexyBackPlayScene
 {
-    public abstract class Elemental // base class of Elementals
+    public class Elemental // base class of Elementals
     {
-        protected double AttackTimer;
-        protected double AttackInterval;
-        protected double CreateActionTime;
+        // for damage and exp
+        protected int level;
+        protected double Dps; // BaseDps* level 값.
+        protected double Damage; // dps / attackinterval                                                                 // 계산되는값.
+        protected int ExpforNthLevel; // n번째 레벨을 올리기 위한 exp                                                      // 계산되는값.
 
-        protected double DPS;
-        protected double Damage;
+        // for projectile action;
+        public double AttackTimer;
 
-        protected GameObject shooter; // avatar
-        protected GameObject projectile;
-        protected GameObject target;
+        protected GameObject Shooter; // avatar
+        protected GameObject Projectile;
+        protected GameObject Target;
 
-        protected string ProjectilePrefabName;
-        protected string ProjectileReadyStateName;
-        protected string ShooterName;
-
-        public Elemental()
+        ElementalData ElementalData;
+        
+        public Elemental(string name, ElementalData data, GameObject shooter)
         {
-            AttackInterval = 5;
-            CreateActionTime = 5;
-            Damage = 10;
-            DPS = Damage / AttackInterval;
 
-            // default = airblock
-            ShooterName = "shooter_airball";
-            ProjectilePrefabName = "prefabs/airball";
-            ProjectileReadyStateName = "airball_spot";
-            // default = airblock
-
-            target = GameObject.Find("monster");
+            //GameObject.Find(shooterName);
+            Shooter = shooter;
+            ElementalData = data;
+            Target = GameObject.Find("monster");
         }
+
         void CreateProjectile()
         {
-            // init shooter
-            shooter = GameObject.Find(ShooterName);
             //createProjectile
-            projectile = GameObject.Instantiate<GameObject>(Resources.Load(ProjectilePrefabName) as GameObject);
+            Projectile = GameObject.Instantiate<GameObject>(Resources.Load(ElementalData.ProjectilePrefabName) as GameObject);
             //projectile.GetComponent<Projectile>().damage = Damage;
-            projectile.transform.parent = shooter.transform;
-            projectile.transform.localPosition = Vector3.zero;
-            projectile.SetActive(true);
+            Projectile.transform.parent = Shooter.transform;
+            Projectile.transform.localPosition = Vector3.zero;
+            Projectile.SetActive(true);
         }
         public virtual void Update()
         {
             AttackTimer += Time.deltaTime;
 
             // 만들어진다.
-            if (AttackTimer > AttackInterval - 2 && projectile == null)
+            if (AttackTimer > ElementalData.AttackInterval - 2 && Projectile == null)
             {
                 CreateProjectile();
             }
 
-            if (AttackTimer > AttackInterval)
+            if (AttackTimer > ElementalData.AttackInterval)
             {
                 Shoot();
             }
@@ -63,17 +55,17 @@ namespace SexyBackPlayScene
 
         public virtual void Shoot()
         {
-            if (projectile != null && projectile.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(ProjectileReadyStateName))
+            if (Projectile != null && Projectile.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(ElementalData.ProjectileReadyStateName))
             {
                 //projectile = GameObject.Instantiate<GameObject>(Resources.Load("prefabs/fireball") as GameObject);
-                projectile.GetComponent<Animator>().SetBool("Shoot", true);
-                projectile.GetComponent<Rigidbody>().useGravity = true;
+                Projectile.GetComponent<Animator>().SetBool("Shoot", true);
+                Projectile.GetComponent<Rigidbody>().useGravity = true;
 
                 float xDistance, yDistance, zDistance;
 
-                xDistance = target.transform.position.x - shooter.transform.position.x;
-                yDistance = target.transform.position.y - shooter.transform.position.y;
-                zDistance = target.transform.position.z - shooter.transform.position.z;
+                xDistance = Target.transform.position.x - Shooter.transform.position.x;
+                yDistance = Target.transform.position.y - Shooter.transform.position.y;
+                zDistance = Target.transform.position.z - Shooter.transform.position.z;
 
                 float throwangle_xy;
 
@@ -86,9 +78,9 @@ namespace SexyBackPlayScene
                 yVelo = xDistance * Mathf.Tan(throwangle_xy);
                 float zVelo = zDistance;
 
-                projectile.GetComponent<Rigidbody>().velocity = new Vector3(xVelo, yVelo, zVelo);
+                Projectile.GetComponent<Rigidbody>().velocity = new Vector3(xVelo, yVelo, zVelo);
 
-                AttackTimer -= AttackInterval; // 정상적으로 발사 완료 후 타이머리셋
+                AttackTimer -= ElementalData.AttackInterval; // 정상적으로 발사 완료 후 타이머리셋
             }
         }
 

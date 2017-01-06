@@ -37,15 +37,15 @@ namespace SexyBackPlayScene
             monster = new SexyBackMonster(2500);
             elementals = new List<Elemental>();
 
-            elementals.Add(new FireElemental());
-            elementals.Add(new AirElemental());
-            elementals.Add(new EarthElemental());
-            elementals.Add(new ElectricElemental());
-            elementals.Add(new IceElemental());
-            elementals.Add(new MagmaElemental());
-            elementals.Add(new RockElemental());
-            elementals.Add(new SnowElemental());
-            elementals.Add(new WaterElemental());
+            elementals.Add(new Elemental("airball", new ElementalData("airball"), GameObject.Find("shooter_airball")));
+            //elementals.Add(new EarthElemental());
+            //elementals.Add(new ElectricElemental());
+            //elementals.Add(new IceElemental());
+            //elementals.Add(new FireElemental());
+            //elementals.Add(new MagmaElemental());
+            //elementals.Add(new RockElemental());
+            //elementals.Add(new SnowElemental());
+            //elementals.Add(new WaterElemental());
 
 
         }
