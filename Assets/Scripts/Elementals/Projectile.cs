@@ -38,8 +38,7 @@ namespace SexyBackPlayScene
 
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("Base.Destroy"))
             {
-                GameManager.SexyBackLog("RemoveFire");
-
+//                GameManager.SexyBackLog("RemoveFire");
                 Destroy(this.gameObject);
             }
         }

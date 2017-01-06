@@ -39,19 +39,28 @@ namespace SexyBackPlayScene
 
 
 
-            ElementalData fireball = new ElementalData("fireball");
-            // fireball.setdata()
+            ElementalData fireball = new ElementalData("fireball", 2, 10, 100);
+            ElementalData waterball = new ElementalData("waterball", 3, 50, 120);
+            ElementalData rock = new ElementalData("rock", 5, 400, 168);
+            ElementalData electricball = new ElementalData("electricball", 7, 3750, 237);
+            ElementalData snowball = new ElementalData("snowball", 11, 45000, 400);
+            ElementalData earthball = new ElementalData("earthball", 13, 725000, 720);
+            ElementalData airball = new ElementalData("airball", 17, 15000000, 1450);
+            ElementalData iceblock = new ElementalData("iceblock", 19, 400000000, 2785);
+//            ElementalData magmaball = new ElementalData("magmaball", 23, 14000000000, 5100);
+
+
 
 
             elementals.Add(new Elemental(fireball.ShooterName, fireball, Resources.Load(fireball.ProjectilePrefabName) as GameObject, GameObject.Find(fireball.ShooterName)));
-            //elementals.Add(new EarthElemental());
-            //elementals.Add(new ElectricElemental());
-            //elementals.Add(new IceElemental());
-            //elementals.Add(new FireElemental());
-            //elementals.Add(new MagmaElemental());
-            //elementals.Add(new RockElemental());
-            //elementals.Add(new SnowElemental());
-            //elementals.Add(new WaterElemental());
+            elementals.Add(new Elemental(waterball.ShooterName, waterball, Resources.Load(waterball.ProjectilePrefabName) as GameObject, GameObject.Find(waterball.ShooterName)));
+            elementals.Add(new Elemental(rock.ShooterName, rock, Resources.Load(rock.ProjectilePrefabName) as GameObject, GameObject.Find(rock.ShooterName)));
+            elementals.Add(new Elemental(electricball.ShooterName, electricball, Resources.Load(electricball.ProjectilePrefabName) as GameObject, GameObject.Find(electricball.ShooterName)));
+            elementals.Add(new Elemental(snowball.ShooterName, snowball, Resources.Load(snowball.ProjectilePrefabName) as GameObject, GameObject.Find(snowball.ShooterName)));
+            elementals.Add(new Elemental(earthball.ShooterName, earthball, Resources.Load(earthball.ProjectilePrefabName) as GameObject, GameObject.Find(earthball.ShooterName)));
+            elementals.Add(new Elemental(airball.ShooterName, airball, Resources.Load(airball.ProjectilePrefabName) as GameObject, GameObject.Find(airball.ShooterName)));
+            elementals.Add(new Elemental(iceblock.ShooterName, iceblock, Resources.Load(iceblock.ProjectilePrefabName) as GameObject, GameObject.Find(iceblock.ShooterName)));
+
 
 
         }

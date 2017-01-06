@@ -48,8 +48,6 @@ namespace SexyBackPlayScene
 
         public void Play()
         {
-            GameManager.SexyBackLog("change color");
-
             flipx = (Random.Range(1, 10) >= 5f);
             GetComponent<SpriteRenderer>().flipX = flipx;
             flipy = (Random.Range(1, 10) >= 5f);

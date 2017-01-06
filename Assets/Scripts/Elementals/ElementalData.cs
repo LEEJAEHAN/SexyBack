@@ -16,12 +16,12 @@ namespace SexyBackPlayScene
         public string ProjectileReadyStateName;
         public string ShooterName;
 
-        public ElementalData(string elementname = "fireball")
+        public ElementalData(string elementname = "fireball", int attackinterval = 3,  int baseexp = 10, double expperdps = 100 )
         {
-            BaseExp = 10;
-            ExpForBaseUnitDps = 100;
+            BaseExp = baseexp;
+            ExpForBaseUnitDps = expperdps;
+            AttackInterval = attackinterval;
             BaseDps = BaseExp / ExpForBaseUnitDps;
-            AttackInterval = 3;
 
             ShooterName = "shooter_" + elementname;
             ProjectilePrefabName = "prefabs/" + elementname;
