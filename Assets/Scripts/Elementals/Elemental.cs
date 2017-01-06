@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace SexyBackPlayScene
 {
@@ -6,66 +7,76 @@ namespace SexyBackPlayScene
     {
         // for damage and exp
         protected int level;
-        protected double Dps; // BaseDps* level 값.
-        protected double Damage; // dps / attackinterval                                                                 // 계산되는값.
-        protected int ExpforNthLevel; // n번째 레벨을 올리기 위한 exp                                                      // 계산되는값.
 
         // for projectile action;
         public double AttackTimer;
 
         protected GameObject Shooter; // avatar
-        protected GameObject Projectile;
+        protected GameObject ProjectilePrefab;
+        protected GameObject CurrentProjectile;
         protected GameObject Target;
 
         ElementalData ElementalData;
-        
-        public Elemental(string name, ElementalData data, GameObject shooter)
-        {
 
-            //GameObject.Find(shooterName);
+        bool isReadyAction { get { return CurrentProjectile.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(ElementalData.ProjectileReadyStateName); } }
+        double Dps { get { return level * ElementalData.BaseDps; } } // BaseDps* level 값.               // 계산되는값
+        double Damage { get { return Dps * ElementalData.AttackInterval; } } //  dps / attackinterval    // 계산되는값
+        int ExpforNextLevel { get {  return (int)(ElementalData.BaseExp * Mathf.Pow(ElementalData.GrowthRate,level)); } }
+//        protected int ExpforNextLevel; // n+1번째 레벨을 올리기 위한 exp                                // 계산되는값.
+
+
+        public Elemental(string name, ElementalData data, GameObject projectileprefab, GameObject shooter)
+        {
+            level = 0;
             Shooter = shooter;
+            ProjectilePrefab = projectileprefab;
             ElementalData = data;
             Target = GameObject.Find("monster");
         }
 
-        void CreateProjectile()
-        {
-            //createProjectile
-            Projectile = GameObject.Instantiate<GameObject>(Resources.Load(ElementalData.ProjectilePrefabName) as GameObject);
-            //projectile.GetComponent<Projectile>().damage = Damage;
-            Projectile.transform.parent = Shooter.transform;
-            Projectile.transform.localPosition = Vector3.zero;
-            Projectile.SetActive(true);
-        }
         public virtual void Update()
         {
             AttackTimer += Time.deltaTime;
 
             // 만들어진다.
-            if (AttackTimer > ElementalData.AttackInterval - 2 && Projectile == null)
+            if (AttackTimer > ElementalData.AttackInterval - 1 && CurrentProjectile == null)
             {
-                CreateProjectile();
+                CurrentProjectile = CreateProjectile(ProjectilePrefab);
             }
 
             if (AttackTimer > ElementalData.AttackInterval)
             {
-                Shoot();
+                Shoot(CurrentProjectile, Target.transform.position);
             }
         }
 
-        public virtual void Shoot()
+        GameObject CreateProjectile(GameObject prefab)
         {
-            if (Projectile != null && Projectile.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(ElementalData.ProjectileReadyStateName))
+            GameObject Projectile = GameObject.Instantiate<GameObject>(prefab);
+            Projectile.transform.parent = Shooter.transform; // 자기자신의위치에만든다.
+            Projectile.transform.localPosition = Vector3.zero;
+            Projectile.SetActive(true);
+
+            return Projectile;
+        }
+
+        public virtual void Shoot(GameObject projectile, Vector3 target)
+        {
+            if (projectile != null && isReadyAction)
             {
-                //projectile = GameObject.Instantiate<GameObject>(Resources.Load("prefabs/fireball") as GameObject);
-                Projectile.GetComponent<Animator>().SetBool("Shoot", true);
-                Projectile.GetComponent<Rigidbody>().useGravity = true;
+                //SetDamage
+                GameManager.SexyBackLog(Damage);
+                projectile.GetComponent<Projectile>().Damage = Damage;
+
+                // Shootfunc
+                projectile.GetComponent<Animator>().SetBool("Shoot", true);
+                projectile.GetComponent<Rigidbody>().useGravity = true;
 
                 float xDistance, yDistance, zDistance;
 
-                xDistance = Target.transform.position.x - Shooter.transform.position.x;
-                yDistance = Target.transform.position.y - Shooter.transform.position.y;
-                zDistance = Target.transform.position.z - Shooter.transform.position.z;
+                xDistance = target.x - Shooter.transform.position.x;
+                yDistance = target.y - Shooter.transform.position.y;
+                zDistance = target.z - Shooter.transform.position.z;
 
                 float throwangle_xy;
 
@@ -73,17 +84,27 @@ namespace SexyBackPlayScene
 
                 float totalVelo = xDistance / Mathf.Cos(throwangle_xy);
 
-                float xVelo, yVelo;
+                float xVelo, yVelo, zVelo;
                 xVelo = xDistance;
                 yVelo = xDistance * Mathf.Tan(throwangle_xy);
-                float zVelo = zDistance;
+                zVelo = zDistance;
 
-                Projectile.GetComponent<Rigidbody>().velocity = new Vector3(xVelo, yVelo, zVelo);
+                projectile.GetComponent<Rigidbody>().velocity = new Vector3(xVelo, yVelo, zVelo);
 
                 AttackTimer -= ElementalData.AttackInterval; // 정상적으로 발사 완료 후 타이머리셋
             }
         }
 
+        internal void LevelUp()
+        {
+            level++;
+//            GameManager.SexyBackLog("level : " + level + " Dps : " + Dps + " ReqExpToCurrentLv : " + ExpforNextLevel);
+        }
+
+        public void ShootForDebug()
+        {
+            Shoot(CurrentProjectile, Target.transform.position);
+        }
         public virtual void Cast()
         {
 

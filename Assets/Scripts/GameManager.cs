@@ -34,10 +34,16 @@ namespace SexyBackPlayScene
             inputlisteners = new List<InputListener>();
 
             hero = new SexyBackHero();
-            monster = new SexyBackMonster(2500);
+            monster = new SexyBackMonster(100);
             elementals = new List<Elemental>();
 
-            elementals.Add(new Elemental("airball", new ElementalData("airball"), GameObject.Find("shooter_airball")));
+
+
+            ElementalData fireball = new ElementalData("fireball");
+            // fireball.setdata()
+
+
+            elementals.Add(new Elemental(fireball.ShooterName, fireball, Resources.Load(fireball.ProjectilePrefabName) as GameObject, GameObject.Find(fireball.ShooterName)));
             //elementals.Add(new EarthElemental());
             //elementals.Add(new ElectricElemental());
             //elementals.Add(new IceElemental());
@@ -91,7 +97,10 @@ namespace SexyBackPlayScene
 
             foreach (Elemental elemenatal in elementals)
             {
-                elemenatal.Shoot();
+                elemenatal.LevelUp();
+
+
+                //   elemenatal.ShootForDebug();
             }
 
         }

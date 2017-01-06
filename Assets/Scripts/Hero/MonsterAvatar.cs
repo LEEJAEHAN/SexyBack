@@ -25,10 +25,7 @@ namespace SexyBackPlayScene
 
             if (collider.gameObject.tag == "Projectile")
             {
-                //                double damage = source.gameObject.GetComponent<Projectile>().damage;
-
-                double damage = 10;
-                monster.Hit(damage, true);
+                monster.Hit(collider.gameObject.GetComponent<Projectile>().Damage, true);
             }
 
 

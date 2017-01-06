@@ -6,7 +6,12 @@ namespace SexyBackPlayScene
 
     public class Projectile : MonoBehaviour
     {
+        // projectile data
+        public double Damage;
 
+        
+        
+        // animation info
         Animator anim;
         float rot;
 
@@ -18,7 +23,6 @@ namespace SexyBackPlayScene
 
         void Update()
         {
-
             if(anim.GetBool("Shoot") == true)
             {
                 float xVec = GetComponent<Rigidbody>().velocity.x;
