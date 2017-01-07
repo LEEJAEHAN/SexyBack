@@ -47,7 +47,7 @@ namespace SexyBackPlayScene
             ElementalData earthball = new ElementalData("earthball", 13, 725000, 720);
             ElementalData airball = new ElementalData("airball", 17, 15000000, 1450);
             ElementalData iceblock = new ElementalData("iceblock", 19, 400000000, 2785);
-//            ElementalData magmaball = new ElementalData("magmaball", 23, 14000000000, 5100);
+            ElementalData magmaball = new ElementalData("magmaball", 23, 0, 5100);
 
 
 
@@ -60,12 +60,17 @@ namespace SexyBackPlayScene
             elementals.Add(new Elemental(earthball.ShooterName, earthball, Resources.Load(earthball.ProjectilePrefabName) as GameObject, GameObject.Find(earthball.ShooterName)));
             elementals.Add(new Elemental(airball.ShooterName, airball, Resources.Load(airball.ProjectilePrefabName) as GameObject, GameObject.Find(airball.ShooterName)));
             elementals.Add(new Elemental(iceblock.ShooterName, iceblock, Resources.Load(iceblock.ProjectilePrefabName) as GameObject, GameObject.Find(iceblock.ShooterName)));
-
+            elementals.Add(new Elemental(magmaball.ShooterName, magmaball, Resources.Load(magmaball.ProjectilePrefabName) as GameObject, GameObject.Find(magmaball.ShooterName)));
 
 
         }
 
+        internal void GainExp(double damage)
+        {
+            EXP += damage;
+            UIUpdater.getInstance().noteiceExpChanged(EXP);
 
+        }
 
         internal void noticeEvent(GameObject sender)
         {
@@ -76,6 +81,8 @@ namespace SexyBackPlayScene
         SexyBackHero hero;
         SexyBackMonster monster;
         List<Elemental> elementals;
+        public double EXP = 0;
+
 
         public double testTimeTick = 1;
         double gameTime;

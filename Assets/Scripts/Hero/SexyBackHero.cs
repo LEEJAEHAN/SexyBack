@@ -7,7 +7,6 @@ namespace SexyBackPlayScene
     {
         public double DPC = 1;
         public double DPS = 1;
-        public double EXP = 0;
 
         public double CRIRATE = 0.15;
         public double CRIDMG = 2;
@@ -32,7 +31,6 @@ namespace SexyBackPlayScene
                 // GameManager.SexyBackLog("Crit");
                 double totaldamage = DPC * CRIDMG;
                 target.Hit(totaldamage, true);
-                GainEXP(totaldamage);
                 // 크리티컬 글자 필요 
                 slash.GetComponent<Slash>().Play();
                 avatar.GetComponent<Animator>().SetTrigger("Attack");
@@ -41,7 +39,6 @@ namespace SexyBackPlayScene
             {
                 //GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/slash") as GameObject);
                 target.Hit(DPC, true);
-                GainEXP(DPC);
                 slash.GetComponent<Slash>().Play();
                 avatar.GetComponent<Animator>().SetTrigger("Attack");
                 
@@ -50,8 +47,7 @@ namespace SexyBackPlayScene
 
         public void AttackDPS(float deltaTime, SexyBackMonster target)
         {
-            target.Hit(deltaTime * DPS, false);
-            GainEXP(deltaTime * DPS);
+            //target.Hit(deltaTime * DPS, false);
         }
 
         public void IncreaseDPC(double amount)
@@ -66,10 +62,6 @@ namespace SexyBackPlayScene
             UIUpdater.getInstance().noticeDamageChanged(DPC, DPS);
         }
 
-        void GainEXP(double exp)
-        {
-            EXP += exp;
-            UIUpdater.getInstance().noteiceExpChanged(EXP);
-        }
+
     }
 }
