@@ -7,13 +7,10 @@ namespace SexyBackPlayScene
 {
     public class GameManager
     { // singleton
-
         private static GameManager GameManagerInstance;
-        List<InputListener> inputlisteners;
 
         private GameManager()
         {
-
         }
 
         public static GameManager getInstance()
@@ -24,31 +21,24 @@ namespace SexyBackPlayScene
         }
 
 
-
         // Use this for initialization
         public void Init()
         {
             Physics.gravity = new Vector3(0, -20.0f, 0);
 
-
-            inputlisteners = new List<InputListener>();
-
             hero = new SexyBackHero();
-            monster = new SexyBackMonster(100);
+            monster = new SexyBackMonster(new BigInteger(1000,Digit.b));
             elementals = new List<Elemental>();
 
-
-
-            ElementalData fireball = new ElementalData("fireball", 2, 10, 100);
-            ElementalData waterball = new ElementalData("waterball", 3, 50, 120);
-            ElementalData rock = new ElementalData("rock", 5, 400, 168);
-            ElementalData electricball = new ElementalData("electricball", 7, 3750, 237);
-            ElementalData snowball = new ElementalData("snowball", 11, 45000, 400);
-            ElementalData earthball = new ElementalData("earthball", 13, 725000, 720);
-            ElementalData airball = new ElementalData("airball", 17, 15000000, 1450);
-            ElementalData iceblock = new ElementalData("iceblock", 19, 400000000, 2785);
-            ElementalData magmaball = new ElementalData("magmaball", 23, 0, 5100);
-
+            ElementalData fireball = new ElementalData("fireball", 3200, 10, 100);
+            ElementalData waterball = new ElementalData("waterball", 3300, 50, 120);
+            ElementalData rock = new ElementalData("rock", 3500, 400, 168);
+            ElementalData electricball = new ElementalData("electricball", 3700, 3750, 237);
+            ElementalData snowball = new ElementalData("snowball", 4100, 45000, 400);
+            ElementalData earthball = new ElementalData("earthball", 4300, 725000, 720);
+            ElementalData airball = new ElementalData("airball", 4700, 15000000, 1450);
+            ElementalData iceblock = new ElementalData("iceblock", 4900, 400000000, 2785);
+            ElementalData magmaball = new ElementalData("magmaball", 5300, 14000000000, 5100);
 
 
 
@@ -62,26 +52,31 @@ namespace SexyBackPlayScene
             elementals.Add(new Elemental(iceblock.ShooterName, iceblock, Resources.Load(iceblock.ProjectilePrefabName) as GameObject, GameObject.Find(iceblock.ShooterName)));
             elementals.Add(new Elemental(magmaball.ShooterName, magmaball, Resources.Load(magmaball.ProjectilePrefabName) as GameObject, GameObject.Find(magmaball.ShooterName)));
 
-
         }
 
-        internal void GainExp(double damage)
+        internal SexyBackMonster GetMonster()
         {
-            EXP += damage;
-            UIUpdater.getInstance().noteiceExpChanged(EXP);
-
+            return monster;
+        }
+        internal BigInteger GetTotalDPC()
+        {
+            return hero.DPC;
         }
 
-        internal void noticeEvent(GameObject sender)
+        internal BigInteger GetTotalDPS()
         {
-            foreach (InputListener listner in inputlisteners)
-                listner.update(sender);
+            BigInteger result = new BigInteger();
+            foreach(Elemental elemental in elementals)
+            {
+                result += elemental.Dps;
+            }
+            return result;
         }
 
         SexyBackHero hero;
         SexyBackMonster monster;
         List<Elemental> elementals;
-        public double EXP = 0;
+        public BigInteger EXP = 0;
 
 
         public double testTimeTick = 1;
@@ -119,6 +114,11 @@ namespace SexyBackPlayScene
                 //   elemenatal.ShootForDebug();
             }
 
+        }
+        internal void GainExp(BigInteger damage)
+        {
+            EXP += damage;
+            UIUpdater.getInstance().noteiceExpChanged();
         }
 
         public static void SexyBackLog(object msg)

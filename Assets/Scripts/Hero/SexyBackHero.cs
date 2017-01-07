@@ -5,11 +5,10 @@ namespace SexyBackPlayScene
 {
     internal class SexyBackHero
     {
-        public double DPC = 1;
-        public double DPS = 1;
+        public BigInteger DPC = 1;
 
         public double CRIRATE = 0.15;
-        public double CRIDMG = 2;
+        public int CRIDAMAGE = 200;
 
         public bool ISCRITICAL { get { return CRIRATE > UnityEngine.Random.Range(0.0f,1.0f); } }
 
@@ -29,7 +28,7 @@ namespace SexyBackPlayScene
             if (ISCRITICAL)
             {
                 // GameManager.SexyBackLog("Crit");
-                double totaldamage = DPC * CRIDMG;
+                BigInteger totaldamage = DPC * CRIDAMAGE / 100;
                 target.Hit(totaldamage, true);
                 // 크리티컬 글자 필요 
                 slash.GetComponent<Slash>().Play();
@@ -50,18 +49,11 @@ namespace SexyBackPlayScene
             //target.Hit(deltaTime * DPS, false);
         }
 
-        public void IncreaseDPC(double amount)
+        public void IncreaseDPC(BigInteger amount)
         {
             DPC += amount;
-            UIUpdater.getInstance().noticeDamageChanged(DPC, DPS);
+            UIUpdater.getInstance().noticeDamageChanged();
         }
-
-        public void IncreaseDPS(double amount)
-        {
-            DPS += amount;
-            UIUpdater.getInstance().noticeDamageChanged(DPC, DPS);
-        }
-
 
     }
 }

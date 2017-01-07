@@ -6,13 +6,16 @@ namespace SexyBackPlayScene
     public class GameLoop : MonoBehaviour
     {
         GameManager gameManager;
-
+        UIUpdater controller;
         
         // Use this for initialization
         void Start()
         {
             gameManager = GameManager.getInstance();
             gameManager.Init();
+            
+            controller = UIUpdater.getInstance();
+            controller.Init(gameManager);
         }
 
         // Update is called once per frame
@@ -31,7 +34,7 @@ namespace SexyBackPlayScene
 //                GameManager.SexyBackLog("tap"); 
             }
             //
-            gameManager.noticeEvent(sender);
+//            gameManager.noticeEvent(sender);
         }
     }
 

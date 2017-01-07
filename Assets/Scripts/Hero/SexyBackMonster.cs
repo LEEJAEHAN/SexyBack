@@ -5,28 +5,27 @@ namespace SexyBackPlayScene
 {
     public class SexyBackMonster
     {
-        public double HP;
-        public double MAXHP;
+        public BigInteger HP;
+        public BigInteger MAXHP;
 
         GameObject hitparticle;
         GameObject avatar;
 
-        public SexyBackMonster (double maxhp)
+        public SexyBackMonster (BigInteger maxhp)
         {
             MAXHP = maxhp;
             HP = maxhp;
-            UIUpdater.getInstance().noticeHPChanged(HP, MAXHP);
             hitparticle = GameObject.Find("hitparticle") as GameObject;
             avatar = GameObject.Find("monster");
             avatar.GetComponent<MonsterAvatar>().monster = this;
         }
         
         // mvc 어기고있음
-        public void Hit(double damage, bool HitMotion)
+        public void Hit(BigInteger damage, bool HitMotion)
         {
             HP -= damage;
             GameManager.getInstance().GainExp(damage);
-            UIUpdater.getInstance().noticeHPChanged(HP,MAXHP);
+            UIUpdater.getInstance().noticeHPChanged();
             if(HitMotion)
             {
 //                GameManager.SexyBackLog("hitmotion");

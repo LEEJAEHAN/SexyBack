@@ -7,7 +7,7 @@ namespace SexyBackPlayScene
     public class Projectile : MonoBehaviour
     {
         // projectile data
-        public double Damage;
+        public BigInteger Damage;
 
         
         

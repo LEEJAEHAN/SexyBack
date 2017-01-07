@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    public class UIUpdater
+    public class UIUpdater // View Updater 
     { // publisher 
         private static UIUpdater Instance;
-
+        GameManager DataModel;
         private UIUpdater()
         {
 
@@ -20,31 +20,28 @@ namespace SexyBackPlayScene
         }
 
         // Use this for initialization
-        public void Init()
+        public void Init(GameManager model)
         {
+            DataModel = model;
         }
 
 
-        internal void noticeDamageChanged(double DPC, double DPS)
+        internal void noticeDamageChanged()
         {
-            string dpsString = "DPS : " + GameManager.SexyBackToInt(DPS) + "\n" + "DPC : " + GameManager.SexyBackToInt(DPC);
+            string dpsString = "DPS : " + DataModel.GetTotalDPS().ToSexyBackString()+ "\n" + "DPC : " + DataModel.GetTotalDPC().ToSexyBackString();
             GameObject.Find("label_herodmg").GetComponent<UILabel>().text = dpsString;
-
         }
-
-        internal void noteiceExpChanged(double EXP)
+        internal void noteiceExpChanged()
         {
-            string expstring = GameManager.SexyBackToInt(EXP) + " EXP";
+            string expstring = DataModel.EXP.ToSexyBackString() + " EXP";
             GameObject.Find("label_exp").GetComponent<UILabel>().text = expstring;
         }
-
-        internal void noticeHPChanged(double HP, double MAXHP)
+        internal void noticeHPChanged()
         {
-            string dpsString = GameManager.SexyBackToInt(HP) + " / " + GameManager.SexyBackToInt(MAXHP);
-            // hp bar
-            GameObject.Find("label_monsterhp").GetComponent<UILabel>().text = dpsString;
+            string hp = DataModel.GetMonster().HP.ToSexyBackString();
+            string maxhp = DataModel.GetMonster().MAXHP.ToSexyBackString();
+
+            GameObject.Find("label_monsterhp").GetComponent<UILabel>().text = hp + " / " + maxhp;
         }
-
-
     }
 }

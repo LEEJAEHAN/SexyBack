@@ -19,9 +19,31 @@ namespace SexyBackPlayScene
         ElementalData ElementalData;
 
         bool isReadyAction { get { return CurrentProjectile.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(ElementalData.ProjectileReadyStateName); } }
-        double Dps { get { return level * ElementalData.BaseDps; } } // BaseDps* level 값.               // 계산되는값
-        double Damage { get { return Dps * ElementalData.AttackInterval; } } //  dps / attackinterval    // 계산되는값
-        int ExpforNextLevel { get {  return (int)(ElementalData.BaseExp * Mathf.Pow(ElementalData.GrowthRate,level)); } }
+        public BigInteger Dps { get { return level * ElementalData.BaseDps; } } // BaseDps* level 값.               // 계산되는값
+        BigInteger Damage { get { return (Dps * ElementalData.AttackIntervalK) / 1000; } } //  dps / attackinterval    // 계산되는값
+        double AttackInterval { get { return (double)ElementalData.AttackIntervalK / (double)1000; } }
+        BigInteger ExpforNextLevel
+        {
+            get { 
+                double growth = Mathf.Pow(ElementalData.GrowthRate, level);
+                int intgrowth = 0;
+                BigInteger result;
+
+                if ((int)growth < int.MaxValue / 10000)
+                {
+                    intgrowth = (int)(growth * 10000);
+                    result = ElementalData.BaseExp * intgrowth / 10000;
+                }
+                else
+                {
+                    intgrowth = (int)growth;
+                    result = ElementalData.BaseExp * intgrowth;
+                }
+                return result;
+            }
+        }
+//        int ExpforNextLevel { get {  return (int)(ElementalData.BaseExp * Mathf.Pow(ElementalData.GrowthRate,level)); } }
+
 //        protected int ExpforNextLevel; // n+1번째 레벨을 올리기 위한 exp                                // 계산되는값.
 
 
@@ -39,12 +61,12 @@ namespace SexyBackPlayScene
             AttackTimer += Time.deltaTime;
 
             // 만들어진다.
-            if (AttackTimer > ElementalData.AttackInterval - 1 && CurrentProjectile == null)
+            if (AttackTimer > AttackInterval - 1 && CurrentProjectile == null)
             {
                 CurrentProjectile = CreateProjectile(ProjectilePrefab);
             }
 
-            if (AttackTimer > ElementalData.AttackInterval)
+            if (AttackTimer > AttackInterval)
             {
                 Shoot(CurrentProjectile, Target.transform.position);
             }
@@ -65,7 +87,7 @@ namespace SexyBackPlayScene
             if (projectile != null && isReadyAction)
             {
                 //SetDamage
-                GameManager.SexyBackLog(Damage);
+//                GameManager.SexyBackLog(Damage);
                 projectile.GetComponent<Projectile>().Damage = Damage;
 
                 // Shootfunc
@@ -91,16 +113,17 @@ namespace SexyBackPlayScene
 
                 projectile.GetComponent<Rigidbody>().velocity = new Vector3(xVelo, yVelo, zVelo);
 
-                AttackTimer -= ElementalData.AttackInterval; // 정상적으로 발사 완료 후 타이머리셋
+                AttackTimer -= AttackInterval; // 정상적으로 발사 완료 후 타이머리셋
             }
         }
 
         internal void LevelUp()
         {
             level++;
-//            GameManager.SexyBackLog("level : " + level + " Dps : " + Dps + " ReqExpToCurrentLv : " + ExpforNextLevel);
-        }
+            UIUpdater.getInstance().noticeDamageChanged();
 
+//            GameManager.SexyBackLog("level : " + level + " Dps : " + Dps.ToSexyBackString() + " ReqExpToCurrentLv : " + ExpforNextLevel.ToSexyBackString());
+        }
         public void ShootForDebug()
         {
             Shoot(CurrentProjectile, Target.transform.position);
