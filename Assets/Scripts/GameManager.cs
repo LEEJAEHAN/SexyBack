@@ -52,7 +52,7 @@ namespace SexyBackPlayScene
             elementals.Add(new Elemental(iceblock.ShooterName, iceblock, Resources.Load(iceblock.ProjectilePrefabName) as GameObject, GameObject.Find(iceblock.ShooterName)));
             elementals.Add(new Elemental(magmaball.ShooterName, magmaball, Resources.Load(magmaball.ProjectilePrefabName) as GameObject, GameObject.Find(magmaball.ShooterName)));
 
-        }
+        }   
 
         internal SexyBackMonster GetMonster()
         {
