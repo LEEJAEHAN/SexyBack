@@ -30,15 +30,15 @@ namespace SexyBackPlayScene
             monster = new SexyBackMonster(new BigInteger(1000,Digit.b));
             elementals = new List<Elemental>();
 
-            ElementalData fireball = new ElementalData("fireball", 3200, 10, 100);
-            ElementalData waterball = new ElementalData("waterball", 3300, 50, 120);
-            ElementalData rock = new ElementalData("rock", 3500, 400, 168);
-            ElementalData electricball = new ElementalData("electricball", 3700, 3750, 237);
-            ElementalData snowball = new ElementalData("snowball", 4100, 45000, 400);
-            ElementalData earthball = new ElementalData("earthball", 4300, 725000, 720);
-            ElementalData airball = new ElementalData("airball", 4700, 15000000, 1450);
-            ElementalData iceblock = new ElementalData("iceblock", 4900, 400000000, 2785);
-            ElementalData magmaball = new ElementalData("magmaball", 5300, 14000000000, 5100);
+            ElementalData fireball = new ElementalData("fireball", 5200, 10, 100);
+            ElementalData waterball = new ElementalData("waterball", 5300, 50, 120);
+            ElementalData rock = new ElementalData("rock", 5500, 400, 168);
+            ElementalData electricball = new ElementalData("electricball", 5700, 3750, 237);
+            ElementalData snowball = new ElementalData("snowball", 6100, 45000, 400);
+            ElementalData earthball = new ElementalData("earthball", 6300, 725000, 720);
+            ElementalData airball = new ElementalData("airball", 6700, 15000000, 1450);
+            ElementalData iceblock = new ElementalData("iceblock", 6900, 400000000, 2785);
+            ElementalData magmaball = new ElementalData("magmaball", 7300, 14000000000, 5100);
 
 
 
