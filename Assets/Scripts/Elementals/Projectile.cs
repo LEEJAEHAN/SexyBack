@@ -27,8 +27,7 @@ namespace SexyBackPlayScene
             {
                 float xVec = GetComponent<Rigidbody>().velocity.x;
                 float yVec = GetComponent<Rigidbody>().velocity.y;
-                float rad = Mathf.Atan2(yVec, xVec);
-
+                
                 rot = UnityEngine.Mathf.Atan2(yVec, xVec) * UnityEngine.Mathf.Rad2Deg;
 
 //                GameManager.SexyBackDebug(rot + " " + xVec + " " + yVec);
@@ -38,7 +37,6 @@ namespace SexyBackPlayScene
 
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("Base.Destroy"))
             {
-//                GameManager.SexyBackLog("RemoveFire");
                 Destroy(this.gameObject);
             }
         }

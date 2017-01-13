@@ -332,7 +332,7 @@ namespace SexyBackPlayScene
                     break;
             }
 
-            string temp = target.ToString() + "," + preDigitValue.ToString() + " " + digit.ToString();
+            string temp = target.ToString() + "," + preDigitValue.ToString() + digit.ToString();
             return temp;
         }
         #endregion
