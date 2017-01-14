@@ -35,9 +35,8 @@ namespace SexyBackPlayScene
 
 
         // info ui
-        //public static GameObject Item_Disable = GameObject.Find("Info_Icon");
-        //public static GameObject Item_Disable = GameObject.Find("Info_Description");
-        //public static GameObject Item_Disable = GameObject.Find("Item_Disable");
+        public static GameObject Info_Icon = GameObject.Find("Info_Icon");
+        public static GameObject Info_Description = GameObject.Find("Info_Description");
 
 
     }

@@ -17,6 +17,15 @@ namespace SexyBackPlayScene
         public GameObject avatar;
         public override string ItemViewID { get { return "heroattack"; } }
 
+        public override string Name
+        {
+            get
+            {
+                return "Hero";
+            }
+        }
+
+        public override string DamageStatusText { get { return "Damage : " + DPC.ToSexyBackString() + "/tap\n" + "Next : +" + DPC.ToSexyBackString() + "/tap"; } }
 
         public SexyBackHero()
         {

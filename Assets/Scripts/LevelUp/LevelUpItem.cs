@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    public class LevelUpItem
+    public class LevelUpItem // 레벨업을 하기 위해 구매해야하는 객체
     {
         public CanLevelUp target;
         public int level; // 조정될 레벨
@@ -59,5 +59,17 @@ namespace SexyBackPlayScene
             }
         }
 
+        public string Description
+        {
+            get
+            {
+                string text = target.Name + target.level.ToString();
+                text += "\n";
+                text += target.DamageStatusText;
+                text += "\n";
+                text += PriceToNextLv.ToSexyBackString();
+                return text;
+            }
+        }
     }
 }

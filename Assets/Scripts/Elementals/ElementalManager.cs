@@ -23,15 +23,15 @@ namespace SexyBackPlayScene
 
         private void Load()
         {
-            ElementalData fireball = new ElementalData("fireball", 5200, 1);
-            ElementalData waterball = new ElementalData("waterball", 5300, 5);
-            ElementalData rock = new ElementalData("rock", 5500, 25);
-            ElementalData electricball = new ElementalData("electricball", 5700, 150);
-            ElementalData snowball = new ElementalData("snowball", 6100, 1150);
-            ElementalData earthball = new ElementalData("earthball", 6300, 10000);
-            ElementalData airball = new ElementalData("airball", 6700, 100000);
-            ElementalData iceblock = new ElementalData("iceblock", 6900, 1500000);
-            ElementalData magmaball = new ElementalData("magmaball", 7300, 27500000);
+            ElementalData fireball = new ElementalData("fireball", "Fire Ball", 5200, 1);
+            ElementalData waterball = new ElementalData("waterball", "Water Ball", 5300, 5);
+            ElementalData rock = new ElementalData("rock", "Rock", 5500, 25);
+            ElementalData electricball = new ElementalData("electricball", "Plasma", 5700, 150);
+            ElementalData snowball = new ElementalData("snowball", "Snow Ball", 6100, 1150);
+            ElementalData earthball = new ElementalData("earthball", "Mud ball", 6300, 10000);
+            ElementalData airball = new ElementalData("airball", "Wind Strike", 6700, 100000);
+            ElementalData iceblock = new ElementalData("iceblock", "Ice Cube", 6900, 1500000);
+            ElementalData magmaball = new ElementalData("magmaball", "Meteor", 7300, 27500000);
 
             elementals.Add(new Elemental(fireball.ShooterName, fireball, Resources.Load(fireball.ProjectilePrefabName) as GameObject, GameObject.Find(fireball.ShooterName)));
             elementals.Add(new Elemental(waterball.ShooterName, waterball, Resources.Load(waterball.ProjectilePrefabName) as GameObject, GameObject.Find(waterball.ShooterName)));

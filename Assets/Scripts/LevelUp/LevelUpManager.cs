@@ -6,42 +6,29 @@ namespace SexyBackPlayScene
 {
     internal class LevelUpManager
     {
-
         List <LevelUpItem> items;
-        LevelUpItem selectedItem = null;
-        bool ConfirmFlag;
-        bool ReadyToProcess { get { return ConfirmFlag && selectedItem != null; } }
+        Queue<LevelUpProcess> processqueue = new Queue<LevelUpProcess>();
 
-
-        // view 프리팹
-        GameObject LevelUpItemViewPrefab = Resources.Load<GameObject>("Prefabs/UI/LevelUpItemView") as GameObject;
-        List<GameObject> LevelUpItemViewList;
 
         // view 관련 ( 이벤트핸들러)
-        GameObject levelview_event_handler_monobehav = ViewLoader.LevelUpViewController;
-        LevelUpViewController levelview_event_handler;
-        // view 관련 ( 컴포넌트 )
-        GameObject grid = ViewLoader.Item_Enable;
-        GameObject grid_disable = ViewLoader.Item_Disable;
-        GameObject info_window = ViewLoader.Info_Context;
-
+        GameObject viewControllerObject = ViewLoader.LevelUpViewController;
+        LevelUpViewController viewController;
+        
+        GameObject LevelUpItemViewPrefab = Resources.Load<GameObject>("Prefabs/UI/LevelUpItemView") as GameObject;
 
 
         internal void Init()
         {
-            levelview_event_handler = levelview_event_handler_monobehav.GetComponent<LevelUpViewController>();
-
-            // view와 이벤트 연결
-            levelview_event_handler.TapChange += this.onTapChange;
-            levelview_event_handler.ItemChange += this.onItemChange;
-
-
-
             items = new List<LevelUpItem>();
             Load();
-            MakeItemView();
-        }
 
+            viewController = viewControllerObject.GetComponent<LevelUpViewController>();
+            viewController.Confirm += this.Confirm;
+            viewController.FillInfoFunction += FillInfoView;
+
+            foreach(LevelUpItem item in items)
+                viewController.AddItemView(item, LevelUpItemViewPrefab);
+        }
         void Load()
         {
             items.Add(new LevelUpItem(Singleton<ElementalManager>.getInstance().elementals[0], "SexyBackIcon_FireElemental", 1, 100));
@@ -58,16 +45,11 @@ namespace SexyBackPlayScene
         internal void Update()
         {
             /// ui에서 confirm 클릭이들어오면 flag를 변경해놓을것이다.
-            if(ReadyToProcess)
+            if(processqueue.Count > 0)
             {
-                selectedItem.Buy();     // levelup 만 함;
-                ConfirmFlag = false;
+                processqueue.Dequeue().LevelUp();
             }
 
-            if(selectedItem == null)
-            {
-                ClearInfo();
-            }
             foreach (LevelUpItem item in items)
             {
                 item.ApplyProcess(); // 업한 level을 elemental에 적용시키는것;
@@ -91,9 +73,9 @@ namespace SexyBackPlayScene
         internal void onDpsChanged(Elemental sender)
         {
             // updateitemview
-            GameObject item = FindItemView(sender.ItemViewID);
-            GameObject label = item.transform.FindChild("Label").gameObject;
-            label.GetComponent<UILabel>().text = sender.Dps.ToSexyBackString();
+            //GameObject item = FindItemView(sender.ItemViewID);
+            //GameObject label = item.transform.FindChild("Label").gameObject;
+            //label.GetComponent<UILabel>().text = sender.Dps.ToSexyBackString();
 
             // UpdateInfoView if selected
             // 구현해야함
@@ -106,143 +88,23 @@ namespace SexyBackPlayScene
             // confirm 버튼 활성화 비활성화;
         }
 
-
         ///  이하는 view 표시 관련, view 단의 작업. 절대 data를 변경해선 안된다. ( 데이터는 update에서 변경되어야 한다.)
 
-
-
-        void MakeItemView() // draw()
-        {
-            LevelUpItemViewList = new List<GameObject>();
-
-            foreach (LevelUpItem item in items)
-            {
-                GameObject temp = GameObject.Instantiate<GameObject>(LevelUpItemViewPrefab) as GameObject;
-                temp.SetActive(false);
-                temp.name = item.ItemViewID;
-
-                GameObject iconObject = temp.transform.FindChild("Icon").gameObject;
-                iconObject.GetComponent<UISprite>().atlas = Resources.Load("Atlas/IconImage", typeof(UIAtlas)) as UIAtlas;
-                iconObject.GetComponent<UISprite>().spriteName = item.IconName;
-
-                GameObject labelObject = temp.transform.FindChild("Label").gameObject;
-                labelObject.GetComponent<UILabel>().text = item.GetTargetDamage(); // 최초에 그리기용
-
-                // delegate 붙이기
-                EventDelegate eventdel = new EventDelegate(levelview_event_handler, "OnSelectItemButton");
-                EventDelegate.Parameter param = new EventDelegate.Parameter();
-                param.obj = temp.transform;
-                param.field = "name";
-                EventDelegate.Parameter param1 = new EventDelegate.Parameter();
-                param1.obj = temp.GetComponent<UIToggle>();
-                param1.field = "value";
-                eventdel.parameters[0] = param;
-                eventdel.parameters[1] = param1;
-                temp.GetComponent<UIToggle>().onChange.Add(eventdel);
-
-                LevelUpItemViewList.Add(temp);
-            }
+        public void Confirm(string selectedItemID)
+        { // 모델을 변경시키는 행위기 때문에 실제 변경은 업데이트에서 수행되어야함;
+            LevelUpProcess process = new LevelUpProcess(FindItem(selectedItemID), true);
+            processqueue.Enqueue(process);
         }
 
-        void onTapChange(bool value)
-        {
-            if (value == true)
-            {
-                ShowItemView();
-                // confirm button delegate attach;
-                ViewLoader.Button_Confirm.GetComponent<UIButton>().onClick.Add(new EventDelegate(levelview_event_handler, "OnConfirmButton"));
-            }
-            if (value == false)
-            {
-                HideItemView();
-                ViewLoader.Button_Confirm.GetComponent<UIButton>().onClick.Clear();
-            }
-        }
-        void onItemChange(string ItemButtonName, bool toggleState)
-        {
-            if (toggleState == false)
-            {
-                UnselectItem(ItemButtonName);
-            }
 
-            else
-            {
-                SelectItem(ItemButtonName);
-            }
-        }
-        internal void UnselectItem(string itemButtonName)
+        void FillInfoView(string levelupitemid)
         {
-            if (selectedItem == null)
-                return;
-
-            selectedItem = null;
-        }
-        internal void SelectItem(string ItemButtonName)
-        {
-            selectedItem = FindItem(ItemButtonName);
-            FillInfo(selectedItem);
+            LevelUpItem target = FindItem(levelupitemid);
+            ViewLoader.Info_Icon.GetComponent<UISprite>().spriteName = target.IconName;
+            ViewLoader.Info_Description.GetComponent<UILabel>().text = target.Description;
+            //    ViewLoader.Info_Description
         }
 
-        public void Confirm()
-        {
-            ConfirmFlag = true;
-        }
-
-        void ClearInfo()
-        {
-            if(info_window.activeInHierarchy)
-            {
-                info_window.SetActive(false);
-                SexyBackLog.Console("ClearInfo");
-            }
-        }
-        void FillInfo(LevelUpItem item)
-        {
-            if (selectedItem != null)
-                info_window.SetActive(true);
-
-            // 구현해야함
-        }
-
-        internal void ShowItemView()
-        {
-            foreach (GameObject itemView in LevelUpItemViewList)
-            {
-                itemView.SetActive(true);
-                itemView.transform.parent = grid.transform;
-                itemView.transform.localScale = grid.transform.localScale;
-            }
-            grid.GetComponent<UIGrid>().Reposition();
-
-        }
-        internal void HideItemView()
-        {
-            // unslelect item;
-            if(selectedItem != null)
-            {
-                GameObject item = FindItemView(selectedItem.ItemViewID);
-                item.GetComponent<UIToggle>().value = false;
-            }
-
-            foreach (GameObject itemView in LevelUpItemViewList)
-            {
-                itemView.transform.parent = grid_disable.transform;
-                itemView.SetActive(false);
-                //itemView.transform.localScale = grid.transform.localScale;
-            }
-            selectedItem = null;
-            //grid_disable.GetComponent<UIGrid>().Reposition();
-        }
-
-        private GameObject FindItemView(string id)
-        {
-            foreach (GameObject itemView in LevelUpItemViewList)
-            {
-                if (itemView.transform.name == id)
-                    return itemView;
-            }
-            return null;
-        }
 
 
     }

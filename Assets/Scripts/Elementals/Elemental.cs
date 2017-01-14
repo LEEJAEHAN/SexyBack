@@ -31,34 +31,12 @@ namespace SexyBackPlayScene
         public BigInteger Dps { get { return level * ElementalData.BaseDps; } } // BaseDps* level 값.               // 계산되는값
         BigInteger Damage { get { return (Dps * ElementalData.AttackIntervalK) / 1000; } } //  dps / attackinterval    // 계산되는값
         public double AttackInterval { get { return (double)ElementalData.AttackIntervalK / (double)1000; } private set { } }
-        //BigInteger ExpforNextLevel
-        //{
-        //    get
-        //    {
-        //        double growth = Mathf.Pow(ElementalData.GrowthRate, level);
-        //        int intgrowth = 0;
-        //        BigInteger result;
-
-        //        if ((int)growth < int.MaxValue / 10000)
-        //        {
-        //            intgrowth = (int)(growth * 10000);
-        //            result = ElementalData.BaseExp * intgrowth / 10000;
-        //        }
-        //        else
-        //        {
-        //            intgrowth = (int)growth;
-        //            result = ElementalData.BaseExp * intgrowth;
-        //        }
-        //        return result;
-        //    }
-        //}
+        public override string Name { get { return ElementalData.Name; } }
+        public override string DamageStatusText { get { return "Damage : " + Dps.ToSexyBackString() + "/sec\n" + "Next : +" + ElementalData.BaseDps.ToSexyBackString() + "/sec"; } }
 
         public bool NoProjectile { get { return CurrentProjectile == null; } }
 
 
-        //        int ExpforNextLevel { get {  return (int)(ElementalData.BaseExp * Mathf.Pow(ElementalData.GrowthRate,level)); } }
-
-        //        protected int ExpforNextLevel; // n+1번째 레벨을 올리기 위한 exp                                // 계산되는값.
 
         public Elemental(string name, ElementalData data, GameObject projectileprefab, GameObject shooter)
         {
@@ -132,5 +110,38 @@ namespace SexyBackPlayScene
         {
             return Dps.ToSexyBackString();
         }
+
+
+
+
+
+
+        //BigInteger ExpforNextLevel
+        //{
+        //    get
+        //    {
+        //        double growth = Mathf.Pow(ElementalData.GrowthRate, level);
+        //        int intgrowth = 0;
+        //        BigInteger result;
+
+        //        if ((int)growth < int.MaxValue / 10000)
+        //        {
+        //            intgrowth = (int)(growth * 10000);
+        //            result = ElementalData.BaseExp * intgrowth / 10000;
+        //        }
+        //        else
+        //        {
+        //            intgrowth = (int)growth;
+        //            result = ElementalData.BaseExp * intgrowth;
+        //        }
+        //        return result;
+        //    }
+        //}
+
+        //        int ExpforNextLevel { get {  return (int)(ElementalData.BaseExp * Mathf.Pow(ElementalData.GrowthRate,level)); } }
+
+        //        protected int ExpforNextLevel; // n+1번째 레벨을 올리기 위한 exp                                // 계산되는값.
+
+
     }
 }
