@@ -15,6 +15,7 @@ namespace SexyBackPlayScene
 
         public GameObject slash;
         public GameObject avatar;
+        public override string ItemViewID { get { return "heroattack"; } }
 
 
         public SexyBackHero()

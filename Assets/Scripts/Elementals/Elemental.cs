@@ -1,20 +1,32 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace SexyBackPlayScene
 {
     public class Elemental : CanLevelUp // base class of Elementals
     {
+        // publisher 
+        //List<Listner> listenerlist;
+        //public void addListner(Listner ui);
+
+        // publisher with event, delegate
+
+        public delegate void DamageUp_Event_Handler(Elemental sender);
+        public event DamageUp_Event_Handler DpsChangeEvent;// = delegate (object sender) { };
+
+
         // for damage and exp
         // for projectile action;
         public double AttackTimer;
+        public override string ItemViewID { get { return ElementalData.ID; } }
 
         protected GameObject Shooter; // avatar
         protected GameObject ProjectilePrefab;
         protected GameObject CurrentProjectile;
 
         ElementalData ElementalData;
-
+        
         bool isReadyAction { get { return CurrentProjectile.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(ElementalData.ProjectileReadyStateName); } }
         public BigInteger Dps { get { return level * ElementalData.BaseDps; } } // BaseDps* level 값.               // 계산되는값
         BigInteger Damage { get { return (Dps * ElementalData.AttackIntervalK) / 1000; } } //  dps / attackinterval    // 계산되는값
@@ -43,6 +55,7 @@ namespace SexyBackPlayScene
 
         public bool NoProjectile { get { return CurrentProjectile == null; } }
 
+
         //        int ExpforNextLevel { get {  return (int)(ElementalData.BaseExp * Mathf.Pow(ElementalData.GrowthRate,level)); } }
 
         //        protected int ExpforNextLevel; // n+1번째 레벨을 올리기 위한 exp                                // 계산되는값.
@@ -53,6 +66,10 @@ namespace SexyBackPlayScene
             Shooter = shooter;
             ProjectilePrefab = projectileprefab;
             ElementalData = data;
+
+            DpsChangeEvent += Singleton<ElementalManager>.getInstance().onDpsChanged;
+            DpsChangeEvent += Singleton<LevelUpManager>.getInstance().onDpsChanged;
+
         }
 
         internal void CreateProjectile()
@@ -106,10 +123,9 @@ namespace SexyBackPlayScene
         {
             level = lv;
 
-            // 레벨오르면 알아서 데미지계산됨
+            DpsChangeEvent(this);
 
-            Singleton<HeroManager>.getInstance().noticeDamageChanged();
-            Singleton<LevelUpManager>.getInstance().UpdateItemView();
+            // 레벨오르면 알아서 데미지계산됨
         }
 
         public override string GetDamageString()

@@ -11,6 +11,9 @@ namespace SexyBackPlayScene
 
         public static GameObject label_debug = GameObject.Find("label_debug");
         public static GameObject label_herodmg = GameObject.Find("label_herodmg");
+        public static GameObject label_elementaldmg = GameObject.Find("label_elementaldmg");
+
+
         public static GameObject label_exp = GameObject.Find("label_exp");
         public static GameObject label_monsterhp = GameObject.Find("label_monsterhp");
 
@@ -20,13 +23,21 @@ namespace SexyBackPlayScene
         public static GameObject hitparticle = GameObject.Find("hitparticle");
 
 
+        // NGUI event Listner hub
+        public static GameObject LevelUpViewController = GameObject.Find("LevelUpViewController");
+
         // NGUI
         public static GameObject Info_Context = GameObject.Find("Info_Context");
-        public static GameObject LevelUpViewController = GameObject.Find("LevelUpViewController");
 
         public static GameObject Button_Confirm = GameObject.Find("Button_Confirm");
         public static GameObject Item_Enable = GameObject.Find("Item_Enable");
         public static GameObject Item_Disable = GameObject.Find("Item_Disable");
+
+
+        // info ui
+        //public static GameObject Item_Disable = GameObject.Find("Info_Icon");
+        //public static GameObject Item_Disable = GameObject.Find("Info_Description");
+        //public static GameObject Item_Disable = GameObject.Find("Item_Disable");
 
 
     }

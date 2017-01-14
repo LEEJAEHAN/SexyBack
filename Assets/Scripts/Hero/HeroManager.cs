@@ -43,7 +43,7 @@ namespace SexyBackPlayScene
         // 히어로컨트롤러에들어가야할것들;
         internal void noticeDamageChanged()
         {
-            string dpsString = "DPS : " + Singleton<ElementalManager>.getInstance().GetTotalDPS().ToSexyBackString() + "\n" + "DPC : " + Hero.GetTotalDPC().ToSexyBackString();
+            string dpsString = "DPC : " + Hero.GetTotalDPC().ToSexyBackString();
             label_herodmg.text = dpsString;
         }
         internal void noteiceExpChanged()

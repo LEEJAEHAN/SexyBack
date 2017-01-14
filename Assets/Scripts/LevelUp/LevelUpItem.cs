@@ -10,15 +10,15 @@ namespace SexyBackPlayScene
         public const float GrowthRate = 1.17f;                                                                         // from Excel
         public BigInteger BaseExp; // 베이스exp로부터 level과 GrowthRate를 통해 ExpForNthLevel을 구함.                          // from Excel
         public string IconName;
-        public string ID; // 해당객체view의 name과같다
+        public string ItemViewID; // 해당객체view의 name과같다
 
-        public LevelUpItem(CanLevelUp elemental, string iconName, string id, int initLevel, BigInteger baseexp)
+        public LevelUpItem(CanLevelUp elemental, string iconName, int initLevel, BigInteger baseexp)
         {
             target = elemental;
             IconName = iconName;
             level = initLevel;
             BaseExp = baseexp;
-            ID = id;
+            ItemViewID = elemental.ItemViewID;
         }
 
         public void Buy()

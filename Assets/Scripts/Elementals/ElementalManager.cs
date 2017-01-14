@@ -9,6 +9,9 @@ namespace SexyBackPlayScene
         public List<Elemental> elementals;
         SexyBackMonster target;
 
+        UILabel totaldpslabel = ViewLoader.label_elementaldmg.GetComponent<UILabel>();
+
+
         internal void Init()
         {
             target = Singleton<MonsterManager>.getInstance().GetMonster();
@@ -64,6 +67,12 @@ namespace SexyBackPlayScene
             }
         }
 
+
+        public void onDpsChanged(Elemental sender)
+        {
+            string dpsString = "DPS : " + GetTotalDPS().ToSexyBackString();
+            totaldpslabel.GetComponent<UILabel>().text = dpsString;
+        }
 
         internal BigInteger GetTotalDPS()
         {
