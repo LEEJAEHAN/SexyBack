@@ -6,72 +6,101 @@ namespace SexyBackPlayScene
 {
     class ElementalManager
     {
-        public List<Elemental> elementals;
-        SexyBackMonster target;
+        public List<Elemental> elementals = new List<Elemental>();
+        public Dictionary<string, ElementalData> elementalDatas = new Dictionary<string, ElementalData>();
 
         UILabel totaldpslabel = ViewLoader.label_elementaldmg.GetComponent<UILabel>();
 
+        //publisher 
+        public delegate void ElementalChangeEvent_Handler(Elemental sender);
+        public event ElementalChangeEvent_Handler onElementalChange;// = delegate (object sender) { };
+
+        public delegate void ElementalCreateEvent_Handler(Elemental sender);
+        public event ElementalCreateEvent_Handler onElementalCreate;// = delegate (object sender) { };
 
         internal void Init()
         {
-            target = Singleton<MonsterManager>.getInstance().GetMonster();
-            //test elementals
-            elementals = new List<Elemental>();
+            // init data
+            LoadData();
 
-            Load();
+            // recieve event
+            Singleton<MonsterManager>.getInstance().whenMonsterCreate += this.onMonsterCreate;
+            onElementalChange += UpdateDpsView; // 내꺼내가받음;
         }
 
-        private void Load()
+        private void LoadData()
         {
-            ElementalData fireball = new ElementalData("fireball", "Fire Ball", 5200, 1);
-            ElementalData waterball = new ElementalData("waterball", "Water Ball", 5300, 5);
-            ElementalData rock = new ElementalData("rock", "Rock", 5500, 25);
-            ElementalData electricball = new ElementalData("electricball", "Plasma", 5700, 150);
-            ElementalData snowball = new ElementalData("snowball", "Snow Ball", 6100, 1150);
-            ElementalData earthball = new ElementalData("earthball", "Mud ball", 6300, 10000);
-            ElementalData airball = new ElementalData("airball", "Wind Strike", 6700, 100000);
-            ElementalData iceblock = new ElementalData("iceblock", "Ice Cube", 6900, 1500000);
-            ElementalData magmaball = new ElementalData("magmaball", "Meteor", 7300, 27500000);
+            ElementalData data1 = new ElementalData("fireball", "Fire Ball", 5200, 1, 100);
+            ElementalData data2 = new ElementalData("waterball", "Water Ball", 5300, 5, 500);
+            ElementalData data3 = new ElementalData("rock", "Rock", 5500, 25, 4000);
+            ElementalData data4 = new ElementalData("electricball", "Plasma", 5700, 150, 37500);
+            ElementalData data5 = new ElementalData("snowball", "Snow Ball", 6100, 1150, 450000);
+            ElementalData data6 = new ElementalData("earthball", "Mud ball", 6300, 10000, 7250000);
+            ElementalData data7 = new ElementalData("airball", "Wind Strike", 6700, 100000, 150000000);
+            ElementalData data8 = new ElementalData("iceblock", "Ice Cube", 6900, 1500000, 4000000000);
+            ElementalData data9 = new ElementalData("magmaball", "Meteor", 7300, 27500000, 140000000000);
 
-            elementals.Add(new Elemental(fireball.ShooterName, fireball, Resources.Load(fireball.ProjectilePrefabName) as GameObject, GameObject.Find(fireball.ShooterName)));
-            elementals.Add(new Elemental(waterball.ShooterName, waterball, Resources.Load(waterball.ProjectilePrefabName) as GameObject, GameObject.Find(waterball.ShooterName)));
-            elementals.Add(new Elemental(rock.ShooterName, rock, Resources.Load(rock.ProjectilePrefabName) as GameObject, GameObject.Find(rock.ShooterName)));
-            elementals.Add(new Elemental(electricball.ShooterName, electricball, Resources.Load(electricball.ProjectilePrefabName) as GameObject, GameObject.Find(electricball.ShooterName)));
-            elementals.Add(new Elemental(snowball.ShooterName, snowball, Resources.Load(snowball.ProjectilePrefabName) as GameObject, GameObject.Find(snowball.ShooterName)));
-            elementals.Add(new Elemental(earthball.ShooterName, earthball, Resources.Load(earthball.ProjectilePrefabName) as GameObject, GameObject.Find(earthball.ShooterName)));
-            elementals.Add(new Elemental(airball.ShooterName, airball, Resources.Load(airball.ProjectilePrefabName) as GameObject, GameObject.Find(airball.ShooterName)));
-            elementals.Add(new Elemental(iceblock.ShooterName, iceblock, Resources.Load(iceblock.ProjectilePrefabName) as GameObject, GameObject.Find(iceblock.ShooterName)));
-            elementals.Add(new Elemental(magmaball.ShooterName, magmaball, Resources.Load(magmaball.ProjectilePrefabName) as GameObject, GameObject.Find(magmaball.ShooterName)));
+            elementalDatas.Add(data1.ID, data1);
+            elementalDatas.Add(data2.ID, data2);
+            elementalDatas.Add(data3.ID, data3);
+            elementalDatas.Add(data4.ID, data4);
+            elementalDatas.Add(data5.ID, data5);
+            elementalDatas.Add(data6.ID, data6);
+            elementalDatas.Add(data7.ID, data7);
+            elementalDatas.Add(data8.ID, data8);
+            elementalDatas.Add(data9.ID, data9);
+        }
+
+        public void Start()
+        {
+            CreateElemental(elementalDatas["fireball"]);
+            CreateElemental(elementalDatas["waterball"]);
+            CreateElemental(elementalDatas["rock"]);
+            CreateElemental(elementalDatas["electricball"]);
+            CreateElemental(elementalDatas["snowball"]);
+            CreateElemental(elementalDatas["earthball"]);
+            CreateElemental(elementalDatas["airball"]);
+            CreateElemental(elementalDatas["iceblock"]);
+            CreateElemental(elementalDatas["magmaball"]);
+        }
+
+        internal void CreateElemental(ElementalData data)
+        {
+            //Elemental temp = new Elemental(data.ShooterName, data, Resources.Load(data.ProjectilePrefabName) as GameObject, GameObject.Find(data.ShooterName));
+
+            Elemental temp = new Elemental(data);
+            temp.target = Singleton<MonsterManager>.getInstance().GetMonster(); // 몬스터가먼저생길경우. 이걸로 target셋팅, elemental이 먼저생길경우 몬스터 생성 이벤트시 셋팅
+
+            elementals.Add(temp);
+            UpdateDpsView(temp); // 최초 한번 수행
+            onElementalCreate(temp); // send event
         }
 
         internal void Update()
         {
             foreach (Elemental elemenatal in elementals)
             {
-                {
-                    elemenatal.AttackTimer += Time.deltaTime;
-
-                    // 만들어진다.
-                    if (elemenatal.AttackTimer > elemenatal.AttackInterval - 1 && elemenatal.NoProjectile)
-                    {
-                        elemenatal.CreateProjectile();
-                    }
-
-                    if (elemenatal.AttackTimer > elemenatal.AttackInterval)
-                    {
-                        elemenatal.Shoot(target.Position);
-                    }
-
-                }
-                //    elemenatal.Update();
+                elemenatal.Update();
             }
         }
 
-
-        public void onDpsChanged(Elemental sender)
+        internal void SetLevel(string ElementalID, int totalCount)
         {
-            string dpsString = "DPS : " + GetTotalDPS().ToSexyBackString();
-            totaldpslabel.GetComponent<UILabel>().text = dpsString;
+            Elemental target = FindElemental(ElementalID);
+            if (target == null)
+                return;
+            target.LevelCount = totalCount;
+            onElementalChange(target);
+        }
+
+        Elemental FindElemental(string elementalid)
+        {
+            foreach (Elemental elemenetal in elementals)
+            {
+                if (elemenetal.ID == elementalid)
+                    return elemenetal;
+            }
+            return null;
         }
 
         internal BigInteger GetTotalDPS()
@@ -84,5 +113,18 @@ namespace SexyBackPlayScene
             return result;
         }
 
+        // recieve event
+        void onMonsterCreate(SexyBackMonster sender)
+        {
+            foreach(Elemental elemental in elementals)
+            {
+                elemental.target = sender;
+            }
+        }
+        public void UpdateDpsView(Elemental sender)
+        {
+            string dpsString = "DPS : " + GetTotalDPS().ToSexyBackString();
+            totaldpslabel.GetComponent<UILabel>().text = dpsString;
+        }
     }
 }

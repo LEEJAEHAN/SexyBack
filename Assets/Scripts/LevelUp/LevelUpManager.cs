@@ -6,53 +6,90 @@ namespace SexyBackPlayScene
 {
     internal class LevelUpManager
     {
-        List <LevelUpItem> items;
-        Queue<LevelUpProcess> processqueue = new Queue<LevelUpProcess>();
+        List <LevelUpItem> items = new List<LevelUpItem>();
+        LevelUpItem currentItem = null;
 
+        Dictionary<string, LevelUpItemData> itemDatas = new Dictionary<string, LevelUpItemData>();
+        Queue<LevelUpItem> processqueue = new Queue<LevelUpItem>();
+
+        // event publisher
+        public delegate void LevelUpCreate_EventHandler (LevelUpItem levelupitem);
+        public event LevelUpCreate_EventHandler onLevelUpCreate;
+
+        public delegate void LevelUpSelect_EventHandler(LevelUpItem levelupitem);
+        public event LevelUpSelect_EventHandler onLevelUpSelect;
+
+        public delegate void LevelUpChange_EventHandler(LevelUpItem levelupitem);
+        public event LevelUpChange_EventHandler onLevelUpChange;
 
         // view 관련 ( 이벤트핸들러)
         GameObject viewControllerObject = ViewLoader.LevelUpViewController;
         LevelUpViewController viewController;
-        
-        GameObject LevelUpItemViewPrefab = Resources.Load<GameObject>("Prefabs/UI/LevelUpItemView") as GameObject;
-
 
         internal void Init()
         {
-            items = new List<LevelUpItem>();
-            Load();
+            // init data
+            LoadData();
+
+            // recieve event
+            Singleton<ElementalManager>.getInstance().onElementalCreate += onElementalCreate;
+            Singleton<ElementalManager>.getInstance().onElementalChange += onElementalChange;
+
 
             viewController = viewControllerObject.GetComponent<LevelUpViewController>();
             viewController.Confirm += this.Confirm;
-            viewController.FillInfoFunction += FillInfoView;
-
-            foreach(LevelUpItem item in items)
-                viewController.AddItemView(item, LevelUpItemViewPrefab);
+            viewController.Select += this.Select;
         }
-        void Load()
+
+        private void CreateLevelUpItem(Elemental owner, LevelUpItemData data)
         {
-            items.Add(new LevelUpItem(Singleton<ElementalManager>.getInstance().elementals[0], "SexyBackIcon_FireElemental", 1, 100));
-            items.Add(new LevelUpItem(Singleton<ElementalManager>.getInstance().elementals[1], "SexyBackIcon_WaterElemental", 1, 500));
-            items.Add(new LevelUpItem(Singleton<ElementalManager>.getInstance().elementals[2], "SexyBackIcon_RockElemental", 1, 4000));
-            items.Add(new LevelUpItem(Singleton<ElementalManager>.getInstance().elementals[3], "SexyBackIcon_ElectricElemental", 1, 37500));
-            items.Add(new LevelUpItem(Singleton<ElementalManager>.getInstance().elementals[4], "SexyBackIcon_SnowElemental", 1, 450000));
-            items.Add(new LevelUpItem(Singleton<ElementalManager>.getInstance().elementals[5], "SexyBackIcon_EarthElemental", 1, 7250000));
-            items.Add(new LevelUpItem(Singleton<ElementalManager>.getInstance().elementals[6], "SexyBackIcon_AirElemental", 1, 150000000));
-            items.Add(new LevelUpItem(Singleton<ElementalManager>.getInstance().elementals[7], "SexyBackIcon_IceElemental", 1, 4000000000));
-            items.Add(new LevelUpItem(Singleton<ElementalManager>.getInstance().elementals[8], "SexyBackIcon_MagmaElemental", 1, 140000000000));
+            LevelUpItem levelupItem = new LevelUpItem(owner, data);
+            items.Add(levelupItem); // sender의 레벨이아닌 data의 레벨
+
+            onLevelUpCreate(levelupItem);
         }
 
+        void LoadData()
+        {
+            LevelUpItemData item1 = new LevelUpItemData("fireball","파이어볼","SexyBackIcon_FireElemental", 1);
+            LevelUpItemData item2 = new LevelUpItemData("waterball", "물폭탄", "SexyBackIcon_WaterElemental", 1);
+            LevelUpItemData item3 = new LevelUpItemData("rock", "짱돌", "SexyBackIcon_RockElemental", 1);
+            LevelUpItemData item4 = new LevelUpItemData("electricball", "지지직", "SexyBackIcon_ElectricElemental", 1);
+            LevelUpItemData item5 = new LevelUpItemData("snowball", "눈덩이", "SexyBackIcon_SnowElemental", 1);
+            LevelUpItemData item6 = new LevelUpItemData("earthball", "똥", "SexyBackIcon_EarthElemental", 1);
+            LevelUpItemData item7 = new LevelUpItemData("airball", "바람바람", "SexyBackIcon_AirElemental", 1);
+            LevelUpItemData item8 = new LevelUpItemData("iceblock", "각얼음", "SexyBackIcon_IceElemental", 1);
+            LevelUpItemData item9 = new LevelUpItemData("magmaball", "메테오", "SexyBackIcon_MagmaElemental", 1);
+
+            itemDatas.Add(item1.OwnerID, item1);
+            itemDatas.Add(item2.OwnerID, item2);
+            itemDatas.Add(item3.OwnerID, item3);
+            itemDatas.Add(item4.OwnerID, item4);
+            itemDatas.Add(item5.OwnerID, item5);
+            itemDatas.Add(item6.OwnerID, item6);
+            itemDatas.Add(item7.OwnerID, item7);
+            itemDatas.Add(item8.OwnerID, item8);
+            itemDatas.Add(item9.OwnerID, item9);
+        }
+
+        public void Start()
+        {
+        }
         internal void Update()
         {
             /// ui에서 confirm 클릭이들어오면 flag를 변경해놓을것이다.
             if(processqueue.Count > 0)
             {
-                processqueue.Dequeue().LevelUp();
+                processqueue.Dequeue().Purchase();
             }
 
+            // load해놓은 데이터엔 level이 높은게있을수도있다.
             foreach (LevelUpItem item in items)
             {
-                item.ApplyProcess(); // 업한 level을 elemental에 적용시키는것;
+                if (item.PurchaseCount > item.target.LevelCount)
+                {
+                    Singleton<ElementalManager>.getInstance().SetLevel(item.target.ID, item.PurchaseCount);
+                }
             }
         }
 
@@ -64,22 +101,12 @@ namespace SexyBackPlayScene
         {
             foreach (LevelUpItem item in items)
             {
-                if (item.ItemViewID == id)
+                if (item.OwnerID == id)
                     return item;
             }
             return null;
         }
 
-        internal void onDpsChanged(Elemental sender)
-        {
-            // updateitemview
-            //GameObject item = FindItemView(sender.ItemViewID);
-            //GameObject label = item.transform.FindChild("Label").gameObject;
-            //label.GetComponent<UILabel>().text = sender.Dps.ToSexyBackString();
-
-            // UpdateInfoView if selected
-            // 구현해야함
-        }
 
         internal void onExpChanged()
         {
@@ -90,22 +117,38 @@ namespace SexyBackPlayScene
 
         ///  이하는 view 표시 관련, view 단의 작업. 절대 data를 변경해선 안된다. ( 데이터는 update에서 변경되어야 한다.)
 
-        public void Confirm(string selectedItemID)
+        void Confirm()
         { // 모델을 변경시키는 행위기 때문에 실제 변경은 업데이트에서 수행되어야함;
-            LevelUpProcess process = new LevelUpProcess(FindItem(selectedItemID), true);
-            processqueue.Enqueue(process);
+            if (currentItem == null)
+                return;
+            processqueue.Enqueue(currentItem);
         }
 
-
-        void FillInfoView(string levelupitemid)
+        public void Select(string selecteItemID)
         {
-            LevelUpItem target = FindItem(levelupitemid);
-            ViewLoader.Info_Icon.GetComponent<UISprite>().spriteName = target.IconName;
-            ViewLoader.Info_Description.GetComponent<UILabel>().text = target.Description;
-            //    ViewLoader.Info_Description
+            if (selecteItemID == null) // off event
+            {
+                currentItem = null;
+                return;
+            }
+
+            currentItem = FindItem(selecteItemID);
+            onLevelUpSelect(currentItem);
         }
 
+        // recieve event
+        // 데이터 체인지로부터 인한 이벤트
 
+        void onElementalCreate(Elemental sender)
+        {
+            CreateLevelUpItem(sender, itemDatas[sender.ID]);
+        }
+
+        internal void onElementalChange(Elemental sender)
+        {
+            // 레벨업아이템을 갱신한다.
+            onLevelUpChange(sender.levelupItem);
+        }
 
     }
 }

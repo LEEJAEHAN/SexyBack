@@ -18,7 +18,6 @@ namespace SexyBackPlayScene
 
             // destroy temp item;
             ViewLoader.Item_Enable.transform.DestroyChildren();
-
         }
 
         // Update is called once per frame

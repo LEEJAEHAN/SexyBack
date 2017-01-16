@@ -11,29 +11,25 @@ namespace SexyBackPlayScene
         MonsterManager monsterManager;
         HeroManager heroManager;
         ElementalManager elementalManager;
-
         LevelUpManager levelUpManager;
-            
+
         // Use this for initialization
         public void Init()
         {
             monsterManager = Singleton<MonsterManager>.getInstance();
-            monsterManager.Init();
-
             heroManager = Singleton<HeroManager>.getInstance();
-            heroManager.Init();
-
             elementalManager = Singleton<ElementalManager>.getInstance();
-            elementalManager.Init();
-
-
             levelUpManager = Singleton<LevelUpManager>.getInstance();
+
+            monsterManager.Init();
+            heroManager.Init();
+            elementalManager.Init();
             levelUpManager.Init();
-        }   
 
-        double gameTime;
-        public double testTimeTick = 1;
+            monsterManager.Start();
+            elementalManager.Start();
 
+        }
         // Update is called once per frame
         public void Update()
         {

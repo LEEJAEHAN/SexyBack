@@ -3,12 +3,15 @@
     // 레벨업이 가능한 클래스, 레벨업ui에 표시되기위해 필요한정보도 필수적으로가져야한다.
     public abstract class CanLevelUp 
     {
-        public int level;
-        public abstract string ItemViewID { get; }
-        public abstract string Name { get; }
-        public abstract string DamageStatusText { get; } 
+        public abstract string ID { get; }
+        public abstract string Name { get; } 
 
-        public abstract void LevelUp(int lv);
-        public abstract string GetDamageString();
+        public int LevelCount;
+
+        public abstract string Item_Text { get; } // 아이템버튼 우하단 텍스트
+        public abstract string Info_Description { get; } // 정보창 내용
+        public abstract BigInteger PriceToNextLv { get; } // 정보창 내용
+
+        public LevelUpItem levelupItem;
     }
 }

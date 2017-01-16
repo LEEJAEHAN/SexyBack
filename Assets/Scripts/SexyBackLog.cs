@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace SexyBackPlayScene
 {
-    public static class SexyBackLog
+    public static class sexybacklog
     {
         public static void Console(object msg)
         {

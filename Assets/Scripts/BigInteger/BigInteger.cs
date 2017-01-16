@@ -332,9 +332,17 @@ namespace SexyBackPlayScene
                     break;
             }
 
-            string temp = target.ToString() + "," + preDigitValue.ToString() + digit.ToString();
-            return temp;
+            string temp = target.ToString() + "." + preDigitValue.ToString();
+
+            temp = temp.TrimEnd('0');
+            temp = temp.TrimEnd('.');
+
+            if (temp.Length > 5)
+                temp = temp.Substring(0, 5);
+
+            return temp + digit.ToString();
         }
+
         #endregion
 
         #region Constructors
@@ -906,7 +914,7 @@ namespace SexyBackPlayScene
             }
         }
 
-        private static void MultiDivide(BigInteger leftSide, BigInteger rightSide, out BigInteger quotient, out BigInteger remainder)
+        public static void MultiDivide(BigInteger leftSide, BigInteger rightSide, out BigInteger quotient, out BigInteger remainder)
         {
             if (rightSide.IsZero)
             {

@@ -5,71 +5,37 @@ namespace SexyBackPlayScene
 {
     public class LevelUpItem // 레벨업을 하기 위해 구매해야하는 객체
     {
+        public string ID; // 해당객체view의 name과같다 // id로 이름을바꿔야할듯
+        public string OwnerID; // 해당객체view의 name과같다 // id로 이름을바꿔야할듯
         public CanLevelUp target;
-        public int level; // 조정될 레벨
-        public const float GrowthRate = 1.17f;                                                                         // from Excel
-        public BigInteger BaseExp; // 베이스exp로부터 level과 GrowthRate를 통해 ExpForNthLevel을 구함.                          // from Excel
+
+        public int PurchaseCount; // 구매횟수 == level;
+
         public string IconName;
-        public string ItemViewID; // 해당객체view의 name과같다
 
-        public LevelUpItem(CanLevelUp elemental, string iconName, int initLevel, BigInteger baseexp)
+        public string Item_Text { get { return target.Item_Text; } } // 아이템버튼 우하단 텍스트
+
+        public string Info_Name; // owner.name과는다르다.
+        public string Info_Description { get { return target.Info_Description; } }
+        public BigInteger Info_Price { get { return target.PriceToNextLv; } }
+
+        public LevelUpItem(CanLevelUp owner, LevelUpItemData data)
         {
-            target = elemental;
-            IconName = iconName;
-            level = initLevel;
-            BaseExp = baseexp;
-            ItemViewID = elemental.ItemViewID;
+            target = owner;
+            target.levelupItem = this;
+
+            ID = owner.ID;    // owner는 어차피 levelup 아이템을 하나만가지니까 통일해보자;
+            OwnerID = owner.ID;
+            Info_Name = data.InfoName;
+            IconName = data.IconName;
+            PurchaseCount = data.PurchasedCount;
         }
 
-        public void Buy()
+        internal void Purchase()
         {
-            level++;
+            PurchaseCount++;
         }
 
-        internal void ApplyProcess()
-        {
-            if (level > target.level)
-                target.LevelUp(level);
-        }
-        
-        internal string GetTargetDamage()
-        {
-            return target.GetDamageString();
-        }
 
-        public BigInteger PriceToNextLv
-        {
-            get
-            {
-                double growth = Mathf.Pow(GrowthRate, level);
-                int intgrowth = 0;
-                BigInteger result;
-
-                if ((int)growth < int.MaxValue / 10000)
-                {
-                    intgrowth = (int)(growth * 10000);
-                    result = BaseExp * intgrowth / 10000;
-                }
-                else
-                {
-                    intgrowth = (int)growth;
-                    result = BaseExp * intgrowth;
-                }
-                return result;
-            }
-        }
-
-        public string Description
-        {
-            get
-            {
-                string text = target.Name + target.level.ToString();
-                text += "\n";
-                text += target.DamageStatusText;
-                text += "\n";
-                text += PriceToNextLv.ToSexyBackString();
-                return text;
-            }
-        }
     }
 }

@@ -32,15 +32,18 @@ namespace SexyBackPlayScene
             {
                 gameTime -= testTimeTick;
                 Hero.IncreaseDPC(3);
+                Singleton<HeroManager>.getInstance().noticeDamageChanged();
             }
 
         }
         internal void GainExp(BigInteger damage)
         {
             Hero.GainExp(damage);
+            Singleton<HeroManager>.getInstance().noteiceExpChanged();
+
         }
 
-        // 히어로컨트롤러에들어가야할것들;
+        // 히어로컨트롤러에들어가야할것들; // 이벤트기반으로수정해야함;
         internal void noticeDamageChanged()
         {
             string dpsString = "DPC : " + Hero.GetTotalDPC().ToSexyBackString();
