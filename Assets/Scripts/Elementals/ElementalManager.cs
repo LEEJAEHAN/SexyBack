@@ -9,9 +9,10 @@ namespace SexyBackPlayScene
         public List<Elemental> elementals = new List<Elemental>();
         public Dictionary<string, ElementalData> elementalDatas = new Dictionary<string, ElementalData>();
 
-        UILabel totaldpslabel = ViewLoader.label_elementaldmg.GetComponent<UILabel>();
+        Transform ElementalArea = ViewLoader.area_elemental.transform;
+        UILabel TotalDpsLabel = ViewLoader.label_elementaldmg.GetComponent<UILabel>();
 
-        //publisher 
+        //this class is event publisher 
         public delegate void ElementalChangeEvent_Handler(Elemental sender);
         public event ElementalChangeEvent_Handler onElementalChange;// = delegate (object sender) { };
 
@@ -23,11 +24,10 @@ namespace SexyBackPlayScene
             // init data
             LoadData();
 
-            // recieve event
-            Singleton<MonsterManager>.getInstance().whenMonsterCreate += this.onMonsterCreate;
-            onElementalChange += UpdateDpsView; // 내꺼내가받음;
+            // this class is event listner
+            Singleton<MonsterManager>.getInstance().noticeMonsterCreate += this.onMonsterCreate;
+            onElementalChange += this.UpdateDpsView; // 내꺼내가받음;
         }
-
         private void LoadData()
         {
             ElementalData data1 = new ElementalData("fireball", "Fire Ball", 5200, 1, 100);
@@ -66,22 +66,18 @@ namespace SexyBackPlayScene
 
         internal void CreateElemental(ElementalData data)
         {
-            //Elemental temp = new Elemental(data.ShooterName, data, Resources.Load(data.ProjectilePrefabName) as GameObject, GameObject.Find(data.ShooterName));
-
-            Elemental temp = new Elemental(data);
-            temp.target = Singleton<MonsterManager>.getInstance().GetMonster(); // 몬스터가먼저생길경우. 이걸로 target셋팅, elemental이 먼저생길경우 몬스터 생성 이벤트시 셋팅
+            Elemental temp = new Elemental(data, ElementalArea);
 
             elementals.Add(temp);
-            UpdateDpsView(temp); // 최초 한번 수행
+
+            UpdateDpsView(temp);
             onElementalCreate(temp); // send event
         }
 
         internal void Update()
         {
             foreach (Elemental elemenatal in elementals)
-            {
                 elemenatal.Update();
-            }
         }
 
         internal void SetLevel(string ElementalID, int totalCount)
@@ -114,7 +110,7 @@ namespace SexyBackPlayScene
         }
 
         // recieve event
-        void onMonsterCreate(SexyBackMonster sender)
+        void onMonsterCreate(Monster sender)
         {
             foreach(Elemental elemental in elementals)
             {
@@ -124,7 +120,7 @@ namespace SexyBackPlayScene
         public void UpdateDpsView(Elemental sender)
         {
             string dpsString = "DPS : " + GetTotalDPS().ToSexyBackString();
-            totaldpslabel.GetComponent<UILabel>().text = dpsString;
+            TotalDpsLabel.GetComponent<UILabel>().text = dpsString;
         }
     }
 }

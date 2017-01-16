@@ -7,7 +7,7 @@ namespace SexyBackPlayScene
     public class Elemental : CanLevelUp // base class of Elementals
     {
         ElementalData ElementalData;
-        public SexyBackMonster target;
+        public Monster target;
 
         // public property
         public override string ID { get { return ElementalData.ID; } }
@@ -42,19 +42,19 @@ namespace SexyBackPlayScene
         }
 
         // for projectile action;
-        private GameObject Shooter; // avatar
-        private GameObject ProjectilePrefab;
+        private Transform ProjectileZone; // avatar
         private GameObject CurrentProjectile;
+        private GameObject ProjectilePrefab;
         private double AttackTimer;
 
         // status property
         private bool isReadyAction { get { return CurrentProjectile.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(ElementalData.ProjectileReadyStateName); } }
         private bool NoProjectile { get { return CurrentProjectile == null; } }
 
-        public Elemental(ElementalData data)
+        public Elemental(ElementalData data, Transform area)
         {
             LevelCount = 0;
-            Shooter = GameObject.Find(data.ShooterName); // 수정해야함
+            ProjectileZone = area;
             ProjectilePrefab = Resources.Load(data.ProjectilePrefabName) as GameObject;
             ElementalData = data;
         }
@@ -62,8 +62,11 @@ namespace SexyBackPlayScene
         internal void CreateProjectile()
         {
             CurrentProjectile = GameObject.Instantiate<GameObject>(ProjectilePrefab);
-            CurrentProjectile.transform.parent = Shooter.transform; // 자기자신의위치에만든다.
-            CurrentProjectile.transform.localPosition = Vector3.zero;
+            CurrentProjectile.transform.parent = ViewLoader.projectiles.transform;
+
+            Vector3 genPosition = RandomRangeVector3(ProjectileZone.localPosition, ProjectileZone.localScale / 2);
+            CurrentProjectile.transform.localPosition = genPosition;
+
             CurrentProjectile.SetActive(true);
         }
 
@@ -80,9 +83,9 @@ namespace SexyBackPlayScene
 
                 float xDistance, yDistance, zDistance;
 
-                xDistance = target.x - Shooter.transform.position.x;
-                yDistance = target.y - Shooter.transform.position.y;
-                zDistance = target.z - Shooter.transform.position.z;
+                xDistance = target.x - CurrentProjectile.transform.position.x;
+                yDistance = target.y - CurrentProjectile.transform.position.y;
+                zDistance = target.z - CurrentProjectile.transform.position.z;
 
                 float throwangle_xy;
 
@@ -114,12 +117,39 @@ namespace SexyBackPlayScene
             if (AttackTimer > AttackInterval)
             {
                 if(target != null)
-                    Shoot(target.Position);
+                {
+                    Vector3 destination = calDestination(target.avatarCollision);
+                    Shoot(destination);
+                }
                 else if (target == null)
                 {
                     AttackTimer = AttackInterval; // 타겟이생길떄까지 대기한다.
                 }
             }
+        }
+
+        private Vector3 calDestination(BoxCollider monsterCollision)
+        {
+            Vector3 center = monsterCollision.transform.position + monsterCollision.center;
+            Vector3 extend = (monsterCollision.size / 2);
+
+
+            Vector3 dest = RandomRangeVector3(center, extend);
+            return dest;
+
+        }
+
+        private Vector3 RandomRangeVector3(Vector3 center, Vector3 extend)
+        {
+            Vector3 min = center - extend;
+            Vector3 max = center + extend;
+
+            float x = UnityEngine.Random.Range(min.x, max.x);
+            float y = UnityEngine.Random.Range(min.y, max.y);
+            float z = UnityEngine.Random.Range(min.z, max.z);
+
+            Vector3 temp = new Vector3(x, y, z);
+            return temp;
         }
 
         public virtual void Cast()

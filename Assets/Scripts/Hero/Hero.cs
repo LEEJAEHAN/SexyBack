@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace SexyBackPlayScene
 {
-    internal class SexyBackHero : CanLevelUp
+    internal class Hero : CanLevelUp
     {
         public BigInteger DPC = 1;
         public BigInteger EXP = 0;
@@ -15,6 +15,9 @@ namespace SexyBackPlayScene
         private GameObject slash;
         private GameObject avatar;
 
+        public string targetID;
+
+
         // 수정해야함. 임시
         public override string ID { get { return "Hero01"; } }
         public override string Name { get { return "Hero"; } }
@@ -23,7 +26,7 @@ namespace SexyBackPlayScene
         public override BigInteger PriceToNextLv { get { return new BigInteger(10); } }
         // 임시
 
-        public SexyBackHero()
+        public Hero(HeroData data)
         {
             slash = ViewLoader.slash;
             avatar = ViewLoader.hero;
@@ -33,21 +36,19 @@ namespace SexyBackPlayScene
         {
         }
 
-        public void AttackDPC()
+        public void Attack()
         {
-            SexyBackMonster target = Singleton<MonsterManager>.getInstance().GetMonster();
-
             if (ISCRITICAL)
             {
                 BigInteger totaldamage = DPC * CRIDAMAGE / 100;
-                target.OnHit(totaldamage);
+                Singleton<MonsterManager>.getInstance().onHitByHero(targetID, totaldamage);
                 // 크리티컬 글자 필요 
                 slash.GetComponent<Slash>().Play();
                 avatar.GetComponent<Animator>().SetTrigger("Attack");
             }
             else
             {
-                target.OnHit(DPC);
+                Singleton<MonsterManager>.getInstance().onHitByHero(targetID, DPC);
                 slash.GetComponent<Slash>().Play();
                 avatar.GetComponent<Animator>().SetTrigger("Attack");                
             }

@@ -27,7 +27,9 @@ namespace SexyBackPlayScene
             levelUpManager.Init();
 
             monsterManager.Start();
+            heroManager.Start();
             elementalManager.Start();
+            levelUpManager.Start();
 
         }
         // Update is called once per frame

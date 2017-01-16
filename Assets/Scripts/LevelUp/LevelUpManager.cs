@@ -12,7 +12,7 @@ namespace SexyBackPlayScene
         Dictionary<string, LevelUpItemData> itemDatas = new Dictionary<string, LevelUpItemData>();
         Queue<LevelUpItem> processqueue = new Queue<LevelUpItem>();
 
-        // event publisher
+        // this class is event publisher
         public delegate void LevelUpCreate_EventHandler (LevelUpItem levelupitem);
         public event LevelUpCreate_EventHandler onLevelUpCreate;
 
@@ -22,31 +22,21 @@ namespace SexyBackPlayScene
         public delegate void LevelUpChange_EventHandler(LevelUpItem levelupitem);
         public event LevelUpChange_EventHandler onLevelUpChange;
 
-        // view 관련 ( 이벤트핸들러)
-        GameObject viewControllerObject = ViewLoader.LevelUpViewController;
-        LevelUpViewController viewController;
+        // view controller class ( 일단은 동적생성하지 않는다. )
+        LevelUpViewController viewController = ViewLoader.LevelUpViewController.GetComponent<LevelUpViewController>();
 
-        internal void Init()
+
+
+        public void Init()
         {
             // init data
             LoadData();
 
-            // recieve event
-            Singleton<ElementalManager>.getInstance().onElementalCreate += onElementalCreate;
-            Singleton<ElementalManager>.getInstance().onElementalChange += onElementalChange;
-
-
-            viewController = viewControllerObject.GetComponent<LevelUpViewController>();
+            // this class is event listner
+            Singleton<ElementalManager>.getInstance().onElementalCreate += this.onElementalCreate;
+            Singleton<ElementalManager>.getInstance().onElementalChange += this.onElementalChange;
             viewController.Confirm += this.Confirm;
             viewController.Select += this.Select;
-        }
-
-        private void CreateLevelUpItem(Elemental owner, LevelUpItemData data)
-        {
-            LevelUpItem levelupItem = new LevelUpItem(owner, data);
-            items.Add(levelupItem); // sender의 레벨이아닌 data의 레벨
-
-            onLevelUpCreate(levelupItem);
         }
 
         void LoadData()
@@ -71,10 +61,18 @@ namespace SexyBackPlayScene
             itemDatas.Add(item8.OwnerID, item8);
             itemDatas.Add(item9.OwnerID, item9);
         }
-
-        public void Start()
+        internal void Start()
         {
         }
+
+        private void CreateLevelUpItem(Elemental owner, LevelUpItemData data)
+        {
+            LevelUpItem levelupItem = new LevelUpItem(owner, data);
+            items.Add(levelupItem); // sender의 레벨이아닌 data의 레벨
+
+            onLevelUpCreate(levelupItem);
+        }
+
         internal void Update()
         {
             /// ui에서 confirm 클릭이들어오면 flag를 변경해놓을것이다.
@@ -138,7 +136,6 @@ namespace SexyBackPlayScene
 
         // recieve event
         // 데이터 체인지로부터 인한 이벤트
-
         void onElementalCreate(Elemental sender)
         {
             CreateLevelUpItem(sender, itemDatas[sender.ID]);

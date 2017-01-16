@@ -4,21 +4,23 @@ using System.Collections;
 namespace SexyBackPlayScene
 {
 
-    public class Projectile : MonoBehaviour
+    public class Projectile : MonoBehaviour // view와 동일하다
     {
         // projectile data
         public BigInteger Damage;
 
-        
-        
         // animation info
         Animator anim;
-        float rot;
+
+        void Awake()
+        {
+            anim = this.gameObject.GetComponent<Animator>();
+            //Physics2D.IgnoreLayerCollision(8, 8);
+        }
 
         void Start()
         {
-            anim = this.gameObject.GetComponent<Animator>();
-//            Physics2D.IgnoreLayerCollision(8, 8);
+            
         }
 
         void Update()
@@ -28,9 +30,8 @@ namespace SexyBackPlayScene
                 float xVec = GetComponent<Rigidbody>().velocity.x;
                 float yVec = GetComponent<Rigidbody>().velocity.y;
                 
-                rot = UnityEngine.Mathf.Atan2(yVec, xVec) * UnityEngine.Mathf.Rad2Deg;
-
-//                GameManager.SexyBackDebug(rot + " " + xVec + " " + yVec);
+                float rot = UnityEngine.Mathf.Atan2(yVec, xVec) * UnityEngine.Mathf.Rad2Deg;
+                //GameManager.SexyBackDebug(rot + " " + xVec + " " + yVec);
 
                 transform.eulerAngles = new Vector3(0, 0, rot + 180);
             }

@@ -9,7 +9,7 @@ namespace SexyBackPlayScene
     {
         //LevelUpItem은 이 ui에서 나타날 수 있는 것을 포함한 객체;
 
-        // send
+        // this class is event Publisher
         public delegate void ConfirmButton_Event_Handler();
         public event ConfirmButton_Event_Handler Confirm;
 
@@ -38,7 +38,7 @@ namespace SexyBackPlayScene
             Info_Icon = ViewLoader.Info_Icon;
             Info_Description = ViewLoader.Info_Description;
 
-
+            // this class is event listner
             Singleton<LevelUpManager>.getInstance().onLevelUpCreate += this.onLevelUpCreate;
             Singleton<LevelUpManager>.getInstance().onLevelUpSelect += this.onLevelUpSelect;
             Singleton<LevelUpManager>.getInstance().onLevelUpChange += this.onLevelUpChange;
