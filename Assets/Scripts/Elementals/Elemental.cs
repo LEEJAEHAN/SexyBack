@@ -1,31 +1,29 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace SexyBackPlayScene
 {
-    public class Elemental // base class of Elementals
+    public class Elemental : CanLevelUp // base class of Elementals
     {
-        // for damage and exp
-        protected int level;
-
-        // for projectile action;
-        public double AttackTimer;
-
-        protected GameObject Shooter; // avatar
-        protected GameObject ProjectilePrefab;
-        protected GameObject CurrentProjectile;
-        protected GameObject Target;
-
         ElementalData ElementalData;
+        public Monster target;
 
-        bool isReadyAction { get { return CurrentProjectile.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(ElementalData.ProjectileReadyStateName); } }
-        public BigInteger Dps { get { return level * ElementalData.BaseDps; } } // BaseDps* level 값.               // 계산되는값
-        BigInteger Damage { get { return (Dps * ElementalData.AttackIntervalK) / 1000; } } //  dps / attackinterval    // 계산되는값
-        double AttackInterval { get { return (double)ElementalData.AttackIntervalK / (double)1000; } }
-        BigInteger ExpforNextLevel
-        {
-            get { 
-                double growth = Mathf.Pow(ElementalData.GrowthRate, level);
+        // public property
+        public override string ID { get { return ElementalData.ID; } }
+        public override string Name { get { return ElementalData.Name; } }
+
+        public BigInteger Dps { get { return LevelCount * ElementalData.BaseDps; } } // BaseDps* level 값.               // 계산되는값
+        public BigInteger Damage { get { return (Dps * ElementalData.AttackIntervalK) / 1000; } } //  dps / attackinterval    // 계산되는값
+        public double AttackInterval { get { return (double)ElementalData.AttackIntervalK / (double)1000; } }
+
+        public override string Item_Text { get { return Dps.ToSexyBackString(); } } // 아이템버튼 우하단 텍스트
+        public override string Info_Description { get { return "Damage : " + Dps.ToSexyBackString() + "/sec\n" + "Next : +" + ElementalData.BaseDps.ToSexyBackString() + "/sec"; } }
+
+        public override BigInteger PriceToNextLv
+        { get
+            {
+                double growth = Mathf.Pow(ElementalData.GrowthRate, LevelCount);
                 int intgrowth = 0;
                 BigInteger result;
 
@@ -42,92 +40,118 @@ namespace SexyBackPlayScene
                 return result;
             }
         }
-//        int ExpforNextLevel { get {  return (int)(ElementalData.BaseExp * Mathf.Pow(ElementalData.GrowthRate,level)); } }
 
-//        protected int ExpforNextLevel; // n+1번째 레벨을 올리기 위한 exp                                // 계산되는값.
+        // for projectile action;
+        private Transform ProjectileZone; // avatar
+        private GameObject CurrentProjectile;
+        private GameObject ProjectilePrefab;
+        private double AttackTimer;
 
+        // status property
+        private bool isReadyAction { get { return CurrentProjectile.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(ElementalData.ProjectileReadyStateName); } }
+        private bool NoProjectile { get { return CurrentProjectile == null; } }
 
-        public Elemental(string name, ElementalData data, GameObject projectileprefab, GameObject shooter)
+        public Elemental(ElementalData data, Transform area)
         {
-            level = 0;
-            Shooter = shooter;
-            ProjectilePrefab = projectileprefab;
+            LevelCount = 0;
+            ProjectileZone = area;
+            ProjectilePrefab = Resources.Load(data.ProjectilePrefabName) as GameObject;
             ElementalData = data;
-            Target = GameObject.Find("monster");
         }
 
-        public virtual void Update()
+        internal void CreateProjectile()
         {
-            AttackTimer += Time.deltaTime;
+            CurrentProjectile = GameObject.Instantiate<GameObject>(ProjectilePrefab);
+            CurrentProjectile.transform.parent = ViewLoader.projectiles.transform;
 
-            // 만들어진다.
-            if (AttackTimer > AttackInterval - 1 && CurrentProjectile == null)
-            {
-                CurrentProjectile = CreateProjectile(ProjectilePrefab);
-            }
+            Vector3 genPosition = RandomRangeVector3(ProjectileZone.localPosition, ProjectileZone.localScale / 2);
+            CurrentProjectile.transform.localPosition = genPosition;
 
-            if (AttackTimer > AttackInterval)
-            {
-                Shoot(CurrentProjectile, Target.transform.position);
-            }
+            CurrentProjectile.SetActive(true);
         }
 
-        GameObject CreateProjectile(GameObject prefab)
+        public void Shoot(Vector3 target)
         {
-            GameObject Projectile = GameObject.Instantiate<GameObject>(prefab);
-            Projectile.transform.parent = Shooter.transform; // 자기자신의위치에만든다.
-            Projectile.transform.localPosition = Vector3.zero;
-            Projectile.SetActive(true);
-
-            return Projectile;
-        }
-
-        public virtual void Shoot(GameObject projectile, Vector3 target)
-        {
-            if (projectile != null && isReadyAction)
+            if (CurrentProjectile != null && isReadyAction)
             {
                 //SetDamage
-//                GameManager.SexyBackLog(Damage);
-                projectile.GetComponent<Projectile>().Damage = Damage;
+                CurrentProjectile.GetComponent<Projectile>().Damage = Damage;
 
                 // Shootfunc
-                projectile.GetComponent<Animator>().SetBool("Shoot", true);
-                projectile.GetComponent<Rigidbody>().useGravity = true;
+                CurrentProjectile.GetComponent<Animator>().SetBool("Shoot", true);
+                CurrentProjectile.GetComponent<Rigidbody>().useGravity = true;
 
                 float xDistance, yDistance, zDistance;
 
-                xDistance = target.x - Shooter.transform.position.x;
-                yDistance = target.y - Shooter.transform.position.y;
-                zDistance = target.z - Shooter.transform.position.z;
+                xDistance = target.x - CurrentProjectile.transform.position.x;
+                yDistance = target.y - CurrentProjectile.transform.position.y;
+                zDistance = target.z - CurrentProjectile.transform.position.z;
 
                 float throwangle_xy;
 
                 throwangle_xy = Mathf.Atan((yDistance + (-Physics.gravity.y / 2)) / xDistance);
 
-                float totalVelo = xDistance / Mathf.Cos(throwangle_xy);
+                //float totalVelo = xDistance / Mathf.Cos(throwangle_xy);
 
                 float xVelo, yVelo, zVelo;
                 xVelo = xDistance;
                 yVelo = xDistance * Mathf.Tan(throwangle_xy);
                 zVelo = zDistance;
 
-                projectile.GetComponent<Rigidbody>().velocity = new Vector3(xVelo, yVelo, zVelo);
+                CurrentProjectile.GetComponent<Rigidbody>().velocity = new Vector3(xVelo, yVelo, zVelo);
 
                 AttackTimer -= AttackInterval; // 정상적으로 발사 완료 후 타이머리셋
             }
         }
 
-        internal void LevelUp()
+        internal void Update()
         {
-            level++;
-            UIUpdater.getInstance().noticeDamageChanged();
+            AttackTimer += Time.deltaTime;
 
-//            GameManager.SexyBackLog("level : " + level + " Dps : " + Dps.ToSexyBackString() + " ReqExpToCurrentLv : " + ExpforNextLevel.ToSexyBackString());
+            // 만들어진다.
+            if (AttackTimer > AttackInterval - 1 && NoProjectile)
+            {
+                CreateProjectile();
+            }
+
+            if (AttackTimer > AttackInterval)
+            {
+                if(target != null)
+                {
+                    Vector3 destination = calDestination(target.avatarCollision);
+                    Shoot(destination);
+                }
+                else if (target == null)
+                {
+                    AttackTimer = AttackInterval; // 타겟이생길떄까지 대기한다.
+                }
+            }
         }
-        public void ShootForDebug()
+
+        private Vector3 calDestination(BoxCollider monsterCollision)
         {
-            Shoot(CurrentProjectile, Target.transform.position);
+            Vector3 center = monsterCollision.transform.position + monsterCollision.center;
+            Vector3 extend = (monsterCollision.size / 2);
+
+
+            Vector3 dest = RandomRangeVector3(center, extend);
+            return dest;
+
         }
+
+        private Vector3 RandomRangeVector3(Vector3 center, Vector3 extend)
+        {
+            Vector3 min = center - extend;
+            Vector3 max = center + extend;
+
+            float x = UnityEngine.Random.Range(min.x, max.x);
+            float y = UnityEngine.Random.Range(min.y, max.y);
+            float z = UnityEngine.Random.Range(min.z, max.z);
+
+            Vector3 temp = new Vector3(x, y, z);
+            return temp;
+        }
+
         public virtual void Cast()
         {
 
