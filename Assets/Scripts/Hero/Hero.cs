@@ -5,7 +5,7 @@ namespace SexyBackPlayScene
 {
     internal class Hero : CanLevelUp
     {
-        public BigInteger DPC = 1;
+        public BigInteger DPC = new BigInteger(100,Digit.m);
         public BigInteger EXP = 0;
 
         public double CRIRATE = 0.15;
@@ -36,19 +36,19 @@ namespace SexyBackPlayScene
         {
         }
 
-        public void Attack()
+        public void Attack(Vector3 position)
         {
             if (ISCRITICAL)
             {
                 BigInteger totaldamage = DPC * CRIDAMAGE / 100;
-                Singleton<MonsterManager>.getInstance().onHitByHero(targetID, totaldamage);
+                Singleton<MonsterManager>.getInstance().onHit(targetID, totaldamage, position);
                 // 크리티컬 글자 필요 
                 slash.GetComponent<Slash>().Play();
                 avatar.GetComponent<Animator>().SetTrigger("Attack");
             }
             else
             {
-                Singleton<MonsterManager>.getInstance().onHitByHero(targetID, DPC);
+                Singleton<MonsterManager>.getInstance().onHit(targetID, DPC, position);
                 slash.GetComponent<Slash>().Play();
                 avatar.GetComponent<Animator>().SetTrigger("Attack");                
             }

@@ -28,7 +28,6 @@ namespace SexyBackPlayScene
             BaseExp = baseexp;
             ProjectilePrefabName = "prefabs/" + id;
             ProjectileReadyStateName = id + "_spot";
-
             //    ExpForBaseUnitDps = expperdps;
             //    BaseDps = baseexp / ExpForBaseUnitDps; // 원래는 basedps만입력받으면되는데, 값이너무더러워서 exp랑 rdps로 계산
         }

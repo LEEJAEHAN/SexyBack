@@ -42,7 +42,8 @@ namespace SexyBackPlayScene
         }
 
         // for projectile action;
-        private Transform ProjectileZone; // avatar
+        private Transform ElementalArea; // avatar
+
         private GameObject CurrentProjectile;
         private GameObject ProjectilePrefab;
         private double AttackTimer;
@@ -54,18 +55,25 @@ namespace SexyBackPlayScene
         public Elemental(ElementalData data, Transform area)
         {
             LevelCount = 0;
-            ProjectileZone = area;
+            ElementalArea = area;
             ProjectilePrefab = Resources.Load(data.ProjectilePrefabName) as GameObject;
             ElementalData = data;
         }
 
         internal void CreateProjectile()
         {
-            CurrentProjectile = GameObject.Instantiate<GameObject>(ProjectilePrefab);
-            CurrentProjectile.transform.parent = ViewLoader.projectiles.transform;
 
-            Vector3 genPosition = RandomRangeVector3(ProjectileZone.localPosition, ProjectileZone.localScale / 2);
-            CurrentProjectile.transform.localPosition = genPosition;
+            CurrentProjectile = GameObject.Instantiate<GameObject>(ProjectilePrefab);
+
+            CurrentProjectile.transform.name = this.ID;
+
+            Vector3 genPosition = RandomRangeVector3(ElementalArea.position, ElementalArea.localScale / 2);
+            // position 은 월드포지션. localpositoin은 부모에서 얼마떨어져있냐, localScale은 그 객체클릭했을때 나오는 사이즈값. lossyscale은 최고 root로빠졌을때의 사이즈값.
+            CurrentProjectile.transform.position = genPosition;
+            CurrentProjectile.transform.localScale = ViewLoader.projectiles.transform.lossyScale;
+            CurrentProjectile.transform.parent = ViewLoader.shooter.transform;
+
+            //TODO : 아직 리팩토링할곳이많은부분, 바로윗줄은 shooter object의 scale을 world에서 조정해야함
 
             CurrentProjectile.SetActive(true);
         }
@@ -74,9 +82,9 @@ namespace SexyBackPlayScene
         {
             if (CurrentProjectile != null && isReadyAction)
             {
+                CurrentProjectile.transform.parent = ViewLoader.projectiles.transform ; // 슈터에서 빠진다.
                 //SetDamage
                 CurrentProjectile.GetComponent<Projectile>().Damage = Damage;
-
                 // Shootfunc
                 CurrentProjectile.GetComponent<Animator>().SetBool("Shoot", true);
                 CurrentProjectile.GetComponent<Rigidbody>().useGravity = true;
@@ -108,10 +116,15 @@ namespace SexyBackPlayScene
         {
             AttackTimer += Time.deltaTime;
 
+
             // 만들어진다.
             if (AttackTimer > AttackInterval - 1 && NoProjectile)
             {
                 CreateProjectile();
+            }
+            if(AttackTimer > AttackInterval -1 && !NoProjectile) // 대기중
+            {
+//                CurrentProjectile.transform.localPosition = genPosition;
             }
 
             if (AttackTimer > AttackInterval)

@@ -23,7 +23,7 @@ namespace SexyBackPlayScene
             
         }
 
-        void Update()
+        void FixedUpdate()
         {
             if(anim.GetBool("Shoot") == true)
             {

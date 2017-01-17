@@ -30,7 +30,6 @@ public class UIAtlasMaker : EditorWindow
 		public bool temporaryTexture = false;
 
 		/// <summary>
-		/// HACK: Prevent Unity from unloading temporary textures.
 		/// Discovered by "alexkring": http://www.tasharen.com/forum/index.php?topic=3079.45
 		/// </summary>
 
