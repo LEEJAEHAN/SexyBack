@@ -21,6 +21,9 @@ namespace SexyBackPlayScene
         public static GameObject slash = GameObject.Find("slash");
         public static GameObject hero = GameObject.Find("hero");
         public static GameObject area_elemental = GameObject.Find("area_elemental");
+        public static GameObject shooter = GameObject.Find("shooter");
+        public static GameObject monsters = GameObject.Find("monsters");
+
 
         // NGUI event Listner hub
         public static GameObject KeyInputController = GameObject.Find("InputController");
@@ -37,6 +40,8 @@ namespace SexyBackPlayScene
         // info ui
         public static GameObject Info_Icon = GameObject.Find("Info_Icon");
         public static GameObject Info_Description = GameObject.Find("Info_Description");
+
+
 
 
 
