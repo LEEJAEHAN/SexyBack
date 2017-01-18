@@ -68,7 +68,7 @@ namespace SexyBackPlayScene
                 if(AttackCount > 0 ) // attack;
                 {
                     AttackCount--;
-                    owner.Attack();
+                    owner.Attack();  // TODO: 공격애니메이션 시간동안 잠깐 대기가 필요할수도
                 }
                 owner.Move(owner.MoveDirection * (float)BackwardSpeed * -Time.deltaTime);
             }

@@ -27,7 +27,6 @@ namespace SexyBackPlayScene
                 Projectile proj = collider.gameObject.GetComponent<Projectile>();
                 
                 noticeHit(this.name, proj.Damage, collider.transform.position);
-                //TODO : 디버그로 collider.transform.position 확인
             }
         }
     }

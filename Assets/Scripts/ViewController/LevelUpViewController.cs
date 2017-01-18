@@ -54,6 +54,7 @@ namespace SexyBackPlayScene
         {
             if (SelectedItemView == null)
                 ClearInfo();
+            // TODO: 이거 아무래도 맘에걸림
         }
 
         /// <summary>
@@ -132,7 +133,6 @@ namespace SexyBackPlayScene
             if (Info_Window.activeInHierarchy)
             {
                 Info_Window.SetActive(false);
-                sexybacklog.Console("ClearInfo");
             }
         }
 

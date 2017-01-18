@@ -107,10 +107,9 @@ namespace SexyBackPlayScene
 
         internal void SetSwordEffectPosition()
         {
+            //TODO: 아예 EFFECT 카메라를 따로둬서 EFFECT PANEL을 히어로에 붙이지 않는걸 고려해봐야할듯
             Vector3 directionVector;
             Vector3 currMonCenter = Singleton<MonsterManager>.getInstance().GetMonster().CenterPosition;
-
-            sexybacklog.Console(currMonCenter + " center");
 
             directionVector = currMonCenter - lastTapPosition;
             float rot = UnityEngine.Mathf.Atan2(directionVector.y, directionVector.x) * UnityEngine.Mathf.Rad2Deg;

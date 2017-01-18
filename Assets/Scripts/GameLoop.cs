@@ -10,14 +10,14 @@ namespace SexyBackPlayScene
         ViewLoader viewLoader;
         GameManager gameManager;
         GameInput gameInput;
-        GameSetting gameSetting = new GameSetting();
+        GameSetting gameSetting;
 
         // Use this for initialization
         void Awake()
         {
-            ViewLoader viewLoader = new ViewLoader();
+            viewLoader = new ViewLoader();
+            gameSetting = new GameSetting();
             gameSetting.Init();
-            gameSetting.RemoveTestObject();
         }
 
         void Start()
