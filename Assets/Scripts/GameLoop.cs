@@ -7,32 +7,26 @@ namespace SexyBackPlayScene
 
     public class GameLoop : MonoBehaviour
     {
+        ViewLoader viewLoader;
         GameManager gameManager;
         GameInput gameInput;
         GameSetting gameSetting = new GameSetting();
 
         // Use this for initialization
+        void Awake()
+        {
+            ViewLoader viewLoader = new ViewLoader();
+            gameSetting.Init();
+            gameSetting.RemoveTestObject();
+        }
+
         void Start()
         {
-            RemoveTestObject();
-
-            gameSetting.Init();
-
             gameManager = Singleton<GameManager>.getInstance();
             gameManager.Init();
-
             gameInput = Singleton<GameInput>.getInstance();
+
         }
-
-        private void RemoveTestObject()
-        {
-            // remove useless objects; like prefab preview
-            ViewLoader.Item_Enable.transform.DestroyChildren();
-            ViewLoader.shooter.transform.DestroyChildren();
-
-            GameObject.Destroy(GameObject.Find("monster"));
-        }
-
         // Update is called once per frame
         void Update()
         {

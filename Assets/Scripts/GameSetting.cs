@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 namespace SexyBackPlayScene
 {
@@ -10,21 +11,27 @@ namespace SexyBackPlayScene
         public static float aspect; // 0.5625
         public static float pixelPerUnit;
         public static Vector3 defaultMonsterPosition;
+        public static Vector3 defaultHeroPosition;
+        public static Vector3 defaultCameraPosition;
 
         public void Init()
         {
-            Camera camera = GameObject.Find("Main Camera").GetComponent<Camera>();
+            Camera camera = ViewLoader.camera;
             orthographicSize = camera.orthographicSize; // 6.4
             fieldOfView = camera.GetComponent<Camera>().fieldOfView; // 64
             aspect = camera.aspect; // 0.5625
             pixelPerUnit = 100;
-            defaultMonsterPosition = ViewLoader.monsters.transform.position; ;
+            defaultMonsterPosition = ViewLoader.monsters.transform.position;
+            defaultHeroPosition = ViewLoader.hero.transform.position;
+            defaultCameraPosition = camera.transform.position;
         }
-
-        // game size is -3.6, -6.4 to 3.6 , 6.4  단위:unit // pivot is center 
-        // ngui size is 0,0 to 720, 1280 단위:pixel // pivot is left down
-
-        // step1 : nguiposition /= pixerperunit(==100)
-        // spet2 :  x -= (aspect * orthographicSize)(==3.2) , y -= orthographicSize(==6.4) (field( x -= 3.6, y -= 6.4 )
+        
+        internal void RemoveTestObject()
+        {
+            // remove useless objects; like prefab preview
+            ViewLoader.Item_Enable.transform.DestroyChildren();
+            ViewLoader.shooter.transform.DestroyChildren();
+            ViewLoader.monsters.transform.DestroyChildren();
+        }
     }
 }

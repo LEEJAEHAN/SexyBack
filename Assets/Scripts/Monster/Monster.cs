@@ -13,7 +13,8 @@ namespace SexyBackPlayScene
         public GameObject avatar;
         public BoxCollider avatarCollision { get { return avatar.GetComponent<BoxCollider>(); } }
 
-        public Vector3 Position;
+        public Vector3 PivotPosition; // 올라가는정도
+        public Vector3 CenterPosition; // 
         public Vector3 Size;
 
         internal Monster (MonsterData data)
@@ -28,10 +29,12 @@ namespace SexyBackPlayScene
             avatar.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(data.SpritePath);
 
             Size = avatar.GetComponent<SpriteRenderer>().sprite.bounds.size;
-            Position = avatar.GetComponent<SpriteRenderer>().sprite.bounds.center;
+            PivotPosition = avatar.GetComponent<SpriteRenderer>().sprite.bounds.center; // sprite의 center는 피봇이다
+            CenterPosition = PivotPosition + GameSetting.defaultMonsterPosition; // 피봇으로 옮겨간정도 + 원래의 위치  ( 실제 위치는 옮겨놓지않았기떄문에 monsters(부모)의위치를더함 )
+
             // pivot으로 몬스터위치조정은힘들어서 collider와 sprite만조정한다.
             avatar.GetComponent<BoxCollider>().size = Size;
-            avatar.GetComponent<BoxCollider>().center = Position;
+            avatar.GetComponent<BoxCollider>().center = PivotPosition;
             // Debug.Log(this.GetComponent<SpriteRenderer>().sprite.bounds);
         }
 

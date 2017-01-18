@@ -5,7 +5,7 @@ namespace SexyBackPlayScene
 {
     class HeroManager
     {
-        Hero Hero;
+        Hero CurrentHero;
         #region
         #endregion
         HeroData testHeroData;
@@ -20,7 +20,7 @@ namespace SexyBackPlayScene
         public delegate void ExpChange_Event(BigInteger exp);
         public event ExpChange_Event noticeEXPChange;
 
-        string targetID;
+        string targetID = null;
 
         public void Init()
         {
@@ -30,7 +30,7 @@ namespace SexyBackPlayScene
             noticeHeroCreate += onHeroChange;
             noticeHeroChange += onHeroChange;
             noticeEXPChange += onExpChange;
-            Singleton<GameInput>.getInstance().noticeTouch += onTap;
+            Singleton<GameInput>.getInstance().noticeTouchPosition += onTouch;
             Singleton<MonsterManager>.getInstance().noticeMonsterCreate += this.onMonsterCreate;
         }
         public void Start()
@@ -43,34 +43,35 @@ namespace SexyBackPlayScene
         }
         private void CreateHero()
         {
-            Hero = new Hero(testHeroData);
-            noticeHeroCreate(Hero);
+            CurrentHero = new Hero(testHeroData);
+            noticeHeroCreate(CurrentHero);
         }
 
         internal void Update()
         {
-            Hero.Update();
-            // 엘레멘탈 매니져
+            CurrentHero.Update();
         }
         internal void GainExp(BigInteger damage)
         {
-            Hero.GainExp(damage);
-            noticeEXPChange(Hero.EXP);
+            CurrentHero.GainExp(damage);
+            noticeEXPChange(CurrentHero.EXP);
         }
 
         UILabel label_herodmg = ViewLoader.label_herodmg.GetComponent<UILabel>();
         UILabel label_exp = ViewLoader.label_exp.GetComponent<UILabel>();
 
         // event reciever
-        internal void onTap(Vector3 targetPoint)
+        internal void onTouch(Vector3 touchPoint, Vector3 effectPoint)
         {
-            Hero.Attack(targetPoint);
+            //currhero
+            CurrentHero.onTouch(touchPoint, effectPoint);
         }
         internal void onMonsterCreate(Monster monster)
         {
-            if (Hero == null)
+            if (CurrentHero == null)
                 return;
-            Hero.targetID = monster.ID;
+            CurrentHero.targetID = monster.ID;
+            //CurrentHero.SetDirection(monster.CenterPosition);
         }
         internal void onHeroChange(Hero hero)
         {

@@ -16,7 +16,7 @@ namespace SexyBackPlayScene
         GameObject hitparticle = ViewLoader.hitparticle;
 
         Dictionary<string, MonsterData> monsterDatas = new Dictionary<string, MonsterData>();
-        Monster CurrentMonster;
+        Monster CurrentMonster; // TODO: bucket으로수정해야함;
 
         UILabel label_monsterhp = ViewLoader.label_monsterhp.GetComponent<UILabel>();
 
@@ -31,7 +31,7 @@ namespace SexyBackPlayScene
 
         public void Start()
         {
-            CreateMonster(monsterDatas["m04"]);
+            CreateMonster(monsterDatas["m06"]);
         }
 
         private void LoadData()
@@ -66,6 +66,10 @@ namespace SexyBackPlayScene
         {
             return CurrentMonster;
         }
+        internal Monster GetMonster(string id)
+        {
+            return CurrentMonster; //TODO: 바꿔야함
+        }
 
         internal void onMonsterChange(Monster monster)
         {
@@ -94,6 +98,7 @@ namespace SexyBackPlayScene
         private void onHeroCreate(Hero hero)
         {
             hero.targetID = CurrentMonster.ID;
+            //hero.SetDirection(CurrentMonster.CenterPosition);
         }
     }
 }

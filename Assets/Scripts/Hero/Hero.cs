@@ -5,18 +5,21 @@ namespace SexyBackPlayScene
 {
     internal class Hero : CanLevelUp
     {
-        public BigInteger DPC = new BigInteger(100,Digit.m);
-        public BigInteger EXP = 0;
+        private HeroData baseData;
+        public BigInteger DPC;
+        public BigInteger EXP;
+        public double ATTACKINTERVAL;
+        public double CRIRATE;
+        public int CRIDAMAGE;
 
-        public double CRIRATE = 0.15;
-        public int CRIDAMAGE = 200;
-        public bool ISCRITICAL { get { return CRIRATE > UnityEngine.Random.Range(0.0f,1.0f); } }
+        public bool ISCRITICAL { get { return CRIRATE > UnityEngine.Random.Range(0.0f, 1.0f); } }
 
-        private GameObject slash;
-        private GameObject avatar;
+        public HeroStateMachine stateMachine;
 
         public string targetID;
 
+        public Vector3 MoveDirection;
+        public int MOVESPEED;
 
         // 수정해야함. 임시
         public override string ID { get { return "Hero01"; } }
@@ -26,32 +29,65 @@ namespace SexyBackPlayScene
         public override BigInteger PriceToNextLv { get { return new BigInteger(10); } }
         // 임시
 
+        public Vector3 lastTapPosition;
+        public Vector3 SwordPosition;
+
         public Hero(HeroData data)
         {
-            slash = ViewLoader.slash;
-            avatar = ViewLoader.hero;
+            DPC = data.DPC;
+            EXP = data.EXP;
+
+            ATTACKINTERVAL = data.ATTACKINTERVAL;
+            CRIRATE = data.CRIRATE;
+            CRIDAMAGE = data.CRIDAMAGE;
+            MOVESPEED = data.MOVESPEED;
+
+            stateMachine = new HeroStateMachine(this);
+            SetDirection(GameSetting.defaultMonsterPosition);
+        }
+
+        internal void Move(Vector3 step)
+        {
+            ViewLoader.camera.transform.position += step;
+            ViewLoader.hero.transform.position += step;
+        }
+        internal void Stop()
+        {
+            ViewLoader.camera.transform.position = GameSetting.defaultCameraPosition;
+            ViewLoader.hero.transform.position = GameSetting.defaultHeroPosition;
+        }
+        public void SetDirection(Vector3 monsterPosition)
+        {
+            MoveDirection = new Vector3(0, 1.5f, -3) - GameSetting.defaultCameraPosition;
         }
 
         internal void Update()
         {
+            stateMachine.Update();
         }
 
-        public void Attack(Vector3 position)
+        public void Attack()
         {
+            ViewLoader.hero_sword.GetComponent<Animator>().SetTrigger("Play");
+            ViewLoader.hero_sprite.GetComponent<Animator>().SetTrigger("Attack");
+
             if (ISCRITICAL)
             {
                 BigInteger totaldamage = DPC * CRIDAMAGE / 100;
-                Singleton<MonsterManager>.getInstance().onHit(targetID, totaldamage, position);
+                Singleton<MonsterManager>.getInstance().onHit(targetID, totaldamage, lastTapPosition);
                 // 크리티컬 글자 필요 
-                slash.GetComponent<Slash>().Play();
-                avatar.GetComponent<Animator>().SetTrigger("Attack");
             }
             else
             {
-                Singleton<MonsterManager>.getInstance().onHit(targetID, DPC, position);
-                slash.GetComponent<Slash>().Play();
-                avatar.GetComponent<Animator>().SetTrigger("Attack");                
+                Singleton<MonsterManager>.getInstance().onHit(targetID, DPC, lastTapPosition);
             }
+        }
+        public void onTouch(Vector3 tapposition, Vector3 effectposition)
+        {
+            lastTapPosition = tapposition;
+            SwordPosition = effectposition;
+
+            stateMachine.onTouch();
         }
 
         internal void GainExp(BigInteger damage)
@@ -67,6 +103,21 @@ namespace SexyBackPlayScene
         internal BigInteger GetTotalDPC()
         {
             return DPC;
+        }
+
+        internal void SetSwordEffectPosition()
+        {
+            Vector3 directionVector;
+            Vector3 currMonCenter = Singleton<MonsterManager>.getInstance().GetMonster().CenterPosition;
+
+            sexybacklog.Console(currMonCenter + " center");
+
+            directionVector = currMonCenter - lastTapPosition;
+            float rot = UnityEngine.Mathf.Atan2(directionVector.y, directionVector.x) * UnityEngine.Mathf.Rad2Deg;
+
+            ViewLoader.hero_sword.transform.eulerAngles = new Vector3(0, 0, rot);
+            ViewLoader.hero_sword.transform.position = new Vector3(SwordPosition.x, SwordPosition.y, ViewLoader.hero_sword.transform.position.z);
+
         }
     }
 }

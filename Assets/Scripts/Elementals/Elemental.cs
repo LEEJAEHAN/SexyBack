@@ -146,7 +146,6 @@ namespace SexyBackPlayScene
             Vector3 center = monsterCollision.transform.position + monsterCollision.center;
             Vector3 extend = (monsterCollision.size / 2);
 
-
             Vector3 dest = RandomRangeVector3(center, extend);
             return dest;
 

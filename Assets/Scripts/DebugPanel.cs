@@ -12,6 +12,13 @@ namespace SexyBackPlayScene
         Ray uiray;
         RaycastHit uihit;
 
+        Ray effectray;
+        RaycastHit effecthit;
+
+
+        Ray a;
+        RaycastHit ahit;
+
         Vector3 moveDirection = new Vector3(0, 1, -3) - new Vector3(0, 0, -10); // 문 - 초기카메라
         //Vector3 moveDirection = Singleton<MonsterManager>.getInstance().GetMonster().Position - new Vector3(0,0,-10); // 몹 - 초기카메라
         //  Vector3 moveDirection = new Vector3(0,3,-1) - new Vector3(0, 0, -10); // 문 - 초기카메라
@@ -34,6 +41,15 @@ namespace SexyBackPlayScene
             Gizmos.DrawRay(uiray.origin, uiray.direction * 20);
             Gizmos.DrawSphere(uihit.point, 0.05f);
 
+            Gizmos.color = Color.green;
+            Gizmos.DrawRay(effectray.origin, effectray.direction * 20);
+            Gizmos.DrawSphere(effecthit.point, 0.1f);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay(a.origin, a.direction * 20);
+            Gizmos.DrawSphere(ahit.point, 0.1f);
+
+
         }
         // Update is called once per frame
         void Update()
@@ -45,38 +61,52 @@ namespace SexyBackPlayScene
                 mouseinputpoint = Input.mousePosition;
 
                 uiray = UICamera.currentCamera.ScreenPointToRay(mouseinputpoint);
-                
-                ray = Camera.main.ScreenPointToRay(mouseinputpoint);
-                
-                if (Physics.Raycast(uiray, out uihit))
+
+                ray = ViewLoader.camera.ScreenPointToRay(mouseinputpoint);
+
+                effectray = ViewLoader.camera.ScreenPointToRay(mouseinputpoint);
+
+
+                if (Physics.Raycast(uiray, out uihit, 100, 000100000))
                 {
                     //sexybacklog.Console("Hit UIArea  : " + uihit.collider.gameObject.name + uihit.point);
                 }
 
-                if (Physics.Raycast(ray, out hit))
+                Vector2 directionVector = new Vector3();
+                if (Physics.Raycast(ray, out hit, 100, 0100000000))
                 {
-                    //sexybacklog.Console("Hit GameArea : " + hit.collider.gameObject.name + hit.point);
+                    //sexybacklog.Console("Hit BACK : " + hit.collider.gameObject.tag + " " + hit.collider.gameObject.name + hit.point);
+                    //sexybacklog.Console(Singleton<MonsterManager>.getInstance().GetMonster().CenterPosition+ " center");
                 }
+                
+
+                if (Physics.Raycast(effectray, out effecthit, 100, 1000000000))
+                {
+                    //sexybacklog.Console("Hit EFFECT: " + effecthit.collider.gameObject.tag + " " + effecthit.collider.gameObject.name + effecthit.point);
+                    //ViewLoader.hero_sword.transform.position = new Vector3(hit.point.x, hit.point.y, ViewLoader.hero_sword.transform.position.z);
+                }
+                //a = new Ray(Singleton<MonsterManager>.getInstance().GetMonster().CenterPosition, directionVector);
+                //Physics.Raycast(a, out ahit, 100, 110000000);
 
             }
         }
         private void FixedUpdate()
         {
-            FowardCamera();
+            //FowardCamera();
         }
         void FowardCamera()
         {
             float speed = 0.3f * Time.deltaTime;
 
-            Camera.main.transform.position += (moveDirection * speed);
+            ViewLoader.camera.transform.position += (moveDirection * speed);
             ViewLoader.hero.transform.position += (moveDirection * speed);
 
-            if (Camera.main.transform.position.z > -5)
+            if (ViewLoader.camera.transform.position.z > -5)
             {
                 moveDirection = -moveDirection;
             }
 
-            if(Camera.main.transform.position.z < -10)
+            if (ViewLoader.camera.transform.position.z < -10)
             {
                 moveDirection = -moveDirection;
             }
