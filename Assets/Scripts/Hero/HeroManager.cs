@@ -6,6 +6,8 @@ namespace SexyBackPlayScene
     class HeroManager
     {
         Hero Hero;
+        #region
+        #endregion
         HeroData testHeroData;
 
         // this class is event publisher
@@ -28,7 +30,7 @@ namespace SexyBackPlayScene
             noticeHeroCreate += onHeroChange;
             noticeHeroChange += onHeroChange;
             noticeEXPChange += onExpChange;
-            ViewLoader.KeyInputController.GetComponent<GameInputController>().noticeTap += this.onTap;
+            Singleton<GameInput>.getInstance().noticeTouch += onTap;
             Singleton<MonsterManager>.getInstance().noticeMonsterCreate += this.onMonsterCreate;
         }
         public void Start()
@@ -60,9 +62,9 @@ namespace SexyBackPlayScene
         UILabel label_exp = ViewLoader.label_exp.GetComponent<UILabel>();
 
         // event reciever
-        internal void onTap()
+        internal void onTap(Vector3 targetPoint)
         {
-            Hero.Attack();
+            Hero.Attack(targetPoint);
         }
         internal void onMonsterCreate(Monster monster)
         {

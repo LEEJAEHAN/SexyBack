@@ -18,14 +18,11 @@ namespace SexyBackPlayScene
         Dictionary<string, MonsterData> monsterDatas = new Dictionary<string, MonsterData>();
         Monster CurrentMonster;
 
-
-
         UILabel label_monsterhp = ViewLoader.label_monsterhp.GetComponent<UILabel>();
 
         internal void Init()
         {
             LoadData();
-
 
             noticeMonsterChange += onMonsterChange;
             Singleton<ElementalManager>.getInstance().onElementalCreate += onElementalCreate;
@@ -34,13 +31,21 @@ namespace SexyBackPlayScene
 
         public void Start()
         {
-            CreateMonster(monsterDatas["TestMonster"]);
+            CreateMonster(monsterDatas["m04"]);
         }
 
         private void LoadData()
         {
-            MonsterData dummy = new MonsterData("testmonster", "Sprites/Monster/m04", new BigInteger(1000, Digit.b));
-            monsterDatas.Add("TestMonster", dummy);
+            monsterDatas.Add("m01", new MonsterData("m01", "Sprites/Monster/m01", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m02", new MonsterData("m02", "Sprites/Monster/m02", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m03", new MonsterData("m03", "Sprites/Monster/m03", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m04", new MonsterData("m04", "Sprites/Monster/m04", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m05", new MonsterData("m05", "Sprites/Monster/m05", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m06", new MonsterData("m06", "Sprites/Monster/m06", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m07", new MonsterData("m07", "Sprites/Monster/m07", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m08", new MonsterData("m08", "Sprites/Monster/m08", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m09", new MonsterData("m09", "Sprites/Monster/m09", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m10", new MonsterData("m10", "Sprites/Monster/m10", new BigInteger(1000, Digit.b)));
         }
 
         private void CreateMonster(MonsterData data)
@@ -70,20 +75,15 @@ namespace SexyBackPlayScene
             label_monsterhp.text = hp + " / " + maxhp;
         }
 
-        private void onHit(string monsterID, Projectile projectile) // 어차피 한마리라 일단 id는 무시
+        public void onHit(string monsterID, BigInteger damage, Vector3 hitPosition) // 어차피 한마리라 일단 id는 무시
         {
-            CurrentMonster.OnHit(projectile.Damage);
-            CurrentMonster.avatar.GetComponent<Animator>().SetTrigger("Hit");
+            CurrentMonster.Hit(damage);
 
-            hitparticle.transform.position = projectile.gameObject.transform.position;
-            hitparticle.GetComponent<ParticleSystem>().Play();
-            noticeMonsterChange(CurrentMonster);
-        }
-        public void onHitByHero(string monsterID, BigInteger damage)
-        {
-            CurrentMonster.OnHit(damage);
+            CurrentMonster.avatar.GetComponent<Animator>().rootPosition = CurrentMonster.avatar.transform.position;
             CurrentMonster.avatar.GetComponent<Animator>().SetTrigger("Hit");
-            
+          
+            hitparticle.transform.position = hitPosition;
+            hitparticle.GetComponent<ParticleSystem>().Play();
             noticeMonsterChange(CurrentMonster);
         }
 

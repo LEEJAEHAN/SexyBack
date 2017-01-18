@@ -13,23 +13,29 @@ namespace SexyBackPlayScene
         public GameObject avatar;
         public BoxCollider avatarCollision { get { return avatar.GetComponent<BoxCollider>(); } }
 
+        public Vector3 Position;
+        public Vector3 Size;
+
         internal Monster (MonsterData data)
         {
             ID = data.ID;
             MAXHP = data.MaxHP;
             HP = data.MaxHP;
 
-            // 차후 프리펩에서 생성코드로바꾼다.
             avatar = GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/monster")as GameObject);
             avatar.name = ID;
-            avatar.transform.parent = ViewLoader.RenderObject.transform;
+            avatar.transform.parent = ViewLoader.monsters.transform; // genposition
             avatar.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(data.SpritePath);
-            avatar.GetComponent<BoxCollider>().size = avatar.GetComponent<SpriteRenderer>().sprite.bounds.size;
-            // Debug.Log(this.GetComponent<SpriteRenderer>().sprite.bounds);
 
+            Size = avatar.GetComponent<SpriteRenderer>().sprite.bounds.size;
+            Position = avatar.GetComponent<SpriteRenderer>().sprite.bounds.center;
+            // pivot으로 몬스터위치조정은힘들어서 collider와 sprite만조정한다.
+            avatar.GetComponent<BoxCollider>().size = Size;
+            avatar.GetComponent<BoxCollider>().center = Position;
+            // Debug.Log(this.GetComponent<SpriteRenderer>().sprite.bounds);
         }
 
-        internal void OnHit(BigInteger damage)
+        internal void Hit(BigInteger damage)
         {
             HP -= damage;
             Singleton<HeroManager>.getInstance().GainExp(damage);
