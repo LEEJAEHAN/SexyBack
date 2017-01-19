@@ -5,11 +5,6 @@ namespace SexyBackPlayScene
 {
     public class Slash : MonoBehaviour
     {
-        float r;
-        float g;
-        float b;
-        float alpha;
-
         public Vector3 NormalPosition;
         public Vector3 YX_flipPosition;
         public Vector3 Y_filpPosition;

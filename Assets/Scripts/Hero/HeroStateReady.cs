@@ -34,7 +34,7 @@ namespace SexyBackPlayScene
                 //CheckMonster
                 if (owner.targetID != null)
                 {
-                    stateMachine.ChangeState(new HeroAttackState(stateMachine, owner));
+                    stateMachine.ChangeState(new HeroStateAttack(stateMachine, owner));
                 }
             }
 

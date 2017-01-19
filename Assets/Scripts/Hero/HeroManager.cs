@@ -6,8 +6,6 @@ namespace SexyBackPlayScene
     class HeroManager
     {
         Hero CurrentHero;
-        #region
-        #endregion
         HeroData testHeroData;
 
         // this class is event publisher
@@ -19,8 +17,6 @@ namespace SexyBackPlayScene
 
         public delegate void ExpChange_Event(BigInteger exp);
         public event ExpChange_Event noticeEXPChange;
-
-        string targetID = null;
 
         public void Init()
         {
@@ -51,6 +47,7 @@ namespace SexyBackPlayScene
         {
             CurrentHero.Update();
         }
+
         internal void GainExp(BigInteger damage)
         {
             noticeEXPChange(CurrentHero.GainExp(damage));

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SexyBackPlayScene
 {
-    public class Elemental : CanLevelUp // base class of Elementals
+    public class Elemental : CanLevelUp// base class of Elementals
     {
         private ElementalData baseData;
         public Monster target;
@@ -12,7 +12,8 @@ namespace SexyBackPlayScene
         public BigInteger DpsX;
 
         // data property
-        public string Name { get { return baseData.Name; } }
+        public string ID { get { return baseData.ID; } }
+        public string NAME { get { return baseData.Name; } }
         public int LEVEL { get { return level; } }
         public BigInteger DPS { get { return level * baseData.BaseDps * DpsX; } }
         public BigInteger BASEDPS { get { return level * baseData.BaseDps; } } // BaseDps* level 값.               // 계산되는값
@@ -89,7 +90,7 @@ namespace SexyBackPlayScene
 
                 CurrentProjectile.GetComponent<Rigidbody>().velocity = new Vector3(xVelo, yVelo, zVelo);
 
-                AttackTimer -= AttackInterval; // 정상적으로 발사 완료 후 타이머리셋
+                AttackTimer = 0; // 정상적으로 발사 완료 후 타이머리셋
             }
         }
 
@@ -98,19 +99,19 @@ namespace SexyBackPlayScene
             level+= toLevel;
         }
 
+        // TODO : 여기도 언젠간 statemachine작업을 해야할듯 ㅠㅠ
         internal void Update()
         {
             AttackTimer += Time.deltaTime;
-
-
+            
             // 만들어진다.
             if (AttackTimer > AttackInterval - 1 && NoProjectile)
             {
                 CreateProjectile();
             }
-            if(AttackTimer > AttackInterval -1 && !NoProjectile) // 대기중
+            if(AttackTimer > AttackInterval -1 && !NoProjectile) 
             {
-//                CurrentProjectile.transform.localPosition = genPosition;
+                // 대기중
             }
 
             if (AttackTimer > AttackInterval)
@@ -122,7 +123,7 @@ namespace SexyBackPlayScene
                 }
                 else if (target == null)
                 {
-                    AttackTimer = AttackInterval; // 타겟이생길떄까지 대기한다.
+                    //타겟이생길떄까지 대기한다.
                 }
             }
         }
@@ -176,14 +177,5 @@ namespace SexyBackPlayScene
                 return result;
             }
         }
-
-        // override 
-        public string ID { get { return baseData.ID; } }
-        public bool LevelUp_isOK { get { return true; } } // level is infinity
-        public void LevelUp()
-        {
-            sexybacklog.Console("levelup");
-        }
-
     }
 }

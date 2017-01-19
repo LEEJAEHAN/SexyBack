@@ -10,7 +10,6 @@ namespace SexyBackPlayScene
         LevelUpItem currentItem = null;
 
         Dictionary<string, LevelUpItemData> itemDatas = new Dictionary<string, LevelUpItemData>();
-        Queue<LevelUpItem> processqueue = new Queue<LevelUpItem>();
 
         // this class is event publisher
         public delegate void LevelUpCreate_EventHandler (LevelUpItem levelupitem);
@@ -69,12 +68,9 @@ namespace SexyBackPlayScene
         {
         }
 
-        private void CreateLevelUpItem(CanLevelUp owner, LevelUpItemData data, OwnerType type)
+        private void CreateLevelUpItem(CanLevelUp owner, LevelUpItemData data)
         {
-            LevelUpItem levelupItem = new LevelUpItem(owner, data, type);
-            items.Add(levelupItem); // sender의 레벨이아닌 data의 레벨
 
-            noticeLevelUpCreate(levelupItem);
         }
 
         internal void Update()
@@ -132,12 +128,18 @@ namespace SexyBackPlayScene
         // 데이터 체인지로부터 인한 이벤트
         void onElementalCreate(Elemental sender)
         {
-            CreateLevelUpItem(sender, itemDatas[sender.ID], OwnerType.elemental);
+            ElementalLevelUpItem levelupItem = new ElementalLevelUpItem(itemDatas[sender.ID]);
+            items.Add(levelupItem); // sender의 레벨이아닌 data의 레벨
+
+            noticeLevelUpCreate(levelupItem);
             // TODO: LevelUpItem을상속해서 두개로나눠야 한다;
         }
         void onHeroCreate(Hero hero)
         {
-            CreateLevelUpItem(hero, itemDatas[hero.ID], OwnerType.hero);
+            HeroLevelUpItem levelupItem = new HeroLevelUpItem(itemDatas[hero.ID]);
+            items.Add(levelupItem); // sender의 레벨이아닌 data의 레벨
+
+            noticeLevelUpCreate(levelupItem);
         }
 
         internal void onHeroChange(Hero hero)

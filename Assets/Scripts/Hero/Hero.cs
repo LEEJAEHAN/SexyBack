@@ -11,16 +11,18 @@ namespace SexyBackPlayScene
         private BigInteger dpcX = new BigInteger(); // 곱계수는 X를붙인다.
         private int level;
 
+        int attackspeedXH = 100; // speed 와 interval은 역수관계
 
         // 최종적으로 나가는 값은 모두 대문자이다. 중간과정은 앞에만대문자;
         // data property
+        public string ID { get { return baseData.ID; } }
+        public string NAME { get { return baseData.Name; } }
         public int LEVEL { get {return level; } }
-        public string Name { get { return baseData.Name; } }
         public BigInteger DPC { get { return baseDpc * dpcX; } }
         public string BASEDPC { get { return baseDpc.ToSexyBackString(); } }
         public string NEXTDPC { get { return baseData.BaseDpcPool[level].ToSexyBackString(); } } 
-        public string NEXTEXP { get { return baseData.BaseExpPool[level].ToSexyBackString(); } } 
-        public double ATTACKINTERVAL { get { return baseData.ATTACKINTERVAL ; } }   // 공속공식
+        public BigIntExpression NEXTEXPSTR { get { return baseData.BaseExpPool[level]; } } 
+        public double ATTACKINTERVAL { get { return baseData.ATTACKINTERVAL * 100 / attackspeedXH; } }   // 공속공식
         public double CRIRATE { get { return baseData.CRIRATE ; } }
         public int CRIDAMAGE { get { return baseData.CRIDAMAGE ; } }
         public int MOVESPEED { get { return baseData.MOVESPEED; } }
@@ -31,6 +33,7 @@ namespace SexyBackPlayScene
         public Vector3 AttackMoveVector;
         public Vector3 LastTapPosition;
         public Vector3 LastEffectPosition;
+        public double ATTACKSPEED { get { return attackspeedXH / 100; } }
 
         // flag property
         private bool isCritical { get { return CRIRATE > UnityEngine.Random.Range(0.0f, 1.0f); } }
@@ -69,8 +72,6 @@ namespace SexyBackPlayScene
 
         public void Attack()
         {
-            ViewLoader.hero_sword.GetComponent<Animator>().SetTrigger("Play");
-            ViewLoader.hero_sprite.GetComponent<Animator>().SetTrigger("Attack");
 
             if (isCritical)
             {
@@ -116,28 +117,14 @@ namespace SexyBackPlayScene
             return exp;
         }
 
-        internal void AddLevel(int upTo) // 레벨이 10이면 9까지더해야한다;
+        internal void AddLevel(int amount) // 레벨이 10이면 9까지더해야한다;
         {
-            if (upTo < level)
+            if (level + amount > baseData.MaxLevel)
                 return;
 
-            if (upTo > baseData.MaxLevel)
-                return;
-
-            for (int i = level; i < level+upTo; i++)
+            for (int i = level; i < level + amount; i++)
                 baseDpc += new BigInteger(baseData.BaseDpcPool[i]);
-            level += upTo;
+            level += amount;
         }
-
-
-        // override
-        public string ID { get { return baseData.ID; } }
-        public bool LevelUp_isOK { get { return level < baseData.MaxLevel; } }
-        public void LevelUp()
-        {
-            sexybacklog.Console("levelup");
-        }
-
-
     }
 }
