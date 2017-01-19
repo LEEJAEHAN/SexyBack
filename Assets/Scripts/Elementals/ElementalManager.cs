@@ -80,12 +80,12 @@ namespace SexyBackPlayScene
                 elemenatal.Update();
         }
 
-        internal void LevelUp(string ElementalID, int upTo)
+        internal void LevelUp(string ElementalID, int amount)
         {
             Elemental target = FindElemental(ElementalID);
             if (target == null)
                 return;
-            target.SetLevel(upTo);
+            target.LevelUp(amount);
             noticeElementalChange(target);
         }
 

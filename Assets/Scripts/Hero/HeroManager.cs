@@ -61,7 +61,7 @@ namespace SexyBackPlayScene
             noticeEXPChange(CurrentHero.UseExp(price));
         }
 
-        internal void LevelUp(string id, int /)
+        internal void LevelUp(string id, int amount)
         {
             CurrentHero.AddLevel(amount);
             noticeHeroChange(CurrentHero);

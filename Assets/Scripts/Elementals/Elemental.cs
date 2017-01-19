@@ -32,7 +32,7 @@ namespace SexyBackPlayScene
 
         public Elemental(ElementalData data, Transform area)
         {
-            SetLevel(1);
+            LevelUp(1);
             ElementalArea = area;
             ProjectilePrefab = Resources.Load(data.ProjectilePrefabName) as GameObject;
             baseData = data;
@@ -93,9 +93,9 @@ namespace SexyBackPlayScene
             }
         }
 
-        internal void SetLevel(int toLevel)
+        internal void LevelUp(int toLevel)
         {
-            level = toLevel;
+            level+= toLevel;
         }
 
         internal void Update()

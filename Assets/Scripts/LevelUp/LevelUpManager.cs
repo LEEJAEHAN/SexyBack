@@ -25,8 +25,6 @@ namespace SexyBackPlayScene
         // view controller class ( 일단은 동적생성하지 않는다. )
         LevelUpViewController viewController = ViewLoader.LevelUpViewController.GetComponent<LevelUpViewController>();
 
-
-
         public void Init()
         {
             // init data
