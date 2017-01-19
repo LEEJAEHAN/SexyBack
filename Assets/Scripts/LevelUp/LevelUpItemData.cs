@@ -2,17 +2,16 @@
 {
     public class LevelUpItemData
     {
-        public string OwnerID;
-        public int PurchasedCount; // 조정될 레벨
+        public string OwnerID; // == levelup item 의 id
         public string IconName;
         public string InfoName;
 
-        public LevelUpItemData(string ownerID, string infoName, string iconName, int purchasedCount)
+        public LevelUpItemData(string ownerID, string infoName, string iconName)
         {
             OwnerID = ownerID;
             InfoName = infoName;
             IconName = iconName;
-            PurchasedCount = purchasedCount;
         }
+
     }
 }

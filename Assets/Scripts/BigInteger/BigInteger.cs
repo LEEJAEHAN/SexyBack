@@ -312,6 +312,17 @@ namespace SexyBackPlayScene
             a.m_digits.ResetDataUsed();
             this.m_digits = a.m_digits;
         }
+        public BigInteger(BigIntExpression exp)
+        {
+            string temp = exp.value.ToString();
+            int digit = (int)Enum.Parse(typeof(Digit), exp.digit);
+            for (int i = 0; i < (int)digit; i++)
+                temp += "000";
+
+            BigInteger a = new BigInteger(temp);
+            a.m_digits.ResetDataUsed();
+            this.m_digits = a.m_digits;
+        }
 
         public string ToSexyBackString()
         {

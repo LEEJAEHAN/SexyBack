@@ -39,9 +39,9 @@ namespace SexyBackPlayScene
             Info_Description = ViewLoader.Info_Description;
 
             // this class is event listner
-            Singleton<LevelUpManager>.getInstance().onLevelUpCreate += this.onLevelUpCreate;
-            Singleton<LevelUpManager>.getInstance().onLevelUpSelect += this.onLevelUpSelect;
-            Singleton<LevelUpManager>.getInstance().onLevelUpChange += this.onLevelUpChange;
+            Singleton<LevelUpManager>.getInstance().noticeLevelUpCreate += this.onLevelUpCreate;
+            Singleton<LevelUpManager>.getInstance().noticeLevelUpSelect += this.onLevelUpSelect;
+            Singleton<LevelUpManager>.getInstance().noticeLevelUpChange += this.onLevelUpChange;
         }
         // Use this for initialization
         void Start()
@@ -190,25 +190,19 @@ namespace SexyBackPlayScene
         }
         private void FillItemContents(GameObject itemView, LevelUpItem item)
         {
-            itemView.name = item.ID; // 버튼의 이름은
+            itemView.name = item.ID; // 버튼의 이름은 곧 id
 
             GameObject iconObject = itemView.transform.FindChild("Icon").gameObject;
             iconObject.GetComponent<UISprite>().atlas = Resources.Load("Atlas/IconImage", typeof(UIAtlas)) as UIAtlas;
-            iconObject.GetComponent<UISprite>().spriteName = item.IconName;
+            iconObject.GetComponent<UISprite>().spriteName = item.Icon;
 
             GameObject labelObject = itemView.transform.FindChild("Label").gameObject;
-            labelObject.GetComponent<UILabel>().text = item.Item_Text; // 최초에 그리기용
+            labelObject.GetComponent<UILabel>().text = item.Button_Text; // 최초에 그리기용
         }
         private void FillInfoView(LevelUpItem item)
         {
-            string description = item.Info_Name + " LV" + item.PurchaseCount.ToString();
-            description += "\n";
-            description += item.Info_Description;
-            description += "\n";
-            description += "Cost : " + item.Info_Price.ToSexyBackString() + " EXP";
-
-            Info_Icon.GetComponent<UISprite>().spriteName = item.IconName;
-            Info_Description.GetComponent<UILabel>().text = description;
+            Info_Icon.GetComponent<UISprite>().spriteName = item.Icon;
+            Info_Description.GetComponent<UILabel>().text = item.Info_Text;
         }
 
     }

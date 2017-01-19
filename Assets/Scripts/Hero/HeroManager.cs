@@ -53,8 +53,18 @@ namespace SexyBackPlayScene
         }
         internal void GainExp(BigInteger damage)
         {
-            CurrentHero.GainExp(damage);
-            noticeEXPChange(CurrentHero.EXP);
+            noticeEXPChange(CurrentHero.GainExp(damage));
+        }
+
+        internal void UseExp(BigInteger price)
+        {
+            noticeEXPChange(CurrentHero.UseExp(price));
+        }
+
+        internal void LevelUp(string id, int /)
+        {
+            CurrentHero.AddLevel(amount);
+            noticeHeroChange(CurrentHero);
         }
 
         UILabel label_herodmg = ViewLoader.label_herodmg.GetComponent<UILabel>();
@@ -73,12 +83,12 @@ namespace SexyBackPlayScene
             CurrentHero.targetID = monster.ID;
             //CurrentHero.SetDirection(monster.CenterPosition);
         }
-        internal void onHeroChange(Hero hero)
+        void onHeroChange(Hero hero)
         {
-            string dpsString = "DPC : " + hero.GetTotalDPC().ToSexyBackString();
+            string dpsString = "DPC : " + hero.DPC.ToSexyBackString();
             label_herodmg.text = dpsString;
         }
-        internal void onExpChange(BigInteger exp)
+        void onExpChange(BigInteger exp)
         {
             string expstring = exp.ToSexyBackString() + " EXP";
             label_exp.text = expstring;

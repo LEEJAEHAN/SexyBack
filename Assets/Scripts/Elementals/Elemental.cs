@@ -6,58 +6,38 @@ namespace SexyBackPlayScene
 {
     public class Elemental : CanLevelUp // base class of Elementals
     {
-        ElementalData ElementalData;
+        private ElementalData baseData;
         public Monster target;
+        private int level;
+        public BigInteger DpsX;
 
-        // public property
-        public override string ID { get { return ElementalData.ID; } }
-        public override string Name { get { return ElementalData.Name; } }
-
-        public BigInteger Dps { get { return LevelCount * ElementalData.BaseDps; } } // BaseDps* level 값.               // 계산되는값
-        public BigInteger Damage { get { return (Dps * ElementalData.AttackIntervalK) / 1000; } } //  dps / attackinterval    // 계산되는값
-        public double AttackInterval { get { return (double)ElementalData.AttackIntervalK / (double)1000; } }
-
-        public override string Item_Text { get { return Dps.ToSexyBackString(); } } // 아이템버튼 우하단 텍스트
-        public override string Info_Description { get { return "Damage : " + Dps.ToSexyBackString() + "/sec\n" + "Next : +" + ElementalData.BaseDps.ToSexyBackString() + "/sec"; } }
-
-        public override BigInteger PriceToNextLv
-        { get
-            {
-                double growth = Mathf.Pow(ElementalData.GrowthRate, LevelCount);
-                int intgrowth = 0;
-                BigInteger result;
-
-                if ((int)growth < int.MaxValue / 10000)
-                {
-                    intgrowth = (int)(growth * 10000);
-                    result = ElementalData.BaseExp * intgrowth / 10000;
-                }
-                else
-                {
-                    intgrowth = (int)growth;
-                    result = ElementalData.BaseExp * intgrowth;
-                }
-                return result;
-            }
-        }
+        // data property
+        public string Name { get { return baseData.Name; } }
+        public int LEVEL { get { return level; } }
+        public BigInteger DPS { get { return level * baseData.BaseDps * DpsX; } }
+        public BigInteger BASEDPS { get { return level * baseData.BaseDps; } } // BaseDps* level 값.               // 계산되는값
+        public BigInteger NEXTDPS { get { return baseData.BaseDps; } }
+        public BigInteger DAMAGE { get { return (DPS * baseData.AttackIntervalK) / 1000; } } //  dps / attackinterval    // 계산되는값
+        public double AttackInterval { get { return (double)baseData.AttackIntervalK / (double)1000; } }
 
         // for projectile action;
         private Transform ElementalArea; // avatar
-
         private GameObject CurrentProjectile;
         private GameObject ProjectilePrefab;
         private double AttackTimer;
 
         // status property
-        private bool isReadyAction { get { return CurrentProjectile.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(ElementalData.ProjectileReadyStateName); } }
+        private bool isReadyAction { get { return CurrentProjectile.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(baseData.ProjectileReadyStateName); } }
         private bool NoProjectile { get { return CurrentProjectile == null; } }
 
         public Elemental(ElementalData data, Transform area)
         {
-            LevelCount = 0;
+            SetLevel(1);
             ElementalArea = area;
             ProjectilePrefab = Resources.Load(data.ProjectilePrefabName) as GameObject;
-            ElementalData = data;
+            baseData = data;
+
+            DpsX = new BigInteger(1);
         }
 
         internal void CreateProjectile()
@@ -84,7 +64,8 @@ namespace SexyBackPlayScene
             {
                 CurrentProjectile.transform.parent = ViewLoader.projectiles.transform ; // 슈터에서 빠진다.
                 //SetDamage
-                CurrentProjectile.GetComponent<Projectile>().Damage = Damage;
+                CurrentProjectile.GetComponent<Projectile>().Damage = DAMAGE;
+                //TODO: 여기바꺼야함
                 // Shootfunc
                 CurrentProjectile.GetComponent<Animator>().SetBool("Shoot", true);
                 CurrentProjectile.GetComponent<Rigidbody>().useGravity = true;
@@ -110,6 +91,11 @@ namespace SexyBackPlayScene
 
                 AttackTimer -= AttackInterval; // 정상적으로 발사 완료 후 타이머리셋
             }
+        }
+
+        internal void SetLevel(int toLevel)
+        {
+            level = toLevel;
         }
 
         internal void Update()
@@ -167,6 +153,36 @@ namespace SexyBackPlayScene
         public virtual void Cast()
         {
 
+        }
+
+        public BigInteger NEXTEXP
+        {
+            get
+            {
+                double growth = Mathf.Pow(baseData.GrowthRate, level);
+                int intgrowth = 0;
+                BigInteger result;
+
+                if ((int)growth < int.MaxValue / 10000)
+                {
+                    intgrowth = (int)(growth * 10000);
+                    result = baseData.BaseExp * intgrowth / 10000;
+                }
+                else
+                {
+                    intgrowth = (int)growth;
+                    result = baseData.BaseExp * intgrowth;
+                }
+                return result;
+            }
+        }
+
+        // override 
+        public string ID { get { return baseData.ID; } }
+        public bool LevelUp_isOK { get { return true; } } // level is infinity
+        public void LevelUp()
+        {
+            sexybacklog.Console("levelup");
         }
 
     }

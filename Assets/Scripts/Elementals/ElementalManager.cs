@@ -14,10 +14,10 @@ namespace SexyBackPlayScene
 
         //this class is event publisher 
         public delegate void ElementalChangeEvent_Handler(Elemental sender);
-        public event ElementalChangeEvent_Handler onElementalChange;// = delegate (object sender) { };
+        public event ElementalChangeEvent_Handler noticeElementalChange;// = delegate (object sender) { };
 
         public delegate void ElementalCreateEvent_Handler(Elemental sender);
-        public event ElementalCreateEvent_Handler onElementalCreate;// = delegate (object sender) { };
+        public event ElementalCreateEvent_Handler noticeElementalCreate;// = delegate (object sender) { };
 
         internal void Init()
         {
@@ -26,7 +26,7 @@ namespace SexyBackPlayScene
 
             // this class is event listner
             Singleton<MonsterManager>.getInstance().noticeMonsterCreate += this.onMonsterCreate;
-            onElementalChange += this.UpdateDpsView; // 내꺼내가받음;
+            noticeElementalChange += this.UpdateDpsView; // 내꺼내가받음;
         }
         private void LoadData()
         {
@@ -67,11 +67,11 @@ namespace SexyBackPlayScene
         internal void CreateElemental(ElementalData data)
         {
             Elemental temp = new Elemental(data, ElementalArea);
-
             elementals.Add(temp);
 
+            
             UpdateDpsView(temp);
-            onElementalCreate(temp); // send event
+            noticeElementalCreate(temp); // send event
         }
 
         internal void Update()
@@ -80,13 +80,13 @@ namespace SexyBackPlayScene
                 elemenatal.Update();
         }
 
-        internal void SetLevel(string ElementalID, int totalCount)
+        internal void LevelUp(string ElementalID, int upTo)
         {
             Elemental target = FindElemental(ElementalID);
             if (target == null)
                 return;
-            target.LevelCount = totalCount;
-            onElementalChange(target);
+            target.SetLevel(upTo);
+            noticeElementalChange(target);
         }
 
         Elemental FindElemental(string elementalid)
@@ -104,7 +104,7 @@ namespace SexyBackPlayScene
             BigInteger result = new BigInteger();
             foreach (Elemental elemental in elementals)
             {
-                result += elemental.Dps;
+                result += elemental.DPS;
             }
             return result;
         }
@@ -112,6 +112,9 @@ namespace SexyBackPlayScene
         // recieve event
         void onMonsterCreate(Monster sender)
         {
+            if (elementals == null)
+                return;
+
             foreach(Elemental elemental in elementals)
             {
                 elemental.target = sender;

@@ -61,7 +61,7 @@ namespace SexyBackPlayScene
                 // 전진스피드 = 1 / (총시간 * 전진Ratio)
                 // 한업데이트당 총이동량 * time.deltatime 만큼 이동하면됨;
 
-                owner.Move(owner.MoveDirection * (float)ForwardSpeed * Time.deltaTime);
+                owner.Move(owner.AttackMoveVector * (float)ForwardSpeed * Time.deltaTime);
             }
             else if (AttackTimer >= ForwardMoveTime  && AttackTimer < (ForwardMoveTime + BackwardMoveTime)) // go back
             {
@@ -70,7 +70,7 @@ namespace SexyBackPlayScene
                     AttackCount--;
                     owner.Attack();  // TODO: 공격애니메이션 시간동안 잠깐 대기가 필요할수도
                 }
-                owner.Move(owner.MoveDirection * (float)BackwardSpeed * -Time.deltaTime);
+                owner.Move(owner.AttackMoveVector * (float)BackwardSpeed * -Time.deltaTime);
             }
             else if( AttackTimer >= ForwardMoveTime + BackwardMoveTime && AttackTimer < AttackInterval)
             {

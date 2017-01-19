@@ -25,7 +25,7 @@ namespace SexyBackPlayScene
             LoadData();
 
             noticeMonsterChange += onMonsterChange;
-            Singleton<ElementalManager>.getInstance().onElementalCreate += onElementalCreate;
+            Singleton<ElementalManager>.getInstance().noticeElementalCreate += onElementalCreate;
             Singleton<HeroManager>.getInstance().noticeHeroCreate += onHeroCreate;
         }
 
@@ -93,10 +93,14 @@ namespace SexyBackPlayScene
 
         private void onElementalCreate(Elemental sender)
         {
+            if (CurrentMonster == null)
+                return;
             sender.target = CurrentMonster;
         }
         private void onHeroCreate(Hero hero)
         {
+            if (CurrentMonster == null)
+                return;
             hero.targetID = CurrentMonster.ID;
             //hero.SetDirection(CurrentMonster.CenterPosition);
         }

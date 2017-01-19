@@ -3,32 +3,38 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    public class LevelUpItem // 레벨업을 하기 위해 구매해야하는 객체
+    public class LevelUpItem // 레벨업을 하기 위해 구매해야하는 객체, canlevelup 이만들어지면 기생으로 붙는다. 저장된 게임 능력치와는 관계없다
     {
-        public string ID; // 해당객체view의 name과같다 // id로 이름을바꿔야할듯
-        public string OwnerID; // 해당객체view의 name과같다 // id로 이름을바꿔야할듯
-        public CanLevelUp target;
+        private LevelUpItemData data;
+        private OwnerType Type; // TODO: 사라져야함
 
-        public int PurchaseCount; // 구매횟수 == level;
+        private BigInteger price; // original price
+        private int priceXK;
 
-        public string IconName;
+        private BigInteger Price { get { return price * priceXK / 1000; } }
+        private int PurchaseCount; // 구매횟수 == level;
 
-        public string Item_Text { get { return target.Item_Text; } } // 아이템버튼 우하단 텍스트
+        public string ID { get { return data.OwnerID; } } // 해당객체view의 name과같다 // id로 이름을바꿔야할듯
+        public string Icon { get { return data.IconName; } }
+        public string Info_Name { get { return data.InfoName; } } // owner.name과는다르다.
+        public string Button_Text; // 아이템버튼 우하단 텍스트
+        public string Info_Text; // 아이템버튼 인포창 텍스트
 
-        public string Info_Name; // owner.name과는다르다.
-        public string Info_Description { get { return target.Info_Description; } }
-        public BigInteger Info_Price { get { return target.PriceToNextLv; } }
-
-        public LevelUpItem(CanLevelUp owner, LevelUpItemData data)
+        public LevelUpItem(CanLevelUp owner, LevelUpItemData data, OwnerType type)
         {
-            target = owner;
-            target.levelupItem = this;
+            PurchaseCount = 0;
+            this.data = data;
+            Type = type;
+            priceXK = 1000;
 
-            ID = owner.ID;    // owner는 어차피 levelup 아이템을 하나만가지니까 통일해보자;
-            OwnerID = owner.ID;
-            Info_Name = data.InfoName;
-            IconName = data.IconName;
-            PurchaseCount = data.PurchasedCount;
+            if (type == OwnerType.hero)
+            {
+                UpdateLevelUpItem((Hero)owner);
+            }
+            else
+            {
+                UpdateLevelUpItem((Elemental)owner);
+            }
         }
 
         internal void Purchase()
@@ -36,6 +42,60 @@ namespace SexyBackPlayScene
             PurchaseCount++;
         }
 
+        internal void Update()
+        {
+            if (PurchaseCount > 0)
+            {
+                if (Type == OwnerType.elemental)
+                {
+                    Singleton<ElementalManager>.getInstance().LevelUp(ID, PurchaseCount);
+                    Singleton<HeroManager>.getInstance().UseExp(Price);
+                }
+                if (Type == OwnerType.hero)
+                {
+                    Singleton<HeroManager>.getInstance().LevelUp(ID, PurchaseCount);
+                    Singleton<HeroManager>.getInstance().UseExp(Price);
+                }
+                PurchaseCount = 0;
+            }
+        }
+
+        internal void UpdateLevelUpItem(Elemental elemental)
+        {
+            // 오리지널 price가 조정되고, 출력은 계산된 Price가된다
+            price = elemental.NEXTEXP;
+
+            // 버튼창에는 곱적용된 데미지 보여준다.
+            Button_Text = elemental.DPS.ToSexyBackString();
+
+            // 인포창에는 base 데미지만 보여준다.
+            string description = Info_Name + " LV" + elemental.LEVEL + "\n";
+            description += "Damage : " + elemental.BASEDPS.ToSexyBackString() + "/tap\n";
+            description += "Next : +" + elemental.NEXTDPS.ToSexyBackString() + "/tap\n";
+            description += "Cost : " + Price.ToSexyBackString() + " EXP";
+
+            Info_Text = description;
+        }
+
+        internal void UpdateLevelUpItem(Hero hero)
+        {
+            price = new BigInteger(hero.NEXTEXP);
+            Button_Text = hero.DPC.ToSexyBackString();
+
+            string description = Info_Name + " LV" + hero.LEVEL+ "\n";
+            description += "Damage : " + hero.BASEDPC + "/tap\n";
+            description += "Next : +" + hero.NEXTDPC + "/tap\n";
+            description += "Cost : " + Price.ToSexyBackString() + " EXP";
+
+            Info_Text = description;
+        }
 
     }
+
+    public enum OwnerType
+    {
+        hero = 0,
+        elemental = 1
+    }
+
 }
