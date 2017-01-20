@@ -55,6 +55,7 @@ namespace SexyBackPlayScene
             CurrentMonster.avatar.GetComponent<MonsterView>().noticeHit += onHit;
 
             noticeMonsterCreate(CurrentMonster);
+            noticeMonsterChange(CurrentMonster);
         }
 
         internal void Update()

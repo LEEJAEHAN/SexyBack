@@ -10,17 +10,16 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
-            if (PurchaseCount > 0)
+            for (int i = 0; i < PurchaseCount; PurchaseCount--)
             {
-                Singleton<HeroManager>.getInstance().LevelUp(ID, PurchaseCount);
-                Singleton<HeroManager>.getInstance().UseExp(Price);
-                PurchaseCount = 0;
+                Singleton<GameMoney>.getInstance().ExpUse(Price);
+                Singleton<HeroManager>.getInstance().LevelUp(ID);
             }
         }
 
-        internal override void UpdateLevelUpItem(CanLevelUp hero)
+        internal void UpdateLevelUpItem(Hero hero)
         {
-            price = new BigInteger(hero.NEXTEXPSTR);
+            originalprice = new BigInteger(hero.NEXTEXPSTR);
 
             Button_Text = hero.DPC.ToSexyBackString();
 
@@ -30,7 +29,6 @@ namespace SexyBackPlayScene
             description += "Cost : " + Price.ToSexyBackString() + " EXP";
 
             Info_Text = description;
-
         }
     }
 }

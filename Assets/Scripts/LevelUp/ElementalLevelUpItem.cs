@@ -6,21 +6,21 @@ namespace SexyBackPlayScene
     {
         public ElementalLevelUpItem(LevelUpItemData data) : base(data)
         {
+
         }
 
         internal override void Update()
         {
-            if (PurchaseCount > 0)
+            for (int i = 0; i < PurchaseCount; PurchaseCount--)
             {
-                Singleton<ElementalManager>.getInstance().LevelUp(ID, PurchaseCount);
-                Singleton<HeroManager>.getInstance().UseExp(Price);
-                PurchaseCount = 0;
+                Singleton<GameMoney>.getInstance().ExpUse(Price);
+                Singleton<ElementalManager>.getInstance().LevelUp(ID);
             }
         }
 
-        internal override void UpdateLevelUpItem(CanLevelUp owner)
+        internal  void UpdateLevelUpItem(Elemental owner)
         {
-            price = owner.NEXTEXP;
+            originalprice = owner.NEXTEXP;
 
             // 버튼창에는 곱적용된 데미지 보여준다.
             Button_Text = owner.DPS.ToSexyBackString();

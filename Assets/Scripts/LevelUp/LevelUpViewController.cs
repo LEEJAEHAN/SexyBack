@@ -11,10 +11,10 @@ namespace SexyBackPlayScene
 
         // this class is event Publisher
         public delegate void ConfirmButton_Event_Handler();
-        public event ConfirmButton_Event_Handler Confirm;
+        public event ConfirmButton_Event_Handler noticeConfirm;
 
         public delegate void SelectEvent_Handler(string id);
-        public event SelectEvent_Handler Select;
+        public event SelectEvent_Handler noticeSelect;
         
         // for view
         List<GameObject> ItemViewList = new List<GameObject>();
@@ -52,9 +52,6 @@ namespace SexyBackPlayScene
         // Update is called once per frame
         void Update()
         {
-            if (SelectedItemView == null)
-                ClearInfo();
-            // TODO: 이거 아무래도 맘에걸림
         }
 
         /// <summary>
@@ -80,19 +77,19 @@ namespace SexyBackPlayScene
             if (sender.GetComponent<UIToggle>().value == false) //// toggle off
             {
                 SelectedItemView = null;
-                Select(null);
+                noticeSelect(null);
             }
 
             else if (sender.GetComponent<UIToggle>().value == true) // toggle on
             {
                 SelectedItemView = sender;
-                Select(SelectedItemView.name);
+                noticeSelect(SelectedItemView.name);
             }
         }
 
         public void onConfirm()
         {
-            Confirm();
+            noticeConfirm();
         }
 
         /// <summary>
@@ -168,6 +165,12 @@ namespace SexyBackPlayScene
         }
         void onLevelUpSelect(LevelUpItem selecteditem) // fill info view
         {
+            if (selecteditem == null)
+            {
+                ClearInfo();
+                return;
+            }
+
             if (SelectedItemView != null)
                 Info_Window.SetActive(true);
 

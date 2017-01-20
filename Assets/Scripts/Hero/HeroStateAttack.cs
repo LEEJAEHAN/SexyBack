@@ -65,7 +65,7 @@ namespace SexyBackPlayScene
             {
                 BeginDash = true;
                 ViewLoader.hero_sprite.GetComponent<Animator>().speed = (float)(AttackSpeed * BackRate / DashRate);
-                ViewLoader.hero_sprite.GetComponent<Animator>().SetTrigger("Move");
+                ViewLoader.hero_sprite.GetComponent<Animator>().SetBool("Move", true);
             }
             else if (!BeginSwing && timer > DashTime)
             {
@@ -79,12 +79,12 @@ namespace SexyBackPlayScene
             {
                 BeginBack = true;
                 ViewLoader.hero_sprite.GetComponent<Animator>().speed = (float)AttackSpeed;
-                ViewLoader.hero_sprite.GetComponent<Animator>().SetTrigger("Move");
+                ViewLoader.hero_sprite.GetComponent<Animator>().SetBool("Move", true);
             }
             else if (!BeginWait && timer > DashTime + SwingTime + BackTime)
             {
                 BeginWait = true;
-                ViewLoader.hero_sprite.GetComponent<Animator>().SetTrigger("Stop");
+                ViewLoader.hero_sprite.GetComponent<Animator>().SetBool("Move", false);
                 owner.Stop();
             }
             else if (timer > AttackInterval)

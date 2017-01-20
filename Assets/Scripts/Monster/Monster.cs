@@ -41,7 +41,7 @@ namespace SexyBackPlayScene
         internal void Hit(BigInteger damage)
         {
             HP -= damage;
-            Singleton<HeroManager>.getInstance().GainExp(damage);
+            Singleton<GameMoney>.getInstance().ExpGain(damage);
         }
 
         public void Update()

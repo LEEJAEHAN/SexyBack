@@ -15,17 +15,13 @@ namespace SexyBackPlayScene
         public delegate void HeroChange_Event(Hero hero);
         public event HeroChange_Event noticeHeroChange;
 
-        public delegate void ExpChange_Event(BigInteger exp);
-        public event ExpChange_Event noticeEXPChange;
-
         public void Init()
         {
             LoadData();
 
             // this class is event listner
-            noticeHeroCreate += onHeroChange;
             noticeHeroChange += onHeroChange;
-            noticeEXPChange += onExpChange;
+            Singleton<GameMoney>.getInstance().noticeEXPChange += onExpChange;
             Singleton<GameInput>.getInstance().noticeTouchPosition += onTouch;
             Singleton<MonsterManager>.getInstance().noticeMonsterCreate += this.onMonsterCreate;
         }
@@ -41,6 +37,7 @@ namespace SexyBackPlayScene
         {
             CurrentHero = new Hero(testHeroData);
             noticeHeroCreate(CurrentHero);
+            noticeHeroChange(CurrentHero);
         }
 
         internal void Update()
@@ -48,19 +45,10 @@ namespace SexyBackPlayScene
             CurrentHero.Update();
         }
 
-        internal void GainExp(BigInteger damage)
-        {
-            noticeEXPChange(CurrentHero.GainExp(damage));
-        }
 
-        internal void UseExp(BigInteger price)
+        internal void LevelUp(string id)
         {
-            noticeEXPChange(CurrentHero.UseExp(price));
-        }
-
-        internal void LevelUp(string id, int amount)
-        {
-            CurrentHero.AddLevel(amount);
+            CurrentHero.AddLevel(1);
             noticeHeroChange(CurrentHero);
         }
 

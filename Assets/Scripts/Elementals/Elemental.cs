@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SexyBackPlayScene
 {
-    public class Elemental : CanLevelUp// base class of Elementals
+    public class Elemental // base class of Elementals
     {
         private ElementalData baseData;
         public Monster target;

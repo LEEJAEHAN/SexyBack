@@ -26,7 +26,7 @@ namespace SexyBackPlayScene
 
             // this class is event listner
             Singleton<MonsterManager>.getInstance().noticeMonsterCreate += this.onMonsterCreate;
-            noticeElementalChange += this.UpdateDpsView; // 내꺼내가받음;
+            noticeElementalChange += this.onElementalChange; // 내꺼내가받음;
         }
         private void LoadData()
         {
@@ -69,9 +69,9 @@ namespace SexyBackPlayScene
             Elemental temp = new Elemental(data, ElementalArea);
             elementals.Add(temp);
 
-            
-            UpdateDpsView(temp);
+
             noticeElementalCreate(temp); // send event
+            noticeElementalChange(temp);
         }
 
         internal void Update()
@@ -80,12 +80,12 @@ namespace SexyBackPlayScene
                 elemenatal.Update();
         }
 
-        internal void LevelUp(string ElementalID, int amount)
+        internal void LevelUp(string ElementalID)
         {
             Elemental target = FindElemental(ElementalID);
             if (target == null)
                 return;
-            target.LevelUp(amount);
+            target.LevelUp(1);
             noticeElementalChange(target);
         }
 
@@ -120,7 +120,7 @@ namespace SexyBackPlayScene
                 elemental.target = sender;
             }
         }
-        public void UpdateDpsView(Elemental sender)
+        public void onElementalChange(Elemental sender)
         {
             string dpsString = "DPS : " + GetTotalDPS().ToSexyBackString();
             TotalDpsLabel.GetComponent<UILabel>().text = dpsString;

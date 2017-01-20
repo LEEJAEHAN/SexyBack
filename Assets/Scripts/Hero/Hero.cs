@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace SexyBackPlayScene
 {
-    internal class Hero : CanLevelUp
+    internal class Hero
     {
         private HeroData baseData;
-        private BigInteger exp = new BigInteger();
         private BigInteger baseDpc = new BigInteger();
         private BigInteger dpcX = new BigInteger(); // 곱계수는 X를붙인다.
         private int level;
@@ -42,7 +41,6 @@ namespace SexyBackPlayScene
         public Hero(HeroData data)
         {
             baseData = data;
-            exp = 0;
             AddLevel(1);
             dpcX = new BigInteger(1);
 
@@ -105,17 +103,6 @@ namespace SexyBackPlayScene
             ViewLoader.hero_sword.transform.position = new Vector3(LastEffectPosition.x, LastEffectPosition.y, ViewLoader.hero_sword.transform.position.z);
         }
 
-        // get set private
-        public BigInteger GainExp(BigInteger damage)
-        {
-            exp += damage;
-            return exp;
-        }
-        internal BigInteger UseExp(BigInteger price)
-        {
-            exp -= price;
-            return exp;
-        }
 
         internal void AddLevel(int amount) // 레벨이 10이면 9까지더해야한다;
         {

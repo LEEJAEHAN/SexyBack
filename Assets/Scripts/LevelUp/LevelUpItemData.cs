@@ -12,6 +12,5 @@
             InfoName = infoName;
             IconName = iconName;
         }
-
     }
 }
