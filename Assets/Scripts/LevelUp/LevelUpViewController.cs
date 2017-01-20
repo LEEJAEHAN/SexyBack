@@ -15,28 +15,18 @@ namespace SexyBackPlayScene
 
         public delegate void SelectEvent_Handler(string id);
         public event SelectEvent_Handler noticeSelect;
-        
+
         // for view
         List<GameObject> ItemViewList = new List<GameObject>();
         GameObject LevelUpItemViewPrefab;
         GameObject SelectedItemView = null;
 
         // view 프리팹
-        GameObject Enable_Window;
-        GameObject Disable_Window;
-        GameObject Info_Window;
-        GameObject Info_Icon;
-        GameObject Info_Description;
+
 
         private void Awake()
         {
             LevelUpItemViewPrefab = Resources.Load<GameObject>("Prefabs/UI/LevelUpItemView") as GameObject;
-
-            Enable_Window = ViewLoader.Item_Enable;
-            Disable_Window = ViewLoader.Item_Disable;
-            Info_Window = ViewLoader.Info_Context;
-            Info_Icon = ViewLoader.Info_Icon;
-            Info_Description = ViewLoader.Info_Description;
 
             // this class is event listner
             Singleton<LevelUpManager>.getInstance().noticeLevelUpCreate += this.onLevelUpCreate;
@@ -100,12 +90,11 @@ namespace SexyBackPlayScene
             foreach (GameObject itemView in ItemViewList)
             {
                 itemView.SetActive(true);
-                itemView.transform.parent = Enable_Window.transform;
-                itemView.transform.localScale = Enable_Window.transform.localScale;
+                itemView.transform.parent = ViewLoader.Item_Enable.transform;
+                itemView.transform.localScale = ViewLoader.Item_Enable.transform.localScale;
             }
-            Enable_Window.GetComponent<UIGrid>().Reposition();
+            ViewLoader.Item_Enable.GetComponent<UIGrid>().Reposition();
         }
-
         internal void HideItemViewList()
         {
             // 탭넘어가기전에 현재 선택한 item 해제한다.
@@ -114,30 +103,25 @@ namespace SexyBackPlayScene
 
             foreach (GameObject itemView in ItemViewList)
             {
-                itemView.transform.parent = Disable_Window.transform;
+                itemView.transform.parent = ViewLoader.Item_Disable.transform;
                 itemView.SetActive(false);
-                //itemView.transform.localScale = grid.transform.localScale;
             }
 
             // 상태값 초기화
             SelectedItemView = null;
             ClearInfo();
-            //grid_disable.GetComponent<UIGrid>().Reposition();
         }
-
         void ClearInfo()
         {
-            if (Info_Window.activeInHierarchy)
-            {
-                Info_Window.SetActive(false);
-            }
+            if (ViewLoader.Info_Context.activeInHierarchy)
+                ViewLoader.Info_Context.SetActive(false);
         }
 
-        private GameObject FindItemView(string id)
+        private GameObject FindItemView(string viewName)
         {
             foreach (GameObject itemview in ItemViewList)
             {
-                if (itemview.transform.name == id)
+                if (itemview.transform.name == viewName)
                     return itemview;
             }
             return null;
@@ -148,7 +132,9 @@ namespace SexyBackPlayScene
         /// </summary>
         void onLevelUpCreate(LevelUpItem item) // create item view
         {
+            // Instantiate object
             GameObject itemView = GameObject.Instantiate<GameObject>(LevelUpItemViewPrefab) as GameObject;
+            itemView.name = item.ViewName;
             itemView.SetActive(false);
 
             // delegate 붙이기
@@ -158,10 +144,22 @@ namespace SexyBackPlayScene
             eventdel.parameters[0] = p0;
             itemView.GetComponent<UIToggle>().onChange.Add(eventdel);
 
-            // item 내용 채우기
+            ItemViewList.Add(itemView);
+        }
+        internal void onLevelUpChange(LevelUpItem item) // change item text, refill info view
+        {
+            // updateitemview
+            GameObject itemView = FindItemView(item.ViewName);
+            if (itemView == null)
+                return;
+
+            // Update itemView
             FillItemContents(itemView, item);
 
-            ItemViewList.Add(itemView);
+            // UpdateInfoView if selected
+            if (itemView == SelectedItemView)
+                FillInfoView(item);
+
         }
         void onLevelUpSelect(LevelUpItem selecteditem) // fill info view
         {
@@ -172,40 +170,45 @@ namespace SexyBackPlayScene
             }
 
             if (SelectedItemView != null)
-                Info_Window.SetActive(true);
+                ViewLoader.Info_Context.SetActive(true);
 
             FillInfoView(selecteditem);
         }
-        // 데이터 체인지로부터 인한 이벤트
-        internal void onLevelUpChange(LevelUpItem item) // change item text, refill info view
+        private void CheckOnOff(GameObject item, bool On)
         {
-            // updateitemview
-            GameObject itemView = FindItemView(item.ID);
-            if (itemView == null)
-                return;
 
-            // Update itemView
-            FillItemContents(itemView, item);
-
-            // UpdateInfoView if selected
-            if (itemView == SelectedItemView)
-                FillInfoView(item);
+            //Enable_Window.GetComponent<UIGrid>().Reposition();
         }
         private void FillItemContents(GameObject itemView, LevelUpItem item)
         {
-            itemView.name = item.ID; // 버튼의 이름은 곧 id
-
             GameObject iconObject = itemView.transform.FindChild("Icon").gameObject;
             iconObject.GetComponent<UISprite>().atlas = Resources.Load("Atlas/IconImage", typeof(UIAtlas)) as UIAtlas;
             iconObject.GetComponent<UISprite>().spriteName = item.Icon;
 
             GameObject labelObject = itemView.transform.FindChild("Label").gameObject;
             labelObject.GetComponent<UILabel>().text = item.Button_Text; // 최초에 그리기용
+
+            if (item.CanBuy)
+                itemView.GetComponent<UISprite>().color = new Color(1, 1, 1, 1);
+            else
+                itemView.GetComponent<UISprite>().color = new Color(0.7f, 0.7f, 0.7f, 0.7f);
         }
         private void FillInfoView(LevelUpItem item)
         {
-            Info_Icon.GetComponent<UISprite>().spriteName = item.Icon;
-            Info_Description.GetComponent<UILabel>().text = item.Info_Text;
+            UIButton Confirm = ViewLoader.Button_Confirm.GetComponent<UIButton>();
+
+            ViewLoader.Info_Icon.GetComponent<UISprite>().spriteName = item.Icon;
+            ViewLoader.Info_Description.GetComponent<UILabel>().text = item.Info_Text;
+            if (item.CanBuy)
+            {
+                Confirm.enabled = true;
+                Confirm.SetState(UIButtonColor.State.Normal, true);
+            }
+            else
+            {
+                Confirm.enabled = false;
+                Confirm.SetState(UIButtonColor.State.Disabled, true);
+            }
         }
 
     }

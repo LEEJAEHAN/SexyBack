@@ -7,13 +7,8 @@ namespace SexyBackPlayScene
     internal class LevelUpManager
     {
         LevelUpItem currentItem = null;
-
         Dictionary<string, LevelUpItemData> levelUpDatas = new Dictionary<string, LevelUpItemData>();
-        //        List<LevelUpItem> items = new List<LevelUpItem>();
-        Dictionary<string, HeroLevelUpItem> heroLevelUps = new Dictionary<string, HeroLevelUpItem>();
-        Dictionary<string, ElementalLevelUpItem> elementalLevelUps = new Dictionary<string, ElementalLevelUpItem>();
-
-        List<LevelUpItem> PurchasedItem = new List<LevelUpItem>();
+        Dictionary<string, LevelUpItem> levelUpItems = new Dictionary<string, LevelUpItem>();
 
         // this class is event publisher
         public delegate void LevelUpCreate_EventHandler(LevelUpItem levelupitem);
@@ -25,10 +20,11 @@ namespace SexyBackPlayScene
         public delegate void LevelUpChange_EventHandler(LevelUpItem levelupitem);
         public event LevelUpChange_EventHandler noticeLevelUpChange;
 
+
         // view controller class ( 일단은 동적생성하지 않는다. )
         LevelUpViewController viewController = ViewLoader.LevelUpViewController.GetComponent<LevelUpViewController>();
 
-        public void Init()
+        internal void Init()
         {
             // init data
             LoadData();
@@ -75,10 +71,7 @@ namespace SexyBackPlayScene
 
         internal void Update()
         {
-            foreach (HeroLevelUpItem item in heroLevelUps.Values)
-                item.Update();
-
-            foreach (ElementalLevelUpItem item in elementalLevelUps.Values)
+            foreach (LevelUpItem item in levelUpItems.Values)
                 item.Update();
         }
         // recieve event
@@ -86,46 +79,37 @@ namespace SexyBackPlayScene
         void onHeroCreate(Hero sender)
         {
             HeroLevelUpItem levelupItem = new HeroLevelUpItem(levelUpDatas[sender.ID]);
-            heroLevelUps.Add(sender.ID, levelupItem); // sender의 레벨이아닌 data의 레벨
+            levelUpItems.Add(sender.ID, levelupItem); // sender의 레벨이아닌 data의 레벨
 
             noticeLevelUpCreate(levelupItem);
+            noticeLevelUpChange(levelupItem);
+
         }
         void onElementalCreate(Elemental sender)
         {
             ElementalLevelUpItem levelupItem = new ElementalLevelUpItem(levelUpDatas[sender.ID]);
-            elementalLevelUps.Add(sender.ID, levelupItem); // sender의 레벨이아닌 data의 레벨
+            levelUpItems.Add(sender.ID, levelupItem); // sender의 레벨이아닌 data의 레벨
 
             noticeLevelUpCreate(levelupItem);
+            noticeLevelUpChange(levelupItem);
         }
-        internal void onHeroChange(Hero sender)
+        void onHeroChange(Hero sender)
         {
-            HeroLevelUpItem result = (HeroLevelUpItem)heroLevelUps[sender.ID];
+            HeroLevelUpItem result = (HeroLevelUpItem)levelUpItems[sender.ID];
             result.UpdateLevelUpItem(sender);
             noticeLevelUpChange(result);
         }
-        internal void onElementalChange(Elemental sender)
+        void onElementalChange(Elemental sender)
         {
-            ElementalLevelUpItem result = (ElementalLevelUpItem)elementalLevelUps[sender.ID];
+            ElementalLevelUpItem result = (ElementalLevelUpItem)levelUpItems[sender.ID];
             result.UpdateLevelUpItem(sender);
             noticeLevelUpChange(result);
         }
-        internal void onExpChange(BigInteger exp)
+        void onExpChange(BigInteger exp)
         {
-            foreach (HeroLevelUpItem item in heroLevelUps.Values)
+            foreach (LevelUpItem item in levelUpItems.Values)
             {
-                if(item.Toggle(exp))
-                {
-
-                }
-
-            }
-
-            foreach (ElementalLevelUpItem item in elementalLevelUps.Values)
-            {
-                if(item.Toggle(exp));
-                {
-
-                }
+                noticeLevelUpChange(item);
             }
         }
         ///  view로부터의 이벤트 . 해당 메서드 런타임에서 절대 data를 변경해선 안된다. ( 데이터는 update에서 변경되어야 한다.)
@@ -135,18 +119,17 @@ namespace SexyBackPlayScene
                 return;
             currentItem.Purchase();
         }
-        public void onSelect(string selecteItemViewID)
+        void onSelect(string itemViewName) // selected item' id from view
         {
-            if (selecteItemViewID == null)
+            if (itemViewName == null)
             {
                 currentItem = null;
             }
-            else if (selecteItemViewID != null)
+            else if (itemViewName != null)
             {
-                if (heroLevelUps.ContainsKey(selecteItemViewID))
-                    currentItem = heroLevelUps[selecteItemViewID];
-                else if (elementalLevelUps.ContainsKey(selecteItemViewID))
-                    currentItem = elementalLevelUps[selecteItemViewID];
+                string itemID = LevelUpItem.NameToID(itemViewName);
+                if (levelUpItems.ContainsKey(itemID))
+                    currentItem = levelUpItems[itemID];
             }
             noticeLevelUpSelect(currentItem);
         }
