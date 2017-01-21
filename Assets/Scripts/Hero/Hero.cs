@@ -108,28 +108,40 @@ namespace SexyBackPlayScene
 
         internal bool Attack(float attackSpeed)
         {
-            ViewLoader.hero_sprite.GetComponent<Animator>().speed = attackSpeed;
+            if (AttackPlan.Count == 0 || targetID == null)
+                return false;
 
+                ViewLoader.hero_sprite.GetComponent<Animator>().speed = attackSpeed;
+
+                TapPoint p = AttackPlan.Dequeue();
+            BigInteger damage;
             if (isCritical)
             {
-                ViewLoader.hero_sprite.GetComponent<Animator>().SetTrigger("Attack");
-                ViewLoader.hero_sword.GetComponent<Animator>().SetTrigger("Play");
-
-                MoveCriticalEffect();
-
-
-                BigInteger totaldamage = DPC * CRIDAMAGE / 100;
-                Singleton<MonsterManager>.getInstance().onHit(targetID, totaldamage, LastTapPosition);
+                damage = DPC * CRIDAMAGE / 100;
+                MoveAndMakeEffect(p, true);
                 // 크리티컬 글자 필요 
             }
             else
             {
-                ViewLoader.hero_sprite.GetComponent<Animator>().SetTrigger("Attack");
-                ViewLoader.hero_sword.GetComponent<Animator>().SetTrigger("Play");
-
-                Singleton<MonsterManager>.getInstance().onHit(targetID, DPC, LastTapPosition);
+                damage = DPC;
+                MoveAndMakeEffect(p, false);
             }
+            ViewLoader.hero_sprite.GetComponent<Animator>().SetTrigger("Attack");
+            ViewLoader.hero_sword.GetComponent<Animator>().SetTrigger("Play");
+            Singleton<MonsterManager>.getInstance().onHit(targetID, DPC * CRIDAMAGE / 100, p.GamePos);
             return true;
+        }
+
+        private void MoveAndMakeEffect(TapPoint Tap, bool isCritical)
+        {
+            //TODO: 아예 EFFECT 카메라를 따로둬서 EFFECT PANEL을 히어로에 붙이지 않는걸 고려해봐야할듯
+            //그리고 Instanstiate 로바꾸고, 크리티컬모션 따로 구현해야함
+            Vector3 currMonCenter = Singleton<MonsterManager>.getInstance().GetMonster().CenterPosition;
+            Vector3 directionVector = currMonCenter - Tap.GamePos;
+            float rot = UnityEngine.Mathf.Atan2(directionVector.y, directionVector.x) * UnityEngine.Mathf.Rad2Deg;
+
+            ViewLoader.hero_sword.transform.eulerAngles = new Vector3(0, 0, rot);
+            ViewLoader.hero_sword.transform.position = new Vector3(Tap.UiPos.x, Tap.UiPos.y, ViewLoader.hero_sword.transform.position.z);
         }
 
         public void Attack()
@@ -144,17 +156,7 @@ namespace SexyBackPlayScene
         }
 
         public void SetSwordEffectPosition()
-        {
-            //TODO: 아예 EFFECT 카메라를 따로둬서 EFFECT PANEL을 히어로에 붙이지 않는걸 고려해봐야할듯
-            Vector3 directionVector;
-            Vector3 currMonCenter = Singleton<MonsterManager>.getInstance().GetMonster().CenterPosition;
-
-            directionVector = currMonCenter - LastTapPosition;
-            float rot = UnityEngine.Mathf.Atan2(directionVector.y, directionVector.x) * UnityEngine.Mathf.Rad2Deg;
-
-            ViewLoader.hero_sword.transform.eulerAngles = new Vector3(0, 0, rot);
-            ViewLoader.hero_sword.transform.position = new Vector3(LastEffectPosition.x, LastEffectPosition.y, ViewLoader.hero_sword.transform.position.z);
-        }
+        {}
 
 
         internal void AddLevel(int amount) // 레벨이 10이면 9까지더해야한다;

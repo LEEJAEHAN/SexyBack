@@ -4,7 +4,7 @@ namespace SexyBackPlayScene
 {
     internal class GameInput
     {
-        public delegate void TouchPositionEvent(TapPoint);
+        public delegate void TouchPositionEvent(TapPoint tap);
         public event TouchPositionEvent noticeTouchPosition; // back viewport 에서의 터치포지션
 
         Vector3 mouseinputpoint;
@@ -42,8 +42,8 @@ namespace SexyBackPlayScene
     }
     internal struct TapPoint
     {
-        Vector3 GamePos;
-        Vector3 UiPos;
+        public Vector3 GamePos;
+        public Vector3 UiPos;
         internal TapPoint(Vector3 gamepos, Vector3 uipos)
         {
             GamePos = gamepos;
