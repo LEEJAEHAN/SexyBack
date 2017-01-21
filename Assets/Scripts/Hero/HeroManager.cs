@@ -15,13 +15,14 @@ namespace SexyBackPlayScene
         public delegate void HeroChange_Event(Hero hero);
         public event HeroChange_Event noticeHeroChange;
 
+        UILabel label_herodmg = ViewLoader.label_herodmg.GetComponent<UILabel>();
+
         public void Init()
         {
             LoadData();
 
             // this class is event listner
-            noticeHeroChange += onHeroChange;
-            Singleton<GameMoney>.getInstance().noticeEXPChange += onExpChange;
+            noticeHeroChange += PrintDpc;
             Singleton<GameInput>.getInstance().noticeTouchPosition += onTouch;
             Singleton<MonsterManager>.getInstance().noticeMonsterCreate += this.onMonsterCreate;
         }
@@ -52,14 +53,13 @@ namespace SexyBackPlayScene
             noticeHeroChange(CurrentHero);
         }
 
-        UILabel label_herodmg = ViewLoader.label_herodmg.GetComponent<UILabel>();
-        UILabel label_exp = ViewLoader.label_exp.GetComponent<UILabel>();
+      
 
         // event reciever
-        internal void onTouch(Vector3 touchPoint, Vector3 effectPoint)
+        internal void onTouch(TapPoint pos)
         {
             //currhero
-            CurrentHero.onTouch(touchPoint, effectPoint);
+            CurrentHero.onTouch(pos);
         }
         internal void onMonsterCreate(Monster monster)
         {
@@ -68,15 +68,10 @@ namespace SexyBackPlayScene
             CurrentHero.targetID = monster.ID;
             //CurrentHero.SetDirection(monster.CenterPosition);
         }
-        void onHeroChange(Hero hero)
+        void PrintDpc(Hero hero)
         {
-            string dpsString = "DPC : " + hero.DPC.ToSexyBackString();
+            string dpsString = hero.DPC.ToSexyBackString() + " /Tap";
             label_herodmg.text = dpsString;
-        }
-        void onExpChange(BigInteger exp)
-        {
-            string expstring = exp.ToSexyBackString() + " EXP";
-            label_exp.text = expstring;
         }
 
     }

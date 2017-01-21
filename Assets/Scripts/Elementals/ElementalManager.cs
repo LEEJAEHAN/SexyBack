@@ -25,8 +25,8 @@ namespace SexyBackPlayScene
             LoadData();
 
             // this class is event listner
+            noticeElementalChange += PrintDps; // 내꺼내가받음;
             Singleton<MonsterManager>.getInstance().noticeMonsterCreate += this.onMonsterCreate;
-            noticeElementalChange += this.onElementalChange; // 내꺼내가받음;
         }
         private void LoadData()
         {
@@ -120,9 +120,9 @@ namespace SexyBackPlayScene
                 elemental.target = sender;
             }
         }
-        public void onElementalChange(Elemental sender)
+        public void PrintDps(Elemental sender)
         {
-            string dpsString = "DPS : " + GetTotalDPS().ToSexyBackString();
+            string dpsString = GetTotalDPS().ToSexyBackString() + " /Sec";
             TotalDpsLabel.GetComponent<UILabel>().text = dpsString;
         }
     }

@@ -41,7 +41,7 @@ namespace SexyBackPlayScene
         }
         void LoadData()
         {
-            LevelUpItemData heroAttack = new LevelUpItemData("hero", "Normal Attack", "SexyBackIcon_MagmaElemental");
+            LevelUpItemData heroAttack = new LevelUpItemData("hero", "일반공격", "SexyBackIcon_SWORD2");
 
             LevelUpItemData item1 = new LevelUpItemData("fireball", "파이어볼", "SexyBackIcon_FireElemental");
             LevelUpItemData item2 = new LevelUpItemData("waterball", "물폭탄", "SexyBackIcon_WaterElemental");

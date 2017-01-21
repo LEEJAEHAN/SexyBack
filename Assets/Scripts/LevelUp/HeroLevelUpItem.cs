@@ -21,7 +21,8 @@ namespace SexyBackPlayScene
         {
             originalprice = new BigInteger(hero.NEXTEXPSTR);
 
-            Button_Text = hero.DPC.ToSexyBackString();
+            Button_Text = hero.LEVEL.ToString();
+            //Button_Text = hero.DPC.ToSexyBackString();
 
             string description = Info_Name + " LV" + hero.LEVEL + "\n";
             description += "Damage : " + hero.BASEDPC + "/tap\n";

@@ -1,13 +1,16 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace SexyBackPlayScene
 {
     internal class HeroStateAttack : HeroState
     {
         double timer;
-        double AttackInterval;
+        double swingtimer;
+        double AttackCount;
         double AttackSpeed;
+        double additionalattackcount;
 
         int DashRate = 25;
         int SwingRate = 25;
@@ -24,24 +27,28 @@ namespace SexyBackPlayScene
         bool BeginBack = false;
         bool BeginWait = false;
 
-        double ForwardSpeed { get { return 100 / (AttackInterval * DashRate); } }
-        double BackwardSpeed { get { return 100 / (AttackInterval * BackRate); } }
+        double ForwardSpeed { get { return 100 / (AttackCount * DashRate); } }
+        double BackwardSpeed { get { return 100 / (AttackCount * BackRate); } }
+
+        double SwingActionTime { get { return 0.15f * AttackSpeed; } } // effect 재생이 0.15초로 가장김
 
         public HeroStateAttack(HeroStateMachine stateMachine, Hero owner) : base(stateMachine, owner)
         {
             timer = 0;
-            AttackInterval = owner.ATTACKINTERVAL;  // 중간에 값이 업데이트되도 무시하기위해
+            additionalattackcount = 0;
+            swingtimer = 0;
+            AttackCount = owner.ATTACKINTERVAL;  // 중간에 값이 업데이트되도 무시하기위해
             AttackSpeed = owner.ATTACKSPEED;
 
             DashRate = 8;
-            SwingRate = 10;
+            SwingRate = 12; // 1초 0.15초히어로 공격을 8번까지 할수있다.
             BackRate = 24;
             WaitRate = 100 - DashRate - SwingRate - BackRate;
 
-            DashTime = AttackInterval * DashRate / 100;
-            SwingTime = AttackInterval * SwingRate / 100;
-            BackTime = AttackInterval * BackRate / 100;
-            waitTime = AttackInterval * BackRate / 100;
+            DashTime = AttackCount * DashRate / 100;
+            SwingTime = AttackCount * SwingRate / 100;
+            BackTime = AttackCount * BackRate / 100;
+            waitTime = AttackCount * BackRate / 100;
         }
 
         internal override void Begin()
@@ -54,9 +61,13 @@ namespace SexyBackPlayScene
             owner.Stop();
         }
 
-        internal override void OnTouch()
+        internal override void OnTouch(TapPoint pos)
         {
-
+            if(!BeginBack && owner.CanAttack) // 후퇴전까지는 추가타 이벤트를 받는다;
+            {
+                owner.MakeAttackPlan(pos);
+                additionalattackcount++;
+            }
         }
 
         void ChangeState() // 한번만힐행된다
@@ -70,10 +81,6 @@ namespace SexyBackPlayScene
             else if (!BeginSwing && timer > DashTime)
             {
                 BeginSwing = true;
-                ViewLoader.hero_sprite.GetComponent<Animator>().speed = (float)AttackSpeed;
-                ViewLoader.hero_sprite.GetComponent<Animator>().SetTrigger("Attack");
-                ViewLoader.hero_sword.GetComponent<Animator>().SetTrigger("Play");
-                owner.Attack();  // TODO: 공격애니메이션 시간동안 잠깐 대기가 필요할수도
             }
             else if (!BeginBack && timer > DashTime + SwingTime)
             {
@@ -87,15 +94,12 @@ namespace SexyBackPlayScene
                 ViewLoader.hero_sprite.GetComponent<Animator>().SetBool("Move", false);
                 owner.Stop();
             }
-            else if (timer > AttackInterval)
-            {
-                stateMachine.ChangeState(new HeroStateReady(stateMachine, owner));
-            }
         }
 
         internal override void Update()
         {
             timer += Time.deltaTime;
+            swingtimer += Time.deltaTime;
 
             ChangeState();
 
@@ -103,9 +107,27 @@ namespace SexyBackPlayScene
             {
                 owner.Move(owner.AttackMoveVector * (float)ForwardSpeed * Time.deltaTime);
             }
+            if (BeginSwing && !BeginBack)  // during attack
+            {
+                if(swingtimer > SwingActionTime && owner.AttackPlan.Count > 0) // 0.1로마다 들어와야한다. timer를 0.1f만큼빼준다.
+                {
+                    if (owner.Attack((float)AttackSpeed))
+                    {
+                        timer -= SwingActionTime; // 공격을 한번더할수있게 타이머카운터를 빼준다.
+                        waitTime -= SwingActionTime; // 대기시간에서빠진다.
+                        swingtimer -= SwingActionTime;
+                    }
+                }
+            }
             else if (BeginBack && !BeginWait) // during back
             {
                 owner.Move(-(owner.AttackMoveVector * (float)BackwardSpeed * Time.deltaTime));
+            }
+            else if (BeginWait)
+            {
+                waitTime -= Time.deltaTime;
+                if(waitTime <= 0)
+                    stateMachine.ChangeState(new HeroStateReady(stateMachine, owner));
             }
         }
 

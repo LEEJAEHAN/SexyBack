@@ -24,9 +24,9 @@ namespace SexyBackPlayScene
             CurrState.Begin();
         }
 
-        internal void onTouch()
+        internal void onTouch(TapPoint pos)
         {
-            CurrState.OnTouch();
+            CurrState.OnTouch(pos);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace SexyBackPlayScene
         public static GameObject Button_Confirm;
         public static GameObject Item_Enable;
         public static GameObject Item_Disable;
-
+        public static GameObject Bar_Attack;
         // info ui
         public static GameObject Info_Icon;
         public static GameObject Info_Description;
@@ -67,9 +67,10 @@ namespace SexyBackPlayScene
             Button_Confirm = GameObject.Find("Button_Confirm");
             Item_Enable = GameObject.Find("Item_Enable");
             Item_Disable = GameObject.Find("Item_Disable");
+            Bar_Attack = GameObject.Find("Bar_Attack");
 
 
-            Info_Icon = GameObject.Find("Info_Icon");
+        Info_Icon = GameObject.Find("Info_Icon");
             Info_Description = GameObject.Find("Info_Description");
         }
 

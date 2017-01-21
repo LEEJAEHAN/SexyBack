@@ -32,7 +32,7 @@ namespace SexyBackPlayScene
         public string ToSexyBackString()
         {
             if (digit == Digit.zero.ToString())
-                return value.ToString() + " ";
+                return value.ToString();
             else
                 return value.ToString() + " "+ digit;
         }

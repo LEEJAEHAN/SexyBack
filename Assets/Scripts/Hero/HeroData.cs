@@ -7,14 +7,16 @@ namespace SexyBackPlayScene
         public string ID = "hero";
         public string Name = "이재한";
 
-        public double ATTACKINTERVAL = 3;
+        public double ATTACKINTERVAL = 5;
         public double CRIRATE = 0.15;
         public int CRIDAMAGE = 200;
         public int MOVESPEED = 1;
+        public int ATTACKCOUNT = 1;
 
         public int MaxLevel;
         public BigIntExpression[] BaseDpcPool;
         public BigIntExpression[] BaseExpPool;
+
 
         public HeroData()
         {

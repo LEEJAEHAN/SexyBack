@@ -191,7 +191,7 @@ namespace SexyBackPlayScene
             if (item.CanBuy)
                 itemView.GetComponent<UISprite>().color = new Color(1, 1, 1, 1);
             else
-                itemView.GetComponent<UISprite>().color = new Color(0.7f, 0.7f, 0.7f, 0.7f);
+                itemView.GetComponent<UISprite>().color = new Color(0.5f, 0.5f, 0.5f, 0.8f);
         }
         private void FillInfoView(LevelUpItem item)
         {

@@ -5,7 +5,7 @@ namespace SexyBackPlayScene
 {
     internal class HeroStateReady : HeroState
     {
-
+        TapPoint firstTouch;
         bool TouchTrigger = false;
         public HeroStateReady(HeroStateMachine stateMachine, Hero owner) : base(stateMachine, owner)
         {
@@ -20,10 +20,14 @@ namespace SexyBackPlayScene
         {
         }
 
-        internal override void OnTouch()
+        internal override void OnTouch(TapPoint pos)
         {
-            owner.SetSwordEffectPosition();
-            TouchTrigger = true;
+            if (!TouchTrigger && owner.CanAttack)
+            {
+                owner.MakeAttackPlan(pos);
+                TouchTrigger = true;
+                //owner.SetSwordEffectPosition();
+            }
         }
 
         internal override void Update()

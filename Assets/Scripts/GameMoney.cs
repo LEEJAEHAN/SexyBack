@@ -11,9 +11,11 @@ namespace SexyBackPlayScene
         public delegate void ExpChange_Event(BigInteger exp);
         public event ExpChange_Event noticeEXPChange;
 
+        UILabel label_exp = ViewLoader.label_exp.GetComponent<UILabel>();
+
         public void Init()
         {
-
+            noticeEXPChange += PrintExp;
         }
         public void Start()
         {
@@ -39,6 +41,12 @@ namespace SexyBackPlayScene
         internal bool CanBuy(BigInteger price)
         {
             return exp > price;
+        }
+
+        void PrintExp(BigInteger exp)
+        {
+            string expstring = exp.ToSexyBackString() + " EXP";
+            label_exp.text = expstring;
         }
     }
 }

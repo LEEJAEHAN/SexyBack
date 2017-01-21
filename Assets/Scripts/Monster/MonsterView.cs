@@ -25,7 +25,7 @@ namespace SexyBackPlayScene
             if (collider.gameObject.tag == "Projectile")
             {
                 Projectile proj = collider.gameObject.GetComponent<Projectile>();
-                
+                    
                 noticeHit(this.name, proj.Damage, collider.transform.position);
             }
         }
