@@ -21,17 +21,17 @@ namespace SexyBackPlayScene
 
         // 최종적으로 나가는 값은 모두 대문자이다. 중간과정은 앞에만대문자;
         // data property
-        public int MAXATTACKCOUNT {  get { return baseData.ATTACKCOUNT + bounsAttackCount; } }
+        public int MAXATTACKCOUNT { get { return baseData.ATTACKCOUNT + bounsAttackCount; } }
         public string ID { get { return baseData.ID; } }
         public string NAME { get { return baseData.Name; } }
-        public int LEVEL { get {return level; } }
+        public int LEVEL { get { return level; } }
         public BigInteger DPC { get { return baseDpc * dpcX; } }
         public string BASEDPC { get { return baseDpc.ToSexyBackString(); } }
-        public string NEXTDPC { get { return baseData.BaseDpcPool[level].ToSexyBackString(); } } 
-        public BigIntExpression NEXTEXPSTR { get { return baseData.BaseExpPool[level]; } } 
+        public string NEXTDPC { get { return baseData.BaseDpcPool[level].ToSexyBackString(); } }
+        public BigIntExpression NEXTEXPSTR { get { return baseData.BaseExpPool[level]; } }
         public double ATTACKINTERVAL { get { return baseData.ATTACKINTERVAL * 100 / attackspeedXH; } }   // 공속공식
-        public double CRIRATE { get { return baseData.CRIRATE ; } }
-        public int CRIDAMAGE { get { return baseData.CRIDAMAGE ; } }
+        public double CRIRATE { get { return baseData.CRIRATE; } }
+        public int CRIDAMAGE { get { return baseData.CRIDAMAGE; } }
         public int MOVESPEED { get { return baseData.MOVESPEED; } }
 
         // for view action, state
@@ -52,8 +52,16 @@ namespace SexyBackPlayScene
             AddLevel(1);
             dpcX = new BigInteger(1);
             attackTimer = 0;
-            attackcount = 100;
-            bounsAttackCount = 4; // 나중에 설정
+            attackcount = 0;
+            bounsAttackCount = 6; // 나중에 설정
+
+            AddAttackCount();
+            AddAttackCount();
+            AddAttackCount();
+            AddAttackCount();
+            AddAttackCount();
+            AddAttackCount();
+            AddAttackCount();
 
             AttackPlan = new Queue<TapPoint>();
 
@@ -65,8 +73,10 @@ namespace SexyBackPlayScene
 
         public void MakeAttackPlan(TapPoint point)
         {
+            if (!CanAttack)
+                return;
             AttackPlan.Enqueue(point);
-            attackcount--;
+            ReduceAttackCount();
             //AttackCount++; AttackPlan 의 사이즈가된다.
         }
 
@@ -90,13 +100,13 @@ namespace SexyBackPlayScene
 
         private void CheckCoolDown()
         {
-            if(attackcount < MAXATTACKCOUNT)
+            if (attackcount < MAXATTACKCOUNT)
             {
                 attackTimer += Time.deltaTime;
                 ViewLoader.Bar_Attack.GetComponent<UISlider>().value = (float)(attackTimer / ATTACKINTERVAL);
                 if (attackTimer > ATTACKINTERVAL)
                 {
-                    attackcount++;
+                    AddAttackCount();
                     attackTimer -= ATTACKINTERVAL;
                 }
             }
@@ -106,14 +116,44 @@ namespace SexyBackPlayScene
             sexybacklog.InGame(attackcount);
         }
 
+        GameObject[] SwordIcons = new GameObject[10];
+        GameObject SwordIcon = Resources.Load<GameObject>("prefabs/UI/attackcount");
+        
+        int[] iconangle = { 0, 30, -30, 60, -60, 90, -90};
+        void AddAttackCount()
+        {
+            attackcount++;
+
+            if (attackcount > 7)
+                return;
+            GameObject swordicon = GameObject.Instantiate(SwordIcon) as GameObject;
+            swordicon.name = "attackcount" + attackcount;
+            swordicon.transform.parent = ViewLoader.Bar_Attack.transform;
+            swordicon.transform.localScale = Vector3.one;
+            swordicon.transform.localPosition = Vector3.zero;
+            swordicon.transform.rotation = Quaternion.Euler(0, 0, 45 + iconangle[attackcount-1]);
+            SwordIcons[attackcount - 1] = swordicon;
+        }
+
+        void ReduceAttackCount()
+        {
+            attackcount--;
+            if (attackcount < 0)
+                return;
+
+            if (SwordIcons[attackcount] != null)
+                GameObject.Destroy(SwordIcons[attackcount]);
+        }
+
+
         internal bool Attack(float attackSpeed)
         {
             if (AttackPlan.Count == 0 || targetID == null)
                 return false;
 
-                ViewLoader.hero_sprite.GetComponent<Animator>().speed = attackSpeed;
-
-                TapPoint p = AttackPlan.Dequeue();
+            TapPoint p = AttackPlan.Dequeue();
+            
+            ViewLoader.hero_sprite.GetComponent<Animator>().speed = attackSpeed;
             BigInteger damage;
             if (isCritical)
             {
@@ -156,7 +196,7 @@ namespace SexyBackPlayScene
         }
 
         public void SetSwordEffectPosition()
-        {}
+        { }
 
 
         internal void AddLevel(int amount) // 레벨이 10이면 9까지더해야한다;

@@ -53,6 +53,7 @@ namespace SexyBackPlayScene
             ViewLoader.Item_Enable.transform.DestroyChildren();
             ViewLoader.shooter.transform.DestroyChildren();
             ViewLoader.monsters.transform.DestroyChildren();
+            ViewLoader.Bar_Attack.transform.DestroyChildren();
         }
     }
 }

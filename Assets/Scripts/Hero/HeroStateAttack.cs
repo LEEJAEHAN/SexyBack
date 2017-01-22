@@ -115,7 +115,7 @@ namespace SexyBackPlayScene
                     {
                         timer -= SwingActionTime; // 공격을 한번더할수있게 타이머카운터를 빼준다.
                         waitTime -= SwingActionTime; // 대기시간에서빠진다.
-                        swingtimer -= SwingActionTime;
+                        swingtimer = 0;
                     }
                 }
             }
