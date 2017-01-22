@@ -13,6 +13,8 @@ namespace SexyBackPlayScene
         public static Vector3 defaultMonsterPosition;
         public static Vector3 defaultHeroPosition;
         public static Vector3 defaultCameraPosition;
+        public static Vector3 ECamPosition;
+
         public readonly float GameWidth = 720;
         public readonly float GameHeight = 1280;
         public float ScreenWidth = Screen.width;
@@ -24,23 +26,23 @@ namespace SexyBackPlayScene
             SetCameraSetting();
             RemoveTestObject();
 
+            defaultHeroPosition = ViewLoader.HeroPanel.transform.position;
             defaultMonsterPosition = ViewLoader.monsters.transform.position;
-            defaultHeroPosition = ViewLoader.hero.transform.position;
+            ECamPosition = ViewLoader.EffectCamera.transform.position;
+            //defaultHeroPosition = ViewLoader.hero.transform.position;
         }
 
         private void SetCameraSetting()
         {
-            Camera camera = ViewLoader.camera;
+            Camera camera = ViewLoader.HeroCamera;
             orthographicSize = camera.orthographicSize; // 6.4
             fieldOfView = camera.GetComponent<Camera>().fieldOfView; // 64
             aspect = camera.aspect; // 0.5625
             pixelPerUnit = 100;
-
             // TODO : 해상도에 따른 카메라 ViewPort SIZE변화 필요 ( 좀 더 다듬고, ui도 생각해야함)
             // view Port shirink
             ScreenWidth = Screen.width;
             ScreenHeight = Screen.height;
-            defaultCameraPosition = camera.transform.position;
             float ViewPortWidth = (GameWidth * ScreenHeight) / (GameHeight * ScreenWidth);
             float shift = (1 - ViewPortWidth) / 2;
             Rect shrinkScreen = new Rect(shift, 0, ViewPortWidth, 1);

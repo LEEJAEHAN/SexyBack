@@ -5,8 +5,8 @@ namespace SexyBackPlayScene
     internal class GameMoney
     {
         private BigInteger exp = new BigInteger(0);
-        private int gold;
-        public int gem; // 유료캐시
+        //private int gold;
+        //public int gem; // 유료캐시
 
         public delegate void ExpChange_Event(BigInteger exp);
         public event ExpChange_Event noticeEXPChange;

@@ -6,8 +6,12 @@ namespace SexyBackPlayScene
     public class ViewLoader // View Updater 
     { // publisher 
 
-        public static Camera camera;
+        public static GameObject HeroPanel;
+        public static Camera HeroCamera;
+        public static Camera EffectCamera;
+
         // 모든 인스턴스화 되어있는 뷰를 로드해놓는다.
+
         // 동적으로 생성되는 것은 ㄴㄴ
         public static GameObject label_debug;
         public static GameObject label_herodmg;
@@ -16,10 +20,8 @@ namespace SexyBackPlayScene
         public static GameObject label_exp;
         public static GameObject label_monsterhp;
 
-        public static GameObject RenderObject;
         public static GameObject projectiles;
         public static GameObject hitparticle;
-        public static GameObject hero;
         public static GameObject hero_sword;
         public static GameObject hero_sprite;
         public static GameObject area_elemental;
@@ -40,9 +42,13 @@ namespace SexyBackPlayScene
         public static GameObject Info_Icon;
         public static GameObject Info_Description;
 
+
         public ViewLoader()
         {
-            camera = GameObject.Find("Main Camera").GetComponent<Camera>();
+            HeroPanel = GameObject.Find("HeroPanel");
+
+            HeroCamera = GameObject.Find("HeroCamera").GetComponent<Camera>();
+            EffectCamera = GameObject.Find("EffectCamera").GetComponent<Camera>();
             label_debug = GameObject.Find("label_debug");
             label_herodmg = GameObject.Find("label_herodmg");
             label_elementaldmg = GameObject.Find("label_elementaldmg");
@@ -50,10 +56,10 @@ namespace SexyBackPlayScene
             label_exp = GameObject.Find("label_exp");
             label_monsterhp = GameObject.Find("label_monsterhp");
 
-            RenderObject = GameObject.Find("RenderObject");
+
             projectiles = GameObject.Find("projectiles");
             hitparticle = GameObject.Find("hitparticle");
-            hero = GameObject.Find("hero");
+
             hero_sword = GameObject.Find("hero_sword");
             hero_sprite = GameObject.Find("hero_sprite");
             area_elemental = GameObject.Find("area_elemental");
@@ -70,7 +76,7 @@ namespace SexyBackPlayScene
             Bar_Attack = GameObject.Find("Bar_Attack");
 
 
-        Info_Icon = GameObject.Find("Info_Icon");
+            Info_Icon = GameObject.Find("Info_Icon");
             Info_Description = GameObject.Find("Info_Description");
         }
 

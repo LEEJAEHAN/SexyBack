@@ -48,17 +48,17 @@ namespace SexyBackPlayScene
             DashTime = AttackCount * DashRate / 100;
             SwingTime = AttackCount * SwingRate / 100;
             BackTime = AttackCount * BackRate / 100;
-            waitTime = AttackCount * BackRate / 100;
+            waitTime = AttackCount * WaitRate / 100;
         }
 
         internal override void Begin()
         {
-            owner.Stop();
+            owner.Warp(GameSetting.defaultHeroPosition);
         }
 
         internal override void End()
         {
-            owner.Stop();
+            owner.Warp(GameSetting.defaultHeroPosition);
         }
 
         internal override void OnTouch(TapPoint pos)
@@ -81,6 +81,7 @@ namespace SexyBackPlayScene
             else if (!BeginSwing && timer > DashTime)
             {
                 BeginSwing = true;
+                owner.Warp(GameSetting.ECamPosition);
             }
             else if (!BeginBack && timer > DashTime + SwingTime)
             {
@@ -92,7 +93,7 @@ namespace SexyBackPlayScene
             {
                 BeginWait = true;
                 ViewLoader.hero_sprite.GetComponent<Animator>().SetBool("Move", false);
-                owner.Stop();
+                owner.Warp(GameSetting.defaultHeroPosition);
             }
         }
 

@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace SexyBackPlayScene
 {
-
     internal class Hero
     {
-
-
         private HeroData baseData;
+        private GameObject avatar;
         private BigInteger baseDpc = new BigInteger();
         private BigInteger dpcX = new BigInteger(); // 곱계수는 X를붙인다.
         private int level;
@@ -49,6 +47,7 @@ namespace SexyBackPlayScene
         public Hero(HeroData data)
         {
             baseData = data;
+            avatar = ViewLoader.HeroPanel;
             AddLevel(1);
             dpcX = new BigInteger(1);
             attackTimer = 0;
@@ -67,7 +66,7 @@ namespace SexyBackPlayScene
 
             StateMachine = new HeroStateMachine(this);
             //
-            AttackMoveVector = new Vector3(0, 1.5f, -3) - GameSetting.defaultCameraPosition;
+            AttackMoveVector = GameSetting.ECamPosition - GameSetting.defaultHeroPosition;
 
         }
 
@@ -82,16 +81,14 @@ namespace SexyBackPlayScene
 
         internal void Move(Vector3 step)
         {
-            ViewLoader.camera.transform.position += step;
-            ViewLoader.hero.transform.position += step;
+            avatar.transform.position += step;
         }
-
-
-        internal void Stop()
+        internal void Warp(Vector3 position)
         {
-            ViewLoader.camera.transform.position = GameSetting.defaultCameraPosition;
-            ViewLoader.hero.transform.position = GameSetting.defaultHeroPosition;
+            //avatar.transform.position = GameSetting.defaultHeroPosition;
+            avatar.transform.position = position;
         }
+
         internal void Update()
         {
             CheckCoolDown();
@@ -116,10 +113,12 @@ namespace SexyBackPlayScene
             sexybacklog.InGame(attackcount);
         }
 
+
+        //TODO : 어택판넬을 아예 다른 클래스로 빼는게 어떨가 싶음.
         GameObject[] SwordIcons = new GameObject[10];
         GameObject SwordIcon = Resources.Load<GameObject>("prefabs/UI/attackcount");
-        
         int[] iconangle = { 0, 30, -30, 60, -60, 90, -90};
+
         void AddAttackCount()
         {
             attackcount++;
@@ -159,7 +158,7 @@ namespace SexyBackPlayScene
             {
                 damage = DPC * CRIDAMAGE / 100;
                 MoveAndMakeEffect(p, true);
-                // 크리티컬 글자 필요 
+                // TODO : 크리티컬 글자 필요 
             }
             else
             {
@@ -168,20 +167,21 @@ namespace SexyBackPlayScene
             }
             ViewLoader.hero_sprite.GetComponent<Animator>().SetTrigger("Attack");
             ViewLoader.hero_sword.GetComponent<Animator>().SetTrigger("Play");
-            Singleton<MonsterManager>.getInstance().onHit(targetID, DPC * CRIDAMAGE / 100, p.GamePos);
+            Singleton<MonsterManager>.getInstance().onHit(targetID, damage, p.GamePos);
             return true;
         }
 
         private void MoveAndMakeEffect(TapPoint Tap, bool isCritical)
         {
-            //TODO: 아예 EFFECT 카메라를 따로둬서 EFFECT PANEL을 히어로에 붙이지 않는걸 고려해봐야할듯
-            //그리고 Instanstiate 로바꾸고, 크리티컬모션 따로 구현해야함
+            //TODO: Instanstiate 로바꾸고, 크리티컬모션 따로 구현해야함
             Vector3 currMonCenter = Singleton<MonsterManager>.getInstance().GetMonster().CenterPosition;
             Vector3 directionVector = currMonCenter - Tap.GamePos;
             float rot = UnityEngine.Mathf.Atan2(directionVector.y, directionVector.x) * UnityEngine.Mathf.Rad2Deg;
 
             ViewLoader.hero_sword.transform.eulerAngles = new Vector3(0, 0, rot);
-            ViewLoader.hero_sword.transform.position = new Vector3(Tap.UiPos.x, Tap.UiPos.y, ViewLoader.hero_sword.transform.position.z);
+            Vector3 b = ViewLoader.EffectCamera.ViewportToWorldPoint(Tap.UiPos);
+            ViewLoader.hero_sword.transform.position = Tap.UiPos;
+            sexybacklog.Console("Hit:"+ViewLoader.hero_sword.transform.position);
         }
 
         public void Attack()
@@ -189,15 +189,8 @@ namespace SexyBackPlayScene
         }
         public void onTouch(TapPoint pos)
         {
-            //LastTapPosition = tapposition;
-            //LastEffectPosition = effectposition;
-
             StateMachine.onTouch(pos);
         }
-
-        public void SetSwordEffectPosition()
-        { }
-
 
         internal void AddLevel(int amount) // 레벨이 10이면 9까지더해야한다;
         {

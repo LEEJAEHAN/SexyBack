@@ -5,7 +5,6 @@ namespace SexyBackPlayScene
 {
     internal class HeroStateReady : HeroState
     {
-        TapPoint firstTouch;
         bool TouchTrigger = false;
         public HeroStateReady(HeroStateMachine stateMachine, Hero owner) : base(stateMachine, owner)
         {
@@ -26,7 +25,8 @@ namespace SexyBackPlayScene
             {
                 owner.MakeAttackPlan(pos);
                 TouchTrigger = true;
-                //owner.SetSwordEffectPosition();
+
+                sexybacklog.Console("tap worldpos:"+pos.UiPos);
             }
         }
 

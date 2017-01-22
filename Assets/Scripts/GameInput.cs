@@ -23,17 +23,18 @@ namespace SexyBackPlayScene
                 if (Physics.Raycast(ray, out uihit)) // ui 영역
                     return;
 
-                ray = ViewLoader.camera.ScreenPointToRay(mouseinputpoint);
+                ray = ViewLoader.EffectCamera.ScreenPointToRay(mouseinputpoint);
 
-                if (Physics.Raycast(ray, out hit, 100, 0100000000)
-                    &&
-                    Physics.Raycast(ray, out effecthit, 100, 1000000000)) // 게임영역  1<<8
+                Physics.Raycast(ray, out effecthit, 100, 1000000000); // 이펙트영역  1<<9
+
+                ray = ViewLoader.HeroCamera.ScreenPointToRay(mouseinputpoint);
+
+                if (Physics.Raycast(ray, out hit, 100, 0100000000)) // 게임영역 1<< 8
                 {
                     noticeTouchPosition(new TapPoint(hit.point, effecthit.point));
                 }
             }
         }
-
         void CalculateEffectPoint(Vector3 position)
         {
             //              ray = ViewLoader.camera.sc
