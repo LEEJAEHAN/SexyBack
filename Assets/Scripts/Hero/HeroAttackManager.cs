@@ -105,7 +105,7 @@ namespace SexyBackPlayScene
             SwordEffect.transform.eulerAngles = new Vector3(0, 0, rot);
 
             // translation
-            SwordEffect.transform.position = Tap.UiPos;
+            SwordEffect.transform.position = Tap.EffectPos;
 
             // play
             if(isCritical)
@@ -114,13 +114,8 @@ namespace SexyBackPlayScene
                 SwordEffect.GetComponent<Animator>().SetTrigger("Play");
 
             // debug
-            sexybacklog.Console("Hit:"+SwordEffect.transform.position);
+            //sexybacklog.Console("Hit:"+SwordEffect.transform.position);
         }
-        public void MakeDamageFont(TapPoint p, bool isCritical)
-        {
-
-        }
-
 
         private void AddSwordIcon(int sequence)
         {

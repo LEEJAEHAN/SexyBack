@@ -68,6 +68,11 @@ namespace SexyBackPlayScene
             hitparticle.transform.position = hitPosition;
             hitparticle.GetComponent<ParticleSystem>().Play();
             //damagefont
+            Vector3 screenpos = ViewLoader.HeroCamera.WorldToScreenPoint(hitPosition);
+            sexybacklog.Console(screenpos);
+            GameObject.Find("label_dmgfont").transform.localPosition = screenpos;
+            GameObject.Find("label_dmgfont").GetComponent<UILabel>().text = damage.ToSexyBackString();
+
 
         }
 

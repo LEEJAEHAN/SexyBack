@@ -19,8 +19,7 @@ namespace SexyBackPlayScene
             {
                 mouseinputpoint = Input.mousePosition;
 
-                ray = UICamera.currentCamera.ScreenPointToRay(mouseinputpoint);
-                if (Physics.Raycast(ray, out uihit)) // ui 영역
+                if (UICamera.Raycast(Input.mousePosition))
                     return;
 
                 ray = ViewLoader.EffectCamera.ScreenPointToRay(mouseinputpoint);
@@ -31,7 +30,7 @@ namespace SexyBackPlayScene
 
                 if (Physics.Raycast(ray, out hit, 100, 0100000000)) // 게임영역 1<< 8
                 {
-                    noticeTouchPosition(new TapPoint(hit.point, effecthit.point));
+                    noticeTouchPosition(new TapPoint(hit.point, effecthit.point, UICamera.lastEventPosition));
                 }
             }
         }
@@ -43,11 +42,14 @@ namespace SexyBackPlayScene
     }
     internal struct TapPoint
     {
-        public Vector3 GamePos;
-        public Vector3 UiPos;
-        internal TapPoint(Vector3 gamepos, Vector3 uipos)
+        public Vector3 GamePos;  // world unit
+        public Vector3 EffectPos;   // world unit
+        public Vector3 UiPos;   // pixel unit
+
+        internal TapPoint(Vector3 gamepos, Vector3 effectpos, Vector3 uipos)
         {
             GamePos = gamepos;
+            EffectPos = effectpos;
             UiPos = uipos;
         }
     }

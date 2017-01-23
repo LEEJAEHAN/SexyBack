@@ -95,13 +95,11 @@ namespace SexyBackPlayScene
 
             // do deal
             TapPoint atkPlan = AttackManager.NextAttackPlan();
-            Singleton<MonsterManager>.getInstance().onHit(targetID, atkPlan.GamePos, damage, isCritical);
+            Singleton<MonsterManager>.getInstance().onHit(targetID, atkPlan.EffectPos, damage, isCritical);
 
             // make attack effect
             Vector3 targetpos = Singleton<MonsterManager>.getInstance().FindPosition(targetID);
             AttackManager.MoveMakePlayEffect(atkPlan, targetpos, isCritical);
-            AttackManager.MakeDamageFont(atkPlan, isCritical);
-
             return true;
         }
 

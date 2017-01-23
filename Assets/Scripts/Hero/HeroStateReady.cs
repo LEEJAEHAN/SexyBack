@@ -26,7 +26,7 @@ namespace SexyBackPlayScene
                 hero.AttackManager.MakeAttackPlan(pos);
                 TouchTrigger = true;
 
-                sexybacklog.Console("Tap:"+pos.UiPos);//WorldPos
+                //sexybacklog.Console("Tap:"+pos.EffectPos);//WorldPos
             }
         }
 
