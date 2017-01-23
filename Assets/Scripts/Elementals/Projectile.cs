@@ -1,60 +1,67 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace SexyBackPlayScene
 {
-
-    public class Projectile : MonoBehaviour // view와 동일하다
+    public class Projectile
     {
-        // projectile data
+        public string ownerID;
+        //string ID; // useless, projectile은 elemental에 종속된다.
         public BigInteger Damage;
+        public GameObject view; // projectile View
 
-        // animation info
-        Animator anim;
-
-        void Awake()
+        public Projectile(Elemental owner, GameObject prefabs, Vector3 genPosition)
         {
-            anim = this.gameObject.GetComponent<Animator>();
-            //Physics2D.IgnoreLayerCollision(8, 8);
+            ownerID = owner.ID;
+            view = GameObject.Instantiate<GameObject>(prefabs);
+            view.transform.name = this.ownerID;
+            // position 은 월드포지션. localpositoin은 부모에서 얼마떨어져있냐, localScale은 그 객체클릭했을때 나오는 사이즈값. lossyscale은 최고 root로빠졌을때의 사이즈값.
+            view.transform.position = genPosition;
+            view.transform.localScale = ViewLoader.projectiles.transform.lossyScale;
+            view.transform.parent = ViewLoader.shooter.transform;
+            view.GetComponent<ProjectileView>().noticeDestroy += owner.onDestroyProjectile;
+            //TODO : 아직 리팩토링할곳이많은부분, 바로윗줄은 shooter object의 scale을 world에서 조정해야함
+            view.SetActive(true);
         }
 
-        void Start()
+        private bool isReadyState
         {
-            
-        }
-
-        void FixedUpdate()
-        {
-            if(anim.GetBool("Shoot") == true)
+            get
             {
-                float xVec = GetComponent<Rigidbody>().velocity.x;
-                float yVec = GetComponent<Rigidbody>().velocity.y;
+                string ready = ElementalData.ProjectileReadyStateName(ownerID);
+                return view.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(ready);
+            }
+        }
+
+        internal bool Shoot(Vector3 target)
+        {
+            if (view != null && isReadyState)
+            {
+                view.transform.parent = ViewLoader.projectiles.transform; // 슈터에서 빠진다.
+                // Shootfunc
+                view.GetComponent<Animator>().SetBool("Shoot", true);
+                view.GetComponent<Rigidbody>().useGravity = true;
+
+                float xDistance = target.x - view.transform.position.x;
+                float yDistance = target.y - view.transform.position.y;
+                float zDistance = target.z - view.transform.position.z;
+
+                float throwangle_xy;
+
+                throwangle_xy = Mathf.Atan((yDistance + (-Physics.gravity.y / 2)) / xDistance);
                 
-                float rot = UnityEngine.Mathf.Atan2(yVec, xVec) * UnityEngine.Mathf.Rad2Deg;
-                //GameManager.SexyBackDebug(rot + " " + xVec + " " + yVec);
+                //float totalVelo = xDistance / Mathf.Cos(throwangle_xy);
 
-                transform.eulerAngles = new Vector3(0, 0, rot + 180);
-            }
+                float xVelo, yVelo, zVelo;
+                xVelo = xDistance;
+                yVelo = xDistance * Mathf.Tan(throwangle_xy);
+                zVelo = zDistance;
 
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Base.Destroy"))
-            {
-                Destroy(this.gameObject);
+                view.GetComponent<Rigidbody>().velocity = new Vector3(xVelo, yVelo, zVelo);
+                return true;
             }
+            return false;
         }
 
-        void Init()
-        {
 
-        }
-
-        private void OnTriggerEnter(Collider collider)
-        {
-            if (collider.gameObject.tag == "Monster")
-            {
-                anim.SetBool("Shoot", false);
-                anim.SetBool("Hit", true);
-                this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-            }
-        }
     }
 }

@@ -15,22 +15,28 @@ namespace SexyBackPlayScene
         public int AttackIntervalK; //  elemental 마다 고유하다.                                                     // from excel
         //public int ExpForBaseUnitDps; // 베이스기준 dps 1올리기위해 들어가는 exp ( 높을수록 가성비가 구리다는 것 )      // from Excel
 
-        public string ProjectilePrefabName;
-        public string ProjectileReadyStateName;
 
         public ElementalData(string id, string name, int attackIntervalK, BigInteger basedps, BigInteger baseexp)
         {
             ID = id;
             Name = name;
-
             AttackIntervalK = attackIntervalK;
             BaseDps = basedps; // 원래는 basedps만입력받으면되는데, 값이너무더러워서 exp랑 rdps로 계산
             BaseExp = baseexp;
-            ProjectilePrefabName = "prefabs/Projectile/" + id;
-            ProjectileReadyStateName = id + "_spot";
 
             //    ExpForBaseUnitDps = expperdps;
             //    BaseDps = baseexp / ExpForBaseUnitDps; // 원래는 basedps만입력받으면되는데, 값이너무더러워서 exp랑 rdps로 계산
         }
+        public static string ProjectilePrefabName(string elementalid)
+        {
+            return "prefabs/Projectile/" + elementalid;
+        }
+
+        public static string ProjectileReadyStateName(string elementalid)
+        {
+            return elementalid + "_spot";
+        }
+
+
     }
 }

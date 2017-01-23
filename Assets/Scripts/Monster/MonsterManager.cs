@@ -51,7 +51,7 @@ namespace SexyBackPlayScene
         private void CreateMonster(MonsterData data)
         {
             CurrentMonster = new Monster(data);
-            CurrentMonster.SetHitEvent = onHit;
+            CurrentMonster.SetHitEvent = onHitByProjectile;
             // this class is event listner
 
             noticeMonsterCreate(CurrentMonster);
@@ -80,11 +80,16 @@ namespace SexyBackPlayScene
             label_monsterhp.text = hp + " / " + maxhp;
         }
 
-        public void onHit(string monsterID, Vector3 hitPosition, BigInteger damage, bool isCritical) // 어차피 한마리라 일단 id는 무시
+        public void Hit(string monsterID, Vector3 hitPosition, BigInteger damage, bool isCritical) // 어차피 한마리라 일단 id는 무시
         {
             CurrentMonster.Hit(hitPosition, damage, isCritical);
-
             noticeMonsterChange(CurrentMonster);
+        }
+
+        public void onHitByProjectile(string monsterID, Vector3 hitposition, string elementalID)
+        {
+            BigInteger damage = Singleton<ElementalManager>.getInstance().GetElementalDamage(elementalID);
+            Hit(monsterID, hitposition, damage, false);
         }
 
         public Vector3 FindPosition(string mosterID)

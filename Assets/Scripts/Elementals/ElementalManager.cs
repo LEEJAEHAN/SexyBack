@@ -7,6 +7,8 @@ namespace SexyBackPlayScene
     class ElementalManager
     {
         public List<Elemental> elementals = new List<Elemental>();
+        public List<Projectile> projectiles = new List<Projectile>();
+
         public Dictionary<string, ElementalData> elementalDatas = new Dictionary<string, ElementalData>();
 
         Transform ElementalArea = ViewLoader.area_elemental.transform;
@@ -107,6 +109,10 @@ namespace SexyBackPlayScene
                 result += elemental.DPS;
             }
             return result;
+        }
+        internal BigInteger GetElementalDamage(string id)
+        {
+            return FindElemental(id).DAMAGE;
         }
 
         // recieve event

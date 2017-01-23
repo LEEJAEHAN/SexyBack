@@ -6,7 +6,7 @@ namespace SexyBackPlayScene
     public class MonsterView : MonoBehaviour
     {
         // event publisher
-        public delegate void MonsterHit_Event(string monsterID, Vector3 hitPosition, BigInteger damage, bool isCritical);
+        public delegate void MonsterHit_Event(string monsterID, Vector3 hitPosition, string elementID);
         public event MonsterHit_Event noticeHit;
 
         // Use this for initialization
@@ -24,10 +24,7 @@ namespace SexyBackPlayScene
         {
             if (collider.gameObject.tag == "Projectile")
             {
-                Projectile proj = collider.gameObject.GetComponent<Projectile>();
-
-
-                noticeHit(this.name, collider.transform.position, proj.Damage, false);
+                noticeHit(this.name, collider.transform.position, collider.gameObject.name);
             }
         }
 
