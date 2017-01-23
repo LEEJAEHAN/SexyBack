@@ -21,12 +21,12 @@ namespace SexyBackPlayScene
 
         internal override void OnTouch(TapPoint pos)
         {
-            if (!TouchTrigger && owner.CanAttack)
+            if (!TouchTrigger && hero.AttackManager.CanMakePlan)
             {
-                owner.MakeAttackPlan(pos);
+                hero.AttackManager.MakeAttackPlan(pos);
                 TouchTrigger = true;
 
-                sexybacklog.Console("tap worldpos:"+pos.UiPos);
+                sexybacklog.Console("Tap:"+pos.UiPos);//WorldPos
             }
         }
 
@@ -36,9 +36,9 @@ namespace SexyBackPlayScene
             {
                 TouchTrigger = false;
                 //CheckMonster
-                if (owner.targetID != null)
+                if (hero.targetID != null)
                 {
-                    stateMachine.ChangeState(new HeroStateAttack(stateMachine, owner));
+                    stateMachine.ChangeState(new HeroStateAttack(stateMachine, hero));
                 }
             }
 

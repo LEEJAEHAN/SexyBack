@@ -6,11 +6,11 @@ namespace SexyBackPlayScene
     internal abstract class HeroState
     {
         protected HeroStateMachine stateMachine;
-        protected Hero owner;
+        protected Hero hero;
         public HeroState(HeroStateMachine stateMachine, Hero owner)
         {
             this.stateMachine = stateMachine;
-            this.owner = owner;
+            this.hero = owner;
         }
         internal abstract void Update();
         internal abstract void End();

@@ -22,7 +22,7 @@ namespace SexyBackPlayScene
 
         public static GameObject projectiles;
         public static GameObject hitparticle;
-        public static GameObject hero_sword;
+        public static GameObject Effect_Sword;
         public static GameObject hero_sprite;
         public static GameObject area_elemental;
         public static GameObject shooter;
@@ -60,7 +60,7 @@ namespace SexyBackPlayScene
             projectiles = GameObject.Find("projectiles");
             hitparticle = GameObject.Find("hitparticle");
 
-            hero_sword = GameObject.Find("hero_sword");
+            Effect_Sword = GameObject.Find("Effect_Sword");
             hero_sprite = GameObject.Find("hero_sprite");
             area_elemental = GameObject.Find("area_elemental");
             shooter = GameObject.Find("shooter");

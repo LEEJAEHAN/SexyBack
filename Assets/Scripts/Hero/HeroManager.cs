@@ -53,8 +53,6 @@ namespace SexyBackPlayScene
             noticeHeroChange(CurrentHero);
         }
 
-      
-
         // event reciever
         internal void onTouch(TapPoint pos)
         {

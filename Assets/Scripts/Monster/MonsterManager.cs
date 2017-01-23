@@ -13,12 +13,12 @@ namespace SexyBackPlayScene
         public delegate void monsterChangeEvent_Handler(Monster sender);
         public event monsterChangeEvent_Handler noticeMonsterChange;
 
-        GameObject hitparticle = ViewLoader.hitparticle;
 
         Dictionary<string, MonsterData> monsterDatas = new Dictionary<string, MonsterData>();
         Monster CurrentMonster; // TODO: bucket으로수정해야함;
 
         UILabel label_monsterhp = ViewLoader.label_monsterhp.GetComponent<UILabel>();
+
 
         internal void Init()
         {
@@ -51,8 +51,8 @@ namespace SexyBackPlayScene
         private void CreateMonster(MonsterData data)
         {
             CurrentMonster = new Monster(data);
+            CurrentMonster.SetHitEvent = onHit;
             // this class is event listner
-            CurrentMonster.avatar.GetComponent<MonsterView>().noticeHit += onHit;
 
             noticeMonsterCreate(CurrentMonster);
             noticeMonsterChange(CurrentMonster);
@@ -80,18 +80,18 @@ namespace SexyBackPlayScene
             label_monsterhp.text = hp + " / " + maxhp;
         }
 
-        public void onHit(string monsterID, BigInteger damage, Vector3 hitPosition) // 어차피 한마리라 일단 id는 무시
+        public void onHit(string monsterID, Vector3 hitPosition, BigInteger damage, bool isCritical) // 어차피 한마리라 일단 id는 무시
         {
-            CurrentMonster.Hit(damage);
+            CurrentMonster.Hit(hitPosition, damage, isCritical);
 
-            CurrentMonster.avatar.GetComponent<Animator>().rootPosition = CurrentMonster.avatar.transform.position;
-            CurrentMonster.avatar.GetComponent<Animator>().SetTrigger("Hit");
-          
-            hitparticle.transform.position = hitPosition;
-            hitparticle.GetComponent<ParticleSystem>().Play();
             noticeMonsterChange(CurrentMonster);
         }
 
+        public Vector3 FindPosition(string mosterID)
+        {
+            return CurrentMonster.CenterPosition;
+        }
+        
         private void onElementalCreate(Elemental sender)
         {
             if (CurrentMonster == null)

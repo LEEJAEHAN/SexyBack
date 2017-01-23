@@ -32,6 +32,9 @@ namespace SexyBackPlayScene
 
         double SwingActionTime { get { return 0.15f * AttackSpeed; } } // effect 재생이 0.15초로 가장김
 
+        public Vector3 AttackMoveVector;
+
+
         public HeroStateAttack(HeroStateMachine stateMachine, Hero owner) : base(stateMachine, owner)
         {
             timer = 0;
@@ -49,28 +52,31 @@ namespace SexyBackPlayScene
             SwingTime = AttackCount * SwingRate / 100;
             BackTime = AttackCount * BackRate / 100;
             waitTime = AttackCount * WaitRate / 100;
+
+            AttackMoveVector = GameSetting.ECamPosition - GameSetting.defaultHeroPosition;
         }
 
         internal override void Begin()
         {
-            owner.Warp(GameSetting.defaultHeroPosition);
+            hero.Warp(GameSetting.defaultHeroPosition);
         }
 
         internal override void End()
         {
-            owner.Warp(GameSetting.defaultHeroPosition);
+            hero.Warp(GameSetting.defaultHeroPosition);
         }
 
         internal override void OnTouch(TapPoint pos)
         {
-            if(!BeginBack && owner.CanAttack) // 후퇴전까지는 추가타 이벤트를 받는다;
+            if(!BeginBack && hero.AttackManager.CanMakePlan) // 후퇴전까지는 추가타 이벤트를 받는다;
             {
-                owner.MakeAttackPlan(pos);
+                hero.AttackManager.MakeAttackPlan(pos);
                 additionalattackcount++;
+                sexybacklog.Console("Tap:" + pos.UiPos);//WorldPos
             }
         }
 
-        void ChangeState() // 한번만힐행된다
+        void ChangeState() // 한번만힐행된다. begin each state
         {
             if (!BeginDash)
             {
@@ -81,7 +87,8 @@ namespace SexyBackPlayScene
             else if (!BeginSwing && timer > DashTime)
             {
                 BeginSwing = true;
-                owner.Warp(GameSetting.ECamPosition);
+                hero.Warp(GameSetting.ECamPosition);
+                ViewLoader.hero_sprite.GetComponent<Animator>().SetBool("Move", false);
             }
             else if (!BeginBack && timer > DashTime + SwingTime)
             {
@@ -93,7 +100,7 @@ namespace SexyBackPlayScene
             {
                 BeginWait = true;
                 ViewLoader.hero_sprite.GetComponent<Animator>().SetBool("Move", false);
-                owner.Warp(GameSetting.defaultHeroPosition);
+                hero.Warp(GameSetting.defaultHeroPosition);
             }
         }
 
@@ -105,14 +112,12 @@ namespace SexyBackPlayScene
             ChangeState();
 
             if (BeginDash && !BeginSwing)  // during dash
-            {
-                owner.Move(owner.AttackMoveVector * (float)ForwardSpeed * Time.deltaTime);
-            }
+                hero.Move(AttackMoveVector * (float)ForwardSpeed * Time.deltaTime);
             if (BeginSwing && !BeginBack)  // during attack
             {
-                if(swingtimer > SwingActionTime && owner.AttackPlan.Count > 0) // 0.1로마다 들어와야한다. timer를 0.1f만큼빼준다.
+                if(swingtimer > SwingActionTime && hero.AttackManager.CanAttack) // 0.1로마다 들어와야한다. timer를 0.1f만큼빼준다.
                 {
-                    if (owner.Attack((float)AttackSpeed))
+                    if (hero.Attack((float)AttackSpeed))
                     {
                         timer -= SwingActionTime; // 공격을 한번더할수있게 타이머카운터를 빼준다.
                         waitTime -= SwingActionTime; // 대기시간에서빠진다.
@@ -121,17 +126,14 @@ namespace SexyBackPlayScene
                 }
             }
             else if (BeginBack && !BeginWait) // during back
-            {
-                owner.Move(-(owner.AttackMoveVector * (float)BackwardSpeed * Time.deltaTime));
-            }
+                hero.Move(-(AttackMoveVector * (float)BackwardSpeed * Time.deltaTime));
             else if (BeginWait)
             {
                 waitTime -= Time.deltaTime;
                 if(waitTime <= 0)
-                    stateMachine.ChangeState(new HeroStateReady(stateMachine, owner));
+                    stateMachine.ChangeState(new HeroStateReady(stateMachine, hero));
             }
         }
-
         // AttackTimer(총시간) * 전진Ratio = 총 전진시간
         // 1초에가는벡터 * 1/전진시간  = 1초에가는벡터 * 전진스피드 = 총 이동량(고정) 
         // Vector3 step = owner.MoveDirection * (float)ForwardSpeed;
