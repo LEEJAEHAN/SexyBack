@@ -33,7 +33,7 @@ namespace SexyBackPlayScene
 
         // NGUI
         public static GameObject Info_Context;
-
+        public static GameObject DamageFont;
         public static GameObject Button_Confirm;
         public static GameObject Item_Enable;
         public static GameObject Item_Disable;
@@ -69,7 +69,7 @@ namespace SexyBackPlayScene
             LevelUpViewController = GameObject.Find("LevelUpViewController");
 
             Info_Context = GameObject.Find("Info_Context");
-
+            DamageFont = GameObject.Find("label_dmgfont");
             Button_Confirm = GameObject.Find("Button_Confirm");
             Item_Enable = GameObject.Find("Item_Enable");
             Item_Disable = GameObject.Find("Item_Disable");

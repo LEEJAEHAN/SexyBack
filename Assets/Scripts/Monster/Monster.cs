@@ -19,6 +19,7 @@ namespace SexyBackPlayScene
 
         GameObject hitparticle = ViewLoader.hitparticle;
 
+
         public MonsterView.MonsterHit_Event SetHitEvent
         {
             set { avatar.GetComponent<MonsterView>().noticeHit += value; }
@@ -29,7 +30,6 @@ namespace SexyBackPlayScene
             ID = data.ID;
             MAXHP = data.MaxHP;
             HP = data.MaxHP;
-
 
             // init avater
             avatar = GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/monster")as GameObject);
@@ -46,6 +46,7 @@ namespace SexyBackPlayScene
             // pivot으로 몬스터위치조정은힘들어서 collider와 sprite만조정한다.
             avatar.GetComponent<BoxCollider>().size = Size;
             avatar.GetComponent<BoxCollider>().center = PivotPosition;
+            ViewLoader.DamageFont.GetComponent<UITweener>().AddOnFinished(avatar.GetComponent<MonsterView>().OnDamageFontFinish);
             // Debug.Log(this.GetComponent<SpriteRenderer>().sprite.bounds);
         }
 
@@ -67,13 +68,15 @@ namespace SexyBackPlayScene
             //particle
             hitparticle.transform.position = hitPosition;
             hitparticle.GetComponent<ParticleSystem>().Play();
+            
             //damagefont
             Vector3 screenpos = ViewLoader.HeroCamera.WorldToScreenPoint(hitPosition);
-            sexybacklog.Console(screenpos);
-            GameObject.Find("label_dmgfont").transform.localPosition = screenpos;
-            GameObject.Find("label_dmgfont").GetComponent<UILabel>().text = damage.ToSexyBackString();
-
-
+            ViewLoader.DamageFont.SetActive(true);
+            ViewLoader.DamageFont.GetComponent<UITweener>().PlayForward();
+            ViewLoader.DamageFont.GetComponent<UITweener>().ResetToBeginning();
+            ViewLoader.DamageFont.transform.localPosition = screenpos;
+            ViewLoader.DamageFont.GetComponent<UILabel>().text = damage.ToSexyBackString();
+            ViewLoader.DamageFont.GetComponent<UILabel>().fontSize = (int)((30+10*(10-screenpos.z)));
         }
 
     }

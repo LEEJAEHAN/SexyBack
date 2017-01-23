@@ -12,7 +12,6 @@ namespace SexyBackPlayScene
         // Use this for initialization
         void Start()
         {
-
         }
 
         // Update is called once per frame
@@ -30,6 +29,12 @@ namespace SexyBackPlayScene
 
                 noticeHit(this.name, collider.transform.position, proj.Damage, false);
             }
+        }
+
+        public void OnDamageFontFinish()
+        {
+            // 이것만 직접처리한다. 귀찮엉...
+            ViewLoader.DamageFont.SetActive(false);
         }
     }
 

@@ -43,7 +43,6 @@ namespace SexyBackPlayScene
 
         internal void CreateProjectile()
         {
-
             CurrentProjectile = GameObject.Instantiate<GameObject>(ProjectilePrefab);
 
             CurrentProjectile.transform.name = this.ID;
