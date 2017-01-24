@@ -19,7 +19,6 @@ namespace SexyBackPlayScene
 
         GameObject hitparticle = ViewLoader.hitparticle;
 
-
         public MonsterView.MonsterHit_Event SetHitEvent
         {
             set { avatar.GetComponent<MonsterView>().noticeHit += value; }

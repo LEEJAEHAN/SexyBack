@@ -36,6 +36,12 @@ namespace SexyBackPlayScene
             levelUpManager.Start();
 
         }
+
+        internal void FixedUpdate()
+        {
+            monsterManager.FixedUpdate();
+        }
+
         // Update is called once per frame
         public void Update()
         {

@@ -13,6 +13,7 @@ namespace SexyBackPlayScene
         public delegate void monsterChangeEvent_Handler(Monster sender);
         public event monsterChangeEvent_Handler noticeMonsterChange;
 
+        MonsterHpBar hpbar;
 
         Dictionary<string, MonsterData> monsterDatas = new Dictionary<string, MonsterData>();
         Monster CurrentMonster; // TODO: bucket으로수정해야함;
@@ -27,6 +28,8 @@ namespace SexyBackPlayScene
             noticeMonsterChange += onMonsterChange;
             Singleton<ElementalManager>.getInstance().noticeElementalCreate += onElementalCreate;
             Singleton<HeroManager>.getInstance().noticeHeroCreate += onHeroCreate;
+
+            hpbar = new MonsterHpBar(this);
         }
 
         public void Start()
@@ -46,6 +49,11 @@ namespace SexyBackPlayScene
             monsterDatas.Add("m08", new MonsterData("m08", "Sprites/Monster/m08", new BigInteger(1000, Digit.b)));
             monsterDatas.Add("m09", new MonsterData("m09", "Sprites/Monster/m09", new BigInteger(1000, Digit.b)));
             monsterDatas.Add("m10", new MonsterData("m10", "Sprites/Monster/m10", new BigInteger(1000, Digit.b)));
+        }
+
+        internal void FixedUpdate()
+        {
+            hpbar.FixedUpdate();
         }
 
         private void CreateMonster(MonsterData data)

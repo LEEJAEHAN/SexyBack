@@ -34,6 +34,11 @@ namespace SexyBackPlayScene
             gameInput.CheckInput();
         }
 
+        private void FixedUpdate()
+        {
+            gameManager.FixedUpdate();
+        }
+
     }
 
 }

@@ -74,7 +74,7 @@ namespace SexyBackPlayScene
         // TODO : 여기도 언젠간 statemachine작업을 해야할듯 ㅠㅠ
         internal void Update()
         {
-            AttackTimer += Time.deltaTime;
+           // AttackTimer += Time.deltaTime;
 
             // 만들어진다.
             if (AttackTimer > AttackInterval - 1 && NoProjectile)

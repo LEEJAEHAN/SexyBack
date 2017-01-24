@@ -42,6 +42,15 @@ namespace SexyBackPlayScene
         public static GameObject Info_Icon;
         public static GameObject Info_Description;
 
+        // HPBAR
+        public static GameObject HPBar_Fill1;
+        public static GameObject HPBar_Fill2;
+        public static GameObject HPBar;
+        public static GameObject HPBar_SlowFill1;
+        public static GameObject HPBar_SlowFill2;
+        public static GameObject HPBar_Name;
+        public static GameObject HPBar_Unit;
+        public static GameObject HPBar_Count;
 
         public ViewLoader()
         {
@@ -78,6 +87,16 @@ namespace SexyBackPlayScene
 
             Info_Icon = GameObject.Find("Info_Icon");
             Info_Description = GameObject.Find("Info_Description");
+
+            HPBar = GameObject.Find("HPBar");
+            HPBar_SlowFill1 = GameObject.Find("HPBar_SlowFill1");
+            HPBar_SlowFill2 = GameObject.Find("HPBar_SlowFill2");
+            HPBar_Fill1 = GameObject.Find("HPBar_Fill1");
+            HPBar_Fill2 = GameObject.Find("HPBar_Fill2");
+
+            HPBar_Name = GameObject.Find("HPBar_Name");
+            HPBar_Unit = GameObject.Find("HPBar_Unit");
+            HPBar_Count = GameObject.Find("HPBar_Count");
         }
 
 
