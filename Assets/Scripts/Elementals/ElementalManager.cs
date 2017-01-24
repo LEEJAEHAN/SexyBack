@@ -128,7 +128,7 @@ namespace SexyBackPlayScene
         }
         public void PrintDps(Elemental sender)
         {
-            string dpsString = GetTotalDPS().ToSexyBackString() + " /Sec";
+            string dpsString = GetTotalDPS().To5String() + " /Sec";
             TotalDpsLabel.GetComponent<UILabel>().text = dpsString;
         }
     }

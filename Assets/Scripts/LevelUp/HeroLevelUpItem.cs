@@ -27,7 +27,7 @@ namespace SexyBackPlayScene
             string description = Info_Name + " LV" + hero.LEVEL + "\n";
             description += "Damage : " + hero.BASEDPC + "/tap\n";
             description += "Next : +" + hero.NEXTDPC + "/tap\n";
-            description += "Cost : " + Price.ToSexyBackString() + " EXP";
+            description += "Cost : " + Price.To5String() + " EXP";
 
             Info_Text = description;
         }

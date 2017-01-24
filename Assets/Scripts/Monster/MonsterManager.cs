@@ -82,8 +82,8 @@ namespace SexyBackPlayScene
 
         internal void onMonsterChange(Monster monster)
         {
-            string hp = monster.HP.ToSexyBackString();
-            string maxhp = monster.MAXHP.ToSexyBackString();
+            string hp = monster.HP.To5String();
+            string maxhp = monster.MAXHP.To5String();
 
             label_monsterhp.text = hp + " / " + maxhp;
         }

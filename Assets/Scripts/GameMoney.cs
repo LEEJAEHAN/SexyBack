@@ -45,7 +45,7 @@ namespace SexyBackPlayScene
 
         void PrintExp(BigInteger exp)
         {
-            string expstring = exp.ToSexyBackString() + " EXP";
+            string expstring = exp.To5String() + " EXP";
             label_exp.text = expstring;
         }
     }

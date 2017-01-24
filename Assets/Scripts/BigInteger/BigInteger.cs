@@ -323,7 +323,18 @@ namespace SexyBackPlayScene
             a.m_digits.ResetDataUsed();
             this.m_digits = a.m_digits;
         }
-        
+        public string To5String()
+        {
+            Digit digit = 0;
+            string digitString = ToDigitString(out digit);
+            if (digit == 0) // 1의자리수는 소수형태가아님. 자리단위를붙이지않으며, 가장뒤의 0도 . 도 뺄필요없음.
+                return digitString;
+            digitString = digitString.TrimEnd('0');
+            digitString = digitString.TrimEnd('.');
+            if (digitString.Length > 5)
+                digitString = digitString.Substring(0, 5);
+            return digitString + digit.ToString();
+        }
         private string ToDigitString(out Digit chardigit)
         {
             string thisStr = this.ToString();
@@ -371,46 +382,6 @@ namespace SexyBackPlayScene
             return new BigInteger(temp);
         }
 
-        public string To5String()
-        {
-            Digit digit = 0;
-            string temp = ToDigitString(out digit);
-            temp = temp.TrimEnd('0');
-            temp = temp.TrimEnd('.');
-            if (temp.Length > 5)
-                temp = temp.Substring(0, 5);
-            return temp + digit.ToString();
-        }
-
-        public string ToSexyBackString()
-        {
-            BigInteger Thoausand = new BigInteger(1000);
-            Digit digit = 0;
-            BigInteger preDigitValue = new BigInteger();
-            BigInteger target = this;
-
-            if (target < Thoausand)
-                return target.ToString();
-
-            while (true)
-            {
-                BigInteger.Divide(target, Thoausand, out target, out preDigitValue);
-                digit++;
-
-                if (target < Thoausand)
-                    break;
-            }
-
-            string temp = target.ToString() + "." + preDigitValue.ToString();
-
-            temp = temp.TrimEnd('0');
-            temp = temp.TrimEnd('.');
-
-            if (temp.Length > 5)
-                temp = temp.Substring(0, 5);
-
-            return temp + digit.ToString();
-        }
 
         //public string ToSexyBackString()
         //{

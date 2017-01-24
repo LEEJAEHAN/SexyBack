@@ -28,9 +28,9 @@ namespace SexyBackPlayScene
 
             // 인포창에는 base 데미지만 보여준다.
             string description = Info_Name + " LV" + owner.LEVEL + "\n";
-            description += "Damage : " + owner.BASEDPS.ToSexyBackString() + "/sec\n";
-            description += "Next : +" + owner.NEXTDPS.ToSexyBackString() + "/sec\n";
-            description += "Cost : " + Price.ToSexyBackString() + " EXP";
+            description += "Damage : " + owner.BASEDPS.To5String() + "/sec\n";
+            description += "Next : +" + owner.NEXTDPS.To5String() + "/sec\n";
+            description += "Cost : " + Price.To5String() + " EXP";
 
             Info_Text = description;
         }

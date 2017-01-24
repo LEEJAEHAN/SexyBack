@@ -68,7 +68,7 @@ namespace SexyBackPlayScene
         }
         void PrintDpc(Hero hero)
         {
-            string dpsString = hero.DPC.ToSexyBackString() + " /Tap";
+            string dpsString = hero.DPC.To5String() + " /Tap";
             label_herodmg.text = dpsString;
         }
 

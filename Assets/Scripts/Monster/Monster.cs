@@ -74,7 +74,7 @@ namespace SexyBackPlayScene
             ViewLoader.DamageFont.GetComponent<UITweener>().PlayForward();
             ViewLoader.DamageFont.GetComponent<UITweener>().ResetToBeginning();
             ViewLoader.DamageFont.transform.localPosition = screenpos;
-            ViewLoader.DamageFont.GetComponent<UILabel>().text = damage.ToSexyBackString();
+            ViewLoader.DamageFont.GetComponent<UILabel>().text = damage.To5String();
             ViewLoader.DamageFont.GetComponent<UILabel>().fontSize = (int)((30+10*(10-screenpos.z)));
         }
 

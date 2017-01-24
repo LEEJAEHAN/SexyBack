@@ -26,7 +26,7 @@ namespace SexyBackPlayScene
         public string NAME { get { return baseData.Name; } }
         public int LEVEL { get { return level; } }
         public BigInteger DPC { get { return baseDpc * dpcX; } }
-        public string BASEDPC { get { return baseDpc.ToSexyBackString(); } }
+        public string BASEDPC { get { return baseDpc.To5String(); } }
         public string NEXTDPC { get { return baseData.BaseDpcPool[level].ToSexyBackString(); } }
         public BigIntExpression NEXTEXPSTR { get { return baseData.BaseExpPool[level]; } }
         public double ATTACKINTERVAL { get { return baseData.ATTACKINTERVAL * 100 / attackspeedXH; } }   // 공속공식
