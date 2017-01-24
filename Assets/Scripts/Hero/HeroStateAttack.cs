@@ -8,27 +8,24 @@ namespace SexyBackPlayScene
     {
         double timer;
         double swingtimer;
-        double AttackCount;
+        double ActionTime;
         double AttackSpeed;
         double additionalattackcount;
 
         int DashRate = 25;
         int SwingRate = 25;
         int BackRate = 25;
-        int WaitRate = 25;
 
         double DashTime;
         double SwingTime;
         double BackTime;
-        double waitTime;
 
         bool BeginDash = false;
         bool BeginSwing = false;
         bool BeginBack = false;
-        bool BeginWait = false;
 
-        double ForwardSpeed { get { return 100 / (AttackCount * DashRate); } }
-        double BackwardSpeed { get { return 100 / (AttackCount * BackRate); } }
+        double ForwardSpeed { get { return 100 / (ActionTime * DashRate); } }
+        double BackwardSpeed { get { return 100 / (ActionTime * BackRate); } }
 
         double SwingActionTime { get { return 0.15f * AttackSpeed; } } // effect 재생이 0.15초로 가장김
 
@@ -40,18 +37,16 @@ namespace SexyBackPlayScene
             timer = 0;
             additionalattackcount = 0;
             swingtimer = 0;
-            AttackCount = owner.ATTACKINTERVAL;  // 중간에 값이 업데이트되도 무시하기위해
+            ActionTime = owner.ATTACKINTERVAL;  // 중간에 값이 업데이트되도 무시하기위해
             AttackSpeed = owner.ATTACKSPEED;
 
-            DashRate = 8;
-            SwingRate = 12; // 1초 0.15초히어로 공격을 8번까지 할수있다.
-            BackRate = 24;
-            WaitRate = 100 - DashRate - SwingRate - BackRate;
+            DashRate = 25;
+            SwingRate = 25; // 1초 0.15초히어로 공격을 8번까지 할수있다.
+            BackRate = 50;
 
-            DashTime = AttackCount * DashRate / 100;
-            SwingTime = AttackCount * SwingRate / 100;
-            BackTime = AttackCount * BackRate / 100;
-            waitTime = AttackCount * WaitRate / 100;
+            DashTime = ActionTime * DashRate / 100;
+            SwingTime = ActionTime * SwingRate / 100;
+            BackTime = ActionTime * BackRate / 100;
 
             AttackMoveVector = GameSetting.ECamPosition - GameSetting.defaultHeroPosition;
         }
@@ -96,12 +91,9 @@ namespace SexyBackPlayScene
                 ViewLoader.hero_sprite.GetComponent<Animator>().speed = (float)AttackSpeed;
                 ViewLoader.hero_sprite.GetComponent<Animator>().SetBool("Move", true);
             }
-            else if (!BeginWait && timer > DashTime + SwingTime + BackTime)
-            {
-                BeginWait = true;
-                ViewLoader.hero_sprite.GetComponent<Animator>().SetBool("Move", false);
-                hero.Warp(GameSetting.defaultHeroPosition);
-            }
+            else if (timer > DashTime + SwingTime + BackTime)
+                stateMachine.ChangeState(new HeroStateReady(stateMachine, hero));
+
         }
 
         internal override void Update()
@@ -113,26 +105,19 @@ namespace SexyBackPlayScene
 
             if (BeginDash && !BeginSwing)  // during dash
                 hero.Move(AttackMoveVector * (float)ForwardSpeed * Time.deltaTime);
-            if (BeginSwing && !BeginBack)  // during attack
+            else if (BeginSwing && !BeginBack)  // during attack
             {
-                if(swingtimer > SwingActionTime && hero.AttackManager.CanAttack) // 0.1로마다 들어와야한다. timer를 0.1f만큼빼준다.
+                if (swingtimer > SwingActionTime && hero.AttackManager.CanAttack) // 0.1로마다 들어와야한다. timer를 0.1f만큼빼준다.
                 {
                     if (hero.Attack((float)AttackSpeed))
                     {
                         timer -= SwingActionTime; // 공격을 한번더할수있게 타이머카운터를 빼준다.
-                        waitTime -= SwingActionTime; // 대기시간에서빠진다.
                         swingtimer = 0;
                     }
                 }
             }
-            else if (BeginBack && !BeginWait) // during back
+            else if (BeginBack) // during back
                 hero.Move(-(AttackMoveVector * (float)BackwardSpeed * Time.deltaTime));
-            else if (BeginWait)
-            {
-                waitTime -= Time.deltaTime;
-                if(waitTime <= 0)
-                    stateMachine.ChangeState(new HeroStateReady(stateMachine, hero));
-            }
         }
         // AttackTimer(총시간) * 전진Ratio = 총 전진시간
         // 1초에가는벡터 * 1/전진시간  = 1초에가는벡터 * 전진스피드 = 총 이동량(고정) 

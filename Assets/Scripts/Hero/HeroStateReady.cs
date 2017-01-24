@@ -13,10 +13,12 @@ namespace SexyBackPlayScene
 
         internal override void Begin()
         {
+            ViewLoader.hero_sprite.GetComponent<Animator>().SetBool("Move", false);
         }
 
         internal override void End()
         {
+
         }
 
         internal override void OnTouch(TapPoint pos)
