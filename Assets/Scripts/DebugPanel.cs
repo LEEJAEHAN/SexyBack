@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace SexyBackPlayScene
 {
@@ -26,7 +27,8 @@ namespace SexyBackPlayScene
         // TODO: fixed update 에대해좀더알아야할듯;
 
         GameObject Hpbar;
-        GameObject LateBar;
+        GameObject LateBar1;
+        GameObject LateBar2;
 
         GameObject Bar2;
         GameObject Bar1;
@@ -34,6 +36,8 @@ namespace SexyBackPlayScene
         //float now = 100;
         float instantBarGauge = 1; // 표시되는bar 0 되면올려줘야한다.
         float goal = 100; // 슬로우바의최종목표. 음수도된다.
+        float late = 100f;
+
         float moveamount = 0;
         float addline = 0;
 
@@ -45,7 +49,8 @@ namespace SexyBackPlayScene
             Singleton<GameInput>.getInstance().noticeTouchPosition += onTouch;
             Hpbar = GameObject.Find("HPBar");
 
-            LateBar = GameObject.Find("HPBar_SlowFill");
+            LateBar1 = GameObject.Find("HPBar_SlowFill1");
+            LateBar2 = GameObject.Find("HPBar_SlowFill2");
 
             Bar1 = GameObject.Find("HPBar_Fill1");
             Bar2 = GameObject.Find("HPBar_Fill2");
@@ -57,50 +62,70 @@ namespace SexyBackPlayScene
             if (instantBarGauge <= 0)
             {
                 instantBarGauge += 1f;
-                //ChangeBar();
+                ChangeBar();
             }
             Hpbar.GetComponent<UIProgressBar>().value = instantBarGauge;
 
             // 표시되는 바의 목표와 속도 set
-            goal -= 0.25f;            
-            moveamount = goal - now;
+            goal -= 0.25f;
+            moveamount = goal - late;
         }
-        bool flipflop = true;
 
         void ChangeBar()
         {
             Color newColor = Bar2.GetComponent<UISprite>().color;
             Bar1.GetComponent<UISprite>().color = newColor;
 
-            newColor = Color.HSVToRGB(Random.Range(0, 1f), 1f, 1f);
+            newColor = Color.HSVToRGB(UnityEngine.Random.Range(0, 1f), 1f, 1f);
             Bar2.GetComponent<UISprite>().color = newColor;
         }
-        public float now {  get { return 99 - addline + LateBar.GetComponent<UISprite>().fillAmount; } }
         float velocity = 0.3333f; // 1일시 1초에 목적지까지 깎임. 기본 3초
         float accel = 0.00f;
 
         private void FixedUpdate()
         {
-            if (goal >= now)
+            if (goal >= late)
             {   // 멈춤과 리셋
-                sexybacklog.Console("CHECK");
-                LateBar.GetComponent<UISprite>().fillAmount = Hpbar.GetComponent<UIProgressBar>().value; // 정확한값은 업데이트를타는 HPbar
-                goal = now;
+                LateBar1.GetComponent<UISprite>().fillAmount = Hpbar.GetComponent<UIProgressBar>().value; // 정확한값은 업데이트를타는 HPbar
+                late = goal;
                 velocity = 0.3333f;
                 return;
             }
-
             // 가속과 이동. 이벤트시 설정도는 goal과 moveamount 는 절대 바꾸지않는다.
             velocity += accel;
-            float step = moveamount * velocity * Time.fixedDeltaTime;
-            LateBar.GetComponent<UISprite>().fillAmount += step;
+            float step = moveamount * velocity * Time.fixedDeltaTime; // 이동은하고있다.
 
-            // 표시안되는바 set
-            if (LateBar.GetComponent<UISprite>().fillAmount <= 0)
-            {
-                LateBar.GetComponent<UISprite>().fillAmount = 1;
-                addline += 1;
-            }
+            bool isOver = false;
+            if ((int)(late + step) != (int)(late))
+                isOver = true;
+
+            late += step;
+            DisplayLateGaugeBar(late, goal, isOver);
+        }
+
+        void DisplayLateGaugeBar(float late, float goal, bool isover)
+        {
+            int index = (int)late;
+            float fillAmount = late - (int)late;
+            int goalindex = (int)goal;
+
+            if (isover) // 오버 이벤트,
+                FillAndChangeColor(index);
+            if( goalindex < index) // 1차원이상차이날때만 중첩late바를 출력한다.
+                LateBar2.SetActive(true);
+            else
+                LateBar2.SetActive(false);
+
+            LateBar1.GetComponent<UISprite>().fillAmount = fillAmount;
+        }
+
+        private void FillAndChangeColor(int index) // latebar
+        {
+            Color newColor = LateBar2.GetComponent<UISprite>().color;
+            LateBar1.GetComponent<UISprite>().color = newColor;
+
+            newColor = Color.HSVToRGB(UnityEngine.Random.Range(0, 1f), 0.7f, 1f);
+            LateBar2.GetComponent<UISprite>().color = newColor;
         }
 
         private void OnDrawGizmos()
