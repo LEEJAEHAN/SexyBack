@@ -323,6 +323,64 @@ namespace SexyBackPlayScene
             a.m_digits.ResetDataUsed();
             this.m_digits = a.m_digits;
         }
+        
+        private string ToDigitString(out Digit chardigit)
+        {
+            string thisStr = this.ToString();
+            int length = thisStr.Length;
+            int digitTerm = 3; // 1000단위로 자른다.
+            int maxDigit = FindMaxDigit(length, digitTerm);
+            chardigit = (Digit)(((maxDigit - 1) / digitTerm)); // 일단 digit 문자 만들어놓고.
+            if (maxDigit == 1) // 첫번째 단위가 1단위면 바로 출력 ( 즉 첫번째가 zero )
+                return thisStr; // + chardigit
+            // zero 단 이상이면
+            //first devide
+            BigInteger digitInt = MakeDigitInt(maxDigit);
+            BigInteger quotient = new BigInteger();
+            BigInteger reminder = new BigInteger();
+            BigInteger.Divide(this, digitInt, out quotient, out reminder);
+            //digit 단수 낮춰서
+            maxDigit -= digitTerm;
+            if (maxDigit == 1) // 두번째 단위가 1단위면 바로출력 ( 즉 첫번째가 k)
+                return quotient.ToString() + "." + reminder.ToString();// + chardigit.ToString();
+            //second devide
+            digitInt = MakeDigitInt(maxDigit);
+            BigInteger quotient2 = new BigInteger();
+            BigInteger reminder2 = new BigInteger();
+            BigInteger.Divide(reminder, digitInt, out quotient2, out reminder2);
+            // m이상의 결과 출력
+            return quotient.ToString() + "." + quotient2.ToString();// + chardigit.ToString();
+        }
+        public static int FindMaxDigit(int length, int digitTerm) // length보다 작은, 가장큰 digitTerm의 배수를 리턴
+        {
+            int MaxDigit = 1;
+
+            while(MaxDigit <= length)
+            {
+                MaxDigit += digitTerm;
+            }
+            return MaxDigit - digitTerm;
+        }
+        public static BigInteger MakeDigitInt(int maxDigit)
+        {
+            string temp = "1";
+            for(int i = 1; i < maxDigit; i++)
+            {
+                temp += "0";
+            }
+            return new BigInteger(temp);
+        }
+
+        public string To5String()
+        {
+            Digit digit = 0;
+            string temp = ToDigitString(out digit);
+            temp = temp.TrimEnd('0');
+            temp = temp.TrimEnd('.');
+            if (temp.Length > 5)
+                temp = temp.Substring(0, 5);
+            return temp + digit.ToString();
+        }
 
         public string ToSexyBackString()
         {
@@ -353,6 +411,37 @@ namespace SexyBackPlayScene
 
             return temp + digit.ToString();
         }
+
+        //public string ToSexyBackString()
+        //{
+        //    BigInteger Thoausand = new BigInteger(1000);
+        //    Digit digit = 0;
+        //    BigInteger preDigitValue = new BigInteger();
+        //    BigInteger target = this;
+
+        //    if (target < Thoausand)
+        //        return target.ToString();
+
+        //    while (true)
+        //    {
+        //        BigInteger.Divide(target, Thoausand, out target, out preDigitValue);
+        //        digit++;
+
+        //        if (target < Thoausand)
+        //            break;
+        //    }
+
+        //    string temp = target.ToString() + "." + preDigitValue.ToString();
+
+        //    temp = temp.TrimEnd('0');
+        //    temp = temp.TrimEnd('.');
+
+        //    if (temp.Length > 5)
+        //        temp = temp.Substring(0, 5);
+
+        //    return temp + digit.ToString();
+        //}
+
 
         #endregion
 

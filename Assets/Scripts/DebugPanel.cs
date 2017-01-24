@@ -49,8 +49,15 @@ namespace SexyBackPlayScene
 
         }
         // Update is called once per frame
+        bool flipflop = true;
         void Update()
         {
+            if (flipflop)
+            {
+                BigInteger a = new BigInteger("123456123456");
+                sexybacklog.Console(a.To5String());
+                flipflop = !flipflop;
+            }
 
             if (Input.GetMouseButtonDown(0))
             {
