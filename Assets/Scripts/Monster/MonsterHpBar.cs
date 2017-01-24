@@ -16,20 +16,19 @@ namespace SexyBackPlayScene
         GameObject HPBar_Count;
 
         MonsterManager manager;
-        //float now = 100;
 
         float maxstack = 100; // 변수
         float goal = 100; // 슬로우바의최종목표. 음수도된다.
-        float late = 100f;
-
-        float moveamount = 0;
-
-        float velocity = 0.5f; // 1일시 1초에 목적지까지 깎임. 기본 3초
-        float accel = 0.00f;
-
-        float InitHue = 1f;
+        float late = 100;
         float currentLstack = 0;
         float currentIstack = 0;
+
+        float moveamount = 0; // 게이지 이동량
+        float velocity = 0.5f; // 이동속도. 1일시 1초에 목적지까지 깎임. 기본 3초
+        float accel = 0.00f;  // 이동가속도.
+
+        float InitHue = 1f;
+
         public float IGauge
         {
             get { return Hpbar.GetComponent<UIProgressBar>().value; }
@@ -59,14 +58,17 @@ namespace SexyBackPlayScene
             HPBar_Name = ViewLoader.HPBar_Name;
             HPBar_Unit = ViewLoader.HPBar_Unit;
             HPBar_Count = ViewLoader.HPBar_Count;
+
+            BigInteger a = 10;
+            
         }
-        // sexybacklog.Console("goal " + goal + " next " + instantBarGauge + " now " + now + " moveamount " + moveamount);
+
         // Use this for initialization
         void onMonsterCreate(Monster sender)
         {
             Hpbar.SetActive(true);
 
-            //InitHue = UnityEngine.Random.Range(0, 1f);
+            InitHue = UnityEngine.Random.Range(0, 1f);
             Bar1.GetComponent<UISprite>().color = Color.HSVToRGB(InitHue, 1, 1);
             LateBar1.GetComponent<UISprite>().color = Color.HSVToRGB(InitHue, 1, 0.8f);
 
@@ -91,23 +93,6 @@ namespace SexyBackPlayScene
             }
         }
 
-        //void FillAndChangeColor(GameObject current, GameObject next, int jumpcount)
-        //{
-        //    float hue = 0;
-        //    float saturation = 0;
-        //    float brightness = 0;
-        //    Color currColor = current.GetComponent<UISprite>().color;
-        //    Color.RGBToHSV(currColor, out hue, out saturation, out brightness);
-
-        //    for (int i = 0; i < jumpcount; i++)
-        //    {
-        //        hue += 0.07f;
-        //        while (hue > 1)
-        //            hue -= 1;
-        //    }
-        //    current.GetComponent<UISprite>().color = Color.HSVToRGB(hue, saturation, brightness);
-        //    next.GetComponent<UISprite>().color = Color.HSVToRGB(hue + 0.07f, saturation, brightness);
-        //}
         private void setColor(GameObject current, GameObject next, int index)
         {
             float hue = 0;
@@ -116,27 +101,15 @@ namespace SexyBackPlayScene
             Color currColor = current.GetComponent<UISprite>().color;
             Color.RGBToHSV(currColor, out hue, out saturation, out brightness);
 
-            hue = (0.13f) * index;
+            hue = InitHue + (0.13f) * index;
             hue = hue - (int)hue;
 
             current.GetComponent<UISprite>().color = Color.HSVToRGB(hue, saturation, brightness);
             next.GetComponent<UISprite>().color = Color.HSVToRGB(hue + 0.07f, saturation, brightness);
         }
 
-
-
-        //private void FillAndChangeColor(int index) // latebar
-        //{
-        //    Color newColor = LateBar2.GetComponent<UISprite>().color;
-        //    LateBar1.GetComponent<UISprite>().color = newColor;
-
-        //    newColor = Color.HSVToRGB(UnityEngine.Random.Range(0, 1f), 0.7f, 1f);
-        //    LateBar2.GetComponent<UISprite>().color = newColor;
-        //}
-
         public void FixedUpdate()
         {
-
             // 가속과 이동. 이벤트시 설정도는 goal과 moveamount 는 절대 바꾸지않는다.
             velocity += accel;
             float step = moveamount * velocity * Time.fixedDeltaTime; // 이동은하고있다.
@@ -173,11 +146,6 @@ namespace SexyBackPlayScene
             {
                 LateBar2.SetActive(false);
             }
-
-
-
-
-
             LateBar1.GetComponent<UISprite>().fillAmount = fillAmount;
         }
 
