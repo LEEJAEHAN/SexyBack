@@ -14,8 +14,7 @@ namespace SexyBackPlayScene
 
         Ray effectray;
         RaycastHit effecthit;
-
-
+        
         Ray a;
         RaycastHit ahit;
 
@@ -23,8 +22,7 @@ namespace SexyBackPlayScene
         // 문 - 초기카메라
         //Vector3 moveDirection = Singleton<MonsterManager>.getInstance().GetMonster().Position - new Vector3(0,0,-10); // 몹 - 초기카메라
         //  Vector3 moveDirection = new Vector3(0,3,-1) - new Vector3(0, 0, -10); // 문 - 초기카메라
-
-   
+        
 
         private void OnDrawGizmos()
         {

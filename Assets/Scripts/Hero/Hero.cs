@@ -16,7 +16,7 @@ namespace SexyBackPlayScene
         private int level;
         private BigInteger baseDpc = new BigInteger(0);
         private BigInteger dpcX = new BigInteger(1); // 곱계수는 X를붙인다.
-        int bounsAttackCount = 49; // 보너스 공격스택횟수 
+        int bounsAttackCount = 6; // 보너스 공격스택횟수 
         int attackspeedXH = 100; // speed 와 interval은 역수관계
 
         // 최종적으로 나가는 값은 모두 대문자이다. 중간과정은 앞에만대문자;
@@ -105,6 +105,7 @@ namespace SexyBackPlayScene
 
         public void onTouch(TapPoint pos)
         {
+            // TODO: if my state is ready, monster state is ready. go!
             StateMachine.onTouch(pos);
         }
 

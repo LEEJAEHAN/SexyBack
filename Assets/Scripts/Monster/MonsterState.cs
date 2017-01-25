@@ -1,6 +1,6 @@
 ﻿namespace SexyBackPlayScene
 {
-    internal abstract class BaseState<T> where T : Statable
+    public abstract class BaseState<T> where T : Statable
     {
         protected T owner;
         protected StateMachine<T> stateMachine;

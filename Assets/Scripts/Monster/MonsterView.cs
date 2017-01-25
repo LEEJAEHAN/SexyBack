@@ -9,6 +9,11 @@ namespace SexyBackPlayScene
         public delegate void MonsterHit_Event(string monsterID, Vector3 hitPosition, string elementID);
         public event MonsterHit_Event noticeHit;
 
+
+        public delegate void MonstserActionEndEvent(string monsterID, string stateID);
+        public event MonstserActionEndEvent noticeStateEnd;
+
+
         // Use this for initialization
         void Start()
         {
@@ -28,6 +33,10 @@ namespace SexyBackPlayScene
             }
         }
 
+        public void OnActionFinished(string ActionStateID)
+        {
+            noticeStateEnd(this.name, ActionStateID);
+        } 
         public void OnDamageFontFinish()
         {
             // 이것만 직접처리한다. 귀찮엉...

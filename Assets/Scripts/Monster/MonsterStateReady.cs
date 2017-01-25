@@ -20,7 +20,7 @@ namespace SexyBackPlayScene
         internal override void Update()
         {
             //
-            sexybacklog.Console("레디까지무사히옴 ㅠㅠ");
+//            sexybacklog.Console("레디까지무사히옴 ㅠㅠ");
         }
     }
 }

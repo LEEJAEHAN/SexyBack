@@ -1,10 +1,10 @@
 ﻿namespace SexyBackPlayScene
 {
-    internal abstract class StateMachine<T> where T : Statable
+    public abstract class StateMachine<T> where T : Statable
     {
         protected T owner;
         private BaseState<T> CurrState;
-        string currStateID;
+        public string currStateID;
 
         internal StateMachine(T owner)
         {
@@ -28,6 +28,7 @@
         public void ChangeState(string stateid)
         {
             ChangeState(CreateState(stateid));
+            currStateID = stateid;
         }
 
 

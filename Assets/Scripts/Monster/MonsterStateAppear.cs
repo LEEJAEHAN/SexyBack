@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace SexyBackPlayScene
 {
@@ -11,15 +12,18 @@ namespace SexyBackPlayScene
 
         internal override void Begin()
         {
+            owner.SetActionTrigger("Appear");
+            sexybacklog.Console("Appear Begin");
         }
 
         internal override void End()
         {
+            owner.SetActionTrigger("Ready");
+            sexybacklog.Console("Appear End");
         }
 
         internal override void Update()
         {
-            stateMachine.ChangeState("Ready");
         }
     }
 }

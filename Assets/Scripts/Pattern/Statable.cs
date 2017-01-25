@@ -1,6 +1,6 @@
 ﻿namespace SexyBackPlayScene
 {
-    internal interface Statable
+    public interface Statable
     {
     }
 }

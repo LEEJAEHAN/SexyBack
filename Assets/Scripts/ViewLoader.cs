@@ -51,6 +51,8 @@ namespace SexyBackPlayScene
         public static GameObject HPBar_Unit;
         public static GameObject HPBar_Count;
 
+        public static GameObject Background;
+
         public ViewLoader()
         {
             HeroPanel = GameObject.Find("HeroPanel");
@@ -96,6 +98,9 @@ namespace SexyBackPlayScene
             HPBar_Name = GameObject.Find("HPBar_Name");
             HPBar_Unit = GameObject.Find("HPBar_Unit");
             HPBar_Count = GameObject.Find("HPBar_Count");
+
+            Background = GameObject.Find("background");
+
         }
 
         // prefabs

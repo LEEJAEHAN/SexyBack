@@ -13,20 +13,27 @@ namespace SexyBackPlayScene
         private GameObject avatar;
         public BoxCollider avatarCollision { get { return avatar.GetComponent<BoxCollider>(); } }
 
-        StateMachine<Monster> stateMachine;
+        public StateMachine<Monster> stateMachine;
         //size value
         public Vector3 PivotPosition; // 올라가는정도
         public Vector3 CenterPosition; // its default; readonly.
+
+
         public Vector3 Size;
 
         GameObject hitparticle = ViewLoader.hitparticle;
         GameObject damagefont = ViewLoader.DamageFont;
 
+        
         public MonsterView.MonsterHit_Event SetHitEvent
         {
             set { avatar.GetComponent<MonsterView>().noticeHit += value; }
         }
-
+        public MonsterView.MonstserActionEndEvent SetStateEndEvent
+        {
+            set { avatar.GetComponent<MonsterView>().noticeStateEnd += value; }
+        }
+       
         internal Monster (MonsterData data)
         {
             ID = data.ID;
@@ -98,6 +105,11 @@ namespace SexyBackPlayScene
             damagefont.transform.localPosition = screenpos;
             damagefont.GetComponent<UILabel>().text = dmg.To5String();
             damagefont.GetComponent<UILabel>().fontSize = (int)((30 + 10 * (10 - screenpos.z)));
+        }
+
+        internal void SetActionTrigger(string v)
+        {
+            avatar.GetComponent<Animator>().SetTrigger(v);
         }
 
 

@@ -20,7 +20,6 @@ namespace SexyBackPlayScene
 
         UILabel label_monsterhp = ViewLoader.label_monsterhp.GetComponent<UILabel>();
 
-
         internal void Init()
         {
             LoadData();
@@ -28,7 +27,8 @@ namespace SexyBackPlayScene
             noticeMonsterChange += onMonsterChange;
             Singleton<ElementalManager>.getInstance().noticeElementalCreate += onElementalCreate;
             Singleton<HeroManager>.getInstance().noticeHeroCreate += onHeroCreate;
-
+            ViewLoader.Background.GetComponent<background>().noticeHit += onHitByProjectile;
+            
             hpbar = new MonsterHpBar(this);
         }
 
@@ -60,6 +60,8 @@ namespace SexyBackPlayScene
         {
             CurrentMonster = new Monster(data);
             CurrentMonster.SetHitEvent = onHitByProjectile;
+            CurrentMonster.SetStateEndEvent = onActionStateEnd;
+
             // this class is event listner
 
             noticeMonsterCreate(CurrentMonster);
@@ -90,12 +92,22 @@ namespace SexyBackPlayScene
 
         public void Hit(string monsterID, Vector3 hitPosition, BigInteger damage, bool isCritical) // 어차피 한마리라 일단 id는 무시
         {
+            if (CurrentMonster == null)
+            {
+                sexybacklog.Error();
+                return;
+            }
             CurrentMonster.Hit(hitPosition, damage, isCritical);
             noticeMonsterChange(CurrentMonster);
         }
 
         public void onHitByProjectile(string monsterID, Vector3 hitposition, string elementalID)
         {
+            if (CurrentMonster == null)
+            {
+                sexybacklog.Error();
+                return;
+            }
             BigInteger damage = Singleton<ElementalManager>.getInstance().GetElementalDamage(elementalID);
             Hit(monsterID, hitposition, damage, false);
         }
@@ -118,5 +130,12 @@ namespace SexyBackPlayScene
             hero.targetID = CurrentMonster.ID;
             //hero.SetDirection(CurrentMonster.CenterPosition);
         }
+        void onActionStateEnd(string monsterid, string stateID)
+        {
+            if (stateID == "Appear")
+                CurrentMonster.stateMachine.ChangeState("Ready");
+
+        }
+
     }
 }
