@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace SexyBackPlayScene
 {
-    internal class Hero
+    internal class Hero : Statable
     {
         private HeroData baseData;
         private GameObject avatar = ViewLoader.HeroPanel;

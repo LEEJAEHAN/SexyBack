@@ -9,7 +9,6 @@ namespace SexyBackPlayScene
         public static GameObject HeroPanel;
         public static Camera HeroCamera;
         public static Camera EffectCamera;
-
         // 모든 인스턴스화 되어있는 뷰를 로드해놓는다.
 
         // 동적으로 생성되는 것은 ㄴㄴ
@@ -98,8 +97,6 @@ namespace SexyBackPlayScene
             HPBar_Unit = GameObject.Find("HPBar_Unit");
             HPBar_Count = GameObject.Find("HPBar_Count");
         }
-
-
 
         // prefabs
 

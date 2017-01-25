@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
+
     internal class HeroStateMachine
     {
+
         HeroState CurrState;
 
         internal HeroStateMachine(Hero owner)

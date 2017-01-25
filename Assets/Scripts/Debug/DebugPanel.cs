@@ -5,7 +5,6 @@ namespace SexyBackPlayScene
 {
     public class DebugPanel : MonoBehaviour
     {
-
         Vector3 mouseinputpoint;
         Ray ray;
         RaycastHit hit;

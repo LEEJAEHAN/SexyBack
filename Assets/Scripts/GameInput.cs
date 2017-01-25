@@ -36,7 +36,7 @@ namespace SexyBackPlayScene
         }
         void CalculateEffectPoint(Vector3 position)
         {
-            //              ray = ViewLoader.camera.sc
+            //ray = ViewLoader.camera.sc
         }
 
     }
