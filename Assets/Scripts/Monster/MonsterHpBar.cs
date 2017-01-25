@@ -45,11 +45,6 @@ namespace SexyBackPlayScene
             manager.noticeMonsterCreate += onMonsterCreate;
             manager.noticeMonsterChange += onMonsterChange;
 
-            currentLstack = maxstack - 1;
-            currentIstack = maxstack - 1;
-            goal = maxstack;
-            late = maxstack;
-
             Hpbar = ViewLoader.HPBar;
             LateBar1 = ViewLoader.HPBar_SlowFill1;
             LateBar2 = ViewLoader.HPBar_SlowFill2;
@@ -59,27 +54,52 @@ namespace SexyBackPlayScene
             HPBar_Unit = ViewLoader.HPBar_Unit;
             HPBar_Count = ViewLoader.HPBar_Count;
 
-            BigInteger a = 10;
-            
+            SetGauge(100f, "1");
+            Hpbar.SetActive(false);
+        }
+
+        void SetGauge(float hpfloat, string unitstring)
+        {
+            maxstack = hpfloat;
+            currentLstack = maxstack - 1;
+            currentIstack = maxstack - 1;
+            goal = maxstack;
+            late = maxstack;
+
+            setColor(Bar1, Bar2, (int)currentIstack); // max 100이면 99단 풀차지부터.
+            setColor(LateBar1, LateBar2, (int)currentLstack);
+            IGauge = maxstack - (int)maxstack;
+            LGauge = maxstack - (int)maxstack;
+
+            // set Color
+            InitHue = UnityEngine.Random.Range(0, 1f);
+            Bar1.GetComponent<UISprite>().color = Color.HSVToRGB(InitHue, 1, 1);
+            LateBar1.GetComponent<UISprite>().color = Color.HSVToRGB(InitHue, 1, 0.8f);
         }
 
         // Use this for initialization
         void onMonsterCreate(Monster sender)
-        {
+        {   
+            // 123,456,123,456
+            BigInteger hp = sender.MAXHP;
+            int maxdigit = 0;
+            string floatstring = hp.ToDigitString(out maxdigit, 2, 4); // "12.3456"
+            string unitstring = BigInteger.CalDigitOtherN(maxdigit, 3); // 10b
+
+            maxstack = Convert.ToSingle(floatstring);
+
+            SetGauge(maxstack, unitstring);
             Hpbar.SetActive(true);
 
-            InitHue = UnityEngine.Random.Range(0, 1f);
-            Bar1.GetComponent<UISprite>().color = Color.HSVToRGB(InitHue, 1, 1);
-            LateBar1.GetComponent<UISprite>().color = Color.HSVToRGB(InitHue, 1, 0.8f);
 
-            setColor(Bar1, Bar2, (int)currentIstack); // max 100이면 99단 풀차지부터.
-            setColor(LateBar1, LateBar2, (int)currentLstack);
-            IGauge = 1;
-            LGauge = 1;
+            //hp.ToDigitString()
         }
 
         void onMonsterChange(Monster monster)
         {
+            int maxdigit = 0;
+            string floatstring = monster.HP.ToDigitString(out maxdigit, 2, 4);
+
             // 표시되는 바의 목표와 속도 set
             goal -= 0.25f;
             moveamount = goal - late;
@@ -91,6 +111,7 @@ namespace SexyBackPlayScene
                 currentIstack = stackindex;
                 setColor(Bar1, Bar2, (int)goal); // 나중에 점프카운트 바꿔야한다.
             }
+            sexybacklog.Console(goal);
         }
 
         private void setColor(GameObject current, GameObject next, int index)

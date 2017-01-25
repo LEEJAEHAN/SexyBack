@@ -315,7 +315,7 @@ namespace SexyBackPlayScene
         public BigInteger(BigIntExpression exp)
         {
             string temp = exp.value.ToString();
-            int digit = (int)Enum.Parse(typeof(Digit), exp.digit);
+            int digit = (int)exp.digit;
             for (int i = 0; i < (int)digit; i++)
                 temp += "000";
 
@@ -325,8 +325,10 @@ namespace SexyBackPlayScene
         }
         public string To5String()
         {
-            Digit digit = 0;
-            string digitString = ToDigitString(out digit);
+            int digit3 = 3; // 3자리마다 단위를늘린다..
+            int maxDigit3 = 0;
+            string digitString = ToDigitString(out maxDigit3, digit3, 3);
+            Digit digit = (Digit)((maxDigit3 - 1) / digit3); ; // 바로나온 maxDigit3은 3의배수 + 1이기때문에.
             if (digit == 0) // 1의자리수는 소수형태가아님. 자리단위를붙이지않으며, 가장뒤의 0도 . 도 뺄필요없음.
                 return digitString;
             digitString = digitString.TrimEnd('0');
@@ -335,34 +337,46 @@ namespace SexyBackPlayScene
                 digitString = digitString.Substring(0, 5);
             return digitString + digit.ToString();
         }
-        private string ToDigitString(out Digit chardigit)
+        private string CalDigitSameN(int maxDigitN, int digitN = 3)
         {
-            string thisStr = this.ToString();
+            // quot = 0;
+            Digit digit = (Digit)((maxDigitN - 1) / digitN);
+            return digit.ToString();
+        }
+        public static string CalDigitOtherN(int maxDigit, int digitN = 3)
+        {
+            int maxDigitN = FindMaxDigitStack(maxDigit, digitN);
+            int quateDigit = maxDigit - (maxDigitN - 1);
+            string stack = MakeDigitString(quateDigit);
+            Digit digit = (Digit)((maxDigitN - 1) / digitN);
+            return stack + digit.ToString();
+        }
+        public static string MakeDigitString(int maxDigit)
+        {
+            string temp = "1";
+            for (int i = 1; i < maxDigit; i++)
+            {
+                temp += "0";
+            }
+            return temp;
+        }
+        public string ToDigitString(out int maxdigitN, int digitN, int overload) // overload 소숫점 뒤에로드될 숫자갯수.
+        {
+            string thisStr = this.ToString(); // digitN은 N자리숫자마다끊는다는걸 의미.
             int length = thisStr.Length;
-            int digitTerm = 3; // 1000단위로 자른다.
-            int maxDigit = FindMaxDigit(length, digitTerm);
-            chardigit = (Digit)(((maxDigit - 1) / digitTerm)); // 일단 digit 문자 만들어놓고.
-            if (maxDigit == 1) // 첫번째 단위가 1단위면 바로 출력 ( 즉 첫번째가 zero )
+            int maxDigitN = FindMaxDigitStack(length, digitN); // maxDigitN 은 digitN의 배수 + 1이다. 
+            maxdigitN = maxDigitN; // 일단 digit 문자 만들어놓고.
+            if (maxDigitN == 1) // 첫번째 단위가 1단위면 바로 출력 ( 즉 첫번째가 zero )
                 return thisStr; // + chardigit
             // zero 단 이상이면
-            //first devide
-            BigInteger digitInt = MakeDigitInt(maxDigit);
-            BigInteger quotient = new BigInteger();
-            BigInteger reminder = new BigInteger();
-            BigInteger.Divide(this, digitInt, out quotient, out reminder);
-            //digit 단수 낮춰서
-            maxDigit -= digitTerm;
-            if (maxDigit == 1) // 두번째 단위가 1단위면 바로출력 ( 즉 첫번째가 k)
-                return quotient.ToString() + "." + reminder.ToString();// + chardigit.ToString();
-            //second devide
-            digitInt = MakeDigitInt(maxDigit);
-            BigInteger quotient2 = new BigInteger();
-            BigInteger reminder2 = new BigInteger();
-            BigInteger.Divide(reminder, digitInt, out quotient2, out reminder2);
-            // m이상의 결과 출력
-            return quotient.ToString() + "." + quotient2.ToString();// + chardigit.ToString();
+            string quotient = thisStr.Substring(0, length - maxDigitN + 1); // length에서 maxDigitN까지. ( 문자열이라 순서가 반전 )
+            while ((length - maxDigitN + 1) + overload > length)
+                overload--;
+            string reminder = thisStr.Substring(length - maxDigitN + 1, overload);
+            return quotient.ToString() + "." + reminder.ToString();// + chardigit.ToString();
         }
-        public static int FindMaxDigit(int length, int digitTerm) // length보다 작은, 가장큰 digitTerm의 배수를 리턴
+       
+        public static int FindMaxDigitStack(int length, int digitTerm) // length보다 작은, 가장큰 digitTerm의 배수를 리턴
         {
             int MaxDigit = 1;
 
@@ -372,16 +386,34 @@ namespace SexyBackPlayScene
             }
             return MaxDigit - digitTerm;
         }
-        public static BigInteger MakeDigitInt(int maxDigit)
-        {
-            string temp = "1";
-            for(int i = 1; i < maxDigit; i++)
-            {
-                temp += "0";
-            }
-            return new BigInteger(temp);
-        }
 
+        //private string ToDigitString(out Digit chardigit)
+        //{
+        //    string thisStr = this.ToString();
+        //    int length = thisStr.Length;
+        //    int digitTerm = 3; // 1000단위로 자른다.
+        //    int maxDigit = FindMaxDigit(length, digitTerm);
+        //    chardigit = (Digit)(((maxDigit - 1) / digitTerm)); // 일단 digit 문자 만들어놓고.
+        //    if (maxDigit == 1) // 첫번째 단위가 1단위면 바로 출력 ( 즉 첫번째가 zero )
+        //        return thisStr; // + chardigit
+        //    // zero 단 이상이면
+        //    //first devide
+        //    BigInteger digitInt = MakeDigitInt(maxDigit);
+        //    BigInteger quotient = new BigInteger();
+        //    BigInteger reminder = new BigInteger();
+        //    BigInteger.Divide(this, digitInt, out quotient, out reminder);
+        //    //digit 단수 낮춰서
+        //    maxDigit -= digitTerm;
+        //    if (maxDigit == 1) // 두번째 단위가 1단위면 바로출력 ( 즉 첫번째가 k)
+        //        return quotient.ToString() + "." + reminder.ToString();// + chardigit.ToString();
+        //    //second devide
+        //    digitInt = MakeDigitInt(maxDigit);
+        //    BigInteger quotient2 = new BigInteger();
+        //    BigInteger reminder2 = new BigInteger();
+        //    BigInteger.Divide(reminder, digitInt, out quotient2, out reminder2);
+        //    // m이상의 결과 출력
+        //    return quotient.ToString() + "." + quotient2.ToString();// + chardigit.ToString();
+        //}
 
         //public string ToSexyBackString()
         //{

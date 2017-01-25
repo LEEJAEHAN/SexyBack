@@ -19,22 +19,25 @@ namespace SexyBackPlayScene
         D,
         E
     }
-    public struct BigIntExpression
+    public class BigIntExpression
     {
         public int value;
-        public string digit;
+        public Digit digit;
 
-        public BigIntExpression(int value, string digit)
+        public BigIntExpression(int value, string d)
         {
             this.value = value;
-            this.digit = digit;
+            this.digit = (Digit)Enum.Parse(typeof(Digit), d);
         }
         public string ToSexyBackString()
         {
-            if (digit == Digit.zero.ToString())
+            if (digit == Digit.zero)
                 return value.ToString();
             else
-                return value.ToString() + " "+ digit;
+                return value.ToString() + digit.ToString();
         }
+
+
+
     }
 }

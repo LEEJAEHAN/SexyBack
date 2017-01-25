@@ -44,7 +44,7 @@ namespace SexyBackPlayScene
             monsterDatas.Add("m03", new MonsterData("m03", "Sprites/Monster/m03", new BigInteger(1000, Digit.b)));
             monsterDatas.Add("m04", new MonsterData("m04", "Sprites/Monster/m04", new BigInteger(1000, Digit.b)));
             monsterDatas.Add("m05", new MonsterData("m05", "Sprites/Monster/m05", new BigInteger(1000, Digit.b)));
-            monsterDatas.Add("m06", new MonsterData("m06", "Sprites/Monster/m06", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m06", new MonsterData("m06", "Sprites/Monster/m06", new BigInteger("123456123456")));
             monsterDatas.Add("m07", new MonsterData("m07", "Sprites/Monster/m07", new BigInteger(1000, Digit.b)));
             monsterDatas.Add("m08", new MonsterData("m08", "Sprites/Monster/m08", new BigInteger(1000, Digit.b)));
             monsterDatas.Add("m09", new MonsterData("m09", "Sprites/Monster/m09", new BigInteger(1000, Digit.b)));
