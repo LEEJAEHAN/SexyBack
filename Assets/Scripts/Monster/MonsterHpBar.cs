@@ -15,19 +15,18 @@ namespace SexyBackPlayScene
         GameObject HPBar_Unit;
         GameObject HPBar_Count;
 
-        MonsterManager manager;
-
         float maxstack = 100; // 변수
         float goal = 100; // 슬로우바의최종목표. 음수도된다.
         float late = 100;
-        float currentLstack = 0;
-        float currentIstack = 0;
+        int currentLstack = 0;
+        int currentIstack = 0;
 
-        float moveamount = 0; // 게이지 이동량
-        float velocity = 0.5f; // 이동속도. 1일시 1초에 목적지까지 깎임. 기본 3초
-        float accel = 0.00f;  // 이동가속도.
+        float velocity = -0.2f; // 이동속도. 1일시 1초에 목적지까지 깎임. 기본 3초
+        float accel = 0.01f;  // 이동가속도. 현재 사용하지않음.
 
         float InitHue = 1f;
+        private float destroyTimer = 1f;
+        string currentMonsterID;
 
         public float IGauge
         {
@@ -54,15 +53,23 @@ namespace SexyBackPlayScene
             HPBar_Unit = ViewLoader.HPBar_Unit;
             HPBar_Count = ViewLoader.HPBar_Count;
 
-            SetGauge(100f, "1");
             Hpbar.SetActive(false);
         }
 
-        void SetGauge(float hpfloat, string unitstring)
+        // Use this for initialization
+        void onMonsterCreate(Monster sender)
         {
-            maxstack = hpfloat;
-            currentLstack = maxstack - 1;
-            currentIstack = maxstack - 1;
+            // 123,456,123,456
+            BigInteger hp = sender.MAXHP;
+            int maxdigit = 0;
+            string floatstring = hp.ToDigitString(out maxdigit, 2, 4); // "12.3456"
+            string unitstring = BigInteger.CalDigitOtherN(maxdigit, 3); // 10b
+            float totalgauge = Convert.ToSingle(floatstring);
+            // set monster info text
+
+            maxstack = totalgauge;  // 게이지가 만땅일시 0가되버려서
+            currentLstack = (int)(totalgauge);
+            currentIstack = (int)(totalgauge);
             goal = maxstack;
             late = maxstack;
 
@@ -71,47 +78,57 @@ namespace SexyBackPlayScene
             IGauge = maxstack - (int)maxstack;
             LGauge = maxstack - (int)maxstack;
 
+            // set text
+            HPBar_Count.GetComponent<UILabel>().text = "x" + currentIstack;
+            HPBar_Unit.GetComponent<UILabel>().text = unitstring;
+            HPBar_Name.GetComponent<UILabel>().text = sender.Name;
+
             // set Color
             InitHue = UnityEngine.Random.Range(0, 1f);
             Bar1.GetComponent<UISprite>().color = Color.HSVToRGB(InitHue, 1, 1);
-            LateBar1.GetComponent<UISprite>().color = Color.HSVToRGB(InitHue, 1, 0.8f);
-        }
+            LateBar1.GetComponent<UISprite>().color = Color.HSVToRGB(InitHue, 1, 0.7f);
 
-        // Use this for initialization
-        void onMonsterCreate(Monster sender)
-        {   
-            // 123,456,123,456
-            BigInteger hp = sender.MAXHP;
-            int maxdigit = 0;
-            string floatstring = hp.ToDigitString(out maxdigit, 2, 4); // "12.3456"
-            string unitstring = BigInteger.CalDigitOtherN(maxdigit, 3); // 10b
-
-            maxstack = Convert.ToSingle(floatstring);
-
-            SetGauge(maxstack, unitstring);
+            //attach
+            currentMonsterID = sender.ID;
             Hpbar.SetActive(true);
-
-
-            //hp.ToDigitString()
         }
 
         void onMonsterChange(Monster monster)
         {
+            if (currentMonsterID != monster.ID)
+                return;
+
+            if (goal <=0 )
+            {
+                IGauge = 0;
+                currentIstack = 0;
+                return;
+            }
+
+            float prevgoal = goal;
             int maxdigit = 0;
             string floatstring = monster.HP.ToDigitString(out maxdigit, 2, 4);
 
             // 표시되는 바의 목표와 속도 set
-            goal -= 0.25f;
-            moveamount = goal - late;
+            goal = Convert.ToSingle(floatstring);
+            if (prevgoal == goal)
+                return;
 
-            int stackindex = (int)goal;
+            //moveamount = goal - late; /// 음수
+            if (goal < 0)
+                goal = 0; // 속도 지정 후에 골은 0으로만든다.
+
+            int stackindex = (int)goal; // 골이 조금도 안깎이면. 정수부에서 게이지가 0이 될 가능성이있다.
             IGauge = goal - stackindex;
             if (stackindex < currentIstack)
             {
                 currentIstack = stackindex;
                 setColor(Bar1, Bar2, (int)goal); // 나중에 점프카운트 바꿔야한다.
+                HPBar_Count.GetComponent<UILabel>().text = "x" + currentIstack;
             }
-            sexybacklog.Console(goal);
+            if (currentIstack == 0)
+                Bar2.SetActive(false);
+            //sexybacklog.Console(goal + " currstack:" + currentIstack);
         }
 
         private void setColor(GameObject current, GameObject next, int index)
@@ -132,18 +149,31 @@ namespace SexyBackPlayScene
         public void FixedUpdate()
         {
             // 가속과 이동. 이벤트시 설정도는 goal과 moveamount 는 절대 바꾸지않는다.
-            velocity += accel;
-            float step = moveamount * velocity * Time.fixedDeltaTime; // 이동은하고있다.
+            //velocity += accel;
+            float vel = velocity * (float)Math.Pow((currentLstack - currentIstack + 1), 2);
+            if (vel > velocity)
+                vel = velocity;
 
+            float step = vel * Time.fixedDeltaTime; // 이동은하고있다.
             late += step;
+
             DisplayLateGaugeBar(late, goal);
 
             if (goal >= late)
             {   // 멈춤과 리셋
                 LateBar1.GetComponent<UISprite>().fillAmount = Hpbar.GetComponent<UIProgressBar>().value; // 정확한값은 업데이트를타는 HPbar
                 late = goal;
-                velocity = 0.5f;
-                return;
+                vel = velocity;
+            }
+            if (late <= 0.001f) // TODO : 이부분이 젤찜찜함
+            {   // detach
+                late = 0;
+                destroyTimer -= Time.fixedDeltaTime;
+                if (destroyTimer <= 0)
+                {
+                    Hpbar.SetActive(false);
+                    currentMonsterID = null;
+                }
             }
         }
 
@@ -160,13 +190,10 @@ namespace SexyBackPlayScene
             }
 
             if (currentIstack < currentLstack) // 1차원이상차이날때만 중첩late바를 출력한다.
-            {
                 LateBar2.SetActive(true);
-            }
             else
-            {
                 LateBar2.SetActive(false);
-            }
+
             LateBar1.GetComponent<UISprite>().fillAmount = fillAmount;
         }
 

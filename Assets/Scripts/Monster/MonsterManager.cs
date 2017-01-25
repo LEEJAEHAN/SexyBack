@@ -34,21 +34,21 @@ namespace SexyBackPlayScene
 
         public void Start()
         {
-            CreateMonster(monsterDatas["m06"]);
+            CreateMonster(monsterDatas["m02"]);
         }
 
         private void LoadData()
         {
-            monsterDatas.Add("m01", new MonsterData("m01", "Sprites/Monster/m01", new BigInteger(1000, Digit.b)));
-            monsterDatas.Add("m02", new MonsterData("m02", "Sprites/Monster/m02", new BigInteger(1000, Digit.b)));
-            monsterDatas.Add("m03", new MonsterData("m03", "Sprites/Monster/m03", new BigInteger(1000, Digit.b)));
-            monsterDatas.Add("m04", new MonsterData("m04", "Sprites/Monster/m04", new BigInteger(1000, Digit.b)));
-            monsterDatas.Add("m05", new MonsterData("m05", "Sprites/Monster/m05", new BigInteger(1000, Digit.b)));
-            monsterDatas.Add("m06", new MonsterData("m06", "Sprites/Monster/m06", new BigInteger("123456123456")));
-            monsterDatas.Add("m07", new MonsterData("m07", "Sprites/Monster/m07", new BigInteger(1000, Digit.b)));
-            monsterDatas.Add("m08", new MonsterData("m08", "Sprites/Monster/m08", new BigInteger(1000, Digit.b)));
-            monsterDatas.Add("m09", new MonsterData("m09", "Sprites/Monster/m09", new BigInteger(1000, Digit.b)));
-            monsterDatas.Add("m10", new MonsterData("m10", "Sprites/Monster/m10", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m01", new MonsterData("m01", "m01", "Sprites/Monster/m01", new BigInteger(999999, Digit.k)));
+            monsterDatas.Add("m02", new MonsterData("m02", "m02", "Sprites/Monster/m02", new BigInteger(99999900)));
+            monsterDatas.Add("m03", new MonsterData("m03", "m03", "Sprites/Monster/m03", new BigInteger(999999000)));
+            monsterDatas.Add("m04", new MonsterData("m04", "m04", "Sprites/Monster/m04", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m05", new MonsterData("m05", "m05", "Sprites/Monster/m05", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m06", new MonsterData("m06", "m06", "Sprites/Monster/m06", new BigInteger("123456123456")));
+            monsterDatas.Add("m07", new MonsterData("m07", "m07", "Sprites/Monster/m07", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m08", new MonsterData("m08", "m08", "Sprites/Monster/m08", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m09", new MonsterData("m09", "m09", "Sprites/Monster/m09", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m10", new MonsterData("m10", "m00", "Sprites/Monster/m10", new BigInteger(1000, Digit.b)));
         }
 
         internal void FixedUpdate()
@@ -104,7 +104,7 @@ namespace SexyBackPlayScene
         {
             return CurrentMonster.CenterPosition;
         }
-        
+
         private void onElementalCreate(Elemental sender)
         {
             if (CurrentMonster == null)

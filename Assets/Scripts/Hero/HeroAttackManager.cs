@@ -97,8 +97,6 @@ namespace SexyBackPlayScene
 
         public void MoveMakePlayEffect(TapPoint Tap, Vector3 monsterPos, bool isCritical)
         {
-            //TODO: Instanstiate 로바꾸고, 크리티컬모션 따로 구현해야함
-
             // rotate
             Vector3 directionVector = monsterPos - Tap.GamePos;
             float rot = UnityEngine.Mathf.Atan2(directionVector.y, directionVector.x) * UnityEngine.Mathf.Rad2Deg;

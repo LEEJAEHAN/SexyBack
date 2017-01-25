@@ -6,7 +6,7 @@ namespace SexyBackPlayScene
     public class Monster // model
     {
         public string ID;
-
+        public string Name;
         public BigInteger HP;
         public BigInteger MAXHP;
 
@@ -29,7 +29,7 @@ namespace SexyBackPlayScene
             ID = data.ID;
             MAXHP = data.MaxHP;
             HP = data.MaxHP;
-
+            Name = data.Name;
             // init avater
             avatar = GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/monster")as GameObject);
             avatar.name = ID;
