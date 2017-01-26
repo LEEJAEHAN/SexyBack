@@ -15,16 +15,17 @@ namespace SexyBackPlayScene
 
         UILabel label_monsterhp = ViewLoader.label_monsterhp.GetComponent<UILabel>();
 
-        public delegate void monsterCreateEvent_Handler(Monster sender);
-        public event monsterCreateEvent_Handler noticeMonsterCreate;
+        public delegate void FocusChange_Event(Monster sender);
+        public event FocusChange_Event Action_ChangeFocusEvent;
 
-        public delegate void mainMonsterChangeEvent_Handler(Monster sender);
-        public event mainMonsterChangeEvent_Handler noticeMainMonsterChange;
+        public delegate void FocusMonsterChange_Event(Monster sender);
+        public event FocusMonsterChange_Event Action_FocusMonsterChange;
 
 
         internal void Init()
         {
             LoadData();
+            hpbar = new MonsterHpBar(this);
 
             Singleton<ElementalManager>.getInstance().noticeElementalCreate += onElementalCreate;
             Singleton<HeroManager>.getInstance().noticeHeroCreate += onHeroCreate;
@@ -33,11 +34,21 @@ namespace SexyBackPlayScene
         public void onChangeMonster(Monster sender)
         {
             if (CurrentMonster.ID == sender.ID)
-                noticeMainMonsterChange(sender);
+                Action_FocusMonsterChange(sender);
         }
         public void Start()
         {
-            CreateMonster(monsterDatas["m02"]);
+            Monster newmonster = CreateMonster(monsterDatas["m02"]);
+            monsterPool.Add(newmonster.ID, newmonster);
+            Focus("m02");
+        }
+        void Focus(string Monsterid)
+        {
+            CurrentMonster = monsterPool[Monsterid];
+            Action_ChangeFocusEvent(CurrentMonster);
+            Action_FocusMonsterChange(CurrentMonster);
+            CurrentMonster.StateMachine.ChangeState("Appear");
+            CurrentMonster.isActive = true;
         }
 
         private void LoadData()
@@ -59,18 +70,14 @@ namespace SexyBackPlayScene
             hpbar.FixedUpdate();
         }
 
-        private void CreateMonster(MonsterData data)
+        private Monster CreateMonster(MonsterData data)
         {
-            CurrentMonster = new Monster(data);
-            monsterPool.Add(CurrentMonster.ID, CurrentMonster);
+            Monster TempMonster = new Monster(data);
 
-            hpbar = new MonsterHpBar(this);
+            TempMonster.Action_MonsterChangeEvent += onChangeMonster;
+            TempMonster.Action_StateChangeEvent = onMonsterStateChange;
 
-            //            CurrentMonster.Action_HitEvent = onHitByProjectile;
-            CurrentMonster.Action_changeEvent = onMonsterStateChange;
-
-            noticeMonsterCreate(CurrentMonster);
-            noticeMainMonsterChange(CurrentMonster);
+            return TempMonster;
             // this class is event listner
         }
 

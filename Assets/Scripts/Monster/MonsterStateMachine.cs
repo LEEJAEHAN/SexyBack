@@ -6,7 +6,7 @@ namespace SexyBackPlayScene
     {
         internal MonsterStateMachine(Monster owner) : base(owner)
         {   
-            ChangeState("Appear");
+            //ChangeState("Appear");
         }
         protected override BaseState<Monster> CreateState(string stateid)
         {

@@ -22,7 +22,7 @@ namespace SexyBackPlayScene
             LoadData();
             // this class is event listner
             noticeHeroChange += PrintDpc;
-            Singleton<MonsterManager>.getInstance().noticeMonsterCreate += this.onMonsterCreate;
+            Singleton<MonsterManager>.getInstance().Action_ChangeFocusEvent += setTarget;
         }
         void onMonsterStateChange(string monsterid, string stateID)
         {
@@ -58,12 +58,12 @@ namespace SexyBackPlayScene
             noticeHeroChange(CurrentHero);
         }
 
-        internal void onMonsterCreate(Monster monster)
+        internal void setTarget(Monster monster)
         {
             if (CurrentHero == null)
                 return;
 
-            monster.Action_changeEvent = this.onMonsterStateChange;
+            monster.Action_StateChangeEvent = this.onMonsterStateChange;
             //CurrentHero.SetDirection(monster.CenterPosition);
         }
         void PrintDpc(Hero hero)

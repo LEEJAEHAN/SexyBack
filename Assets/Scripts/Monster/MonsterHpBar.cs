@@ -41,8 +41,8 @@ namespace SexyBackPlayScene
 
         public MonsterHpBar(MonsterManager manager)
         {
-            manager.noticeMonsterCreate += onMonsterCreate;
-            manager.noticeMainMonsterChange += onMonsterChange;
+            manager.Action_ChangeFocusEvent += FillNewBar;
+            manager.Action_FocusMonsterChange += UpdateBar;
 
             Hpbar = ViewLoader.HPBar;
             LateBar1 = ViewLoader.HPBar_SlowFill1;
@@ -53,11 +53,11 @@ namespace SexyBackPlayScene
             HPBar_Unit = ViewLoader.HPBar_Unit;
             HPBar_Count = ViewLoader.HPBar_Count;
 
-            Hpbar.SetActive(false);
+            SetActive(false);
         }
 
         // Use this for initialization
-        void onMonsterCreate(Monster sender)
+        void FillNewBar(Monster sender)
         {
             // 123,456,123,456
             BigInteger hp = sender.MAXHP;
@@ -90,14 +90,11 @@ namespace SexyBackPlayScene
 
             //attach
             currentMonsterID = sender.ID;
-            Hpbar.SetActive(true);
+            SetActive(true);
         }
 
-        void onMonsterChange(Monster monster)
+        void UpdateBar(Monster monster)
         {
-            if (currentMonsterID != monster.ID)
-                return;
-
             if (goal <=0 )
             {
                 IGauge = 0;
@@ -176,6 +173,19 @@ namespace SexyBackPlayScene
                 }
             }
         }
+
+        void SetActive(bool value)
+        {
+            if(value == true)
+            {
+                Hpbar.SetActive(true);
+            }
+            else
+            {
+                Hpbar.SetActive(false);
+            }
+        }
+
 
         void DisplayLateGaugeBar(float late, float goal)
         {

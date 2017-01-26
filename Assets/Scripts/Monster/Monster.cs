@@ -25,15 +25,16 @@ namespace SexyBackPlayScene
         GameObject damagefont = ViewLoader.DamageFont;
 
         public delegate void monsterChangeEvent_Handler(Monster sender);
-        public event monsterChangeEvent_Handler noticeMonsterChange;
+        public event monsterChangeEvent_Handler Action_MonsterChangeEvent;
 
 
-        public MonsterStateMachine.StateChangeHandler Action_changeEvent
+        public MonsterStateMachine.StateChangeHandler Action_StateChangeEvent
         { set { avatar.GetComponent<MonsterView>().Action_changeEvent += value;
                 StateMachine.Action_changeEvent += value; } }
 
         string StateOwner.ID {get{ return ID; }}
         public string CurrentState { get { return StateMachine.currStateID; } }
+        public bool isActive = false;
 
         internal Monster (MonsterData data)
         {
@@ -49,7 +50,7 @@ namespace SexyBackPlayScene
             Animator = avatar.GetComponent<Animator>();
             StateMachine = new MonsterStateMachine(this);
 
-            noticeMonsterChange(this);
+            //Action_MonsterChangeEvent(this);
         }
         private void RecordSize(GameObject mob)
         {
@@ -70,7 +71,8 @@ namespace SexyBackPlayScene
         }
         public void Update()
         {
-            StateMachine.Update();
+            if(isActive)
+                StateMachine.Update();
         }
 
 
@@ -91,7 +93,7 @@ namespace SexyBackPlayScene
             else
                 Animator.SetTrigger("Hit");
 
-            noticeMonsterChange(this);
+            Action_MonsterChangeEvent(this);
 
             if (HP <= 0) // dead check
             {

@@ -28,7 +28,7 @@ namespace SexyBackPlayScene
 
             // this class is event listner
             noticeElementalChange += PrintDps; // 내꺼내가받음;
-            Singleton<MonsterManager>.getInstance().noticeMonsterCreate += this.onMonsterCreate;
+            Singleton<MonsterManager>.getInstance().Action_FocusMonsterChange += this.SetTarget;
         }
         private void LoadData()
         {
@@ -116,7 +116,7 @@ namespace SexyBackPlayScene
         }
 
         // recieve event
-        void onMonsterCreate(Monster sender)
+        void SetTarget(Monster sender)
         {
             if (elementals == null)
                 return;
