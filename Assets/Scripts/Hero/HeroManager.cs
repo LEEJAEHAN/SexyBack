@@ -20,11 +20,16 @@ namespace SexyBackPlayScene
         public void Init()
         {
             LoadData();
-
             // this class is event listner
             noticeHeroChange += PrintDpc;
-            Singleton<GameInput>.getInstance().noticeTouchPosition += onTouch;
             Singleton<MonsterManager>.getInstance().noticeMonsterCreate += this.onMonsterCreate;
+        }
+        void onMonsterStateChange(string monsterid, string stateID)
+        {
+            if (stateID == "Ready")
+                CurrentHero.targetID = monsterid;
+            else
+                CurrentHero.targetID = null;
         }
         public void Start()
         {
@@ -53,17 +58,12 @@ namespace SexyBackPlayScene
             noticeHeroChange(CurrentHero);
         }
 
-        // event reciever
-        internal void onTouch(TapPoint pos)
-        {
-            //currhero
-            CurrentHero.onTouch(pos);
-        }
         internal void onMonsterCreate(Monster monster)
         {
             if (CurrentHero == null)
                 return;
-            CurrentHero.targetID = monster.ID;
+
+            monster.Action_changeEvent = this.onMonsterStateChange;
             //CurrentHero.SetDirection(monster.CenterPosition);
         }
         void PrintDpc(Hero hero)

@@ -6,13 +6,10 @@ namespace SexyBackPlayScene
     public class MonsterView : MonoBehaviour
     {
         // event publisher
-        public delegate void MonsterHit_Event(string monsterID, Vector3 hitPosition, string elementID);
-        public event MonsterHit_Event noticeHit;
+        public delegate void MonsterHit_Event(Vector3 hitPosition, string elementID);
+        public event MonsterHit_Event Action_HitEvent;
 
-
-        public delegate void MonstserActionEndEvent(string monsterID, string stateID);
-        public event MonstserActionEndEvent noticeStateEnd;
-
+        public event MonsterStateMachine.StateChangeHandler Action_changeEvent;
 
         // Use this for initialization
         void Start()
@@ -29,13 +26,13 @@ namespace SexyBackPlayScene
         {
             if (collider.gameObject.tag == "Projectile")
             {
-                noticeHit(this.name, collider.transform.position, collider.gameObject.name);
+                Action_HitEvent(collider.transform.position, collider.gameObject.name);
             }
         }
 
         public void OnActionFinished(string ActionStateID)
         {
-            noticeStateEnd(this.name, ActionStateID);
+            Action_changeEvent(this.name, ActionStateID);
         } 
         public void OnDamageFontFinish()
         {

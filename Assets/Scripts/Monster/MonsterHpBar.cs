@@ -42,7 +42,7 @@ namespace SexyBackPlayScene
         public MonsterHpBar(MonsterManager manager)
         {
             manager.noticeMonsterCreate += onMonsterCreate;
-            manager.noticeMonsterChange += onMonsterChange;
+            manager.noticeMainMonsterChange += onMonsterChange;
 
             Hpbar = ViewLoader.HPBar;
             LateBar1 = ViewLoader.HPBar_SlowFill1;

@@ -4,8 +4,8 @@ namespace SexyBackPlayScene
 {
     internal class GameInput
     {
-        public delegate void TouchPositionEvent(TapPoint tap);
-        public event TouchPositionEvent noticeTouchPosition; // back viewport 에서의 터치포지션
+        public delegate void Touch_Event(TapPoint tap);
+        public event Touch_Event Action_TouchEvent = delegate { }; // back viewport 에서의 터치포지션
 
         Vector3 mouseinputpoint;
         Ray ray;
@@ -30,7 +30,8 @@ namespace SexyBackPlayScene
 
                 if (Physics.Raycast(ray, out hit, 100, 0100000000)) // 게임영역 1<< 8
                 {
-                    noticeTouchPosition(new TapPoint(hit.point, effecthit.point, UICamera.lastEventPosition));
+                    TapPoint pos = new TapPoint(hit.point, effecthit.point, UICamera.lastEventPosition);
+                    Action_TouchEvent(pos);
                 }
             }
         }

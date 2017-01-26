@@ -7,6 +7,7 @@ namespace SexyBackPlayScene
     internal class HeroAttackManager // 쿨타임관리, 이펙트생성 등
     {
         private Hero owner;
+        private Queue<TapPoint> AttackPlan = new Queue<TapPoint>();
 
         // 상태값만 있지 히어로데이터는없어야한다.
         private double attackTimer = 0; // 공격쿨타임카운터
@@ -14,8 +15,6 @@ namespace SexyBackPlayScene
 
         public bool CanMakePlan { get { return currentAttackCount > 0; } }
         public bool CanAttack { get { return AttackPlan.Count > 0; } }
-
-        private Queue<TapPoint> AttackPlan = new Queue<TapPoint>();
 
         private GameObject[] SwordIcons = new GameObject[10];
         private int[] iconangle = { 0, 30, -30, 60, -60, 90, -90 };
@@ -27,10 +26,8 @@ namespace SexyBackPlayScene
         public HeroAttackManager(Hero hero)
         {
             owner = hero;
-            //for (int i = 0; i < 100; i++) // test
-            //{
-            //    AddAttackCount();
-            //}
+            for (int i = 0; i < 7; i++) // test
+                AddAttackCount();
             // Instantiate GameObject.
         }
         public void ViewOn()
@@ -116,7 +113,7 @@ namespace SexyBackPlayScene
         }
 
         private void AddSwordIcon(int sequence)
-        {
+        {   
             GameObject swordicon = GameObject.Instantiate(SwordIcon) as GameObject;
             swordicon.name = "attackcount" + sequence;
             swordicon.transform.parent = ViewLoader.Bar_Attack.transform;
@@ -125,7 +122,7 @@ namespace SexyBackPlayScene
             swordicon.transform.rotation = Quaternion.Euler(0, 0, 45 + iconangle[sequence - 1]);
             SwordIcons[sequence - 1] = swordicon;
         }
-
+        // TODO : 한번 생겼으면 pooling하자..
         private void RemoveSwordIcon(int seuqnece)
         {
             if (SwordIcons[seuqnece] != null)

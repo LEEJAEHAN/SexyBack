@@ -5,7 +5,7 @@ namespace SexyBackPlayScene
     internal class MonsterStateMachine : StateMachine<Monster>
     {
         internal MonsterStateMachine(Monster owner) : base(owner)
-        {
+        {   
             ChangeState("Appear");
         }
         protected override BaseState<Monster> CreateState(string stateid)
@@ -17,7 +17,7 @@ namespace SexyBackPlayScene
                 case "Ready":
                     return new MonsterStateReady(owner, this);
                 case "Flying":
-                    return new MonsterStateReady(owner, this);
+                    return new MonsterStateFlying(owner, this);
                 case "Death":
                     return new MonsterStateReady(owner, this);
                 default:

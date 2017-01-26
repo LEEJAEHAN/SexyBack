@@ -4,96 +4,87 @@ using System.Collections.Generic;
 
 namespace SexyBackPlayScene
 {
-    internal class HeroStateAttack : HeroState
+    internal class HeroStateAttack : BaseState<Hero>
     {
-        double timer;
-        double swingtimer;
+        double timer = 0;
+        double swingtimer = 0;
         double ActionTime;
         double AttackSpeed;
-        double additionalattackcount;
 
         int DashRate = 25;
-        int SwingRate = 25;
-        int BackRate = 25;
+        int SwingRate = 25; // 1.25초 0.15초히어로 공격을 여러번 할수있다.
+        int BackRate = 50;
 
-        double DashTime;
-        double SwingTime;
-        double BackTime;
-
-        bool BeginDash = false;
-        bool BeginSwing = false;
-        bool BeginBack = false;
+        double DashTime { get { return ActionTime * DashRate / 100; } }
+        double SwingTime { get { return ActionTime * SwingRate / 100; } }
+        double BackTime { get { return ActionTime * BackRate / 100; } }
 
         double ForwardSpeed { get { return 100 / (ActionTime * DashRate); } }
         double BackwardSpeed { get { return 100 / (ActionTime * BackRate); } }
+        // effect 재생이 0.15초로 가장김
+        double SwingActionTime { get { return 0.15f * AttackSpeed; } }
 
-        double SwingActionTime { get { return 0.15f * AttackSpeed; } } // effect 재생이 0.15초로 가장김
+        HeroMiniState State;
+        public Vector3 AttackMoveVector = GameSetting.ECamPosition - GameSetting.defaultHeroPosition;
 
-        public Vector3 AttackMoveVector;
-
-
-        public HeroStateAttack(HeroStateMachine stateMachine, Hero owner) : base(stateMachine, owner)
+        public HeroStateAttack(Hero owner, HeroStateMachine stateMachine) : base(owner, stateMachine)
         {
-            timer = 0;
-            additionalattackcount = 0;
-            swingtimer = 0;
-            ActionTime = owner.ATTACKINTERVAL;  // 중간에 값이 업데이트되도 무시하기위해
-            AttackSpeed = owner.ATTACKSPEED;
-
-            DashRate = 25;
-            SwingRate = 25; // 1초 0.15초히어로 공격을 8번까지 할수있다.
-            BackRate = 50;
-
-            DashTime = ActionTime * DashRate / 100;
-            SwingTime = ActionTime * SwingRate / 100;
-            BackTime = ActionTime * BackRate / 100;
-
-            AttackMoveVector = GameSetting.ECamPosition - GameSetting.defaultHeroPosition;
+            sexybacklog.Console("HeroStateAtack 생성");
         }
-
+        ~HeroStateAttack()
+        {
+            sexybacklog.Console("HeroStateAtack 소멸");
+        }
         internal override void Begin()
         {
-            hero.Warp(GameSetting.defaultHeroPosition);
+            ActionTime = owner.ATTACKINTERVAL;  // 중간에 값이 업데이트되도 무시하기위해
+            AttackSpeed = owner.ATTACKSPEED;
+            State = HeroMiniState.None;
+            Singleton<GameInput>.getInstance().Action_TouchEvent += onTouch;
+            owner.Warp(GameSetting.defaultHeroPosition);
         }
 
         internal override void End()
         {
-            hero.Warp(GameSetting.defaultHeroPosition);
+            Singleton<GameInput>.getInstance().Action_TouchEvent -= onTouch;
+            owner.Warp(GameSetting.defaultHeroPosition);
         }
 
-        internal override void OnTouch(TapPoint pos)
+        internal void onTouch(TapPoint pos)
         {
-            if(!BeginBack && hero.AttackManager.CanMakePlan) // 후퇴전까지는 추가타 이벤트를 받는다;
-            {
-                hero.AttackManager.MakeAttackPlan(pos);
-                additionalattackcount++;
-                //sexybacklog.Console("Tap:" + pos.EffectPos);//WorldPos
-            }
+            if (State != HeroMiniState.Dash && State != HeroMiniState.Swing)
+                return;
+            if (owner.AttackManager.CanMakePlan) // 후퇴전까지는 추가타 이벤트를 받는다;
+                owner.AttackManager.MakeAttackPlan(pos);
         }
 
         void ChangeState() // 한번만힐행된다. begin each state
         {
-            if (!BeginDash)
+            if (State == HeroMiniState.None && timer <= DashTime)
             {
-                BeginDash = true;
-                ViewLoader.hero_sprite.GetComponent<Animator>().speed = (float)(AttackSpeed * BackRate / DashRate);
-                ViewLoader.hero_sprite.GetComponent<Animator>().SetBool("Move", true);
+                State = HeroMiniState.Dash;
+                owner.Animator.speed = (float)(AttackSpeed * BackRate / DashRate);
+                owner.Animator.SetBool("Move", true);
+                return;
             }
-            else if (!BeginSwing && timer > DashTime)
+            else if (State == HeroMiniState.Dash && timer > DashTime)
             {
-                BeginSwing = true;
-                hero.Warp(GameSetting.ECamPosition);
-                ViewLoader.hero_sprite.GetComponent<Animator>().SetBool("Move", false);
+                State = HeroMiniState.Swing;
+                owner.Warp(GameSetting.ECamPosition);
+                owner.Animator.SetBool("Move", false);
+                return;
             }
-            else if (!BeginBack && timer > DashTime + SwingTime)
+            else if (State == HeroMiniState.Swing && timer > DashTime + SwingTime)
             {
-                BeginBack = true;
-                ViewLoader.hero_sprite.GetComponent<Animator>().speed = (float)AttackSpeed;
-                ViewLoader.hero_sprite.GetComponent<Animator>().SetBool("Move", true);
+                State = HeroMiniState.Back;
+                owner.Animator.speed = (float)AttackSpeed;
+                owner.Animator.SetBool("Move", true);
+                return;
             }
             else if (timer > DashTime + SwingTime + BackTime)
-                stateMachine.ChangeState(new HeroStateReady(stateMachine, hero));
-
+            {
+                stateMachine.ChangeState("Ready");
+            }
         }
 
         internal override void Update()
@@ -103,22 +94,39 @@ namespace SexyBackPlayScene
 
             ChangeState();
 
-            if (BeginDash && !BeginSwing)  // during dash
-                hero.Move(AttackMoveVector * (float)ForwardSpeed * Time.deltaTime);
-            else if (BeginSwing && !BeginBack)  // during attack
+            switch (State)
             {
-                if (swingtimer > SwingActionTime && hero.AttackManager.CanAttack) // 0.1로마다 들어와야한다. timer를 0.1f만큼빼준다.
-                {
-                    if (hero.Attack((float)AttackSpeed))
+                case HeroMiniState.Dash:
                     {
-                        timer -= SwingActionTime; // 공격을 한번더할수있게 타이머카운터를 빼준다.
-                        swingtimer = 0;
+                        owner.Move(AttackMoveVector * (float)ForwardSpeed * Time.deltaTime);
+                        break;
                     }
-                }
+                case HeroMiniState.Swing:
+                    {
+                        if (swingtimer > SwingActionTime) // 0.1로마다 들어와야한다. timer를 0.1f만큼빼준다.
+                        {
+                            if (owner.Attack((float)AttackSpeed))
+                            {
+                                timer -= SwingActionTime; // 공격을 한번더할수있게 타이머카운터를 빼준다.
+                                swingtimer = 0;
+                            }
+                        }
+                        break;
+                    }
+                case HeroMiniState.Back:
+                    {
+                        owner.Move(-(AttackMoveVector * (float)BackwardSpeed * Time.deltaTime));
+                        break;
+                    }
             }
-            else if (BeginBack) // during back
-                hero.Move(-(AttackMoveVector * (float)BackwardSpeed * Time.deltaTime));
         }
+        enum HeroMiniState
+        {
+            None,
+            Dash,
+            Swing,
+            Back,
+        };
         // AttackTimer(총시간) * 전진Ratio = 총 전진시간
         // 1초에가는벡터 * 1/전진시간  = 1초에가는벡터 * 전진스피드 = 총 이동량(고정) 
         // Vector3 step = owner.MoveDirection * (float)ForwardSpeed;

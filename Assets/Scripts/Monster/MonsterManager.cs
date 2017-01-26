@@ -7,31 +7,34 @@ namespace SexyBackPlayScene
     // 몬스터와 관련된 입력을 처리
     public class MonsterManager
     {
-        public delegate void monsterCreateEvent_Handler(Monster sender);
-        public event monsterCreateEvent_Handler noticeMonsterCreate;
-
-        public delegate void monsterChangeEvent_Handler(Monster sender);
-        public event monsterChangeEvent_Handler noticeMonsterChange;
-
         MonsterHpBar hpbar;
-
+        Dictionary<string, Monster> monsterPool = new Dictionary<string, Monster>();
+         
         Dictionary<string, MonsterData> monsterDatas = new Dictionary<string, MonsterData>();
         Monster CurrentMonster; // TODO: bucket으로수정해야함;
 
         UILabel label_monsterhp = ViewLoader.label_monsterhp.GetComponent<UILabel>();
 
+        public delegate void monsterCreateEvent_Handler(Monster sender);
+        public event monsterCreateEvent_Handler noticeMonsterCreate;
+
+        public delegate void mainMonsterChangeEvent_Handler(Monster sender);
+        public event mainMonsterChangeEvent_Handler noticeMainMonsterChange;
+
+
         internal void Init()
         {
             LoadData();
 
-            noticeMonsterChange += onMonsterChange;
             Singleton<ElementalManager>.getInstance().noticeElementalCreate += onElementalCreate;
             Singleton<HeroManager>.getInstance().noticeHeroCreate += onHeroCreate;
-            ViewLoader.Background.GetComponent<background>().noticeHit += onHitByProjectile;
-            
-            hpbar = new MonsterHpBar(this);
         }
 
+        public void onChangeMonster(Monster sender)
+        {
+            if (CurrentMonster.ID == sender.ID)
+                noticeMainMonsterChange(sender);
+        }
         public void Start()
         {
             CreateMonster(monsterDatas["m02"]);
@@ -59,13 +62,16 @@ namespace SexyBackPlayScene
         private void CreateMonster(MonsterData data)
         {
             CurrentMonster = new Monster(data);
-            CurrentMonster.SetHitEvent = onHitByProjectile;
-            CurrentMonster.SetStateEndEvent = onActionStateEnd;
+            monsterPool.Add(CurrentMonster.ID, CurrentMonster);
 
-            // this class is event listner
+            hpbar = new MonsterHpBar(this);
+
+            //            CurrentMonster.Action_HitEvent = onHitByProjectile;
+            CurrentMonster.Action_changeEvent = onMonsterStateChange;
 
             noticeMonsterCreate(CurrentMonster);
-            noticeMonsterChange(CurrentMonster);
+            noticeMainMonsterChange(CurrentMonster);
+            // this class is event listner
         }
 
         internal void Update()
@@ -82,35 +88,16 @@ namespace SexyBackPlayScene
             return CurrentMonster; //TODO: 바꿔야함
         }
 
-        internal void onMonsterChange(Monster monster)
-        {
-            string hp = monster.HP.To5String();
-            string maxhp = monster.MAXHP.To5String();
-
-            label_monsterhp.text = hp + " / " + maxhp;
-        }
-
-        public void Hit(string monsterID, Vector3 hitPosition, BigInteger damage, bool isCritical) // 어차피 한마리라 일단 id는 무시
-        {
-            if (CurrentMonster == null)
-            {
-                sexybacklog.Error();
-                return;
-            }
-            CurrentMonster.Hit(hitPosition, damage, isCritical);
-            noticeMonsterChange(CurrentMonster);
-        }
-
-        public void onHitByProjectile(string monsterID, Vector3 hitposition, string elementalID)
-        {
-            if (CurrentMonster == null)
-            {
-                sexybacklog.Error();
-                return;
-            }
-            BigInteger damage = Singleton<ElementalManager>.getInstance().GetElementalDamage(elementalID);
-            Hit(monsterID, hitposition, damage, false);
-        }
+        //public void Hit(string monsterID, Vector3 hitPosition, BigInteger damage, bool isCritical)
+        //{    // 어차피 한마리라 일단 id는 무시 // TODO : 바꺼야함
+        //    if (CurrentMonster == null)
+        //    {
+        //        sexybacklog.Error();
+        //        return;
+        //    }
+        //    CurrentMonster.Hit(hitPosition, damage, isCritical);
+        //    noticeMonsterListChange(CurrentMonster);
+        //}
 
         public Vector3 FindPosition(string mosterID)
         {
@@ -130,12 +117,16 @@ namespace SexyBackPlayScene
             hero.targetID = CurrentMonster.ID;
             //hero.SetDirection(CurrentMonster.CenterPosition);
         }
-        void onActionStateEnd(string monsterid, string stateID)
+        void onMonsterStateChange(string monsterid, string stateID)
         {
+            Monster a = FindMonster(monsterid);
             if (stateID == "Appear")
-                CurrentMonster.stateMachine.ChangeState("Ready");
-
+                a.StateMachine.ChangeState("Ready");
         }
 
+        private Monster FindMonster(string id)
+        {
+            return CurrentMonster;
+        }
     }
 }

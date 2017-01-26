@@ -3,47 +3,42 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    internal class HeroStateReady : HeroState
+    internal class HeroStateReady : BaseState<Hero>
     {
-        bool TouchTrigger = false;
-        public HeroStateReady(HeroStateMachine stateMachine, Hero owner) : base(stateMachine, owner)
+        public HeroStateReady(Hero owner, HeroStateMachine stateMachine) : base(owner, stateMachine)
         {
-            TouchTrigger = false;
+            sexybacklog.Console("HeroStateReady 생성");
         }
 
         internal override void Begin()
         {
-            ViewLoader.hero_sprite.GetComponent<Animator>().SetBool("Move", false);
+            Singleton<GameInput>.getInstance().Action_TouchEvent += onTouch;
+            owner.Animator.SetBool("Move", false);
         }
 
         internal override void End()
         {
-
-        }
-
-        internal override void OnTouch(TapPoint pos)
-        {
-            if (!TouchTrigger && hero.AttackManager.CanMakePlan)
-            {
-                hero.AttackManager.MakeAttackPlan(pos);
-                TouchTrigger = true;
-
-                //sexybacklog.Console("Tap:"+pos.EffectPos);//WorldPos
-            }
+            Singleton<GameInput>.getInstance().Action_TouchEvent -= onTouch;
         }
 
         internal override void Update()
         {
-            if (TouchTrigger)
+        }
+        internal void onTouch(TapPoint pos)
+        {   
+            if (owner.targetID != null)
             {
-                TouchTrigger = false;
-                //CheckMonster
-                if (hero.targetID != null)
+                if(owner.AttackManager.CanMakePlan)
                 {
-                    stateMachine.ChangeState(new HeroStateAttack(stateMachine, hero));
+                    owner.AttackManager.MakeAttackPlan(pos);
+                    stateMachine.ChangeState("Attack");
                 }
             }
-
         }
+        ~HeroStateReady()
+        {
+            sexybacklog.Console("HeroStateReady 소멸");
+        }
+
     }
 }

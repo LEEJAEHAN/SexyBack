@@ -1,10 +1,14 @@
-﻿namespace SexyBackPlayScene
+﻿using System;
+
+namespace SexyBackPlayScene
 {
-    public abstract class StateMachine<T> where T : Statable
+    public abstract class StateMachine<T> where T : class, StateOwner
     {
         protected T owner;
         private BaseState<T> CurrState;
         public string currStateID;
+        public delegate void StateChangeHandler(string id, string stateid);
+        public event StateChangeHandler Action_changeEvent = delegate { };
 
         internal StateMachine(T owner)
         {
@@ -17,7 +21,9 @@
         private void ChangeState(BaseState<T> newState)
         {
             if (CurrState != null)
+            {
                 CurrState.End();
+            }
 
             CurrState = newState;
             CurrState.Begin();
@@ -29,10 +35,9 @@
         {
             ChangeState(CreateState(stateid));
             currStateID = stateid;
+            Action_changeEvent(owner.ID, stateid);
         }
 
-
-
-
     }
+
 }

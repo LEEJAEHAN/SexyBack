@@ -12,13 +12,13 @@ namespace SexyBackPlayScene
 
         internal override void Begin()
         {
-            owner.SetActionTrigger("Appear");
+            owner.Animator.SetTrigger("Appear");
             sexybacklog.Console("Appear Begin");
         }
 
         internal override void End()
         {
-            owner.SetActionTrigger("Ready");
+            owner.Animator.SetTrigger("Ready");
             sexybacklog.Console("Appear End");
         }
 

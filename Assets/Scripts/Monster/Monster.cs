@@ -3,37 +3,38 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    public class Monster : Statable// model
+    public class Monster : StateOwner// model
     {
         public string ID;
         public string Name;
         public BigInteger HP;
         public BigInteger MAXHP;
 
-        private GameObject avatar;
+        public GameObject avatar;
         public BoxCollider avatarCollision { get { return avatar.GetComponent<BoxCollider>(); } }
 
-        public StateMachine<Monster> stateMachine;
+        public StateMachine<Monster> StateMachine;
+        public Animator Animator;
         //size value
         public Vector3 PivotPosition; // 올라가는정도
         public Vector3 CenterPosition; // its default; readonly.
-
 
         public Vector3 Size;
 
         GameObject hitparticle = ViewLoader.hitparticle;
         GameObject damagefont = ViewLoader.DamageFont;
 
-        
-        public MonsterView.MonsterHit_Event SetHitEvent
-        {
-            set { avatar.GetComponent<MonsterView>().noticeHit += value; }
-        }
-        public MonsterView.MonstserActionEndEvent SetStateEndEvent
-        {
-            set { avatar.GetComponent<MonsterView>().noticeStateEnd += value; }
-        }
-       
+        public delegate void monsterChangeEvent_Handler(Monster sender);
+        public event monsterChangeEvent_Handler noticeMonsterChange;
+
+
+        public MonsterStateMachine.StateChangeHandler Action_changeEvent
+        { set { avatar.GetComponent<MonsterView>().Action_changeEvent += value;
+                StateMachine.Action_changeEvent += value; } }
+
+        string StateOwner.ID {get{ return ID; }}
+        public string CurrentState { get { return StateMachine.currStateID; } }
+
         internal Monster (MonsterData data)
         {
             ID = data.ID;
@@ -45,7 +46,10 @@ namespace SexyBackPlayScene
             RecordSize(avatar);
             InitDamageFont();
 
-            stateMachine = new MonsterStateMachine(this);
+            Animator = avatar.GetComponent<Animator>();
+            StateMachine = new MonsterStateMachine(this);
+
+            noticeMonsterChange(this);
         }
         private void RecordSize(GameObject mob)
         {
@@ -64,26 +68,38 @@ namespace SexyBackPlayScene
             mob.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(spritepath);
             return mob;
         }
-
         public void Update()
         {
-            stateMachine.Update();
+            StateMachine.Update();
         }
 
-        internal void Hit(Vector3 hitPosition, BigInteger damage, bool isCritical)
+
+        internal bool Hit(Vector3 hitPosition, BigInteger damage, bool isCritical)
         {
             HP -= damage;
             Singleton<GameMoney>.getInstance().ExpGain(damage);
-            //avatar
-            avatar.GetComponent<Animator>().rootPosition = avatar.transform.position;
-            if(isCritical)
-                avatar.GetComponent<Animator>().SetTrigger("Hit_Critical");
-            else
-                avatar.GetComponent<Animator>().SetTrigger("Hit");
+
             //particle
             PlayParticle(hitPosition);
             //damagefont
             PlayDamageFont(damage, hitPosition);
+
+            //avatar
+            Animator.rootPosition = avatar.transform.position;
+            if(isCritical)
+                Animator.SetTrigger("Hit_Critical");
+            else
+                Animator.SetTrigger("Hit");
+
+            noticeMonsterChange(this);
+
+            if (HP <= 0) // dead check
+            {
+                StateMachine.ChangeState("Flying");
+                return false; // will be destroyed;
+            }
+            else
+                return true;
         }
 
         void PlayParticle(Vector3 position)
@@ -106,12 +122,5 @@ namespace SexyBackPlayScene
             damagefont.GetComponent<UILabel>().text = dmg.To5String();
             damagefont.GetComponent<UILabel>().fontSize = (int)((30 + 10 * (10 - screenpos.z)));
         }
-
-        internal void SetActionTrigger(string v)
-        {
-            avatar.GetComponent<Animator>().SetTrigger(v);
-        }
-
-
     }
 }

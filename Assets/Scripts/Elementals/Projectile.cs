@@ -2,7 +2,7 @@
 
 namespace SexyBackPlayScene
 {
-    public class Projectile
+    public class Projectile // TODO : 리팩토링해야함.
     {
         public string ownerID;
         //string ID; // useless, projectile은 elemental에 종속된다.

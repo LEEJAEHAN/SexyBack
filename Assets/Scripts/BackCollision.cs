@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    public class background : MonoBehaviour
+    public class BackCollision : MonoBehaviour
     {
         // event publisher
-        public event MonsterView.MonsterHit_Event noticeHit;
+        public static event MonsterView.MonsterHit_Event Action_HitEvent;
 
         // Use this for initialization
         void Start()
@@ -24,7 +24,7 @@ namespace SexyBackPlayScene
         {
             if (collider.gameObject.tag == "Projectile")
             {
-                noticeHit(this.name, collider.transform.position, collider.gameObject.name);
+                Action_HitEvent(collider.transform.position, collider.gameObject.name);
             }
         }
     }
