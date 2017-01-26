@@ -10,7 +10,7 @@ namespace SexyBackPlayScene
 
         // this class is event publisher
         public delegate void HeroCreate_Event(Hero hero);
-        public event HeroCreate_Event noticeHeroCreate;
+        public event HeroCreate_Event Action_HeroCreateEvent;
 
         public delegate void HeroChange_Event(Hero hero);
         public event HeroChange_Event noticeHeroChange;
@@ -22,14 +22,7 @@ namespace SexyBackPlayScene
             LoadData();
             // this class is event listner
             noticeHeroChange += PrintDpc;
-            Singleton<MonsterManager>.getInstance().Action_ChangeFocusEvent += setTarget;
-        }
-        void onMonsterStateChange(string monsterid, string stateID)
-        {
-            if (stateID == "Ready")
-                CurrentHero.targetID = monsterid;
-            else
-                CurrentHero.targetID = null;
+            Singleton<MonsterManager>.getInstance().Action_NewFousEvent += SetTarget;
         }
         public void Start()
         {
@@ -42,7 +35,7 @@ namespace SexyBackPlayScene
         private void CreateHero()
         {
             CurrentHero = new Hero(testHeroData);
-            noticeHeroCreate(CurrentHero);
+            Action_HeroCreateEvent(CurrentHero);
             noticeHeroChange(CurrentHero);
         }
 
@@ -58,14 +51,15 @@ namespace SexyBackPlayScene
             noticeHeroChange(CurrentHero);
         }
 
-        internal void setTarget(Monster monster)
+        internal void SetTarget(Monster monster)
         {
             if (CurrentHero == null)
                 return;
 
-            monster.Action_StateChangeEvent = this.onMonsterStateChange;
+            monster.Action_StateChangeEvent = CurrentHero.onTargetStateChange;
             //CurrentHero.SetDirection(monster.CenterPosition);
         }
+
         void PrintDpc(Hero hero)
         {
             string dpsString = hero.DPC.To5String() + " /Tap";

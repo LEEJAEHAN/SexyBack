@@ -41,8 +41,8 @@ namespace SexyBackPlayScene
 
         public MonsterHpBar(MonsterManager manager)
         {
-            manager.Action_ChangeFocusEvent += FillNewBar;
-            manager.Action_FocusMonsterChange += UpdateBar;
+            manager.Action_NewFousEvent += FillNewBar;
+            manager.Action_TargetMonsterChange += UpdateBar;
 
             Hpbar = ViewLoader.HPBar;
             LateBar1 = ViewLoader.HPBar_SlowFill1;
@@ -59,6 +59,8 @@ namespace SexyBackPlayScene
         // Use this for initialization
         void FillNewBar(Monster sender)
         {
+            sender.Action_StateChangeEvent = onTargetStateChange;
+
             // 123,456,123,456
             BigInteger hp = sender.MAXHP;
             int maxdigit = 0;
@@ -90,7 +92,15 @@ namespace SexyBackPlayScene
 
             //attach
             currentMonsterID = sender.ID;
-            SetActive(true);
+            SetActive(false);
+        }
+
+        private void onTargetStateChange(string id, string stateid)
+        {
+            if (stateid == "Death")
+                SetActive(false);
+            else
+                SetActive(true);
         }
 
         void UpdateBar(Monster monster)
@@ -131,16 +141,19 @@ namespace SexyBackPlayScene
         private void setColor(GameObject current, GameObject next, int index)
         {
             float hue = 0;
+            float nexthue = 0;
             float saturation = 0;
             float brightness = 0;
             Color currColor = current.GetComponent<UISprite>().color;
             Color.RGBToHSV(currColor, out hue, out saturation, out brightness);
 
-            hue = InitHue + (0.13f) * index;
-            hue = hue - (int)hue;
+            hue = InitHue + (0.7f) * index;
+            nexthue = hue + (0.7f);
+            hue -= (int)hue;
+            nexthue -= (int)nexthue;
 
             current.GetComponent<UISprite>().color = Color.HSVToRGB(hue, saturation, brightness);
-            next.GetComponent<UISprite>().color = Color.HSVToRGB(hue + 0.07f, saturation, brightness);
+            next.GetComponent<UISprite>().color = Color.HSVToRGB(nexthue, saturation, brightness);
         }
 
         public void FixedUpdate()
@@ -165,12 +178,7 @@ namespace SexyBackPlayScene
             if (late <= 0.001f) // TODO : 이부분이 젤찜찜함
             {   // detach
                 late = 0;
-                destroyTimer -= Time.fixedDeltaTime;
-                if (destroyTimer <= 0)
-                {
-                    Hpbar.SetActive(false);
-                    currentMonsterID = null;
-                }
+                // waiting for death;
             }
         }
 

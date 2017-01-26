@@ -8,7 +8,7 @@ namespace SexyBackPlayScene
     {
         public string ID;
         private ElementalData baseData;
-        public Monster target;
+        public string targetID;
         private int level;
         public BigInteger DpsX = new BigInteger(1);
 
@@ -88,22 +88,31 @@ namespace SexyBackPlayScene
 
             if (AttackTimer > AttackInterval)
             {
-                if (target != null)
+                if (targetID != null)
                 {
-                    Vector3 destination = calDestination(target.avatarCollision);
+                    Vector3 destination = calDestination(targetID);
                     Shoot(destination);
                 }
-                else if (target == null)
+                else if (targetID == null)
                 {
                     //타겟이생길떄까지 대기한다.
                 }
             }
         }
 
-        private Vector3 calDestination(BoxCollider monsterCollision)
+        public void onTargetStateChange(string monsterID, string stateID)
         {
-            Vector3 center = monsterCollision.transform.position + monsterCollision.center;
-            Vector3 extend = (monsterCollision.size / 2);
+            if (stateID == "Ready")
+                this.targetID = monsterID;
+            else
+                targetID = null;
+        }
+
+        private Vector3 calDestination(string targetID)
+        {
+            Monster target = Singleton<MonsterManager>.getInstance().GetMonster(targetID);
+            Vector3 center = target.CenterPosition;
+            Vector3 extend = target.Size / 2;
             Vector3 dest = RandomRangeVector3(center, extend);
             return dest;
         }

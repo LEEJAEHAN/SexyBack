@@ -19,7 +19,7 @@ namespace SexyBackPlayScene
         public event ElementalChangeEvent_Handler noticeElementalChange;// = delegate (object sender) { };
 
         public delegate void ElementalCreateEvent_Handler(Elemental sender);
-        public event ElementalCreateEvent_Handler noticeElementalCreate;// = delegate (object sender) { };
+        public event ElementalCreateEvent_Handler Action_ElementalCreateEvent;// = delegate (object sender) { };
 
         internal void Init()
         {
@@ -28,7 +28,7 @@ namespace SexyBackPlayScene
 
             // this class is event listner
             noticeElementalChange += PrintDps; // 내꺼내가받음;
-            Singleton<MonsterManager>.getInstance().Action_FocusMonsterChange += this.SetTarget;
+            Singleton<MonsterManager>.getInstance().Action_NewFousEvent += this.SetTarget;
         }
         private void LoadData()
         {
@@ -72,7 +72,7 @@ namespace SexyBackPlayScene
             elementals.Add(temp);
 
 
-            noticeElementalCreate(temp); // send event
+            Action_ElementalCreateEvent(temp); // send event
             noticeElementalChange(temp);
         }
 
@@ -123,7 +123,8 @@ namespace SexyBackPlayScene
 
             foreach(Elemental elemental in elementals)
             {
-                elemental.target = sender;
+                elemental.targetID = null;
+                sender.Action_StateChangeEvent = elemental.onTargetStateChange;
             }
         }
         public void PrintDps(Elemental sender)

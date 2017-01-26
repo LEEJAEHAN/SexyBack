@@ -7,7 +7,7 @@ namespace SexyBackPlayScene
     {
         // event publisher
         public delegate void MonsterHit_Event(Vector3 hitPosition, string elementID);
-        public event MonsterHit_Event Action_HitEvent;
+        public event MonsterHit_Event Action_HitEvent = delegate { };
 
         public event MonsterStateMachine.StateChangeHandler Action_changeEvent;
 

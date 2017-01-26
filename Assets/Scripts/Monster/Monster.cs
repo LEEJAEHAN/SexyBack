@@ -10,30 +10,31 @@ namespace SexyBackPlayScene
         public BigInteger HP;
         public BigInteger MAXHP;
 
+        // view
         public GameObject avatar;
-        public BoxCollider avatarCollision { get { return avatar.GetComponent<BoxCollider>(); } }
 
+        // state
         public StateMachine<Monster> StateMachine;
+        string StateOwner.ID { get { return ID; } }
+        public string CurrentState { get { return StateMachine.currStateID; } }
         public Animator Animator;
+
         //size value
-        public Vector3 PivotPosition; // 올라가는정도
-        public Vector3 CenterPosition; // its default; readonly.
+        private Vector3 PivotPosition; // 올라가는정도, 외부에선필요하지않다.
+        public Vector3 CenterPosition; // 몬스터 중점의 world상 위치.
+        public Vector3 Size;           // sprite size, collider size는 이것과 동기화.
+        public BoxCollider Collider { get { return avatar.GetComponent<BoxCollider>(); } }
 
-        public Vector3 Size;
-
+        //hit effect
         GameObject hitparticle = ViewLoader.hitparticle;
         GameObject damagefont = ViewLoader.DamageFont;
 
         public delegate void monsterChangeEvent_Handler(Monster sender);
         public event monsterChangeEvent_Handler Action_MonsterChangeEvent;
 
+        public MonsterStateMachine.StateChangeHandler Action_StateChangeEvent { set { StateMachine.Action_changeEvent += value; } }
 
-        public MonsterStateMachine.StateChangeHandler Action_StateChangeEvent
-        { set { avatar.GetComponent<MonsterView>().Action_changeEvent += value;
-                StateMachine.Action_changeEvent += value; } }
-
-        string StateOwner.ID {get{ return ID; }}
-        public string CurrentState { get { return StateMachine.currStateID; } }
+        //TODO: 임시로작성.
         public bool isActive = false;
 
         internal Monster (MonsterData data)
@@ -51,7 +52,17 @@ namespace SexyBackPlayScene
             StateMachine = new MonsterStateMachine(this);
 
             //Action_MonsterChangeEvent(this);
+            isActive = false;
+            avatar.SetActive(false);
         }
+
+        internal void Join() // join the battle
+        {
+            isActive = true;
+            avatar.SetActive(true);
+            StateMachine.ChangeState("Appear");
+        }
+
         private void RecordSize(GameObject mob)
         {
             Size = mob.GetComponent<SpriteRenderer>().sprite.bounds.size;
@@ -66,9 +77,17 @@ namespace SexyBackPlayScene
             GameObject mob = GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/monster") as GameObject);
             mob.name = ID;
             mob.transform.parent = genPosition; // genposition
+            mob.transform.localPosition = Vector3.zero;
             mob.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(spritepath);
+            mob.GetComponent<MonsterView>().Action_changeEvent += onAnimationFinish;
             return mob;
         }
+        void onAnimationFinish(string monsterid, string stateID)
+        {
+            if (stateID == "Appear")
+                StateMachine.ChangeState("Ready");
+        }
+
         public void Update()
         {
             if(isActive)

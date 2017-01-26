@@ -100,6 +100,14 @@ namespace SexyBackPlayScene
             AttackManager.MoveMakePlayEffect(atkPlan, targetpos, isCritical);
             return true;
         }
+        public void onTargetStateChange(string monsterid, string stateID)
+        {
+            if (stateID == "Ready")
+                targetID = monsterid;
+            else
+                targetID = null;
+        }
+
         public void ChangeState(string stateid)
         {
             StateMachine.ChangeState(stateid);

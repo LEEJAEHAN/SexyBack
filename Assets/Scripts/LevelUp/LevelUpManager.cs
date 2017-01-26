@@ -30,9 +30,9 @@ namespace SexyBackPlayScene
             LoadData();
 
             // this class is event listner
-            Singleton<ElementalManager>.getInstance().noticeElementalCreate += this.onElementalCreate;
+            Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += this.onElementalCreate;
             Singleton<ElementalManager>.getInstance().noticeElementalChange += onElementalChange;
-            Singleton<HeroManager>.getInstance().noticeHeroCreate += onHeroCreate;
+            Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
             Singleton<HeroManager>.getInstance().noticeHeroChange += onHeroChange;
             Singleton<GameMoney>.getInstance().noticeEXPChange += onExpChange;
 
