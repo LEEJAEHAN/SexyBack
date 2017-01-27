@@ -13,8 +13,8 @@ namespace SexyBackPlayScene
         {
             for (int i = 0; i < PurchaseCount; PurchaseCount--)
             {
-                Singleton<GameMoney>.getInstance().ExpUse(Price);
-                Singleton<HeroManager>.getInstance().LevelUp(ID);
+                if (Singleton<GameMoney>.getInstance().ExpUse(Price))
+                    Singleton<HeroManager>.getInstance().LevelUp(ID);
             }
         }
 
@@ -31,7 +31,7 @@ namespace SexyBackPlayScene
             description += "Cost : " + Price.To5String() + " EXP";
 
             Info_Text = description;
-            Notice(this);
+            Notice();
         }
     }
 }

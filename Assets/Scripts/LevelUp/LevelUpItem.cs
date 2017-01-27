@@ -20,11 +20,11 @@ namespace SexyBackPlayScene
         internal string ViewName {  get { return "levelup_" + data.OwnerID; } }
         internal string Icon { get { return data.IconName; } }
         internal string Info_Name { get { return data.InfoName; } } // owner.name과는다르다.
-        internal bool CanBuy { get { return Singleton<GameMoney>.getInstance().CanBuy(Price); } }
+        internal bool CanBuy = false;
         internal string Button_Text; // 아이템버튼 우하단 텍스트
         internal string Info_Text; // 아이템버튼 인포창 텍스트
 
-        protected LevelUpItem(LevelUpItemData data)
+        public LevelUpItem(LevelUpItemData data)
         {
             originalprice = new BigInteger(0);
             PurchaseCount = 0;
@@ -33,7 +33,7 @@ namespace SexyBackPlayScene
         }
         internal void Purchase()
         {
-            if (Singleton<GameMoney>.getInstance().CanBuy(Price))
+            if (CanBuy)
                 PurchaseCount++;
         }
 
@@ -44,14 +44,19 @@ namespace SexyBackPlayScene
             return itemViewName.Substring("levelup_".Length);
         }
 
-        public void Notice(LevelUpItem item)
+        public void Notice()
         {   
-            Action_LevelUpChange(item);
+            Action_LevelUpChange(this);
         }
 
         public void onExpChange(BigInteger exp)
         {
-            Action_LevelUpChange(this);
+            if (exp >= Price)
+                CanBuy = true;
+            else
+                CanBuy = false;
+
+            Notice();
         }
     }
 

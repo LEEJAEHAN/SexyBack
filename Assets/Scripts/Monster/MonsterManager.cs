@@ -11,6 +11,12 @@ namespace SexyBackPlayScene
         Dictionary<string, Monster> monsterPool = new Dictionary<string, Monster>();
          
         Dictionary<string, MonsterData> monsterDatas = new Dictionary<string, MonsterData>();
+
+        internal void DestroyMonster(Monster owner)
+        {
+            throw new NotImplementedException();
+        }
+
         Monster FocusMonster; // TODO: bucket으로수정해야함;
 
         public delegate void FocusChange_Event(Monster sender);
@@ -78,8 +84,9 @@ namespace SexyBackPlayScene
         }
 
         internal void Update()
-        {
-            FocusMonster.Update();
+        { // TODO : all monster update;
+            if(FocusMonster != null)
+                FocusMonster.Update();
         }
 
         internal Monster GetMonster()

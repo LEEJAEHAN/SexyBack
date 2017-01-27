@@ -11,7 +11,6 @@ namespace SexyBackPlayScene
         Dictionary<string, LevelUpItem> levelUpItems = new Dictionary<string, LevelUpItem>();
 
         // this class is event publisher
-
         public delegate void LevelUpCreate_EventHandler(LevelUpItem levelupitem);
         public event LevelUpCreate_EventHandler Action_LevelUpCreate;
 
@@ -76,12 +75,13 @@ namespace SexyBackPlayScene
                 return;
 
             HeroLevelUpItem levelupItem = new HeroLevelUpItem(levelUpDatas[sender.ID]);
+            Action_LevelUpCreate(levelupItem);
+
             sender.Action_HeroChange += levelupItem.UpdateLevelUpItem;
             Singleton<GameMoney>.getInstance().noticeEXPChange += levelupItem.onExpChange;
 
-            Action_LevelUpCreate(levelupItem);
-
             levelupItem.UpdateLevelUpItem(sender);
+
             levelUpItems.Add(sender.ID, levelupItem); // sender의 레벨이아닌 data의 레벨
         }
         void onElementalCreate(Elemental sender) // create and bind element item
@@ -90,33 +90,15 @@ namespace SexyBackPlayScene
                 return;
 
             ElementalLevelUpItem levelupItem = new ElementalLevelUpItem(levelUpDatas[sender.ID]);
+            Action_LevelUpCreate(levelupItem);
+
             sender.Action_ElementalChange += levelupItem.UpdateLevelUpItem;
             Singleton<GameMoney>.getInstance().noticeEXPChange += levelupItem.onExpChange;
 
-            Action_LevelUpCreate(levelupItem);
-
             levelupItem.UpdateLevelUpItem(sender);
+
             levelUpItems.Add(sender.ID, levelupItem); // sender의 레벨이아닌 data의 레벨
         }
-        //void onHeroChange(Hero sender) //update item
-        //{
-        //    HeroLevelUpItem result = (HeroLevelUpItem)levelUpItems[sender.ID];
-        //    result.UpdateLevelUpItem(sender);
-        //    noticeLevelUpChange(result);
-        //}
-        //void onElementalChange(Elemental sender) //update item
-        //{
-        //    ElementalLevelUpItem result = (ElementalLevelUpItem)levelUpItems[sender.ID];
-        //    result.UpdateLevelUpItem(sender);
-        //    noticeLevelUpChange(result);
-        //}
-        //void onExpChange(BigInteger exp)
-        //{
-        //    foreach (LevelUpItem item in levelUpItems.Values)
-        //    {
-        //        noticeLevelUpChange(item);
-        //    }
-        //}
         ///  view로부터의 이벤트 . 해당 메서드 런타임에서 절대 data를 변경해선 안된다. ( 데이터는 update에서 변경되어야 한다.)
         void onConfirm() // 모델을 변경시키는 행위기 때문에 실제 변경은 업데이트에서 수행되어야함;
         {

@@ -67,10 +67,16 @@ namespace SexyBackPlayScene
         internal Elemental CreateElemental(ElementalData data)
         {
             Elemental temp = new Elemental(data, ElementalArea);
+            temp.Action_ElementalChange += this.onElementalChange;
             Action_ElementalCreateEvent(temp); // send event
 
             temp.LevelUp(1);
             return temp;
+        }
+
+        private void onElementalChange(Elemental sender)
+        {
+            Action_ElementalListChangeEvent(elementals);
         }
 
         internal void Update()

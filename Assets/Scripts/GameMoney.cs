@@ -32,15 +32,20 @@ namespace SexyBackPlayScene
             exp += e;
             noticeEXPChange(exp);
         }
-        internal void ExpUse(BigInteger e)
+        internal bool ExpUse(BigInteger e)
         {
-            exp -= e;
-            noticeEXPChange(exp);
-        }
+            bool result;
 
-        internal bool CanBuy(BigInteger price)
-        {
-            return exp > price;
+            if (exp - e < 0)
+                result = false;
+            else
+            {
+                exp -= e;
+                result = true;
+            }
+
+            noticeEXPChange(exp);
+            return result;
         }
 
         void PrintExp(BigInteger exp)

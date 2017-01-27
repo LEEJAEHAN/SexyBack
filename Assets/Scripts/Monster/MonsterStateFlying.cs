@@ -10,6 +10,7 @@ namespace SexyBackPlayScene
 
         internal override void Begin()
         {
+            Singleton<MonsterManager>.getInstance().DestroyMonster(owner);
         }
 
         internal override void End()
