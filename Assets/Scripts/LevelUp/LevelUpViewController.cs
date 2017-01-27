@@ -29,9 +29,8 @@ namespace SexyBackPlayScene
             LevelUpItemViewPrefab = Resources.Load<GameObject>("Prefabs/UI/LevelUpItemView") as GameObject;
 
             // this class is event listner
-            Singleton<LevelUpManager>.getInstance().noticeLevelUpCreate += this.onLevelUpCreate;
+            Singleton<LevelUpManager>.getInstance().Action_LevelUpCreate += this.onLevelUpCreate;
             Singleton<LevelUpManager>.getInstance().noticeLevelUpSelect += this.onLevelUpSelect;
-            Singleton<LevelUpManager>.getInstance().noticeLevelUpChange += this.onLevelUpChange;
         }
         // Use this for initialization
         void Start()
@@ -132,6 +131,9 @@ namespace SexyBackPlayScene
         /// </summary>
         void onLevelUpCreate(LevelUpItem item) // create item view
         {
+            // bind
+            item.Action_LevelUpChange += this.onLevelUpChange;
+
             // Instantiate object
             GameObject itemView = GameObject.Instantiate<GameObject>(LevelUpItemViewPrefab) as GameObject;
             itemView.name = item.ViewName;
@@ -159,7 +161,6 @@ namespace SexyBackPlayScene
             // UpdateInfoView if selected
             if (itemView == SelectedItemView)
                 FillInfoView(item);
-
         }
         void onLevelUpSelect(LevelUpItem selecteditem) // fill info view
         {

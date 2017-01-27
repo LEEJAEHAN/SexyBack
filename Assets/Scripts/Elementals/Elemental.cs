@@ -32,7 +32,7 @@ namespace SexyBackPlayScene
 
         //change event sender
         public delegate void ElementalChangeEvent_Handler(Elemental sender);
-        public event ElementalChangeEvent_Handler noticeElementalChange;// = delegate (object sender) { };
+        public event ElementalChangeEvent_Handler Action_ElementalChange;// = delegate (object sender) { };
 
         public Elemental(ElementalData data, Transform area)
         {
@@ -71,7 +71,7 @@ namespace SexyBackPlayScene
         internal void LevelUp(int amount)
         {
             level += amount;
-            noticeElementalChange(this);
+            Action_ElementalChange(this);
         }
 
         // TODO : 여기도 언젠간 statemachine작업을 해야할듯 ㅠㅠ

@@ -4,6 +4,7 @@ namespace SexyBackPlayScene
 {
     internal class HeroLevelUpItem : LevelUpItem
     {
+
         public HeroLevelUpItem(LevelUpItemData data) : base(data)
         {
         }
@@ -30,6 +31,7 @@ namespace SexyBackPlayScene
             description += "Cost : " + Price.To5String() + " EXP";
 
             Info_Text = description;
+            Notice(this);
         }
     }
 }

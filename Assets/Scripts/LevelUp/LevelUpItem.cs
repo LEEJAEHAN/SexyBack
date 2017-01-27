@@ -7,6 +7,9 @@ namespace SexyBackPlayScene
     {
         private LevelUpItemData data;
 
+        public delegate void LevelUpChange_EventHandler(LevelUpItem levelupitem);
+        public event LevelUpChange_EventHandler Action_LevelUpChange;
+
         // 돈관련, protected
         protected BigInteger originalprice; // original price
         private int priceXK;
@@ -39,6 +42,16 @@ namespace SexyBackPlayScene
         internal static string NameToID(string itemViewName)
         {
             return itemViewName.Substring("levelup_".Length);
+        }
+
+        public void Notice(LevelUpItem item)
+        {   
+            Action_LevelUpChange(item);
+        }
+
+        public void onExpChange(BigInteger exp)
+        {
+            Action_LevelUpChange(this);
         }
     }
 
