@@ -88,8 +88,6 @@ namespace SexyBackPlayScene
             }
             else // staic is max
                 ViewLoader.Bar_Attack.GetComponent<UISlider>().value = 1;
-
-            sexybacklog.InGame(currentAttackCount);
         }
 
         public void MoveMakePlayEffect(TapPoint Tap, Vector3 monsterPos, bool isCritical)

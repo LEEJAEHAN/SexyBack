@@ -13,8 +13,6 @@ namespace SexyBackPlayScene
         Dictionary<string, MonsterData> monsterDatas = new Dictionary<string, MonsterData>();
         Monster FocusMonster; // TODO: bucket으로수정해야함;
 
-        UILabel label_monsterhp = ViewLoader.label_monsterhp.GetComponent<UILabel>();
-
         public delegate void FocusChange_Event(Monster sender);
         public event FocusChange_Event Action_NewFousEvent;
 

@@ -45,9 +45,11 @@ namespace SexyBackPlayScene
 
         }
         // Update is called once per frame
-        bool flipflop = true;
+        bool flipflop = false;
         void Update()
         {
+            sexybacklog.InGame(Singleton<MonsterManager>.getInstance().GetMonster().HP.ToString());
+
             if (flipflop)
             {
                 BigInteger a = new BigInteger("123456123456");

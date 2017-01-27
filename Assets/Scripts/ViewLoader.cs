@@ -56,7 +56,7 @@ namespace SexyBackPlayScene
         public ViewLoader()
         {
             HeroPanel = GameObject.Find("HeroPanel");
-
+            
             HeroCamera = GameObject.Find("HeroCamera").GetComponent<Camera>();
             EffectCamera = GameObject.Find("EffectCamera").GetComponent<Camera>();
             label_debug = GameObject.Find("label_debug");
@@ -64,8 +64,6 @@ namespace SexyBackPlayScene
             label_elementaldmg = GameObject.Find("label_elementaldmg");
 
             label_exp = GameObject.Find("label_exp");
-            label_monsterhp = GameObject.Find("label_monsterhp");
-
 
             projectiles = GameObject.Find("projectiles");
             hitparticle = GameObject.Find("hitparticle");
