@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    public class Monster : StateOwner// model
+    public class Monster : StateOwner, IDisposable// model
     {
         public string ID;
         public string Name;
@@ -46,7 +46,6 @@ namespace SexyBackPlayScene
 
             avatar = InitAvatar(data.SpritePath, ViewLoader.monsters.transform);
             RecordSize(avatar);
-            InitDamageFont();
 
             Animator = avatar.GetComponent<Animator>();
             StateMachine = new MonsterStateMachine(this);
@@ -80,6 +79,7 @@ namespace SexyBackPlayScene
             mob.transform.localPosition = Vector3.zero;
             mob.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(spritepath);
             mob.GetComponent<MonsterView>().Action_changeEvent += onAnimationFinish;
+            
             return mob;
         }
         void onAnimationFinish(string monsterid, string stateID)
@@ -123,16 +123,13 @@ namespace SexyBackPlayScene
                 return true;
         }
 
+
         void PlayParticle(Vector3 position)
         {
             hitparticle.transform.position = position;
             hitparticle.GetComponent<ParticleSystem>().Play();
         }
 
-        private void InitDamageFont()
-        {
-            damagefont.GetComponent<UITweener>().AddOnFinished(avatar.GetComponent<MonsterView>().OnDamageFontFinish);
-        }
         void PlayDamageFont(BigInteger dmg, Vector3 position)
         {
             Vector3 screenpos = ViewLoader.HeroCamera.WorldToScreenPoint(position);
@@ -142,6 +139,24 @@ namespace SexyBackPlayScene
             damagefont.transform.localPosition = screenpos;
             damagefont.GetComponent<UILabel>().text = dmg.To5String();
             damagefont.GetComponent<UILabel>().fontSize = (int)((30 + 10 * (10 - screenpos.z)));
+        }
+
+        public void Dispose()
+        {
+            HP = null; ;
+            MAXHP = null;
+            avatar.GetComponent<MonsterView>().Dispose();
+            StateMachine = null;
+            Animator = null;
+            hitparticle = null;
+            damagefont = null;
+            Action_MonsterChangeEvent = null;
+            isActive = false;
+        }
+
+    ~Monster()
+        {
+            sexybacklog.Console("몬스터소멸!");
         }
     }
 }

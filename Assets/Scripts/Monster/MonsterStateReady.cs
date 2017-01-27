@@ -33,7 +33,7 @@ namespace SexyBackPlayScene
         internal override void End()
         {
             owner.avatar.GetComponent<MonsterView>().Action_HitEvent -= onHitByProjectile;
-            BackCollision.Action_HitEvent += onHitByProjectile;
+            BackCollision.Action_HitEvent -= onHitByProjectile;
         }
 
         public void onHitByProjectile(Vector3 hitposition, string elementalID)

@@ -327,7 +327,7 @@ namespace SexyBackPlayScene
         {
             int digit3 = 3; // 3자리마다 단위를늘린다..
             int maxDigit3 = 0;
-            string digitString = ToDigitString(out maxDigit3, digit3, 3);
+            string digitString = toRightDigitString(out maxDigit3, digit3, 3);
             Digit digit = (Digit)((maxDigit3 - 1) / digit3); ; // 바로나온 maxDigit3은 3의배수 + 1이기때문에.
             if (digit == 0) // 1의자리수는 소수형태가아님. 자리단위를붙이지않으며, 가장뒤의 0도 . 도 뺄필요없음.
                 return digitString;
@@ -360,22 +360,39 @@ namespace SexyBackPlayScene
             }
             return temp;
         }
-        public string ToDigitString(out int maxdigitN, int digitN, int overload) // overload 소숫점 뒤에로드될 숫자갯수.
+        private string toRightDigitString(out int maxdigitN, int digitN, int overload) // overload 소숫점 뒤에로드될 숫자갯수.
         {
             string thisStr = this.ToString(); // digitN은 N자리숫자마다끊는다는걸 의미.
             int length = thisStr.Length;
-            int maxDigitN = FindMaxDigitStack(length, digitN); // maxDigitN 은 digitN의 배수 + 1이다. 
+            int maxDigitN = FindMaxDigitStack(length, digitN); // 오른쪽부터. digit단으로자른다. maxDigitN 은 digitN의 배수 + 1이다. 
             maxdigitN = maxDigitN; // 일단 digit 문자 만들어놓고.
             if (maxDigitN == 1) // 첫번째 단위가 1단위면 바로 출력 ( 즉 첫번째가 zero )
                 return thisStr; // + chardigit
             // zero 단 이상이면
             string quotient = thisStr.Substring(0, length - maxDigitN + 1); // length에서 maxDigitN까지. ( 문자열이라 순서가 반전 )
-            while ((length - maxDigitN + 1) + overload > length)
+            while ((length - maxDigitN + 1) + overload > length) // (length - maxDigitN + 1) == digitN
                 overload--;
             string reminder = thisStr.Substring(length - maxDigitN + 1, overload);
             return quotient.ToString() + "." + reminder.ToString();// + chardigit.ToString();
         }
-       
+
+        public string toLeftDigitString(out int maxdigitN, int digitN, int overload) // overload 소숫점 뒤에로드될 숫자갯수.
+        {
+            string thisStr = this.ToString(); // digitN은 N자리숫자마다끊는다는걸 의미.
+            int length = thisStr.Length;
+            if (digitN > length)
+                digitN = length;
+                maxdigitN = length - digitN + 1; // 왼쪽부터 digit단으로 자른다. 한번만 자르면땡  maxDigitN 은 digitN의 배수 + 1이다. 
+            if (maxdigitN == 1) // 첫번째 단위가 1단위면 바로 출력 ( 즉 첫번째가 zero )
+                return thisStr; // + chardigit
+            // zero 단 이상이면
+            string quotient = thisStr.Substring(0, digitN); // length에서 maxDigitN까지. ( 문자열이라 순서가 반전 )
+            while (digitN + overload > length)
+                overload--;
+            string reminder = thisStr.Substring(digitN, overload);
+            return quotient.ToString() + "." + reminder.ToString();// + chardigit.ToString();
+        }
+
         public static int FindMaxDigitStack(int length, int digitTerm) // length보다 작은, 가장큰 digitTerm의 배수를 리턴
         {
             int MaxDigit = 1;

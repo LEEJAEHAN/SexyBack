@@ -16,6 +16,7 @@ namespace SexyBackPlayScene
         public void Init()
         {
             noticeEXPChange += PrintExp;
+            PrintExp(0);
         }
         public void Start()
         {

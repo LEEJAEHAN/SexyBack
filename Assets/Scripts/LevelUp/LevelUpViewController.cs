@@ -16,7 +16,7 @@ namespace SexyBackPlayScene
         public delegate void SelectEvent_Handler(string id);
         public event SelectEvent_Handler noticeSelect;
 
-        // for view
+        // for view 
         List<GameObject> ItemViewList = new List<GameObject>();
         GameObject LevelUpItemViewPrefab;
         GameObject SelectedItemView = null;

@@ -58,6 +58,7 @@ namespace SexyBackPlayScene
             levelUpDatas.Add(item8.OwnerID, item8);
             levelUpDatas.Add(item9.OwnerID, item9);
         }
+
         internal void Start()
         {
         }

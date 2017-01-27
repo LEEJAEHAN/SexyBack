@@ -62,7 +62,7 @@ namespace SexyBackPlayScene
             // 123,456,123,456
             BigInteger hp = sender.MAXHP;
             int maxdigit = 0;
-            string floatstring = hp.ToDigitString(out maxdigit, 2, 4); // "12.3456"
+            string floatstring = hp.toLeftDigitString(out maxdigit, 2, 4); // "12.3456"
             string unitstring = BigInteger.CalDigitOtherN(maxdigit, 3); // 10b
             float totalgauge = Convert.ToSingle(floatstring);
             // set monster info text
@@ -111,7 +111,7 @@ namespace SexyBackPlayScene
 
             float prevgoal = goal;
             int maxdigit = 0;
-            string floatstring = monster.HP.ToDigitString(out maxdigit, 2, 4);
+            string floatstring = monster.HP.toLeftDigitString(out maxdigit, 2, 4);
 
             // 표시되는 바의 목표와 속도 set
             goal = Convert.ToSingle(floatstring);

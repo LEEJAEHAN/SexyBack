@@ -50,5 +50,7 @@ namespace SexyBackPlayScene
             monster.Action_StateChangeEvent = CurrentHero.onTargetStateChange;
             //CurrentHero.SetDirection(monster.CenterPosition);
         }
+
+        
     }
 }
