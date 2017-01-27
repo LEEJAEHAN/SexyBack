@@ -79,7 +79,7 @@ namespace SexyBackPlayScene
             if (currentAttackCount < owner.MAXATTACKCOUNT)
             {
                 attackTimer += Time.deltaTime;
-                ViewLoader.Bar_Attack.GetComponent<UISlider>().value = (float)(attackTimer / owner.ATTACKINTERVAL);
+                CoolTimeBar.GetComponent<UISlider>().value = (float)(attackTimer / owner.ATTACKINTERVAL);
                 if (attackTimer > owner.ATTACKINTERVAL)
                 {
                     AddAttackCount();
@@ -87,7 +87,7 @@ namespace SexyBackPlayScene
                 }
             }
             else // staic is max
-                ViewLoader.Bar_Attack.GetComponent<UISlider>().value = 1;
+                CoolTimeBar.GetComponent<UISlider>().value = 1;
         }
 
         public void MoveMakePlayEffect(TapPoint Tap, Vector3 monsterPos, bool isCritical)
@@ -114,7 +114,7 @@ namespace SexyBackPlayScene
         {   
             GameObject swordicon = GameObject.Instantiate(SwordIcon) as GameObject;
             swordicon.name = "attackcount" + sequence;
-            swordicon.transform.parent = ViewLoader.Bar_Attack.transform;
+            swordicon.transform.parent = CoolTimeBar.transform;
             swordicon.transform.localScale = Vector3.one;
             swordicon.transform.localPosition = Vector3.zero;
             swordicon.transform.rotation = Quaternion.Euler(0, 0, 45 + iconangle[sequence - 1]);

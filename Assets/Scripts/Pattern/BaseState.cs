@@ -2,10 +2,8 @@
 
 namespace SexyBackPlayScene
 {
-    public abstract class BaseState<T>  where T : class, StateOwner
+    public abstract class BaseState<T> where T : class, StateOwner
     {
-
-        private bool _isBaseDisposeSmapleClass = false;
 
         protected T owner;
         protected StateMachine<T> stateMachine;
@@ -13,10 +11,16 @@ namespace SexyBackPlayScene
         {
             this.owner = owner;
             stateMachine = statemachine;
+            sexybacklog.Console(this.ToString() + "State 생성");
         }
         internal abstract void Update();
         internal abstract void End();
         internal abstract void Begin();
+
+        ~BaseState()
+        {
+            sexybacklog.Console(this.ToString() + "State 해제");
+        }
 
     }
 

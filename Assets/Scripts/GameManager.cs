@@ -14,6 +14,7 @@ namespace SexyBackPlayScene
         LevelUpManager levelUpManager;
 
         GameMoney gameMoney;
+        GameProgress gameProgress;
 
         // Use this for initialization
         public void Init()
@@ -23,12 +24,16 @@ namespace SexyBackPlayScene
             elementalManager = Singleton<ElementalManager>.getInstance();
             levelUpManager = Singleton<LevelUpManager>.getInstance();
             gameMoney = Singleton<GameMoney>.getInstance();
+            gameProgress = Singleton<GameProgress>.getInstance();
+
 
             heroManager.Init();
             monsterManager.Init();
             elementalManager.Init();
             levelUpManager.Init();
             gameMoney.Init();
+            gameProgress.Init();
+
 
             heroManager.Start();
             monsterManager.Start();
@@ -50,7 +55,7 @@ namespace SexyBackPlayScene
             elementalManager.Update();
             levelUpManager.Update();
             gameMoney.Update();
-
+            gameProgress.Update();
         }
 
 

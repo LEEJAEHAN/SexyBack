@@ -9,7 +9,7 @@ namespace SexyBackPlayScene
         public string ID;
         private ElementalData baseData;
         public string targetID;
-        private int level;
+        private int level = 0;
         public BigInteger DpsX = new BigInteger(1);
 
         // data property
@@ -30,14 +30,16 @@ namespace SexyBackPlayScene
         // status property
         private bool NoProjectile { get { return CurrentProjectile == null; } }
 
+        //change event sender
+        public delegate void ElementalChangeEvent_Handler(Elemental sender);
+        public event ElementalChangeEvent_Handler noticeElementalChange;// = delegate (object sender) { };
+
         public Elemental(ElementalData data, Transform area)
         {
             ID = data.ID;
             baseData = data;
             ElementalArea = area;
             ProjectilePrefab = Resources.Load(ElementalData.ProjectilePrefabName(ID)) as GameObject;
-
-            LevelUp(1);
         }
 
         internal void CreateProjectile()
@@ -66,9 +68,10 @@ namespace SexyBackPlayScene
                 AttackTimer = 0; // 정상적으로 발사 완료 후 타이머리셋
         }
 
-        internal void LevelUp(int toLevel)
+        internal void LevelUp(int amount)
         {
-            level += toLevel;
+            level += amount;
+            noticeElementalChange(this);
         }
 
         // TODO : 여기도 언젠간 statemachine작업을 해야할듯 ㅠㅠ

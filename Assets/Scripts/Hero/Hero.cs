@@ -21,7 +21,7 @@ namespace SexyBackPlayScene
         // 게임플레이에 따라 변하는 데이터.
         // 상태값
         public string targetID;
-        private int level;
+        private int level = 0;
         private BigInteger baseDpc = new BigInteger(0);
         private BigInteger dpcX = new BigInteger(1); // 곱계수는 X를붙인다.
         private int bounsAttackCount = 6; // 보너스 공격스택횟수 
@@ -34,11 +34,13 @@ namespace SexyBackPlayScene
         // function property
         private bool JudgeCritical { get { return CRIRATE > UnityEngine.Random.Range(0.0f, 1.0f); } }
 
+        // event sender
+        public delegate void HeroChange_Event(Hero hero);
+        public event HeroChange_Event Action_HeroChange;
+
         public Hero(HeroData data)
         {
             baseData = data;
-            AddLevel(1);
-
             avatar = ViewLoader.HeroPanel;
             Animator = ViewLoader.hero_sprite.GetComponent<Animator>();
             AttackManager = new HeroAttackManager(this);
@@ -53,6 +55,8 @@ namespace SexyBackPlayScene
             for (int i = level; i < level + amount; i++)
                 baseDpc += new BigInteger(baseData.BaseDpcPool[i]);
             level += amount;
+
+            Action_HeroChange(this);
         }
         internal void Move(Vector3 step)
         {
@@ -89,11 +93,8 @@ namespace SexyBackPlayScene
 
             // do deal
             TapPoint atkPlan = AttackManager.NextAttackPlan();
-
-            Singleton<MonsterManager>.getInstance().GetMonster(targetID).Hit(atkPlan.EffectPos, damage, isCritical);
-
-            //TODO : targetID가아니라 target직접잡고패게바꾸기
-//            Singleton<MonsterManager>.getInstance().Hit(targetID, atkPlan.EffectPos, damage, isCritical);
+            Singleton<MonsterManager>.getInstance().GetMonster(targetID)
+                .Hit(atkPlan.EffectPos, damage, isCritical);
 
             // make attack effect
             Vector3 targetpos = Singleton<MonsterManager>.getInstance().FindPosition(targetID);

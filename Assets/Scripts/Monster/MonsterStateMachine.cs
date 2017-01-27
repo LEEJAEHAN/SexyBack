@@ -6,7 +6,6 @@ namespace SexyBackPlayScene
     {
         internal MonsterStateMachine(Monster owner) : base(owner)
         {   
-            //ChangeState("Appear");
         }
         protected override BaseState<Monster> CreateState(string stateid)
         {
@@ -22,8 +21,8 @@ namespace SexyBackPlayScene
                     return new MonsterStateReady(owner, this);
                 default:
                     {
-                        sexybacklog.Error();
-                        return null;
+                        UnityEngine.Debug.LogError("");
+                        return null;;
                     }
             }
         }

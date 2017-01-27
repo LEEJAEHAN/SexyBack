@@ -6,12 +6,6 @@ namespace SexyBackPlayScene
     {
         public MonsterStateFlying(Monster owner, MonsterStateMachine statemachine) : base(owner, statemachine)
         {
-            sexybacklog.Console("monster flying 생성");
-        }
-
-        ~MonsterStateFlying()
-        {
-            sexybacklog.Console("monster flying 파괴");
         }
 
         internal override void Begin()

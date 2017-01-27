@@ -16,6 +16,8 @@ namespace SexyBackPlayScene
         }
         public void Update()
         {
+            if (CurrState == null)
+                return;
             CurrState.Update();
         }
         private void ChangeState(BaseState<T> newState)

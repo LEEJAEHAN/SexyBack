@@ -7,7 +7,6 @@ namespace SexyBackPlayScene
     {
         public HeroStateReady(Hero owner, HeroStateMachine stateMachine) : base(owner, stateMachine)
         {
-            sexybacklog.Console("HeroStateReady 생성");
         }
 
         internal override void Begin()
@@ -35,10 +34,5 @@ namespace SexyBackPlayScene
                 }
             }
         }
-        ~HeroStateReady()
-        {
-            sexybacklog.Console("HeroStateReady 소멸");
-        }
-
     }
 }

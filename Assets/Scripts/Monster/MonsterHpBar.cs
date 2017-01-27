@@ -22,11 +22,9 @@ namespace SexyBackPlayScene
         int currentIstack = 0;
 
         float velocity = -0.2f; // 이동속도. 1일시 1초에 목적지까지 깎임. 기본 3초
-        float accel = 0.01f;  // 이동가속도. 현재 사용하지않음.
+        //float accel = 0.01f;  // 이동가속도. 현재 사용하지않음.
 
         float InitHue = 1f;
-        private float destroyTimer = 1f;
-        string currentMonsterID;
 
         public float IGauge
         {
@@ -91,7 +89,6 @@ namespace SexyBackPlayScene
             LateBar1.GetComponent<UISprite>().color = Color.HSVToRGB(InitHue, 1, 0.7f);
 
             //attach
-            currentMonsterID = sender.ID;
             SetActive(false);
         }
 
@@ -199,7 +196,6 @@ namespace SexyBackPlayScene
         {
             int stackindex = (int)late;
             float fillAmount = late - (int)late;
-            int goalindex = (int)goal;
 
             if (stackindex < currentLstack)
             {

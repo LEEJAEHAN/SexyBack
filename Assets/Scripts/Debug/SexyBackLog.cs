@@ -15,9 +15,9 @@ namespace SexyBackPlayScene
             ViewLoader.label_debug.GetComponent<UILabel>().text = msg.ToString();
         }
 
-        internal static void Error()
+        internal static void Error(object msg)
         {
-            Debug.LogError("error 발생");
+            Debug.LogError(msg);
         }
     }
 }

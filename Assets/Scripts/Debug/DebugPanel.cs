@@ -15,14 +15,6 @@ namespace SexyBackPlayScene
         Ray effectray;
         RaycastHit effecthit;
         
-        Ray a;
-        RaycastHit ahit;
-
-        Vector3 moveDirection = new Vector3(0, 1, -3) - new Vector3(0, 0, -10);
-        // 문 - 초기카메라
-        //Vector3 moveDirection = Singleton<MonsterManager>.getInstance().GetMonster().Position - new Vector3(0,0,-10); // 몹 - 초기카메라
-        //  Vector3 moveDirection = new Vector3(0,3,-1) - new Vector3(0, 0, -10); // 문 - 초기카메라
-        
 
         private void OnDrawGizmos()
         {
@@ -38,17 +30,12 @@ namespace SexyBackPlayScene
             Gizmos.color = Color.green;
             Gizmos.DrawRay(effectray.origin, effectray.direction * 20);
             Gizmos.DrawSphere(effecthit.point, 0.1f);
-
-            Gizmos.color = Color.blue;
-            Gizmos.DrawRay(a.origin, a.direction * 20);
-            Gizmos.DrawSphere(ahit.point, 0.1f);
-
         }
         // Update is called once per frame
         bool flipflop = false;
         void Update()
         {
-            sexybacklog.InGame(Singleton<MonsterManager>.getInstance().GetMonster().HP.ToString());
+            //sexybacklog.InGame(Singleton<MonsterManager>.getInstance().GetMonster().HP.ToString());
 
             if (flipflop)
             {
@@ -82,8 +69,6 @@ namespace SexyBackPlayScene
                 {
                     //sexybacklog.Console("Hit EFFECT: " + effecthit.collider.gameObject.tag + " " + effecthit.collider.gameObject.name + effecthit.point);
                 }
-                //a = new Ray(Singleton<MonsterManager>.getInstance().GetMonster().CenterPosition, directionVector);
-                //Physics.Raycast(a, out ahit, 100, 110000000);
             }
         }
 

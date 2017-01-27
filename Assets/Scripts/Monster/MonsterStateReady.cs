@@ -21,16 +21,11 @@ namespace SexyBackPlayScene
 
         public MonsterStateReady(Monster owner, MonsterStateMachine statemachine) : base(owner, statemachine)
         {
-            sexybacklog.Console("monster ready 생성");
-        }
-
-        ~MonsterStateReady()
-        {
-            sexybacklog.Console("monster ready 파괴");
         }
 
         internal override void Begin()
         {
+            owner.Animator.SetTrigger("Ready");
             owner.avatar.GetComponent<MonsterView>().Action_HitEvent += onHitByProjectile;
             BackCollision.Action_HitEvent += onHitByProjectile;
         }

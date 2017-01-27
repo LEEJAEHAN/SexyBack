@@ -31,9 +31,7 @@ namespace SexyBackPlayScene
 
             // this class is event listner
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += this.onElementalCreate;
-            Singleton<ElementalManager>.getInstance().noticeElementalChange += onElementalChange;
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
-            Singleton<HeroManager>.getInstance().noticeHeroChange += onHeroChange;
             Singleton<GameMoney>.getInstance().noticeEXPChange += onExpChange;
 
             viewController.noticeConfirm += this.onConfirm;
@@ -76,30 +74,31 @@ namespace SexyBackPlayScene
         }
         // recieve event
         // 데이터 체인지로부터 인한 이벤트
-        void onHeroCreate(Hero sender)
+        void onHeroCreate(Hero sender) // create and bind heroitem
         {
             HeroLevelUpItem levelupItem = new HeroLevelUpItem(levelUpDatas[sender.ID]);
             levelUpItems.Add(sender.ID, levelupItem); // sender의 레벨이아닌 data의 레벨
-
+            sender.Action_HeroChange += onHeroChange;
             noticeLevelUpCreate(levelupItem);
-            noticeLevelUpChange(levelupItem);
 
+            noticeLevelUpChange(levelupItem);
         }
-        void onElementalCreate(Elemental sender)
+        void onElementalCreate(Elemental sender) // create and bind element item
         {
             ElementalLevelUpItem levelupItem = new ElementalLevelUpItem(levelUpDatas[sender.ID]);
             levelUpItems.Add(sender.ID, levelupItem); // sender의 레벨이아닌 data의 레벨
-
+            sender.noticeElementalChange += onElementalChange;
             noticeLevelUpCreate(levelupItem);
+
             noticeLevelUpChange(levelupItem);
         }
-        void onHeroChange(Hero sender)
+        void onHeroChange(Hero sender) //update item
         {
             HeroLevelUpItem result = (HeroLevelUpItem)levelUpItems[sender.ID];
             result.UpdateLevelUpItem(sender);
             noticeLevelUpChange(result);
         }
-        void onElementalChange(Elemental sender)
+        void onElementalChange(Elemental sender) //update item
         {
             ElementalLevelUpItem result = (ElementalLevelUpItem)levelUpItems[sender.ID];
             result.UpdateLevelUpItem(sender);

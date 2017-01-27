@@ -29,11 +29,6 @@ namespace SexyBackPlayScene
 
         public HeroStateAttack(Hero owner, HeroStateMachine stateMachine) : base(owner, stateMachine)
         {
-            sexybacklog.Console("HeroStateAtack 생성");
-        }
-        ~HeroStateAttack()
-        {
-            sexybacklog.Console("HeroStateAtack 소멸");
         }
         internal override void Begin()
         {

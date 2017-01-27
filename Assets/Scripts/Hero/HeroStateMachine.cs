@@ -7,7 +7,6 @@ namespace SexyBackPlayScene
     {
         internal HeroStateMachine(Hero owner) : base(owner)
         {
-            ChangeState("Ready");
         }
         protected override BaseState<Hero> CreateState(string stateid)
         {
@@ -21,7 +20,7 @@ namespace SexyBackPlayScene
                     return new HeroStateAttack(owner, this);
                 default:
                     {
-                        sexybacklog.Error();
+                        UnityEngine.Debug.LogError("");
                         return null;
                     }
             }

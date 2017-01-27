@@ -12,11 +12,10 @@ namespace SexyBackPlayScene
         public Dictionary<string, ElementalData> elementalDatas = new Dictionary<string, ElementalData>();
 
         Transform ElementalArea = ViewLoader.area_elemental.transform;
-        UILabel TotalDpsLabel = ViewLoader.label_elementaldmg.GetComponent<UILabel>();
 
-        //this class is event publisher 
-        public delegate void ElementalChangeEvent_Handler(Elemental sender);
-        public event ElementalChangeEvent_Handler noticeElementalChange;// = delegate (object sender) { };
+
+        public delegate void ElementalList_ChangeEvent(List<Elemental> list);
+        public event ElementalList_ChangeEvent Action_ElementalListChangeEvent;// = delegate (object sender) { };
 
         public delegate void ElementalCreateEvent_Handler(Elemental sender);
         public event ElementalCreateEvent_Handler Action_ElementalCreateEvent;// = delegate (object sender) { };
@@ -27,7 +26,6 @@ namespace SexyBackPlayScene
             LoadData();
 
             // this class is event listner
-            noticeElementalChange += PrintDps; // 내꺼내가받음;
             Singleton<MonsterManager>.getInstance().Action_NewFousEvent += this.SetTarget;
         }
         private void LoadData()
@@ -55,25 +53,24 @@ namespace SexyBackPlayScene
 
         public void Start()
         {
-            CreateElemental(elementalDatas["fireball"]);
-            CreateElemental(elementalDatas["waterball"]);
-            CreateElemental(elementalDatas["rock"]);
-            CreateElemental(elementalDatas["electricball"]);
-            CreateElemental(elementalDatas["snowball"]);
-            CreateElemental(elementalDatas["earthball"]);
-            CreateElemental(elementalDatas["airball"]);
-            CreateElemental(elementalDatas["iceblock"]);
-            CreateElemental(elementalDatas["magmaball"]);
+            elementals.Add(CreateElemental(elementalDatas["fireball"]));
+            elementals.Add(CreateElemental(elementalDatas["waterball"]));
+            elementals.Add(CreateElemental(elementalDatas["rock"]));
+            elementals.Add(CreateElemental(elementalDatas["electricball"]));
+            elementals.Add(CreateElemental(elementalDatas["snowball"]));
+            elementals.Add(CreateElemental(elementalDatas["earthball"]));
+            elementals.Add(CreateElemental(elementalDatas["airball"]));
+            elementals.Add(CreateElemental(elementalDatas["iceblock"]));
+            elementals.Add(CreateElemental(elementalDatas["magmaball"]));
+            Action_ElementalListChangeEvent(elementals);
         }
-
-        internal void CreateElemental(ElementalData data)
+        internal Elemental CreateElemental(ElementalData data)
         {
             Elemental temp = new Elemental(data, ElementalArea);
-            elementals.Add(temp);
-
-
             Action_ElementalCreateEvent(temp); // send event
-            noticeElementalChange(temp);
+
+            temp.LevelUp(1);
+            return temp;
         }
 
         internal void Update()
@@ -88,7 +85,6 @@ namespace SexyBackPlayScene
             if (target == null)
                 return;
             target.LevelUp(1);
-            noticeElementalChange(target);
         }
 
         Elemental FindElemental(string elementalid)
@@ -101,15 +97,6 @@ namespace SexyBackPlayScene
             return null;
         }
 
-        internal BigInteger GetTotalDPS()
-        {
-            BigInteger result = new BigInteger();
-            foreach (Elemental elemental in elementals)
-            {
-                result += elemental.DPS;
-            }
-            return result;
-        }
         internal BigInteger GetElementalDamage(string id)
         {
             return FindElemental(id).DAMAGE;
@@ -126,11 +113,6 @@ namespace SexyBackPlayScene
                 elemental.targetID = null;
                 sender.Action_StateChangeEvent = elemental.onTargetStateChange;
             }
-        }
-        public void PrintDps(Elemental sender)
-        {
-            string dpsString = GetTotalDPS().To5String() + " /Sec";
-            TotalDpsLabel.GetComponent<UILabel>().text = dpsString;
         }
     }
 }
