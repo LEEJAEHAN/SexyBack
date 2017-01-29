@@ -12,12 +12,13 @@ namespace SexyBackPlayScene
 
         // view
         public GameObject avatar;
+        public GameObject sprite;
+
 
         // state
         public StateMachine<Monster> StateMachine;
         string StateOwner.ID { get { return ID; } }
         public string CurrentState { get { return StateMachine.currStateID; } }
-        public Animator Animator;
 
         //size value
 
@@ -44,9 +45,10 @@ namespace SexyBackPlayScene
             HP = data.MaxHP;
             Name = data.Name;
 
-            avatar = InitAvatar(data.SpritePath, ViewLoader.monsters.transform, data.LocalPosition); //data.PivotPosition
-
-            Animator = avatar.GetComponent<Animator>();
+            avatar = InitAvatar(ViewLoader.monsters.transform, data.LocalPosition); //data.PivotPosition
+            CenterPosition = avatar.transform.position; // 피봇으로 옮겨간정도 + 원래의 위치  ( 실제 위치는 옮겨놓지않았기떄문에 monsters(부모)의위치를더함 // pivot으로 몬스터위치조정은힘들어서 collider와 sprite만조정한다.
+            InitSprite(avatar, data.SpritePath, out Size, out sprite);
+            SetCollider(avatar, Size, Vector3.zero);
             StateMachine = new MonsterStateMachine(this);
 
             //Action_MonsterChangeEvent(this);
@@ -54,24 +56,27 @@ namespace SexyBackPlayScene
             avatar.SetActive(false);
         }
 
-        private GameObject InitAvatar(string spritepath, Transform parent, Vector3 localposition)
+        private GameObject InitAvatar(Transform parent, Vector3 localposition)
         {
             GameObject mob = GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/monster") as GameObject);
             mob.name = ID;
             mob.transform.parent = parent; // genposition
-            mob.transform.parent.localPosition += localposition;
-            mob.transform.localPosition = Vector3.zero;
-            mob.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(spritepath);
-            mob.GetComponent<MonsterView>().Action_changeEvent += onAnimationFinish;
-
-            Size = mob.GetComponent<SpriteRenderer>().sprite.bounds.size;
-            CenterPosition = mob.transform.parent.position; // 피봇으로 옮겨간정도 + 원래의 위치  ( 실제 위치는 옮겨놓지않았기떄문에 monsters(부모)의위치를더함 )                                                                     // pivot으로 몬스터위치조정은힘들어서 collider와 sprite만조정한다.
-
-            mob.GetComponent<BoxCollider>().size = Size;
-            mob.GetComponent<BoxCollider>().center = Vector3.zero;
-
-            sexybacklog.Console(Size + " " + localposition + " " + CenterPosition);
+            mob.transform.localPosition = localposition;
             return mob;
+        }
+        private void SetCollider(GameObject mob, Vector3 size, Vector3 center)
+        {
+            mob.GetComponent<BoxCollider>().size = size;
+            mob.GetComponent<BoxCollider>().center = center;
+        }
+
+        private void InitSprite(GameObject mob, String spritepath, out Vector3 size, out GameObject sprobj)
+        {
+            sprobj = mob.transform.GetChild(0).gameObject;
+            sprobj.transform.localPosition = Vector3.zero;
+            sprobj.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(spritepath);
+            sprobj.GetComponent<MonsterSpriteMachine>().Action_changeEvent += onAnimationFinish;
+            size = sprobj.GetComponent<SpriteRenderer>().sprite.bounds.size;
         }
 
         internal void Join() // join the battle
@@ -105,11 +110,11 @@ namespace SexyBackPlayScene
             PlayDamageFont(damage, hitPosition);
 
             //avatar
-            Animator.rootPosition = avatar.transform.position;
+            sprite.GetComponent<Animator>().rootPosition = avatar.transform.position;
             if(isCritical)
-                Animator.SetTrigger("Hit_Critical");
+                sprite.GetComponent<Animator>().SetTrigger("Hit_Critical");
             else
-                Animator.SetTrigger("Hit");
+                sprite.GetComponent<Animator>().SetTrigger("Hit");
 
             Action_MonsterChangeEvent(this);
 
@@ -146,8 +151,10 @@ namespace SexyBackPlayScene
             HP = null; ;
             MAXHP = null;
             avatar.GetComponent<MonsterView>().Dispose();
+            avatar = null;
+            sprite.GetComponent<MonsterSpriteMachine>().Dispose();
+            sprite = null;
             StateMachine = null;
-            Animator = null;
             hitparticle = null;
             damagefont = null;
             Action_MonsterChangeEvent = null;

@@ -17,7 +17,7 @@ namespace SexyBackPlayScene
         {
         }
 
-        float destroytime = 1;
+        float destroytime = 3;
         internal override void Update()
         {
             destroytime -= Time.deltaTime;

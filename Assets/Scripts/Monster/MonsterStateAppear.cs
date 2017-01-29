@@ -11,12 +11,12 @@ namespace SexyBackPlayScene
 
         internal override void Begin()
         {
-            owner.Animator.SetTrigger("Appear");
+            owner.sprite.GetComponent<Animator>().SetTrigger("Appear");
         }
 
         internal override void End()
         {
-            owner.Animator.SetTrigger("Ready");
+            owner.sprite.GetComponent<Animator>().SetTrigger("Ready");
         }
 
         internal override void Update()

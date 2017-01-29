@@ -26,8 +26,8 @@ namespace SexyBackPlayScene
             RemoveTestObject();
 
             defaultHeroPosition = ViewLoader.HeroPanel.transform.position;
-            ECamPosition = ViewLoader.EffectCamera.transform.position; // == defaultMonster getPosition 
-            //defaultHeroPosition = ViewLoader.hero.transform.position;
+            ECamPosition = ViewLoader.EffectCamera.transform.position;
+            // == defaultMonster getPosition 를 effect camera의 z까지만 사영한다.
         }
 
         private void SetCameraSetting()

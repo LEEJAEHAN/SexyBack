@@ -11,9 +11,7 @@ namespace SexyBackPlayScene
 
         internal override void Begin()
         {
-
-            owner.avatar.transform.parent.GetComponent<Rigidbody>().velocity = new Vector3(2, 2, 0);
-            owner.avatar.transform.parent.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 5);
+            owner.avatar.GetComponent<MonsterView>().Fly();
         }
 
         internal override void End()
