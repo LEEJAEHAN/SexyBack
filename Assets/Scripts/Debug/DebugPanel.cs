@@ -32,15 +32,17 @@ namespace SexyBackPlayScene
             Gizmos.DrawSphere(effecthit.point, 0.1f);
         }
         // Update is called once per frame
-        bool flipflop = false;
+        bool flipflop = true;
         void Update()
         {
             //sexybacklog.InGame(Singleton<MonsterManager>.getInstance().GetMonster().HP.ToString());
 
             if (flipflop)
             {
-                BigInteger a = new BigInteger("123456123456");
-                sexybacklog.Console(a.To5String());
+                //BigInteger a = new BigInteger(9999);
+                //sexybacklog.Console(a.toLeftDigitString(9, 4));
+
+
                 flipflop = !flipflop;
             }
 

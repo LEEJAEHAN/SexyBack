@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace SexyBackPlayScene
 {
@@ -10,17 +11,19 @@ namespace SexyBackPlayScene
 
         internal override void Begin()
         {
-            Singleton<MonsterManager>.getInstance().DestroyMonster(owner);
+
+            owner.avatar.transform.parent.GetComponent<Rigidbody>().velocity = new Vector3(2, 2, 0);
+            owner.avatar.transform.parent.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 5);
         }
 
         internal override void End()
         {
+
         }
 
         internal override void Update()
         {
-            //
-            //            sexybacklog.Console("레디까지무사히옴 ㅠㅠ");
+            stateMachine.ChangeState("Death");
         }
     }
 }

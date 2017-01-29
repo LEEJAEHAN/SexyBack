@@ -18,7 +18,7 @@ namespace SexyBackPlayScene
                 case "Flying":
                     return new MonsterStateFlying(owner, this);
                 case "Death":
-                    return new MonsterStateReady(owner, this);
+                    return new MonsterStateDeath(owner, this);
                 default:
                     {
                         UnityEngine.Debug.LogError("");

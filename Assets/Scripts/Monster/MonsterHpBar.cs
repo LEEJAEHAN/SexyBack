@@ -20,6 +20,7 @@ namespace SexyBackPlayScene
         float late = 100;
         int currentLstack = 0;
         int currentIstack = 0;
+        int maxdigit = 0;
 
         float velocity = -0.2f; // 이동속도. 1일시 1초에 목적지까지 깎임. 기본 3초
         //float accel = 0.01f;  // 이동가속도. 현재 사용하지않음.
@@ -61,7 +62,7 @@ namespace SexyBackPlayScene
 
             // 123,456,123,456
             BigInteger hp = sender.MAXHP;
-            int maxdigit = 0;
+            maxdigit = 0;
             string floatstring = hp.toLeftDigitString(out maxdigit, 2, 4); // "12.3456"
             string unitstring = BigInteger.CalDigitOtherN(maxdigit, 3); // 10b
             float totalgauge = Convert.ToSingle(floatstring);
@@ -110,8 +111,7 @@ namespace SexyBackPlayScene
             }
 
             float prevgoal = goal;
-            int maxdigit = 0;
-            string floatstring = monster.HP.toLeftDigitString(out maxdigit, 2, 4);
+            string floatstring = monster.HP.toLeftDigitString(maxdigit, 4);
 
             // 표시되는 바의 목표와 속도 set
             goal = Convert.ToSingle(floatstring);

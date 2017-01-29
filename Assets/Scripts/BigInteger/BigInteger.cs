@@ -376,6 +376,7 @@ namespace SexyBackPlayScene
             return quotient.ToString() + "." + reminder.ToString();// + chardigit.ToString();
         }
 
+
         public string toLeftDigitString(out int maxdigitN, int digitN, int overload) // overload 소숫점 뒤에로드될 숫자갯수.
         {
             string thisStr = this.ToString(); // digitN은 N자리숫자마다끊는다는걸 의미.
@@ -392,6 +393,38 @@ namespace SexyBackPlayScene
             string reminder = thisStr.Substring(digitN, overload);
             return quotient.ToString() + "." + reminder.ToString();// + chardigit.ToString();
         }
+        internal string toLeftDigitString(int maxdigit, int overload)
+        {
+            if (maxdigit == 0)
+                return "0";
+            string thisStr = this.ToString(); // digitN은 N자리숫자마다끊는다는걸 의미.
+            int length = thisStr.Length;
+            if (length < maxdigit - overload)
+                return "0";
+            if(length < maxdigit && length >= maxdigit - overload)
+            {
+                while(length < maxdigit)
+                {
+                    thisStr = "0" + thisStr;
+                    length++;
+                }
+            } // new lenght>- maxdigit
+
+            return toRightDigitString(thisStr, maxdigit, 4);
+        }
+        private string toRightDigitString(string text, int maxdigitN, int overload) // overload 소숫점 뒤에로드될 숫자갯수.
+        {
+            int length = text.Length;
+            if (maxdigitN == 1) // 첫번째 단위가 1단위면 바로 출력 ( 즉 첫번째가 zero )
+                return text; // + chardigit
+            // zero 단 이상이면
+            string quotient = text.Substring(0, length - maxdigitN + 1); // length에서 maxDigitN까지. ( 문자열이라 순서가 반전 )
+            while ((length - maxdigitN + 1) + overload > length) // (length - maxDigitN + 1) == digitN
+                overload--;
+            string reminder = text.Substring(length - maxdigitN + 1, overload);
+            return quotient.ToString() + "." + reminder.ToString();// + chardigit.ToString();
+        }
+
 
         public static int FindMaxDigitStack(int length, int digitTerm) // length보다 작은, 가장큰 digitTerm의 배수를 리턴
         {

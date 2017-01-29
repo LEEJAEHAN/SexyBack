@@ -21,8 +21,14 @@ namespace SexyBackPlayScene
         }
 
         void FixedUpdate()
-        { 
-            if(anim.GetBool("Shoot") == true)
+        {
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Base.Destroy"))
+            {
+                Destroy(this.gameObject);
+                noticeDestroy();
+            }
+
+            if (anim.GetBool("Shoot") == true)
             {
                 float xVec = GetComponent<Rigidbody>().velocity.x;
                 float yVec = GetComponent<Rigidbody>().velocity.y;
@@ -33,11 +39,6 @@ namespace SexyBackPlayScene
                 transform.eulerAngles = new Vector3(0, 0, rot + 180);
             }
 
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Base.Destroy"))
-            {
-                Destroy(this.gameObject);
-                noticeDestroy();
-            }
         }
 
         void Init()
@@ -50,6 +51,7 @@ namespace SexyBackPlayScene
             if (collider.gameObject.tag == "Monster")
             {
                 this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+                this.gameObject.GetComponent<SphereCollider>().enabled = false;
                 anim.SetBool("Shoot", false);
                 anim.SetBool("Hit", true);
             }

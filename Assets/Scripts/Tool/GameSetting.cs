@@ -10,7 +10,6 @@ namespace SexyBackPlayScene
         public static float fieldOfView;// 64
         public static float aspect; // 0.5625
         public static float pixelPerUnit;
-        public static Vector3 defaultMonsterPosition;
         public static Vector3 defaultHeroPosition;
         public static Vector3 defaultCameraPosition;
         public static Vector3 ECamPosition;
@@ -27,8 +26,7 @@ namespace SexyBackPlayScene
             RemoveTestObject();
 
             defaultHeroPosition = ViewLoader.HeroPanel.transform.position;
-            defaultMonsterPosition = ViewLoader.monsters.transform.position;
-            ECamPosition = ViewLoader.EffectCamera.transform.position;
+            ECamPosition = ViewLoader.EffectCamera.transform.position; // == defaultMonster getPosition 
             //defaultHeroPosition = ViewLoader.hero.transform.position;
         }
 

@@ -37,7 +37,7 @@ namespace SexyBackPlayScene
         }
         public void Start()
         {
-            Monster newmonster = CreateMonster(monsterDatas["m06"]);
+            Monster newmonster = CreateMonster(monsterDatas["m04"]);
             //monsterPool.Add(newmonster.ID, newmonster);
             Focus(newmonster);
             FocusMonster.Join();            /// Monster Join battle
@@ -51,16 +51,16 @@ namespace SexyBackPlayScene
 
         private void LoadData()
         {
-            monsterDatas.Add("m01", new MonsterData("m01", "다람쥐 Lv.1", "Sprites/Monster/m01", new BigInteger(99999, Digit.k)));
-            monsterDatas.Add("m02", new MonsterData("m02", "다람쥐 Lv.1", "Sprites/Monster/m02", new BigInteger(4444440000)));
-            monsterDatas.Add("m03", new MonsterData("m03", "다람쥐 Lv.1", "Sprites/Monster/m03", new BigInteger(999999000)));
-            monsterDatas.Add("m04", new MonsterData("m04", "다람쥐 Lv.1", "Sprites/Monster/m04", new BigInteger(1000, Digit.b)));
-            monsterDatas.Add("m05", new MonsterData("m05", "다람쥐 Lv.1", "Sprites/Monster/m05", new BigInteger(999999, Digit.k)));
-            monsterDatas.Add("m06", new MonsterData("m06", "다람쥐 Lv.1", "Sprites/Monster/m06", new BigInteger("777777777")));
-            monsterDatas.Add("m07", new MonsterData("m07", "다람쥐 Lv.1", "Sprites/Monster/m07", new BigInteger(999999, Digit.k)));
-            monsterDatas.Add("m08", new MonsterData("m08", "다람쥐 Lv.1", "Sprites/Monster/m08", new BigInteger(1000, Digit.b)));
-            monsterDatas.Add("m09", new MonsterData("m09", "다람쥐 Lv.1", "Sprites/Monster/m09", new BigInteger(1000, Digit.b)));
-            monsterDatas.Add("m10", new MonsterData("m10", "다람쥐 Lv.1", "Sprites/Monster/m10", new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m01", new MonsterData("m01", "다람쥐 Lv.1", "Sprites/Monster/m01", 0,0, new BigInteger(99999, Digit.k)));
+            monsterDatas.Add("m02", new MonsterData("m02", "다람쥐 Lv.1", "Sprites/Monster/m02", 0,0, new BigInteger(4444440000)));
+            monsterDatas.Add("m03", new MonsterData("m03", "다람쥐 Lv.1", "Sprites/Monster/m03", 0,0, new BigInteger(999999000)));
+            monsterDatas.Add("m04", new MonsterData("m04", "다람쥐 Lv.1", "Sprites/Monster/m04", 0,0.5f, new BigInteger(1, Digit.zero)));
+            monsterDatas.Add("m05", new MonsterData("m05", "다람쥐 Lv.1", "Sprites/Monster/m05", 0,0, new BigInteger(999999, Digit.k)));
+            monsterDatas.Add("m06", new MonsterData("m06", "다람쥐 Lv.1", "Sprites/Monster/m06", 0,0, new BigInteger("1")));
+            monsterDatas.Add("m07", new MonsterData("m07", "다람쥐 Lv.1", "Sprites/Monster/m07", 0,0, new BigInteger(999999, Digit.k)));
+            monsterDatas.Add("m08", new MonsterData("m08", "다람쥐 Lv.1", "Sprites/Monster/m08", 0,0, new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m09", new MonsterData("m09", "다람쥐 Lv.1", "Sprites/Monster/m09", 0,0, new BigInteger(1000, Digit.b)));
+            monsterDatas.Add("m10", new MonsterData("m10", "다람쥐 Lv.1", "Sprites/Monster/m10", 0,0, new BigInteger(1000, Digit.b)));
         }
 
         internal void FixedUpdate()

@@ -20,7 +20,7 @@ namespace SexyBackPlayScene
         public Animator Animator;
 
         //size value
-        private Vector3 PivotPosition; // 올라가는정도, 외부에선필요하지않다.
+
         public Vector3 CenterPosition; // 몬스터 중점의 world상 위치.
         public Vector3 Size;           // sprite size, collider size는 이것과 동기화.
         public BoxCollider Collider { get { return avatar.GetComponent<BoxCollider>(); } }
@@ -44,8 +44,7 @@ namespace SexyBackPlayScene
             HP = data.MaxHP;
             Name = data.Name;
 
-            avatar = InitAvatar(data.SpritePath, ViewLoader.monsters.transform);
-            RecordSize(avatar);
+            avatar = InitAvatar(data.SpritePath, ViewLoader.monsters.transform, data.LocalPosition); //data.PivotPosition
 
             Animator = avatar.GetComponent<Animator>();
             StateMachine = new MonsterStateMachine(this);
@@ -55,6 +54,26 @@ namespace SexyBackPlayScene
             avatar.SetActive(false);
         }
 
+        private GameObject InitAvatar(string spritepath, Transform parent, Vector3 localposition)
+        {
+            GameObject mob = GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/monster") as GameObject);
+            mob.name = ID;
+            mob.transform.parent = parent; // genposition
+            mob.transform.parent.localPosition += localposition;
+            mob.transform.localPosition = Vector3.zero;
+            mob.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(spritepath);
+            mob.GetComponent<MonsterView>().Action_changeEvent += onAnimationFinish;
+
+            Size = mob.GetComponent<SpriteRenderer>().sprite.bounds.size;
+            CenterPosition = mob.transform.parent.position; // 피봇으로 옮겨간정도 + 원래의 위치  ( 실제 위치는 옮겨놓지않았기떄문에 monsters(부모)의위치를더함 )                                                                     // pivot으로 몬스터위치조정은힘들어서 collider와 sprite만조정한다.
+
+            mob.GetComponent<BoxCollider>().size = Size;
+            mob.GetComponent<BoxCollider>().center = Vector3.zero;
+
+            sexybacklog.Console(Size + " " + localposition + " " + CenterPosition);
+            return mob;
+        }
+
         internal void Join() // join the battle
         {
             isActive = true;
@@ -62,26 +81,6 @@ namespace SexyBackPlayScene
             StateMachine.ChangeState("Appear");
         }
 
-        private void RecordSize(GameObject mob)
-        {
-            Size = mob.GetComponent<SpriteRenderer>().sprite.bounds.size;
-            PivotPosition = mob.GetComponent<SpriteRenderer>().sprite.bounds.center; // sprite의 center는 피봇이다
-            CenterPosition = PivotPosition + GameSetting.defaultMonsterPosition; // 피봇으로 옮겨간정도 + 원래의 위치  ( 실제 위치는 옮겨놓지않았기떄문에 monsters(부모)의위치를더함 )                                                                     // pivot으로 몬스터위치조정은힘들어서 collider와 sprite만조정한다.
-            mob.GetComponent<BoxCollider>().size = Size;
-            mob.GetComponent<BoxCollider>().center = PivotPosition;
-        }
-
-        private GameObject InitAvatar(string spritepath, Transform genPosition)
-        {   // TODO : 아직 실시간 변화를 반영하지못하는구조.
-            GameObject mob = GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/monster") as GameObject);
-            mob.name = ID;
-            mob.transform.parent = genPosition; // genposition
-            mob.transform.localPosition = Vector3.zero;
-            mob.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(spritepath);
-            mob.GetComponent<MonsterView>().Action_changeEvent += onAnimationFinish;
-            
-            return mob;
-        }
         void onAnimationFinish(string monsterid, string stateID)
         {
             if (stateID == "Appear")
@@ -99,7 +98,7 @@ namespace SexyBackPlayScene
         {
             HP -= damage;
             Singleton<GameMoney>.getInstance().ExpGain(damage);
-
+            sexybacklog.Console(damage);
             //particle
             PlayParticle(hitPosition);
             //damagefont
@@ -116,7 +115,8 @@ namespace SexyBackPlayScene
 
             if (HP <= 0) // dead check
             {
-                StateMachine.ChangeState("Flying");
+                if(StateMachine.currStateID == "Ready")
+                    StateMachine.ChangeState("Flying");
                 return false; // will be destroyed;
             }
             else
