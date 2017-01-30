@@ -37,44 +37,8 @@ namespace SexyBackPlayScene
         //TODO: 임시로작성.
         public bool isActive = false;
 
-        internal Monster(MonsterData data)
+        internal Monster()
         {
-            ID = data.ID;
-            MAXHP = data.MaxHP;
-            HP = data.MaxHP;
-            Name = data.Name;
-
-            avatar = InitAvatar(ViewLoader.monsters.transform, data.LocalPosition); //data.PivotPosition
-            CenterPosition = avatar.transform.position; // 피봇으로 옮겨간정도 + 원래의 위치  ( 실제 위치는 옮겨놓지않았기떄문에 monsters(부모)의위치를더함 // pivot으로 몬스터위치조정은힘들어서 collider와 sprite만조정한다.
-            InitSprite(avatar, data.SpritePath, out Size, out sprite);
-            SetCollider(avatar, Size, Vector3.zero);
-            StateMachine = new MonsterStateMachine(this);
-
-            //Action_MonsterChangeEvent(this);
-            isActive = false;
-            avatar.SetActive(false);
-        }
-
-        private GameObject InitAvatar(Transform parent, Vector3 localposition)
-        {
-            GameObject mob = GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/monster") as GameObject);
-            mob.name = ID;
-            mob.transform.parent = parent; // genposition
-            mob.transform.localPosition = localposition;
-            return mob;
-        }
-        private void SetCollider(GameObject mob, Vector3 size, Vector3 center)
-        {
-            mob.GetComponent<BoxCollider>().size = size;
-            mob.GetComponent<BoxCollider>().center = center;
-        }
-
-        private void InitSprite(GameObject mob, String spritepath, out Vector3 size, out GameObject sprobj)
-        {
-            sprobj = mob.transform.GetChild(0).gameObject;
-            sprobj.transform.localPosition = Vector3.zero;
-            sprobj.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(spritepath);
-            size = sprobj.GetComponent<SpriteRenderer>().sprite.bounds.size;
         }
 
         internal void Join() // join the battle
@@ -89,7 +53,6 @@ namespace SexyBackPlayScene
             if (isActive)
                 StateMachine.Update();
         }
-
 
         internal void Move(Vector3 vector3, float v)
         {

@@ -58,9 +58,10 @@ namespace SexyBackPlayScene
             else if (randx >= 0 && randx < 2)
                 randx += 2;
 
-            Vector3 force = new Vector3(randx, UnityEngine.Random.Range(2f, 5f),0);
+            Vector3 force = new Vector3(randx, UnityEngine.Random.Range(2f, 5f),1.25f);
             force = force.normalized;
 
+            GetComponent<BoxCollider>().size = Vector3.one;
             GetComponent<Rigidbody>().AddForce(force * 1250);
             GetComponent<Rigidbody>().maxAngularVelocity = 50;
             GetComponent<Rigidbody>().AddTorque(0, 0, UnityEngine.Random.Range(-100,100));

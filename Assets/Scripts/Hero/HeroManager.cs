@@ -6,7 +6,6 @@ namespace SexyBackPlayScene
     class HeroManager
     {
         Hero CurrentHero;
-        HeroData testHeroData;
 
         // this class is event publisher
         public delegate void HeroCreate_Event(Hero hero);
@@ -14,13 +13,8 @@ namespace SexyBackPlayScene
 
         public void Init()
         {
-            LoadData();
             // this class is event listner
             Singleton<MonsterManager>.getInstance().Action_NewFousEvent += SetTarget;
-        }
-        private void LoadData()
-        {
-            testHeroData = new HeroData();
         }
         public void Start()
         {
@@ -30,7 +24,7 @@ namespace SexyBackPlayScene
         }
         private void CreateHero()
         {
-            CurrentHero = new Hero(testHeroData);
+            CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable["hero"]);
             Action_HeroCreateEvent(CurrentHero);
         }
         internal void Update()

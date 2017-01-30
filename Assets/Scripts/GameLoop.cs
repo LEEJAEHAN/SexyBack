@@ -8,6 +8,7 @@ namespace SexyBackPlayScene
     public class GameLoop : MonoBehaviour
     {
         ViewLoader viewLoader;
+        TableLoader tableLoader;
         GameManager gameManager;
         GameInput gameInput;
         GameSetting gameSetting;
@@ -22,10 +23,12 @@ namespace SexyBackPlayScene
 
         void Start()
         {
-            gameManager = Singleton<GameManager>.getInstance();
-            gameManager.Init();
+            tableLoader = Singleton<TableLoader>.getInstance();
+            tableLoader.LoadAll();
             gameInput = Singleton<GameInput>.getInstance();
 
+            gameManager = Singleton<GameManager>.getInstance();
+            gameManager.Init();
         }
         // Update is called once per frame
         void Update()
