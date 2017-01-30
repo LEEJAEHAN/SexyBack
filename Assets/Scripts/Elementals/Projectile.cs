@@ -32,7 +32,7 @@ namespace SexyBackPlayScene
             }
         }
 
-        internal bool Shoot(Vector3 target)
+        internal bool Shoot(Vector3 target, float speed)
         {
             if (view != null && isReadyState)
             {
@@ -47,14 +47,14 @@ namespace SexyBackPlayScene
 
                 float throwangle_xy;
 
-                throwangle_xy = Mathf.Atan((yDistance + (-Physics.gravity.y / 2)) / xDistance);
+                throwangle_xy = Mathf.Atan((yDistance + (-Physics.gravity.y * Mathf.Pow(speed,2) / 2)) / xDistance);
                 
                 //float totalVelo = xDistance / Mathf.Cos(throwangle_xy);
 
                 float xVelo, yVelo, zVelo;
-                xVelo = xDistance;
-                yVelo = xDistance * Mathf.Tan(throwangle_xy);
-                zVelo = zDistance;
+                xVelo = xDistance / speed;
+                yVelo = xDistance * Mathf.Tan(throwangle_xy) / speed;
+                zVelo = zDistance / speed;
 
                 view.GetComponent<Rigidbody>().velocity = new Vector3(xVelo, yVelo, zVelo);
                 return true;
