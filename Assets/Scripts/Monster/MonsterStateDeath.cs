@@ -5,6 +5,7 @@ namespace SexyBackPlayScene
 {
     internal class MonsterStateDeath: BaseState<Monster>
     {
+        bool trigger = true;
         public MonsterStateDeath(Monster owner, MonsterStateMachine statemachine) : base(owner, statemachine)
         {
         }
@@ -17,14 +18,9 @@ namespace SexyBackPlayScene
         {
         }
 
-        float destroytime = 3;
         internal override void Update()
         {
-            destroytime -= Time.deltaTime;
-            if(destroytime<=0)
-            {
-                Singleton<MonsterManager>.getInstance().DestroyMonster(owner);
-            }
+            Singleton<MonsterManager>.getInstance().DestroyMonster(owner);
         }
     }
 }

@@ -14,7 +14,6 @@ namespace SexyBackPlayScene
         public GameObject avatar;
         public GameObject sprite;
 
-
         // state
         public StateMachine<Monster> StateMachine;
         string StateOwner.ID { get { return ID; } }
@@ -38,7 +37,7 @@ namespace SexyBackPlayScene
         //TODO: 임시로작성.
         public bool isActive = false;
 
-        internal Monster (MonsterData data)
+        internal Monster(MonsterData data)
         {
             ID = data.ID;
             MAXHP = data.MaxHP;
@@ -75,7 +74,6 @@ namespace SexyBackPlayScene
             sprobj = mob.transform.GetChild(0).gameObject;
             sprobj.transform.localPosition = Vector3.zero;
             sprobj.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(spritepath);
-            sprobj.GetComponent<MonsterSpriteMachine>().Action_changeEvent += onAnimationFinish;
             size = sprobj.GetComponent<SpriteRenderer>().sprite.bounds.size;
         }
 
@@ -86,16 +84,16 @@ namespace SexyBackPlayScene
             StateMachine.ChangeState("Appear");
         }
 
-        void onAnimationFinish(string monsterid, string stateID)
-        {
-            if (stateID == "Appear")
-                StateMachine.ChangeState("Ready");
-        }
-
         public void Update()
         {
-            if(isActive)
+            if (isActive)
                 StateMachine.Update();
+        }
+
+
+        internal void Move(Vector3 vector3, float v)
+        {
+            throw new NotImplementedException();
         }
 
 
@@ -111,7 +109,7 @@ namespace SexyBackPlayScene
 
             //avatar
             sprite.GetComponent<Animator>().rootPosition = avatar.transform.position;
-            if(isCritical)
+            if (isCritical)
                 sprite.GetComponent<Animator>().SetTrigger("Hit_Critical");
             else
                 sprite.GetComponent<Animator>().SetTrigger("Hit");
@@ -120,7 +118,7 @@ namespace SexyBackPlayScene
 
             if (HP <= 0) // dead check
             {
-                if(StateMachine.currStateID == "Ready")
+                if (StateMachine.currStateID == "Ready")
                     StateMachine.ChangeState("Flying");
                 return false; // will be destroyed;
             }
@@ -152,7 +150,6 @@ namespace SexyBackPlayScene
             MAXHP = null;
             avatar.GetComponent<MonsterView>().Dispose();
             avatar = null;
-            sprite.GetComponent<MonsterSpriteMachine>().Dispose();
             sprite = null;
             StateMachine = null;
             hitparticle = null;
@@ -161,7 +158,7 @@ namespace SexyBackPlayScene
             isActive = false;
         }
 
-    ~Monster()
+        ~Monster()
         {
             sexybacklog.Console("몬스터소멸!");
         }

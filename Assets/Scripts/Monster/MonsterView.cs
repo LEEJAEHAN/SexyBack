@@ -8,8 +8,10 @@ namespace SexyBackPlayScene
         // event publisher
         public delegate void MonsterHit_Event(Vector3 hitPosition, string elementID);
         public event MonsterHit_Event Action_HitEvent = delegate { };
+        
 
         bool isdisposing = false;
+        int WallHitCount = 7;
 
         // Use this for initialization
         void Start()
@@ -30,7 +32,10 @@ namespace SexyBackPlayScene
             {
                 Action_HitEvent(collider.transform.position, collider.gameObject.name);
             }
-            if (collider.gameObject.tag == "Wall")
+        }
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.tag == "Wall")
             {
                 Flip();
             }
@@ -46,14 +51,29 @@ namespace SexyBackPlayScene
         internal void Fly()
         {
             GetComponent<Rigidbody>().isKinematic = false;
-            GetComponent<Rigidbody>().velocity = new Vector3(3, 3, 0);
-            GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 10);
+
+            float randx = UnityEngine.Random.Range(-5f, 5f);
+            if (randx < 0 && randx > -2)
+                randx -= 2;
+            else if (randx >= 0 && randx < 2)
+                randx += 2;
+
+            Vector3 force = new Vector3(randx, UnityEngine.Random.Range(2f, 5f),0);
+            force = force.normalized;
+
+            GetComponent<Rigidbody>().AddForce(force * 1250);
+            GetComponent<Rigidbody>().maxAngularVelocity = 50;
+            GetComponent<Rigidbody>().AddTorque(0, 0, UnityEngine.Random.Range(-100,100));
         }
         internal void Flip()
         {
-            //Vector3 prevRot = GetComponent<Rigidbody>().angularVelocity;
-            //GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, prevRot.z);
-            //GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 10);
+            WallHitCount--;
+            if (WallHitCount <= 0)
+                GetComponent<BoxCollider>().enabled = false;
+
+            GetComponent<Rigidbody>().AddTorque(0, 0, UnityEngine.Random.Range(-100, 100));
+
+            //            GetComponent<Rigidbody>().AddForce( = new Vector3(10f, 6f, 0);
             sexybacklog.Console("Flip!");
         }
 

@@ -20,6 +20,7 @@ namespace SexyBackPlayScene
         public delegate void FocusMonsterChange_Event(Monster sender);
         public event FocusMonsterChange_Event Action_TargetMonsterChange;
 
+        bool dispose = false;
 
         internal void Init()
         {
@@ -37,7 +38,7 @@ namespace SexyBackPlayScene
         }
         public void Start()
         {
-            Monster newmonster = CreateMonster(monsterDatas["m04"]);
+            Monster newmonster = CreateMonster(monsterDatas["m01"]);
             //monsterPool.Add(newmonster.ID, newmonster);
             Focus(newmonster);
             FocusMonster.Join();            /// Monster Join battle
@@ -51,10 +52,10 @@ namespace SexyBackPlayScene
 
         private void LoadData()
         {
-            monsterDatas.Add("m01", new MonsterData("m01", "몬스터이름", "Sprites/Monster/m01", 0,0, new BigInteger(99999, Digit.k)));
+            monsterDatas.Add("m01", new MonsterData("m01", "몬스터이름", "Sprites/Monster/m01", 0,0, new BigInteger(100, Digit.m)));
             monsterDatas.Add("m02", new MonsterData("m02", "몬스터이름", "Sprites/Monster/m02", 0,0, new BigInteger(4444440000)));
             monsterDatas.Add("m03", new MonsterData("m03", "몬스터이름", "Sprites/Monster/m03", 0,0f, new BigInteger(999999000)));
-            monsterDatas.Add("m04", new MonsterData("m04", "몬스터이름", "Sprites/Monster/m04", 0,0.5f, new BigInteger(1, Digit.zero)));
+            monsterDatas.Add("m04", new MonsterData("m04", "몬스터이름", "Sprites/Monster/m04", 0,0.5f, new BigInteger(1, Digit.b)));
             monsterDatas.Add("m05", new MonsterData("m05", "몬스터이름", "Sprites/Monster/m05", 0,0, new BigInteger(999999, Digit.k)));
             monsterDatas.Add("m06", new MonsterData("m06", "몬스터이름", "Sprites/Monster/m06", 0,0, new BigInteger("1")));
             monsterDatas.Add("m07", new MonsterData("m07", "몬스터이름", "Sprites/Monster/m07", 0,0, new BigInteger(999999, Digit.k)));
@@ -83,7 +84,7 @@ namespace SexyBackPlayScene
             if(FocusMonster != null)
                 FocusMonster.Update();
 
-            if(deleteplan == true)
+            if(dispose == true)
             {
                 DestroyM();
             }
@@ -93,16 +94,15 @@ namespace SexyBackPlayScene
         {
             FocusMonster.Dispose();
             FocusMonster = null;
-            deleteplan = false;
+            dispose = false;
         }
-
         internal void DestroyMonster(Monster owner)
         {
+            if (dispose)
+                return;
             sexybacklog.Console("디스트로이입장.");
-            deleteplan = true;
+            dispose = true;
         }
-        bool deleteplan = false;
-
 
         internal Monster GetMonster()
         {

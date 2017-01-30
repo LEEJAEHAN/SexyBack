@@ -5,6 +5,7 @@ namespace SexyBackPlayScene
 {
     internal class HeroStateReady : BaseState<Hero>
     {
+        bool nextstate = false;
         public HeroStateReady(Hero owner, HeroStateMachine stateMachine) : base(owner, stateMachine)
         {
         }
@@ -22,6 +23,10 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
+            if(nextstate)
+            {
+                stateMachine.ChangeState("Attack");
+            }
         }
         internal void onTouch(TapPoint pos)
         {   
@@ -30,7 +35,7 @@ namespace SexyBackPlayScene
                 if(owner.AttackManager.CanMakePlan)
                 {
                     owner.AttackManager.MakeAttackPlan(pos);
-                    stateMachine.ChangeState("Attack");
+                    nextstate = true;
                 }
             }
         }

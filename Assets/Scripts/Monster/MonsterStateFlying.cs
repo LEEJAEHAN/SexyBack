@@ -5,6 +5,8 @@ namespace SexyBackPlayScene
 {
     internal class MonsterStateFlying: BaseState<Monster>
     {
+        float flyingTime = 7.0f;
+
         public MonsterStateFlying(Monster owner, MonsterStateMachine statemachine) : base(owner, statemachine)
         {
         }
@@ -21,7 +23,9 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
-            stateMachine.ChangeState("Death");
+            flyingTime -= Time.deltaTime;
+            if(flyingTime <= 0)
+                stateMachine.ChangeState("Death");
         }
     }
 }

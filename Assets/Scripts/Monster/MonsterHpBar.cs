@@ -22,7 +22,7 @@ namespace SexyBackPlayScene
         int currentIstack = 0;
         int maxdigit = 0;
 
-        float velocity = -0.2f; // 이동속도. 1일시 1초에 목적지까지 깎임. 기본 3초
+        float velocity = -0.3334f; // 이동속도. 1일시 1초에 목적지까지 깎임. 기본 3초
         //float accel = 0.01f;  // 이동가속도. 현재 사용하지않음.
 
         float InitHue = 1f;
@@ -52,14 +52,13 @@ namespace SexyBackPlayScene
             HPBar_Unit = ViewLoader.HPBar_Unit;
             HPBar_Count = ViewLoader.HPBar_Count;
 
-            SetActive(false);
+            Hpbar.SetActive(false);
         }
 
         // Use this for initialization
         void FillNewBar(Monster sender)
         {
             sender.Action_StateChangeEvent = onTargetStateChange;
-
             // 123,456,123,456
             BigInteger hp = sender.MAXHP;
             maxdigit = 0;
@@ -90,15 +89,15 @@ namespace SexyBackPlayScene
             LateBar1.GetComponent<UISprite>().color = Color.HSVToRGB(InitHue, 1, 0.7f);
 
             //attach
-            SetActive(false);
+            Hpbar.SetActive(false);
         }
 
         private void onTargetStateChange(string id, string stateid)
         {
             if (stateid == "Death")
-                SetActive(false);
+                Hpbar.SetActive(false);
             else
-                SetActive(true);
+                Hpbar.SetActive(true);
         }
 
         void UpdateBar(Monster monster)
@@ -175,22 +174,9 @@ namespace SexyBackPlayScene
             if (late <= 0.001f) // TODO : 이부분이 젤찜찜함
             {   // detach
                 late = 0;
-                // waiting for death;
-            }
-        }
-
-        void SetActive(bool value)
-        {
-            if(value == true)
-            {
-                Hpbar.SetActive(true);
-            }
-            else
-            {
                 Hpbar.SetActive(false);
             }
         }
-
 
         void DisplayLateGaugeBar(float late, float goal)
         {
