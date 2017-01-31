@@ -18,7 +18,10 @@ namespace SexyBackPlayScene
             Singleton<Stage>.getInstance().Action_ExpChange += PrintExp;
         }
         public void Set()
-        {
+        { 
+            TotalDpsLabel.text = "";
+            HeroDpcLabel.text = "";
+            label_exp.text = "";
         }
 
         internal BigInteger GetTotalDPS(List<Elemental> sender)

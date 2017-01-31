@@ -10,6 +10,7 @@ namespace SexyBackPlayScene
         // public Dictionary<string, HeroData> stagetable = new Dictionary<string, HeroData>();
         public Dictionary<string, HeroData> leveluptable = new Dictionary<string, HeroData>();
 
+
         internal void LoadAll()
         {
             LoadHeroData();
@@ -31,6 +32,25 @@ namespace SexyBackPlayScene
 
         private void LoadElementData()
         {
+            ElementalData data1 = new ElementalData("fireball", "Fire Ball", 5200, 1, 100);
+            ElementalData data2 = new ElementalData("waterball", "Water Ball", 5300, 5, 500);
+            ElementalData data3 = new ElementalData("rock", "Rock", 5500, 25, 4000);
+            ElementalData data4 = new ElementalData("electricball", "Plasma", 5700, 150, 37500);
+            ElementalData data5 = new ElementalData("snowball", "Snow Ball", 6100, 1150, 450000);
+            ElementalData data6 = new ElementalData("earthball", "Mud ball", 6300, 10000, 7250000);
+            ElementalData data7 = new ElementalData("airball", "Wind Strike", 6700, 100000, 150000000);
+            ElementalData data8 = new ElementalData("iceblock", "Ice Cube", 6900, 1500000, 4000000000);
+            ElementalData data9 = new ElementalData("magmaball", "Meteor", 7300, 27500000, 140000000000);
+
+            elementaltable.Add(data1.ID, data1);
+            elementaltable.Add(data2.ID, data2);
+            elementaltable.Add(data3.ID, data3);
+            elementaltable.Add(data4.ID, data4);
+            elementaltable.Add(data5.ID, data5);
+            elementaltable.Add(data6.ID, data6);
+            elementaltable.Add(data7.ID, data7);
+            elementaltable.Add(data8.ID, data8);
+            elementaltable.Add(data9.ID, data9);
         }
 
         private void LoadMonsterData()

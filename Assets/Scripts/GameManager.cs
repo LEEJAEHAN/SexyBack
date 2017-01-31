@@ -16,7 +16,7 @@ namespace SexyBackPlayScene
         ElementalManager elementalManager;
 
         // View
-        GameInfoView gameProgress;
+        GameInfoView infoView;
 
         // member
         Stage stage; // 일종의 스크립트
@@ -28,20 +28,20 @@ namespace SexyBackPlayScene
             monsterManager = Singleton<MonsterManager>.getInstance();
             elementalManager = Singleton<ElementalManager>.getInstance();
             levelUpManager = Singleton<LevelUpManager>.getInstance();
-            gameProgress = Singleton<GameInfoView>.getInstance();
+            infoView = Singleton<GameInfoView>.getInstance();
             stage = Singleton<Stage>.getInstance();
 
             heroManager.Init();
             monsterManager.Init();
             elementalManager.Init();
             levelUpManager.Init();
-            gameProgress.Init();
+            infoView.Init();
             stage.Init();
         }
 
         internal void Start(object args)
         {
-            stage.Start(new StageData());
+           stage.Start(new StageData());
         }
         internal void FixedUpdate()
         {

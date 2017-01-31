@@ -64,7 +64,7 @@ namespace SexyBackPlayScene
 
         public void Shoot(Vector3 target)
         {
-            if (CurrentProjectile.Shoot(target))
+            if (CurrentProjectile.Shoot(target, 1f))
                 AttackTimer = 0; // 정상적으로 발사 완료 후 타이머리셋
         }
 
