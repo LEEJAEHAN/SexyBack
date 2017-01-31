@@ -4,20 +4,20 @@ using System.Collections.Generic;
 
 namespace SexyBackPlayScene
 {
-    public class GameProgress
+    public class GameInfoView
     {
         UILabel TotalDpsLabel = ViewLoader.label_elementaldmg.GetComponent<UILabel>();
         UILabel HeroDpcLabel = ViewLoader.label_herodmg.GetComponent<UILabel>();
+        UILabel label_exp = ViewLoader.label_exp.GetComponent<UILabel>();
 
         internal void Init()
         {
+            Set();
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += BindHero;
             Singleton<ElementalManager>.getInstance().Action_ElementalListChangeEvent += PrintDps;
+            Singleton<Stage>.getInstance().Action_ExpChange += PrintExp;
         }
-        public void Start()
-        {
-        }
-        internal void Update()
+        public void Set()
         {
         }
 
@@ -42,6 +42,11 @@ namespace SexyBackPlayScene
             HeroDpcLabel.text = dpsString;
         }
 
+        void PrintExp(BigInteger exp)
+        {
+            string expstring = exp.To5String() + " EXP";
+            label_exp.text = expstring;
+        }
         void BindHero(Hero hero)
         {
             hero.Action_HeroChange += PrintDpc;

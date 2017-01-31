@@ -4,8 +4,6 @@ namespace SexyBackPlayScene
 {
     internal class MonsterFactory
     {
-
-
         public MonsterFactory()
         {
 
@@ -21,7 +19,7 @@ namespace SexyBackPlayScene
             monster.MAXHP = data.MaxHP;
             monster.HP = data.MaxHP;
             monster.Name = data.Name;
-
+            
             monster.avatar = InitAvatar(data.ID, ViewLoader.monsters.transform, data.LocalPosition, out monster.CenterPosition); //data.PivotPosition
             monster.sprite = InitSprite(monster.avatar, data.SpritePath, out monster.Size);
             SetCollider(monster.avatar, monster.Size, Vector3.zero);
@@ -35,12 +33,12 @@ namespace SexyBackPlayScene
 
         private GameObject InitAvatar(string name, Transform parent, Vector3 localposition, out Vector3 realposition)
         {
-            GameObject mob = GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/monster") as GameObject);
-            mob.name = name;
-            mob.transform.parent = parent; // genposition
-            mob.transform.localPosition = localposition;
-            realposition = mob.transform.position; // 피봇으로 옮겨간정도 + 원래의 위치  ( 실제 위치는 옮겨놓지않았기떄문에 monsters(부모)의위치를더함 // pivot으로 몬스터위치조정은힘들어서 collider와 sprite만조정한다.
-            return mob;
+            GameObject temp = GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/monster") as GameObject);
+            temp.name = name;
+            temp.transform.parent = parent; // genposition
+            temp.transform.localPosition = localposition;
+            realposition = temp.transform.position; // 피봇으로 옮겨간정도 + 원래의 위치  ( 실제 위치는 옮겨놓지않았기떄문에 monsters(부모)의위치를더함 // pivot으로 몬스터위치조정은힘들어서 collider와 sprite만조정한다.
+            return temp;
         }
         private void SetCollider(GameObject mob, Vector3 size, Vector3 center)
         {

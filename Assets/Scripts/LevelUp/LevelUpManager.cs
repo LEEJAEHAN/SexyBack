@@ -17,9 +17,6 @@ namespace SexyBackPlayScene
         public delegate void LevelUpSelect_EventHandler(LevelUpItem levelupitem);
         public event LevelUpSelect_EventHandler noticeLevelUpSelect;
 
-        // view controller class ( 일단은 동적생성하지 않는다. )
-        LevelUpViewController viewController = ViewLoader.LevelUpViewController.GetComponent<LevelUpViewController>();
-
         internal void Init()
         {
             // init data
@@ -29,8 +26,8 @@ namespace SexyBackPlayScene
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += this.onElementalCreate;
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
 
-            viewController.noticeConfirm += this.onConfirm;
-            viewController.noticeSelect += this.onSelect;
+            ViewLoader.LevelUpViewController.GetComponent<LevelUpViewController>().noticeConfirm += this.onConfirm;
+            ViewLoader.LevelUpViewController.GetComponent<LevelUpViewController>().noticeSelect += this.onSelect;
         }
         void LoadData()
         {
@@ -79,7 +76,7 @@ namespace SexyBackPlayScene
             Action_LevelUpCreate(levelupItem);
 
             sender.Action_HeroChange += levelupItem.UpdateLevelUpItem;
-            Singleton<GameMoney>.getInstance().noticeEXPChange += levelupItem.onExpChange;
+            Singleton<Stage>.getInstance().Action_ExpChange += levelupItem.onExpChange;
 
             levelupItem.UpdateLevelUpItem(sender);
 
@@ -94,7 +91,7 @@ namespace SexyBackPlayScene
             Action_LevelUpCreate(levelupItem);
 
             sender.Action_ElementalChange += levelupItem.UpdateLevelUpItem;
-            Singleton<GameMoney>.getInstance().noticeEXPChange += levelupItem.onExpChange;
+            Singleton<Stage>.getInstance().Action_ExpChange += levelupItem.onExpChange;
 
             levelupItem.UpdateLevelUpItem(sender);
 

@@ -17,18 +17,22 @@ namespace SexyBackPlayScene
         void Awake()
         {
             viewLoader = new ViewLoader();
+
             gameSetting = new GameSetting();
             gameSetting.Init();
-        }
 
-        void Start()
-        {
             tableLoader = Singleton<TableLoader>.getInstance();
             tableLoader.LoadAll();
+
             gameInput = Singleton<GameInput>.getInstance();
 
             gameManager = Singleton<GameManager>.getInstance();
             gameManager.Init();
+        }
+        object args;
+        void Start()
+        {
+            gameManager.Start(args);
         }
         // Update is called once per frame
         void Update()

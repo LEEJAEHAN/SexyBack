@@ -51,27 +51,23 @@ namespace SexyBackPlayScene
             elementalDatas.Add(data9.ID, data9);
         }
 
-        public void Start()
+        public void SummonNewElemental(string id)
         {
-            elementals.Add(CreateElemental(elementalDatas["fireball"]));
-            elementals.Add(CreateElemental(elementalDatas["waterball"]));
-            elementals.Add(CreateElemental(elementalDatas["rock"]));
-            elementals.Add(CreateElemental(elementalDatas["electricball"]));
-            elementals.Add(CreateElemental(elementalDatas["snowball"]));
-            elementals.Add(CreateElemental(elementalDatas["earthball"]));
-            elementals.Add(CreateElemental(elementalDatas["airball"]));
-            elementals.Add(CreateElemental(elementalDatas["iceblock"]));
-            elementals.Add(CreateElemental(elementalDatas["magmaball"]));
-            Action_ElementalListChangeEvent(elementals);
-        }
-        internal Elemental CreateElemental(ElementalData data)
-        {
-            Elemental temp = new Elemental(data, ElementalArea);
-            temp.Action_ElementalChange += this.onElementalChange;
-            Action_ElementalCreateEvent(temp); // send event
+            if(elementalDatas.ContainsKey(id) == false)
+            {
+                sexybacklog.Error("no elemental data");
+                return;
+            }
 
-            temp.LevelUp(1);
-            return temp;
+            Elemental temp = new Elemental(elementalDatas[id], ElementalArea);
+
+            temp.Action_ElementalChange += this.onElementalChange;
+            Action_ElementalCreateEvent(temp);
+
+            temp.LevelUp(1); 
+
+            elementals.Add(temp);
+            Action_ElementalListChangeEvent(elementals);
         }
 
         private void onElementalChange(Elemental sender)

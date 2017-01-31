@@ -6,15 +6,20 @@ using System.Collections.Generic;
 namespace SexyBackPlayScene
 {
     public class GameManager
-    { // singleton
+    { 
+        // singleton - player
+        LevelUpManager levelUpManager;
 
+        // singleton - stage
         MonsterManager monsterManager;
         HeroManager heroManager;
         ElementalManager elementalManager;
-        LevelUpManager levelUpManager;
 
-        GameMoney gameMoney;
-        GameProgress gameProgress;
+        // View
+        GameInfoView gameProgress;
+
+        // member
+        Stage stage; // 일종의 스크립트
 
         // Use this for initialization
         public void Init()
@@ -23,25 +28,21 @@ namespace SexyBackPlayScene
             monsterManager = Singleton<MonsterManager>.getInstance();
             elementalManager = Singleton<ElementalManager>.getInstance();
             levelUpManager = Singleton<LevelUpManager>.getInstance();
-            gameMoney = Singleton<GameMoney>.getInstance();
-            gameProgress = Singleton<GameProgress>.getInstance();
-
+            gameProgress = Singleton<GameInfoView>.getInstance();
+            stage = Singleton<Stage>.getInstance();
 
             heroManager.Init();
             monsterManager.Init();
             elementalManager.Init();
             levelUpManager.Init();
-            gameMoney.Init();
             gameProgress.Init();
-
-
-            heroManager.Start();
-            monsterManager.Start();
-            elementalManager.Start();
-            levelUpManager.Start();
-
+            stage.Init();
         }
 
+        internal void Start(object args)
+        {
+            stage.Start(new StageData());
+        }
         internal void FixedUpdate()
         {
             monsterManager.FixedUpdate();
@@ -54,8 +55,8 @@ namespace SexyBackPlayScene
             monsterManager.Update();
             elementalManager.Update();
             levelUpManager.Update();
-            gameMoney.Update();
-            gameProgress.Update();
+            
+            stage.Update();
         }
 
 

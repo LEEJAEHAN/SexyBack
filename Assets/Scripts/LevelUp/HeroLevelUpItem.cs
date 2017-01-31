@@ -13,7 +13,7 @@ namespace SexyBackPlayScene
         {
             for (int i = 0; i < PurchaseCount; PurchaseCount--)
             {
-                if (Singleton<GameMoney>.getInstance().ExpUse(Price))
+                if (Singleton<Stage>.getInstance().ExpUse(Price))
                     Singleton<HeroManager>.getInstance().LevelUp(ID);
             }
         }

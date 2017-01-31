@@ -13,6 +13,8 @@ namespace SexyBackPlayScene
         // view
         public GameObject avatar;
         public GameObject sprite;
+        GameObject hitparticle = ViewLoader.hitparticle;
+        GameObject damagefont = ViewLoader.DamageFont;
 
         // state
         public StateMachine<Monster> StateMachine;
@@ -20,14 +22,8 @@ namespace SexyBackPlayScene
         public string CurrentState { get { return StateMachine.currStateID; } }
 
         //size value
-
         public Vector3 CenterPosition; // 몬스터 중점의 world상 위치.
         public Vector3 Size;           // sprite size, collider size는 이것과 동기화.
-        public BoxCollider Collider { get { return avatar.GetComponent<BoxCollider>(); } }
-
-        //hit effect
-        GameObject hitparticle = ViewLoader.hitparticle;
-        GameObject damagefont = ViewLoader.DamageFont;
 
         public delegate void monsterChangeEvent_Handler(Monster sender);
         public event monsterChangeEvent_Handler Action_MonsterChangeEvent;
@@ -63,7 +59,7 @@ namespace SexyBackPlayScene
         internal bool Hit(Vector3 hitPosition, BigInteger damage, bool isCritical)
         {
             HP -= damage;
-            Singleton<GameMoney>.getInstance().ExpGain(damage);
+            Singleton<Stage>.getInstance().ExpGain(damage);
             sexybacklog.Console(damage);
             //particle
             PlayParticle(hitPosition);
@@ -88,7 +84,6 @@ namespace SexyBackPlayScene
             else
                 return true;
         }
-
 
         void PlayParticle(Vector3 position)
         {

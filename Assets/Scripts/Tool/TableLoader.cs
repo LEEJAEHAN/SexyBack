@@ -10,7 +10,6 @@ namespace SexyBackPlayScene
         // public Dictionary<string, HeroData> stagetable = new Dictionary<string, HeroData>();
         public Dictionary<string, HeroData> leveluptable = new Dictionary<string, HeroData>();
 
-
         internal void LoadAll()
         {
             LoadHeroData();
@@ -36,7 +35,6 @@ namespace SexyBackPlayScene
 
         private void LoadMonsterData()
         {
-
             monstertable.Add("m01", new MonsterData("m01", "몬스터이름", "Sprites/Monster/m01", 0, 0, new BigInteger(100, Digit.m)));
             monstertable.Add("m02", new MonsterData("m02", "몬스터이름", "Sprites/Monster/m02", 0, 0, new BigInteger(4444440000)));
             monstertable.Add("m03", new MonsterData("m03", "몬스터이름", "Sprites/Monster/m03", 0, 0f, new BigInteger(999999000)));
@@ -47,7 +45,6 @@ namespace SexyBackPlayScene
             monstertable.Add("m08", new MonsterData("m08", "몬스터이름", "Sprites/Monster/m08", 0, 0, new BigInteger(1000, Digit.b)));
             monstertable.Add("m09", new MonsterData("m09", "몬스터이름", "Sprites/Monster/m09", 0, 0, new BigInteger(1000, Digit.b)));
             monstertable.Add("m10", new MonsterData("m10", "몬스터이름", "Sprites/Monster/m10", 0, 0, new BigInteger(1000, Digit.b)));
-
         }
 
         private void LoadHeroData()

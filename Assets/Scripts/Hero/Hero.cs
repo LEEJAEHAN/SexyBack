@@ -96,7 +96,7 @@ namespace SexyBackPlayScene
                 .Hit(atkPlan.EffectPos, damage, isCritical);
 
             // make attack effect
-            Vector3 targetpos = Singleton<MonsterManager>.getInstance().FindPosition(targetID);
+            Vector3 targetpos = Singleton<MonsterManager>.getInstance().GetMonster(targetID).CenterPosition;
             AttackManager.MoveMakePlayEffect(atkPlan, targetpos, isCritical);
             return true;
         }
