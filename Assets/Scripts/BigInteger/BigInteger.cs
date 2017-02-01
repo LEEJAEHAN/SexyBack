@@ -349,7 +349,10 @@ namespace SexyBackPlayScene
             int quateDigit = maxDigit - (maxDigitN - 1);
             string stack = MakeDigitString(quateDigit);
             Digit digit = (Digit)((maxDigitN - 1) / digitN);
-            return stack + digit.ToString();
+            if (digit == Digit.zero)
+                return stack;
+            else
+                return stack +" "+ digit.ToString();
         }
         public static string MakeDigitString(int maxDigit)
         {
@@ -425,7 +428,6 @@ namespace SexyBackPlayScene
             return quotient.ToString() + "." + reminder.ToString();// + chardigit.ToString();
         }
 
-
         public static int FindMaxDigitStack(int length, int digitTerm) // length보다 작은, 가장큰 digitTerm의 배수를 리턴
         {
             int MaxDigit = 1;
@@ -435,6 +437,28 @@ namespace SexyBackPlayScene
                 MaxDigit += digitTerm;
             }
             return MaxDigit - digitTerm;
+        }
+
+        public static BigInteger PowerByGrowth(int baseValue, int level, float growthRate)
+        {
+            if (level <= 0)
+                level = 0;
+
+            double growth = Math.Pow(growthRate, level);
+            int intgrowth = 0;
+            BigInteger result;
+
+            if ((int)growth < int.MaxValue / 10000)
+            {
+                intgrowth = (int)(growth * 10000);
+                result = baseValue * intgrowth / 10000;
+            }
+            else
+            {
+                intgrowth = (int)growth;
+                result = baseValue * intgrowth;
+            }
+            return result;
         }
 
         //private string ToDigitString(out Digit chardigit)

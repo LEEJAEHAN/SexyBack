@@ -40,7 +40,7 @@ namespace SexyBackPlayScene
 
         public MonsterHpBar(MonsterManager manager)
         {
-            manager.Action_NewFousEvent += FillNewBar;
+            manager.Action_BeginBattleEvent += FillNewBar;
             manager.Action_TargetMonsterChange += UpdateBar;
 
             Hpbar = ViewLoader.HPBar;

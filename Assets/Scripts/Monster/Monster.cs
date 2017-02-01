@@ -7,6 +7,7 @@ namespace SexyBackPlayScene
     {
         public string ID;
         public string Name;
+        public int level;   
         public BigInteger HP;
         public BigInteger MAXHP;
 
@@ -32,6 +33,7 @@ namespace SexyBackPlayScene
 
         //TODO: 임시로작성.
         public bool isActive = false;
+        bool dispose = false;
 
         internal Monster()
         {
@@ -50,16 +52,10 @@ namespace SexyBackPlayScene
                 StateMachine.Update();
         }
 
-        internal void Move(Vector3 vector3, float v)
-        {
-            throw new NotImplementedException();
-        }
-
-
         internal bool Hit(Vector3 hitPosition, BigInteger damage, bool isCritical)
         {
             HP -= damage;
-            Singleton<Stage>.getInstance().ExpGain(damage);
+            Singleton<StageManager>.getInstance().ExpGain(damage);
             sexybacklog.Console(damage);
             //particle
             PlayParticle(hitPosition);
@@ -85,6 +81,21 @@ namespace SexyBackPlayScene
                 return true;
         }
 
+        public void Dispose()
+        {
+            HP = null;
+            MAXHP = null;
+            avatar.GetComponent<MonsterView>().Dispose();
+            avatar = null;
+            sprite = null;
+            StateMachine = null;
+            hitparticle = null;
+            damagefont = null;
+            Action_MonsterChangeEvent = null;
+            isActive = false;
+            dispose = false;
+        }
+
         void PlayParticle(Vector3 position)
         {
             hitparticle.transform.position = position;
@@ -100,20 +111,6 @@ namespace SexyBackPlayScene
             damagefont.transform.localPosition = screenpos;
             damagefont.GetComponent<UILabel>().text = dmg.To5String();
             damagefont.GetComponent<UILabel>().fontSize = (int)((30 + 10 * (10 - screenpos.z)));
-        }
-
-        public void Dispose()
-        {
-            HP = null; ;
-            MAXHP = null;
-            avatar.GetComponent<MonsterView>().Dispose();
-            avatar = null;
-            sprite = null;
-            StateMachine = null;
-            hitparticle = null;
-            damagefont = null;
-            Action_MonsterChangeEvent = null;
-            isActive = false;
         }
 
         ~Monster()

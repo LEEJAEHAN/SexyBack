@@ -11,14 +11,13 @@ namespace SexyBackPlayScene
         public static float aspect; // 0.5625
         public static float pixelPerUnit;
         public static Vector3 defaultHeroPosition;
-        public static Vector3 defaultCameraPosition;
+        public static Vector3 EyeLine = new Vector3(0, 1.5f, 10);
         public static Vector3 ECamPosition;
 
         public readonly float GameWidth = 720;
         public readonly float GameHeight = 1280;
         public float ScreenWidth = Screen.width;
         public float ScreenHeight = Screen.height;
-
 
         public void Init()
         {
@@ -52,7 +51,7 @@ namespace SexyBackPlayScene
             // remove useless objects; like prefab preview
             ViewLoader.Item_Enable.transform.DestroyChildren();
             ViewLoader.shooter.transform.DestroyChildren();
-            ViewLoader.monsters.transform.DestroyChildren();
+            ViewLoader.StagePanel.transform.DestroyChildren();
             ViewLoader.Bar_Attack.transform.DestroyChildren();
         }
     }

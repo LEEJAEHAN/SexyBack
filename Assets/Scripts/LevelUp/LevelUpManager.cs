@@ -7,7 +7,6 @@ namespace SexyBackPlayScene
     internal class LevelUpManager
     {
         LevelUpItem currentItem = null;
-        Dictionary<string, LevelUpItemData> levelUpDatas = new Dictionary<string, LevelUpItemData>();
         Dictionary<string, LevelUpItem> levelUpItems = new Dictionary<string, LevelUpItem>();
 
         // this class is event publisher
@@ -19,9 +18,6 @@ namespace SexyBackPlayScene
 
         internal void Init()
         {
-            // init data
-            LoadData();
-
             // this class is event listner
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += this.onElementalCreate;
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
@@ -29,33 +25,6 @@ namespace SexyBackPlayScene
             ViewLoader.LevelUpViewController.GetComponent<LevelUpViewController>().noticeConfirm += this.onConfirm;
             ViewLoader.LevelUpViewController.GetComponent<LevelUpViewController>().noticeSelect += this.onSelect;
         }
-        void LoadData()
-        {
-            LevelUpItemData heroAttack = new LevelUpItemData("hero", "일반공격", "SexyBackIcon_SWORD2");
-
-            LevelUpItemData item1 = new LevelUpItemData("fireball", "파이어볼", "SexyBackIcon_FireElemental");
-            LevelUpItemData item2 = new LevelUpItemData("waterball", "물폭탄", "SexyBackIcon_WaterElemental");
-            LevelUpItemData item3 = new LevelUpItemData("rock", "짱돌", "SexyBackIcon_RockElemental");
-            LevelUpItemData item4 = new LevelUpItemData("electricball", "지지직", "SexyBackIcon_ElectricElemental");
-            LevelUpItemData item5 = new LevelUpItemData("snowball", "눈덩이", "SexyBackIcon_SnowElemental");
-            LevelUpItemData item6 = new LevelUpItemData("earthball", "똥", "SexyBackIcon_EarthElemental");
-            LevelUpItemData item7 = new LevelUpItemData("airball", "바람바람", "SexyBackIcon_AirElemental");
-            LevelUpItemData item8 = new LevelUpItemData("iceblock", "각얼음", "SexyBackIcon_IceElemental");
-            LevelUpItemData item9 = new LevelUpItemData("magmaball", "메테오", "SexyBackIcon_MagmaElemental");
-
-            levelUpDatas.Add(heroAttack.OwnerID, heroAttack);
-
-            levelUpDatas.Add(item1.OwnerID, item1);
-            levelUpDatas.Add(item2.OwnerID, item2);
-            levelUpDatas.Add(item3.OwnerID, item3);
-            levelUpDatas.Add(item4.OwnerID, item4);
-            levelUpDatas.Add(item5.OwnerID, item5);
-            levelUpDatas.Add(item6.OwnerID, item6);
-            levelUpDatas.Add(item7.OwnerID, item7);
-            levelUpDatas.Add(item8.OwnerID, item8);
-            levelUpDatas.Add(item9.OwnerID, item9);
-        }
-
         internal void Start()
         {
         }
@@ -69,14 +38,16 @@ namespace SexyBackPlayScene
         // 데이터 체인지로부터 인한 이벤트
         void onHeroCreate(Hero sender) // create and bind heroitem
         {
-            if (levelUpDatas.ContainsKey(sender.ID) == false)
+            if (Singleton<TableLoader>.getInstance().leveluptable.ContainsKey(sender.ID) == false)
                 return;
 
-            HeroLevelUpItem levelupItem = new HeroLevelUpItem(levelUpDatas[sender.ID]);
+            LevelUpItemData data = Singleton<TableLoader>.getInstance().leveluptable[sender.ID];
+
+            HeroLevelUpItem levelupItem = new HeroLevelUpItem(data);
             Action_LevelUpCreate(levelupItem);
 
             sender.Action_HeroChange += levelupItem.UpdateLevelUpItem;
-            Singleton<Stage>.getInstance().Action_ExpChange += levelupItem.onExpChange;
+            Singleton<StageManager>.getInstance().Action_ExpChange += levelupItem.onExpChange;
 
             levelupItem.UpdateLevelUpItem(sender);
 
@@ -84,14 +55,16 @@ namespace SexyBackPlayScene
         }
         void onElementalCreate(Elemental sender) // create and bind element item
         {
-            if (levelUpDatas.ContainsKey(sender.ID) == false)
+            if (Singleton<TableLoader>.getInstance().leveluptable.ContainsKey(sender.ID) == false)
                 return;
 
-            ElementalLevelUpItem levelupItem = new ElementalLevelUpItem(levelUpDatas[sender.ID]);
+            LevelUpItemData data = Singleton<TableLoader>.getInstance().leveluptable[sender.ID];
+
+            ElementalLevelUpItem levelupItem = new ElementalLevelUpItem(data);
             Action_LevelUpCreate(levelupItem);
 
             sender.Action_ElementalChange += levelupItem.UpdateLevelUpItem;
-            Singleton<Stage>.getInstance().Action_ExpChange += levelupItem.onExpChange;
+            Singleton<StageManager>.getInstance().Action_ExpChange += levelupItem.onExpChange;
 
             levelupItem.UpdateLevelUpItem(sender);
 

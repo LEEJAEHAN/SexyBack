@@ -11,6 +11,7 @@ namespace SexyBackPlayScene
         public static Camera EffectCamera;
         // 모든 인스턴스화 되어있는 뷰를 로드해놓는다.
 
+        public static GameObject StagePanel;
         // 동적으로 생성되는 것은 ㄴㄴ
         public static GameObject label_debug;
         public static GameObject label_herodmg;
@@ -25,7 +26,8 @@ namespace SexyBackPlayScene
         public static GameObject hero_sprite;
         public static GameObject area_elemental;
         public static GameObject shooter;
-        public static GameObject monsters;
+
+        public static GameObject monsterbucket;
 
         // NGUI event Listner hub
         public static GameObject LevelUpViewController;
@@ -51,12 +53,11 @@ namespace SexyBackPlayScene
         public static GameObject HPBar_Unit;
         public static GameObject HPBar_Count;
 
-        public static GameObject BackPanel;
-
         public ViewLoader()
         {
             HeroPanel = GameObject.Find("HeroPanel");
-            
+            StagePanel = GameObject.Find("StagePanel");
+
             HeroCamera = GameObject.Find("HeroCamera").GetComponent<Camera>();
             EffectCamera = GameObject.Find("EffectCamera").GetComponent<Camera>();
             label_debug = GameObject.Find("label_debug");
@@ -64,6 +65,7 @@ namespace SexyBackPlayScene
             label_elementaldmg = GameObject.Find("label_elementaldmg");
 
             label_exp = GameObject.Find("label_exp");
+            monsterbucket = GameObject.Find("monsters");
 
             projectiles = GameObject.Find("projectiles");
             hitparticle = GameObject.Find("hitparticle");
@@ -72,7 +74,6 @@ namespace SexyBackPlayScene
             hero_sprite = GameObject.Find("hero_sprite");
             area_elemental = GameObject.Find("area_elemental");
             shooter = GameObject.Find("shooter");
-            monsters = GameObject.Find("monsters");
 
             LevelUpViewController = GameObject.Find("LevelUpViewController");
 
@@ -97,7 +98,6 @@ namespace SexyBackPlayScene
             HPBar_Unit = GameObject.Find("HPBar_Unit");
             HPBar_Count = GameObject.Find("HPBar_Count");
 
-            BackPanel = GameObject.Find("background");
 
         }
 

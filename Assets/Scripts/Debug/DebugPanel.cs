@@ -38,9 +38,7 @@ namespace SexyBackPlayScene
             //sexybacklog.InGame(Singleton<MonsterManager>.getInstance().GetMonster().HP.ToString());
 
             //Vector3 WallMoveVector = GameSetting.defaultHeroPosition - GameSetting.ECamPosition;
-
             //GameObject.Find("back_image").transform.position += WallMoveVector * Time.deltaTime * 0.2f;
-
             //GameObject.Find("back_image2").transform.position += WallMoveVector * Time.deltaTime * 0.2f;
 
 

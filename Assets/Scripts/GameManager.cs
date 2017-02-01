@@ -19,7 +19,7 @@ namespace SexyBackPlayScene
         GameInfoView infoView;
 
         // member
-        Stage stage; // 일종의 스크립트
+        StageManager stageManager; // 일종의 스크립트
 
         // Use this for initialization
         public void Init()
@@ -29,19 +29,27 @@ namespace SexyBackPlayScene
             elementalManager = Singleton<ElementalManager>.getInstance();
             levelUpManager = Singleton<LevelUpManager>.getInstance();
             infoView = Singleton<GameInfoView>.getInstance();
-            stage = Singleton<Stage>.getInstance();
+            stageManager = Singleton<StageManager>.getInstance();
 
             heroManager.Init();
             monsterManager.Init();
             elementalManager.Init();
             levelUpManager.Init();
             infoView.Init();
-            stage.Init();
+            stageManager.Init();
         }
 
-        internal void Start(object args)
+        internal void Start(GameModeData args)
         {
-           stage.Start(new StageData());
+            stageManager.Start(args);
+            heroManager.CreateHero(); // and hero is move
+            elementalManager.SummonNewElemental("airball"); // for test
+
+
+            //            monsterManager.CreateMonster(currentFloor);
+
+
+
         }
         internal void FixedUpdate()
         {
@@ -56,7 +64,7 @@ namespace SexyBackPlayScene
             elementalManager.Update();
             levelUpManager.Update();
             
-            stage.Update();
+            stageManager.Update();
         }
 
 

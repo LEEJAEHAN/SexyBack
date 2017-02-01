@@ -4,12 +4,13 @@ namespace SexyBackPlayScene
 {
     internal class TableLoader
     {
+        public List<MonsterData> monstertablelist = new List<MonsterData>();
+
         public Dictionary<string, HeroData> herotable = new Dictionary<string, HeroData>();
         public Dictionary<string, MonsterData> monstertable = new Dictionary<string, MonsterData>();
         public Dictionary<string, ElementalData> elementaltable = new Dictionary<string, ElementalData>();
-        // public Dictionary<string, HeroData> stagetable = new Dictionary<string, HeroData>();
-        public Dictionary<string, HeroData> leveluptable = new Dictionary<string, HeroData>();
-
+        public Dictionary<string, GameModeData> stagetable = new Dictionary<string, GameModeData>();
+        public Dictionary<string, LevelUpItemData> leveluptable = new Dictionary<string, LevelUpItemData>();
 
         internal void LoadAll()
         {
@@ -17,17 +18,40 @@ namespace SexyBackPlayScene
             LoadMonsterData();
             LoadElementData();
 
-            //  LoadStageData();
+            LoadStageData();
             LoadLevelUpData();
 
         }
 
         private void LoadLevelUpData()
         {
+            LevelUpItemData heroAttack = new LevelUpItemData("hero", "일반공격", "SexyBackIcon_SWORD2");
+            LevelUpItemData item1 = new LevelUpItemData("fireball", "파이어볼", "SexyBackIcon_FireElemental");
+            LevelUpItemData item2 = new LevelUpItemData("waterball", "물폭탄", "SexyBackIcon_WaterElemental");
+            LevelUpItemData item3 = new LevelUpItemData("rock", "짱돌", "SexyBackIcon_RockElemental");
+            LevelUpItemData item4 = new LevelUpItemData("electricball", "지지직", "SexyBackIcon_ElectricElemental");
+            LevelUpItemData item5 = new LevelUpItemData("snowball", "눈덩이", "SexyBackIcon_SnowElemental");
+            LevelUpItemData item6 = new LevelUpItemData("earthball", "똥", "SexyBackIcon_EarthElemental");
+            LevelUpItemData item7 = new LevelUpItemData("airball", "바람바람", "SexyBackIcon_AirElemental");
+            LevelUpItemData item8 = new LevelUpItemData("iceblock", "각얼음", "SexyBackIcon_IceElemental");
+            LevelUpItemData item9 = new LevelUpItemData("magmaball", "메테오", "SexyBackIcon_MagmaElemental");
+            leveluptable.Add(heroAttack.OwnerID, heroAttack);
+            leveluptable.Add(item1.OwnerID, item1);
+            leveluptable.Add(item2.OwnerID, item2);
+            leveluptable.Add(item3.OwnerID, item3);
+            leveluptable.Add(item4.OwnerID, item4);
+            leveluptable.Add(item5.OwnerID, item5);
+            leveluptable.Add(item6.OwnerID, item6);
+            leveluptable.Add(item7.OwnerID, item7);
+            leveluptable.Add(item8.OwnerID, item8);
+            leveluptable.Add(item9.OwnerID, item9);
         }
 
         private void LoadStageData()
         {
+            GameModeData data1 = new GameModeData("TestStage", 20, 0);
+            stagetable.Add(data1.ID, data1);
+
         }
 
         private void LoadElementData()
@@ -55,16 +79,16 @@ namespace SexyBackPlayScene
 
         private void LoadMonsterData()
         {
-            monstertable.Add("m01", new MonsterData("m01", "몬스터이름", "Sprites/Monster/m01", 0, 0, new BigInteger(100, Digit.m)));
-            monstertable.Add("m02", new MonsterData("m02", "몬스터이름", "Sprites/Monster/m02", 0, 0, new BigInteger(4444440000)));
-            monstertable.Add("m03", new MonsterData("m03", "몬스터이름", "Sprites/Monster/m03", 0, 0f, new BigInteger(999999000)));
-            monstertable.Add("m04", new MonsterData("m04", "몬스터이름", "Sprites/Monster/m04", 0, 0.5f, new BigInteger(1, Digit.zero)));
-            monstertable.Add("m05", new MonsterData("m05", "몬스터이름", "Sprites/Monster/m05", 0, 0, new BigInteger(999999, Digit.k)));
-            monstertable.Add("m06", new MonsterData("m06", "몬스터이름", "Sprites/Monster/m06", 0, 0, new BigInteger("1")));
-            monstertable.Add("m07", new MonsterData("m07", "몬스터이름", "Sprites/Monster/m07", 0, 0, new BigInteger(999999, Digit.k)));
-            monstertable.Add("m08", new MonsterData("m08", "몬스터이름", "Sprites/Monster/m08", 0, 0, new BigInteger(1000, Digit.b)));
-            monstertable.Add("m09", new MonsterData("m09", "몬스터이름", "Sprites/Monster/m09", 0, 0, new BigInteger(1000, Digit.b)));
-            monstertable.Add("m10", new MonsterData("m10", "몬스터이름", "Sprites/Monster/m10", 0, 0, new BigInteger(1000, Digit.b)));
+            monstertable.Add("m01", new MonsterData("m01", "슬라임", 0, 0f ));
+            monstertable.Add("m02", new MonsterData("m02", "불멍멍이", 0, 0f ));
+            monstertable.Add("m03", new MonsterData("m03", "맹금류", 0, 0f ));
+            monstertable.Add("m04", new MonsterData("m04", "나라쿠", 0, 0f ));
+            monstertable.Add("m05", new MonsterData("m05", "흔한골렘", 0, 0f ));
+            monstertable.Add("m06", new MonsterData("m06", "미녀마녀", 0, 0f ));
+            monstertable.Add("m07", new MonsterData("m07", "산적1", 0, 0f ));
+            monstertable.Add("m08", new MonsterData("m08", "괴인1", 0, 0f ));
+            monstertable.Add("m09", new MonsterData("m09", "괴인2", 0, 0f ));
+            monstertable.Add("m10", new MonsterData("m10", "21세기산적", 0, 0f ));
         }
 
         private void LoadHeroData()

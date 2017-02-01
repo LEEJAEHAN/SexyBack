@@ -14,13 +14,13 @@ namespace SexyBackPlayScene
         public void Init()
         {
             // this class is event listner
-            Singleton<MonsterManager>.getInstance().Action_NewFousEvent += SetTarget;
+            Singleton<MonsterManager>.getInstance().Action_BeginBattleEvent += BeginBattle;
         }
         public void CreateHero()
         {
             CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable["hero"]);
             Action_HeroCreateEvent(CurrentHero);
-            CurrentHero.ChangeState("Ready");
+            CurrentHero.ChangeState("Move"); //Ready
             LevelUp(CurrentHero.ID);
         }
         internal void Update()
@@ -36,14 +36,14 @@ namespace SexyBackPlayScene
 
             CurrentHero.AddLevel(1);
         }
-        internal void SetTarget(Monster monster)
+        internal void BeginBattle(Monster monster)
         {
             if (CurrentHero == null)
                 return;
 
             monster.Action_StateChangeEvent = CurrentHero.onTargetStateChange;
+            CurrentHero.ChangeState("Ready");
         }
 
-        
     }
 }

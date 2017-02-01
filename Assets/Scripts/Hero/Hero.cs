@@ -37,6 +37,10 @@ namespace SexyBackPlayScene
         public delegate void HeroChange_Event(Hero hero);
         public event HeroChange_Event Action_HeroChange;
 
+        public delegate void DistanceChange_Event(float distance);
+        public event DistanceChange_Event Action_DistanceChange;
+
+
         public Hero(HeroData data)
         {
             baseData = data;
@@ -64,6 +68,10 @@ namespace SexyBackPlayScene
         internal void Warp(Vector3 toPos)
         {
             avatar.transform.position = toPos;
+        }
+        internal void FakeMove(float amount)
+        {
+            Action_DistanceChange(amount);
         }
 
         internal void Update()
@@ -103,9 +111,15 @@ namespace SexyBackPlayScene
         public void onTargetStateChange(string monsterid, string stateID)
         {
             if (stateID == "Ready")
+            {
                 targetID = monsterid;
-            else
-                targetID = null;
+                return;
+            }
+            else if (stateID == "Death")
+            {
+                ChangeState("Move");
+            }
+            targetID = null;
         }
 
         public void ChangeState(string stateid)

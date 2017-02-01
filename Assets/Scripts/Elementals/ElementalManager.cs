@@ -21,7 +21,7 @@ namespace SexyBackPlayScene
         internal void Init()
         {
             // this class is event listner
-            Singleton<MonsterManager>.getInstance().Action_NewFousEvent += this.SetTarget;
+            Singleton<MonsterManager>.getInstance().Action_BeginBattleEvent += this.SetTarget;
         }
         public void SummonNewElemental(string id)
         {
