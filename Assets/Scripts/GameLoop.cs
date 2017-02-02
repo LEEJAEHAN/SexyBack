@@ -32,7 +32,7 @@ namespace SexyBackPlayScene
 //        GameModeData args;
         void Start()
         {
-            gameManager.Start(new GameModeData("teststage", 10, 0));
+            gameManager.Start(new GameModeData("teststage", 100, 0));
         }
         // Update is called once per frame
         void Update()

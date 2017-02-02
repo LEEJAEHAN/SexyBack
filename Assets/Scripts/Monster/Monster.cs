@@ -33,7 +33,6 @@ namespace SexyBackPlayScene
 
         //TODO: 임시로작성.
         public bool isActive = false;
-        bool dispose = false;
 
         internal Monster()
         {
@@ -93,7 +92,6 @@ namespace SexyBackPlayScene
             damagefont = null;
             Action_MonsterChangeEvent = null;
             isActive = false;
-            dispose = false;
         }
 
         void PlayParticle(Vector3 position)

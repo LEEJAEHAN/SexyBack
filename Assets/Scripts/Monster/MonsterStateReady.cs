@@ -27,7 +27,7 @@ namespace SexyBackPlayScene
         {
             owner.sprite.GetComponent<Animator>().SetTrigger("Ready");
             owner.avatar.GetComponent<MonsterView>().Action_HitEvent += onHitByProjectile;
-            BackColl    ision.Action_HitEvent += onHitByProjectile;
+            BackCollision.Action_HitEvent += onHitByProjectile;
         }
 
         internal override void End()

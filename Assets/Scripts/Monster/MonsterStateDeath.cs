@@ -5,7 +5,6 @@ namespace SexyBackPlayScene
 {
     internal class MonsterStateDeath: BaseState<Monster>
     {
-        bool trigger = true;
         public MonsterStateDeath(Monster owner, MonsterStateMachine statemachine) : base(owner, statemachine)
         {
         }
