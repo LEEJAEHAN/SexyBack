@@ -15,11 +15,11 @@ namespace SexyBackPlayScene
         GameObject HPBar_Unit;
         GameObject HPBar_Count;
 
-        float maxstack = 100; // 변수
+        float representGauge = 100; // 변수
         float goal = 100; // 슬로우바의최종목표. 음수도된다.
         float late = 100;
-        int currentLstack = 0;
-        int currentIstack = 0;
+        int currentLstack = 1;
+        int currentIstack = 1;
         int maxdigit = 0;
 
         float velocity = -0.3334f; // 이동속도. 1일시 1초에 목적지까지 깎임. 기본 3초
@@ -65,23 +65,22 @@ namespace SexyBackPlayScene
             maxdigit = 0;
             string floatstring = hp.toLeftDigitString(out maxdigit, 2, 4); // "12.3456"
             string unitstring = BigInteger.CalDigitOtherN(maxdigit, 3); // 10b
-            float totalgauge = Convert.ToSingle(floatstring);
+            float RealGauge = Convert.ToSingle(floatstring);
             // set monster info text
 
-            maxstack = totalgauge;  // 게이지가 만땅일시 0가되버려서
-            currentLstack = (int)(totalgauge);
-            currentIstack = (int)(totalgauge);
-            goal = maxstack;
-            late = maxstack;
+            representGauge = RealGauge - 0.0001f;  // 게이지가 만땅일시 0가되버려서
+            currentLstack = (int)(representGauge) + 1;
+            currentIstack = (int)(representGauge) + 1;
+            goal = representGauge;
+            late = representGauge;
 
             Bar2.SetActive(true);
             Decreasing = false;
-            setColor(Bar1, Bar2, (int)currentIstack); // max 100이면 99단 풀차지부터.
-            setColor(LateBar1, LateBar2, (int)currentLstack);
-            IGauge = maxstack - (int)maxstack;
-            LGauge = maxstack - (int)maxstack;
+            setColor(Bar1, Bar2, currentIstack); // max 100이면 99단 풀차지부터.
+            setColor(LateBar1, LateBar2, currentLstack);
+            IGauge = representGauge - (int)representGauge;// 0 ~ 0.9999f
+            LGauge = representGauge - (int)representGauge;
             Bar2.GetComponent<UISprite>().fillAmount = 1;
-
 
             // set text
             HPBar_Count.GetComponent<UILabel>().text = "x" + currentIstack;
@@ -102,16 +101,16 @@ namespace SexyBackPlayScene
         {
             if (stateid == "Appear") //stateid == "Death" || 
                 Hpbar.SetActive(false);
-            else
+            else if(stateid == "Ready" || stateid == "Flying")
                 Hpbar.SetActive(true);
         }
 
         void UpdateBar(Monster monster)
         {
-            if (goal <=0 )
+            if (goal < 0 )
             {
                 IGauge = 0;
-                currentIstack = 0;
+                currentIstack = 1;
                 return;
             }
 
@@ -119,24 +118,24 @@ namespace SexyBackPlayScene
             string floatstring = monster.HP.toLeftDigitString(maxdigit, 4);
 
             // 표시되는 바의 목표와 속도 set
-            goal = Convert.ToSingle(floatstring);
+            goal = Convert.ToSingle(floatstring) - 0.0001f;
             if (prevgoal == goal)
                 return;
 
             Decreasing = true;
             //moveamount = goal - late; /// 음수
-            if (goal < 0)
-                goal = 0; // 속도 지정 후에 골은 0으로만든다.
+            if (goal < 0) // <= -0.0001f 와 같다.
+                goal = -0.0001f; // 속도 지정 후에 골은 0으로만든다.
 
-            int stackindex = (int)goal; // 골이 조금도 안깎이면. 정수부에서 게이지가 0이 될 가능성이있다.
-            IGauge = goal - stackindex;
+            int stackindex = (int)goal + 1; // 골이 조금도 안깎이면. 정수부에서 게이지가 0이 될 가능성이있다.
+            IGauge = goal - (int)goal;
             if (stackindex < currentIstack)
             {
                 currentIstack = stackindex;
-                setColor(Bar1, Bar2, (int)goal); // 나중에 점프카운트 바꿔야한다.
-                HPBar_Count.GetComponent<UILabel>().text = "x" + currentIstack;
+                setColor(Bar1, Bar2, stackindex); // 나중에 점프카운트 바꿔야한다.
+                HPBar_Count.GetComponent<UILabel>().text = "x" + stackindex;
             }
-            if (currentIstack == 0)
+            if (currentIstack == 1)
                 Bar2.SetActive(false);
             //sexybacklog.Console(goal + " currstack:" + currentIstack);
         }
@@ -181,9 +180,9 @@ namespace SexyBackPlayScene
                 vel = velocity;
                 Decreasing = false;
             }
-            if (late <= 0.001f) // TODO : 이부분이 젤찜찜함
+            if (late <= 0f) // TODO : 이부분이 젤찜찜함
             {   // detach
-                late = 0;
+                late = -0.0001f;
                 Decreasing = false;
                 Hpbar.SetActive(false);
             }
@@ -191,7 +190,7 @@ namespace SexyBackPlayScene
 
         void DisplayLateGaugeBar(float late, float goal)
         {
-            int stackindex = (int)late;
+            int stackindex = (int)late + 1;
             float fillAmount = late - (int)late;
 
             if (stackindex < currentLstack)

@@ -21,7 +21,7 @@ namespace SexyBackPlayScene
         // 상태값
         public string targetID;
         private int level = 0;
-        private BigInteger baseDpc = new BigInteger(0);
+        private BigInteger baseDpc = new BigInteger(10);
         private BigInteger dpcX = new BigInteger(1); // 곱계수는 X를붙인다.
         private int bounsAttackCount = 6; // 보너스 공격스택횟수 
         private int attackspeedXH = 100; // speed 와 interval은 역수관계
@@ -84,6 +84,9 @@ namespace SexyBackPlayScene
         {
             if (!AttackManager.CanAttack|| targetID == null)
                 return false;
+            Monster target = Singleton<MonsterManager>.getInstance().GetMonster(targetID);
+            if (target == null)
+                return false;
 
             // Calculate damage
             BigInteger damage;
@@ -100,11 +103,10 @@ namespace SexyBackPlayScene
 
             // do deal
             TapPoint atkPlan = AttackManager.NextAttackPlan();
-            Singleton<MonsterManager>.getInstance().GetMonster(targetID)
-                .Hit(atkPlan.EffectPos, damage, isCritical);
+            target.Hit(atkPlan.EffectPos, damage, isCritical);
 
             // make attack effect
-            Vector3 targetpos = Singleton<MonsterManager>.getInstance().GetMonster(targetID).CenterPosition;
+            Vector3 targetpos = target.CenterPosition;
             AttackManager.MoveMakePlayEffect(atkPlan, targetpos, isCritical);
             return true;
         }

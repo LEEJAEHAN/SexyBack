@@ -5,7 +5,7 @@ namespace SexyBackPlayScene
 {
     internal class MonsterStateFlying: BaseState<Monster>
     {
-        float flyingTime = 7.0f;
+        float flyingTime = 3.75f;
 
         public MonsterStateFlying(Monster owner, MonsterStateMachine statemachine) : base(owner, statemachine)
         {

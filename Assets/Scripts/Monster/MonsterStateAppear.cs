@@ -5,7 +5,7 @@ namespace SexyBackPlayScene
 {
     internal class MonsterStateAppear : BaseState<Monster>
     {
-        float AppearTime = 5;
+        float AppearTime = 2;
         float timer = 0;
 
         public MonsterStateAppear(Monster owner, MonsterStateMachine statemachine) : base(owner, statemachine)

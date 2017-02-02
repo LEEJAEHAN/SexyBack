@@ -80,6 +80,8 @@ namespace SexyBackPlayScene
         }
         internal Monster GetMonster(string id)
         {
+            if (!monsters.ContainsKey(id))
+                return null;
             return monsters[id];
         }
         private void onElementalCreate(Elemental elemental)

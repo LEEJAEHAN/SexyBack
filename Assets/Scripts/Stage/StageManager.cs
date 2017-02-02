@@ -38,9 +38,13 @@ namespace SexyBackPlayScene
             SetGameMode(gamemode);
             // start
 
-            Stages.Add(CreateStage(currentFloor - 1, 0, 0)); // -10 is position of z;
             Stages.Add(CreateStage(currentFloor, 20, 1));
             Stages.Add(CreateStage(currentFloor + 1, 40, 1));
+
+            Stages.Add(CreateStage(3, 60, 1));
+            Stages.Add(CreateStage(4, 80, 1));
+            Stages.Add(CreateStage(5, 100, 1));
+
 
             // stage 1 을 만든다.
 

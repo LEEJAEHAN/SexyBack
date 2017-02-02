@@ -212,5 +212,11 @@ namespace SexyBackPlayScene
             }
         }
 
+        // 여기 얹혀서 처리 ㅠ
+        public void OnDamageFontFinish()
+        {
+            // 이것만 직접처리한다. 귀찮엉...
+            ViewLoader.DamageFont.SetActive(false);
+        }
     }
 }

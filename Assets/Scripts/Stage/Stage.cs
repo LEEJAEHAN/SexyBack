@@ -7,8 +7,7 @@ namespace SexyBackPlayScene
     public class Stage
     {
         public int floor = 0;
-        float zPosition =0;
-        int BattleCount = 0;
+        float zPosition = 0;
         public GameObject avatar;
         List<String> monsters = new List<string>();
 
