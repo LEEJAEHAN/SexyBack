@@ -80,7 +80,7 @@ namespace SexyBackPlayScene
             foreach(Elemental elemental in elementals)
             {
                 elemental.targetID = null;
-                sender.Action_StateChangeEvent = elemental.onTargetStateChange;
+                sender.StateMachine.Action_changeEvent += elemental.onTargetStateChange;
             }
         }
     }

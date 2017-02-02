@@ -25,7 +25,10 @@ namespace SexyBackPlayScene
                     monsterListInLevel.Add(mdata);
             }
             if (monsterListInLevel.Count <= 0)
+            {
                 sexybacklog.Error("no monster at this level");
+                return monsterListInLevel[0].ID;
+            }
 
             int randIndex = UnityEngine.Random.Range(0, monsterListInLevel.Count - 1);
 

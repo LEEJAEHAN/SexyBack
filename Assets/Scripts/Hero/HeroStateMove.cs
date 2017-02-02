@@ -20,7 +20,7 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
-            owner.FakeMove(0.05f);
+            owner.FakeMove(owner.MOVESPEED);
         }
     }
 }

@@ -9,6 +9,10 @@ namespace SexyBackPlayScene
         public BigInteger Damage;
         public GameObject view; // projectile View
 
+        ~Projectile()
+        {
+            //sexybacklog.Console("projectile 소멸!");
+        }
         public Projectile(Elemental owner, GameObject prefabs, Vector3 genPosition)
         {
             ownerID = owner.ID;

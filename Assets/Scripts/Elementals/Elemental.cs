@@ -20,6 +20,13 @@ namespace SexyBackPlayScene
         public BigInteger NEXTDPS { get { return baseData.BaseDps; } }
         public BigInteger DAMAGE { get { return (DPS * baseData.AttackIntervalK) / 1000; } } //  dps / attackinterval    // 계산되는값
         public double AttackInterval { get { return (double)baseData.AttackIntervalK / (double)1000; } }
+        public BigInteger NEXTEXP
+        {
+            get
+            {
+                return BigInteger.PowerByGrowth(baseData.BaseExp, level, baseData.GrowthRate);
+            }
+        }
 
         // for projectile action;
         private Transform ElementalArea; // avatar
@@ -64,7 +71,7 @@ namespace SexyBackPlayScene
 
         public void Shoot(Vector3 target)
         {
-            if (CurrentProjectile.Shoot(target, 1f))
+            if (CurrentProjectile.Shoot(target, 0.25f))
                 AttackTimer = 0; // 정상적으로 발사 완료 후 타이머리셋
         }
 
@@ -125,26 +132,5 @@ namespace SexyBackPlayScene
 
         }
 
-        public BigInteger NEXTEXP
-        {
-            get
-            {
-                double growth = Mathf.Pow(baseData.GrowthRate, level);
-                int intgrowth = 0;
-                BigInteger result;
-
-                if ((int)growth < int.MaxValue / 10000)
-                {
-                    intgrowth = (int)(growth * 10000);
-                    result = baseData.BaseExp * intgrowth / 10000;
-                }
-                else
-                {
-                    intgrowth = (int)growth;
-                    result = baseData.BaseExp * intgrowth;
-                }
-                return result;
-            }
-        }
     }
 }

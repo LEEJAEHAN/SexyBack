@@ -21,10 +21,11 @@ namespace SexyBackPlayScene
         // 상태값
         public string targetID;
         private int level = 0;
-        private BigInteger baseDpc = new BigInteger(10);
+        private BigInteger baseDpc = new BigInteger(0);
         private BigInteger dpcX = new BigInteger(1); // 곱계수는 X를붙인다.
-        private int bounsAttackCount = 6; // 보너스 공격스택횟수 
+        private int bounsAttackCount = 6; // 보너스 공격스택횟수  6
         private int attackspeedXH = 100; // speed 와 interval은 역수관계
+        private int movespeedXH = 1000;
 
         //stateOwner
         string StateOwner.ID { get { return ID; } }
@@ -140,7 +141,7 @@ namespace SexyBackPlayScene
         public double ATTACKINTERVAL { get { return baseData.ATTACKINTERVAL * 100 / attackspeedXH; } }   // 공속공식
         public double CRIRATE { get { return baseData.CRIRATE; } }
         public int CRIDAMAGE { get { return baseData.CRIDAMAGE; } }
-        public int MOVESPEED { get { return baseData.MOVESPEED; } }
+        public float MOVESPEED { get { return  baseData.MOVESPEED * movespeedXH / 100; } }
         public double ATTACKSPEED { get { return attackspeedXH / 100; } } // for view action, state
 
     }

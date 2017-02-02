@@ -75,7 +75,6 @@ namespace SexyBackPlayScene
             GetComponent<Rigidbody>().AddTorque(0, 0, UnityEngine.Random.Range(-100, 100));
 
             //            GetComponent<Rigidbody>().AddForce( = new Vector3(10f, 6f, 0);
-            sexybacklog.Console("Flip!");
         }
 
     }

@@ -6,12 +6,16 @@ namespace SexyBackPlayScene
 {
     internal class StageManager // stage와 monster를 관리한다. 아마도 몬스터 매니져와 합치는게 좋지않을까.
     {
-        int GoalFloor;
+        int GoalFloor = 20;
         int currentFloor = 1;
-        float realDistance = 0;
-        private BigInteger exp = new BigInteger();
+        int DistancePerFloor = 10;
+        int InitDistance = 0;
+        int distance { get { return InitDistance + currentFloor * DistancePerFloor; } }
+
+        private BigInteger exp = new BigInteger();//new BigInteger(10, Digit.E);
         public List<Stage> Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
-                                                       // 풀링하지말자. 잦은이동이있는것도아닌데
+        public List<Stage> beToDispose = new List<Stage>(); // 풀링하지말자. 잦은이동이있는것도아닌데
+        private bool needNextStage = false;
 
         public delegate void ExpChange_Event(BigInteger exp);
         public event ExpChange_Event Action_ExpChange;
@@ -28,49 +32,37 @@ namespace SexyBackPlayScene
 
         public void onHeroMove(float delta_z)
         {
-            realDistance += delta_z;
             foreach (Stage st in Stages)
                 st.Move(delta_z);
+
+            sexybacklog.InGame(distance + " " + currentFloor);
         }
 
         public void Start(GameModeData gamemode) //  // stagebuilder
         {
             SetGameMode(gamemode);
             // start
-
-            Stages.Add(CreateStage(currentFloor, 20, 1));
-            Stages.Add(CreateStage(currentFloor + 1, 40, 1));
-
-            Stages.Add(CreateStage(3, 60, 1));
-            Stages.Add(CreateStage(4, 80, 1));
-            Stages.Add(CreateStage(5, 100, 1));
-
-
-            // stage 1 을 만든다.
-
-            // test command
-            //Singleton<ElementalManager>.getInstance().SummonNewElemental("fireball");
-            //Singleton<ElementalManager>.getInstance().SummonNewElemental("snowball");
-            //Singleton<ElementalManager>.getInstance().SummonNewElemental("airball");
-            //Singleton<ElementalManager>.getInstance().SummonNewElemental("earthball");
-            //Singleton<ElementalManager>.getInstance().SummonNewElemental("electricball");
-            //Singleton<ElementalManager>.getInstance().SummonNewElemental("iceblock");
-            //Singleton<ElementalManager>.getInstance().SummonNewElemental("rock");
-            //Singleton<ElementalManager>.getInstance().SummonNewElemental("waterball");
-
+            Stages.Add(CreateStage(currentFloor, InitDistance + DistancePerFloor, 1));
+            Stages.Add(CreateStage(currentFloor + 1, InitDistance + 2 * DistancePerFloor, 1));
         }
 
         private Stage CreateStage(int floor, int zPosition, int monsterCount)
         {
             Stage abc = new Stage(floor, zPosition);
+            abc.Action_StageClear += onStageClear;
             abc.InitAvatar();
-
             for (int i = 0; i < monsterCount; i++)
             {
                 abc.CreateMonster();
             }
-
             return abc;
+        }
+
+        private void onStageClear(Stage stage)
+        {
+            currentFloor = stage.floor + 1;
+            beToDispose.Add(stage);
+            needNextStage = true;
         }
 
         private void SetGameMode(GameModeData gamemode)
@@ -81,10 +73,23 @@ namespace SexyBackPlayScene
 
         public void Update()
         {
+            if(needNextStage)
+            {
+                Stages.Add(CreateStage(currentFloor + 1, DistancePerFloor, 1));
+                needNextStage = false;
+            }
+
             foreach (Stage a in Stages)
             {
                 a.Update();
             }
+
+            foreach (Stage b in beToDispose)
+            {
+                Stages.Remove(b);
+                b.Dispose();
+            }
+            beToDispose.Clear();
         }
 
         public void ExpGain(BigInteger e)

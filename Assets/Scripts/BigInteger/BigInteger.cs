@@ -439,27 +439,35 @@ namespace SexyBackPlayScene
             return MaxDigit - digitTerm;
         }
 
-        public static BigInteger PowerByGrowth(int baseValue, int level, float growthRate)
+        public static BigInteger PowerByGrowth(BigInteger baseValue, int level, float growthRate)
         {
             if (level <= 0)
                 level = 0;
 
+            BigInteger result = new BigInteger(new DigitsArray(baseValue.m_digits)); // clone
             double growth = Math.Pow(growthRate, level);
-            int intgrowth = 0;
-            BigInteger result;
 
-            if ((int)growth < int.MaxValue / 10000)
+            if(growth > int.MaxValue)
             {
-                intgrowth = (int)(growth * 10000);
-                result = baseValue * intgrowth / 10000;
+                string growthstring = growth.ToString("F0");
+                result = result * new BigInteger(growthstring);
             }
-            else
+            else // intmax보다 작을때
             {
-                intgrowth = (int)growth;
-                result = baseValue * intgrowth;
+                if ((int)growth < int.MaxValue / 100000)
+                {
+                    int intgrowth = (int)(growth * 100000);
+                    result = result * intgrowth / 100000;
+                }
+                else
+                {
+                    int intgrowth = (int)growth;
+                    result = result * intgrowth;
+                }
             }
             return result;
         }
+        
 
         //private string ToDigitString(out Digit chardigit)
         //{

@@ -51,6 +51,7 @@ namespace SexyBackPlayScene
             // remove useless objects; like prefab preview
             ViewLoader.Item_Enable.transform.DestroyChildren();
             ViewLoader.shooter.transform.DestroyChildren();
+            ViewLoader.monsterbucket.transform.DestroyChildren();
             ViewLoader.StagePanel.transform.DestroyChildren();
             ViewLoader.Bar_Attack.transform.DestroyChildren();
         }

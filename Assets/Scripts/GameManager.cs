@@ -43,12 +43,16 @@ namespace SexyBackPlayScene
         {
             stageManager.Start(args);
             heroManager.CreateHero(); // and hero is move
-//            elementalManager.SummonNewElemental("airball"); // for test
 
-
-            //            monsterManager.CreateMonster(currentFloor);
-
-
+            elementalManager.SummonNewElemental("fireball");
+            elementalManager.SummonNewElemental("waterball");
+            elementalManager.SummonNewElemental("rock");
+            elementalManager.SummonNewElemental("electricball");
+            elementalManager.SummonNewElemental("snowball");
+            elementalManager.SummonNewElemental("earthball");
+            elementalManager.SummonNewElemental("airball"); // for test
+            elementalManager.SummonNewElemental("iceblock");
+            elementalManager.SummonNewElemental("magmaball");
 
         }
         internal void FixedUpdate()

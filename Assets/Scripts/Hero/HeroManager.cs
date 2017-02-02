@@ -41,7 +41,7 @@ namespace SexyBackPlayScene
             if (CurrentHero == null)
                 return;
 
-            monster.Action_StateChangeEvent = CurrentHero.onTargetStateChange;
+            monster.StateMachine.Action_changeEvent += CurrentHero.onTargetStateChange;
             CurrentHero.ChangeState("Ready");
         }
 

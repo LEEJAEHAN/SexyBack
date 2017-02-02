@@ -75,7 +75,6 @@ namespace SexyBackPlayScene
         }
         internal void DestroyMonster(Monster owner)
         {
-            sexybacklog.Console("디스트로이시작.");
             disposeIDs.Enqueue(owner.ID);
         }
         internal Monster GetMonster(string id)
@@ -88,13 +87,13 @@ namespace SexyBackPlayScene
         {
             if (TargetMonster == null)
                 return;
-            TargetMonster.Action_StateChangeEvent = elemental.onTargetStateChange;
+            TargetMonster.StateMachine.Action_changeEvent += elemental.onTargetStateChange;
         }
         private void onHeroCreate(Hero hero)
         {
             if (TargetMonster == null)
                 return;
-            TargetMonster.Action_StateChangeEvent = hero.onTargetStateChange;
+            TargetMonster.StateMachine.Action_changeEvent += hero.onTargetStateChange;
             //hero.SetDirection(CurrentMonster.CenterPosition);
         }
     }

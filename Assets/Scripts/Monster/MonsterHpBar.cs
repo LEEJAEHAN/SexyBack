@@ -59,7 +59,7 @@ namespace SexyBackPlayScene
         // Use this for initialization
         void FillNewBar(Monster sender)
         {
-            sender.Action_StateChangeEvent = onTargetStateChange;
+            sender.StateMachine.Action_changeEvent += onTargetStateChange;
             // 123,456,123,456
             BigInteger hp = sender.MAXHP;
             maxdigit = 0;
@@ -93,7 +93,7 @@ namespace SexyBackPlayScene
             LateBar1.GetComponent<UISprite>().color = Color.HSVToRGB(InitHue, 1, 0.7f);
 
             //attach
-            UpdateBar(sender);
+            DisplayLateGaugeBar(late, goal);
             Hpbar.SetActive(false);
         }
 
