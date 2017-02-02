@@ -80,7 +80,7 @@ namespace SexyBackPlayScene
         }
         internal Monster GetMonster(string id)
         {
-            return TargetMonster; //TODO: 바꿔야함
+            return monsters[id];
         }
         private void onElementalCreate(Elemental elemental)
         {

@@ -19,6 +19,7 @@ namespace SexyBackPlayScene
             view.transform.localScale = ViewLoader.projectiles.transform.lossyScale;
             view.transform.parent = ViewLoader.shooter.transform;
             view.GetComponent<ProjectileView>().noticeDestroy += owner.onDestroyProjectile;
+            view.GetComponent<SphereCollider>().enabled = false;
             //TODO : 아직 리팩토링할곳이많은부분, 바로윗줄은 shooter object의 scale을 world에서 조정해야함
             view.SetActive(true);
         }
@@ -39,7 +40,9 @@ namespace SexyBackPlayScene
                 view.transform.parent = ViewLoader.projectiles.transform; // 슈터에서 빠진다.
                 // Shootfunc
                 view.GetComponent<Animator>().SetBool("Shoot", true);
+                view.GetComponent<SphereCollider>().enabled = true;
                 view.GetComponent<Rigidbody>().useGravity = true;
+
 
                 float xDistance = target.x - view.transform.position.x;
                 float yDistance = target.y - view.transform.position.y;

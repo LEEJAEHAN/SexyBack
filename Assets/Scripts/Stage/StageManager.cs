@@ -39,8 +39,8 @@ namespace SexyBackPlayScene
             // start
 
             Stages.Add(CreateStage(currentFloor - 1, 0, 0)); // -10 is position of z;
-            Stages.Add(CreateStage(currentFloor, 20, 2));
-            Stages.Add(CreateStage(currentFloor + 1, 40, 2));
+            Stages.Add(CreateStage(currentFloor, 20, 1));
+            Stages.Add(CreateStage(currentFloor + 1, 40, 1));
 
             // stage 1 을 만든다.
 

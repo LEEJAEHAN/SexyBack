@@ -43,7 +43,7 @@ namespace SexyBackPlayScene
         {
             stageManager.Start(args);
             heroManager.CreateHero(); // and hero is move
-            elementalManager.SummonNewElemental("airball"); // for test
+//            elementalManager.SummonNewElemental("airball"); // for test
 
 
             //            monsterManager.CreateMonster(currentFloor);

@@ -26,6 +26,7 @@ namespace SexyBackPlayScene
         //float accel = 0.01f;  // 이동가속도. 현재 사용하지않음.
 
         float InitHue = 1f;
+        private bool Decreasing = false;
 
         public float IGauge
         {
@@ -73,10 +74,14 @@ namespace SexyBackPlayScene
             goal = maxstack;
             late = maxstack;
 
+            Bar2.SetActive(true);
+            Decreasing = false;
             setColor(Bar1, Bar2, (int)currentIstack); // max 100이면 99단 풀차지부터.
             setColor(LateBar1, LateBar2, (int)currentLstack);
             IGauge = maxstack - (int)maxstack;
             LGauge = maxstack - (int)maxstack;
+            Bar2.GetComponent<UISprite>().fillAmount = 1;
+
 
             // set text
             HPBar_Count.GetComponent<UILabel>().text = "x" + currentIstack;
@@ -89,12 +94,13 @@ namespace SexyBackPlayScene
             LateBar1.GetComponent<UISprite>().color = Color.HSVToRGB(InitHue, 1, 0.7f);
 
             //attach
+            UpdateBar(sender);
             Hpbar.SetActive(false);
         }
 
         private void onTargetStateChange(string id, string stateid)
         {
-            if (stateid == "Death" || stateid == "Appear")
+            if (stateid == "Appear") //stateid == "Death" || 
                 Hpbar.SetActive(false);
             else
                 Hpbar.SetActive(true);
@@ -117,6 +123,7 @@ namespace SexyBackPlayScene
             if (prevgoal == goal)
                 return;
 
+            Decreasing = true;
             //moveamount = goal - late; /// 음수
             if (goal < 0)
                 goal = 0; // 속도 지정 후에 골은 0으로만든다.
@@ -154,6 +161,8 @@ namespace SexyBackPlayScene
 
         public void FixedUpdate()
         {
+            if (!Decreasing)
+                return;
             // 가속과 이동. 이벤트시 설정도는 goal과 moveamount 는 절대 바꾸지않는다.
             //velocity += accel;
             float vel = velocity * (float)Math.Pow((currentLstack - currentIstack + 1), 2);
@@ -170,10 +179,12 @@ namespace SexyBackPlayScene
                 LateBar1.GetComponent<UISprite>().fillAmount = Hpbar.GetComponent<UIProgressBar>().value; // 정확한값은 업데이트를타는 HPbar
                 late = goal;
                 vel = velocity;
+                Decreasing = false;
             }
             if (late <= 0.001f) // TODO : 이부분이 젤찜찜함
             {   // detach
                 late = 0;
+                Decreasing = false;
                 Hpbar.SetActive(false);
             }
         }
