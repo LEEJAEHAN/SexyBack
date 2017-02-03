@@ -10,11 +10,10 @@ namespace SexyBackPlayScene
         public BigIntExpression pot; // price over time
         public int time;
 
-        public string requireElemetalID;
-        public int requeireLevel;
-        public string preResearchID;
+        public List<Bonus> bonus = new List<Bonus>();
 
-        public List<StatBonus> bonus = new List<StatBonus>();
+        public string requireID;
+        public int requeireLevel;
 
         public string IconName;
         public string InfoName;
@@ -23,4 +22,15 @@ namespace SexyBackPlayScene
         {
         }
     }
+
+    public class Bonus
+    {
+        public string targetID;  // both hero and elemental
+        public string attribute;
+        public int value;
+    }
+    //DpsXPer5LV,
+    //DpsX,
+    //attackspeedXH,
+
 }

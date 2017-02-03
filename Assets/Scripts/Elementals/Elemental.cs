@@ -20,8 +20,8 @@ namespace SexyBackPlayScene
         public string NAME { get { return baseData.Name; } }
         public int LEVEL { get { return level; } }
         public BigInteger DPS = new BigInteger();
-        public BigInteger DAMAGE { get { return (DPS * baseData.AttackIntervalK) / 1000; } } //  dps / attackinterval    // 계산되는값
-        public double AttackInterval { get { return baseData.AttackIntervalK / (double)(10 * attackspeedXH); } }
+        public BigInteger DAMAGE { get { return (DPS * baseData.AttackIntervalK) / (10 * attackspeedXH); } } //  dps * attackinterval
+        public double AttackInterval { get { return baseData.AttackIntervalK / (double)(10 * attackspeedXH); } } // (attackinterval1k / 1000) * ( 100 / attackspeed1h ) 
         public BigInteger NEXTEXP = new BigInteger();
         public BigInteger BASEDPS { get { return level * baseData.BaseDps; } } // BaseDps* level 값.               // 계산되는값
         public BigInteger NEXTDPS { get { return baseData.BaseDps; } }
@@ -57,7 +57,7 @@ namespace SexyBackPlayScene
         {
             CurrentProjectile = null;
         }
-        
+
         public void Shoot(Vector3 target)
         {
             if (CurrentProjectile.Shoot(target, 0.25f))
@@ -83,7 +83,7 @@ namespace SexyBackPlayScene
         // TODO : 여기도 언젠간 statemachine작업을 해야할듯 ㅠㅠ
         internal void Update()
         {
-           AttackTimer += Time.deltaTime;
+            AttackTimer += Time.deltaTime;
 
             // 만들어진다.
             if (AttackTimer > AttackInterval - 1 && NoProjectile)

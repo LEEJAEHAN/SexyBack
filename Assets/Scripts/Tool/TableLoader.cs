@@ -9,11 +9,12 @@ namespace SexyBackPlayScene
         public Dictionary<string, HeroData> herotable = new Dictionary<string, HeroData>();
         public Dictionary<string, MonsterData> monstertable = new Dictionary<string, MonsterData>();
         public Dictionary<string, ElementalData> elementaltable = new Dictionary<string, ElementalData>();
-        public Dictionary<string, GameModeData> stagetable = new Dictionary<string, GameModeData>();
         public Dictionary<string, LevelUpItemData> leveluptable = new Dictionary<string, LevelUpItemData>();
 
-        public Dictionary<string, ResearchData> researchtable = new Dictionary<string, ResearchData>();
+        public List<ResearchData> researchtable = new List<ResearchData>();
 
+
+        public Dictionary<string, GameModeData> gamemodetable = new Dictionary<string, GameModeData>();
 
         internal void LoadAll()
         {
@@ -23,7 +24,31 @@ namespace SexyBackPlayScene
 
             LoadStageData();
             LoadLevelUpData();
+            LoadResearchData();
 
+        }
+
+        private void LoadResearchData()
+        {
+            ResearchData item = new ResearchData();
+            item.ID = "R01";
+            item.price = new BigIntExpression(10, "zero");
+            item.pot = new BigIntExpression(1, "zero");
+            item.time = 30;
+
+            item.requireID = "hero";
+            item.requeireLevel = 0;
+
+            item.IconName = "SexyBackIcon_FireElemental";
+            item.InfoName = "파이어볼 배우기";
+            Bonus b = new Bonus();
+            b.targetID = "hero";
+            b.attribute = "fireball";
+            b.value = 1;
+
+            item.bonus.Add(b);
+
+            researchtable.Add(item);
         }
 
         private void LoadLevelUpData()
@@ -53,7 +78,7 @@ namespace SexyBackPlayScene
         private void LoadStageData()
         {
             GameModeData data1 = new GameModeData("TestStage", 20, 0);
-            stagetable.Add(data1.ID, data1);
+            gamemodetable.Add(data1.ID, data1);
 
         }
 
