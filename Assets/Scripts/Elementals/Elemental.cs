@@ -9,24 +9,22 @@ namespace SexyBackPlayScene
         public string ID;
         private ElementalData baseData;
         public string targetID;
+
+        // 변수
         private int level = 0;
         public BigInteger DpsX = new BigInteger(1);
+        public double DpsXPer5LV = 1;
+        public int attackspeedXH = 100;
 
         // data property
         public string NAME { get { return baseData.Name; } }
         public int LEVEL { get { return level; } }
-        public BigInteger DPS { get { return level * baseData.BaseDps * DpsX; } }
+        public BigInteger DPS = new BigInteger();
+        public BigInteger DAMAGE { get { return (DPS * baseData.AttackIntervalK) / 1000; } } //  dps / attackinterval    // 계산되는값
+        public double AttackInterval { get { return baseData.AttackIntervalK / (double)(10 * attackspeedXH); } }
+        public BigInteger NEXTEXP = new BigInteger();
         public BigInteger BASEDPS { get { return level * baseData.BaseDps; } } // BaseDps* level 값.               // 계산되는값
         public BigInteger NEXTDPS { get { return baseData.BaseDps; } }
-        public BigInteger DAMAGE { get { return (DPS * baseData.AttackIntervalK) / 1000; } } //  dps / attackinterval    // 계산되는값
-        public double AttackInterval { get { return (double)baseData.AttackIntervalK / (double)1000; } }
-        public BigInteger NEXTEXP
-        {
-            get
-            {
-                return BigInteger.PowerByGrowth(baseData.BaseExp, level, baseData.GrowthRate);
-            }
-        }
 
         // for projectile action;
         private Transform ElementalArea; // avatar
@@ -54,21 +52,12 @@ namespace SexyBackPlayScene
             Vector3 genPosition = RandomRangeVector3(ElementalArea.position, ElementalArea.localScale / 2);
             CurrentProjectile = new Projectile(this, ProjectilePrefab, genPosition);
         }
+
         internal void onDestroyProjectile()
         {
             CurrentProjectile = null;
         }
-
-        private Vector3 RandomRangeVector3(Vector3 center, Vector3 extend)
-        {
-            Vector3 min = center - extend;
-            Vector3 max = center + extend;
-
-            return new Vector3(UnityEngine.Random.Range(min.x, max.x),
-                UnityEngine.Random.Range(min.y, max.y),
-                UnityEngine.Random.Range(min.z, max.z));
-        }
-
+        
         public void Shoot(Vector3 target)
         {
             if (CurrentProjectile.Shoot(target, 0.25f))
@@ -78,7 +67,17 @@ namespace SexyBackPlayScene
         internal void LevelUp(int amount)
         {
             level += amount;
+            CalDPS();
+            CalEXP();
             Action_ElementalChange(this);
+        }
+        private void CalEXP()
+        {
+            NEXTEXP = BigInteger.PowerByGrowth(baseData.BaseExp, level, baseData.GrowthRate);
+        }
+        void CalDPS()
+        {
+            DPS = level * DpsX * BigInteger.PowerByGrowth(baseData.BaseDps, (level / 5), DpsXPer5LV);
         }
 
         // TODO : 여기도 언젠간 statemachine작업을 해야할듯 ㅠㅠ
@@ -126,7 +125,15 @@ namespace SexyBackPlayScene
             Vector3 dest = RandomRangeVector3(center, extend);
             return dest;
         }
+        private Vector3 RandomRangeVector3(Vector3 center, Vector3 extend)
+        {
+            Vector3 min = center - extend;
+            Vector3 max = center + extend;
 
+            return new Vector3(UnityEngine.Random.Range(min.x, max.x),
+                UnityEngine.Random.Range(min.y, max.y),
+                UnityEngine.Random.Range(min.z, max.z));
+        }
         public virtual void Cast()
         {
 

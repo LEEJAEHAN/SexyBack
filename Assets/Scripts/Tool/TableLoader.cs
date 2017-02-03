@@ -12,6 +12,9 @@ namespace SexyBackPlayScene
         public Dictionary<string, GameModeData> stagetable = new Dictionary<string, GameModeData>();
         public Dictionary<string, LevelUpItemData> leveluptable = new Dictionary<string, LevelUpItemData>();
 
+        public Dictionary<string, ResearchData> researchtable = new Dictionary<string, ResearchData>();
+
+
         internal void LoadAll()
         {
             LoadHeroData();

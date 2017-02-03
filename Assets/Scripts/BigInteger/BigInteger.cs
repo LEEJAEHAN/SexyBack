@@ -439,15 +439,16 @@ namespace SexyBackPlayScene
             return MaxDigit - digitTerm;
         }
 
-        public static BigInteger PowerByGrowth(BigInteger baseValue, int level, float growthRate)
-        {
+        public static BigInteger PowerByGrowth(BigInteger baseValue, double level, double growthRate)
+        {  
             if (level <= 0)
                 level = 0;
 
             BigInteger result = new BigInteger(new DigitsArray(baseValue.m_digits)); // clone
             double growth = Math.Pow(growthRate, level);
+            // TODO : 더블을 넘어갈 위험.
 
-            if(growth > int.MaxValue)
+            if (growth > int.MaxValue)
             {
                 string growthstring = growth.ToString("F0");
                 result = result * new BigInteger(growthstring);
