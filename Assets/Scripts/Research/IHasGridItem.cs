@@ -1,6 +1,6 @@
 ﻿namespace SexyBackPlayScene
 {
-    internal interface IHasGridItem
+    public interface IHasGridItem
     {
         void onSelect(string id);
         void onConfirm(string id);

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    internal class GridItem
+    public class GridItem
     {
         string Type;
         GameObject avatar;
@@ -118,6 +118,14 @@ namespace SexyBackPlayScene
             Info_Icon.spriteName = Icon;
             Info_Description.text = Descrption;
         }
+
+        // only for level up
+        public void FillItemContents(string buttontext)
+        {
+            GameObject labelObject = avatar.transform.FindChild("Label").gameObject;
+            labelObject.GetComponent<UILabel>().text = buttontext; // 최초에 그리기용
+        }
+
         public void ClearInfo()
         {
             if (Info_Window.activeInHierarchy)

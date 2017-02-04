@@ -3,9 +3,12 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    public abstract class LevelUpItem// 레벨업을 하기 위해 구매해야하는 객체, canlevelup 이만들어지면 기생으로 붙는다. 저장된 게임 능력치와는 관계없다
+    public abstract class LevelUpItem : IHasGridItem
+        // 레벨업을 하기 위해 구매해야하는 객체, canlevelup 이만들어지면 기생으로 붙는다. 저장된 게임 능력치와는 관계없다
     {
         private LevelUpItemData data;
+        protected GridItem itemView;
+        protected bool Selected = false;
 
         public delegate void LevelUpChange_EventHandler(LevelUpItem levelupitem);
         public event LevelUpChange_EventHandler Action_LevelUpChange;
@@ -30,7 +33,13 @@ namespace SexyBackPlayScene
             PurchaseCount = 0;
             this.data = data;
             priceXK = 1000;
+
+            Singleton<StageManager>.getInstance().Action_ExpChange += onExpChange;
+            itemView = new GridItem("LevelUp", ID, Icon, this);
+
+            itemView.Show();
         }
+
         internal void Purchase()
         {
             if (CanBuy)
@@ -44,19 +53,44 @@ namespace SexyBackPlayScene
             return itemViewName.Substring("levelup_".Length);
         }
 
-        public void Notice()
-        {   
-            Action_LevelUpChange(this);
-        }
-
         public void onExpChange(BigInteger exp)
         {
-            if (exp >= Price)
-                CanBuy = true;
-            else
-                CanBuy = false;
+            CanBuy = exp > Price;
+            UpdateInfoView();
+            UpdateItemView();
+        }
 
-            Notice();
+        private void UpdateInfoView()
+        {
+            if (CanBuy)
+                itemView.ConfirmEnable(Selected);
+            else
+                itemView.ConfirmDisable(Selected);
+        }
+        private void UpdateItemView()
+        {
+            if (CanBuy)
+                itemView.Enable();
+            else
+                itemView.Disable();
+        }
+
+        public void onSelect(string id)
+        {
+            if (id == null)
+            {
+                Selected = false;
+                itemView.ClearInfo();
+                return;
+            }
+
+            Selected = true;
+            itemView.FillInfo(Selected, Icon, Info_Text);
+        }
+
+        public void onConfirm(string id)
+        {
+            Purchase();
         }
     }
 

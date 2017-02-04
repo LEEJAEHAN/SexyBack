@@ -18,7 +18,8 @@ namespace SexyBackPlayScene
             }
         }
 
-        internal void UpdateLevelUpItem(Hero hero)
+
+        internal void onHeroChange(Hero hero)
         {
             originalprice = new BigInteger(hero.NEXTEXPSTR);
 
@@ -31,7 +32,10 @@ namespace SexyBackPlayScene
             description += "Cost : " + Price.To5String() + " EXP";
 
             Info_Text = description;
-            Notice();
+
+            itemView.FillItemContents(Button_Text);
+            itemView.FillInfo(Selected, Icon, Info_Text);
+
         }
     }
 }

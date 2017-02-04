@@ -18,7 +18,7 @@ namespace SexyBackPlayScene
             }
         }
 
-        internal void UpdateLevelUpItem(Elemental owner)
+        internal void onElementalChange(Elemental owner)
         {
             originalprice = owner.NEXTEXP;
 
@@ -33,7 +33,10 @@ namespace SexyBackPlayScene
             description += "Cost : " + Price.To5String() + " EXP";
 
             Info_Text = description;
-            Notice();
+
+            itemView.FillItemContents(Button_Text);
+            itemView.FillInfo(Selected, Icon, Info_Text);
+
         }
     }
 }
