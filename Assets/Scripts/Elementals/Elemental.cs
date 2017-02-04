@@ -64,6 +64,40 @@ namespace SexyBackPlayScene
                 AttackTimer = 0; // 정상적으로 발사 완료 후 타이머리셋
         }
 
+        internal bool Upgrade(Bonus bonus)
+        {
+            bool result = true;
+            switch (bonus.attribute)
+            {
+                case "DpsXPer5LV":
+                    {
+                        DpsXPer5LV += bonus.value;
+                        break;
+                    }
+                case "DpsX":
+                    {
+                        DpsX *= bonus.value;
+                        break;
+                    }
+                case "attackspeedXH":
+                    {
+                        attackspeedXH += bonus.value;
+                        break;
+                    }
+                default:
+                    {
+                        sexybacklog.Error("업그레이드가능한 attribute가 없습니다.");
+                        result = false;
+                        break;
+                    }
+            }
+            if (result)
+            {
+                CalDPS(); // calexp는 일단안넣는다.
+                Action_ElementalChange(this);
+            }
+            return result;
+        }
         internal void LevelUp(int amount)
         {
             level += amount;

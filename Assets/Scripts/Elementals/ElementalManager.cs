@@ -6,14 +6,10 @@ namespace SexyBackPlayScene
 {
     class ElementalManager
     {
-        public List<Elemental> elementals = new List<Elemental>();
+        public Dictionary<string, Elemental> elementals = new Dictionary<string, Elemental>();
         public List<Projectile> projectiles = new List<Projectile>();
 
         Transform ElementalArea = ViewLoader.area_elemental.transform;
-
-
-        public delegate void ElementalList_ChangeEvent(List<Elemental> list);
-        public event ElementalList_ChangeEvent Action_ElementalListChangeEvent;// = delegate (object sender) { };
 
         public delegate void ElementalCreateEvent_Handler(Elemental sender);
         public event ElementalCreateEvent_Handler Action_ElementalCreateEvent;// = delegate (object sender) { };
@@ -23,52 +19,43 @@ namespace SexyBackPlayScene
             // this class is event listner
             Singleton<MonsterManager>.getInstance().Action_BeginBattleEvent += this.SetTarget;
         }
-        public void SummonNewElemental(string id)
+        public bool SummonNewElemental(string id)
         {
+            if (Singleton<TableLoader>.getInstance().elementaltable.ContainsKey(id) == false)
+                return false;
+
             ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
             Elemental temp = new Elemental(data, ElementalArea);
 
-            temp.Action_ElementalChange += this.onElementalChange;
             Action_ElementalCreateEvent(temp);
+            elementals.Add(temp.ID, temp);
 
-            temp.LevelUp(1); 
-
-            elementals.Add(temp);
-            Action_ElementalListChangeEvent(elementals);
+            temp.LevelUp(1);
+            return true;
         }
 
-        private void onElementalChange(Elemental sender)
+        public BigInteger GetTotalDps()
         {
-            Action_ElementalListChangeEvent(elementals);
+            BigInteger result = new BigInteger(0);
+            foreach (Elemental elemental in elementals.Values)
+                result += elemental.DPS;
+            return result;
         }
 
         internal void Update()
         {
-            foreach (Elemental elemenatal in elementals)
+            foreach (Elemental elemenatal in elementals.Values)
                 elemenatal.Update();
         }
 
         internal void LevelUp(string ElementalID)
         {
-            Elemental target = FindElemental(ElementalID);
-            if (target == null)
-                return;
-            target.LevelUp(1);
-        }
-
-        Elemental FindElemental(string elementalid)
-        {
-            foreach (Elemental elemenetal in elementals)
-            {
-                if (elemenetal.ID == elementalid)
-                    return elemenetal;
-            }
-            return null;
+            elementals[ElementalID].LevelUp(1);
         }
 
         internal BigInteger GetElementalDamage(string id)
         {
-            return FindElemental(id).DAMAGE;
+            return elementals[id].DAMAGE;
         }
 
         // recieve event
@@ -77,11 +64,16 @@ namespace SexyBackPlayScene
             if (elementals == null)
                 return;
 
-            foreach(Elemental elemental in elementals)
+            foreach(Elemental elemental in elementals.Values)
             {
                 elemental.targetID = null;
                 sender.StateMachine.Action_changeEvent += elemental.onTargetStateChange;
             }
+        }
+
+        internal bool Upgrade(Bonus b)
+        {
+            return elementals[b.targetID].Upgrade(b);
         }
     }
 }

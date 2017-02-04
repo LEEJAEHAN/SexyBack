@@ -39,6 +39,8 @@ namespace SexyBackPlayScene
         public event HeroChange_Event Action_HeroChange;
 
         public delegate void DistanceChange_Event(float distance);
+
+
         public event DistanceChange_Event Action_DistanceChange;
 
 
@@ -51,7 +53,7 @@ namespace SexyBackPlayScene
             StateMachine = new HeroStateMachine(this);
         }
 
-        internal void AddLevel(int amount) // 레벨이 10이면 9까지더해야한다;
+        internal void LevelUp(int amount) // 레벨이 10이면 9까지더해야한다;
         {
             if (level + amount > baseData.MaxLevel)
                 return;
@@ -83,7 +85,7 @@ namespace SexyBackPlayScene
 
         internal bool Attack(float attackSpeed) // 데미지딜링과 sprite action ctrl,
         {
-            if (!AttackManager.CanAttack|| targetID == null)
+            if (!AttackManager.CanAttack || targetID == null)
                 return false;
             Monster target = Singleton<MonsterManager>.getInstance().GetMonster(targetID);
             if (target == null)
@@ -130,6 +132,30 @@ namespace SexyBackPlayScene
             StateMachine.ChangeState(stateid);
         }
 
+
+        internal bool Upgrade(Bonus bonus)
+        {
+            bool result = false;
+            switch (bonus.attribute)
+            {
+                case "LearnSkill":
+                    {
+                        result =  Singleton<ElementalManager>.getInstance().SummonNewElemental(bonus.strvalue);
+                        break;
+                    }
+                default:
+                    {
+                        sexybacklog.Error("업그레이드가능한 attribute가 없습니다.");
+                        result = false;
+                        break;
+                    }
+            }
+            if (result)
+                Action_HeroChange(this);
+            return result;
+        }
+
+
         // 능력치 property
         // 최종적으로 나가는 값은 모두 대문자이다. 중간과정은 앞에만대문자;
         public int MAXATTACKCOUNT { get { return baseData.ATTACKCOUNT + bounsAttackCount; } }
@@ -141,7 +167,7 @@ namespace SexyBackPlayScene
         public double ATTACKINTERVAL { get { return baseData.ATTACKINTERVAL * 100 / attackspeedXH; } }   // 공속공식
         public double CRIRATE { get { return baseData.CRIRATE; } }
         public int CRIDAMAGE { get { return baseData.CRIDAMAGE; } }
-        public float MOVESPEED { get { return  baseData.MOVESPEED * movespeedXH / 100; } }
+        public float MOVESPEED { get { return baseData.MOVESPEED * movespeedXH / 100; } }
         public double ATTACKSPEED { get { return attackspeedXH / 100; } } // for view action, state
 
     }

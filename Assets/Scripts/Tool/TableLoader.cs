@@ -31,22 +31,24 @@ namespace SexyBackPlayScene
         private void LoadResearchData()
         {
             ResearchData item = new ResearchData();
-            item.ID = "R01";
-            item.price = new BigIntExpression(10, "zero");
-            item.pot = new BigIntExpression(1, "zero");
-            item.time = 30;
+            item.price = new BigIntExpression(300, "m");
+            item.pot = new BigIntExpression(100, "m");
+            item.time = 10;
 
             item.requireID = "hero";
             item.requeireLevel = 0;
 
+            item.ID = "R01";
             item.IconName = "SexyBackIcon_FireElemental";
             item.InfoName = "파이어볼 배우기";
+            item.InfoDescription = "강력한 빠이양아아아야아아볼을 배웁니다.";
             Bonus b = new Bonus();
             b.targetID = "hero";
-            b.attribute = "fireball";
+            b.attribute = "LearnSkill";
             b.value = 1;
+            b.strvalue = "fireball";
 
-            item.bonus.Add(b);
+            item.bonuses.Add(b);
 
             researchtable.Add(item);
         }

@@ -14,9 +14,11 @@ namespace SexyBackPlayScene
         {
             Set();
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += BindHero;
-            Singleton<ElementalManager>.getInstance().Action_ElementalListChangeEvent += PrintDps;
+            Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += BindElemental;
             Singleton<StageManager>.getInstance().Action_ExpChange += PrintExp;
         }
+
+
         public void Set()
         { 
             TotalDpsLabel.text = "";
@@ -24,18 +26,9 @@ namespace SexyBackPlayScene
             label_exp.text = "";
         }
 
-        internal BigInteger GetTotalDPS(List<Elemental> sender)
+        public void PrintDps(Elemental elemenetal)
         {
-            BigInteger result = new BigInteger();
-            foreach (Elemental elemental in sender)
-            {
-                result += elemental.DPS;
-            }
-            return result;
-        }
-        public void PrintDps(List<Elemental> sender)
-        {
-            string dpsString = GetTotalDPS(sender).To5String() + " /Sec";
+            string dpsString = Singleton<ElementalManager>.getInstance().GetTotalDps().To5String() + " /Sec";
             TotalDpsLabel.GetComponent<UILabel>().text = dpsString;
         }
 
@@ -53,6 +46,11 @@ namespace SexyBackPlayScene
         void BindHero(Hero hero)
         {
             hero.Action_HeroChange += PrintDpc;
+        }
+
+        private void BindElemental(Elemental sender)
+        {
+            sender.Action_ElementalChange += PrintDps;
         }
 
     }

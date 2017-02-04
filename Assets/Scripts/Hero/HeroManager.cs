@@ -34,7 +34,7 @@ namespace SexyBackPlayScene
             if (CurrentHero == null)
                 return;
 
-            CurrentHero.AddLevel(1);
+            CurrentHero.LevelUp(1);
         }
         internal void BeginBattle(Monster monster)
         {
@@ -45,5 +45,9 @@ namespace SexyBackPlayScene
             CurrentHero.ChangeState("Ready");
         }
 
+        internal bool Upgrade(Bonus b)
+        {
+            return CurrentHero.Upgrade(b);
+        }
     }
 }
