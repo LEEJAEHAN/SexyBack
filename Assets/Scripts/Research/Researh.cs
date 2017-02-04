@@ -4,195 +4,59 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    public class Research : IDisposable
+    public class Research : IDisposable, IHasGridItem
     {
         string ID;
         string IconName;
         string InfoName;
         string Description;
 
-        GameObject avatar;
-        public ResearchView view;
+        GridItem itemView;
 
+        int RequireLevel;
         BigInteger StartPrice;
         BigInteger PricePerSec;
         int ResearchTime;
         public List<Bonus> bonuses;
 
         double RemainTime;
-        
-        //state
+        float TickTimer = 0;
+
+        //state flag
         bool Begin = false;
         bool Researching = false;
         bool End = false;
-        bool CanBuy = false;
         bool Selected = false;
+
+        // show, enable condition
+        bool CanBuy = false;
+        bool ShowCondition1 = false;
+        bool ShowCondition2 = false;
 
         public Research(ResearchData data)
         {
             ID = data.ID;
+            bonuses = data.bonuses;
             StartPrice = new BigInteger(data.price);
             PricePerSec = new BigInteger(data.pot);
+            RequireLevel = data.requeireLevel;
             ResearchTime = data.time;
             IconName = data.IconName;
             InfoName = data.InfoName;
             Description = data.InfoDescription;
 
-            InitAvatar();
-            bonuses = data.bonuses;
+            itemView = new GridItem("Research", ID, IconName, this); // avatar생성
+            itemView.SetRBar(0, ResearchTime, false);
+            itemView.Hide();
+
             Singleton<StageManager>.getInstance().Action_ExpChange += this.onExpChange;
-        }
-
-        private void onExpChange(BigInteger exp)
-        {
-            if (exp >= StartPrice)
-                CanBuy = true;
-            else
-                CanBuy = false;
-            SetConfirmButtonState();
-            SetIconButtonState(exp);
-            SetActive(exp);
-        }
-
-        private void SetActive(BigInteger exp)
-        {
-            if (avatar.activeInHierarchy)
-                return;
-
-            if (exp > StartPrice / 2)
-                ShowItem();
-        }
-
-        private void InitAvatar()
-        {
-            // Instantiate object
-            GameObject prefab = Resources.Load<GameObject>("Prefabs/UI/ResearchView") as GameObject;
-            avatar = GameObject.Instantiate<GameObject>(prefab) as GameObject;
-            view = avatar.GetComponent<ResearchView>();
-
-            GameObject iconObject = view.transform.FindChild("Icon").gameObject;
-            iconObject.GetComponent<UISprite>().atlas = Resources.Load("Atlas/IconImage", typeof(UIAtlas)) as UIAtlas;
-            iconObject.GetComponent<UISprite>().spriteName = IconName;
-
-            view.Action_ResearchStart += onConfirm;
-            view.Action_ResearchSelect += onSelect; // 매니져가 안받는다.
-
-            avatar.name = ID;
-
-            SetRBar(0, ResearchTime, false);
-            HideItem();
-            //// delegate 붙이기
-            //EventDelegate eventdel = new EventDelegate(view, "onItemSelect");
-            //EventDelegate.Parameter p0 = new EventDelegate.Parameter();
-            //p0.obj = itemView;
-            //eventdel.parameters[0] = p0;
-            //itemView.GetComponent<UIToggle>().onChange.Add(eventdel);
-        }
-
-        private void HideItem()
-        {
-            avatar.SetActive(false);
-            avatar.transform.parent = ViewLoader.Item_Disable.transform;
-            avatar.transform.localScale = ViewLoader.Item_Disable.transform.localScale;
-            ViewLoader.Item_Enable.GetComponent<UIGrid>().Reposition();
-        }
-
-        private void SetRBar(float progress, int time, bool colorflag)
-        {
-            avatar.transform.FindChild("RBar").GetComponent<UIProgressBar>().value = progress;
-            avatar.transform.FindChild("RBar").FindChild("RBar_Time").GetComponent<UILabel>().text = time.ToString() + " sec";
-            if(colorflag)
-                avatar.transform.FindChild("RBar").FindChild("RBar_Fill1").GetComponent<UISprite>().color = new Color(1,0,0,1);
-            else
-                avatar.transform.FindChild("RBar").FindChild("RBar_Fill1").GetComponent<UISprite>().color = new Color(0.5f, 0.5f, 0.5f, 1);
-        }
-
-        private void ShowItem()
-        {
-            avatar.SetActive(true);
-            avatar.transform.parent = ViewLoader.Item_Enable.transform;
-            avatar.transform.localScale = ViewLoader.Item_Enable.transform.localScale;
-            ViewLoader.Item_Enable.GetComponent<UIGrid>().Reposition();
-        }
-
-        void onSelect(string id)
-        {
-            if(id == null)
-            {
-                Selected = false;
-                ClearInfo();
-                return;
-            }
-
-
-            Selected = true;
-            ViewLoader.Info_Context.SetActive(true);
-            FillInfoView();
-            // TODO : 작성해야함
-        }
-        void ClearInfo()
-        {
-            if (ViewLoader.Info_Context.activeInHierarchy)
-                ViewLoader.Info_Context.SetActive(false);
-        }
-
-
-        private void FillInfoView()
-        { 
-            if (!Selected)
-                return;
-
-            ViewLoader.Info_Icon.GetComponent<UISprite>().spriteName = IconName;
-            ViewLoader.Info_Description.GetComponent<UILabel>().text = InfoName + Description;
-
-            SetConfirmButtonState();
-        }
-
-        private void SetConfirmButtonState()
-        { 
-            if (!Selected)
-                return;
-
-            UIButton Confirm = ViewLoader.Button_Confirm.GetComponent<UIButton>();
-
-            if (CanBuy && !Researching)
-            {
-                Confirm.enabled = true;
-                Confirm.SetState(UIButtonColor.State.Normal, true);
-            }
-            else
-            {
-                Confirm.enabled = false;
-                Confirm.SetState(UIButtonColor.State.Disabled, true);
-            }
-        }
-
-        private void SetIconButtonState(BigInteger exp)
-        {
-            if(!Researching)
-            {
-                if (exp >= StartPrice)
-                    avatar.GetComponent<UISprite>().color = new Color(1, 1, 1, 1);
-                else
-                    avatar.GetComponent<UISprite>().color = new Color(0.5f, 0.5f, 0.5f, 0.8f);
-            }
-            else if (Researching)
-            {
-                avatar.GetComponent<UISprite>().color = new Color(1, 1, 1, 1);
-                if(exp >= PricePerSec)
-                {
-
-                }
-               
-            }
         }
 
         public void Update()
         {
-
-            if(Begin)
+            if (Begin)
             {
-                if(Singleton<StageManager>.getInstance().ExpUse(StartPrice))
+                if (Singleton<StageManager>.getInstance().ExpUse(StartPrice))
                     Researching = true;
                 Begin = false;
             }
@@ -200,7 +64,7 @@ namespace SexyBackPlayScene
             if (Researching)
             {
                 StepResearch(Time.deltaTime);
-                if(RemainTime <= 0)
+                if (RemainTime <= 0)
                 {
                     Researching = false;
                     End = true;
@@ -208,7 +72,7 @@ namespace SexyBackPlayScene
                 }
             }
 
-            if(End)
+            if (End)
             {
                 if (TryToUpgrade())
                 {
@@ -221,28 +85,15 @@ namespace SexyBackPlayScene
         private bool TryToUpgrade()
         {
             bool result = false;
-            foreach(Bonus b in bonuses)
+            foreach (Bonus bonus in bonuses)
             {
-                if (b.targetID == "hero")
-                    result = Singleton<HeroManager>.getInstance().Upgrade(b);
+                if (bonus.targetID == "hero")
+                    result = Singleton<HeroManager>.getInstance().Upgrade(bonus);
                 else
-                    result = Singleton<ElementalManager>.getInstance().Upgrade(b);
+                    result = Singleton<ElementalManager>.getInstance().Upgrade(bonus);
             }
             return result;
         }
-
-        void onConfirm(string id) // begin research
-        {
-            RemainTime = ResearchTime;
-            Begin = true;
-            SetRBar(1, (int)RemainTime, true);
-
-            // TODO: confirm 버튼을 cancel로바꾼다? 혹은 비활성화한다. sell만남기고,
-            // progressbar 보여야한다.
-
-        }
-
-        float TickTimer = 0;
 
         private void StepResearch(float deltaTime)
         {
@@ -253,14 +104,85 @@ namespace SexyBackPlayScene
                 bool result;
                 if (result = Singleton<StageManager>.getInstance().ExpUse(PricePerSec)) //if (Singleton<StageManager>.getInstance().ExpUse(PricePerSec * (int)(tick * 10000) / 10000))
                     RemainTime -= 1;
-                SetRBar((float)RemainTime / ResearchTime, (int)RemainTime, result);
+                itemView.SetRBar((float)RemainTime / ResearchTime, (int)RemainTime, result);
             }
-
         }
 
         public void Dispose()
         {
             throw new NotImplementedException();
         }
+
+        public void onSelect(string id)
+        {
+            if (id == null)
+            {
+                Selected = false;
+                itemView.ClearInfo();
+                return;
+            }
+
+            Selected = true;
+            itemView.FillInfo(Selected, IconName, InfoName + Description);
+            UpdateInfoView();
+        }
+
+        public void onConfirm(string id)
+        {
+            RemainTime = ResearchTime;
+            Begin = true;
+            itemView.SetRBar(1, (int)RemainTime, true);
+            // TODO: confirm 버튼을 cancel로바꾼다? 혹은 비활성화한다. sell만남기고,
+        }
+        internal void onElementalChange(Elemental sender)
+        {
+            ShowCondition1 = sender.LEVEL >= RequireLevel;
+            CheckShow();
+        }
+
+        internal void onHeroChange(Hero hero)
+        {
+            ShowCondition1 = hero.LEVEL >= RequireLevel;
+            CheckShow();
+        }
+        private void CheckShow()
+        {
+            if (itemView.Active == false && ShowCondition1 && ShowCondition2)
+                itemView.Show();
+        }
+
+        private void onExpChange(BigInteger exp)
+        {
+            CanBuy = exp > StartPrice;
+            UpdateInfoView();
+            UpdateItemView();
+
+            ShowCondition2 = exp > StartPrice / 2;
+            CheckShow();
+        }
+
+        private void UpdateInfoView()
+        {
+            if (CanBuy && !Researching)
+                itemView.ConfirmEnable(Selected);
+            else
+                itemView.ConfirmDisable(Selected);
+        }
+        private void UpdateItemView()
+        {
+            if (!Researching)
+            {
+                if (CanBuy)
+                    itemView.Enable();
+                else
+                    itemView.Disable();
+            }
+            else // resaerching
+            {
+                itemView.Enable();
+            }
+        }
+
+
     }
 }

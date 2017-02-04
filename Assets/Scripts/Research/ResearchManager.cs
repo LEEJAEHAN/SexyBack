@@ -13,7 +13,6 @@ namespace SexyBackPlayScene
         {
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += onElementalCreate;
-
         }
 
         private void onElementalCreate(Elemental elemental)
@@ -23,6 +22,7 @@ namespace SexyBackPlayScene
                 if (item.requireID == elemental.ID)
                 {
                     Research research = new Research(item);
+                    elemental.Action_ElementalChange += research.onElementalChange;
                     researches.Add(item.ID, research);
                 }
             }
@@ -35,6 +35,7 @@ namespace SexyBackPlayScene
                 if(item.requireID == hero.ID)
                 {
                     Research research = new Research(item);
+                    hero.Action_HeroChange += research.onHeroChange;
                     researches.Add(item.ID, research);
                 }
             }

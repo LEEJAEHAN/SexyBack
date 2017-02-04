@@ -2,14 +2,14 @@
 
 namespace SexyBackPlayScene
 {
-    public class ResearchView : MonoBehaviour
+    public class GridItemView : MonoBehaviour
     {
         // researchview 가 아닌 iconview 범용 스크립트로 만들각오.
-        public delegate void ResearchSelect_Event(string name);
-        public event ResearchSelect_Event Action_ResearchSelect;
+        public delegate void GridItemSelect_Event(string name);
+        public event GridItemSelect_Event Action_SelectGridItem;
 
-        public delegate void ResearchStart_Event(string name);
-        public event ResearchStart_Event Action_ResearchStart;
+        public delegate void GridItemConfirm_Event(string name);
+        public event GridItemConfirm_Event Action_ConfirmGridItem;
 
         bool selected = false;
 
@@ -19,20 +19,20 @@ namespace SexyBackPlayScene
             {
                 selected = false;
                 ViewLoader.Button_Confirm.GetComponent<UIButton>().onClick.Clear();
-                Action_ResearchSelect(null);
+                Action_SelectGridItem(null);
             }
 
             else if (GetComponent<UIToggle>().value == true) // toggle on
             {
                 selected = true;
                 ViewLoader.Button_Confirm.GetComponent<UIButton>().onClick.Add(new EventDelegate(this, "onConfirm"));
-                Action_ResearchSelect(this.name);
+                Action_SelectGridItem(this.name);
             }
         }
 
         public void onConfirm()
         {
-            Action_ResearchStart(this.name);
+            Action_ConfirmGridItem(this.name);
         }
 
     }
