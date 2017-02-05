@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace SexyBackPlayScene
 {
-    internal class Hero : IStateOwner
+
+    internal class Hero : IStateOwner, ICanLevelUp
     {
         readonly string ID;
         public string GetID { get { return ID; } }
@@ -22,6 +23,7 @@ namespace SexyBackPlayScene
         // 상태값
         public string targetID;
         private int level = 0;
+
         private BigInteger baseDpc = new BigInteger(0);
         private BigInteger dpcX = new BigInteger(1); // 곱계수는 X를붙인다.
         private int bounsAttackCount = 6; // 보너스 공격스택횟수  6
@@ -34,13 +36,24 @@ namespace SexyBackPlayScene
         // function property
         private bool JudgeCritical { get { return CRIRATE > UnityEngine.Random.Range(0.0f, 1.0f); } }
 
-        // event sender
-        public delegate void HeroChange_Event(Hero hero);
-        public event HeroChange_Event Action_HeroChange;
+        // ICanLevelUp
+        public int LEVEL { get { return level; } }
+        public event LevelUp_EventHandler Action_LevelUp = delegate { };
+        public BigInteger LevelUpPrice { get { return new BigInteger(NEXTEXPSTR); } }
+        public string LevelUpDescription
+        {
+            get
+            {
+                string text = "Damage : " + baseDpc.To5String() + "/tap\n";
+                text += "Next : +" + NEXTDPC + "/tap\n";
+                return text;
+            }
+        }
+
+        public delegate void HeroChange_EventHandler(Hero hero);
+        public event HeroChange_EventHandler Action_DamageChange;
 
         public delegate void DistanceChange_Event(float distance);
-
-
         public event DistanceChange_Event Action_DistanceChange;
 
 
@@ -54,7 +67,7 @@ namespace SexyBackPlayScene
             StateMachine = new HeroStateMachine(this);
         }
 
-        internal void LevelUp(int amount) // 레벨이 10이면 9까지더해야한다;
+        public void LevelUp(int amount) // 레벨이 10이면 9까지더해야한다;
         {
             if (level + amount > baseData.MaxLevel)
                 return;
@@ -63,7 +76,8 @@ namespace SexyBackPlayScene
                 baseDpc += new BigInteger(baseData.BaseDpcPool[i]);
             level += amount;
 
-            Action_HeroChange(this);
+            Action_LevelUp(this);
+            Action_DamageChange(this);
         }
         internal void Move(Vector3 step)
         {
@@ -152,7 +166,7 @@ namespace SexyBackPlayScene
                     }
             }
             if (result)
-                Action_HeroChange(this);
+                Action_DamageChange(this);
             return result;
         }
 
@@ -160,9 +174,7 @@ namespace SexyBackPlayScene
         // 능력치 property
         // 최종적으로 나가는 값은 모두 대문자이다. 중간과정은 앞에만대문자;
         public int MAXATTACKCOUNT { get { return baseData.ATTACKCOUNT + bounsAttackCount; } }
-        public int LEVEL { get { return level; } }
         public BigInteger DPC { get { return baseDpc * dpcX; } }
-        public string BASEDPC { get { return baseDpc.To5String(); } }
         public string NEXTDPC { get { return baseData.BaseDpcPool[level].ToSexyBackString(); } }
         public BigIntExpression NEXTEXPSTR { get { return baseData.BaseExpPool[level]; } }
         public double ATTACKINTERVAL { get { return baseData.ATTACKINTERVAL * 100 / attackspeedXH; } }   // 공속공식
@@ -170,7 +182,6 @@ namespace SexyBackPlayScene
         public int CRIDAMAGE { get { return baseData.CRIDAMAGE; } }
         public float MOVESPEED { get { return baseData.MOVESPEED * movespeedXH / 100; } }
         public double ATTACKSPEED { get { return attackspeedXH / 100; } } // for view action, state
-
 
     }
 }

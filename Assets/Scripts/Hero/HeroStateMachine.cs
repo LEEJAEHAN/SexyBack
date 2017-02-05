@@ -26,11 +26,4 @@ namespace SexyBackPlayScene
             }
         }        
     }
-    internal enum HeroStateEnum
-    {
-        Ready,
-        Attack
-    }
-    // event reciever
-
 }

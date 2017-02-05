@@ -48,10 +48,6 @@ namespace SexyBackPlayScene
                 elemenatal.Update();
         }
 
-        internal void LevelUp(string ElementalID)
-        {
-            elementals[ElementalID].LevelUp(1);
-        }
 
         internal BigInteger GetElementalDamage(string id)
         {
@@ -70,6 +66,12 @@ namespace SexyBackPlayScene
                 sender.StateMachine.Action_changeEvent += elemental.onTargetStateChange;
             }
         }
+
+        internal Elemental GetElemental(string ElementalID)
+        {
+            return elementals[ElementalID];
+        }
+
 
         internal bool Upgrade(Bonus b)
         {

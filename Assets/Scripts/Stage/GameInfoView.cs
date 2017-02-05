@@ -18,7 +18,6 @@ namespace SexyBackPlayScene
             Singleton<StageManager>.getInstance().Action_ExpChange += PrintExp;
         }
 
-
         public void Set()
         { 
             TotalDpsLabel.text = "";
@@ -45,12 +44,12 @@ namespace SexyBackPlayScene
         }
         void BindHero(Hero hero)
         {
-            hero.Action_HeroChange += PrintDpc;
+            hero.Action_DamageChange += PrintDpc;
         }
 
-        private void BindElemental(Elemental sender)
+        private void BindElemental(Elemental elemental)
         {
-            sender.Action_ElementalChange += PrintDps;
+            elemental.Action_DamageChange += PrintDps;
         }
 
     }

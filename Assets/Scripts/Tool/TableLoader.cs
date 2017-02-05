@@ -31,8 +31,8 @@ namespace SexyBackPlayScene
         private void LoadResearchData()
         {
             ResearchData item = new ResearchData();
-            item.price = new BigIntExpression(300, "m");
-            item.pot = new BigIntExpression(100, "m");
+            item.price = new BigIntExpression(3, "m");
+            item.pot = new BigIntExpression(1, "m");
             item.time = 10;
 
             item.requireID = "hero";

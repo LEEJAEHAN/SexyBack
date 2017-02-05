@@ -27,12 +27,4 @@ namespace SexyBackPlayScene
             }
         }
     }
-    internal enum MonsterStateEnum
-    {
-        Appear,
-        Ready,
-        Flying,
-        Death
-    }
-
 }

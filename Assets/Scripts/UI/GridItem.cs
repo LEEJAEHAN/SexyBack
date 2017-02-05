@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    public class GridItem
+    public class GridItem : IDisposable
     {
         string Type;
         GameObject avatar;
@@ -80,13 +80,13 @@ namespace SexyBackPlayScene
         }
         public void SetActive(bool value)
         {
-            if(value && !avatar.activeInHierarchy) // Active가 아닐때에만 Active시킨다.
+            if (value && !avatar.activeInHierarchy) // Active가 아닐때에만 Active시킨다.
             {
                 avatar.SetActive(true);
                 sexybacklog.Console("Reposition!!");
                 gridPanel.gameObject.GetComponent<UIGrid>().Reposition();
             }
-            if(!value)
+            if (!value)
             {
                 avatar.SetActive(false);
             }
@@ -142,6 +142,9 @@ namespace SexyBackPlayScene
                 Info_Window.SetActive(false);
         }
 
-
+        public void Dispose()
+        {
+            GameObject.Destroy(avatar);
+        }
     }
 }

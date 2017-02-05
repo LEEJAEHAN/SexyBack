@@ -4,8 +4,14 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    public class Research : IDisposable, IHasGridItem
+    
+    internal class Research : IDisposable, IHasGridItem
     {
+        ~Research()
+        {
+            sexybacklog.Console("리서치 제 ㅋ 거 ㅋ");
+        }
+        WeakReference owner;
         public string ID;
         string IconName;
         string InfoName;
@@ -14,7 +20,6 @@ namespace SexyBackPlayScene
         GridItem itemView;
 
         int RequireLevel;
-        string RequireID;
         BigInteger StartPrice;
         BigInteger PricePerSec;
         int ResearchTime;
@@ -35,13 +40,16 @@ namespace SexyBackPlayScene
         bool ShowCondition1 = false;
         bool ShowCondition2 = false;
 
-        public Research(ResearchData data)
+        public Research(ResearchData data, ICanLevelUp root)
         {
+            owner = new WeakReference(root);
+            (owner.Target as ICanLevelUp).Action_LevelUp += onLevelUp;
+                //root.Action_LevelUp += onLevelUp;
+
             ID = data.ID;
             bonuses = data.bonuses;
             StartPrice = new BigInteger(data.price);
             PricePerSec = new BigInteger(data.pot);
-            RequireID = data.requireID;
             RequireLevel = data.requeireLevel;
             ResearchTime = data.time;
             IconName = data.IconName;
@@ -54,6 +62,13 @@ namespace SexyBackPlayScene
             Refresh();
 
             Singleton<StageManager>.getInstance().Action_ExpChange += this.onExpChange;
+        }
+
+        public void Dispose()
+        {
+            Singleton<StageManager>.getInstance().Action_ExpChange -= this.onExpChange;
+            (owner.Target as ICanLevelUp).Action_LevelUp -= onLevelUp;
+            itemView.Dispose();
         }
 
         public void Update()
@@ -81,6 +96,7 @@ namespace SexyBackPlayScene
                 if (TryToUpgrade())
                 {
                     End = false;
+                    itemView.SetActive(false);
                     Singleton<ResearchManager>.getInstance().Destroy(ID);
                 }
             }
@@ -91,7 +107,7 @@ namespace SexyBackPlayScene
             bool result = false;
             foreach (Bonus bonus in bonuses)
             {
-                if (bonus.targetID == "hero")
+                if (bonus.targetID == "hero") // target 타입으로 구분해야겠지만..
                     result = Singleton<HeroManager>.getInstance().Upgrade(bonus);
                 else
                     result = Singleton<ElementalManager>.getInstance().Upgrade(bonus);
@@ -112,11 +128,7 @@ namespace SexyBackPlayScene
             }
         }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
+ 
         public void onSelect(string id)
         {
             if (id == null)
@@ -138,16 +150,12 @@ namespace SexyBackPlayScene
             itemView.SetRBar(1, (int)RemainTime, true);
             // TODO: confirm 버튼을 cancel로바꾼다? 혹은 비활성화한다. sell만남기고,
         }
-        internal void onElementalChange(Elemental sender)
+        internal void onLevelUp(ICanLevelUp sender)
         {
             ShowCondition1 = sender.LEVEL >= RequireLevel;
             Refresh();
         }
-        internal void onHeroChange(Hero hero)
-        {
-            ShowCondition1 = hero.LEVEL >= RequireLevel;
-            Refresh();
-        }
+
         private void onExpChange(BigInteger exp)
         {
             CanBuy = exp > StartPrice;

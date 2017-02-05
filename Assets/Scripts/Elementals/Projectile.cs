@@ -6,7 +6,6 @@ namespace SexyBackPlayScene
     {
         public string ownerID;
         //string ID; // useless, projectile은 elemental에 종속된다.
-        public BigInteger Damage;
         public GameObject view; // projectile View
 
         ~Projectile()

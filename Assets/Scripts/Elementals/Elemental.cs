@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SexyBackPlayScene
 {
-    internal class Elemental // base class of Elementals
+    internal class Elemental : ICanLevelUp// base class of Elementals
     {
         readonly string ID;
         public string GetID { get { return ID; } }
@@ -13,19 +13,16 @@ namespace SexyBackPlayScene
 
         // 변수
         private int level = 0;
+        public BigInteger nextExp = new BigInteger();
         public BigInteger DpsX = new BigInteger(1);
         public double DpsXPer5LV = 1;
         public int attackspeedXH = 100;
 
         // data property
         public string NAME { get { return baseData.Name; } }
-        public int LEVEL { get { return level; } }
         public BigInteger DPS = new BigInteger();
         public BigInteger DAMAGE { get { return (DPS * baseData.AttackIntervalK) / (10 * attackspeedXH); } } //  dps * attackinterval
         public double AttackInterval { get { return baseData.AttackIntervalK / (double)(10 * attackspeedXH); } } // (attackinterval1k / 1000) * ( 100 / attackspeed1h ) 
-        public BigInteger NEXTEXP = new BigInteger();
-        public BigInteger BASEDPS { get { return level * baseData.BaseDps; } } // BaseDps* level 값.               // 계산되는값
-        public BigInteger NEXTDPS { get { return baseData.BaseDps; } }
 
         // for projectile action;
         private Transform ElementalArea; // avatar
@@ -33,12 +30,25 @@ namespace SexyBackPlayScene
         private GameObject ProjectilePrefab;
         private double AttackTimer;
 
+        // ICanLevelUp
+        public int LEVEL { get { return level; } }
+        public event LevelUp_EventHandler Action_LevelUp = delegate {};
+        public BigInteger LevelUpPrice { get { return nextExp; } }
+        public string LevelUpDescription{ get {
+                string text = "Damage : " + (level * baseData.BaseDps).To5String() + "/sec\n";
+                text += "Next : +" + baseData.BaseDps.To5String() + "/sec\n";
+                return text;
+            } }
+
+        public delegate void ElementalChange_EventHandler(Elemental elemental);
+        public event ElementalChange_EventHandler Action_DamageChange;
+
         // status property
         private bool NoProjectile { get { return CurrentProjectile == null; } }
 
+
         //change event sender
         public delegate void ElementalChangeEvent_Handler(Elemental sender);
-        public event ElementalChangeEvent_Handler Action_ElementalChange;// = delegate (object sender) { };
 
         public Elemental(ElementalData data, Transform area)
         {
@@ -95,20 +105,21 @@ namespace SexyBackPlayScene
             if (result)
             {
                 CalDPS(); // calexp는 일단안넣는다.
-                Action_ElementalChange(this);
+                Action_DamageChange(this);
             }
             return result;
         }
-        internal void LevelUp(int amount)
+        public void LevelUp(int amount)
         {
             level += amount;
             CalDPS();
             CalEXP();
-            Action_ElementalChange(this);
+            Action_LevelUp(this);
+            Action_DamageChange(this);
         }
         private void CalEXP()
         {
-            NEXTEXP = BigInteger.PowerByGrowth(baseData.BaseExp, level, baseData.GrowthRate);
+            nextExp = BigInteger.PowerByGrowth(baseData.BaseExp, level, baseData.GrowthRate);
         }
         void CalDPS()
         {

@@ -21,7 +21,7 @@ namespace SexyBackPlayScene
             CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable["hero"]);
             Action_HeroCreateEvent(CurrentHero);
             CurrentHero.ChangeState("Move"); //Ready
-            LevelUp(CurrentHero.GetID);
+            CurrentHero.LevelUp(1);
         }
         internal void Update()
         {
@@ -29,13 +29,11 @@ namespace SexyBackPlayScene
                 return;
             CurrentHero.Update();
         }
-        internal void LevelUp(string id)
+        internal Hero GetHero(string id)
         {
-            if (CurrentHero == null)
-                return;
-
-            CurrentHero.LevelUp(1);
+            return CurrentHero;
         }
+
         internal void BeginBattle(Monster monster)
         {
             if (CurrentHero == null)

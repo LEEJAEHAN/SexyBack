@@ -4,7 +4,6 @@
     {
         void onSelect(string id);
         void onConfirm(string id);
-
         void Refresh();
     }
 }

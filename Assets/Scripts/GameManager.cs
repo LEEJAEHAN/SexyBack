@@ -51,7 +51,7 @@ namespace SexyBackPlayScene
             heroManager.CreateHero(); // and hero is move
 
             ////elementalManager.SummonNewElemental("fireball");
-            //elementalManager.SummonNewElemental("waterball");
+            elementalManager.SummonNewElemental("waterball");
             //elementalManager.SummonNewElemental("rock");
             //elementalManager.SummonNewElemental("electricball");
             //elementalManager.SummonNewElemental("snowball");

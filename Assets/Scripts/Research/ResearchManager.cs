@@ -22,7 +22,7 @@ namespace SexyBackPlayScene
         private void onHideList()
         {
             ViewLoader.Tab3Container.SetActive(false);
-           // ViewLoader.Info_Context.SetActive(false);
+            // ViewLoader.Info_Context.SetActive(false);
         }
 
         private void onShowList()
@@ -30,33 +30,27 @@ namespace SexyBackPlayScene
             ViewLoader.Tab3Container.SetActive(true);
         }
 
+        private void onHeroCreate(Hero hero)
+        {
+            CreateResearch(hero);
+        }
 
         private void onElementalCreate(Elemental elemental)
         {
-            foreach (ResearchData item in Singleton<TableLoader>.getInstance().researchtable)
-            {
-                if (item.requireID == elemental.GetID)
-                {
-                    Research research = new Research(item);
-                    elemental.Action_ElementalChange += research.onElementalChange;
-                    researches.Add(item.ID, research);
-                }
-            }
+            CreateResearch(elemental);
         }
 
-        private void onHeroCreate(Hero hero)
+        private void CreateResearch(ICanLevelUp root)
         {
             foreach (ResearchData item in Singleton<TableLoader>.getInstance().researchtable)
             {
-                if(item.requireID == hero.GetID)
+                if (item.requireID == root.GetID)
                 {
-                    Research research = new Research(item);
-                    hero.Action_HeroChange += research.onHeroChange;
+                    Research research = new Research(item, root);
                     researches.Add(item.ID, research);
                 }
             }
-
-        }
+        }  
 
         public void Update()
         {
@@ -70,6 +64,7 @@ namespace SexyBackPlayScene
                 researches.Remove(research.ID);
                 research.Dispose();
             }
+            beToDispose.Clear(); // TODO : 이거 찜찜함
         }
 
         internal void Destroy(string iD)
