@@ -11,6 +11,7 @@ namespace SexyBackPlayScene
         public delegate void GridItemConfirm_Event(string name);
         public event GridItemConfirm_Event Action_ConfirmGridItem;
 
+
         bool selected = false;
 
         public void onItemSelect() //, string ItemButtonName, bool toggleState
@@ -35,5 +36,15 @@ namespace SexyBackPlayScene
             Action_ConfirmGridItem(this.name);
         }
 
+        void OnDisable()
+        {
+            if (GetComponent<UIToggle>().value == true) //// toggle off when disable
+            {
+                GetComponent<UIToggle>().value = false;
+                selected = false;
+                ViewLoader.Button_Confirm.GetComponent<UIButton>().onClick.Clear();
+                Action_SelectGridItem(null);
+            }
+        }
     }
 }

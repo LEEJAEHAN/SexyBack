@@ -7,6 +7,7 @@ namespace SexyBackPlayScene
     {
         string Type;
         GameObject avatar;
+        Transform gridPanel;
         GridItemView view; // viewScript
 
         //member
@@ -20,9 +21,9 @@ namespace SexyBackPlayScene
         UILabel RBar_Time;
         UISprite RBar_Fill1;
 
-        public bool Active = false;
+        bool isEnable = true;
 
-        public GridItem(string type, string id, string IconName, IHasGridItem eventListner)
+        public GridItem(string type, string id, string IconName, GameObject parent, IHasGridItem eventListner)
         {
             GameObject prefab;
             Type = type;
@@ -45,8 +46,14 @@ namespace SexyBackPlayScene
             view.Action_ConfirmGridItem += eventListner.onConfirm;
             view.Action_SelectGridItem += eventListner.onSelect; // 매니져가 안받는다.
 
+            // set parents
+            gridPanel = parent.transform;
+            avatar.transform.parent = gridPanel;
+            avatar.transform.localScale = gridPanel.localScale;
+
             SetMember();
         }
+
 
         private void SetMember()
         {
@@ -59,25 +66,30 @@ namespace SexyBackPlayScene
         }
         public void Disable()
         {
+            if (!isEnable)
+                return;
             avatar.GetComponent<UISprite>().color = new Color(0.5f, 0.5f, 0.5f, 0.8f);
+            isEnable = false;
         }
         public void Enable()
         {
+            if (isEnable)
+                return;
             avatar.GetComponent<UISprite>().color = new Color(1, 1, 1, 1);
+            isEnable = true;
         }
-        public void Show()
+        public void SetActive(bool value)
         {
-            Active = true;
-            avatar.SetActive(true);
-            avatar.transform.parent = ViewLoader.Item_Enable.transform;
-            avatar.transform.localScale = ViewLoader.Item_Enable.transform.localScale;
-        }
-        public void Hide()
-        {
-            Active = false;
-            avatar.SetActive(false);
-            avatar.transform.parent = ViewLoader.Item_Disable.transform;
-            avatar.transform.localScale = ViewLoader.Item_Disable.transform.localScale;
+            if(value && !avatar.activeInHierarchy) // Active가 아닐때에만 Active시킨다.
+            {
+                avatar.SetActive(true);
+                sexybacklog.Console("Reposition!!");
+                gridPanel.gameObject.GetComponent<UIGrid>().Reposition();
+            }
+            if(!value)
+            {
+                avatar.SetActive(false);
+            }
         }
 
         // only for research prefab;
@@ -93,15 +105,16 @@ namespace SexyBackPlayScene
 
         public void ConfirmEnable(bool selected)
         { // infoview는 select상태에서만 갱신해야한다.
-            if (!selected)
+            if (!selected || Confirm.enabled)
                 return;
+
             Confirm.enabled = true;
             Confirm.SetState(UIButtonColor.State.Normal, true);
         }
 
         public void ConfirmDisable(bool selected)
         { // infoview는 select상태에서만 갱신해야한다.
-            if (!selected)
+            if (!selected || !Confirm.enabled)
                 return;
             Confirm.enabled = false;
             Confirm.SetState(UIButtonColor.State.Disabled, true);

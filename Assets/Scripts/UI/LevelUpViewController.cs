@@ -58,10 +58,10 @@ namespace SexyBackPlayScene
             foreach (GameObject itemView in ItemViewList)
             {
                 itemView.SetActive(true);
-                itemView.transform.parent = ViewLoader.Item_Enable.transform;
-                itemView.transform.localScale = ViewLoader.Item_Enable.transform.localScale;
+                //itemView.transform.parent = ViewLoader.Item_Enable.transform;
+                //itemView.transform.localScale = ViewLoader.Item_Enable.transform.localScale;
             }
-            ViewLoader.Item_Enable.GetComponent<UIGrid>().Reposition();
+            //ViewLoader.Item_Enable.GetComponent<UIGrid>().Reposition();
         }
         internal void HideItemViewList()
         {
@@ -71,7 +71,7 @@ namespace SexyBackPlayScene
 
             foreach (GameObject itemView in ItemViewList)
             {
-                itemView.transform.parent = ViewLoader.Item_Disable.transform;
+                //itemView.transform.parent = ViewLoader.Item_Disable.transform;
                 itemView.SetActive(false);
             }
 

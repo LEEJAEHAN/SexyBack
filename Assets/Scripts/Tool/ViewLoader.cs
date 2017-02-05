@@ -34,12 +34,15 @@ namespace SexyBackPlayScene
         public static GameObject TabButton3;
         public static GameObject TabButton4;
 
+        public static GameObject Tab1Container;
+        public static GameObject Tab2Container;
+        public static GameObject Tab3Container;
+        public static GameObject Tab4Container;
+
 
         public static GameObject Info_Context;
         public static GameObject DamageFont;
         public static GameObject Button_Confirm;
-        public static GameObject Item_Enable;
-        public static GameObject Item_Disable;
         public static GameObject Bar_Attack;
         // info ui
         public static GameObject Info_Icon;
@@ -54,6 +57,7 @@ namespace SexyBackPlayScene
         public static GameObject HPBar_Name;
         public static GameObject HPBar_Unit;
         public static GameObject HPBar_Count;
+
 
         public ViewLoader()
         {
@@ -83,11 +87,15 @@ namespace SexyBackPlayScene
             TabButton4 = GameObject.Find("TabButton4");
 
 
+            Tab1Container = GameObject.Find("Tab1Container");
+            Tab2Container = GameObject.Find("Tab2Container");
+            Tab3Container = GameObject.Find("Tab3Container");
+            Tab4Container = GameObject.Find("Tab4Container");
+
+
             Info_Context = GameObject.Find("Info_Context");
             DamageFont = GameObject.Find("label_dmgfont");
             Button_Confirm = GameObject.Find("Button_Confirm");
-            Item_Enable = GameObject.Find("Item_Enable");
-            Item_Disable = GameObject.Find("Item_Disable");
             Bar_Attack = GameObject.Find("Bar_Attack");
 
 

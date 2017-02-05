@@ -20,14 +20,13 @@ namespace SexyBackPlayScene
 
         private void onHideList()
         {
-            foreach (LevelUpItem item in levelUpItems.Values)
-                item.Hide();
+            ViewLoader.Tab1Container.SetActive(false);
+           // ViewLoader.Info_Context.SetActive(false);
         }
 
         private void onShowList()
         {
-            foreach (LevelUpItem item in levelUpItems.Values)
-                item.CheckShow();
+            ViewLoader.Tab1Container.SetActive(true);
         }
 
         internal void Update()

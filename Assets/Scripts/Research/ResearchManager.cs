@@ -8,6 +8,7 @@ namespace SexyBackPlayScene
     class ResearchManager
     {
         public Dictionary<string, Research> researches = new Dictionary<string, Research>();
+        public List<Research> beToDispose = new List<Research>();
 
         public void Init()
         {
@@ -16,20 +17,19 @@ namespace SexyBackPlayScene
 
             ViewLoader.TabButton3.GetComponent<TabView>().Action_ShowList += onShowList;
             ViewLoader.TabButton3.GetComponent<TabView>().Action_HideList += onHideList;
-
         }
 
         private void onHideList()
         {
-            foreach (Research item in researches.Values)
-                item.Hide();
+            ViewLoader.Tab3Container.SetActive(false);
+           // ViewLoader.Info_Context.SetActive(false);
         }
 
         private void onShowList()
         {
-            foreach (Research item in researches.Values)
-                item.CheckShow();
+            ViewLoader.Tab3Container.SetActive(true);
         }
+
 
         private void onElementalCreate(Elemental elemental)
         {
@@ -64,6 +64,17 @@ namespace SexyBackPlayScene
             {
                 research.Update();
             }
+
+            foreach (Research research in beToDispose)
+            {
+                researches.Remove(research.ID);
+                research.Dispose();
+            }
+        }
+
+        internal void Destroy(string iD)
+        {
+            beToDispose.Add(researches[iD]);
         }
     }
 }

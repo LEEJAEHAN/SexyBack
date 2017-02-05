@@ -6,7 +6,7 @@ namespace SexyBackPlayScene
 {
     public class Research : IDisposable, IHasGridItem
     {
-        string ID;
+        public string ID;
         string IconName;
         string InfoName;
         string Description;
@@ -14,6 +14,7 @@ namespace SexyBackPlayScene
         GridItem itemView;
 
         int RequireLevel;
+        string RequireID;
         BigInteger StartPrice;
         BigInteger PricePerSec;
         int ResearchTime;
@@ -21,12 +22,13 @@ namespace SexyBackPlayScene
 
         double RemainTime;
         float TickTimer = 0;
-
+        float ResearchTick = 0.1f;
         //state flag
         bool Begin = false;
         bool Researching = false;
         bool End = false;
         bool Selected = false;
+        bool Learn = false;
 
         // show, enable condition
         bool CanBuy = false;
@@ -39,21 +41,23 @@ namespace SexyBackPlayScene
             bonuses = data.bonuses;
             StartPrice = new BigInteger(data.price);
             PricePerSec = new BigInteger(data.pot);
+            RequireID = data.requireID;
             RequireLevel = data.requeireLevel;
             ResearchTime = data.time;
             IconName = data.IconName;
             InfoName = data.InfoName;
             Description = data.InfoDescription;
 
-            itemView = new GridItem("Research", ID, IconName, this); // avatar생성
+            itemView = new GridItem("Research", ID, IconName, ViewLoader.Tab3Container, this); // avatar생성
             itemView.SetRBar(0, ResearchTime, false);
-            itemView.Hide();
+            itemView.SetActive(false);
+            Refresh();
 
             Singleton<StageManager>.getInstance().Action_ExpChange += this.onExpChange;
         }
 
         public void Update()
-        {
+        {   // state machine
             if (Begin)
             {
                 if (Singleton<StageManager>.getInstance().ExpUse(StartPrice))
@@ -77,7 +81,7 @@ namespace SexyBackPlayScene
                 if (TryToUpgrade())
                 {
                     End = false;
-                    Dispose();
+                    Singleton<ResearchManager>.getInstance().Destroy(ID);
                 }
             }
         }
@@ -98,13 +102,13 @@ namespace SexyBackPlayScene
         private void StepResearch(float deltaTime)
         {
             TickTimer += deltaTime;
-            if (TickTimer >= 1)
+            if (TickTimer >= ResearchTick)
             {
-                TickTimer -= 1;
                 bool result;
-                if (result = Singleton<StageManager>.getInstance().ExpUse(PricePerSec)) //if (Singleton<StageManager>.getInstance().ExpUse(PricePerSec * (int)(tick * 10000) / 10000))
-                    RemainTime -= 1;
+                if (result = Singleton<StageManager>.getInstance().ExpUse((PricePerSec * (int)(ResearchTick * 100)) / 100 )) //if (Singleton<StageManager>.getInstance().ExpUse(PricePerSec * (int)(tick * 10000) / 10000))
+                    RemainTime -= ResearchTick;
                 itemView.SetRBar((float)RemainTime / ResearchTime, (int)RemainTime, result);
+                TickTimer -= ResearchTick;
             }
         }
 
@@ -124,7 +128,7 @@ namespace SexyBackPlayScene
 
             Selected = true;
             itemView.FillInfo(Selected, IconName, InfoName + Description);
-            UpdateInfoView();
+            Refresh();
         }
 
         public void onConfirm(string id)
@@ -137,44 +141,27 @@ namespace SexyBackPlayScene
         internal void onElementalChange(Elemental sender)
         {
             ShowCondition1 = sender.LEVEL >= RequireLevel;
-            CheckShow();
+            Refresh();
         }
-
         internal void onHeroChange(Hero hero)
         {
             ShowCondition1 = hero.LEVEL >= RequireLevel;
-            CheckShow();
+            Refresh();
         }
-        public void CheckShow()
-        {
-            if (itemView.Active == false && ShowCondition1 && ShowCondition2)
-                itemView.Show();
-        }
-        public void Hide()
-        {
-            itemView.Hide();
-        }
-
-
         private void onExpChange(BigInteger exp)
         {
             CanBuy = exp > StartPrice;
-            UpdateInfoView();
-            UpdateItemView();
-
             ShowCondition2 = exp > StartPrice / 2;
-            CheckShow();
+            Refresh();
         }
 
-        private void UpdateInfoView()
+        public void Refresh()
         {
             if (CanBuy && !Researching)
                 itemView.ConfirmEnable(Selected);
             else
                 itemView.ConfirmDisable(Selected);
-        }
-        private void UpdateItemView()
-        {
+
             if (!Researching)
             {
                 if (CanBuy)
@@ -183,10 +170,13 @@ namespace SexyBackPlayScene
                     itemView.Disable();
             }
             else // resaerching
-            {
                 itemView.Enable();
+
+            if (!Learn && ShowCondition1 && ShowCondition2)
+            {
+                itemView.SetActive(true); // 한번 active되면 false되지않는다.
+                Learn = true;
             }
         }
-
     }
 }

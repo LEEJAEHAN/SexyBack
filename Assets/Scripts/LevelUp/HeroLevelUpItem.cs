@@ -14,7 +14,7 @@ namespace SexyBackPlayScene
             for (int i = 0; i < PurchaseCount; PurchaseCount--)
             {
                 if (Singleton<StageManager>.getInstance().ExpUse(Price))
-                    Singleton<HeroManager>.getInstance().LevelUp(ID);
+                    Singleton<HeroManager>.getInstance().LevelUp(OwnerID);
             }
         }
 
