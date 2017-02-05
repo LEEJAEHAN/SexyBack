@@ -21,7 +21,7 @@ namespace SexyBackPlayScene
             CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable["hero"]);
             Action_HeroCreateEvent(CurrentHero);
             CurrentHero.ChangeState("Move"); //Ready
-            LevelUp(CurrentHero.ID);
+            LevelUp(CurrentHero.GetID);
         }
         internal void Update()
         {

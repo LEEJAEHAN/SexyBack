@@ -145,11 +145,16 @@ namespace SexyBackPlayScene
             ShowCondition1 = hero.LEVEL >= RequireLevel;
             CheckShow();
         }
-        private void CheckShow()
+        public void CheckShow()
         {
             if (itemView.Active == false && ShowCondition1 && ShowCondition2)
                 itemView.Show();
         }
+        public void Hide()
+        {
+            itemView.Hide();
+        }
+
 
         private void onExpChange(BigInteger exp)
         {
@@ -182,7 +187,6 @@ namespace SexyBackPlayScene
                 itemView.Enable();
             }
         }
-
 
     }
 }

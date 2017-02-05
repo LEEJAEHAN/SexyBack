@@ -18,7 +18,6 @@ namespace SexyBackPlayScene
         public static GameObject label_elementaldmg;
 
         public static GameObject label_exp;
-        public static GameObject label_monsterhp;
 
         public static GameObject projectiles;
         public static GameObject hitparticle;
@@ -29,10 +28,13 @@ namespace SexyBackPlayScene
 
         public static GameObject monsterbucket;
 
-        // NGUI event Listner hub
-        public static GameObject LevelUpViewController;
-
         // NGUI
+        public static GameObject TabButton1;
+        public static GameObject TabButton2;
+        public static GameObject TabButton3;
+        public static GameObject TabButton4;
+
+
         public static GameObject Info_Context;
         public static GameObject DamageFont;
         public static GameObject Button_Confirm;
@@ -75,7 +77,11 @@ namespace SexyBackPlayScene
             area_elemental = GameObject.Find("area_elemental");
             shooter = GameObject.Find("shooter");
 
-            LevelUpViewController = GameObject.Find("LevelUpViewController");
+            TabButton1 = GameObject.Find("TabButton1");
+            TabButton2 = GameObject.Find("TabButton2");
+            TabButton3 = GameObject.Find("TabButton3");
+            TabButton4 = GameObject.Find("TabButton4");
+
 
             Info_Context = GameObject.Find("Info_Context");
             DamageFont = GameObject.Find("label_dmgfont");

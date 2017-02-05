@@ -1,8 +1,8 @@
 ﻿namespace SexyBackPlayScene
 {
-    public interface StateOwner
+    internal interface IStateOwner
     {
-        string ID { get; }
+        string GetID { get; }
         string CurrentState { get; }
     }
 }

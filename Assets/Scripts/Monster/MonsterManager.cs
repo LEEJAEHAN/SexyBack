@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace SexyBackPlayScene
 {
     // 몬스터와 관련된 입력을 처리
-    public class MonsterManager
+    internal class MonsterManager
     {
         Dictionary<string, Monster> monsters = new Dictionary<string, Monster>();
         Queue<string> disposeIDs= new Queue<string>();
@@ -30,7 +30,7 @@ namespace SexyBackPlayScene
 
         public void onChangeMonster(Monster sender)
         {
-            if (TargetMonster.ID == sender.ID)
+            if (TargetMonster.GetID == sender.GetID)
                 Action_TargetMonsterChange(sender);
         }
         internal Monster CreateMonster(int floor)
@@ -38,7 +38,7 @@ namespace SexyBackPlayScene
             Monster newmonster = monsterFactory.CreateRandomMonster(floor);
 
             newmonster.Action_MonsterChangeEvent += onChangeMonster;
-            monsters.Add(newmonster.ID, newmonster);
+            monsters.Add(newmonster.GetID, newmonster);
 
             return newmonster;
             //Focus(newmonster);
@@ -67,7 +67,7 @@ namespace SexyBackPlayScene
             while(disposeIDs.Count!=0)
             {
                 string id = disposeIDs.Dequeue();
-                if (id == TargetMonster.ID)
+                if (id == TargetMonster.GetID)
                     TargetMonster = null;
                 monsters[id].Dispose();
                 monsters.Remove(id);
@@ -75,7 +75,7 @@ namespace SexyBackPlayScene
         }
         internal void DestroyMonster(Monster owner)
         {
-            disposeIDs.Enqueue(owner.ID);
+            disposeIDs.Enqueue(owner.GetID);
         }
         internal Monster GetMonster(string id)
         {

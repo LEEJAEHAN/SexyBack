@@ -15,11 +15,9 @@ namespace SexyBackPlayScene
         MonsterManager monsterManager;
         HeroManager heroManager;
         ElementalManager elementalManager;
-
-
+        
         // View
         GameInfoView infoView;
-        
 
         // member
         StageManager stageManager; // 일종의 스크립트

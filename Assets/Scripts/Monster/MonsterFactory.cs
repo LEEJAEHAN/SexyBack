@@ -38,10 +38,10 @@ namespace SexyBackPlayScene
         public Monster CreateMonster(string id, int level)
         {
             MonsterData data = Singleton<TableLoader>.getInstance().monstertable[id];
-            Monster monster = new Monster();
             TotalProductCount++;
+            string InstanceID = TotalProductCount + "/" + data.ID + "/" + level.ToString();
+            Monster monster = new Monster(InstanceID);
 
-            monster.ID = TotalProductCount + "/" + data.ID + "/" + level.ToString();
             monster.Name = data.Name;
             monster.level = level;
             monster.MAXHP = BigInteger.PowerByGrowth(data.baseHP, level - 1, data.GrowthRate);

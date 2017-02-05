@@ -2,7 +2,7 @@
 
 namespace SexyBackPlayScene
 {
-    public abstract class BaseState<T> where T : class, StateOwner
+    internal abstract class BaseState<T> where T : class, IStateOwner
     {
 
         protected T owner;

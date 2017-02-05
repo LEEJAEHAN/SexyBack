@@ -3,9 +3,10 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    public class Monster : StateOwner, IDisposable// model
+    internal class Monster : IStateOwner, IDisposable// model
     {
-        public string ID;
+        readonly string ID;
+        public string GetID { get { return ID; } }
         public string Name;
         public int level;   
         public BigInteger HP;
@@ -19,7 +20,6 @@ namespace SexyBackPlayScene
 
         // state
         public StateMachine<Monster> StateMachine;
-        string StateOwner.ID { get { return ID; } }
         public string CurrentState { get { return StateMachine.currStateID; } }
 
         //size value
@@ -31,11 +31,13 @@ namespace SexyBackPlayScene
 
         public MonsterStateMachine.StateChangeHandler Action_StateChangeEvent { set { StateMachine.Action_changeEvent += value; } }
 
+
         //TODO: 임시로작성.
         public bool isActive = false;
 
-        internal Monster()
+        internal Monster(string InstsanceID)
         {
+            ID = InstsanceID;
         }
 
         internal void Join() // join the battle

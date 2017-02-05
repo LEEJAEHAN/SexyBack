@@ -13,13 +13,29 @@ namespace SexyBackPlayScene
         {
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += onElementalCreate;
+
+            ViewLoader.TabButton3.GetComponent<TabView>().Action_ShowList += onShowList;
+            ViewLoader.TabButton3.GetComponent<TabView>().Action_HideList += onHideList;
+
+        }
+
+        private void onHideList()
+        {
+            foreach (Research item in researches.Values)
+                item.Hide();
+        }
+
+        private void onShowList()
+        {
+            foreach (Research item in researches.Values)
+                item.CheckShow();
         }
 
         private void onElementalCreate(Elemental elemental)
         {
             foreach (ResearchData item in Singleton<TableLoader>.getInstance().researchtable)
             {
-                if (item.requireID == elemental.ID)
+                if (item.requireID == elemental.GetID)
                 {
                     Research research = new Research(item);
                     elemental.Action_ElementalChange += research.onElementalChange;
@@ -32,7 +48,7 @@ namespace SexyBackPlayScene
         {
             foreach (ResearchData item in Singleton<TableLoader>.getInstance().researchtable)
             {
-                if(item.requireID == hero.ID)
+                if(item.requireID == hero.GetID)
                 {
                     Research research = new Research(item);
                     hero.Action_HeroChange += research.onHeroChange;

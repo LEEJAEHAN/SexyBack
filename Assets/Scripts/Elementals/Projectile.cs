@@ -2,7 +2,7 @@
 
 namespace SexyBackPlayScene
 {
-    public class Projectile // TODO : 리팩토링해야함.
+    internal class Projectile // TODO : 리팩토링해야함.
     {
         public string ownerID;
         //string ID; // useless, projectile은 elemental에 종속된다.
@@ -15,7 +15,7 @@ namespace SexyBackPlayScene
         }
         public Projectile(Elemental owner, GameObject prefabs, Vector3 genPosition)
         {
-            ownerID = owner.ID;
+            ownerID = owner.GetID;
             view = GameObject.Instantiate<GameObject>(prefabs);
             view.transform.name = this.ownerID;
             // position 은 월드포지션. localpositoin은 부모에서 얼마떨어져있냐, localScale은 그 객체클릭했을때 나오는 사이즈값. lossyscale은 최고 root로빠졌을때의 사이즈값.

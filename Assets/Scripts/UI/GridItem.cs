@@ -14,7 +14,6 @@ namespace SexyBackPlayScene
         GameObject Info_Window = ViewLoader.Info_Context;
         UISprite Info_Icon = ViewLoader.Info_Icon.GetComponent<UISprite>();
         UILabel Info_Description = ViewLoader.Info_Description.GetComponent<UILabel>();
-        UIGrid Grid = ViewLoader.Item_Enable.GetComponent<UIGrid>();
 
         // research bar
         UIProgressBar ResearchBar;
@@ -72,7 +71,6 @@ namespace SexyBackPlayScene
             avatar.SetActive(true);
             avatar.transform.parent = ViewLoader.Item_Enable.transform;
             avatar.transform.localScale = ViewLoader.Item_Enable.transform.localScale;
-            Grid.Reposition();
         }
         public void Hide()
         {
@@ -80,7 +78,6 @@ namespace SexyBackPlayScene
             avatar.SetActive(false);
             avatar.transform.parent = ViewLoader.Item_Disable.transform;
             avatar.transform.localScale = ViewLoader.Item_Disable.transform.localScale;
-            Grid.Reposition();
         }
 
         // only for research prefab;

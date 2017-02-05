@@ -4,9 +4,10 @@ using System.Collections.Generic;
 
 namespace SexyBackPlayScene
 {
-    public class Elemental // base class of Elementals
+    internal class Elemental // base class of Elementals
     {
-        public string ID;
+        readonly string ID;
+        public string GetID { get { return ID; } }
         private ElementalData baseData;
         public string targetID;
 

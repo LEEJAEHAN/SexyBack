@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace SexyBackPlayScene
 {
-    internal class Hero : StateOwner
+    internal class Hero : IStateOwner
     {
-        public string ID { get { return baseData.ID; } }
+        readonly string ID;
+        public string GetID { get { return ID; } }
         public string NAME { get { return baseData.Name; } }
 
         // manager
@@ -28,7 +29,6 @@ namespace SexyBackPlayScene
         private int movespeedXH = 1000;
 
         //stateOwner
-        string StateOwner.ID { get { return ID; } }
         public string CurrentState { get { return StateMachine.currStateID; } }
 
         // function property
@@ -46,6 +46,7 @@ namespace SexyBackPlayScene
 
         public Hero(HeroData data)
         {
+            ID = data.ID;
             baseData = data;
             avatar = ViewLoader.HeroPanel;
             Animator = ViewLoader.hero_sprite.GetComponent<Animator>();
@@ -169,6 +170,7 @@ namespace SexyBackPlayScene
         public int CRIDAMAGE { get { return baseData.CRIDAMAGE; } }
         public float MOVESPEED { get { return baseData.MOVESPEED * movespeedXH / 100; } }
         public double ATTACKSPEED { get { return attackspeedXH / 100; } } // for view action, state
+
 
     }
 }

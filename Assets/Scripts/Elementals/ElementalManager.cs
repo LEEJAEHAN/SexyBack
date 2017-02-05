@@ -28,7 +28,7 @@ namespace SexyBackPlayScene
             Elemental temp = new Elemental(data, ElementalArea);
 
             Action_ElementalCreateEvent(temp);
-            elementals.Add(temp.ID, temp);
+            elementals.Add(temp.GetID, temp);
 
             temp.LevelUp(1);
             return true;

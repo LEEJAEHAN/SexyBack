@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SexyBackPlayScene
 {
-    public class GameInfoView
+    internal class GameInfoView
     {
         UILabel TotalDpsLabel = ViewLoader.label_elementaldmg.GetComponent<UILabel>();
         UILabel HeroDpcLabel = ViewLoader.label_herodmg.GetComponent<UILabel>();

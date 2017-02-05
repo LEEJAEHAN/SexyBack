@@ -2,7 +2,7 @@
 
 namespace SexyBackPlayScene
 {
-    public abstract class StateMachine<T> where T : class, StateOwner
+    internal abstract class StateMachine<T> where T : class, IStateOwner
     {
         protected T owner;
         private BaseState<T> CurrState;
@@ -37,7 +37,7 @@ namespace SexyBackPlayScene
         {
             ChangeState(CreateState(stateid));
             currStateID = stateid;
-            Action_changeEvent(owner.ID, stateid);
+            Action_changeEvent(owner.GetID, stateid);
         }
 
     }

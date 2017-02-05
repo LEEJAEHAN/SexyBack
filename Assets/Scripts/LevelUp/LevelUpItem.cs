@@ -20,7 +20,12 @@ namespace SexyBackPlayScene
         protected BigInteger Price { get { return originalprice * priceXK / 1000; } }
 
         internal string ID { get { return data.OwnerID; } } // 해당객체view의 name과같다 // id로 이름을바꿔야할듯
+
+
         internal string ViewName {  get { return "levelup_" + data.OwnerID; } }
+
+
+
         internal string Icon { get { return data.IconName; } }
         internal string Info_Name { get { return data.InfoName; } } // owner.name과는다르다.
         internal bool CanBuy = false;
@@ -37,13 +42,24 @@ namespace SexyBackPlayScene
             Singleton<StageManager>.getInstance().Action_ExpChange += onExpChange;
             itemView = new GridItem("LevelUp", ID, Icon, this);
 
-            itemView.Show();
+            itemView.Hide();
         }
 
         internal void Purchase()
         {
             if (CanBuy)
                 PurchaseCount++;
+        }
+
+        public void Hide()
+        {
+            itemView.Hide();
+        }
+
+        public void CheckShow()
+        {
+            if (itemView.Active == false)
+                itemView.Show();
         }
 
         internal abstract void Update();

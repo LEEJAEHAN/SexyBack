@@ -35,7 +35,7 @@ namespace SexyBackPlayScene
             monster.StateMachine.Action_changeEvent += onTargetStateChange;
             monster.avatar.transform.parent = avatar.transform.FindChild("monster");
             monster.avatar.transform.localPosition = Vector3.zero;
-            monsters.Add(monster.ID);
+            monsters.Add(monster.GetID);
         }
 
         public void onTargetStateChange(string monsterid, string stateID)
