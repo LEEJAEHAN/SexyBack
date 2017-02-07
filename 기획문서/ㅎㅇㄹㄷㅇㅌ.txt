@@ -1,0 +1,23 @@
+herodata
+
+ID
+Name
+
+DPC
+EXP
+
+Critical = base
+CriDAMAGE = base
+AttackInterval = base
+
+avatarPrefabID
+ATtackType List = (Type, Prefab)
+
+MaximumStack = 
+
+
+ItemViewID
+
+
+
+Levelº°PriceData Array
