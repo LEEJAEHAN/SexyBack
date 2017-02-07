@@ -86,15 +86,15 @@ namespace SexyBackPlayScene
 
         private void LoadElementData()
         {
-            ElementalData data1 = new ElementalData("fireball", "Fire Ball", 5200, 1, 100);
-            ElementalData data2 = new ElementalData("waterball", "Water Ball", 5300, 5, 500);
-            ElementalData data3 = new ElementalData("rock", "Rock", 5500, 25, 4000);
-            ElementalData data4 = new ElementalData("electricball", "Plasma", 5700, 150, 37500);
-            ElementalData data5 = new ElementalData("snowball", "Snow Ball", 6100, 1150, 450000);
-            ElementalData data6 = new ElementalData("earthball", "Mud ball", 6300, 10000, 7250000);
-            ElementalData data7 = new ElementalData("airball", "Wind Strike", 6700, 100000, 150000000);
-            ElementalData data8 = new ElementalData("iceblock", "Ice Cube", 6900, 1500000, 4000000000);
-            ElementalData data9 = new ElementalData("magmaball", "Meteor", 7300, 27500000, 140000000000);
+            ElementalData data1 = new ElementalData("fireball", "Fire Ball", 5200, 1, 10);
+            ElementalData data2 = new ElementalData("waterball", "Water Ball", 5300, 36, 360);
+            ElementalData data3 = new ElementalData("rock", "Rock", 5500, 1702, 17020);
+            ElementalData data4 = new ElementalData("electricball", "Plasma", 5700, 69037, 690370);
+            ElementalData data5 = new ElementalData("snowball", "Snow Ball", 6100, new BigInteger("1821769"), new BigInteger("18217690"));
+            ElementalData data6 = new ElementalData("earthball", "Mud ball", 6300, new BigInteger("195128342"), new BigInteger("1951283420"));
+            ElementalData data7 = new ElementalData("airball", "Wind Strike", 6700, new BigInteger("18057056036"), new BigInteger("180570560360"));
+            ElementalData data8 = new ElementalData("iceblock", "Ice Cube", 6900, new BigInteger("3867009086321"), new BigInteger("38670090863210"));
+            ElementalData data9 = new ElementalData("magmaball", "Meteor", 7300, new BigInteger("619244948763453"), new BigInteger("6192449487634530"));
 
             elementaltable.Add(data1.ID, data1);
             elementaltable.Add(data2.ID, data2);

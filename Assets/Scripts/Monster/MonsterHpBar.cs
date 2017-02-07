@@ -117,6 +117,7 @@ namespace SexyBackPlayScene
             float prevgoal = goal;
             string floatstring = monster.HP.toLeftDigitString(maxdigit, 4);
 
+            //TODO : 여기서 에러남.
             // 표시되는 바의 목표와 속도 set
             goal = Convert.ToSingle(floatstring) - 0.0001f;
             if (prevgoal == goal)

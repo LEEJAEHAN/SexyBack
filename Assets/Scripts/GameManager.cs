@@ -50,14 +50,14 @@ namespace SexyBackPlayScene
             stageManager.Start(args);
             heroManager.CreateHero(); // and hero is move
 
-            ////elementalManager.SummonNewElemental("fireball");
+            elementalManager.SummonNewElemental("fireball");
             elementalManager.SummonNewElemental("waterball");
-            //elementalManager.SummonNewElemental("rock");
-            //elementalManager.SummonNewElemental("electricball");
-            //elementalManager.SummonNewElemental("snowball");
-            //elementalManager.SummonNewElemental("earthball");
-            //elementalManager.SummonNewElemental("airball"); // for test
-            //elementalManager.SummonNewElemental("iceblock");
+            elementalManager.SummonNewElemental("rock");
+            elementalManager.SummonNewElemental("electricball");
+            elementalManager.SummonNewElemental("snowball");
+            elementalManager.SummonNewElemental("earthball");
+            elementalManager.SummonNewElemental("airball"); // for test
+            elementalManager.SummonNewElemental("iceblock");
             elementalManager.SummonNewElemental("magmaball");
 
 
