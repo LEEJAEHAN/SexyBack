@@ -83,8 +83,6 @@ namespace SexyBackPlayScene
             if (value && !avatar.activeInHierarchy) // Active가 아닐때에만 Active시킨다.
             {
                 avatar.SetActive(true);
-                sexybacklog.Console("Reposition!!");
-                gridPanel.gameObject.GetComponent<UIGrid>().Reposition();
             }
             if (!value)
             {
@@ -146,5 +144,6 @@ namespace SexyBackPlayScene
         {
             GameObject.Destroy(avatar);
         }
+
     }
 }

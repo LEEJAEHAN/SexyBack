@@ -34,11 +34,20 @@ namespace SexyBackPlayScene
                     Action_TouchEvent(pos);
                 }
             }
+
+            if (Input.GetKey(KeyCode.Space))
+            {
+                Singleton<LevelUpManager>.getInstance().BuySelected();
+            }
+
         }
         void CalculateEffectPoint(Vector3 position)
         {
             //ray = ViewLoader.camera.sc
         }
+
+        
+
 
     }
     internal struct TapPoint

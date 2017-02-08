@@ -65,6 +65,7 @@ namespace SexyBackPlayScene
                 research.Dispose();
             }
             beToDispose.Clear(); // TODO : 이거 찜찜함
+            ViewLoader.Tab3Container.gameObject.GetComponent<UIGrid>().Reposition();
         }
 
         internal void Destroy(string iD)

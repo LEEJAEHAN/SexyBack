@@ -28,31 +28,6 @@ namespace SexyBackPlayScene
 
         }
 
-        private void LoadResearchData()
-        {
-            ResearchData item = new ResearchData();
-            item.price = new BigIntExpression(3, "m");
-            item.pot = new BigIntExpression(1, "m");
-            item.time = 10;
-
-            item.requireID = "hero";
-            item.requeireLevel = 0;
-
-            item.ID = "R01";
-            item.IconName = "SexyBackIcon_FireElemental";
-            item.InfoName = "파이어볼 배우기";
-            item.InfoDescription = "강력한 빠이양아아아야아아볼을 배웁니다.";
-            Bonus b = new Bonus();
-            b.targetID = "hero";
-            b.attribute = "LearnSkill";
-            b.value = 1;
-            b.strvalue = "fireball";
-
-            item.bonuses.Add(b);
-
-            researchtable.Add(item);
-        }
-
         private void LoadLevelUpData()
         {
             LevelUpItemData heroAttack = new LevelUpItemData("L001", "hero", "일반공격", "SexyBackIcon_SWORD2");
@@ -109,21 +84,67 @@ namespace SexyBackPlayScene
 
         private void LoadMonsterData()
         {
-            monstertable.Add("m01", new MonsterData("m01", "슬라임", 0, 0f ));
-            monstertable.Add("m02", new MonsterData("m02", "불멍멍이", 0, 0f ));
-            monstertable.Add("m03", new MonsterData("m03", "맹금류", 0, 0f ));
-            monstertable.Add("m04", new MonsterData("m04", "나라쿠", 0, 0f ));
-            monstertable.Add("m05", new MonsterData("m05", "흔한골렘", 0, 0f ));
-            monstertable.Add("m06", new MonsterData("m06", "미녀마녀", 0, 0f ));
-            monstertable.Add("m07", new MonsterData("m07", "산적1", 0, 0f ));
-            monstertable.Add("m08", new MonsterData("m08", "괴인1", 0, 0f ));
-            monstertable.Add("m09", new MonsterData("m09", "괴인2", 0, 0f ));
-            monstertable.Add("m10", new MonsterData("m10", "21세기산적", 0, 0f ));
+            monstertable.Add("m01", new MonsterData("m01", "슬라임", 0, 0f));
+            monstertable.Add("m02", new MonsterData("m02", "불멍멍이", 0, 0f));
+            monstertable.Add("m03", new MonsterData("m03", "맹금류", 0, 0f));
+            monstertable.Add("m04", new MonsterData("m04", "나라쿠", 0, 0f));
+            monstertable.Add("m05", new MonsterData("m05", "흔한골렘", 0, 0f));
+            monstertable.Add("m06", new MonsterData("m06", "미녀마녀", 0, 0f));
+            monstertable.Add("m07", new MonsterData("m07", "산적1", 0, 0f));
+            monstertable.Add("m08", new MonsterData("m08", "괴인1", 0, 0f));
+            monstertable.Add("m09", new MonsterData("m09", "괴인2", 0, 0f));
+            monstertable.Add("m10", new MonsterData("m10", "21세기산적", 0, 0f));
         }
 
         private void LoadHeroData()
         {
             herotable.Add("hero", new HeroData());
         }
+
+
+        private void LoadResearchData()
+        {
+            Bonus b1 = new Bonus("hero", "LearnSkill", 1, "fireball");
+            Bonus b2 = new Bonus("hero", "LearnSkill", 1, "waterball");
+            Bonus b3 = new Bonus("hero", "LearnSkill", 1, "rock");
+            Bonus b4 = new Bonus("hero", "LearnSkill", 1, "electricball");
+            Bonus b5 = new Bonus("hero", "LearnSkill", 1, "snowball");
+            Bonus b6 = new Bonus("hero", "LearnSkill", 1, "earthball");
+            Bonus b7 = new Bonus("hero", "LearnSkill", 1, "airball");
+            Bonus b8 = new Bonus("hero", "LearnSkill", 1, "iceblock");
+            Bonus b9 = new Bonus("hero", "LearnSkill", 1, "magmaball");
+
+
+            researchtable.Add(new ResearchData("R01", "hero", 0,
+                b1, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
+                "SexyBackIcon_FireElemental", "", ""));
+            researchtable.Add(new ResearchData("R02", "hero", 0,
+                b2, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
+                "SexyBackIcon_WaterElemental", "", ""));
+            researchtable.Add(new ResearchData("R03", "hero", 0,
+                b3, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
+                "SexyBackIcon_RockElemental", "", ""));
+            researchtable.Add(new ResearchData("R04", "hero", 0,
+                b4, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
+                "SexyBackIcon_ElectricElemental", "", ""));
+            researchtable.Add(new ResearchData("R05", "hero", 0,
+                b5, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
+                "SexyBackIcon_SnowElemental", "", ""));
+            researchtable.Add(new ResearchData("R06", "hero", 0,
+                b6, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
+                "SexyBackIcon_EarthElemental", "", ""));
+            researchtable.Add(new ResearchData("R07", "hero", 0,
+                b7, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
+                "SexyBackIcon_AirElemental", "", ""));
+            researchtable.Add(new ResearchData("R08", "hero", 0,
+                b8, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
+                "SexyBackIcon_IceElemental", "", ""));
+            researchtable.Add(new ResearchData("R09", "hero", 0,
+                b9, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
+                "SexyBackIcon_MagmaElemental", "", ""));
+
+
+        }
+
     }
 }

@@ -71,6 +71,7 @@ namespace SexyBackPlayScene
             itemView.Dispose();
         }
 
+
         public void Update()
         {   // state machine
             if (Begin)

@@ -23,9 +23,12 @@ namespace SexyBackPlayScene
         {
             if (Singleton<TableLoader>.getInstance().elementaltable.ContainsKey(id) == false)
                 return false;
+            if (elementals.ContainsKey(id)) // 이미있는경우   
+                return false;
 
             ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
             Elemental temp = new Elemental(data, ElementalArea);
+            
 
             Action_ElementalCreateEvent(temp);
             elementals.Add(temp.GetID, temp);

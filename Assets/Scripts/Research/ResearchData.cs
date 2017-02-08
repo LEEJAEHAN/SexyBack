@@ -21,7 +21,22 @@ namespace SexyBackPlayScene
 
         public ResearchData()
         {
-        }       
+        }
+
+        public ResearchData(string ID, string requireID, int requeireLevel, Bonus bonuse, BigIntExpression price, BigIntExpression pot,
+            int time, string IconName, string InfoName, string InfoDescription)
+        {
+            this.ID = ID;
+            this.requireID = requireID;
+            this.requeireLevel = requeireLevel;
+            this.bonuses.Add(bonuse);
+            this.price = price;
+            this.pot = pot;
+            this.time = time;
+            this.IconName = IconName;
+            this.InfoName = InfoName;
+            this.InfoDescription = InfoDescription;
+        }
     }
 
     public class Bonus
@@ -30,6 +45,14 @@ namespace SexyBackPlayScene
         public string attribute;
         public int value;
         public string strvalue;
+
+        public Bonus(string targetID, string attribute, int value, string strvalue)
+        {
+            this.targetID = targetID;
+            this.attribute = attribute;
+            this.value = value;
+            this.strvalue = strvalue;
+        }
     }
     //DpsXPer5LV,
     //DpsX,

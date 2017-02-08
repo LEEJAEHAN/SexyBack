@@ -88,6 +88,8 @@ namespace SexyBackPlayScene
             if (TargetMonster == null)
                 return;
             TargetMonster.StateMachine.Action_changeEvent += elemental.onTargetStateChange;
+            if (TargetMonster.CurrentState == "Ready")
+                elemental.targetID = TargetMonster.GetID;
         }
         private void onHeroCreate(Hero hero)
         {

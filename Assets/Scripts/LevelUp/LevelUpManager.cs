@@ -32,12 +32,15 @@ namespace SexyBackPlayScene
         {
             foreach (LevelUpItem item in levelUpItems.Values)
                 item.Update();
+            ViewLoader.Tab1Container.GetComponent<UIGrid>().Reposition();
         }
 
         void onHeroCreate(Hero sender) // create and bind heroitem
         {
             CreateLevelUp(sender);
         }
+
+
         void onElementalCreate(Elemental sender) // create and bind element item
         {
             CreateLevelUp(sender);
@@ -53,6 +56,15 @@ namespace SexyBackPlayScene
             return levelupItem;
         }
 
-        ///  view로부터의 이벤트 . 해당 메서드 런타임에서 절대 data를 변경해선 안된다. ( 데이터는 update에서 변경되어야 한다.)
+        ///  for test
+        internal void BuySelected()
+        {
+            foreach(LevelUpItem a in levelUpItems.Values)
+            {
+                if (a.Selected)
+                    a.Purchase();
+            }
+        }
+
     }
 }
