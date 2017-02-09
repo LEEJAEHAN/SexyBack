@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<BonusList>
+	<Bonus group="BR01" target="hero" attribute="LearnSkill" value="1" stringvalue="fireball"/>
+	<Bonus group="BR02" target="hero" attribute="LearnSkill" value="1" stringvalue="waterball"/>
+	<Bonus group="BR03" target="hero" attribute="LearnSkill" value="1" stringvalue="rock"/>
+  <Bonus group="BR04" target="hero" attribute="LearnSkill" value="1" stringvalue="electricball"/>
+	<Bonus group="BR05" target="hero" attribute="LearnSkill" value="1" stringvalue="snowball"/>
+	<Bonus group="BR06" target="hero" attribute="LearnSkill" value="1" stringvalue="earthball"/>
+	<Bonus group="BR07" target="hero" attribute="LearnSkill" value="1" stringvalue="airball"/>
+	<Bonus group="BR08" target="hero" attribute="LearnSkill" value="1" stringvalue="iceblock"/>
+	<Bonus group="BR09" target="hero" attribute="LearnSkill" value="1" stringvalue="magmaball"/>
+</BonusList>

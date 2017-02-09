@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<BonusList>
+  <Bonus group="R01bonus" target="hero" attribute="LearnSkill" value="1" stringvalue="fireball"/>
+  <Bonus group="R01bonus" target="hero" attribute="LearnSkill" value="1" stringvalue="fireball"/>
+</BonusList>

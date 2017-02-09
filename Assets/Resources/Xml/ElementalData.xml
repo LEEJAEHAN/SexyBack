@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Elementals>
+	<Elemental id="fireball" name="fireball" attackIntervalK="5200" basedps="1" baseexp="10"/>
+	<Elemental id="waterball" name="waterball" attackIntervalK="5300" basedps="3.3362" baseexp="86"/>
+	<Elemental id="rock" name="rock" attackIntervalK="5500" basedps="36.895" baseexp="2001"/>
+	<Elemental id="electricball" name="electricball" attackIntervalK="5700" basedps="1017.7" baseexp="108544"/>
+	<Elemental id="snowball" name="snowball" attackIntervalK="6100" basedps="39766" baseexp="7733248"/>
+	<Elemental id="earthball" name="earthball" attackIntervalK="6300" basedps="15589731" baseexp="6056866302"/>
+	<Elemental id="airball" name="airball" attackIntervalK="6700" basedps="4990733267" baseexp="3509157065962"/>
+	<Elemental id="iceblock" name="iceblock" attackIntervalK="6900" basedps="1677322427419" baseexp="2005605675653400"/>
+	<Elemental id="magmaball" name="magmaball" attackIntervalK="7300" basedps="1312779264637360" baseexp="2637636169982010000"/>
+</Elementals>

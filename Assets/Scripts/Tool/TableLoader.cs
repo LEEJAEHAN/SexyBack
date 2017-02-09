@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
+using UnityEngine;
 namespace SexyBackPlayScene
 {
     internal class TableLoader
@@ -11,6 +13,7 @@ namespace SexyBackPlayScene
         public Dictionary<string, ElementalData> elementaltable = new Dictionary<string, ElementalData>();
         public Dictionary<string, LevelUpItemData> leveluptable = new Dictionary<string, LevelUpItemData>();
 
+        public Dictionary<string, List<Bonus>> bonuses = new Dictionary<string, List<Bonus>>();
         public List<ResearchData> researchtable = new List<ResearchData>();
 
 
@@ -21,11 +24,28 @@ namespace SexyBackPlayScene
             LoadHeroData();
             LoadMonsterData();
             LoadElementData();
-
             LoadStageData();
             LoadLevelUpData();
             LoadResearchData();
+        }
 
+        private void LoadMonsterData()
+        {
+            monstertable.Add("m01", new MonsterData("m01", "슬라임", 0, 0f));
+            monstertable.Add("m02", new MonsterData("m02", "불멍멍이", 0, 0f));
+            monstertable.Add("m03", new MonsterData("m03", "맹금류", 0, 0f));
+            monstertable.Add("m04", new MonsterData("m04", "나라쿠", 0, 0f));
+            monstertable.Add("m05", new MonsterData("m05", "흔한골렘", 0, 0f));
+            monstertable.Add("m06", new MonsterData("m06", "미녀마녀", 0, 0f));
+            monstertable.Add("m07", new MonsterData("m07", "산적1", 0, 0f));
+            monstertable.Add("m08", new MonsterData("m08", "괴인1", 0, 0f));
+            monstertable.Add("m09", new MonsterData("m09", "괴인2", 0, 0f));
+            monstertable.Add("m10", new MonsterData("m10", "21세기산적", 0, 0f));
+        }
+
+        private void LoadHeroData()
+        {
+            herotable.Add("hero", new HeroData());
         }
 
         private void LoadLevelUpData()
@@ -61,90 +81,134 @@ namespace SexyBackPlayScene
 
         private void LoadElementData()
         {
-            ElementalData data1 = new ElementalData("fireball", "Fire Ball", 5200, 1, 10);
-            ElementalData data2 = new ElementalData("waterball", "Water Ball", 5300, 36, 360);
-            ElementalData data3 = new ElementalData("rock", "Rock", 5500, 1702, 17020);
-            ElementalData data4 = new ElementalData("electricball", "Plasma", 5700, 69037, 690370);
-            ElementalData data5 = new ElementalData("snowball", "Snow Ball", 6100, new BigInteger("1821769"), new BigInteger("18217690"));
-            ElementalData data6 = new ElementalData("earthball", "Mud ball", 6300, new BigInteger("195128342"), new BigInteger("1951283420"));
-            ElementalData data7 = new ElementalData("airball", "Wind Strike", 6700, new BigInteger("18057056036"), new BigInteger("180570560360"));
-            ElementalData data8 = new ElementalData("iceblock", "Ice Cube", 6900, new BigInteger("3867009086321"), new BigInteger("38670090863210"));
-            ElementalData data9 = new ElementalData("magmaball", "Meteor", 7300, new BigInteger("619244948763453"), new BigInteger("6192449487634530"));
+            TextAsset textasset = Resources.Load("Xml/ElementalData") as TextAsset;
+            XmlDocument xmldoc = new XmlDocument();
+            xmldoc.LoadXml(textasset.text);
+            XmlNode rootNode = xmldoc.SelectSingleNode("Elementals");
+            XmlNodeList nodes = rootNode.SelectNodes("Elemental");
 
-            elementaltable.Add(data1.ID, data1);
-            elementaltable.Add(data2.ID, data2);
-            elementaltable.Add(data3.ID, data3);
-            elementaltable.Add(data4.ID, data4);
-            elementaltable.Add(data5.ID, data5);
-            elementaltable.Add(data6.ID, data6);
-            elementaltable.Add(data7.ID, data7);
-            elementaltable.Add(data8.ID, data8);
-            elementaltable.Add(data9.ID, data9);
+            List<Bonus> group = new List<Bonus>();
+            foreach (XmlNode node in nodes)
+            {
+                string id = node.Attributes["id"].Value;
+                string name = node.Attributes["name"].Value;
+                int attackIntervalK = int.Parse(node.Attributes["attackIntervalK"].Value);
+                string basedps = node.Attributes["basedps"].Value;
+                string baseexp = node.Attributes["baseexp"].Value;
+
+                ElementalData elemental;
+                if (basedps.Contains("."))
+                {
+                    double basedpsdouble = double.Parse(basedps);
+                    elemental = new ElementalData(id, name, attackIntervalK, basedpsdouble, new BigInteger(baseexp));
+                }
+                else
+                    elemental = new ElementalData(id, name, attackIntervalK, new BigInteger(basedps), new BigInteger(baseexp));
+                elementaltable.Add(id, elemental);
+            }
         }
 
-        private void LoadMonsterData()
+        private void LoadBonus()
         {
-            monstertable.Add("m01", new MonsterData("m01", "슬라임", 0, 0f));
-            monstertable.Add("m02", new MonsterData("m02", "불멍멍이", 0, 0f));
-            monstertable.Add("m03", new MonsterData("m03", "맹금류", 0, 0f));
-            monstertable.Add("m04", new MonsterData("m04", "나라쿠", 0, 0f));
-            monstertable.Add("m05", new MonsterData("m05", "흔한골렘", 0, 0f));
-            monstertable.Add("m06", new MonsterData("m06", "미녀마녀", 0, 0f));
-            monstertable.Add("m07", new MonsterData("m07", "산적1", 0, 0f));
-            monstertable.Add("m08", new MonsterData("m08", "괴인1", 0, 0f));
-            monstertable.Add("m09", new MonsterData("m09", "괴인2", 0, 0f));
-            monstertable.Add("m10", new MonsterData("m10", "21세기산적", 0, 0f));
+            TextAsset textasset = Resources.Load("Xml/BonusData") as TextAsset;
+            XmlDocument xmldoc = new XmlDocument();
+            xmldoc.LoadXml(textasset.text);
+            XmlNode rootNode = xmldoc.SelectSingleNode("BonusList");
+            XmlNodeList nodes = rootNode.SelectNodes("Bonus");
+
+            List<Bonus> group = new List<Bonus>();
+            foreach (XmlNode node in nodes)
+            {
+                string groupid = node.Attributes["group"].Value;
+                string target = node.Attributes["target"].Value;
+                string attribute = node.Attributes["attribute"].Value;
+                int value;
+                if (int.TryParse(node.Attributes["value"].Value, out value) == false)
+                    value = 0;
+                string stringvalue = node.Attributes["stringvalue"].Value;
+
+                Bonus bonus = new Bonus(target, attribute, value, stringvalue);
+                if (!bonuses.ContainsKey(groupid))
+                {
+                    List<Bonus> grouplist = new List<Bonus>();
+                    grouplist.Add(bonus);
+                    bonuses.Add(groupid, grouplist);
+                }
+                else
+                    bonuses[groupid].Add(bonus);
+            }
         }
 
-        private void LoadHeroData()
+        private void TestParsing()
         {
-            herotable.Add("hero", new HeroData());
-        }
+            //foreach (List<Bonus> list in bonuses.Values)
+            //{
+            //    foreach (Bonus b in list)
+            //    {
+            //        sexybacklog.Console(b.strvalue);
+            //    }
+            //    sexybacklog.Console("nextGroup");
+            //}
+            //foreach (ResearchData data in researchtable)
+            //{
+            //    sexybacklog.Console(data.ID);
+            //    sexybacklog.Console(data.IconName);
+            //    sexybacklog.Console(data.bonuses[0].strvalue);
+            //}
 
+            //foreach (ElementalData a in elementaltable.Values)
+            //    sexybacklog.Console(a.BaseDps);
+
+        }
 
         private void LoadResearchData()
         {
-            Bonus b1 = new Bonus("hero", "LearnSkill", 1, "fireball");
-            Bonus b2 = new Bonus("hero", "LearnSkill", 1, "waterball");
-            Bonus b3 = new Bonus("hero", "LearnSkill", 1, "rock");
-            Bonus b4 = new Bonus("hero", "LearnSkill", 1, "electricball");
-            Bonus b5 = new Bonus("hero", "LearnSkill", 1, "snowball");
-            Bonus b6 = new Bonus("hero", "LearnSkill", 1, "earthball");
-            Bonus b7 = new Bonus("hero", "LearnSkill", 1, "airball");
-            Bonus b8 = new Bonus("hero", "LearnSkill", 1, "iceblock");
-            Bonus b9 = new Bonus("hero", "LearnSkill", 1, "magmaball");
+            LoadBonus();
 
+            TextAsset textasset = Resources.Load("Xml/ResearchData") as TextAsset;
+            XmlDocument xmldoc = new XmlDocument();
+            xmldoc.LoadXml(textasset.text);
+            XmlNode rootNode = xmldoc.SelectSingleNode("Researches");
+            XmlNodeList nodes = rootNode.SelectNodes("Research");
 
-            researchtable.Add(new ResearchData("R01", "hero", 0,
-                b1, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
-                "SexyBackIcon_FireElemental", "", ""));
-            researchtable.Add(new ResearchData("R02", "hero", 0,
-                b2, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
-                "SexyBackIcon_WaterElemental", "", ""));
-            researchtable.Add(new ResearchData("R03", "hero", 0,
-                b3, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
-                "SexyBackIcon_RockElemental", "", ""));
-            researchtable.Add(new ResearchData("R04", "hero", 0,
-                b4, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
-                "SexyBackIcon_ElectricElemental", "", ""));
-            researchtable.Add(new ResearchData("R05", "hero", 0,
-                b5, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
-                "SexyBackIcon_SnowElemental", "", ""));
-            researchtable.Add(new ResearchData("R06", "hero", 0,
-                b6, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
-                "SexyBackIcon_EarthElemental", "", ""));
-            researchtable.Add(new ResearchData("R07", "hero", 0,
-                b7, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
-                "SexyBackIcon_AirElemental", "", ""));
-            researchtable.Add(new ResearchData("R08", "hero", 0,
-                b8, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
-                "SexyBackIcon_IceElemental", "", ""));
-            researchtable.Add(new ResearchData("R09", "hero", 0,
-                b9, new BigIntExpression(1, "zero"), new BigIntExpression(1, "zero"), 1,
-                "SexyBackIcon_MagmaElemental", "", ""));
+            List<Bonus> group = new List<Bonus>();
+            foreach (XmlNode node in nodes)
+            {
+                string id = node.Attributes["id"].Value;
+                string requireid = node.Attributes["requireid"].Value;
+                int requirelevel = int.Parse(node.Attributes["requirelevel"].Value);
+
+                XmlNode infonode = node.SelectSingleNode("Info");
+                string icon = infonode.Attributes["icon"].Value;
+                string name = infonode.Attributes["name"].Value;
+                string description = infonode.Attributes["description"].Value;
+
+                XmlNode pricenode = node.SelectSingleNode("Price");
+                int pricevalue = int.Parse(pricenode.Attributes["value"].Value);
+                string pricedigit = pricenode.Attributes["digit"].Value;
+                BigIntExpression price = new BigIntExpression(pricevalue, pricedigit);
+
+                XmlNode potnode = node.SelectSingleNode("PriceOverTime");
+                int potvalue = int.Parse(potnode.Attributes["value"].Value);
+                string potdigit = potnode.Attributes["digit"].Value;
+                int time = int.Parse(potnode.Attributes["time"].Value);
+                BigIntExpression pot = new BigIntExpression(potvalue, potdigit);
+
+                XmlNode bonusnode = node.SelectSingleNode("BonusList");
+                string groupid = bonusnode.Attributes["groupid"].Value;
+
+                List<Bonus> bonuselist;
+                if (!bonuses.ContainsKey(groupid))
+                    bonuselist = new List<Bonus>();
+                else
+                    bonuselist = bonuses[groupid];
+
+                ResearchData research = new ResearchData(id, requireid, requirelevel, bonuselist, price, pot, time, icon, name, description);
+                researchtable.Add(research);
+            }
 
 
         }
-
     }
+
 }

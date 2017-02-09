@@ -23,13 +23,13 @@ namespace SexyBackPlayScene
         {
         }
 
-        public ResearchData(string ID, string requireID, int requeireLevel, Bonus bonuse, BigIntExpression price, BigIntExpression pot,
+        public ResearchData(string ID, string requireID, int requeireLevel, List<Bonus> bonuses, BigIntExpression price, BigIntExpression pot,
             int time, string IconName, string InfoName, string InfoDescription)
         {
             this.ID = ID;
             this.requireID = requireID;
             this.requeireLevel = requeireLevel;
-            this.bonuses.Add(bonuse);
+            this.bonuses = bonuses;
             this.price = price;
             this.pot = pot;
             this.time = time;

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Researches>
+	<Research id="R01" requireid="hero" requirelevel="0">
+		<Info icon="SexyBackIcon_FireElemental" name="@SR01N@" description="@SR01D@"/>
+		<Price value="1" digit="zero"/>
+		<PriceOverTime value="1" digit="zero" time="5"/>
+		<BonusList groupid="BR01"/>
+	</Research> 
+	<Research id="R02" requireid="hero" requirelevel="0">
+		<Info icon="SexyBackIcon_WaterElemental" name="@SR02N@" description="@SR02D@"/>
+		<Price value="1" digit="zero"/>
+		<PriceOverTime value="1" digit="zero" time="5"/>
+		<BonusList groupid="BR02"/>
+	</Research>
+	<Research id="R03" requireid="hero" requirelevel="0">
+		<Info icon="SexyBackIcon_RockElemental" name="@SR03N@" description="@SR03D@"/>
+		<Price value="1" digit="zero"/>
+		<PriceOverTime value="1" digit="zero" time="5"/>
+		<BonusList groupid="BR03"/>
+	</Research>
+	<Research id="R04" requireid="hero" requirelevel="0">
+		<Info icon="SexyBackIcon_ElectricElemental" name="@SR04N@" description="@SR04D@"/>
+		<Price value="1" digit="zero"/>
+		<PriceOverTime value="1" digit="zero" time="5"/>
+		<BonusList groupid="BR04"/>
+	</Research>
+	<Research id="R05" requireid="hero" requirelevel="0">
+		<Info icon="SexyBackIcon_SnowElemental" name="@SR05N@" description="@SR05D@"/>
+		<Price value="1" digit="zero"/>
+		<PriceOverTime value="1" digit="zero" time="5"/>
+		<BonusList groupid="BR05"/>
+	</Research>
+	<Research id="R06" requireid="hero" requirelevel="0">
+		<Info icon="SexyBackIcon_EarthElemental" name="@SR06N@" description="@SR06D@"/>
+		<Price value="1" digit="zero"/>
+		<PriceOverTime value="1" digit="zero" time="5"/>
+		<BonusList groupid="BR06"/>
+	</Research>
+	<Research id="R07" requireid="hero" requirelevel="0">
+		<Info icon="SexyBackIcon_AirElemental" name="@SR07N@" description="@SR07D@"/>
+		<Price value="1" digit="zero"/>
+		<PriceOverTime value="1" digit="zero" time="5"/>
+		<BonusList groupid="BR07"/>
+	</Research>
+	<Research id="R08" requireid="hero" requirelevel="0">
+		<Info icon="SexyBackIcon_IceElemental" name="@SR08N@" description="@SR08D@"/>
+		<Price value="1" digit="zero"/>
+		<PriceOverTime value="1" digit="zero" time="5"/>
+		<BonusList groupid="BR08"/>
+	</Research>
+	<Research id="R09" requireid="hero" requirelevel="0">
+		<Info icon="SexyBackIcon_MagmaElemental" name="@SR09N@" description="@SR09D@"/>
+		<Price value="1" digit="zero"/>
+		<PriceOverTime value="1" digit="zero" time="5"/>
+		<BonusList groupid="BR09"/>
+	</Research>
+</Researches>

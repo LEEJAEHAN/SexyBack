@@ -6,23 +6,26 @@ namespace SexyBackPlayScene
 {
     internal class Elemental : ICanLevelUp// base class of Elementals
     {
-        readonly string ID;
         public string GetID { get { return ID; } }
-        private ElementalData baseData;
         public string targetID;
 
         // 변수
         private int level = 0;
         public BigInteger nextExp = new BigInteger();
         public BigInteger DpsX = new BigInteger(1);
-        public double DpsXPer5LV = 1;
         public int attackspeedXH = 100;
-
-        // data property
-        public string NAME { get { return baseData.Name; } }
         public BigInteger DPS = new BigInteger();
-        public BigInteger DAMAGE { get { return (DPS * baseData.AttackIntervalK) / (10 * attackspeedXH); } } //  dps * attackinterval
-        public double AttackInterval { get { return baseData.AttackIntervalK / (double)(10 * attackspeedXH); } } // (attackinterval1k / 1000) * ( 100 / attackspeed1h ) 
+        public BigInteger DAMAGE { get { return (DPS * AttackIntervalK) / (10 * attackspeedXH); } } //  dps * attackinterval
+        public double AttackInterval { get { return AttackIntervalK / (double)(10 * attackspeedXH); } } // (attackinterval1k / 1000) * ( 100 / attackspeed1h ) 
+
+        // 고정수
+        readonly string ID;
+        readonly int DpsShiftDigit;
+        readonly string NAME;
+        readonly int AttackIntervalK;
+        readonly BigInteger BaseDps;
+        readonly BigInteger BaseExp;
+        readonly double GrowthRate;
 
         // for projectile action;
         private Transform ElementalArea; // avatar
@@ -35,8 +38,8 @@ namespace SexyBackPlayScene
         public event LevelUp_EventHandler Action_LevelUp = delegate {};
         public BigInteger LevelUpPrice { get { return nextExp; } }
         public string LevelUpDescription{ get {
-                string text = "Damage : " + (level * baseData.BaseDps).To5String() + "/sec\n";
-                text += "Next : +" + baseData.BaseDps.To5String() + "/sec\n";
+                string text = "Damage : " + DPS.To5String() + "/sec\n";
+                text += "Next : +" + (DpsX * BaseDps / DpsShiftDigit).To5String() + "/sec\n";
                 return text;
             } }
 
@@ -52,8 +55,14 @@ namespace SexyBackPlayScene
 
         public Elemental(ElementalData data, Transform area)
         {
+            NAME = data.Name;
+            AttackIntervalK = data.AttackIntervalK;
+            BaseDps = data.BaseDps;
+            DpsShiftDigit = data.FloatDigit;
+            BaseExp = data.BaseExp;
+            GrowthRate = data.GrowthRate;
+
             ID = data.ID;
-            baseData = data;
             ElementalArea = area;
             ProjectilePrefab = Resources.Load(ElementalData.ProjectilePrefabName(ID)) as GameObject;
         }
@@ -80,11 +89,6 @@ namespace SexyBackPlayScene
             bool result = true;
             switch (bonus.attribute)
             {
-                case "DpsXPer5LV":
-                    {
-                        DpsXPer5LV += bonus.value;
-                        break;
-                    }
                 case "DpsX":
                     {
                         DpsX *= bonus.value;
@@ -119,11 +123,15 @@ namespace SexyBackPlayScene
         }
         private void CalEXP()
         {
-            nextExp = BigInteger.PowerByGrowth(baseData.BaseExp, level, baseData.GrowthRate);
+            nextExp = BigInteger.PowerByGrowth(BaseExp, level, GrowthRate);
         }
         void CalDPS()
         {
-            DPS = level * DpsX * BigInteger.PowerByGrowth(baseData.BaseDps, (level / 5), DpsXPer5LV);
+            if (DpsShiftDigit == 1)
+                DPS = level * DpsX * BaseDps;
+            else
+                DPS = level * DpsX * BaseDps / DpsShiftDigit;
+            //            DPS = level * DpsX * BigInteger.PowerByGrowth(baseData.BaseDps, (level / 5), DpsXPer5LV);
         }
 
         // TODO : 여기도 언젠간 statemachine작업을 해야할듯 ㅠㅠ
