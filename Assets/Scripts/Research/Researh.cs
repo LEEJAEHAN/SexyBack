@@ -27,7 +27,7 @@ namespace SexyBackPlayScene
 
         double RemainTime;
         float TickTimer = 0;
-        float ResearchTick = 0.1f;
+        float ResearchTick = 1f;
         //state flag
         bool Begin = false;
         bool Researching = false;
