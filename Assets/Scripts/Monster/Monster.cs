@@ -70,6 +70,9 @@ namespace SexyBackPlayScene
             else
                 sprite.GetComponent<Animator>().SetTrigger("Hit");
 
+            if (HP < 0)
+                HP = 0;
+
             Action_MonsterChangeEvent(this);
 
             if (HP <= 0) // dead check

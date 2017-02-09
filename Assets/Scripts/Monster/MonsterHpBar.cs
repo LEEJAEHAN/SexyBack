@@ -65,7 +65,9 @@ namespace SexyBackPlayScene
             maxdigit = 0;
             string floatstring = hp.toLeftDigitString(out maxdigit, 2, 4); // "12.3456"
             string unitstring = BigInteger.CalDigitOtherN(maxdigit, 3); // 10b
-            float RealGauge = Convert.ToSingle(floatstring);
+            float RealGauge = 1;
+            Single.TryParse(floatstring, out RealGauge);
+
             // set monster info text
 
             representGauge = RealGauge - 0.0001f;  // 게이지가 만땅일시 0가되버려서
@@ -117,9 +119,16 @@ namespace SexyBackPlayScene
             float prevgoal = goal;
             string floatstring = monster.HP.toLeftDigitString(maxdigit, 4);
 
-            //TODO : 여기서 에러남.
+            //TODO : 여기서 에러남. 
             // 표시되는 바의 목표와 속도 set
-            goal = Convert.ToSingle(floatstring) - 0.0001f;
+
+
+            //goal = Convert.ToSingle(floatstring) - 0.0001f;
+            if (!Single.TryParse(floatstring, out goal))
+                sexybacklog.Error("HPBAR Error" + floatstring);
+
+            goal -= 0.0001f;
+
             if (prevgoal == goal)
                 return;
 

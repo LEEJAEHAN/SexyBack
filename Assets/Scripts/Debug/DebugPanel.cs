@@ -44,6 +44,18 @@ namespace SexyBackPlayScene
 
             if (flipflop)
             {
+                //string str = "-1.231232";
+
+                //float a = 0;
+                //if (Single.TryParse(str, out a))
+                //{ }
+
+               //// float a = Convert.ToSingle();
+
+               // sexybacklog.Console(a);
+                //if (str.Contains("-"))
+                //    str.Replace("-", "");
+
                 //BigInteger a = new BigInteger(9999);
                 //sexybacklog.Console(a.toLeftDigitString(9, 4));
                 flipflop = !flipflop;

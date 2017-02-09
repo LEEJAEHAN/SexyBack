@@ -11,7 +11,6 @@ namespace SexyBackPlayScene
 
         // 변수
         private int level = 0;
-        public BigInteger nextExp = new BigInteger();
         public BigInteger DpsX = new BigInteger(1);
         public int attackspeedXH = 100;
         public BigInteger DPS = new BigInteger();
@@ -36,7 +35,7 @@ namespace SexyBackPlayScene
         // ICanLevelUp
         public int LEVEL { get { return level; } }
         public event LevelUp_EventHandler Action_LevelUp = delegate {};
-        public BigInteger LevelUpPrice { get { return nextExp; } }
+        public BigInteger LevelUpPrice { get { return BigInteger.PowerByGrowth(BaseExp, level, GrowthRate); } }
         public string LevelUpDescription{ get {
                 string text = "Damage : " + DPS.To5String() + "/sec\n";
                 text += "Next : +" + (DpsX * BaseDps / DpsShiftDigit).To5String() + "/sec\n";
@@ -117,13 +116,8 @@ namespace SexyBackPlayScene
         {
             level += amount;
             CalDPS();
-            CalEXP();
             Action_LevelUp(this);
             Action_DamageChange(this);
-        }
-        private void CalEXP()
-        {
-            nextExp = BigInteger.PowerByGrowth(BaseExp, level, GrowthRate);
         }
         void CalDPS()
         {

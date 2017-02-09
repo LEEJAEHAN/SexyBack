@@ -7,7 +7,7 @@ namespace SexyBackPlayScene
         public readonly string ID;
         public readonly string Name;
         public readonly double CreateActionTime;
-        public readonly float GrowthRate = 1.148698f; // / 100
+        public readonly double GrowthRate = 1.148698f; // / 100
         public readonly int MaxLevel = 999;
         // from Excel
         public readonly BigInteger BaseExp; // 베이스exp로부터 level과 GrowthRate를 통해 ExpForNthLevel을 구함.                          // from Excel

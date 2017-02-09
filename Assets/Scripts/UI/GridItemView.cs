@@ -11,7 +11,6 @@ namespace SexyBackPlayScene
         public delegate void GridItemConfirm_Event(string name);
         public event GridItemConfirm_Event Action_ConfirmGridItem;
 
-
         bool selected = false;
 
         public void onItemSelect() //, string ItemButtonName, bool toggleState

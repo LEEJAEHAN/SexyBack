@@ -7,7 +7,7 @@
         string GetID { get; }
         string LevelUpDescription { get; }
         int LEVEL { get; }
-        BigInteger LevelUpPrice { get;}
+        BigInteger LevelUpPrice { get; }
         void LevelUp(int level);
 
         // event sender

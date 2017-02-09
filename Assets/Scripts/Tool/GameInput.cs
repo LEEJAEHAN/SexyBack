@@ -9,7 +9,6 @@ namespace SexyBackPlayScene
 
         Vector3 mouseinputpoint;
         Ray ray;
-        RaycastHit uihit;
         RaycastHit hit;
         RaycastHit effecthit;
 
