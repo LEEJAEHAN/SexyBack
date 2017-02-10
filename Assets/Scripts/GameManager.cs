@@ -6,7 +6,9 @@ using System.Collections.Generic;
 namespace SexyBackPlayScene
 {
     public class GameManager
-    { 
+    {
+        //
+        Player player;
         // singleton - player
         LevelUpManager levelUpManager;
         ResearchManager researchManager;
@@ -25,12 +27,14 @@ namespace SexyBackPlayScene
         // Use this for initialization
         public void Init()
         {
+            player = Singleton<Player>.getInstance();
             heroManager = Singleton<HeroManager>.getInstance();
             monsterManager = Singleton<MonsterManager>.getInstance();
             elementalManager = Singleton<ElementalManager>.getInstance();
             levelUpManager = Singleton<LevelUpManager>.getInstance();
             researchManager = Singleton<ResearchManager>.getInstance();
             infoView = Singleton<GameInfoView>.getInstance();
+            
 
 
             stageManager = Singleton<StageManager>.getInstance();

@@ -30,7 +30,7 @@ namespace SexyBackPlayScene
         public LevelUpItem(LevelUpItemData data, ICanLevelUp root)
         {
             owner = new WeakReference(root);
-            root.Action_LevelUp += onLevelChange;
+            root.Action_LevelUpInfoChange += onLevelChange;
 
             ID = data.ID;
             OwnerID = data.OwnerID;

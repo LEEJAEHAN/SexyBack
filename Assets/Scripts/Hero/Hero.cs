@@ -9,7 +9,7 @@ namespace SexyBackPlayScene
         readonly string ID;
         public readonly string Name;
         public string GetID { get { return ID; } }
-
+        public string targetID;
 
         // manager
         public HeroStateMachine StateMachine;
@@ -19,34 +19,26 @@ namespace SexyBackPlayScene
         // init member
         private GameObject avatar;
 
-        // 게임플레이에 따라 변하는 데이터.
-        // 상태값
-        public string targetID;
+        // 변수
         private int level = 0;
-        private BigInteger DpcX = new BigInteger(1); // 곱계수는 X를붙인다.
-        private int bounsAttackCount = 6; // 보너스 공격스택횟수  6
-        private int attackspeedXH = 100; // speed 와 interval은 역수관계
-        private int movespeedXH = 1000;
+        BigInteger DpcX = new BigInteger(1); // 곱계수는 X를붙인다.
+        public BigInteger DPC = new BigInteger();
+        public int MAXATTACKCOUNT;
+        public double ATTACKINTERVAL;
+        public double CRIRATE;
+        public int CRIDAMAGE;
+        public double MOVESPEED;
+        public double ATTACKSPEED; // for view action, state
 
-        // 능력치 property;
-        // 최종적으로 나가는 값은 모두 대문자이다. 중간과정은 앞에만대문자;
-        public BigInteger DPC;
-        public int MAXATTACKCOUNT { get { return AttackCount + bounsAttackCount; } }
-        public double ATTACKINTERVAL { get { return AttackInterval * 100 / attackspeedXH; } }   // 공속공식
-        public double CRIRATE { get { return CriRate; } }
-        public int CRIDAMAGE { get { return CriDamage; } }
-        public float MOVESPEED { get { return MoveSpeed * movespeedXH / 100; } }
-        public double ATTACKSPEED { get { return attackspeedXH / 100; } } // for view action, state
-
-        // member from data
-        private readonly BigInteger BaseDpc;
-        public readonly BigInteger BaseExp;
-        public readonly int AttackCount;
-        public readonly double AttackInterval;
-        public readonly double CriRate;
-        public readonly int CriDamage;
-        public readonly float MoveSpeed;
-        public readonly double GrowthRate;
+        // basestat
+        readonly BigInteger BaseDpc;
+        readonly BigInteger BaseExp;
+        readonly int AttackCount;
+        readonly double AttackInterval;
+        readonly double CriRate;
+        readonly int CriDamage;
+        readonly float MoveSpeed;
+        readonly double GrowthRate;
 
         //stateOwner
         public string CurrentState { get { return StateMachine.currStateID; } }
@@ -56,7 +48,7 @@ namespace SexyBackPlayScene
 
         // ICanLevelUp
         public int LEVEL { get { return level; } }
-        public event LevelUp_EventHandler Action_LevelUp = delegate { };
+        public event LevelUp_EventHandler Action_LevelUpInfoChange = delegate { };
         public BigInteger LevelUpPrice { get { return BigInteger.PowerByGrowth(BaseExp, level, GrowthRate); } }
         public string LevelUpDescription
         {
@@ -69,10 +61,10 @@ namespace SexyBackPlayScene
         }
 
         public delegate void HeroChange_EventHandler(Hero hero);
-        public event HeroChange_EventHandler Action_DamageChange;
+        public event HeroChange_EventHandler Action_DamageChange = delegate { };
 
-        public delegate void DistanceChange_Event(float distance);
-        public event DistanceChange_Event Action_DistanceChange;
+        public delegate void DistanceChange_Event(double distance);
+        public event DistanceChange_Event Action_DistanceChange = delegate { };
 
 
         public Hero(HeroData data)
@@ -94,12 +86,30 @@ namespace SexyBackPlayScene
             StateMachine = new HeroStateMachine(this);
         }
 
+        internal void SetDamageX(BigInteger dpcx)
+        {
+            DpcX = dpcx;
+            CalDPC();
+            Action_LevelUpInfoChange(this);
+            Action_DamageChange(this);
+        }
+
+        internal void SetStat(HeroUpgradeStat herostat)
+        {
+            MAXATTACKCOUNT = AttackCount + herostat.BounsAttackCount;
+            ATTACKINTERVAL = AttackInterval * 100 / herostat.HeroAttackspeedXH;
+            MOVESPEED = MoveSpeed * herostat.MovespeedXH / 100;
+            ATTACKSPEED = herostat.HeroAttackspeedXH / 100; 
+            CRIRATE = CriRate + herostat.CriticalRate;
+            CRIDAMAGE = CriDamage + herostat.CriticalDamage;
+            //send event
+        }
+
         public void LevelUp(int amount)
         {
             level += amount;
             CalDPC();
-
-            Action_LevelUp(this);
+            Action_LevelUpInfoChange(this);
             Action_DamageChange(this);
         }
 
@@ -117,7 +127,7 @@ namespace SexyBackPlayScene
         {
             avatar.transform.position = toPos;
         }
-        internal void FakeMove(float amount)
+        internal void FakeMove(double amount)
         {
             Action_DistanceChange(amount);
         }
@@ -176,31 +186,6 @@ namespace SexyBackPlayScene
         {
             StateMachine.ChangeState(stateid);
         }
-
-
-        internal bool Upgrade(Bonus bonus)
-        {
-            bool result = false;
-            switch (bonus.attribute)
-            {
-                case "LearnSkill":
-                    {
-                        result =  Singleton<ElementalManager>.getInstance().SummonNewElemental(bonus.strvalue);
-                        break;
-                    }
-                default:
-                    {
-                        sexybacklog.Error("업그레이드가능한 attribute가 없습니다.");
-                        result = false;
-                        break;
-                    }
-            }
-            if (result)
-                Action_DamageChange(this);
-            return result;
-        }
-
-
 
     }
 }

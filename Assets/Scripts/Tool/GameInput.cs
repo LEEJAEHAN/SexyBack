@@ -12,40 +12,44 @@ namespace SexyBackPlayScene
         RaycastHit hit;
         RaycastHit effecthit;
 
+
+        void Touch(Vector3 position)
+        {
+            mouseinputpoint = position;
+
+            if (UICamera.Raycast(position))
+                return;
+
+            ray = ViewLoader.EffectCamera.ScreenPointToRay(mouseinputpoint);
+
+            Physics.Raycast(ray, out effecthit, 100, 1000000000); // 이펙트영역  1<<9
+
+            ray = ViewLoader.HeroCamera.ScreenPointToRay(mouseinputpoint);
+
+            if (Physics.Raycast(ray, out hit, 100, 0100000000)) // 게임영역 1<< 8
+            {
+                TapPoint pos = new TapPoint(hit.point, effecthit.point, UICamera.lastEventPosition);
+                Action_TouchEvent(pos);
+            }
+        }
+
+
         public void CheckInput()
         {
             if (Input.GetMouseButtonDown(0))
             {
-                mouseinputpoint = Input.mousePosition;
-
-                if (UICamera.Raycast(Input.mousePosition))
-                    return;
-
-                ray = ViewLoader.EffectCamera.ScreenPointToRay(mouseinputpoint);
-
-                Physics.Raycast(ray, out effecthit, 100, 1000000000); // 이펙트영역  1<<9
-
-                ray = ViewLoader.HeroCamera.ScreenPointToRay(mouseinputpoint);
-
-                if (Physics.Raycast(ray, out hit, 100, 0100000000)) // 게임영역 1<< 8
-                {
-                    TapPoint pos = new TapPoint(hit.point, effecthit.point, UICamera.lastEventPosition);
-                    Action_TouchEvent(pos);
-                }
+                Touch(Input.mousePosition);
             }
 
             if (Input.GetKey(KeyCode.Space))
             {
                 Singleton<LevelUpManager>.getInstance().BuySelected();
             }
-
+            if (Input.GetKey(KeyCode.A))
+            {
+                Touch(new Vector3(360,800,0));
+            }
         }
-        void CalculateEffectPoint(Vector3 position)
-        {
-            //ray = ViewLoader.camera.sc
-        }
-
-        
 
 
     }

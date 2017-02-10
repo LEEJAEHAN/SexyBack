@@ -7,9 +7,6 @@ namespace SexyBackPlayScene
     class ElementalManager
     {
         public Dictionary<string, Elemental> elementals = new Dictionary<string, Elemental>();
-        public List<Projectile> projectiles = new List<Projectile>();
-
-        Transform ElementalArea = ViewLoader.area_elemental.transform;
 
         public delegate void ElementalCreateEvent_Handler(Elemental sender);
         public event ElementalCreateEvent_Handler Action_ElementalCreateEvent;// = delegate (object sender) { };
@@ -27,13 +24,14 @@ namespace SexyBackPlayScene
                 return false;
 
             ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
-            Elemental temp = new Elemental(data, ElementalArea);
-            
+            Elemental newElemental = new Elemental(data, ViewLoader.area_elemental.transform);
+            Action_ElementalCreateEvent(newElemental);
 
-            Action_ElementalCreateEvent(temp);
-            elementals.Add(temp.GetID, temp);
+            elementals.Add(newElemental.GetID, newElemental);
 
-            temp.LevelUp(1);
+            newElemental.SetDamageX(Singleton<Player>.getInstance().GetElementalStat(id).DpsX);
+            newElemental.SetStat(Singleton<Player>.getInstance().GetElementalStat(id));
+            newElemental.LevelUp(1);
             return true;
         }
 
@@ -75,10 +73,16 @@ namespace SexyBackPlayScene
             return elementals[ElementalID];
         }
 
-
-        internal bool Upgrade(Bonus b)
+        internal void SetDamageX(BigInteger dpsX, string ElementalID)
         {
-            return elementals[b.targetID].Upgrade(b);
+            if (elementals.ContainsKey(ElementalID))
+                elementals[ElementalID].SetDamageX(dpsX);
+        }
+
+        internal void SetStat(ElementalUpgradeStat stat, string ElementalID)
+        {
+            if (elementals.ContainsKey(ElementalID))
+                elementals[ElementalID].SetStat(stat);
         }
     }
 }

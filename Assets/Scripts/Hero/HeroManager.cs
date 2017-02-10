@@ -22,6 +22,8 @@ namespace SexyBackPlayScene
             Action_HeroCreateEvent(CurrentHero);
             CurrentHero.ChangeState("Move"); //Ready
             CurrentHero.LevelUp(1);
+            CurrentHero.SetDamageX(Singleton<Player>.getInstance().GetHeroStat.DpcX);
+            CurrentHero.SetStat(Singleton<Player>.getInstance().GetHeroStat);
         }
         internal void Update()
         {
@@ -41,11 +43,6 @@ namespace SexyBackPlayScene
 
             monster.StateMachine.Action_changeEvent += CurrentHero.onTargetStateChange;
             CurrentHero.ChangeState("Ready");
-        }
-
-        internal bool Upgrade(Bonus b)
-        {
-            return CurrentHero.Upgrade(b);
         }
     }
 }

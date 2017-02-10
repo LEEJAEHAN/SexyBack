@@ -11,7 +11,7 @@
         void LevelUp(int level);
 
         // event sender
-        event LevelUp_EventHandler Action_LevelUp;
+        event LevelUp_EventHandler Action_LevelUpInfoChange;
 
     }
 

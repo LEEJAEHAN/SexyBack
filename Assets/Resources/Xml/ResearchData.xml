@@ -2,56 +2,56 @@
 <Researches>
 	<Research id="R01" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_FireElemental" name="@SR01N@" description="@SR01D@"/>
-		<Price value="1" digit="zero"/>
+		<Price value="25" digit="zero"/>
 		<PriceOverTime value="1" digit="zero" time="60"/>
 		<BonusList groupid="BR01"/>
 	</Research>
 	<Research id="R02" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_WaterElemental" name="@SR02N@" description="@SR02D@"/>
-		<Price value="25" digit="zero"/>
-		<PriceOverTime value="1" digit="zero" time="60"/>
+		<Price value="500" digit="zero"/>
+		<PriceOverTime value="25" digit="zero" time="60"/>
 		<BonusList groupid="BR02"/>
 	</Research>
 	<Research id="R03" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_RockElemental" name="@SR03N@" description="@SR03D@"/>
-		<Price value="500" digit="zero"/>
-		<PriceOverTime value="25" digit="zero" time="60"/>
+		<Price value="33333" digit="zero"/>
+		<PriceOverTime value="1250" digit="zero" time="60"/>
 		<BonusList groupid="BR03"/>
 	</Research>
 	<Research id="R04" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_ElectricElemental" name="@SR04N@" description="@SR04D@"/>
-		<Price value="33333" digit="zero"/>
-		<PriceOverTime value="1250" digit="zero" time="60"/>
+		<Price value="2300" digit="k"/>
+		<PriceOverTime value="90" digit="k" time="60"/>
 		<BonusList groupid="BR04"/>
 	</Research>
 	<Research id="R05" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_SnowElemental" name="@SR05N@" description="@SR05D@"/>
-		<Price value="2300" digit="k"/>
-		<PriceOverTime value="90" digit="k" time="60"/>
+		<Price value="1850" digit="m"/>
+		<PriceOverTime value="70" digit="m" time="60"/>
 		<BonusList groupid="BR05"/>
 	</Research>
 	<Research id="R06" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_EarthElemental" name="@SR06N@" description="@SR06D@"/>
-		<Price value="1850" digit="m"/>
-		<PriceOverTime value="70" digit="m" time="60"/>
+		<Price value="1100" digit="b"/>
+		<PriceOverTime value="40" digit="b" time="60"/>
 		<BonusList groupid="BR06"/>
 	</Research>
 	<Research id="R07" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_AirElemental" name="@SR07N@" description="@SR07D@"/>
-		<Price value="1100" digit="b"/>
-		<PriceOverTime value="40" digit="b" time="60"/>
+		<Price value="800" digit="A"/>
+		<PriceOverTime value="20" digit="A" time="60"/>
 		<BonusList groupid="BR07"/>
 	</Research>
 	<Research id="R08" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_IceElemental" name="@SR08N@" description="@SR08D@"/>
-		<Price value="800" digit="A"/>
-		<PriceOverTime value="20" digit="A" time="60"/>
+		<Price value="850" digit="B"/>
+		<PriceOverTime value="30" digit="B" time="60"/>
 		<BonusList groupid="BR08"/>
 	</Research>
 	<Research id="R09" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_MagmaElemental" name="@SR09N@" description="@SR09D@"/>
-		<Price value="850" digit="B"/>
-		<PriceOverTime value="30" digit="B" time="60"/>
+		<Price value="1800" digit="C"/>
+		<PriceOverTime value="70" digit="C" time="60"/>
 		<BonusList groupid="BR09"/>
 	</Research>
 </Researches>

@@ -44,10 +44,10 @@ namespace SexyBackPlayScene
                 monsters.Remove(monsterid);
         }
 
-        public void Move(float delta_z)
+        public void Move(double delta_z)
         {
-            zPosition -= delta_z;
-            avatar.transform.localPosition -= GameSetting.EyeLine * (delta_z / 10); // 벽이 다가온다
+            zPosition -= (float)delta_z;
+            avatar.transform.localPosition -= GameSetting.EyeLine * ((float)delta_z / 10); // 벽이 다가온다
             if (zPosition < 0 && monsters.Count > 0)
             {
                 zPosition = 0;

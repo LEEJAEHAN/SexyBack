@@ -30,7 +30,7 @@ namespace SexyBackPlayScene
             hero.Action_DistanceChange += onHeroMove;
         }
 
-        public void onHeroMove(float delta_z)
+        public void onHeroMove(double delta_z)
         {
             foreach (Stage st in Stages)
                 st.Move(delta_z);

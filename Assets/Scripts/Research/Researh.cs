@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    
+
     internal class Research : IDisposable, IHasGridItem
     {
         ~Research()
@@ -43,8 +43,8 @@ namespace SexyBackPlayScene
         public Research(ResearchData data, ICanLevelUp root)
         {
             owner = new WeakReference(root);
-            (owner.Target as ICanLevelUp).Action_LevelUp += onLevelUp;
-                //root.Action_LevelUp += onLevelUp;
+            (owner.Target as ICanLevelUp).Action_LevelUpInfoChange += onLevelUp;
+            //root.Action_LevelUp += onLevelUp;
 
             ID = data.ID;
             bonuses = data.bonuses;
@@ -67,7 +67,7 @@ namespace SexyBackPlayScene
         public void Dispose()
         {
             Singleton<StageManager>.getInstance().Action_ExpChange -= this.onExpChange;
-            (owner.Target as ICanLevelUp).Action_LevelUp -= onLevelUp;
+            (owner.Target as ICanLevelUp).Action_LevelUpInfoChange -= onLevelUp;
             itemView.Dispose();
         }
 
@@ -94,26 +94,17 @@ namespace SexyBackPlayScene
 
             if (End)
             {
-                if (TryToUpgrade())
-                {
-                    End = false;
-                    itemView.SetActive(false);
-                    Singleton<ResearchManager>.getInstance().Destroy(ID);
-                }
+                DoUpgrade();
+                End = false;
+                itemView.SetActive(false);
+                Singleton<ResearchManager>.getInstance().Destroy(ID);
             }
         }
 
-        private bool TryToUpgrade()
+        private void DoUpgrade()
         {
-            bool result = false;
             foreach (Bonus bonus in bonuses)
-            {
-                if (bonus.targetID == "hero") // target 타입으로 구분해야겠지만..
-                    result = Singleton<HeroManager>.getInstance().Upgrade(bonus);
-                else
-                    result = Singleton<ElementalManager>.getInstance().Upgrade(bonus);
-            }
-            return result;
+                Singleton<Player>.getInstance().Upgrade(bonus);
         }
 
         private void StepResearch(float deltaTime)
@@ -122,14 +113,14 @@ namespace SexyBackPlayScene
             if (TickTimer >= ResearchTick)
             {
                 bool result;
-                if (result = Singleton<StageManager>.getInstance().ExpUse((PricePerSec * (int)(ResearchTick * 100)) / 100 )) //if (Singleton<StageManager>.getInstance().ExpUse(PricePerSec * (int)(tick * 10000) / 10000))
+                if (result = Singleton<StageManager>.getInstance().ExpUse((PricePerSec * (int)(ResearchTick * 100)) / 100)) //if (Singleton<StageManager>.getInstance().ExpUse(PricePerSec * (int)(tick * 10000) / 10000))
                     RemainTime -= ResearchTick;
                 itemView.SetRBar((float)RemainTime / ResearchTime, (int)RemainTime, result);
                 TickTimer -= ResearchTick;
             }
         }
 
- 
+
         public void onSelect(string id)
         {
             if (id == null)
