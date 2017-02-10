@@ -468,7 +468,7 @@ namespace SexyBackPlayScene
             }
             return result;
         }
-        
+
 
         //private string ToDigitString(out Digit chardigit)
         //{

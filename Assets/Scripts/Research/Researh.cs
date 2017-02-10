@@ -20,14 +20,17 @@ namespace SexyBackPlayScene
         GridItem itemView;
 
         int RequireLevel;
-        BigInteger StartPrice;
-        BigInteger PricePerSec;
-        int ResearchTime;
+
+        int ResearchTime; // 
+        BigInteger StartPrice = new BigInteger(1); // 
+        BigInteger PricePerSec = new BigInteger(1); // 
         public List<Bonus> bonuses;
 
+        public int SortOrder;
         double RemainTime;
         float TickTimer = 0;
         float ResearchTick = 1f;
+
         //state flag
         bool Begin = false;
         bool Researching = false;
@@ -48,13 +51,13 @@ namespace SexyBackPlayScene
 
             ID = data.ID;
             bonuses = data.bonuses;
-            StartPrice = new BigInteger(data.price);
-            PricePerSec = new BigInteger(data.pot);
             RequireLevel = data.requeireLevel;
-            ResearchTime = data.time;
             IconName = data.IconName;
             InfoName = data.InfoName;
             Description = data.InfoDescription;
+            SortOrder = data.level + data.baselevel;
+
+            FillPrice(data.level, data.baselevel, data.baseprice, data.rate, data.basetime);
 
             itemView = new GridItem("Research", ID, IconName, ViewLoader.Tab3Container, this); // avatar생성
             itemView.SetRBar(0, ResearchTime, false);
@@ -62,6 +65,26 @@ namespace SexyBackPlayScene
             Refresh();
 
             Singleton<StageManager>.getInstance().Action_ExpChange += this.onExpChange;
+        }
+
+        private void FillPrice(int level, int baselevel, int baseprice, int rate, int basetime)
+        { // TODO : 중요한공식
+            int reallevel = level + baselevel;
+
+            int baseDamageRateXK = 1000 + 5 * baselevel; // 원래 double값은 1 + baselevel/20;
+
+            BigInteger TotalPrice = BigInteger.PowerByGrowth(baseDamageRateXK * baseprice, reallevel, ResearchData.GrowthRate) / 1000;
+
+            BigInteger ResarchPrice = rate * TotalPrice / 100;
+            StartPrice = ((100 - rate) * TotalPrice) / 100;
+
+            double growth = Math.Pow(ResearchData.TimeGrothRate, reallevel - 40); // 40층 부터 기준, 그전까진 지수적감소
+            double bonus = (double)reallevel / 30;  // rearlevel * 30(기준연구시간 / 900 , bonus는 0~30초까지.
+
+            double time = growth * (30 + bonus); // growth는 2의 3승까지는 업그레이드로 감소시킬수 있으므로, 8 * ( 30 + bonus ). 240~480초
+
+            ResearchTime = (int)time;
+            PricePerSec = ResarchPrice / ResearchTime;
         }
 
         public void Dispose()
@@ -136,7 +159,9 @@ namespace SexyBackPlayScene
         }
 
         public void onConfirm(string id)
-        {
+        {  // 중복입력 막는다.
+            if (Begin || Researching || End)
+                return;
             RemainTime = ResearchTime;
             Begin = true;
             itemView.SetRBar(1, (int)RemainTime, true);

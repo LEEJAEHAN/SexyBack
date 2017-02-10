@@ -24,7 +24,7 @@ namespace SexyBackPlayScene
 
         public Player()
         {
-            heroStat = new HeroUpgradeStat(new BigInteger(1), 100, 100, 6);
+            heroStat = new HeroUpgradeStat(new BigInteger(1), 100, 1000, 6);
             foreach (string elementalid in Singleton<TableLoader>.getInstance().elementaltable.Keys)
                 elementalStats.Add(new ElementalUpgradeStat(elementalid, new BigInteger(1), 100));
         }
@@ -35,9 +35,7 @@ namespace SexyBackPlayScene
             {
                 case "LearnSkill":
                     {
-                        bool result = elementalmanager.SummonNewElemental(bonus.strvalue);
-                        if (!result)
-                            sexybacklog.Error("Summon error");
+                        elementalmanager.LearnNewElemental(bonus.strvalue);
                         break;
                     }
                 case "DpcX":

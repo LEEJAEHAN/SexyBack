@@ -2,6 +2,20 @@
 
 
 <Researches>
+  <Research id="R01" requireid="hero" requirelevel="0">
+    <Info icon="SexyBackIcon_FireElemental" name="@SR01N@" description="@SR01D@"/>
+    <Price value="1" digit="zero"/>
+    <PriceOverTime value="1" digit="zero" time="10"/>
+    <BonusList groupid="R01bonus"/>
+  </Research>
+  <Research id="R02" requireid="hero" requirelevel="0">
+    <Info icon="SexyBackIcon_FireElemental" name="@SR02N@" description="@SR02D@"/>
+    <Price value="1" digit="zero"/>
+    <PriceOverTime value="1" digit="zero" time="10"/>
+    <BonusList groupid="R01bonus"/>
+  </Research>
+
+
 
   <Research id="R03" requireid="hero" requirelevel="0">
     <Info icon="SexyBackIcon_FireElemental" name="@SR02N@" description="@SR02D@"/>
@@ -10,11 +24,5 @@
     <BonusList groupid="R01bonus"/>
   </Research>
 
-  <Research id="R03" requireid="hero" requirelevel="0">
-    <Info icon="SexyBackIcon_FireElemental" name="@SR02N@" description="@SR02D@"/>
-    <Price level="40" baselevel="15" baseprice="50"/>
-    <PriceOverTime rate="8" basetime="30"/>
-    <BonusList groupid="R01bonus"/>
-  </Research>
-
+  
 </Researches>

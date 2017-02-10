@@ -100,8 +100,9 @@ namespace SexyBackPlayScene
         }
 
         public void onConfirm(string id)
-        {
-            Purchase();
+        {   // 중복입력 막는다.
+            if(PurchaseCount == 0)
+                Purchase();
         }
 
         internal void onLevelChange(ICanLevelUp sender)

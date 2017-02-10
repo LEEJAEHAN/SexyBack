@@ -7,7 +7,7 @@ namespace SexyBackPlayScene
     class ElementalManager
     {
         public Dictionary<string, Elemental> elementals = new Dictionary<string, Elemental>();
-
+        public Queue<string> readyToCreate = new Queue<string>();
         public delegate void ElementalCreateEvent_Handler(Elemental sender);
         public event ElementalCreateEvent_Handler Action_ElementalCreateEvent;// = delegate (object sender) { };
 
@@ -16,13 +16,8 @@ namespace SexyBackPlayScene
             // this class is event listner
             Singleton<MonsterManager>.getInstance().Action_BeginBattleEvent += this.SetTarget;
         }
-        public bool SummonNewElemental(string id)
+        private bool SummonNewElemental(string id)
         {
-            if (Singleton<TableLoader>.getInstance().elementaltable.ContainsKey(id) == false)
-                return false;
-            if (elementals.ContainsKey(id)) // 이미있는경우   
-                return false;
-
             ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
             Elemental newElemental = new Elemental(data, ViewLoader.area_elemental.transform);
             Action_ElementalCreateEvent(newElemental);
@@ -33,6 +28,16 @@ namespace SexyBackPlayScene
             newElemental.SetStat(Singleton<Player>.getInstance().GetElementalStat(id));
             newElemental.LevelUp(1);
             return true;
+        }
+
+        internal void LearnNewElemental(string id)
+        {
+            if (Singleton<TableLoader>.getInstance().elementaltable.ContainsKey(id) == false)
+                return;
+            if (elementals.ContainsKey(id)) // 이미있는경우   
+                return;
+
+            readyToCreate.Enqueue(id);
         }
 
         public BigInteger GetTotalDps()
@@ -47,6 +52,9 @@ namespace SexyBackPlayScene
         {
             foreach (Elemental elemenatal in elementals.Values)
                 elemenatal.Update();
+
+            while (readyToCreate.Count > 0)
+                SummonNewElemental(readyToCreate.Dequeue());
         }
 
 

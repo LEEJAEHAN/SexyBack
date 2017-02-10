@@ -35,8 +35,6 @@ namespace SexyBackPlayScene
             researchManager = Singleton<ResearchManager>.getInstance();
             infoView = Singleton<GameInfoView>.getInstance();
             
-
-
             stageManager = Singleton<StageManager>.getInstance();
 
             heroManager.Init();
@@ -62,7 +60,8 @@ namespace SexyBackPlayScene
             //elementalManager.SummonNewElemental("earthball");
             //elementalManager.SummonNewElemental("airball"); // for test
             //elementalManager.SummonNewElemental("iceblock");
-            //elementalManager.SummonNewElemental("magmaball");
+
+            elementalManager.LearnNewElemental("magmaball");
 
 
         }

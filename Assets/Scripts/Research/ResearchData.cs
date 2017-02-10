@@ -4,38 +4,39 @@ namespace SexyBackPlayScene
 {
     public class ResearchData
     {
+        public static double GrowthRate = 1.148698f; // / 100
+        public static double TimeGrothRate = 1.035264924;
+
         public string ID; // 리서치아이디
-
-        public BigIntExpression price;
-        public BigIntExpression pot; // price over time
-        public int time;
-
         public List<Bonus> bonuses = new List<Bonus>();
-
         public string requireID;
         public int requeireLevel;
 
         public string IconName;
         public string InfoName;
         public string InfoDescription;
+        public int level;
+        public int baselevel;
+        public int baseprice;
+        public int rate;
+        public int basetime;
 
-        public ResearchData()
+        public ResearchData(string id, string requireid, int requirelevel, string icon, string name, string description, int level, int baselevel, int baseprice, int rate, int basetime, List<Bonus> bonuselist)
         {
-        }
+            ID = id;
+            bonuses = bonuselist;
+            requireID = requireid;
+            requeireLevel = requirelevel;
 
-        public ResearchData(string ID, string requireID, int requeireLevel, List<Bonus> bonuses, BigIntExpression price, BigIntExpression pot,
-            int time, string IconName, string InfoName, string InfoDescription)
-        {
-            this.ID = ID;
-            this.requireID = requireID;
-            this.requeireLevel = requeireLevel;
-            this.bonuses = bonuses;
-            this.price = price;
-            this.pot = pot;
-            this.time = time;
-            this.IconName = IconName;
-            this.InfoName = InfoName;
-            this.InfoDescription = InfoDescription;
+            IconName = icon;
+            InfoName = name;
+            InfoDescription = description;
+
+            this.level = level;
+            this.baselevel = baselevel;
+            this.baseprice = baseprice;
+            this.rate = rate;
+            this.basetime = basetime;
         }
     }
 

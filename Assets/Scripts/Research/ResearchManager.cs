@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace SexyBackPlayScene
 {
@@ -17,6 +18,14 @@ namespace SexyBackPlayScene
 
             ViewLoader.TabButton3.GetComponent<TabView>().Action_ShowList += onShowList;
             ViewLoader.TabButton3.GetComponent<TabView>().Action_HideList += onHideList;
+
+
+            ViewLoader.Tab3Container.GetComponent<UIGrid>().onCustomSort = myResearchSort;
+        }
+
+        int myResearchSort(Transform a, Transform b)
+        {
+            return researches[a.gameObject.name].SortOrder -  researches[b.gameObject.name].SortOrder;
         }
 
         private void onHideList()
@@ -37,7 +46,7 @@ namespace SexyBackPlayScene
 
         private void onElementalCreate(Elemental elemental)
         {
-            CreateResearch(elemental);
+            CreateResearch(elemental); // TODO : 바로만들지말고 업데이트에서 만들어야한다.
         }
 
         private void CreateResearch(ICanLevelUp root)
@@ -54,9 +63,16 @@ namespace SexyBackPlayScene
 
         public void Update()
         {
-            foreach (Research research in researches.Values)
+            try
             {
-                research.Update();
+                foreach (Research research in researches.Values)
+                {
+                    research.Update();
+                }
+            }
+            catch (InvalidOperationException e )
+            {
+                sexybacklog.Error(e.Message);
             }
 
             foreach (Research research in beToDispose)
@@ -65,7 +81,7 @@ namespace SexyBackPlayScene
                 research.Dispose();
             }
             beToDispose.Clear(); // TODO : 이거 찜찜함
-            ViewLoader.Tab3Container.gameObject.GetComponent<UIGrid>().Reposition();
+            ViewLoader.Tab3Container.GetComponent<UIGrid>().Reposition();
         }
 
         internal void Destroy(string iD)
