@@ -16,6 +16,7 @@ namespace SexyBackPlayScene
         string IconName;
         string InfoName;
         string Description;
+        string ViewText;
 
         GridItem itemView;
 
@@ -32,6 +33,7 @@ namespace SexyBackPlayScene
         float ResearchTick = 1f;
 
         //state flag
+        bool CanBuy = false;
         bool Begin = false;
         bool Researching = false;
         bool End = false;
@@ -39,7 +41,6 @@ namespace SexyBackPlayScene
         bool Learn = false;
 
         // show, enable condition
-        bool CanBuy = false;
         bool ShowCondition1 = false;
         bool ShowCondition2 = false;
 
@@ -62,9 +63,9 @@ namespace SexyBackPlayScene
             itemView = new GridItem("Research", ID, IconName, ViewLoader.Tab3Container, this); // avatar생성
             itemView.SetRBar(0, ResearchTime, false);
             itemView.SetActive(false);
-            Refresh();
 
-            Singleton<StageManager>.getInstance().Action_ExpChange += this.onExpChange;
+            onExpChange(Singleton<Player>.getInstance().EXP);
+            Singleton<Player>.getInstance().Action_ExpChange += this.onExpChange;
         }
 
         private void FillPrice(int level, int baselevel, int baseprice, int rate, int basetime)
@@ -89,7 +90,7 @@ namespace SexyBackPlayScene
 
         public void Dispose()
         {
-            Singleton<StageManager>.getInstance().Action_ExpChange -= this.onExpChange;
+            Singleton<Player>.getInstance().Action_ExpChange -= this.onExpChange;
             (owner.Target as ICanLevelUp).Action_LevelUpInfoChange -= onLevelUp;
             itemView.Dispose();
         }
@@ -99,7 +100,7 @@ namespace SexyBackPlayScene
         {   // state machine
             if (Begin)
             {
-                if (Singleton<StageManager>.getInstance().ExpUse(StartPrice))
+                if (Singleton<Player>.getInstance().ExpUse(StartPrice))
                     Researching = true;
                 Begin = false;
             }
@@ -136,7 +137,7 @@ namespace SexyBackPlayScene
             if (TickTimer >= ResearchTick)
             {
                 bool result;
-                if (result = Singleton<StageManager>.getInstance().ExpUse((PricePerSec * (int)(ResearchTick * 100)) / 100)) //if (Singleton<StageManager>.getInstance().ExpUse(PricePerSec * (int)(tick * 10000) / 10000))
+                if (result = Singleton<Player>.getInstance().ExpUse((PricePerSec * (int)(ResearchTick * 100)) / 100)) //if (Singleton<StageManager>.getInstance().ExpUse(PricePerSec * (int)(tick * 10000) / 10000))
                     RemainTime -= ResearchTick;
                 itemView.SetRBar((float)RemainTime / ResearchTime, (int)RemainTime, result);
                 TickTimer -= ResearchTick;
@@ -154,8 +155,24 @@ namespace SexyBackPlayScene
             }
 
             Selected = true;
-            itemView.FillInfo(Selected, IconName, InfoName + Description);
+
+            ViewText = MakeDescriptionText(InfoName, Description, StartPrice, ResearchTime, PricePerSec);
+
+            itemView.FillInfo(Selected, IconName, ViewText);
             Refresh();
+        }
+
+        private string MakeDescriptionText(string infoName, string description, BigInteger startPrice, int researchTime, BigInteger pricePerSec)
+        {
+            string temp = "";
+            temp += infoName + "\n";
+            temp += description + "\n";
+            temp += "비용 : " + startPrice.To5String() + " EXP\n";
+            temp += "연구시간 : " + researchTime.ToString() + " 초\n";
+            temp += "연구비용 : 초당 " + pricePerSec.To5String() + " EXP";
+
+            return temp;
+
         }
 
         public void onConfirm(string id)

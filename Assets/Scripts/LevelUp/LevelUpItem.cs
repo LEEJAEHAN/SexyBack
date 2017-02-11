@@ -25,8 +25,7 @@ namespace SexyBackPlayScene
         internal bool CanBuy = false;
         public bool Selected = false;
         bool Learn = false;
-
-
+        
         public LevelUpItem(LevelUpItemData data, ICanLevelUp root)
         {
             owner = new WeakReference(root);
@@ -37,18 +36,17 @@ namespace SexyBackPlayScene
             Icon = data.IconName;
             Info_Name = data.InfoName;
 
-            Singleton<StageManager>.getInstance().Action_ExpChange += onExpChange;
+            Singleton<Player>.getInstance().Action_ExpChange += onExpChange;
             itemView = new GridItem("LevelUp", ID, Icon, ViewLoader.Tab1Container, this);
 
-            itemView.SetActive(false);
-            Refresh();
+            onExpChange(Singleton<Player>.getInstance().EXP);
         }
 
         internal void Update()
         {
             for (int i = 0; i < PurchaseCount; PurchaseCount--)
             {
-                if (Singleton<StageManager>.getInstance().ExpUse(Price))
+                if (Singleton<Player>.getInstance().ExpUse(Price))
                     (owner.Target as ICanLevelUp).LevelUp(1);
             }
         }

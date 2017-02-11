@@ -19,7 +19,6 @@ namespace SexyBackPlayScene
             ViewLoader.TabButton3.GetComponent<TabView>().Action_ShowList += onShowList;
             ViewLoader.TabButton3.GetComponent<TabView>().Action_HideList += onHideList;
 
-
             ViewLoader.Tab3Container.GetComponent<UIGrid>().onCustomSort = myResearchSort;
         }
 

@@ -7,6 +7,12 @@ namespace SexyBackPlayScene
 {
     internal class Player // 누적배수를 가지고있다.
     {
+        private BigInteger exp = new BigInteger(0);
+        public delegate void ExpChange_Event(BigInteger exp);
+        public event ExpChange_Event Action_ExpChange;
+
+        internal BigInteger EXP { get { return exp; } }
+
         HeroManager heromanager = Singleton<HeroManager>.getInstance();
         ElementalManager elementalmanager = Singleton<ElementalManager>.getInstance();
 
@@ -27,6 +33,28 @@ namespace SexyBackPlayScene
             heroStat = new HeroUpgradeStat(new BigInteger(1), 100, 1000, 6);
             foreach (string elementalid in Singleton<TableLoader>.getInstance().elementaltable.Keys)
                 elementalStats.Add(new ElementalUpgradeStat(elementalid, new BigInteger(1), 100));
+        }
+
+        internal void Init(GameModeData args)
+        {
+            // 아직할것없음.
+        }
+
+        internal void Start()
+        {
+            ExpGain(100000);
+
+            heromanager.CreateHero(); // and hero is move
+
+            //elementalmanager.LearnNewElemental("magmaball");
+            //elementalManager.SummonNewElemental("fireball");
+            //elementalManager.SummonNewElemental("waterball");
+            //elementalManager.SummonNewElemental("rock");
+            //elementalManager.SummonNewElemental("electricball");
+            //elementalManager.SummonNewElemental("snowball");
+            //elementalManager.SummonNewElemental("earthball");
+            //elementalManager.SummonNewElemental("airball"); // for test
+            //elementalManager.SummonNewElemental("iceblock");
         }
 
         internal void Upgrade(Bonus bonus)
@@ -74,8 +102,8 @@ namespace SexyBackPlayScene
                         heromanager.GetHero(bonus.targetID).SetStat(heroStat);
                         break;
                     }
-                    // 여기까지 hero
-                    // 여기서부턴 elemental
+                // 여기까지 hero
+                // 여기서부턴 elemental
                 case "DpsX": // dpsx all;
                     {
                         if (bonus.targetID == "All")
@@ -88,7 +116,7 @@ namespace SexyBackPlayScene
                         {
                             foreach (ElementalUpgradeStat stat in elementalStats)
                             {
-                                if(stat.ID == bonus.targetID)
+                                if (stat.ID == bonus.targetID)
                                 {
                                     stat.DpsX *= bonus.value;
                                     elementalmanager.SetDamageX(stat.DpsX, stat.ID);
@@ -127,6 +155,30 @@ namespace SexyBackPlayScene
                     }
             }
         }
+
+
+        public void ExpGain(BigInteger e)
+        {
+            exp += e;
+            Action_ExpChange(exp);
+        }
+        internal bool ExpUse(BigInteger e)
+        {
+            bool result;
+
+            if (exp - e < 0)
+                result = false;
+            else
+            {
+                exp -= e;
+                result = true;
+            }
+
+            Action_ExpChange(exp);
+            return result;
+        }
+
+
     }
     internal struct HeroUpgradeStat
     {
@@ -158,4 +210,7 @@ namespace SexyBackPlayScene
             DpsX = dpsx;
         }
     }
+
+
+
 }

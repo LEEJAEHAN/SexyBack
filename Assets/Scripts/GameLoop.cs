@@ -27,12 +27,13 @@ namespace SexyBackPlayScene
             gameInput = Singleton<GameInput>.getInstance();
 
             gameManager = Singleton<GameManager>.getInstance();
-            gameManager.Init();
+
+            gameManager.Init(new GameModeData("teststage", 100, 0));
         }
 //        GameModeData args;
         void Start()
         {
-            gameManager.Start(new GameModeData("teststage", 100, 0));
+            gameManager.Start();
         }
         // Update is called once per frame
         void Update()

@@ -7,25 +7,23 @@ namespace SexyBackPlayScene
 {
     public class GameManager
     {
-        //
-        Player player;
-        // singleton - player
-        LevelUpManager levelUpManager;
-        ResearchManager researchManager;
-
         // singleton - stage
+        StageManager stageManager; // 일종의 스크립트
         MonsterManager monsterManager;
         HeroManager heroManager;
         ElementalManager elementalManager;
-        
+
+        // singleton - player
+        Player player;
+        LevelUpManager levelUpManager;
+        ResearchManager researchManager;
+
         // View
         GameInfoView infoView;
-
         // member
-        StageManager stageManager; // 일종의 스크립트
 
         // Use this for initialization
-        public void Init()
+        internal void Init(GameModeData args)
         {
             player = Singleton<Player>.getInstance();
             heroManager = Singleton<HeroManager>.getInstance();
@@ -37,31 +35,21 @@ namespace SexyBackPlayScene
             
             stageManager = Singleton<StageManager>.getInstance();
 
+
+            player.Init(args);
+            stageManager.Init(args);
             heroManager.Init();
             monsterManager.Init();
             elementalManager.Init();
             levelUpManager.Init();
             researchManager.Init();
-
             infoView.Init();
-            stageManager.Init();
         }
 
-        internal void Start(GameModeData args)
+        internal void Start()
         {
-            stageManager.Start(args);
-            heroManager.CreateHero(); // and hero is move
-
-            //elementalManager.SummonNewElemental("fireball");
-            //elementalManager.SummonNewElemental("waterball");
-            //elementalManager.SummonNewElemental("rock");
-            //elementalManager.SummonNewElemental("electricball");
-            //elementalManager.SummonNewElemental("snowball");
-            //elementalManager.SummonNewElemental("earthball");
-            //elementalManager.SummonNewElemental("airball"); // for test
-            //elementalManager.SummonNewElemental("iceblock");
-
-            elementalManager.LearnNewElemental("magmaball");
+            player.Start();
+            stageManager.Start();
 
 
         }
