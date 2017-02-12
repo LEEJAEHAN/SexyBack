@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SexyBackPlayScene
 {
@@ -38,6 +39,7 @@ namespace SexyBackPlayScene
             this.rate = rate;
             this.basetime = basetime;
         }
+
     }
 
     public class Bonus

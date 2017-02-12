@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace SexyBackPlayScene
 {
@@ -11,6 +12,10 @@ namespace SexyBackPlayScene
         public delegate void GridItemConfirm_Event(string name);
         public event GridItemConfirm_Event Action_ConfirmGridItem;
 
+        public delegate void GridItemPause_Event(string name);
+        public event GridItemPause_Event Action_PauseGridItem;
+
+
         bool selected = false;
 
         public void onItemSelect() //, string ItemButtonName, bool toggleState
@@ -18,14 +23,16 @@ namespace SexyBackPlayScene
             if (GetComponent<UIToggle>().value == false) //// toggle off
             {
                 selected = false;
-                ViewLoader.Button_Confirm.GetComponent<UIButton>().onClick.Clear();
                 Action_SelectGridItem(null);
             }
 
             else if (GetComponent<UIToggle>().value == true) // toggle on
             {
                 selected = true;
+                ViewLoader.Button_Confirm.GetComponent<UIButton>().onClick.Clear();
+                ViewLoader.Button_Pause.GetComponent<UIButton>().onClick.Clear();
                 ViewLoader.Button_Confirm.GetComponent<UIButton>().onClick.Add(new EventDelegate(this, "onConfirm"));
+                ViewLoader.Button_Pause.GetComponent<UIButton>().onClick.Add(new EventDelegate(this, "onPause"));
                 Action_SelectGridItem(this.name);
             }
         }
@@ -34,14 +41,23 @@ namespace SexyBackPlayScene
         {
             Action_ConfirmGridItem(this.name);
         }
-
+        public void onPause()
+        {
+            Action_PauseGridItem(this.name);
+        }
+        private void OnDestroy()
+        {
+            Action_SelectGridItem = null;
+            Action_ConfirmGridItem = null;
+            Action_PauseGridItem = null;
+            sexybacklog.Console("게임오브젝트소멸");
+        }
         void OnDisable()
         {
             if (GetComponent<UIToggle>().value == true) //// toggle off when disable
             {
                 GetComponent<UIToggle>().value = false;
                 selected = false;
-                ViewLoader.Button_Confirm.GetComponent<UIButton>().onClick.Clear();
                 Action_SelectGridItem(null);
             }
         }

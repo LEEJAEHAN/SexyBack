@@ -17,10 +17,10 @@ namespace SexyBackPlayScene
         internal abstract void End();
         internal abstract void Begin();
 
-        ~BaseState()
-        {
-            //sexybacklog.Console(this.ToString() + "State 해제");
-        }
+        //~BaseState()
+        //{
+        //    sexybacklog.Console(this.ToString() + "state 해제");
+        //}
 
     }
 

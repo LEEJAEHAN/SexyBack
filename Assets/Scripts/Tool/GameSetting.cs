@@ -53,6 +53,8 @@ namespace SexyBackPlayScene
             ViewLoader.monsterbucket.transform.DestroyChildren();
             ViewLoader.StagePanel.transform.DestroyChildren();
             ViewLoader.Bar_Attack.transform.DestroyChildren();
+
+            ViewLoader.Button_Pause.SetActive(false);
         }
     }
 }

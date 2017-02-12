@@ -8,18 +8,23 @@ namespace SexyBackPlayScene
     internal class Player // 누적배수를 가지고있다.
     {
         private BigInteger exp = new BigInteger(0);
+        public BigInteger EXP { get { return exp; } }
+
+
         public delegate void ExpChange_Event(BigInteger exp);
         public event ExpChange_Event Action_ExpChange;
 
-        internal BigInteger EXP { get { return exp; } }
 
         HeroManager heromanager = Singleton<HeroManager>.getInstance();
         ElementalManager elementalmanager = Singleton<ElementalManager>.getInstance();
 
+
         HeroUpgradeStat heroStat;
+        ResearchUpgradeStat researchStat;
         List<ElementalUpgradeStat> elementalStats = new List<ElementalUpgradeStat>();
 
         internal HeroUpgradeStat GetHeroStat { get { return heroStat; } }
+        internal ResearchUpgradeStat GetResearchStat { get { return researchStat; } }
         internal ElementalUpgradeStat GetElementalStat(string id)
         {
             foreach (ElementalUpgradeStat stat in elementalStats)
@@ -31,6 +36,7 @@ namespace SexyBackPlayScene
         public Player()
         {
             heroStat = new HeroUpgradeStat(new BigInteger(1), 100, 1000, 6);
+            researchStat = new ResearchUpgradeStat(1, 0);
             foreach (string elementalid in Singleton<TableLoader>.getInstance().elementaltable.Keys)
                 elementalStats.Add(new ElementalUpgradeStat(elementalid, new BigInteger(1), 100));
         }
@@ -45,6 +51,10 @@ namespace SexyBackPlayScene
             ExpGain(100000);
 
             heromanager.CreateHero(); // and hero is move
+
+            Upgrade(new Bonus("hero", "ResearchTimeX", 2, ""));
+
+            Upgrade(new Bonus("hero", "ResearchTime", 3, ""));
 
             //elementalmanager.LearnNewElemental("magmaball");
             //elementalManager.SummonNewElemental("fireball");
@@ -148,6 +158,18 @@ namespace SexyBackPlayScene
                         }
                         break;
                     }
+                case "ResearchTimeX":
+                    {
+                        researchStat.ReduceTimeX *= bonus.value;
+                        Singleton<ResearchManager>.getInstance().ReduceTime(researchStat);
+                        break;
+                    }
+                case "ResearchTime":
+                    {
+                        researchStat.ReduceTime += bonus.value;
+                        Singleton<ResearchManager>.getInstance().ReduceTime(researchStat);
+                        break;
+                    }
                 default:
                     {
                         sexybacklog.Error("업그레이드가능한 attribute가 없습니다.");
@@ -178,8 +200,20 @@ namespace SexyBackPlayScene
             return result;
         }
 
-
     }
+
+    internal struct ResearchUpgradeStat
+    {
+        internal int ReduceTimeX; // 곱계수는 X를붙인다.
+        internal int ReduceTime; // 보너스 공격스택횟수  6
+
+        public ResearchUpgradeStat(int reducetimex, int reducetime) : this()
+        {
+            ReduceTimeX = reducetimex;
+            ReduceTime = reducetime;
+        }
+    }
+
     internal struct HeroUpgradeStat
     {
         internal BigInteger DpcX; // 곱계수는 X를붙인다.

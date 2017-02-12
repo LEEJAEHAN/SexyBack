@@ -20,7 +20,7 @@ namespace SexyBackPlayScene
         private void onHideList()
         {
             ViewLoader.Tab1Container.SetActive(false);
-           // ViewLoader.Info_Context.SetActive(false);
+            // ViewLoader.Info_Context.SetActive(false);
         }
 
         private void onShowList()
@@ -52,6 +52,7 @@ namespace SexyBackPlayScene
                 return null;
 
             LevelUpItem levelupItem = new LevelUpItem(Singleton<TableLoader>.getInstance().leveluptable[root.GetID], root);
+            levelupItem.onExpChange(Singleton<Player>.getInstance().EXP);
             levelUpItems.Add(root.GetID, levelupItem);
             return levelupItem;
         }

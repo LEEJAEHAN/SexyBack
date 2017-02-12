@@ -7,6 +7,8 @@ namespace SexyBackPlayScene
     // 레벨업을 하기 위해 구매해야하는 객체, canlevelup 이만들어지면 기생으로 붙는다. 저장된 게임 능력치와는 관계없다
     {
         protected GridItem itemView;
+        InfoPanel infoPanel;
+
         WeakReference owner;
         // 돈관련, protected
         protected BigInteger originalprice = new BigInteger(0); // original price
@@ -37,9 +39,9 @@ namespace SexyBackPlayScene
             Info_Name = data.InfoName;
 
             Singleton<Player>.getInstance().Action_ExpChange += onExpChange;
-            itemView = new GridItem("LevelUp", ID, Icon, ViewLoader.Tab1Container, this);
-
-            onExpChange(Singleton<Player>.getInstance().EXP);
+            itemView = new GridItem("LevelUp", ID, Icon, ViewLoader.Tab1Container);
+            itemView.AttachEventListner(this);
+            infoPanel = Singleton<InfoPanel>.getInstance();
         }
 
         internal void Update()
@@ -67,9 +69,9 @@ namespace SexyBackPlayScene
         public void Refresh()
         {
             if (CanBuy)
-                itemView.ConfirmEnable(Selected);
+                infoPanel.SetConfirmButton(Selected, true);
             else
-                itemView.ConfirmDisable(Selected);
+                infoPanel.SetConfirmButton(Selected, false);
 
             if (CanBuy)
                 itemView.Enable();
@@ -88,12 +90,12 @@ namespace SexyBackPlayScene
             if (id == null)
             {
                 Selected = false;
-                itemView.ClearInfo();
+                infoPanel.Hide();
                 return;
             }
 
             Selected = true;
-            itemView.FillInfo(Selected, Icon, Info_Text);
+            infoPanel.Show(Selected, Icon, Info_Text);
             Refresh();
         }
 
@@ -102,6 +104,11 @@ namespace SexyBackPlayScene
             if(PurchaseCount == 0)
                 Purchase();
         }
+
+        public void onPause(string id)
+        {
+        }
+
 
         internal void onLevelChange(ICanLevelUp sender)
         {
@@ -113,10 +120,8 @@ namespace SexyBackPlayScene
             Info_Text += "Cost : " + Price.To5String() + " EXP";
 
             itemView.FillItemContents(Button_Text);
-            itemView.FillInfo(Selected, Icon, Info_Text);
+            infoPanel.Show(Selected, Icon, Info_Text);
         }
-
-
 
     }
 

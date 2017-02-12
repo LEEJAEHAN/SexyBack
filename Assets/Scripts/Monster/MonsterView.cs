@@ -9,7 +9,6 @@ namespace SexyBackPlayScene
         public delegate void MonsterHit_Event(Vector3 hitPosition, string elementID);
         public event MonsterHit_Event Action_HitEvent = delegate { };
         
-
         bool isdisposing = false;
         int WallHitCount = 7;
 

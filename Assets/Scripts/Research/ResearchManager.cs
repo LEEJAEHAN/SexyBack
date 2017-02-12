@@ -8,6 +8,8 @@ namespace SexyBackPlayScene
 {
     class ResearchManager
     {
+        ResearchFactory factory = new ResearchFactory();
+
         public Dictionary<string, Research> researches = new Dictionary<string, Research>();
         public List<Research> beToDispose = new List<Research>();
 
@@ -54,7 +56,7 @@ namespace SexyBackPlayScene
             {
                 if (item.requireID == root.GetID)
                 {
-                    Research research = new Research(item, root);
+                    Research research = factory.CreateNewResearch(item, root);
                     researches.Add(item.ID, research);
                 }
             }
@@ -76,7 +78,7 @@ namespace SexyBackPlayScene
 
             foreach (Research research in beToDispose)
             {
-                researches.Remove(research.ID);
+                researches.Remove(research.GetID);
                 research.Dispose();
             }
             beToDispose.Clear(); // TODO : 이거 찜찜함
@@ -86,6 +88,14 @@ namespace SexyBackPlayScene
         internal void Destroy(string iD)
         {
             beToDispose.Add(researches[iD]);
+        }
+
+        internal void ReduceTime(ResearchUpgradeStat researchStat)
+        {
+            foreach (Research research in researches.Values)
+            {
+                research.SetStat(researchStat);
+            }
         }
     }
 }

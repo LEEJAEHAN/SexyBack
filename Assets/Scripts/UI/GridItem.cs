@@ -3,19 +3,14 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    public class GridItem : IDisposable
+    public class GridItem : IDisposable //TODO : 두가지타입 상속으로바꾼다.
     {
         string Type;
         GameObject avatar;
-        Transform gridPanel;
-        GridItemView view; // viewScript
+        Transform gridPanel; // parent
+        GridItemView eventScript; // viewScript
 
         //member
-        UIButton Confirm = ViewLoader.Button_Confirm.GetComponent<UIButton>();
-        GameObject Info_Window = ViewLoader.Info_Context;
-        UISprite Info_Icon = ViewLoader.Info_Icon.GetComponent<UISprite>();
-        UILabel Info_Description = ViewLoader.Info_Description.GetComponent<UILabel>();
-
         // research bar
         UIProgressBar ResearchBar;
         UILabel RBar_Time;
@@ -23,7 +18,11 @@ namespace SexyBackPlayScene
 
         bool isEnable = true;
 
-        public GridItem(string type, string id, string IconName, GameObject parent, IHasGridItem eventListner)
+        ~GridItem()
+        {
+            sexybacklog.Console("그리드아이템뷰 헤 ㅋㅋ 제 ㅋㅋ");
+        }
+        public GridItem(string type, string id, string IconName, GameObject parent)
         {
             GameObject prefab;
             Type = type;
@@ -42,9 +41,7 @@ namespace SexyBackPlayScene
             iconObject.GetComponent<UISprite>().spriteName = IconName;
 
             // set event
-            view = avatar.GetComponent<GridItemView>();
-            view.Action_ConfirmGridItem += eventListner.onConfirm;
-            view.Action_SelectGridItem += eventListner.onSelect; // 매니져가 안받는다.
+            eventScript = avatar.GetComponent<GridItemView>();
 
             // set parents
             gridPanel = parent.transform;
@@ -53,7 +50,12 @@ namespace SexyBackPlayScene
 
             SetMember();
         }
-
+        public void AttachEventListner(IHasGridItem eventListner)
+        {
+            eventScript.Action_ConfirmGridItem += eventListner.onConfirm;
+            eventScript.Action_PauseGridItem += eventListner.onPause;
+            eventScript.Action_SelectGridItem += eventListner.onSelect; // 매니져가 안받는다.
+        }
 
         private void SetMember()
         {
@@ -91,7 +93,7 @@ namespace SexyBackPlayScene
         }
 
         // only for research prefab;
-        public void SetRBar(float progress, int time, bool colorflag)
+        public void ShowRBar(float progress, int time, bool colorflag)
         {
             ResearchBar.value = progress;
             RBar_Time.text = time.ToString() + " sec";
@@ -100,31 +102,9 @@ namespace SexyBackPlayScene
             else
                 RBar_Fill1.color = new Color(0.5f, 0.5f, 0.5f, 1);
         }
-
-        public void ConfirmEnable(bool selected)
-        { // infoview는 select상태에서만 갱신해야한다.
-            if (!selected || Confirm.enabled)
-                return;
-
-            Confirm.enabled = true;
-            Confirm.SetState(UIButtonColor.State.Normal, true);
-        }
-
-        public void ConfirmDisable(bool selected)
-        { // infoview는 select상태에서만 갱신해야한다.
-            if (!selected || !Confirm.enabled)
-                return;
-            Confirm.enabled = false;
-            Confirm.SetState(UIButtonColor.State.Disabled, true);
-        }
-
-        public void FillInfo(bool selected, string Icon, string Descrption)
-        {   // infoview는 select상태에서만 갱신해야한다.
-            if (!selected)
-                return;
-            Info_Window.SetActive(true);
-            Info_Icon.spriteName = Icon;
-            Info_Description.text = Descrption;
+        public void HideRBar()
+        {
+            ResearchBar.gameObject.SetActive(false);
         }
 
         // only for level up
@@ -132,12 +112,6 @@ namespace SexyBackPlayScene
         {
             GameObject labelObject = avatar.transform.FindChild("Label").gameObject;
             labelObject.GetComponent<UILabel>().text = buttontext; // 최초에 그리기용
-        }
-
-        public void ClearInfo()
-        {
-            if (Info_Window.activeInHierarchy)
-                Info_Window.SetActive(false);
         }
 
         public void Dispose()

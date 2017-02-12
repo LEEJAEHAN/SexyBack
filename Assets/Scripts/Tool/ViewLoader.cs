@@ -43,6 +43,7 @@ namespace SexyBackPlayScene
         public static GameObject Info_Context;
         public static GameObject DamageFont;
         public static GameObject Button_Confirm;
+        public static GameObject Button_Pause;
         public static GameObject Bar_Attack;
         // info ui
         public static GameObject Info_Icon;
@@ -57,7 +58,6 @@ namespace SexyBackPlayScene
         public static GameObject HPBar_Name;
         public static GameObject HPBar_Unit;
         public static GameObject HPBar_Count;
-
 
         public ViewLoader()
         {
@@ -96,6 +96,9 @@ namespace SexyBackPlayScene
             Info_Context = GameObject.Find("Info_Context");
             DamageFont = GameObject.Find("label_dmgfont");
             Button_Confirm = GameObject.Find("Button_Confirm");
+
+
+            Button_Pause = GameObject.Find("Button_Pause");
             Bar_Attack = GameObject.Find("Bar_Attack");
 
 
