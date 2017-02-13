@@ -11,7 +11,7 @@ namespace SexyBackPlayScene
         public Dictionary<string, HeroData> herotable = new Dictionary<string, HeroData>();
         public Dictionary<string, MonsterData> monstertable = new Dictionary<string, MonsterData>();
         public Dictionary<string, ElementalData> elementaltable = new Dictionary<string, ElementalData>();
-        public Dictionary<string, LevelUpItemData> leveluptable = new Dictionary<string, LevelUpItemData>();
+        public Dictionary<string, LevelUpData> leveluptable = new Dictionary<string, LevelUpData>();
 
         public Dictionary<string, List<Bonus>> bonuses = new Dictionary<string, List<Bonus>>();
         public List<ResearchData> researchtable = new List<ResearchData>();
@@ -50,16 +50,16 @@ namespace SexyBackPlayScene
 
         private void LoadLevelUpData()
         {
-            LevelUpItemData heroAttack = new LevelUpItemData("L001", "hero", "일반공격", "SexyBackIcon_SWORD2");
-            LevelUpItemData item1 = new LevelUpItemData("L002", "fireball", "파이어볼", "SexyBackIcon_FireElemental");
-            LevelUpItemData item2 = new LevelUpItemData("L003", "waterball", "물폭탄", "SexyBackIcon_WaterElemental");
-            LevelUpItemData item3 = new LevelUpItemData("L004", "rock", "짱돌", "SexyBackIcon_RockElemental");
-            LevelUpItemData item4 = new LevelUpItemData("L005", "electricball", "지지직", "SexyBackIcon_ElectricElemental");
-            LevelUpItemData item5 = new LevelUpItemData("L006", "snowball", "눈덩이", "SexyBackIcon_SnowElemental");
-            LevelUpItemData item6 = new LevelUpItemData("L007", "earthball", "똥", "SexyBackIcon_EarthElemental");
-            LevelUpItemData item7 = new LevelUpItemData("L008", "airball", "바람바람", "SexyBackIcon_AirElemental");
-            LevelUpItemData item8 = new LevelUpItemData("L009", "iceblock", "각얼음", "SexyBackIcon_IceElemental");
-            LevelUpItemData item9 = new LevelUpItemData("L010", "magmaball", "메테오", "SexyBackIcon_MagmaElemental");
+            LevelUpData heroAttack = new LevelUpData("L001", "hero", "일반공격", "SexyBackIcon_SWORD2");
+            LevelUpData item1 = new LevelUpData("L002", "fireball", "파이어볼", "SexyBackIcon_FireElemental");
+            LevelUpData item2 = new LevelUpData("L003", "waterball", "물폭탄", "SexyBackIcon_WaterElemental");
+            LevelUpData item3 = new LevelUpData("L004", "rock", "짱돌", "SexyBackIcon_RockElemental");
+            LevelUpData item4 = new LevelUpData("L005", "electricball", "지지직", "SexyBackIcon_ElectricElemental");
+            LevelUpData item5 = new LevelUpData("L006", "snowball", "눈덩이", "SexyBackIcon_SnowElemental");
+            LevelUpData item6 = new LevelUpData("L007", "earthball", "똥", "SexyBackIcon_EarthElemental");
+            LevelUpData item7 = new LevelUpData("L008", "airball", "바람바람", "SexyBackIcon_AirElemental");
+            LevelUpData item8 = new LevelUpData("L009", "iceblock", "각얼음", "SexyBackIcon_IceElemental");
+            LevelUpData item9 = new LevelUpData("L010", "magmaball", "메테오", "SexyBackIcon_MagmaElemental");
             leveluptable.Add(heroAttack.OwnerID, heroAttack);
             leveluptable.Add(item1.OwnerID, item1);
             leveluptable.Add(item2.OwnerID, item2);

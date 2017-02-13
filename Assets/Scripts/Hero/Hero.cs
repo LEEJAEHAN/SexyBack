@@ -48,24 +48,16 @@ namespace SexyBackPlayScene
 
         // ICanLevelUp
         public int LEVEL { get { return level; } }
-        public event LevelUp_EventHandler Action_LevelUpInfoChange = delegate { };
         public BigInteger LevelUpPrice { get { return BigInteger.PowerByGrowth(BaseExp, level, GrowthRate); } }
-        public string LevelUpDescription
-        {
-            get
-            {
-                string text = "Damage : " + DPC.To5String() + "/tap\n";
-                text += "Next : +" + (DpcX * BaseDpc).To5String() + "/tap\n";
-                return text;
-            }
-        }
+        public string LevelUpDamageText { get { return DPC.To5String() + " /Tap"; } }
+        public string LevelUpNextText { get { return (DpcX * BaseDpc).To5String() + " /Tap"; } }
+        public event LevelUp_EventHandler Action_LevelUpInfoChange = delegate { };
 
         public delegate void HeroChange_EventHandler(Hero hero);
         public event HeroChange_EventHandler Action_DamageChange = delegate { };
 
         public delegate void DistanceChange_Event(double distance);
         public event DistanceChange_Event Action_DistanceChange = delegate { };
-
 
         public Hero(HeroData data)
         {
