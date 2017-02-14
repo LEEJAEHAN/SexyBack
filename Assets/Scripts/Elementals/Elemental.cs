@@ -34,17 +34,10 @@ namespace SexyBackPlayScene
 
         // ICanLevelUp
         public int LEVEL { get { return level; } }
-        public event LevelUp_EventHandler Action_LevelUpInfoChange = delegate { };
         public BigInteger LevelUpPrice { get { return BigInteger.PowerByGrowth(BaseExp, level, GrowthRate); } }
-        public string LevelUpDescription
-        {
-            get
-            {
-                string text = "Damage : " + DPS.To5String() + "/sec\n";
-                text += "Next : +" + (DpsX * BaseDps / DpsShiftDigit).To5String() + "/sec\n";
-                return text;
-            }
-        }
+        public string LevelUpDamageText { get { return DPS.To5String() + " /Sec"; } }
+        public string LevelUpNextText { get { return (DpsX * BaseDps / DpsShiftDigit).To5String() + " /Sec"; } }
+        public event LevelUp_EventHandler Action_LevelUpInfoChange = delegate { };
         // event
         public delegate void ElementalChange_EventHandler(Elemental elemental);
         public event ElementalChange_EventHandler Action_DamageChange = delegate { };
@@ -106,7 +99,6 @@ namespace SexyBackPlayScene
             else
                 DPS = level * DpsX * BaseDps / DpsShiftDigit;
             DAMAGE = (DPS * BaseAttackInterval1K / 1000); //  dps * attackinterval
-            //            DPS = level * DpsX * BigInteger.PowerByGrowth(baseData.BaseDps, (level / 5), DpsXPer5LV);
         }
 
         // TODO : 여기도 언젠간 statemachine작업을 해야할듯 ㅠㅠ

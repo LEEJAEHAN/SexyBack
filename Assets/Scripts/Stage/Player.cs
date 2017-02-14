@@ -10,14 +10,8 @@ namespace SexyBackPlayScene
         private BigInteger exp = new BigInteger(0);
         public BigInteger EXP { get { return exp; } }
 
-
         public delegate void ExpChange_Event(BigInteger exp);
         public event ExpChange_Event Action_ExpChange;
-
-
-        HeroManager heromanager = Singleton<HeroManager>.getInstance();
-        ElementalManager elementalmanager = Singleton<ElementalManager>.getInstance();
-
 
         HeroUpgradeStat heroStat;
         ResearchUpgradeStat researchStat;
@@ -33,10 +27,14 @@ namespace SexyBackPlayScene
             return null;
         }
 
+        HeroManager heromanager = Singleton<HeroManager>.getInstance();
+        ElementalManager elementalmanager = Singleton<ElementalManager>.getInstance();
+        ResearchManager researchmanager = Singleton<ResearchManager>.getInstance();
+
         public Player()
         {
             heroStat = new HeroUpgradeStat(new BigInteger(1), 100, 1000, 6);
-            researchStat = new ResearchUpgradeStat(1, 0);
+            researchStat = new ResearchUpgradeStat(1, 0, 1);
             foreach (string elementalid in Singleton<TableLoader>.getInstance().elementaltable.Keys)
                 elementalStats.Add(new ElementalUpgradeStat(elementalid, new BigInteger(1), 100));
         }
@@ -48,14 +46,9 @@ namespace SexyBackPlayScene
 
         internal void Start()
         {
-            ExpGain(100000);
-
             heromanager.CreateHero(); // and hero is move
 
-            Upgrade(new Bonus("hero", "ResearchTimeX", 2, ""));
-
-            Upgrade(new Bonus("hero", "ResearchTime", 3, ""));
-
+//            Singleton<Player>.getInstance().ExpGain(new BigInteger(new BigIntExpression(777, "Y")));
             //elementalmanager.LearnNewElemental("magmaball");
             //elementalManager.SummonNewElemental("fireball");
             //elementalManager.SummonNewElemental("waterball");
@@ -161,13 +154,19 @@ namespace SexyBackPlayScene
                 case "ResearchTimeX":
                     {
                         researchStat.ReduceTimeX *= bonus.value;
-                        Singleton<ResearchManager>.getInstance().ReduceTime(researchStat);
+                        researchmanager.ReduceTime(researchStat);
                         break;
                     }
                 case "ResearchTime":
                     {
                         researchStat.ReduceTime += bonus.value;
-                        Singleton<ResearchManager>.getInstance().ReduceTime(researchStat);
+                        researchmanager.ReduceTime(researchStat);
+                        break;
+                    }
+                case "MaximumResearch":
+                    {
+                        researchStat.MaxThread += bonus.value;
+                        researchmanager.resarchthread = researchStat.MaxThread;
                         break;
                     }
                 default:
@@ -206,11 +205,13 @@ namespace SexyBackPlayScene
     {
         internal int ReduceTimeX; // 곱계수는 X를붙인다.
         internal int ReduceTime; // 보너스 공격스택횟수  6
+        internal int MaxThread;
 
-        public ResearchUpgradeStat(int reducetimex, int reducetime) : this()
+        public ResearchUpgradeStat(int reducetimex, int reducetime, int maxthread) : this()
         {
             ReduceTimeX = reducetimex;
             ReduceTime = reducetime;
+            MaxThread = maxthread;
         }
     }
 

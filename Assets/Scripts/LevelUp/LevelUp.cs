@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    internal class LevelUpItem : IHasGridItem
+    internal class LevelUp : IHasGridItem
     // 레벨업을 하기 위해 구매해야하는 객체, canlevelup 이만들어지면 기생으로 붙는다. 저장된 게임 능력치와는 관계없다
     {
         protected GridItem itemView;
@@ -28,7 +28,7 @@ namespace SexyBackPlayScene
         public bool Selected = false;
         bool Learn = false;
         
-        public LevelUpItem(LevelUpItemData data, ICanLevelUp root)
+        public LevelUp(LevelUpData data, ICanLevelUp root)
         {
             owner = new WeakReference(root);
             root.Action_LevelUpInfoChange += onLevelChange;
@@ -115,9 +115,10 @@ namespace SexyBackPlayScene
             originalprice = sender.LevelUpPrice;
             Button_Text = sender.LEVEL.ToString();
 
-            Info_Text = Info_Name + " LV" + sender.LEVEL + "\n";
-            Info_Text += sender.LevelUpDescription;
-            Info_Text += "Cost : " + Price.To5String() + " EXP";
+            Info_Text = Info_Name + " LV " + sender.LEVEL + "\n";
+            Info_Text += "데미지 : " + sender.LevelUpDamageText + "\n";
+            Info_Text += "다음레벨 : +" + sender.LevelUpNextText + "\n";
+            Info_Text += "비용 : " + Price.To5String() + " ";
 
             itemView.FillItemContents(Button_Text);
             infoPanel.Show(Selected, Icon, Info_Text);

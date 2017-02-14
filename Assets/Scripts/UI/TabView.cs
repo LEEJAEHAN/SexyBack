@@ -28,6 +28,7 @@ namespace SexyBackPlayScene
         {
             if (value == true)
             {
+                transform.FindChild("New").gameObject.SetActive(false);
                 Action_ShowList();
             }
             if (value == false)
