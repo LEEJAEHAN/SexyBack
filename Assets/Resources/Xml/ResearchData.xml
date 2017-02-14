@@ -3,55 +3,55 @@
 	<Research id="R01" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_FireElemental" name="@SR01N@" description="@SR01D@"/>
 		<Price level="0" baselevel="15" baseprice="50"/>
-		<PriceOverTime rate="70" basetime="30"/>
+		<PriceOverTime rate="70" basetime="60"/>
 		<BonusList groupid="BR01"/>
 	</Research>
 	<Research id="R02" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_WaterElemental" name="@SR02N@" description="@SR02D@"/>
 		<Price level="0" baselevel="37" baseprice="50"/>
-		<PriceOverTime rate="70" basetime="30"/>
+		<PriceOverTime rate="70" basetime="60"/>
 		<BonusList groupid="BR02"/>
 	</Research>
 	<Research id="R03" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_RockElemental" name="@SR03N@" description="@SR03D@"/>
 		<Price level="0" baselevel="65" baseprice="50"/>
-		<PriceOverTime rate="70" basetime="30"/>
+		<PriceOverTime rate="70" basetime="60"/>
 		<BonusList groupid="BR03"/>
 	</Research>
 	<Research id="R04" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_ElectricElemental" name="@SR04N@" description="@SR04D@"/>
 		<Price level="0" baselevel="95" baseprice="50"/>
-		<PriceOverTime rate="70" basetime="30"/>
+		<PriceOverTime rate="70" basetime="60"/>
 		<BonusList groupid="BR04"/>
 	</Research>
 	<Research id="R05" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_SnowElemental" name="@SR05N@" description="@SR05D@"/>
 		<Price level="0" baselevel="142" baseprice="50"/>
-		<PriceOverTime rate="70" basetime="30"/>
+		<PriceOverTime rate="70" basetime="60"/>
 		<BonusList groupid="BR05"/>
 	</Research>
 	<Research id="R06" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_EarthElemental" name="@SR06N@" description="@SR06D@"/>
 		<Price level="0" baselevel="187" baseprice="50"/>
-		<PriceOverTime rate="70" basetime="30"/>
+		<PriceOverTime rate="70" basetime="60"/>
 		<BonusList groupid="BR06"/>
 	</Research>
 	<Research id="R07" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_AirElemental" name="@SR07N@" description="@SR07D@"/>
 		<Price level="0" baselevel="232" baseprice="50"/>
-		<PriceOverTime rate="70" basetime="30"/>
+		<PriceOverTime rate="70" basetime="60"/>
 		<BonusList groupid="BR07"/>
 	</Research>
 	<Research id="R08" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_IceElemental" name="@SR08N@" description="@SR08D@"/>
 		<Price level="0" baselevel="283" baseprice="50"/>
-		<PriceOverTime rate="70" basetime="30"/>
+		<PriceOverTime rate="70" basetime="60"/>
 		<BonusList groupid="BR08"/>
 	</Research>
 	<Research id="R09" requireid="hero" requirelevel="0">
 		<Info icon="SexyBackIcon_MagmaElemental" name="@SR09N@" description="@SR09D@"/>
 		<Price level="0" baselevel="338" baseprice="50"/>
-		<PriceOverTime rate="70" basetime="30"/>
+		<PriceOverTime rate="70" basetime="60"/>
 		<BonusList groupid="BR09"/>
 	</Research>
 	<Research id="R01_001" requireid="fireball" requirelevel="20">
@@ -2484,274 +2484,544 @@
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR09_045"/>
 	</Research>
-	<Research id="R00_001" requireid="hero" requirelevel="20">
+	<Research id="R00_001" requireid="hero" requirelevel="10">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_001N@" description="@SR00_001D@"/>
-		<Price level="20" baselevel="0" baseprice="50"/>
+		<Price level="10" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_001"/>
 	</Research>
-	<Research id="R00_002" requireid="hero" requirelevel="40">
+	<Research id="R00_002" requireid="hero" requirelevel="20">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_002N@" description="@SR00_002D@"/>
-		<Price level="40" baselevel="0" baseprice="50"/>
+		<Price level="20" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_002"/>
 	</Research>
-	<Research id="R00_003" requireid="hero" requirelevel="60">
+	<Research id="R00_003" requireid="hero" requirelevel="30">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_003N@" description="@SR00_003D@"/>
-		<Price level="60" baselevel="0" baseprice="50"/>
+		<Price level="30" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_003"/>
 	</Research>
-	<Research id="R00_004" requireid="hero" requirelevel="80">
+	<Research id="R00_004" requireid="hero" requirelevel="40">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_004N@" description="@SR00_004D@"/>
-		<Price level="80" baselevel="0" baseprice="50"/>
+		<Price level="40" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_004"/>
 	</Research>
-	<Research id="R00_005" requireid="hero" requirelevel="100">
+	<Research id="R00_005" requireid="hero" requirelevel="50">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_005N@" description="@SR00_005D@"/>
-		<Price level="100" baselevel="0" baseprice="50"/>
+		<Price level="50" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_005"/>
 	</Research>
-	<Research id="R00_006" requireid="hero" requirelevel="120">
+	<Research id="R00_006" requireid="hero" requirelevel="60">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_006N@" description="@SR00_006D@"/>
-		<Price level="120" baselevel="0" baseprice="50"/>
+		<Price level="60" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_006"/>
 	</Research>
-	<Research id="R00_007" requireid="hero" requirelevel="140">
+	<Research id="R00_007" requireid="hero" requirelevel="70">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_007N@" description="@SR00_007D@"/>
-		<Price level="140" baselevel="0" baseprice="50"/>
+		<Price level="70" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_007"/>
 	</Research>
-	<Research id="R00_008" requireid="hero" requirelevel="160">
+	<Research id="R00_008" requireid="hero" requirelevel="80">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_008N@" description="@SR00_008D@"/>
-		<Price level="160" baselevel="0" baseprice="50"/>
+		<Price level="80" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_008"/>
 	</Research>
-	<Research id="R00_009" requireid="hero" requirelevel="180">
+	<Research id="R00_009" requireid="hero" requirelevel="90">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_009N@" description="@SR00_009D@"/>
-		<Price level="180" baselevel="0" baseprice="50"/>
+		<Price level="90" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_009"/>
 	</Research>
-	<Research id="R00_010" requireid="hero" requirelevel="200">
+	<Research id="R00_010" requireid="hero" requirelevel="100">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_010N@" description="@SR00_010D@"/>
-		<Price level="200" baselevel="0" baseprice="50"/>
+		<Price level="100" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_010"/>
 	</Research>
-	<Research id="R00_011" requireid="hero" requirelevel="220">
+	<Research id="R00_011" requireid="hero" requirelevel="110">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_011N@" description="@SR00_011D@"/>
-		<Price level="220" baselevel="0" baseprice="50"/>
+		<Price level="110" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_011"/>
 	</Research>
-	<Research id="R00_012" requireid="hero" requirelevel="240">
+	<Research id="R00_012" requireid="hero" requirelevel="120">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_012N@" description="@SR00_012D@"/>
-		<Price level="240" baselevel="0" baseprice="50"/>
+		<Price level="120" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_012"/>
 	</Research>
-	<Research id="R00_013" requireid="hero" requirelevel="260">
+	<Research id="R00_013" requireid="hero" requirelevel="130">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_013N@" description="@SR00_013D@"/>
-		<Price level="260" baselevel="0" baseprice="50"/>
+		<Price level="130" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_013"/>
 	</Research>
-	<Research id="R00_014" requireid="hero" requirelevel="280">
+	<Research id="R00_014" requireid="hero" requirelevel="140">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_014N@" description="@SR00_014D@"/>
-		<Price level="280" baselevel="0" baseprice="50"/>
+		<Price level="140" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_014"/>
 	</Research>
-	<Research id="R00_015" requireid="hero" requirelevel="300">
+	<Research id="R00_015" requireid="hero" requirelevel="150">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_015N@" description="@SR00_015D@"/>
-		<Price level="300" baselevel="0" baseprice="50"/>
+		<Price level="150" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_015"/>
 	</Research>
-	<Research id="R00_016" requireid="hero" requirelevel="320">
+	<Research id="R00_016" requireid="hero" requirelevel="160">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_016N@" description="@SR00_016D@"/>
-		<Price level="320" baselevel="0" baseprice="50"/>
+		<Price level="160" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_016"/>
 	</Research>
-	<Research id="R00_017" requireid="hero" requirelevel="340">
+	<Research id="R00_017" requireid="hero" requirelevel="170">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_017N@" description="@SR00_017D@"/>
-		<Price level="340" baselevel="0" baseprice="50"/>
+		<Price level="170" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_017"/>
 	</Research>
-	<Research id="R00_018" requireid="hero" requirelevel="360">
+	<Research id="R00_018" requireid="hero" requirelevel="180">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_018N@" description="@SR00_018D@"/>
-		<Price level="360" baselevel="0" baseprice="50"/>
+		<Price level="180" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_018"/>
 	</Research>
-	<Research id="R00_019" requireid="hero" requirelevel="380">
+	<Research id="R00_019" requireid="hero" requirelevel="190">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_019N@" description="@SR00_019D@"/>
-		<Price level="380" baselevel="0" baseprice="50"/>
+		<Price level="190" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_019"/>
 	</Research>
-	<Research id="R00_020" requireid="hero" requirelevel="400">
+	<Research id="R00_020" requireid="hero" requirelevel="200">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_020N@" description="@SR00_020D@"/>
-		<Price level="400" baselevel="0" baseprice="50"/>
+		<Price level="200" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_020"/>
 	</Research>
-	<Research id="R00_021" requireid="hero" requirelevel="420">
+	<Research id="R00_021" requireid="hero" requirelevel="210">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_021N@" description="@SR00_021D@"/>
-		<Price level="420" baselevel="0" baseprice="50"/>
+		<Price level="210" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_021"/>
 	</Research>
-	<Research id="R00_022" requireid="hero" requirelevel="440">
+	<Research id="R00_022" requireid="hero" requirelevel="220">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_022N@" description="@SR00_022D@"/>
-		<Price level="440" baselevel="0" baseprice="50"/>
+		<Price level="220" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_022"/>
 	</Research>
-	<Research id="R00_023" requireid="hero" requirelevel="460">
+	<Research id="R00_023" requireid="hero" requirelevel="230">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_023N@" description="@SR00_023D@"/>
-		<Price level="460" baselevel="0" baseprice="50"/>
+		<Price level="230" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_023"/>
 	</Research>
-	<Research id="R00_024" requireid="hero" requirelevel="480">
+	<Research id="R00_024" requireid="hero" requirelevel="240">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_024N@" description="@SR00_024D@"/>
-		<Price level="480" baselevel="0" baseprice="50"/>
+		<Price level="240" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_024"/>
 	</Research>
-	<Research id="R00_025" requireid="hero" requirelevel="500">
+	<Research id="R00_025" requireid="hero" requirelevel="250">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_025N@" description="@SR00_025D@"/>
-		<Price level="500" baselevel="0" baseprice="50"/>
+		<Price level="250" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_025"/>
 	</Research>
-	<Research id="R00_026" requireid="hero" requirelevel="520">
+	<Research id="R00_026" requireid="hero" requirelevel="260">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_026N@" description="@SR00_026D@"/>
-		<Price level="520" baselevel="0" baseprice="50"/>
+		<Price level="260" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_026"/>
 	</Research>
-	<Research id="R00_027" requireid="hero" requirelevel="540">
+	<Research id="R00_027" requireid="hero" requirelevel="270">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_027N@" description="@SR00_027D@"/>
-		<Price level="540" baselevel="0" baseprice="50"/>
+		<Price level="270" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_027"/>
 	</Research>
-	<Research id="R00_028" requireid="hero" requirelevel="560">
+	<Research id="R00_028" requireid="hero" requirelevel="280">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_028N@" description="@SR00_028D@"/>
-		<Price level="560" baselevel="0" baseprice="50"/>
+		<Price level="280" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_028"/>
 	</Research>
-	<Research id="R00_029" requireid="hero" requirelevel="580">
+	<Research id="R00_029" requireid="hero" requirelevel="290">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_029N@" description="@SR00_029D@"/>
-		<Price level="580" baselevel="0" baseprice="50"/>
+		<Price level="290" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_029"/>
 	</Research>
-	<Research id="R00_030" requireid="hero" requirelevel="600">
+	<Research id="R00_030" requireid="hero" requirelevel="300">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_030N@" description="@SR00_030D@"/>
-		<Price level="600" baselevel="0" baseprice="50"/>
+		<Price level="300" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_030"/>
 	</Research>
-	<Research id="R00_031" requireid="hero" requirelevel="620">
+	<Research id="R00_031" requireid="hero" requirelevel="310">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_031N@" description="@SR00_031D@"/>
-		<Price level="620" baselevel="0" baseprice="50"/>
+		<Price level="310" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_031"/>
 	</Research>
-	<Research id="R00_032" requireid="hero" requirelevel="640">
+	<Research id="R00_032" requireid="hero" requirelevel="320">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_032N@" description="@SR00_032D@"/>
-		<Price level="640" baselevel="0" baseprice="50"/>
+		<Price level="320" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_032"/>
 	</Research>
-	<Research id="R00_033" requireid="hero" requirelevel="660">
+	<Research id="R00_033" requireid="hero" requirelevel="330">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_033N@" description="@SR00_033D@"/>
-		<Price level="660" baselevel="0" baseprice="50"/>
+		<Price level="330" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_033"/>
 	</Research>
-	<Research id="R00_034" requireid="hero" requirelevel="680">
+	<Research id="R00_034" requireid="hero" requirelevel="340">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_034N@" description="@SR00_034D@"/>
-		<Price level="680" baselevel="0" baseprice="50"/>
+		<Price level="340" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_034"/>
 	</Research>
-	<Research id="R00_035" requireid="hero" requirelevel="700">
+	<Research id="R00_035" requireid="hero" requirelevel="350">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_035N@" description="@SR00_035D@"/>
-		<Price level="700" baselevel="0" baseprice="50"/>
+		<Price level="350" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_035"/>
 	</Research>
-	<Research id="R00_036" requireid="hero" requirelevel="720">
+	<Research id="R00_036" requireid="hero" requirelevel="360">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_036N@" description="@SR00_036D@"/>
-		<Price level="720" baselevel="0" baseprice="50"/>
+		<Price level="360" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_036"/>
 	</Research>
-	<Research id="R00_037" requireid="hero" requirelevel="740">
+	<Research id="R00_037" requireid="hero" requirelevel="370">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_037N@" description="@SR00_037D@"/>
-		<Price level="740" baselevel="0" baseprice="50"/>
+		<Price level="370" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_037"/>
 	</Research>
-	<Research id="R00_038" requireid="hero" requirelevel="760">
+	<Research id="R00_038" requireid="hero" requirelevel="380">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_038N@" description="@SR00_038D@"/>
-		<Price level="760" baselevel="0" baseprice="50"/>
+		<Price level="380" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_038"/>
 	</Research>
-	<Research id="R00_039" requireid="hero" requirelevel="780">
+	<Research id="R00_039" requireid="hero" requirelevel="390">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_039N@" description="@SR00_039D@"/>
-		<Price level="780" baselevel="0" baseprice="50"/>
+		<Price level="390" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_039"/>
 	</Research>
-	<Research id="R00_040" requireid="hero" requirelevel="800">
+	<Research id="R00_040" requireid="hero" requirelevel="400">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_040N@" description="@SR00_040D@"/>
-		<Price level="800" baselevel="0" baseprice="50"/>
+		<Price level="400" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_040"/>
 	</Research>
-	<Research id="R00_041" requireid="hero" requirelevel="820">
+	<Research id="R00_041" requireid="hero" requirelevel="410">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_041N@" description="@SR00_041D@"/>
-		<Price level="820" baselevel="0" baseprice="50"/>
+		<Price level="410" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_041"/>
 	</Research>
-	<Research id="R00_042" requireid="hero" requirelevel="840">
+	<Research id="R00_042" requireid="hero" requirelevel="420">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_042N@" description="@SR00_042D@"/>
-		<Price level="840" baselevel="0" baseprice="50"/>
+		<Price level="420" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_042"/>
 	</Research>
-	<Research id="R00_043" requireid="hero" requirelevel="860">
+	<Research id="R00_043" requireid="hero" requirelevel="430">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_043N@" description="@SR00_043D@"/>
-		<Price level="860" baselevel="0" baseprice="50"/>
+		<Price level="430" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_043"/>
 	</Research>
-	<Research id="R00_044" requireid="hero" requirelevel="880">
+	<Research id="R00_044" requireid="hero" requirelevel="440">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_044N@" description="@SR00_044D@"/>
-		<Price level="880" baselevel="0" baseprice="50"/>
+		<Price level="440" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_044"/>
 	</Research>
-	<Research id="R00_045" requireid="hero" requirelevel="900">
+	<Research id="R00_045" requireid="hero" requirelevel="450">
 		<Info icon="SexyBackIcon_SWORD4" name="@SR00_045N@" description="@SR00_045D@"/>
-		<Price level="900" baselevel="0" baseprice="50"/>
+		<Price level="450" baselevel="0" baseprice="50"/>
 		<PriceOverTime rate="70" basetime="30"/>
 		<BonusList groupid="BR00_045"/>
+	</Research>
+	<Research id="R00_046" requireid="hero" requirelevel="460">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_046N@" description="@SR00_046D@"/>
+		<Price level="460" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_046"/>
+	</Research>
+	<Research id="R00_047" requireid="hero" requirelevel="470">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_047N@" description="@SR00_047D@"/>
+		<Price level="470" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_047"/>
+	</Research>
+	<Research id="R00_048" requireid="hero" requirelevel="480">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_048N@" description="@SR00_048D@"/>
+		<Price level="480" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_048"/>
+	</Research>
+	<Research id="R00_049" requireid="hero" requirelevel="490">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_049N@" description="@SR00_049D@"/>
+		<Price level="490" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_049"/>
+	</Research>
+	<Research id="R00_050" requireid="hero" requirelevel="500">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_050N@" description="@SR00_050D@"/>
+		<Price level="500" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_050"/>
+	</Research>
+	<Research id="R00_051" requireid="hero" requirelevel="510">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_051N@" description="@SR00_051D@"/>
+		<Price level="510" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_051"/>
+	</Research>
+	<Research id="R00_052" requireid="hero" requirelevel="520">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_052N@" description="@SR00_052D@"/>
+		<Price level="520" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_052"/>
+	</Research>
+	<Research id="R00_053" requireid="hero" requirelevel="530">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_053N@" description="@SR00_053D@"/>
+		<Price level="530" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_053"/>
+	</Research>
+	<Research id="R00_054" requireid="hero" requirelevel="540">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_054N@" description="@SR00_054D@"/>
+		<Price level="540" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_054"/>
+	</Research>
+	<Research id="R00_055" requireid="hero" requirelevel="550">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_055N@" description="@SR00_055D@"/>
+		<Price level="550" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_055"/>
+	</Research>
+	<Research id="R00_056" requireid="hero" requirelevel="560">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_056N@" description="@SR00_056D@"/>
+		<Price level="560" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_056"/>
+	</Research>
+	<Research id="R00_057" requireid="hero" requirelevel="570">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_057N@" description="@SR00_057D@"/>
+		<Price level="570" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_057"/>
+	</Research>
+	<Research id="R00_058" requireid="hero" requirelevel="580">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_058N@" description="@SR00_058D@"/>
+		<Price level="580" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_058"/>
+	</Research>
+	<Research id="R00_059" requireid="hero" requirelevel="590">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_059N@" description="@SR00_059D@"/>
+		<Price level="590" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_059"/>
+	</Research>
+	<Research id="R00_060" requireid="hero" requirelevel="600">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_060N@" description="@SR00_060D@"/>
+		<Price level="600" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_060"/>
+	</Research>
+	<Research id="R00_061" requireid="hero" requirelevel="610">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_061N@" description="@SR00_061D@"/>
+		<Price level="610" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_061"/>
+	</Research>
+	<Research id="R00_062" requireid="hero" requirelevel="620">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_062N@" description="@SR00_062D@"/>
+		<Price level="620" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_062"/>
+	</Research>
+	<Research id="R00_063" requireid="hero" requirelevel="630">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_063N@" description="@SR00_063D@"/>
+		<Price level="630" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_063"/>
+	</Research>
+	<Research id="R00_064" requireid="hero" requirelevel="640">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_064N@" description="@SR00_064D@"/>
+		<Price level="640" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_064"/>
+	</Research>
+	<Research id="R00_065" requireid="hero" requirelevel="650">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_065N@" description="@SR00_065D@"/>
+		<Price level="650" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_065"/>
+	</Research>
+	<Research id="R00_066" requireid="hero" requirelevel="660">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_066N@" description="@SR00_066D@"/>
+		<Price level="660" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_066"/>
+	</Research>
+	<Research id="R00_067" requireid="hero" requirelevel="670">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_067N@" description="@SR00_067D@"/>
+		<Price level="670" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_067"/>
+	</Research>
+	<Research id="R00_068" requireid="hero" requirelevel="680">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_068N@" description="@SR00_068D@"/>
+		<Price level="680" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_068"/>
+	</Research>
+	<Research id="R00_069" requireid="hero" requirelevel="690">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_069N@" description="@SR00_069D@"/>
+		<Price level="690" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_069"/>
+	</Research>
+	<Research id="R00_070" requireid="hero" requirelevel="700">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_070N@" description="@SR00_070D@"/>
+		<Price level="700" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_070"/>
+	</Research>
+	<Research id="R00_071" requireid="hero" requirelevel="710">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_071N@" description="@SR00_071D@"/>
+		<Price level="710" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_071"/>
+	</Research>
+	<Research id="R00_072" requireid="hero" requirelevel="720">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_072N@" description="@SR00_072D@"/>
+		<Price level="720" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_072"/>
+	</Research>
+	<Research id="R00_073" requireid="hero" requirelevel="730">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_073N@" description="@SR00_073D@"/>
+		<Price level="730" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_073"/>
+	</Research>
+	<Research id="R00_074" requireid="hero" requirelevel="740">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_074N@" description="@SR00_074D@"/>
+		<Price level="740" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_074"/>
+	</Research>
+	<Research id="R00_075" requireid="hero" requirelevel="750">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_075N@" description="@SR00_075D@"/>
+		<Price level="750" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_075"/>
+	</Research>
+	<Research id="R00_076" requireid="hero" requirelevel="760">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_076N@" description="@SR00_076D@"/>
+		<Price level="760" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_076"/>
+	</Research>
+	<Research id="R00_077" requireid="hero" requirelevel="770">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_077N@" description="@SR00_077D@"/>
+		<Price level="770" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_077"/>
+	</Research>
+	<Research id="R00_078" requireid="hero" requirelevel="780">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_078N@" description="@SR00_078D@"/>
+		<Price level="780" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_078"/>
+	</Research>
+	<Research id="R00_079" requireid="hero" requirelevel="790">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_079N@" description="@SR00_079D@"/>
+		<Price level="790" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_079"/>
+	</Research>
+	<Research id="R00_080" requireid="hero" requirelevel="800">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_080N@" description="@SR00_080D@"/>
+		<Price level="800" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_080"/>
+	</Research>
+	<Research id="R00_081" requireid="hero" requirelevel="810">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_081N@" description="@SR00_081D@"/>
+		<Price level="810" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_081"/>
+	</Research>
+	<Research id="R00_082" requireid="hero" requirelevel="820">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_082N@" description="@SR00_082D@"/>
+		<Price level="820" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_082"/>
+	</Research>
+	<Research id="R00_083" requireid="hero" requirelevel="830">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_083N@" description="@SR00_083D@"/>
+		<Price level="830" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_083"/>
+	</Research>
+	<Research id="R00_084" requireid="hero" requirelevel="840">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_084N@" description="@SR00_084D@"/>
+		<Price level="840" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_084"/>
+	</Research>
+	<Research id="R00_085" requireid="hero" requirelevel="850">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_085N@" description="@SR00_085D@"/>
+		<Price level="850" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_085"/>
+	</Research>
+	<Research id="R00_086" requireid="hero" requirelevel="860">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_086N@" description="@SR00_086D@"/>
+		<Price level="860" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_086"/>
+	</Research>
+	<Research id="R00_087" requireid="hero" requirelevel="870">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_087N@" description="@SR00_087D@"/>
+		<Price level="870" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_087"/>
+	</Research>
+	<Research id="R00_088" requireid="hero" requirelevel="880">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_088N@" description="@SR00_088D@"/>
+		<Price level="880" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_088"/>
+	</Research>
+	<Research id="R00_089" requireid="hero" requirelevel="890">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_089N@" description="@SR00_089D@"/>
+		<Price level="890" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_089"/>
+	</Research>
+	<Research id="R00_090" requireid="hero" requirelevel="900">
+		<Info icon="SexyBackIcon_SWORD4" name="@SR00_090N@" description="@SR00_090D@"/>
+		<Price level="900" baselevel="0" baseprice="50"/>
+		<PriceOverTime rate="70" basetime="30"/>
+		<BonusList groupid="BR00_090"/>
 	</Research>
 </Researches>

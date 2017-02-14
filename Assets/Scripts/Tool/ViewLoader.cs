@@ -17,6 +17,7 @@ namespace SexyBackPlayScene
         public static GameObject label_herodmg;
         public static GameObject label_elementaldmg;
 
+        public static GameObject label_minusdps;
         public static GameObject label_exp;
 
         public static GameObject projectiles;
@@ -71,6 +72,7 @@ namespace SexyBackPlayScene
             label_elementaldmg = GameObject.Find("label_elementaldmg");
 
             label_exp = GameObject.Find("label_exp");
+            label_minusdps = GameObject.Find("label_minusdps");
             monsterbucket = GameObject.Find("monsters");
 
             projectiles = GameObject.Find("projectiles");
