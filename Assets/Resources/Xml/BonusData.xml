@@ -10,36 +10,36 @@
 	<Bonus group="BR08" target="hero" attribute="LearnSkill" stringvalue="iceblock"/>
 	<Bonus group="BR09" target="hero" attribute="LearnSkill" stringvalue="magmaball"/>
 	<Bonus group="BR01_001" target="fireball" attribute="DpsX" value="2"/>
-	<Bonus group="BR01_002" target="fireball" attribute="DpsX" value="3"/>
-	<Bonus group="BR01_003" target="fireball" attribute="DpsX" value="6"/>
-	<Bonus group="BR01_004" target="fireball" attribute="DpsX" value="8"/>
-	<Bonus group="BR01_005" target="fireball" attribute="DpsX" value="6"/>
+	<Bonus group="BR01_002" target="fireball" attribute="DpsX" value="5"/>
+	<Bonus group="BR01_003" target="fireball" attribute="DpsX" value="8"/>
+	<Bonus group="BR01_004" target="fireball" attribute="DpsX" value="10"/>
+	<Bonus group="BR01_005" target="fireball" attribute="DpsX" value="10"/>
 	<Bonus group="BR01_006" target="fireball" attribute="DpsX" value="10"/>
 	<Bonus group="BR01_007" target="fireball" attribute="DpsX" value="12"/>
 	<Bonus group="BR01_008" target="fireball" attribute="DpsX" value="12"/>
 	<Bonus group="BR01_009" target="fireball" attribute="DpsX" value="12"/>
 	<Bonus group="BR01_010" target="fireball" attribute="DpsX" value="12"/>
-	<Bonus group="BR01_011" target="fireball" attribute="DpsX" value="12"/>
-	<Bonus group="BR01_012" target="fireball" attribute="DpsX" value="12"/>
-	<Bonus group="BR01_013" target="fireball" attribute="DpsX" value="12"/>
-	<Bonus group="BR01_014" target="fireball" attribute="DpsX" value="12"/>
-	<Bonus group="BR01_015" target="fireball" attribute="DpsX" value="13"/>
-	<Bonus group="BR01_016" target="fireball" attribute="DpsX" value="13"/>
-	<Bonus group="BR01_017" target="fireball" attribute="DpsX" value="13"/>
-	<Bonus group="BR01_018" target="fireball" attribute="DpsX" value="13"/>
-	<Bonus group="BR01_019" target="fireball" attribute="DpsX" value="13"/>
-	<Bonus group="BR01_020" target="fireball" attribute="DpsX" value="13"/>
-	<Bonus group="BR01_021" target="fireball" attribute="DpsX" value="13"/>
+	<Bonus group="BR01_011" target="fireball" attribute="DpsX" value="13"/>
+	<Bonus group="BR01_012" target="fireball" attribute="DpsX" value="13"/>
+	<Bonus group="BR01_013" target="fireball" attribute="DpsX" value="13"/>
+	<Bonus group="BR01_014" target="fireball" attribute="DpsX" value="13"/>
+	<Bonus group="BR01_015" target="fireball" attribute="DpsX" value="14"/>
+	<Bonus group="BR01_016" target="fireball" attribute="DpsX" value="14"/>
+	<Bonus group="BR01_017" target="fireball" attribute="DpsX" value="14"/>
+	<Bonus group="BR01_018" target="fireball" attribute="DpsX" value="14"/>
+	<Bonus group="BR01_019" target="fireball" attribute="DpsX" value="14"/>
+	<Bonus group="BR01_020" target="fireball" attribute="DpsX" value="14"/>
+	<Bonus group="BR01_021" target="fireball" attribute="DpsX" value="14"/>
 	<Bonus group="BR01_022" target="fireball" attribute="DpsX" value="14"/>
 	<Bonus group="BR01_023" target="fireball" attribute="DpsX" value="14"/>
 	<Bonus group="BR01_024" target="fireball" attribute="DpsX" value="14"/>
-	<Bonus group="BR01_025" target="fireball" attribute="DpsX" value="14"/>
+	<Bonus group="BR01_025" target="fireball" attribute="DpsX" value="15"/>
 	<Bonus group="BR01_026" target="fireball" attribute="DpsX" value="15"/>
 	<Bonus group="BR01_027" target="fireball" attribute="DpsX" value="15"/>
-	<Bonus group="BR01_028" target="fireball" attribute="DpsX" value="15"/>
-	<Bonus group="BR01_029" target="fireball" attribute="DpsX" value="15"/>
-	<Bonus group="BR01_030" target="fireball" attribute="DpsX" value="15"/>
-	<Bonus group="BR01_031" target="fireball" attribute="DpsX" value="15"/>
+	<Bonus group="BR01_028" target="fireball" attribute="DpsX" value="1"/>
+	<Bonus group="BR01_029" target="fireball" attribute="DpsX" value="1"/>
+	<Bonus group="BR01_030" target="fireball" attribute="DpsX" value="1"/>
+	<Bonus group="BR01_031" target="fireball" attribute="DpsX" value="1"/>
 	<Bonus group="BR01_032" target="fireball" attribute="DpsX" value="1"/>
 	<Bonus group="BR01_033" target="fireball" attribute="DpsX" value="1"/>
 	<Bonus group="BR01_034" target="fireball" attribute="DpsX" value="1"/>
@@ -83,7 +83,7 @@
 	<Bonus group="BR02_027" target="waterball" attribute="DpsX" value="14"/>
 	<Bonus group="BR02_028" target="waterball" attribute="DpsX" value="14"/>
 	<Bonus group="BR02_029" target="waterball" attribute="DpsX" value="14"/>
-	<Bonus group="BR02_030" target="waterball" attribute="DpsX" value="15"/>
+	<Bonus group="BR02_030" target="waterball" attribute="DpsX" value="1"/>
 	<Bonus group="BR02_031" target="waterball" attribute="DpsX" value="1"/>
 	<Bonus group="BR02_032" target="waterball" attribute="DpsX" value="1"/>
 	<Bonus group="BR02_033" target="waterball" attribute="DpsX" value="1"/>
@@ -125,8 +125,8 @@
 	<Bonus group="BR03_024" target="rock" attribute="DpsX" value="13"/>
 	<Bonus group="BR03_025" target="rock" attribute="DpsX" value="15"/>
 	<Bonus group="BR03_026" target="rock" attribute="DpsX" value="15"/>
-	<Bonus group="BR03_027" target="rock" attribute="DpsX" value="15"/>
-	<Bonus group="BR03_028" target="rock" attribute="DpsX" value="15"/>
+	<Bonus group="BR03_027" target="rock" attribute="DpsX" value="1"/>
+	<Bonus group="BR03_028" target="rock" attribute="DpsX" value="1"/>
 	<Bonus group="BR03_029" target="rock" attribute="DpsX" value="1"/>
 	<Bonus group="BR03_030" target="rock" attribute="DpsX" value="1"/>
 	<Bonus group="BR03_031" target="rock" attribute="DpsX" value="1"/>
@@ -415,93 +415,48 @@
 	<Bonus group="BR09_044" target="magmaball" attribute="DpsX" value="1"/>
 	<Bonus group="BR09_045" target="magmaball" attribute="DpsX" value="1"/>
 	<Bonus group="BR00_001" target="hero" attribute="DpcX" value="2"/>
-	<Bonus group="BR00_002" target="hero" attribute="DpcX" value="2"/>
-	<Bonus group="BR00_003" target="hero" attribute="DpcX" value="2"/>
-	<Bonus group="BR00_004" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_005" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_006" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_007" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_008" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_009" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_010" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_011" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_012" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_013" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_014" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_015" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_016" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_017" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_018" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_019" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_020" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_021" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_022" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_023" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_024" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_025" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_026" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_027" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_028" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_029" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_030" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_031" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_032" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_033" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_034" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_035" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_036" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_037" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_038" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_039" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_040" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_041" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_042" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_043" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_044" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_045" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_046" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_047" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_048" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_049" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_050" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_051" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_052" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_053" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_054" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_055" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_056" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_057" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_058" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_059" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_060" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_061" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_062" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_063" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_064" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_065" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_066" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_067" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_068" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_069" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_070" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_071" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_072" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_073" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_074" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_075" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_076" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_077" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_078" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_079" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_080" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_081" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_082" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_083" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_084" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_085" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_086" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_087" target="hero" attribute="DpcX" value="4"/>
-	<Bonus group="BR00_088" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_089" target="hero" attribute="DpcX" value="3"/>
-	<Bonus group="BR00_090" target="hero" attribute="DpcX" value="3"/>
+	<Bonus group="BR00_002" target="hero" attribute="DpcX" value="3"/>
+	<Bonus group="BR00_003" target="hero" attribute="DpcX" value="5"/>
+	<Bonus group="BR00_004" target="hero" attribute="DpcX" value="8"/>
+	<Bonus group="BR00_005" target="hero" attribute="DpcX" value="10"/>
+	<Bonus group="BR00_006" target="hero" attribute="DpcX" value="10"/>
+	<Bonus group="BR00_007" target="hero" attribute="DpcX" value="10"/>
+	<Bonus group="BR00_008" target="hero" attribute="DpcX" value="10"/>
+	<Bonus group="BR00_009" target="hero" attribute="DpcX" value="10"/>
+	<Bonus group="BR00_010" target="hero" attribute="DpcX" value="12"/>
+	<Bonus group="BR00_011" target="hero" attribute="DpcX" value="12"/>
+	<Bonus group="BR00_012" target="hero" attribute="DpcX" value="12"/>
+	<Bonus group="BR00_013" target="hero" attribute="DpcX" value="12"/>
+	<Bonus group="BR00_014" target="hero" attribute="DpcX" value="12"/>
+	<Bonus group="BR00_015" target="hero" attribute="DpcX" value="12"/>
+	<Bonus group="BR00_016" target="hero" attribute="DpcX" value="12"/>
+	<Bonus group="BR00_017" target="hero" attribute="DpcX" value="12"/>
+	<Bonus group="BR00_018" target="hero" attribute="DpcX" value="12"/>
+	<Bonus group="BR00_019" target="hero" attribute="DpcX" value="12"/>
+	<Bonus group="BR00_020" target="hero" attribute="DpcX" value="13"/>
+	<Bonus group="BR00_021" target="hero" attribute="DpcX" value="13"/>
+	<Bonus group="BR00_022" target="hero" attribute="DpcX" value="13"/>
+	<Bonus group="BR00_023" target="hero" attribute="DpcX" value="13"/>
+	<Bonus group="BR00_024" target="hero" attribute="DpcX" value="13"/>
+	<Bonus group="BR00_025" target="hero" attribute="DpcX" value="13"/>
+	<Bonus group="BR00_026" target="hero" attribute="DpcX" value="13"/>
+	<Bonus group="BR00_027" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_028" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_029" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_030" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_031" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_032" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_033" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_034" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_035" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_036" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_037" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_038" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_039" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_040" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_041" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_042" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_043" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_044" target="hero" attribute="DpcX" value="14"/>
+	<Bonus group="BR00_045" target="hero" attribute="DpcX" value="14"/>
 </BonusList>

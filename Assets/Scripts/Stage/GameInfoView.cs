@@ -7,8 +7,6 @@ namespace SexyBackPlayScene
     internal class GameInfoView
     {
         UILabel TotalDpsLabel = ViewLoader.label_elementaldmg.GetComponent<UILabel>();
-        UILabel MinusDpsLabel = ViewLoader.label_minusdps.GetComponent<UILabel>();
-
         UILabel HeroDpcLabel = ViewLoader.label_herodmg.GetComponent<UILabel>();
         UILabel label_exp = ViewLoader.label_exp.GetComponent<UILabel>();
 
@@ -25,35 +23,23 @@ namespace SexyBackPlayScene
             TotalDpsLabel.text = "";
             HeroDpcLabel.text = "";
             label_exp.text = "";
-            MinusDpsLabel.text = "";
         }
 
         public void PrintDps(Elemental elemenetal)
         {
-            string dpsString = Singleton<ElementalManager>.getInstance().GetTotalDps().To5String() + " /Second";
+            string dpsString = Singleton<ElementalManager>.getInstance().GetTotalDps().To5String() + " /Sec";
             TotalDpsLabel.GetComponent<UILabel>().text = dpsString;
-        }
-
-        public void PrintMinusDps(BigInteger dps)
-        {
-            if (dps <= 0 )
-            {
-                MinusDpsLabel.text = "";
-                return;
-            }
-            string minusdps = "-" + dps.To5String() + " /Second";
-            MinusDpsLabel.text = minusdps;
         }
 
         void PrintDpc(Hero hero)
         {
-            string dpsString = hero.DPC.To5String() + " /Touch";
+            string dpsString = hero.DPC.To5String() + " /Tap";
             HeroDpcLabel.text = dpsString;
         }
 
         void PrintExp(BigInteger exp)
         {
-            string expstring = exp.To5String() + "";
+            string expstring = exp.To5String() + " EXP";
             label_exp.text = expstring;
         }
         void BindHero(Hero hero)

@@ -4,11 +4,7 @@ namespace SexyBackPlayScene
 {
     internal class ResearchStateReady : BaseState<Research>
     {
-        Player player = Singleton<Player>.getInstance();
-        ResearchManager manager = Singleton<ResearchManager>.getInstance();
         bool Instantbuy = false;
-        bool ThreadEmpty = false;
-        bool CanBuy = false;
 
         public ResearchStateReady(Research owner, StateMachine<Research> statemachine) : base(owner, statemachine)
         {
@@ -16,26 +12,14 @@ namespace SexyBackPlayScene
 
         internal override void Begin()
         {
-            manager.DrawNewMark();
             Instantbuy = false;
-            player.Action_ExpChange += this.onExpChange;
-            onExpChange(player.EXP);
-            manager.Action_ThreadChange += this.onThreadEmpty;
-            onThreadEmpty(manager.CanUseThread);
-            Singleton<InfoPanel>.getInstance().SetPauseButton(owner.Selected, false, "");
-        }
-        internal void onThreadEmpty(bool value)
-        {
-            ThreadEmpty = value;
-            Refresh();
+            Singleton<Player>.getInstance().Action_ExpChange += this.onExpChange;
+            owner.itemView.ShowRBar(0, (int)owner.ReducedTime, false);
         }
 
         internal override void End()
         {
-            player.Action_ExpChange -= this.onExpChange;
-            manager.Action_ThreadChange -= this.onThreadEmpty;
-            player = null;
-            manager = null;
+            Singleton<Player>.getInstance().Action_ExpChange -= this.onExpChange;
             Singleton<InfoPanel>.getInstance().SetConfirmButton(owner.Selected, false);
         }
 
@@ -44,56 +28,35 @@ namespace SexyBackPlayScene
             if (owner.Purchase)
                 return;
 
-            CanBuy = (exp >= owner.StartPrice);
-            Refresh();
-        }
-
-        private void Refresh()
-        {
-            if (!Instantbuy)
-                InstantModeCheck();
-
-            if (!Instantbuy)
-                owner.itemView.ShowRBar(0, (int)owner.ReducedTime, false);
-            else
-                owner.itemView.HideRBar();
-
-            if(CanBuy && ThreadEmpty)
+            if (exp >= owner.StartPrice)
+            {
+                Singleton<InfoPanel>.getInstance().SetConfirmButton(owner.Selected, true);
                 owner.itemView.Enable();
+            }
             else
+            {
+                Singleton<InfoPanel>.getInstance().SetConfirmButton(owner.Selected, false);
                 owner.itemView.Disable();
-
-            if (!owner.Selected)
-                return;
-
-            owner.FillInfoView(Instantbuy);
-            Singleton<InfoPanel>.getInstance().SetConfirmButton(owner.Selected, CanBuy && ThreadEmpty);
+            }
         }
 
-        private void InstantModeCheck()
+        internal override void Update()
         {
-            if (owner.ReducedTime <= 1) // instant buy mode
+            if (!Instantbuy && owner.ReducedTime <= Research.ResearchTick) // instant buy mode
             {
                 Instantbuy = true;
                 owner.StartPrice = owner.StartPrice + owner.ResearchPrice;
                 owner.ResearchPrice = 0;
                 owner.ReducedTime = 0;
                 owner.PricePerSec = 0;
+                owner.itemView.HideRBar();
             }
-        }
 
-        internal override void Update()
-        {
-            if (owner.RefreshFlag)
-            {
-                Refresh();
-                owner.RefreshFlag = false;
-            }
             if (owner.Purchase)
             {
                 if(Instantbuy)
                 {
-                    if(player.ExpUse(owner.StartPrice))
+                    if(Singleton<Player>.getInstance().ExpUse(owner.StartPrice))
                     {
                         owner.DoUpgrade();
                         stateMachine.ChangeState("Destroy");
@@ -103,16 +66,16 @@ namespace SexyBackPlayScene
                 }
                 else
                 {
-                    if (player.ExpUse(owner.StartPrice))
+                    if (Singleton<Player>.getInstance().ExpUse(owner.StartPrice))
                     {
                         owner.RemainTime = owner.ReducedTime;
-                        manager.UseThread(true);
                         stateMachine.ChangeState("Work");
                     }
                     else
                         owner.Purchase = false;
                 }
             }
+
         }
     }
 }

@@ -35,8 +35,8 @@ namespace SexyBackPlayScene
         // public
         public void ChangeState(string stateid)
         {
-            currStateID = stateid;
             ChangeState(CreateState(stateid));
+            currStateID = stateid;
             Action_changeEvent(owner.GetID, stateid);
         }
 
