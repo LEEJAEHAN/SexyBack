@@ -30,13 +30,17 @@ namespace SexyBackPlayScene
 
         public int SortOrder;
         public double RemainTime;
-        public static double ResearchTick = 0.1f;
+        public static double ResearchTick = 1f;
+        //// 변수 
+        //int ReduceTimeX = 1;
+        //int ReduceTime = 0;
 
+        // show, enable condition
         public bool Selected = false;
         public bool Purchase = false;
-        public bool RefreshFlag = false;
 
         public ResearchStateMachine StateMachine;
+
         public string GetID { get { return ID; } }
         public string CurrentState { get { return StateMachine.currStateID; } }
 
@@ -51,10 +55,6 @@ namespace SexyBackPlayScene
             SortOrder = data.level + data.baselevel;
 
             ResearchTime = time;
-            ReducedTime = ResearchTime;
-            ReduceTimeX = 1;
-            ReduceTime = 1;
-
             StartPrice = ((100 - data.rate) * totalprice) / 100;
             ResearchPrice = data.rate * totalprice / 100;
             PricePerSec = ResearchPrice / (int)ResearchTime;
@@ -95,17 +95,30 @@ namespace SexyBackPlayScene
             }
 
             Selected = true;
-            Refresh();
+            FillInfoView();
         }
 
-        public void FillInfoView(bool InstanceBuy)
+        void FillInfoView()
         {
             if (!Selected)
                 return;
 
             InfoPanel panel = Singleton<InfoPanel>.getInstance();
-            ViewText = MakeDescriptionText(InstanceBuy);
+
+            ViewText = MakeDescriptionText(InfoName, Description, StartPrice, (int)ReduceTime, PricePerSec);
             panel.Show(Selected, IconName, ViewText);
+
+            if (CurrentState == "Ready")
+                panel.SetConfirmButton(Selected, Singleton<Player>.getInstance().EXP >= StartPrice);
+            else
+                panel.SetConfirmButton(Selected, false);
+
+            if (CurrentState == "Pause")
+                panel.SetPauseButton(Selected, true, "Work");
+            else if (CurrentState == "Work")
+                panel.SetPauseButton(Selected, true, "Pause");
+            else
+                panel.SetPauseButton(Selected, false, "");
         }
 
 
@@ -125,46 +138,43 @@ namespace SexyBackPlayScene
 
         internal void SetStat(ResearchUpgradeStat researchStat)
         {
-            ReduceTimeX = researchStat.ReduceTimeX;
-            ReduceTime = researchStat.ReduceTime;
-            double PrevTime = ReducedTime;
-            ReducedTime = ResearchTime / researchStat.ReduceTimeX - researchStat.ReduceTime;
-            if (ReducedTime <= 0)
+            if (CurrentState == "Ready" || CurrentState == "None")
             {
-                ReducedTime = 0;
-                RemainTime = 0;
+                ReduceTimeX = researchStat.ReduceTimeX;
+                ReduceTime = researchStat.ReduceTime;
+                ReducedTime = ResearchTime / researchStat.ReduceTimeX - researchStat.ReduceTime;
+                if(ReducedTime > ResearchTick) // 최소 1틱은 보장해야함.
+                    PricePerSec = ResearchPrice / (int)ReducedTime;
             }
-            if (RemainTime > 0)
-                RemainTime = RemainTime * ReducedTime / PrevTime; // 연구중인 시간도 준다.
-            if (ReducedTime >= 1) // 최소 1초는 보장해야함.
-                PricePerSec = ResearchPrice / (int)ReducedTime;
-
-            Refresh();
+            else if (CurrentState == "Work" || CurrentState == "Pause")
+            {
+                //TODO : 여기해야할차례
+//                ResearchTime /= researchStat.;
+  //              re
+            }
         }
 
         // function
-        private string MakeDescriptionText(bool InstanceBuy)
+        private string MakeDescriptionText(string infoName, string description, BigInteger startPrice, int researchTime, BigInteger pricePerSec)
         {
             string temp = "";
-            temp += InfoName + "\n";
-            temp += Description + "\n";
-            temp += "비용 : " + StartPrice.To5String() + "\n";
+            temp += infoName + "\n";
+            temp += description + "\n";
+            temp += "비용 : " + startPrice.To5String() + " EXP\n";
 
-            if (!InstanceBuy)
+            if (researchTime > ResearchTick)
             {
-                temp += "연구시간 : " + ((int)ReducedTime).ToString() + " Sec\n";
-                temp += "연구비용 : " + PricePerSec.To5String() + " /Sec";
+                temp += "연구시간 : " + researchTime.ToString() + " 초\n";
+                temp += "연구비용 : 초당 " + pricePerSec.To5String() + " EXP";
             }
 
             return temp;
         }
 
+        // update view state
         public void Refresh()
         {
-            RefreshFlag = true;
         }
 
-
-        // update view state
     }
 }

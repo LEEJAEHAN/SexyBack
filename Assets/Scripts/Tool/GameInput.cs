@@ -49,14 +49,6 @@ namespace SexyBackPlayScene
             {
                 Touch(new Vector3(360,800,0));
             }
-            if (Input.GetKeyDown(KeyCode.U))
-            {
-                Singleton<Player>.getInstance().Upgrade(new Bonus("hero", "ResearchTimeX", 2, ""));
-            }
-            if (Input.GetKey(KeyCode.M))
-            {
-                Singleton<Player>.getInstance().ExpGain(Singleton<HeroManager>.getInstance().GetHero("hero").DPC);
-            }
         }
 
 
