@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Elementals>
-	<Elemental id="fireball" name="fireball" attackIntervalK="5200" basedps="6.4396" baseexp="86"/>
-	<Elemental id="waterball" name="waterball" attackIntervalK="5300" basedps="53.2202" baseexp="2001"/>
-	<Elemental id="rock" name="rock" attackIntervalK="5500" basedps="1301.57" baseexp="108544"/>
-	<Elemental id="electricball" name="electricball" attackIntervalK="5700" basedps="47625" baseexp="7733248"/>
-	<Elemental id="snowball" name="snowball" attackIntervalK="6100" basedps="17892498" baseexp="6056866302"/>
-	<Elemental id="earthball" name="earthball" attackIntervalK="6300" basedps="5564051276" baseexp="3509157065962"/>
-	<Elemental id="airball" name="airball" attackIntervalK="6700" basedps="1831700929713" baseexp="2005605675653400"/>
-	<Elemental id="iceblock" name="iceblock" attackIntervalK="6900" basedps="1411744908409500" baseexp="2637636169982010000"/>
-	<Elemental id="magmaball" name="magmaball" attackIntervalK="7300" basedps="1935611665060290000" baseexp="6016999659118580000000"/>
+	<Elemental id="fireball" name="fireball" attackIntervalK="5200" basedps="1" baseexp="10"/>
+	<Elemental id="waterball" name="waterball" attackIntervalK="5300" basedps="4.2" baseexp="82"/>
+	<Elemental id="rock" name="rock" attackIntervalK="5500" basedps="150.4" baseexp="4128"/>
+	<Elemental id="electricball" name="electricball" attackIntervalK="5700" basedps="10854.4" baseexp="372736"/>
+	<Elemental id="snowball" name="snowball" attackIntervalK="6100" basedps="2089242" baseexp="83846422"/>
+	<Elemental id="earthball" name="earthball" attackIntervalK="6300" basedps="2493587062" baseexp="110794606976"/>
+	<Elemental id="airball" name="airball" attackIntervalK="6700" basedps="5904814163707" baseexp="285955496724019"/>
+	<Elemental id="iceblock" name="iceblock" attackIntervalK="6900" basedps="6789346620545210" baseexp="360711894850848000"/>
+	<Elemental id="magmaball" name="magmaball" attackIntervalK="7300" basedps="47961534591645900000" baseexp="2719050076464850000000"/>
 </Elementals>
