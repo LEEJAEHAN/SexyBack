@@ -212,48 +212,6 @@ namespace SexyBackPlayScene
                 researchtable.Add(research);
             }
 
-            //TextAsset textasset = Resources.Load("Xml/ResearchData") as TextAsset;
-            //XmlDocument xmldoc = new XmlDocument();
-            //xmldoc.LoadXml(textasset.text);
-            //XmlNode rootNode = xmldoc.SelectSingleNode("Researches");
-            //XmlNodeList nodes = rootNode.SelectNodes("Research");
-
-            //List<Bonus> group = new List<Bonus>();
-            //foreach (XmlNode node in nodes)
-            //{
-            //    string id = node.Attributes["id"].Value;
-            //    string requireid = node.Attributes["requireid"].Value;
-            //    int requirelevel = int.Parse(node.Attributes["requirelevel"].Value);
-
-            //    XmlNode infonode = node.SelectSingleNode("Info");
-            //    string icon = infonode.Attributes["icon"].Value;
-            //    string name = infonode.Attributes["name"].Value;
-            //    string description = infonode.Attributes["description"].Value;
-
-            //    XmlNode pricenode = node.SelectSingleNode("Price");
-            //    int pricevalue = int.Parse(pricenode.Attributes["value"].Value);
-            //    string pricedigit = pricenode.Attributes["digit"].Value;
-            //    BigIntExpression price = new BigIntExpression(pricevalue, pricedigit);
-
-            //    XmlNode potnode = node.SelectSingleNode("PriceOverTime");
-            //    int potvalue = int.Parse(potnode.Attributes["value"].Value);
-            //    string potdigit = potnode.Attributes["digit"].Value;
-            //    int time = int.Parse(potnode.Attributes["time"].Value);
-            //    BigIntExpression pot = new BigIntExpression(potvalue, potdigit);
-
-            //    XmlNode bonusnode = node.SelectSingleNode("BonusList");
-            //    string groupid = bonusnode.Attributes["groupid"].Value;
-
-            //    List<Bonus> bonuselist;
-            //    if (!bonuses.ContainsKey(groupid))
-            //        bonuselist = new List<Bonus>();
-            //    else
-            //        bonuselist = bonuses[groupid];
-
-            //    ResearchData research = new ResearchData(id, requireid, requirelevel, bonuselist, price, pot, time, icon, name, description);
-            //    researchtable.Add(research);
-            //}
-
 
         }
     }

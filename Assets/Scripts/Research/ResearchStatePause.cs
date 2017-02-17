@@ -35,6 +35,7 @@ namespace SexyBackPlayScene
             if (!owner.Selected)
                 return;
             owner.FillInfoView(false);
+            Singleton<InfoPanel>.getInstance().SetConfirmButton(owner.Selected, false);
             Singleton<InfoPanel>.getInstance().SetPauseButton(owner.Selected, true, "Work");
         }
     }

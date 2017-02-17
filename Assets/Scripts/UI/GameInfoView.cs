@@ -12,6 +12,8 @@ namespace SexyBackPlayScene
         UILabel HeroDpcLabel = ViewLoader.label_herodmg.GetComponent<UILabel>();
         UILabel label_exp = ViewLoader.label_exp.GetComponent<UILabel>();
 
+        UILabel label_floor = ViewLoader.label_floor.GetComponent<UILabel>();
+
         internal void Init()
         {
             Set();
@@ -26,6 +28,8 @@ namespace SexyBackPlayScene
             HeroDpcLabel.text = "";
             label_exp.text = "";
             MinusDpsLabel.text = "";
+            label_floor.text = "1 Floor";
+
         }
 
         public void PrintDps(Elemental elemenetal)
@@ -66,5 +70,9 @@ namespace SexyBackPlayScene
             elemental.Action_DamageChange += PrintDps;
         }
 
+        internal void PrintStage(int currentFloor)
+        {
+            label_floor.text = currentFloor + " Floor";
+        }
     }
 }

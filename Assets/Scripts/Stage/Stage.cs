@@ -11,8 +11,11 @@ namespace SexyBackPlayScene
         public GameObject avatar;
         List<String> monsters = new List<string>();
 
-        public delegate void StageClear_EventHandler(Stage stage);
-        public event StageClear_EventHandler Action_StageClear;
+        public delegate void StageClear_EventHandler(int floor);
+        public StageClear_EventHandler Action_StagePass;
+
+        public delegate void StageDestroy_EventHandler(Stage stage);
+        public event StageDestroy_EventHandler Action_StageDestroy;
 
         public Stage(int currentFloor, float zPosition)
         {
@@ -54,9 +57,13 @@ namespace SexyBackPlayScene
                 avatar.transform.localPosition = Vector3.zero;
                 Singleton<MonsterManager>.getInstance().Battle(monsters[0]);
             }
-            if(zPosition <= -10 && monsters.Count == 0) // clear stage
+            if (zPosition <= StageManager.HeroPosition + 1.5f && monsters.Count == 0) // clear stage
             {
-                Action_StageClear(this);
+                Action_StagePass(floor);
+            }
+            if (zPosition <= StageManager.HeroPosition && monsters.Count == 0) // clear stage
+            {
+                Action_StageDestroy(this);
             }
         }
 

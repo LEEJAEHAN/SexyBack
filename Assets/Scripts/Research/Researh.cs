@@ -30,7 +30,7 @@ namespace SexyBackPlayScene
 
         public int SortOrder;
         public double RemainTime;
-        public static double ResearchTick = 0.1f;
+        public double ResearchTick;
 
         public bool Selected = false;
         public bool Purchase = false;
@@ -40,7 +40,7 @@ namespace SexyBackPlayScene
         public string GetID { get { return ID; } }
         public string CurrentState { get { return StateMachine.currStateID; } }
 
-        public Research(ResearchData data, ICanLevelUp root, GridItem itemview, double time, BigInteger totalprice)
+        public Research(ResearchData data, ICanLevelUp root, GridItem itemview, double time, BigInteger totalprice, double tick)
         {
             ID = data.ID;
             bonuses = data.bonuses;
@@ -54,10 +54,11 @@ namespace SexyBackPlayScene
             ReducedTime = ResearchTime;
             ReduceTimeX = 1;
             ReduceTime = 1;
+            ResearchTick = tick;
 
             StartPrice = ((100 - data.rate) * totalprice) / 100;
             ResearchPrice = data.rate * totalprice / 100;
-            PricePerSec = ResearchPrice / (int)ResearchTime;
+            //PricePerSec = ResearchPrice / (int)ResearchTime; setstat이나 instantcheck시 설정된다.
 
             itemView = itemview;
             itemview.AttachEventListner(this);

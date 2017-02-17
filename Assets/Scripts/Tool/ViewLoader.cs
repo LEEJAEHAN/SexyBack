@@ -19,6 +19,7 @@ namespace SexyBackPlayScene
 
         public static GameObject label_minusdps;
         public static GameObject label_exp;
+        public static GameObject label_floor;
 
         public static GameObject projectiles;
         public static GameObject hitparticle;
@@ -70,6 +71,9 @@ namespace SexyBackPlayScene
             label_debug = GameObject.Find("label_debug");
             label_herodmg = GameObject.Find("label_herodmg");
             label_elementaldmg = GameObject.Find("label_elementaldmg");
+
+            label_floor = GameObject.Find("label_floor");
+
 
             label_exp = GameObject.Find("label_exp");
             label_minusdps = GameObject.Find("label_minusdps");

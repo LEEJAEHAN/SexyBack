@@ -33,8 +33,8 @@ namespace SexyBackPlayScene
 
         public Player()
         {
-            heroStat = new HeroUpgradeStat(new BigInteger(1), 100, 1000, 6);
-            researchStat = new ResearchUpgradeStat(1, 0, 1);
+            heroStat = new HeroUpgradeStat(new BigInteger(1), 100, 100, 6);
+            researchStat = new ResearchUpgradeStat(1, 0, 5);
             foreach (string elementalid in Singleton<TableLoader>.getInstance().elementaltable.Keys)
                 elementalStats.Add(new ElementalUpgradeStat(elementalid, new BigInteger(1), 100));
         }
@@ -47,17 +47,18 @@ namespace SexyBackPlayScene
         internal void Start()
         {
             heromanager.CreateHero(); // and hero is move
+            //elementalmanager.LearnNewElemental("fireball");
 
-//            Singleton<Player>.getInstance().ExpGain(new BigInteger(new BigIntExpression(777, "Y")));
-            //elementalmanager.LearnNewElemental("magmaball");
-            //elementalManager.SummonNewElemental("fireball");
-            //elementalManager.SummonNewElemental("waterball");
-            //elementalManager.SummonNewElemental("rock");
-            //elementalManager.SummonNewElemental("electricball");
-            //elementalManager.SummonNewElemental("snowball");
-            //elementalManager.SummonNewElemental("earthball");
-            //elementalManager.SummonNewElemental("airball"); // for test
-            //elementalManager.SummonNewElemental("iceblock");
+            //            Singleton<Player>.getInstance().ExpGain(new BigInteger(new BigIntExpression(150, "m")));
+            elementalmanager.LearnNewElemental("magmaball");
+            //elementalmanager.LearnNewElemental("fireball");
+            //elementalmanager.LearnNewElemental("waterball");
+            //elementalmanager.LearnNewElemental("rock");
+            //elementalmanager.LearnNewElemental("electricball");
+            //elementalmanager.LearnNewElemental("snowball");
+            //elementalmanager.LearnNewElemental("earthball");
+            //elementalmanager.LearnNewElemental("airball"); // for test
+            //elementalmanager.LearnNewElemental("iceblock");
         }
 
         internal void Upgrade(Bonus bonus)

@@ -50,8 +50,6 @@ namespace SexyBackPlayScene
         {
             player.Start();
             stageManager.Start();
-
-
         }
         internal void FixedUpdate()
         {

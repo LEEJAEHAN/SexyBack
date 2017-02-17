@@ -12,6 +12,7 @@ namespace SexyBackPlayScene
         RaycastHit hit;
         RaycastHit effecthit;
 
+        public int fowardtimefordebug = 0;
 
         void Touch(Vector3 position)
         {
@@ -41,11 +42,11 @@ namespace SexyBackPlayScene
                 Touch(Input.mousePosition);
             }
 
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.UpArrow))
             {
                 Singleton<LevelUpManager>.getInstance().BuySelected();
             }
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(KeyCode.Space))
             {
                 Touch(new Vector3(360,800,0));
             }
@@ -53,9 +54,11 @@ namespace SexyBackPlayScene
             {
                 Singleton<Player>.getInstance().Upgrade(new Bonus("hero", "ResearchTimeX", 2, ""));
             }
-            if (Input.GetKey(KeyCode.M))
+            if (Input.GetKey(KeyCode.RightArrow))
             {
                 Singleton<Player>.getInstance().ExpGain(Singleton<HeroManager>.getInstance().GetHero("hero").DPC);
+                Singleton<Player>.getInstance().ExpGain(Singleton<ElementalManager>.getInstance().GetTotalDps() * 5);
+                fowardtimefordebug+=5;
             }
         }
 

@@ -8,9 +8,9 @@ namespace SexyBackPlayScene
     {
         int GoalFloor = 20;
         int currentFloor = 1;
-        readonly int DistancePerFloor = 10;
-        readonly int InitDistance = 0;
-        int distance { get { return InitDistance + currentFloor * DistancePerFloor; } }
+        public double Gametime = 0;
+        readonly int DistancePerFloor = 30;
+        public static readonly int HeroPosition = -10;
 
         public List<Stage> Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
         public List<Stage> beToDispose = new List<Stage>(); // 풀링하지말자. 잦은이동이있는것도아닌데
@@ -38,19 +38,20 @@ namespace SexyBackPlayScene
             foreach (Stage st in Stages)
                 st.Move(delta_z);
 
-            sexybacklog.InGame(distance + " " + currentFloor);
+            //sexybacklog.InGame(distance + " " + currentFloor);
         }
 
         public void Start() // start stagebuilder
         {
-            Stages.Add(CreateStage(currentFloor, InitDistance + DistancePerFloor, 1));
-            Stages.Add(CreateStage(currentFloor + 1, InitDistance + 2 * DistancePerFloor, 1));
+            Stages.Add(CreateStage(currentFloor, HeroPosition + DistancePerFloor, 1));
+            Stages.Add(CreateStage(currentFloor + 1, HeroPosition + 2 * DistancePerFloor, 1));
         }
 
         private Stage CreateStage(int floor, int zPosition, int monsterCount)
         {
             Stage abc = new Stage(floor, zPosition);
-            abc.Action_StageClear += onStageClear;
+            abc.Action_StageDestroy += onStageClear;
+            abc.Action_StagePass += onStagePass;
             abc.InitAvatar();
             for (int i = 0; i < monsterCount; i++)
             {
@@ -58,20 +59,25 @@ namespace SexyBackPlayScene
             }
             return abc;
         }
-
-
+        private void onStagePass(int floor)
+        {
+            currentFloor = floor + 1;
+            Singleton<GameInfoView>.getInstance().PrintStage(currentFloor);
+        }
         private void onStageClear(Stage stage)
         {
-            currentFloor = stage.floor + 1;
             beToDispose.Add(stage);
             needNextStage = true;
         }
 
         public void Update()
         {
-            if(needNextStage)
+            Gametime += Time.deltaTime;
+            sexybacklog.InGame("총시간 = " + (int)Gametime + "\n빨리감기 +" + Singleton<GameInput>.getInstance().fowardtimefordebug + " 초");
+
+            if (needNextStage)
             {
-                Stages.Add(CreateStage(currentFloor + 1, DistancePerFloor, 1));
+                Stages.Add(CreateStage(currentFloor + 1, HeroPosition + 2 * DistancePerFloor, 1));
                 needNextStage = false;
             }
 

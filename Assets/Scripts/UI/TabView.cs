@@ -9,8 +9,8 @@ namespace SexyBackPlayScene
         public delegate void EventHandler_HideItem();
         public delegate void EventHandler_ShowItem();
 
-        public event EventHandler_ShowItem Action_ShowList;
-        public event EventHandler_ShowItem Action_HideList;
+        public event EventHandler_ShowItem Action_ShowList = delegate { };
+        public event EventHandler_ShowItem Action_HideList = delegate { };
 
         // Use this for initialization
         void Start()

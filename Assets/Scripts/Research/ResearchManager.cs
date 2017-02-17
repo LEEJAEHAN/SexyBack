@@ -24,10 +24,10 @@ namespace SexyBackPlayScene
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += onElementalCreate;
 
-            ViewLoader.TabButton3.GetComponent<TabView>().Action_ShowList += onShowList;
-            ViewLoader.TabButton3.GetComponent<TabView>().Action_HideList += onHideList;
+            ViewLoader.TabButton2.GetComponent<TabView>().Action_ShowList += onShowList;
+            ViewLoader.TabButton2.GetComponent<TabView>().Action_HideList += onHideList;
 
-            ViewLoader.Tab3Container.GetComponent<UIGrid>().onCustomSort = myResearchSort;
+            ViewLoader.Tab2Container.GetComponent<UIGrid>().onCustomSort = myResearchSort;
         }
 
         int myResearchSort(Transform a, Transform b)
@@ -37,18 +37,18 @@ namespace SexyBackPlayScene
 
         public void DrawNewMark()
         {
-            ViewLoader.TabButton3.transform.FindChild("New").gameObject.SetActive(true);
+            ViewLoader.TabButton2.transform.FindChild("New").gameObject.SetActive(true);
         }
 
         private void onHideList()
         {
-            ViewLoader.Tab3Container.SetActive(false);
+            ViewLoader.Tab2Container.SetActive(false);
             // ViewLoader.Info_Context.SetActive(false);
         }
 
         private void onShowList()
         {
-            ViewLoader.Tab3Container.SetActive(true);
+            ViewLoader.Tab2Container.SetActive(true);
         }
 
         private void onHeroCreate(Hero hero)
@@ -89,7 +89,7 @@ namespace SexyBackPlayScene
                 research.Dispose();
             }
             beToDispose.Clear(); // TODO : 이거 찜찜함
-            ViewLoader.Tab3Container.GetComponent<UIGrid>().Reposition();
+            ViewLoader.Tab2Container.GetComponent<UIGrid>().Reposition();
         }
 
         public void UseThread(bool start)

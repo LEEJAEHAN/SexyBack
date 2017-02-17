@@ -11,11 +11,11 @@ namespace SexyBackPlayScene
         public readonly double AttackInterval = 5;
         public readonly double CriRate = 0.10;
         public readonly int CriDamage = 200;
-        public readonly float MoveSpeed = 0.05f;
+        public readonly float MoveSpeed = 2f;
         public readonly int AttackCount = 1;
 
-        public readonly BigInteger BaseExp = new BigInteger(50);
-        public readonly BigInteger BaseDpc = new BigInteger(5);
+        public readonly BigInteger BaseExp = new BigInteger(100);
+        public readonly BigInteger BaseDpc = new BigInteger(10);
 
         public HeroData()
         {
