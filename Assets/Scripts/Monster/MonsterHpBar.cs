@@ -41,9 +41,6 @@ namespace SexyBackPlayScene
 
         public MonsterHpBar(MonsterManager manager)
         {
-            manager.Action_BeginBattleEvent += FillNewBar;
-            manager.Action_TargetMonsterChange += UpdateBar;
-
             Hpbar = ViewLoader.HPBar;
             LateBar1 = ViewLoader.HPBar_SlowFill1;
             LateBar2 = ViewLoader.HPBar_SlowFill2;
@@ -57,7 +54,7 @@ namespace SexyBackPlayScene
         }
 
         // Use this for initialization
-        void FillNewBar(Monster sender)
+        public void FillNewBar(Monster sender)
         {
             sender.StateMachine.Action_changeEvent += onTargetStateChange;
             // 123,456,123,456
@@ -107,7 +104,7 @@ namespace SexyBackPlayScene
                 Hpbar.SetActive(true);
         }
 
-        void UpdateBar(Monster monster)
+        public void UpdateBar(Monster monster)
         {
             if (goal < 0 )
             {

@@ -11,16 +11,16 @@ namespace SexyBackPlayScene
         {
             this.owner = owner;
             stateMachine = statemachine;
-            //sexybacklog.Console(this.ToString() + "State 생성");
+            sexybacklog.Console(this.ToString() + " State 생성");
         }
         internal abstract void Update();
         internal abstract void End();
         internal abstract void Begin();
 
-        //~BaseState()
-        //{
-        //    sexybacklog.Console(this.ToString() + "state 해제");
-        //}
+        ~BaseState()
+        {
+            sexybacklog.Console(this.ToString() + " State 해제");
+        }
 
     }
 

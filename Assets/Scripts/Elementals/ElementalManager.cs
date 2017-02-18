@@ -14,7 +14,6 @@ namespace SexyBackPlayScene
         internal void Init()
         {
             // this class is event listner
-            Singleton<MonsterManager>.getInstance().Action_BeginBattleEvent += this.SetTarget;
         }
         private bool SummonNewElemental(string id)
         {
@@ -64,7 +63,7 @@ namespace SexyBackPlayScene
         }
 
         // recieve event
-        void SetTarget(Monster sender)
+        public void SetTarget(Monster sender)
         {
             if (elementals == null)
                 return;

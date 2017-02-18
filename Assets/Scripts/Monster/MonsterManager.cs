@@ -10,16 +10,10 @@ namespace SexyBackPlayScene
         Dictionary<string, Monster> monsters = new Dictionary<string, Monster>();
         Queue<string> disposeIDs= new Queue<string>();
 
-        Monster TargetMonster; // TODO: bucket으로수정해야함;
+        Monster BattleMonster; // TODO: bucket으로수정해야함;
 
         MonsterFactory monsterFactory = new MonsterFactory();
         MonsterHpBar hpbar;
-
-        public delegate void FocusChange_Event(Monster sender);
-        public event FocusChange_Event Action_BeginBattleEvent;
-
-        public delegate void FocusMonsterChange_Event(Monster sender);
-        public event FocusMonsterChange_Event Action_TargetMonsterChange;
 
         internal void Init()
         {
@@ -30,8 +24,8 @@ namespace SexyBackPlayScene
 
         public void onChangeMonster(Monster sender)
         {
-            if (TargetMonster.GetID == sender.GetID)
-                Action_TargetMonsterChange(sender);
+            if (BattleMonster.GetID == sender.GetID)
+                hpbar.UpdateBar(sender);
         }
         internal Monster CreateMonster(int floor)
         {
@@ -44,14 +38,12 @@ namespace SexyBackPlayScene
             //Focus(newmonster);
         }
 
-        public void Battle(string monsterId) // 사거리내에 들어옴. battle 시작. 
+        public void JoinBattle(Monster monster) // 사거리내에 들어옴. battle 시작. 
         {   // TODO : 몬스터매니져가 왜 배틀을 주관하는지? 다른곳으로빠져야할듯. 마찬가지로 몬스터 죽음을 이용하여 너무 많은 컨트롤을 함.
-            TargetMonster = monsters[monsterId];
-            Action_BeginBattleEvent(TargetMonster);
-            Action_TargetMonsterChange(TargetMonster);
-            // 여기까진 실질적으로 do배틀기능
-
-            TargetMonster.Join();            // 여기가 실제 monstermanager의 기능.
+            BattleMonster = monster;
+            hpbar.FillNewBar(BattleMonster);
+            hpbar.UpdateBar(BattleMonster);
+            BattleMonster.Join();            // 여기가 실제 monstermanager의 기능.
         }
 
         internal void FixedUpdate()
@@ -67,8 +59,8 @@ namespace SexyBackPlayScene
             while(disposeIDs.Count!=0)
             {
                 string id = disposeIDs.Dequeue();
-                if (id == TargetMonster.GetID)
-                    TargetMonster = null;
+                if (id == BattleMonster.GetID)
+                    BattleMonster = null;
                 monsters[id].Dispose();
                 monsters.Remove(id);
             }
@@ -85,17 +77,17 @@ namespace SexyBackPlayScene
         }
         private void onElementalCreate(Elemental elemental)
         {
-            if (TargetMonster == null)
+            if (BattleMonster == null)
                 return;
-            TargetMonster.StateMachine.Action_changeEvent += elemental.onTargetStateChange;
-            if (TargetMonster.CurrentState == "Ready")
-                elemental.targetID = TargetMonster.GetID;
+            BattleMonster.StateMachine.Action_changeEvent += elemental.onTargetStateChange;
+            if (BattleMonster.CurrentState == "Ready")
+                elemental.targetID = BattleMonster.GetID;
         }
         private void onHeroCreate(Hero hero)
         {
-            if (TargetMonster == null)
+            if (BattleMonster == null)
                 return;
-            TargetMonster.StateMachine.Action_changeEvent += hero.onTargetStateChange;
+            BattleMonster.StateMachine.Action_changeEvent += hero.onTargetStateChange;
             //hero.SetDirection(CurrentMonster.CenterPosition);
         }
     }

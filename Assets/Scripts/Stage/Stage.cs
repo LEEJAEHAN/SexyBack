@@ -4,23 +4,22 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    public class Stage : IDisposable
+    internal class Stage : IDisposable, IStateOwner
     {
         public int floor = 0;
         public float zPosition = 0;
         public GameObject avatar;
-        List<String> monsters = new List<string>();
+        public Queue<Monster> monsterQueue = new Queue<Monster>();
+        internal StageStateMachine StateMachine;
 
-        public delegate void StageClear_EventHandler(int floor);
-        public StageClear_EventHandler Action_StagePass;
-
-        public delegate void StageDestroy_EventHandler(Stage stage);
-        public event StageDestroy_EventHandler Action_StageDestroy;
+        public string GetID { get { return "F" + floor; } }
+        public string CurrentState { get { return StateMachine.currStateID; } }
 
         public Stage(int currentFloor, float zPosition)
         {
             floor = currentFloor;
             this.zPosition = zPosition;
+            StateMachine = new StageStateMachine(this);
         }
 
         internal void InitAvatar()
@@ -35,54 +34,32 @@ namespace SexyBackPlayScene
         internal void CreateMonster()
         {
             Monster monster = Singleton<MonsterManager>.getInstance().CreateMonster(floor);
-            monster.StateMachine.Action_changeEvent += onTargetStateChange;
             monster.avatar.transform.parent = avatar.transform.FindChild("monster");
             monster.avatar.transform.localPosition = Vector3.zero;
-            monsters.Add(monster.GetID);
-        }
-
-        public void onTargetStateChange(string monsterid, string stateID)
-        {
-            if (stateID == "Death")
-                monsters.Remove(monsterid);
+            monsterQueue.Enqueue(monster);
         }
 
         public void Move(double delta_z)
         {
-            zPosition -= (float)delta_z;
-            avatar.transform.localPosition -= GameSetting.EyeLine * ((float)delta_z / 10); // 벽이 다가온다
-            if (zPosition < 0 && monsters.Count > 0)
-            {
-                zPosition = 0;
-                avatar.transform.localPosition = Vector3.zero;
-                Singleton<MonsterManager>.getInstance().Battle(monsters[0]);
-            }
-            if (zPosition <= StageManager.HeroPosition + 1.5f && monsters.Count == 0) // clear stage
-            {
-                Action_StagePass(floor);
-            }
-            if (zPosition <= StageManager.HeroPosition && monsters.Count == 0) // clear stage
-            {
-                Action_StageDestroy(this);
-            }
+            //zPosition -= (float)delta_z;  // 벽이 다가온다
+            //avatar.transform.localPosition = GameSetting.EyeLine * (zPosition / 10);
+            //avatar.transform.localPosition -= GameSetting.EyeLine * ((float)delta_z / 10); // 벽이 다가온다
         }
 
         internal void Update()
         {
+            StateMachine.Update();
         }
 
         public void Dispose()
         {
             GameObject.Destroy(avatar);
-            if (monsters.Count > 0)
-                foreach (string monsterid in monsters)
-                    Singleton<MonsterManager>.getInstance().GetMonster(monsterid).StateMachine.Action_changeEvent -= onTargetStateChange;
-            monsters = null;
+            monsterQueue = null;
         }
 
         ~Stage()
         {
-            //sexybacklog.Console("stage소멸!");
+            sexybacklog.Console("stage소멸!");
         }
     }
 }

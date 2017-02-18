@@ -14,7 +14,6 @@ namespace SexyBackPlayScene
         public void Init()
         {
             // this class is event listner
-            Singleton<MonsterManager>.getInstance().Action_BeginBattleEvent += BeginBattle;
         }
         public void CreateHero()
         {
@@ -31,12 +30,12 @@ namespace SexyBackPlayScene
                 return;
             CurrentHero.Update();
         }
-        internal Hero GetHero(string id)
+        internal Hero GetHero()
         {
             return CurrentHero;
         }
 
-        internal void BeginBattle(Monster monster)
+        internal void SetTarget(Monster monster)
         {
             if (CurrentHero == null)
                 return;

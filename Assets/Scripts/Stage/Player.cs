@@ -73,37 +73,37 @@ namespace SexyBackPlayScene
                 case "DpcX":
                     {
                         heroStat.DpcX *= bonus.value;
-                        heromanager.GetHero(bonus.targetID).SetDamageX(heroStat.DpcX);
+                        heromanager.GetHero().SetDamageX(heroStat.DpcX);
                         break;
                     }
                 case "BounsAttackCount":
                     {
                         heroStat.BounsAttackCount += bonus.value;
-                        heromanager.GetHero(bonus.targetID).SetStat(heroStat);
+                        heromanager.GetHero().SetStat(heroStat);
                         break;
                     }
                 case "HeroAttackspeedXH":
                     {
                         heroStat.HeroAttackspeedXH += bonus.value;
-                        heromanager.GetHero(bonus.targetID).SetStat(heroStat);
+                        heromanager.GetHero().SetStat(heroStat);
                         break;
                     }
                 case "CriticalRate":
                     {
                         heroStat.CriticalRate += bonus.value;
-                        heromanager.GetHero(bonus.targetID).SetStat(heroStat);
+                        heromanager.GetHero().SetStat(heroStat);
                         break;
                     }
                 case "CriticalDamage":
                     {
                         heroStat.CriticalDamage += bonus.value;
-                        heromanager.GetHero(bonus.targetID).SetStat(heroStat);
+                        heromanager.GetHero().SetStat(heroStat);
                         break;
                     }
                 case "MovespeedXH":
                     {
                         heroStat.MovespeedXH += bonus.value;
-                        heromanager.GetHero(bonus.targetID).SetStat(heroStat);
+                        heromanager.GetHero().SetStat(heroStat);
                         break;
                     }
                 // 여기까지 hero

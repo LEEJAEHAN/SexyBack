@@ -18,12 +18,12 @@ namespace SexyBackPlayScene
         internal override void Begin()
         {
             (owner.owner.Target as ICanLevelUp).Action_LevelUpInfoChange += this.onLevelUp;
+            onLevelUp((owner.owner.Target as ICanLevelUp));
             owner.itemView.SetActive(false);
         }
 
         internal override void End()
         {
-            owner.itemView.SetActive(true); // 한번 active되면 false되지않는다.
             (owner.owner.Target as ICanLevelUp).Action_LevelUpInfoChange -= this.onLevelUp;
         }
 
@@ -31,6 +31,7 @@ namespace SexyBackPlayScene
         {
             if (ShowCondition1)
             {
+                owner.itemView.SetActive(true); // 한번 active되면 false되지않는다.
                 stateMachine.ChangeState("Ready");
             }
         }

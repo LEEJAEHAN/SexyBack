@@ -20,14 +20,16 @@ namespace SexyBackPlayScene
 
         internal override void End()
         {
-            owner.sprite.GetComponent<Animator>().SetTrigger("Ready");
         }
 
         internal override void Update()
         {
             timer += Time.deltaTime;
             if (timer >= AppearTime)
+            {
+                owner.sprite.GetComponent<Animator>().SetTrigger("Ready");
                 stateMachine.ChangeState("Ready");
+            }
 
         }
     }

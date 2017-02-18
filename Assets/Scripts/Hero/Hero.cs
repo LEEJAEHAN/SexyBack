@@ -91,7 +91,7 @@ namespace SexyBackPlayScene
             MAXATTACKCOUNT = AttackCount + herostat.BounsAttackCount;
             ATTACKINTERVAL = AttackInterval * 100 / herostat.HeroAttackspeedXH;
             MOVESPEED = MoveSpeed * herostat.MovespeedXH / 100;
-            ATTACKSPEED = herostat.HeroAttackspeedXH / 100; 
+            ATTACKSPEED = herostat.HeroAttackspeedXH / 100;
             CRIRATE = CriRate + herostat.CriticalRate;
             CRIDAMAGE = CriDamage + herostat.CriticalDamage;
             //send event
@@ -163,15 +163,9 @@ namespace SexyBackPlayScene
         public void onTargetStateChange(string monsterid, string stateID)
         {
             if (stateID == "Ready")
-            {
                 targetID = monsterid;
-                return;
-            }
-            else if (stateID == "Death")
-            {
-                ChangeState("Move");
-            }
-            targetID = null;
+            else
+                targetID = null;
         }
 
         public void ChangeState(string stateid)

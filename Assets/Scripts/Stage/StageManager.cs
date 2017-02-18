@@ -16,31 +16,14 @@ namespace SexyBackPlayScene
         public List<Stage> beToDispose = new List<Stage>(); // 풀링하지말자. 잦은이동이있는것도아닌데
         private bool needNextStage = false;
 
-
         public void Init(GameModeData gamemode)
         {
             SetGameMode(gamemode);
-            Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
         }
         private void SetGameMode(GameModeData gamemode)
         {
             GoalFloor = gamemode.GoalFloor;
         }
-
-
-        private void onHeroCreate(Hero hero)
-        {
-            hero.Action_DistanceChange += onHeroMove;
-        }
-
-        public void onHeroMove(double delta_z)
-        {
-            foreach (Stage st in Stages)
-                st.Move(delta_z);
-
-            //sexybacklog.InGame(distance + " " + currentFloor);
-        }
-
         public void Start() // start stagebuilder
         {
             Stages.Add(CreateStage(currentFloor, HeroPosition + DistancePerFloor, 1));
@@ -50,21 +33,20 @@ namespace SexyBackPlayScene
         private Stage CreateStage(int floor, int zPosition, int monsterCount)
         {
             Stage abc = new Stage(floor, zPosition);
-            abc.Action_StageDestroy += onStageClear;
-            abc.Action_StagePass += onStagePass;
             abc.InitAvatar();
             for (int i = 0; i < monsterCount; i++)
             {
                 abc.CreateMonster();
             }
+            abc.StateMachine.ChangeState("Move");
             return abc;
         }
-        private void onStagePass(int floor)
+        public void onStagePass(int floor)
         {
             currentFloor = floor + 1;
             Singleton<GameInfoView>.getInstance().PrintStage(currentFloor);
         }
-        private void onStageClear(Stage stage)
+        public void onStageClear(Stage stage)
         {
             beToDispose.Add(stage);
             needNextStage = true;
@@ -93,7 +75,5 @@ namespace SexyBackPlayScene
             }
             beToDispose.Clear();
         }
-
-
     }
 }

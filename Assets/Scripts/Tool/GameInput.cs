@@ -56,7 +56,7 @@ namespace SexyBackPlayScene
             }
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                Singleton<Player>.getInstance().ExpGain(Singleton<HeroManager>.getInstance().GetHero("hero").DPC);
+                Singleton<Player>.getInstance().ExpGain(Singleton<HeroManager>.getInstance().GetHero().DPC);
                 Singleton<Player>.getInstance().ExpGain(Singleton<ElementalManager>.getInstance().GetTotalDps() * 5);
                 fowardtimefordebug+=5;
             }

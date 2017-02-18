@@ -61,6 +61,8 @@ namespace SexyBackPlayScene
         public static GameObject HPBar_Unit;
         public static GameObject HPBar_Count;
 
+        public static GameObject Reward_PopUp;
+
         public ViewLoader()
         {
             HeroPanel = GameObject.Find("HeroPanel");
@@ -121,6 +123,7 @@ namespace SexyBackPlayScene
             HPBar_Unit = GameObject.Find("HPBar_Unit");
             HPBar_Count = GameObject.Find("HPBar_Count");
 
+            Reward_PopUp = GameObject.Find("Reward_PopUp");
 
         }
 

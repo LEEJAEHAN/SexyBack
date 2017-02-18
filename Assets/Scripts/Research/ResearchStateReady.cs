@@ -36,7 +36,6 @@ namespace SexyBackPlayScene
             manager.Action_ThreadChange -= this.onThreadEmpty;
             player = null;
             manager = null;
-            Singleton<InfoPanel>.getInstance().SetConfirmButton(owner.Selected, false);
         }
 
         private void onExpChange(BigInteger exp)
@@ -91,7 +90,8 @@ namespace SexyBackPlayScene
             }
             if (owner.Purchase)
             {
-                if(Instantbuy)
+                Singleton<InfoPanel>.getInstance().SetConfirmButton(owner.Selected, false);
+                if (Instantbuy)
                 {
                     if(player.ExpUse(owner.StartPrice))
                     {
