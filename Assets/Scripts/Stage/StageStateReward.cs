@@ -1,8 +1,9 @@
 ﻿using System;
+using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    internal class StageStateReward : BaseState<Stage>
+    internal class StageStateReward: BaseState<Stage>
     {
         public StageStateReward(Stage owner, StateMachine<Stage> statemachine) : base(owner, statemachine)
         {

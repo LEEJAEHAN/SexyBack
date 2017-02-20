@@ -46,6 +46,8 @@ namespace SexyBackPlayScene
         {
             if (owner.zPosition <= 0 && owner.monsterQueue.Count > 0)
             {
+                // TODO : 이때, 리워드가결정안났으면 대기, 났으면 배틀로간다.
+                bindHero.ChangeState("Ready");
                 owner.StateMachine.ChangeState("Battle");
             }
             if (owner.zPosition <= StageManager.HeroPosition + 1.5f ) // clear stage

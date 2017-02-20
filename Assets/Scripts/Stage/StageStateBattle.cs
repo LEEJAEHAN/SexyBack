@@ -28,12 +28,6 @@ namespace SexyBackPlayScene
             Singleton<ElementalManager>.getInstance().SetTarget(BattleMonster);
             Singleton<HeroManager>.getInstance().SetTarget(BattleMonster);
             Singleton<MonsterManager>.getInstance().JoinBattle(BattleMonster);
-
-            // 몬스터죽음이벤트받음
-            // 배틀엔드 스테이트가됨,
-            // hero 언포커스몬스터
-            // elemental언포커스 몬스터
-
         }
 
         public void onTargetStateChange(string monsterid, string stateID)
@@ -60,13 +54,26 @@ namespace SexyBackPlayScene
                 BattleStart();
             }
 
-            if(!DuringBattle && owner.monsterQueue.Count == 0)
+            if(!DuringBattle && owner.monsterQueue.Count == 0)  // battle end
             {
-                //ViewLoader.Reward_PopUp.SetActive(true);
-                stateMachine.ChangeState("Move");
-                Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
+                NextState();
+
             }
         }
-        
+        void NextState()
+        {
+            if (owner.isLastStage)
+            {
+                return;
+            }
+            if (owner.HasReward)
+            {
+                // TODO : 리워드생성!
+                //ViewLoader.Reward_PopUp.SetActive(true);
+            }
+            stateMachine.ChangeState("Move");
+            Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
+        }
+
     }
 }

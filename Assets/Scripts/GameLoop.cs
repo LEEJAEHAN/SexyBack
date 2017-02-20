@@ -28,7 +28,7 @@ namespace SexyBackPlayScene
 
             gameManager = Singleton<GameManager>.getInstance();
 
-            gameManager.Init(new GameModeData("teststage", 100, 0));
+            gameManager.Init(new GameModeData("teststage", 5, 0));
         }
 //        GameModeData args;
         void Start()

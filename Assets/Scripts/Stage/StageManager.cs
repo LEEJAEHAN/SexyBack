@@ -9,7 +9,7 @@ namespace SexyBackPlayScene
         int GoalFloor = 20;
         int currentFloor = 1;
         public double Gametime = 0;
-        readonly int DistancePerFloor = 30;
+        readonly int DistancePerFloor = 10;
         public static readonly int HeroPosition = -10;
 
         public List<Stage> Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
@@ -26,8 +26,8 @@ namespace SexyBackPlayScene
         }
         public void Start() // start stagebuilder
         {
-            Stages.Add(CreateStage(currentFloor, HeroPosition + DistancePerFloor, 1));
-            Stages.Add(CreateStage(currentFloor + 1, HeroPosition + 2 * DistancePerFloor, 1));
+            Stages.Add(CreateStage(currentFloor, 0, 1));
+            Stages.Add(CreateStage(currentFloor + 1, DistancePerFloor, 1));
         }
 
         private Stage CreateStage(int floor, int zPosition, int monsterCount)
@@ -59,7 +59,13 @@ namespace SexyBackPlayScene
 
             if (needNextStage)
             {
-                Stages.Add(CreateStage(currentFloor + 1, HeroPosition + 2 * DistancePerFloor, 1));
+                if(currentFloor < GoalFloor)
+                {
+                    Stage newStage = CreateStage(currentFloor + 1, DistancePerFloor, 1);
+                    if (currentFloor + 1 == GoalFloor)
+                        newStage.isLastStage = true;
+                    Stages.Add(newStage);
+                }
                 needNextStage = false;
             }
 

@@ -55,7 +55,7 @@ namespace SexyBackPlayScene
             ViewLoader.Bar_Attack.transform.DestroyChildren();
 
             ViewLoader.Button_Pause.SetActive(false);
-            ViewLoader.Reward_PopUp.SetActive(false);
+//            ViewLoader.Reward_PopUp.SetActive(false);
         }
     }
 }

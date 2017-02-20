@@ -8,6 +8,9 @@ namespace SexyBackPlayScene
     {
         public int floor = 0;
         public float zPosition = 0;
+        public bool isLastStage = false;
+        public bool HasReward = true;
+
         public GameObject avatar;
         public Queue<Monster> monsterQueue = new Queue<Monster>();
         internal StageStateMachine StateMachine;
@@ -37,13 +40,6 @@ namespace SexyBackPlayScene
             monster.avatar.transform.parent = avatar.transform.FindChild("monster");
             monster.avatar.transform.localPosition = Vector3.zero;
             monsterQueue.Enqueue(monster);
-        }
-
-        public void Move(double delta_z)
-        {
-            //zPosition -= (float)delta_z;  // 벽이 다가온다
-            //avatar.transform.localPosition = GameSetting.EyeLine * (zPosition / 10);
-            //avatar.transform.localPosition -= GameSetting.EyeLine * ((float)delta_z / 10); // 벽이 다가온다
         }
 
         internal void Update()
