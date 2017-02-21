@@ -33,6 +33,7 @@ namespace SexyBackPlayScene
             }
             if (value == false)
             {
+                ViewLoader.BottomScrollView.GetComponent<UIScrollView>().ResetPosition();
                 Action_HideList();
             }
         }

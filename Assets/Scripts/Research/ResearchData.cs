@@ -13,24 +13,27 @@ namespace SexyBackPlayScene
         public string requireID;
         public int requeireLevel;
 
-        public string IconName;
         public string InfoName;
         public string InfoDescription;
+
+        public GridItemIcon icon;
+
         public int level;
         public int baselevel;
         public int baseprice;
         public int rate;
         public int basetime;
 
-        public ResearchData(string id, string requireid, int requirelevel, string icon, string name, string description, int level, int baselevel, int baseprice, int rate, int basetime, List<Bonus> bonuselist)
+        public ResearchData(string id, string requireid, int requirelevel, GridItemIcon icon, string name, string description, int level, int baselevel, int baseprice, int rate, int basetime, List<Bonus> bonuselist)
         {
             ID = id;
             bonuses = bonuselist;
             requireID = requireid;
             requeireLevel = requirelevel;
 
-            IconName = icon;
             InfoName = name;
+            this.icon = icon;
+
             InfoDescription = description;
 
             this.level = level;
@@ -38,6 +41,7 @@ namespace SexyBackPlayScene
             this.baseprice = baseprice;
             this.rate = rate;
             this.basetime = basetime;
+
         }
 
     }

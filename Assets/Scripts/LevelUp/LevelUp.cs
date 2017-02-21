@@ -7,6 +7,8 @@ namespace SexyBackPlayScene
     // 레벨업을 하기 위해 구매해야하는 객체, canlevelup 이만들어지면 기생으로 붙는다. 저장된 게임 능력치와는 관계없다
     {
         protected GridItem itemView;
+        internal GridItemIcon Icon;
+
         InfoPanel infoPanel;
 
         WeakReference owner;
@@ -18,7 +20,6 @@ namespace SexyBackPlayScene
 
         internal string ID;// 해당객체view의 name과같다 // id로 이름을바꿔야할듯
         internal string OwnerID;
-        internal string Icon;
         internal string Info_Name;
 
         internal string Button_Text; // 아이템버튼 우하단 텍스트
@@ -35,7 +36,7 @@ namespace SexyBackPlayScene
 
             ID = data.ID;
             OwnerID = data.OwnerID;
-            Icon = data.IconName;
+            Icon = new GridItemIcon(data.IconName, null);
             Info_Name = data.InfoName;
 
             Singleton<Player>.getInstance().Action_ExpChange += onExpChange;

@@ -57,7 +57,7 @@ namespace SexyBackPlayScene
             else
                 owner.itemView.HideRBar();
 
-            if(CanBuy && ThreadEmpty)
+            if (CanBuy && ThreadEmpty)
                 owner.itemView.Enable();
             else
                 owner.itemView.Disable();

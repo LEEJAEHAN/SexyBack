@@ -19,7 +19,7 @@ namespace SexyBackPlayScene
             else
                 researchTick = 0.1f;
 
-            GridItem griditem = new GridItem("Research", data.ID, data.IconName, ViewLoader.Tab2Container);
+            GridItem griditem = new GridItem("Research", data.ID, data.icon, ViewLoader.Tab2Container);
             griditem.SetActive(false);
 
             Research newone = new Research(data, root, griditem, temptime, totalPrice, researchTick); //,StartPrice, ResearchPrice, PricePerSec, ResearchTime

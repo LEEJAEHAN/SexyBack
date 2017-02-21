@@ -9,16 +9,17 @@ namespace SexyBackPlayScene
         GameObject Pause = ViewLoader.Button_Pause;
 
         GameObject Info_Window = ViewLoader.Info_Context;
-        UISprite Info_Icon = ViewLoader.Info_Icon.GetComponent<UISprite>();
+        GameObject Info_Icon = ViewLoader.Info_Icon;
+        UISprite Info_SubIcon;
+        UILabel Info_SubIconText;
         UILabel Info_Description = ViewLoader.Info_Description.GetComponent<UILabel>();
 
-
-        public void Show(bool selected, string Icon, string Descrption)
+        public void Show(bool selected, GridItemIcon Icon, string Descrption)
         {   // infoview는 select상태에서만 갱신해야한다.
             if (!selected)
                 return;
             Info_Window.SetActive(true);
-            Info_Icon.spriteName = Icon;
+            Icon.Draw(Info_Icon);
             Info_Description.text = Descrption;
         }
 

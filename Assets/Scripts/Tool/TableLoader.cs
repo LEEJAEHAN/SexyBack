@@ -186,6 +186,9 @@ namespace SexyBackPlayScene
 
                 XmlNode infonode = node.SelectSingleNode("Info");
                 string icon = infonode.Attributes["icon"].Value;
+                string subicon = null;
+                if (infonode.Attributes["subicon"] != null)
+                    subicon = infonode.Attributes["subicon"].Value;
                 string name = infonode.Attributes["name"].Value;
                 string description = infonode.Attributes["description"].Value;
 
@@ -207,7 +210,8 @@ namespace SexyBackPlayScene
                 else
                     bonuselist = bonuses[groupid];
 
-                ResearchData research = new ResearchData(id, requireid, requirelevel, icon, name, description, level, baselevel, baseprice,
+                GridItemIcon iconinfo = new GridItemIcon(icon, subicon);
+                ResearchData research = new ResearchData(id, requireid, requirelevel, iconinfo, name, description, level, baselevel, baseprice,
                     rate, basetime, bonuselist);
                 researchtable.Add(research);
             }

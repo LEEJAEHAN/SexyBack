@@ -8,12 +8,12 @@ namespace SexyBackPlayScene
     {
         public WeakReference owner;
         string ID;
-        string IconName;
+
+        public GridItem itemView;
+        GridItemIcon icon;
         string InfoName;
         string Description;
         string ViewText;
-
-        public GridItem itemView;
 
         public int RequireLevel;
 
@@ -45,7 +45,6 @@ namespace SexyBackPlayScene
             ID = data.ID;
             bonuses = data.bonuses;
             RequireLevel = data.requeireLevel;
-            IconName = data.IconName;
             InfoName = data.InfoName;
             Description = data.InfoDescription;
             SortOrder = data.level + data.baselevel;
@@ -60,6 +59,7 @@ namespace SexyBackPlayScene
             ResearchPrice = data.rate * totalprice / 100;
             //PricePerSec = ResearchPrice / (int)ResearchTime; setstat이나 instantcheck시 설정된다.
 
+            icon = data.icon;
             itemView = itemview;
             itemview.AttachEventListner(this);
 
@@ -106,7 +106,7 @@ namespace SexyBackPlayScene
 
             InfoPanel panel = Singleton<InfoPanel>.getInstance();
             ViewText = MakeDescriptionText(InstanceBuy);
-            panel.Show(Selected, IconName, ViewText);
+            panel.Show(Selected, icon, ViewText);
         }
 
 

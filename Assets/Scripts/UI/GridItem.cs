@@ -6,6 +6,7 @@ namespace SexyBackPlayScene
     public class GridItem : IDisposable //TODO : 두가지타입 상속으로바꾼다.
     {
         string Type;
+
         GameObject avatar;
         Transform gridPanel; // parent
         GridItemView eventScript; // viewScript
@@ -22,7 +23,7 @@ namespace SexyBackPlayScene
         {
             sexybacklog.Console("그리드아이템뷰 헤 ㅋㅋ 제 ㅋㅋ");
         }
-        public GridItem(string type, string id, string IconName, GameObject parent)
+        public GridItem(string type, string id, GridItemIcon icon, GameObject parent)
         {
             GameObject prefab;
             Type = type;
@@ -36,9 +37,9 @@ namespace SexyBackPlayScene
             avatar = GameObject.Instantiate<GameObject>(prefab) as GameObject;
             avatar.name = id;
 
+            // set icon
             GameObject iconObject = avatar.transform.FindChild("Icon").gameObject;
-            iconObject.GetComponent<UISprite>().atlas = Resources.Load("Atlas/IconImage", typeof(UIAtlas)) as UIAtlas;
-            iconObject.GetComponent<UISprite>().spriteName = IconName;
+            icon.Draw(iconObject);
 
             // set event
             eventScript = avatar.GetComponent<GridItemView>();
@@ -104,6 +105,7 @@ namespace SexyBackPlayScene
         }
         public void HideRBar()
         {
+            ResearchBar.gameObject.transform.GetComponent<UIWidget>().height = 15;
             ResearchBar.gameObject.SetActive(false);
         }
 

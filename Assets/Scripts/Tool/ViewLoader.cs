@@ -31,6 +31,8 @@ namespace SexyBackPlayScene
         public static GameObject monsterbucket;
 
         // NGUI
+        public static GameObject BottomScrollView;
+
         public static GameObject TabButton1;
         public static GameObject TabButton2;
         public static GameObject TabButton3;
@@ -89,6 +91,7 @@ namespace SexyBackPlayScene
             area_elemental = GameObject.Find("area_elemental");
             shooter = GameObject.Find("shooter");
 
+            BottomScrollView = GameObject.Find("BottomScrollView");
             TabButton1 = GameObject.Find("TabButton1");
             TabButton2 = GameObject.Find("TabButton2");
             TabButton3 = GameObject.Find("TabButton3");
