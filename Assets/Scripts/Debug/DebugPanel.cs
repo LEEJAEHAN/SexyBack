@@ -33,6 +33,10 @@ namespace SexyBackPlayScene
         }
         // Update is called once per frame
         bool flipflop = true;
+        public void Printa()
+        {
+            sexybacklog.Console("a");
+        }
         void Update()
         {
             //sexybacklog.InGame(Singleton<MonsterManager>.getInstance().GetMonster().HP.ToString());

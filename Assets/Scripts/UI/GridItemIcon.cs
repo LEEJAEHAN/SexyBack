@@ -32,7 +32,6 @@ namespace SexyBackPlayScene
             gameObject.GetComponent<UISprite>().atlas = Resources.Load("Atlas/IconImage", typeof(UIAtlas)) as UIAtlas;
             gameObject.GetComponent<UISprite>().spriteName = IconName;
 
-
             if (gameObject.transform.childCount == 0)
                 return;
 
@@ -41,6 +40,7 @@ namespace SexyBackPlayScene
                 subiconObject.SetActive(false);
             else
             {
+                subiconObject.SetActive(true);
                 subiconObject.GetComponent<UISprite>().atlas = Resources.Load("Atlas/IconSmall", typeof(UIAtlas)) as UIAtlas;
                 subiconObject.GetComponent<UISprite>().spriteName = SubIconName;
             }
@@ -48,7 +48,10 @@ namespace SexyBackPlayScene
             if (SubIconText == null)
                 sublabelObject.SetActive(false);
             else
+            {
+                sublabelObject.SetActive(true);
                 sublabelObject.GetComponent<UILabel>().text = SubIconText;
+            }
         }
     }
 

@@ -20,7 +20,6 @@ namespace SexyBackPlayScene
         private int[] iconangle = { 0, 30, -30, 60, -60, 90, -90 };
 
         private GameObject SwordIcon = Resources.Load<GameObject>("prefabs/UI/attackcount");
-        private GameObject SwordEffect = ViewLoader.Effect_Sword;
         private GameObject CoolTimeBar = ViewLoader.Bar_Attack;
 
         public HeroAttackManager(Hero hero)
@@ -95,19 +94,8 @@ namespace SexyBackPlayScene
             // rotate
             Vector3 directionVector = monsterPos - Tap.GamePos;
             float rot = UnityEngine.Mathf.Atan2(directionVector.y, directionVector.x) * UnityEngine.Mathf.Rad2Deg;
-            SwordEffect.transform.eulerAngles = new Vector3(0, 0, rot);
 
-            // translation
-            SwordEffect.transform.position = Tap.EffectPos;
-
-            // play
-            if(isCritical)
-                SwordEffect.GetComponent<Animator>().SetTrigger("Play_Critical");
-            else
-                SwordEffect.GetComponent<Animator>().SetTrigger("Play");
-
-            // debug
-            //sexybacklog.Console("Hit:"+SwordEffect.transform.position);
+            EffectController.getInstance.PlaySwordEffect(Tap.EffectPos, new Vector3(0, 0, rot), isCritical);
         }
 
         private void AddSwordIcon(int sequence)

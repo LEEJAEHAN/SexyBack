@@ -80,7 +80,7 @@ namespace SexyBackPlayScene
         public void DoUpgrade()
         {
             foreach (Bonus bonus in bonuses)
-                Singleton<Player>.getInstance().Upgrade(bonus);
+                Singleton<Player>.getInstance().Upgrade(bonus, icon);
         }
 
         public void onSelect(string id)

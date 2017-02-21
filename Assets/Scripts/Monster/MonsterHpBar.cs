@@ -39,17 +39,16 @@ namespace SexyBackPlayScene
             set { LateBar1.GetComponent<UISprite>().fillAmount = value; }
         }
 
-        public MonsterHpBar(MonsterManager manager)
+        public MonsterHpBar()
         {
-            Hpbar = ViewLoader.HPBar;
-            LateBar1 = ViewLoader.HPBar_SlowFill1;
-            LateBar2 = ViewLoader.HPBar_SlowFill2;
-            Bar1 = ViewLoader.HPBar_Fill1;
-            Bar2 = ViewLoader.HPBar_Fill2;
-            HPBar_Name = ViewLoader.HPBar_Name;
-            HPBar_Unit = ViewLoader.HPBar_Unit;
-            HPBar_Count = ViewLoader.HPBar_Count;
-
+            Hpbar = GameObject.Find("HPBar");
+            LateBar1 = GameObject.Find("HPBar_SlowFill1");
+            LateBar2 = GameObject.Find("HPBar_SlowFill2");
+            Bar1 = GameObject.Find("HPBar_Fill1");
+            Bar2 = GameObject.Find("HPBar_Fill2");
+            HPBar_Name = GameObject.Find("HPBar_Name");
+            HPBar_Unit = GameObject.Find("HPBar_Unit");
+            HPBar_Count = GameObject.Find("HPBar_Count");
             Hpbar.SetActive(false);
         }
 
@@ -118,7 +117,6 @@ namespace SexyBackPlayScene
 
             //TODO : 여기서 에러남. 
             // 표시되는 바의 목표와 속도 set
-
 
             //goal = Convert.ToSingle(floatstring) - 0.0001f;
             if (!Single.TryParse(floatstring, out goal))

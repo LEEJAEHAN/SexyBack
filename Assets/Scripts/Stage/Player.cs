@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace SexyBackPlayScene
 {
@@ -31,12 +32,14 @@ namespace SexyBackPlayScene
         ElementalManager elementalmanager = Singleton<ElementalManager>.getInstance();
         ResearchManager researchmanager = Singleton<ResearchManager>.getInstance();
 
+
         public Player()
         {
             heroStat = new HeroUpgradeStat(new BigInteger(1), 100, 100, 6);
             researchStat = new ResearchUpgradeStat(1, 0, 5);
             foreach (string elementalid in Singleton<TableLoader>.getInstance().elementaltable.Keys)
                 elementalStats.Add(new ElementalUpgradeStat(elementalid, new BigInteger(1), 100));
+
         }
 
         internal void Init(GameModeData args)
@@ -44,12 +47,14 @@ namespace SexyBackPlayScene
             // 아직할것없음.
         }
 
+        internal void Update()
+        {
+
+        }
         internal void Start()
         {
             heromanager.CreateHero(); // and hero is move
-            //elementalmanager.LearnNewElemental("fireball");
-
-            //            Singleton<Player>.getInstance().ExpGain(new BigInteger(new BigIntExpression(150, "m")));
+            //Singleton<Player>.getInstance().ExpGain(new BigInteger(new BigIntExpression(150, "m")));
             elementalmanager.LearnNewElemental("magmaball");
             //elementalmanager.LearnNewElemental("fireball");
             //elementalmanager.LearnNewElemental("waterball");
@@ -61,7 +66,11 @@ namespace SexyBackPlayScene
             //elementalmanager.LearnNewElemental("iceblock");
         }
 
-        internal void Upgrade(Bonus bonus)
+        internal void Buff(Bonus bonus, GridItemIcon icon, int duration)
+        {
+
+        }
+        internal void Upgrade(Bonus bonus, GridItemIcon icon)
         {
             switch (bonus.attribute)
             {
@@ -176,8 +185,9 @@ namespace SexyBackPlayScene
                         break;
                     }
             }
-        }
 
+            EffectController.getInstance.AddBuffEffect(icon);
+        }
 
         public void ExpGain(BigInteger e)
         {

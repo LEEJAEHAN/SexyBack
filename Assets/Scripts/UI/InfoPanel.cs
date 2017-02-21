@@ -5,28 +5,56 @@ namespace SexyBackPlayScene
 {
     public class InfoPanel // singleton 사용
     {
-        UIButton Confirm = ViewLoader.Button_Confirm.GetComponent<UIButton>();
-        GameObject Pause = ViewLoader.Button_Pause;
+        GameObject Info_Context;
+        GameObject Button_Confirm;
+        GameObject Button_Pause;
+        GameObject Info_Icon;
+        GameObject Info_Description;
 
-        GameObject Info_Window = ViewLoader.Info_Context;
-        GameObject Info_Icon = ViewLoader.Info_Icon;
-        UISprite Info_SubIcon;
-        UILabel Info_SubIconText;
-        UILabel Info_Description = ViewLoader.Info_Description.GetComponent<UILabel>();
+        UIButton Button1;
+        UIButton Button2;
+
+        UILabel Info_Description_Label;
+        public InfoPanel()
+        {
+            Info_Context = GameObject.Find("Info_Context");
+            Info_Icon = GameObject.Find("Info_Icon");
+            Info_Description = GameObject.Find("Info_Description");
+
+            Button_Confirm = GameObject.Find("Button_Confirm");
+            Button_Pause = GameObject.Find("Button_Pause");
+            Button_Pause.SetActive(false);
+
+            Button1 = Button_Confirm.GetComponent<UIButton>();
+            Button2 = Button_Pause.GetComponent<UIButton>();
+            Info_Description_Label = Info_Description.GetComponent<UILabel>();
+        }
 
         public void Show(bool selected, GridItemIcon Icon, string Descrption)
         {   // infoview는 select상태에서만 갱신해야한다.
             if (!selected)
                 return;
-            Info_Window.SetActive(true);
+            Info_Context.SetActive(true);
             Icon.Draw(Info_Icon);
-            Info_Description.text = Descrption;
+            Info_Description_Label.text = Descrption;
+        }
+
+        internal void SetButton1Event(EventDelegate eventDelegate)
+        {
+            Button1.GetComponent<UIButton>().onClick.Clear();
+            Button1.onClick.Add(eventDelegate);
+        }
+
+        internal void SetButton2Event(EventDelegate eventDelegate)
+        {
+            Button2.onClick.Clear();
+            Button2.onClick.Add(eventDelegate);
         }
 
         public void Hide()
         {
-            if (Info_Window.activeInHierarchy)
-                Info_Window.SetActive(false);
+            if (Info_Context.activeInHierarchy)
+                Info_Context.SetActive(false);
         }
 
         internal void SetPauseButton(bool selected, bool value, string text)
@@ -34,21 +62,21 @@ namespace SexyBackPlayScene
             if (!selected)
                 return;
 
-            Pause.SetActive(value);
+            Button_Pause.SetActive(value);
             if (value)
-                Pause.transform.GetChild(0).GetComponent<UILabel>().text = text;
+                Button_Pause.transform.GetChild(0).GetComponent<UILabel>().text = text;
         }
 
         public void SetConfirmButton(bool selected, bool value)
         {
-            if (!selected || Confirm.enabled == value)
+            if (!selected || Button1.enabled == value)
                 return;
 
-            Confirm.enabled = value;
+            Button1.enabled = value;
             if (value)
-                Confirm.SetState(UIButtonColor.State.Normal, true);
+                Button1.SetState(UIButtonColor.State.Normal, true);
             else
-                Confirm.SetState(UIButtonColor.State.Disabled, true);
+                Button1.SetState(UIButtonColor.State.Disabled, true);
         }
 
 

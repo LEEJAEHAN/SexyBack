@@ -54,11 +54,9 @@ namespace SexyBackPlayScene
             ViewLoader.StagePanel.transform.DestroyChildren();
             ViewLoader.Bar_Attack.transform.DestroyChildren();
 
-
             ViewLoader.Tab1Container.transform.DestroyChildren();
+//          EffectController.getInstance.Clear();
 
-
-            ViewLoader.Button_Pause.SetActive(false);
 //            ViewLoader.Reward_PopUp.SetActive(false);
         }
     }

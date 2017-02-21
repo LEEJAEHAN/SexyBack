@@ -11,27 +11,24 @@ namespace SexyBackPlayScene
         Queue<string> disposeIDs= new Queue<string>();
 
         Monster BattleMonster; // TODO: bucket으로수정해야함;
-
+        MonsterHpBar HpBar;
         MonsterFactory monsterFactory = new MonsterFactory();
-        MonsterHpBar hpbar;
 
         internal void Init()
         {
-            hpbar = new MonsterHpBar(this);
+            HpBar = Singleton<MonsterHpBar>.getInstance();
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += onElementalCreate;
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
         }
 
-        public void onChangeMonster(Monster sender)
+        public void onHit(Monster sender)
         {
             if (BattleMonster.GetID == sender.GetID)
-                hpbar.UpdateBar(sender);
+                HpBar.UpdateBar(sender);
         }
         internal Monster CreateMonster(int floor)
         {
             Monster newmonster = monsterFactory.CreateRandomMonster(floor);
-
-            newmonster.Action_MonsterChangeEvent += onChangeMonster;
             monsters.Add(newmonster.GetID, newmonster);
 
             return newmonster;
@@ -41,14 +38,14 @@ namespace SexyBackPlayScene
         public void JoinBattle(Monster monster) // 사거리내에 들어옴. battle 시작. 
         {   // TODO : 몬스터매니져가 왜 배틀을 주관하는지? 다른곳으로빠져야할듯. 마찬가지로 몬스터 죽음을 이용하여 너무 많은 컨트롤을 함.
             BattleMonster = monster;
-            hpbar.FillNewBar(BattleMonster);
-            hpbar.UpdateBar(BattleMonster);
+            HpBar.FillNewBar(BattleMonster);
+            HpBar.UpdateBar(BattleMonster);
             BattleMonster.Join();            // 여기가 실제 monstermanager의 기능.
         }
 
         internal void FixedUpdate()
         {
-            hpbar.FixedUpdate();
+            HpBar.FixedUpdate();
         }
 
         internal void Update()

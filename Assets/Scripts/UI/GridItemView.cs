@@ -29,10 +29,8 @@ namespace SexyBackPlayScene
             else if (GetComponent<UIToggle>().value == true) // toggle on
             {
                 selected = true;
-                ViewLoader.Button_Confirm.GetComponent<UIButton>().onClick.Clear();
-                ViewLoader.Button_Pause.GetComponent<UIButton>().onClick.Clear();
-                ViewLoader.Button_Confirm.GetComponent<UIButton>().onClick.Add(new EventDelegate(this, "onConfirm"));
-                ViewLoader.Button_Pause.GetComponent<UIButton>().onClick.Add(new EventDelegate(this, "onPause"));
+                Singleton<InfoPanel>.getInstance().SetButton1Event(new EventDelegate(this, "onConfirm"));
+                Singleton<InfoPanel>.getInstance().SetButton2Event(new EventDelegate(this, "onPause"));
                 Action_SelectGridItem(this.name);
             }
         }

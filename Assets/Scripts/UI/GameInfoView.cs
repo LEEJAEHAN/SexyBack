@@ -6,13 +6,17 @@ namespace SexyBackPlayScene
 {
     internal class GameInfoView
     {
-        UILabel TotalDpsLabel = ViewLoader.label_elementaldmg.GetComponent<UILabel>();
-        UILabel MinusDpsLabel = ViewLoader.label_minusdps.GetComponent<UILabel>();
+        GameObject label_herodmg;
+        GameObject label_elementaldmg;
+        GameObject label_minusdps;
+        GameObject label_exp;
+        GameObject label_floor;
 
-        UILabel HeroDpcLabel = ViewLoader.label_herodmg.GetComponent<UILabel>();
-        UILabel label_exp = ViewLoader.label_exp.GetComponent<UILabel>();
-
-        UILabel label_floor = ViewLoader.label_floor.GetComponent<UILabel>();
+        UILabel TotalDpsLabel;
+        UILabel MinusDpsLabel;
+        UILabel HeroDpcLabel;
+        UILabel ExpLabel;
+        UILabel FloorLabel;       
 
         internal void Init()
         {
@@ -23,13 +27,24 @@ namespace SexyBackPlayScene
         }
 
         public void Set()
-        { 
+        {
+            label_herodmg = GameObject.Find("label_herodmg");
+            label_elementaldmg = GameObject.Find("label_elementaldmg");
+            label_floor = GameObject.Find("label_floor");
+            label_exp = GameObject.Find("label_exp");
+            label_minusdps = GameObject.Find("label_minusdps");
+
+            TotalDpsLabel = label_elementaldmg.GetComponent<UILabel>();
+            MinusDpsLabel = label_minusdps.GetComponent<UILabel>();
+            HeroDpcLabel = label_herodmg.GetComponent<UILabel>();
+            ExpLabel = label_exp.GetComponent<UILabel>();
+            FloorLabel = label_floor.GetComponent<UILabel>();
+
             TotalDpsLabel.text = "";
             HeroDpcLabel.text = "";
-            label_exp.text = "";
+            ExpLabel.text = "";
             MinusDpsLabel.text = "";
-            label_floor.text = "1 Floor";
-
+            FloorLabel.text = "1 Floor";
         }
 
         public void PrintDps(Elemental elemenetal)
@@ -58,7 +73,7 @@ namespace SexyBackPlayScene
         void PrintExp(BigInteger exp)
         {
             string expstring = exp.To5String() + "";
-            label_exp.text = expstring;
+            ExpLabel.text = expstring;
         }
         void BindHero(Hero hero)
         {
@@ -72,7 +87,8 @@ namespace SexyBackPlayScene
 
         internal void PrintStage(int currentFloor)
         {
-            label_floor.text = currentFloor + " Floor";
+            FloorLabel.text = currentFloor + " Floor";
         }
+
     }
 }
