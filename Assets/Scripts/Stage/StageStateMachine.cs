@@ -16,8 +16,8 @@ namespace SexyBackPlayScene
                     return new StageStateMove(owner, this);
                 case "Battle":
                     return new StageStateBattle(owner, this);
-                case "Reward":
-                    return new StageStateReward(owner, this);
+                case "PostMove":
+                    return new StageStatePostMove(owner, this);
                 case "Destroy":
                     return new StateStateDestroy(owner, this);
                 default:

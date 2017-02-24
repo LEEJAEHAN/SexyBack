@@ -53,9 +53,6 @@ namespace SexyBackPlayScene
             monsterQueue = null;
         }
 
-        ~Stage()
-        {
-            sexybacklog.Console("stage소멸!");
-        }
+        //~Stage() { sexybacklog.Console("stage소멸!"); }
     }
 }

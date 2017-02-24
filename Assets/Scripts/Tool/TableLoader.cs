@@ -15,6 +15,7 @@ namespace SexyBackPlayScene
 
         public Dictionary<string, List<Bonus>> bonuses = new Dictionary<string, List<Bonus>>();
         public List<ResearchData> researchtable = new List<ResearchData>();
+        public List<TalentData> talenttable= new List<TalentData>();
 
 
         public Dictionary<string, GameModeData> gamemodetable = new Dictionary<string, GameModeData>();
@@ -27,6 +28,18 @@ namespace SexyBackPlayScene
             LoadStageData();
             LoadLevelUpData();
             LoadResearchData();
+            LoadTalentData();
+        }
+
+        private void LoadTalentData()
+        {
+            // test
+            List<Bonus> bonuses = new List<Bonus>();
+            bonuses.Add(new Bonus("hero", "DpcX", 2, null));
+
+            talenttable.Add(new TalentData("T01", new GridItemIcon("Icon_11", "talA"), "탈렌트1설명", bonuses, TalentType.Attack, 1));
+            talenttable.Add(new TalentData("T02", new GridItemIcon("Icon_02", "talE"), "탈렌트2설명", bonuses, TalentType.Element, 1));
+            talenttable.Add(new TalentData("T03", new GridItemIcon("Icon_19", "talU"), "탈렌트3설명", bonuses, TalentType.Util, 1));
         }
 
         private void LoadMonsterData()

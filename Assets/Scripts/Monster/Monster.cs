@@ -90,9 +90,6 @@ namespace SexyBackPlayScene
             isActive = false;
         }
 
-        ~Monster()
-        {
-            sexybacklog.Console("몬스터소멸!");
-        }
+        //~Monster() { sexybacklog.Console("몬스터소멸!"); }
     }
 }

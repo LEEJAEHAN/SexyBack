@@ -48,7 +48,7 @@ namespace SexyBackPlayScene
             Action_SelectGridItem = null;
             Action_ConfirmGridItem = null;
             Action_PauseGridItem = null;
-            sexybacklog.Console("게임오브젝트소멸");
+            //sexybacklog.Console("게임오브젝트소멸");
         }
         void OnDisable()
         {

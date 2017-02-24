@@ -19,10 +19,7 @@ namespace SexyBackPlayScene
 
         bool isEnable = true;
 
-        ~GridItem()
-        {
-            sexybacklog.Console("그리드아이템뷰 헤 ㅋㅋ 제 ㅋㅋ");
-        }
+        //~GridItem() { sexybacklog.Console("그리드아이템소멸"); }
         public GridItem(string type, string id, GridItemIcon icon, GameObject parent)
         {
             GameObject prefab;

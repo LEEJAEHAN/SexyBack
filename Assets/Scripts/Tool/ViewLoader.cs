@@ -67,5 +67,14 @@ namespace SexyBackPlayScene
             Reward_PopUp = GameObject.Find("Reward_PopUp");
         }
         
+        public static GameObject InstantiatePrefab(Transform parent, string objectname, string prefabpath )
+        {
+            GameObject newone = GameObject.Instantiate<GameObject>(Resources.Load(prefabpath) as GameObject);
+            newone.name = objectname;
+            newone.transform.parent = parent;
+            newone.transform.localScale = parent.transform.localScale;
+            newone.transform.localPosition = Vector3.zero;
+            return newone;
+        }
     }
 }

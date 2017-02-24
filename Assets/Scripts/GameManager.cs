@@ -12,6 +12,7 @@ namespace SexyBackPlayScene
         MonsterManager monsterManager;
         HeroManager heroManager;
         ElementalManager elementalManager;
+        TalentManager talentManager;
 
         // singleton - player
         Player player;
@@ -31,9 +32,10 @@ namespace SexyBackPlayScene
             elementalManager = Singleton<ElementalManager>.getInstance();
             levelUpManager = Singleton<LevelUpManager>.getInstance();
             researchManager = Singleton<ResearchManager>.getInstance();
-            infoView = Singleton<GameInfoView>.getInstance();
-            
+            talentManager = Singleton<TalentManager>.getInstance();
             stageManager = Singleton<StageManager>.getInstance();
+
+            infoView = Singleton<GameInfoView>.getInstance();
 
 
             player.Init(args);
@@ -43,6 +45,7 @@ namespace SexyBackPlayScene
             elementalManager.Init();
             levelUpManager.Init();
             researchManager.Init();
+            talentManager.Init();
             infoView.Init();
         }
 
@@ -64,9 +67,9 @@ namespace SexyBackPlayScene
             elementalManager.Update();
             levelUpManager.Update();
             researchManager.Update();
+            talentManager.Update();
             stageManager.Update();
         }
-
 
     }
 

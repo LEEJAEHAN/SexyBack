@@ -8,10 +8,8 @@ namespace SexyBackPlayScene
         //string ID; // useless, projectile은 elemental에 종속된다.
         public GameObject view; // projectile View
 
-        ~Projectile()
-        {
-            //sexybacklog.Console("projectile 소멸!");
-        }
+        //~Projectile(){ sexybacklog.Console("projectile 소멸!"); }
+
         public Projectile(Elemental owner, GameObject prefabs, Vector3 genPosition)
         {
             ownerID = owner.GetID;
@@ -53,8 +51,8 @@ namespace SexyBackPlayScene
 
                 float throwangle_xy;
 
-                throwangle_xy = Mathf.Atan((yDistance + (-Physics.gravity.y * Mathf.Pow(speed,2) / 2)) / xDistance);
-                
+                throwangle_xy = Mathf.Atan((yDistance + (-Physics.gravity.y * Mathf.Pow(speed, 2) / 2)) / xDistance);
+
                 //float totalVelo = xDistance / Mathf.Cos(throwangle_xy);
 
                 float xVelo, yVelo, zVelo;

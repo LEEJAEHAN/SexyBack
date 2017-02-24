@@ -71,7 +71,8 @@ namespace SexyBackPlayScene
             itemView.Dispose();
             StateMachine = null;
         }
-        ~Research() { sexybacklog.Console("리서치 제 ㅋ 거 ㅋ"); }
+
+        //~Research() { sexybacklog.Console("리서치소멸"); }
 
         public void Update()
         {   // state machine
