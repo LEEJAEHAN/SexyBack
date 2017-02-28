@@ -19,7 +19,7 @@ namespace SexyBackPlayScene
         // from data
         internal GridItemIcon Icon;
         internal string Description;
-        internal List<Bonus> Bonuses;
+        internal Bonus bonus;
         internal TalentType Type;
         internal int Rate;
         bool isConfirm = false;
@@ -29,7 +29,7 @@ namespace SexyBackPlayScene
             ID = data.id;
             Icon = data.icon;
             Description = data.description;
-            Bonuses = data.bonuses;
+            bonus = data.bonus;
             Type = data.type;
             Rate = data.rate;
         }
@@ -50,8 +50,8 @@ namespace SexyBackPlayScene
 
         public void DoUpgrade()
         {
-            foreach (Bonus bonus in Bonuses)
-                Singleton<Player>.getInstance().Upgrade(bonus, Icon);
+            Singleton<TalentManager>.getInstance().UpgradeTalentBonus(Type);
+            Singleton<StatManager>.getInstance().Upgrade(bonus, Icon);
             isConfirm = false;
         }
 

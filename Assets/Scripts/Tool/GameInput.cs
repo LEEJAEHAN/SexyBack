@@ -52,12 +52,12 @@ namespace SexyBackPlayScene
             }
             if (Input.GetKeyDown(KeyCode.U))
             {
-                Singleton<Player>.getInstance().Upgrade(new Bonus("hero", "ResearchTimeX", 2, ""), null);
+                Singleton<StatManager>.getInstance().Upgrade(new Bonus("player", "ResearchTimeX", 2, ""), null);
             }
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                Singleton<Player>.getInstance().ExpGain(Singleton<HeroManager>.getInstance().GetHero().DPC);
-                Singleton<Player>.getInstance().ExpGain(Singleton<ElementalManager>.getInstance().GetTotalDps() * 5);
+                Singleton<StatManager>.getInstance().ExpGain(Singleton<HeroManager>.getInstance().GetHero().DPC);
+                Singleton<StatManager>.getInstance().ExpGain(Singleton<ElementalManager>.getInstance().GetTotalDps() * 5);
                 fowardtimefordebug+=5;
             }
         }

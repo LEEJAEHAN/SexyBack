@@ -81,7 +81,7 @@ namespace SexyBackPlayScene
         public void DoUpgrade()
         {
             foreach (Bonus bonus in bonuses)
-                Singleton<Player>.getInstance().Upgrade(bonus, icon);
+                Singleton<StatManager>.getInstance().Upgrade(bonus, icon);
         }
 
         public void onSelect(string id)
@@ -125,12 +125,12 @@ namespace SexyBackPlayScene
                 StateMachine.ChangeState("Pause");
         }
 
-        internal void SetStat(ResearchUpgradeStat researchStat)
+        internal void SetStat(PlayerStat researchStat)
         {
-            ReduceTimeX = researchStat.ReduceTimeX;
-            ReduceTime = researchStat.ReduceTime;
+            ReduceTimeX = researchStat.ResearchTimeX;
+            ReduceTime = researchStat.ResearchTime;
             double PrevTime = ReducedTime;
-            ReducedTime = ResearchTime / researchStat.ReduceTimeX - researchStat.ReduceTime;
+            ReducedTime = ResearchTime / researchStat.ResearchTimeX- researchStat.ResearchTime;
             if (ReducedTime <= 0)
             {
                 ReducedTime = 0;

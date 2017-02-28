@@ -41,6 +41,7 @@ namespace SexyBackPlayScene
             }
         }
 
+
         public void ShowNewTalentWindow(int floor)
         {
             window.FillWindow(floor, Alevel, Elevel, Ulevel);
@@ -81,6 +82,37 @@ namespace SexyBackPlayScene
                 t.Update();
         }
 
+        internal void UpgradeTalentBonus(TalentType type)
+        {
+            Bonus typebonus = null;
+            GridItemIcon typeicon = null;
+            switch (type)
+            {
+                case TalentType.Attack:
+                    {
+                        Alevel++;
+                        typebonus = new Bonus("hero", "DpcIncreaseXH", 1, null);
+                        typeicon = new GridItemIcon("Icon_12", Alevel.ToString());
+                        break;
+                    }
+                case TalentType.Element:
+                    {
+                        Elevel++;
+                        typebonus = new Bonus("elementals", "DpsIncreaseXH", 1, null);
+                        typeicon = new GridItemIcon("Icon_13", Elevel.ToString());
+                        break;
+                    }
+                case TalentType.Util:
+                    {
+                        Ulevel++;
+                        typebonus = new Bonus("player", "ExpIncreaseXH", 1, null);
+                        typeicon = new GridItemIcon("Icon_17", Ulevel.ToString());
+                        break;
+                    }
+            }
+            Singleton<StatManager>.getInstance().Upgrade(typebonus, typeicon);
+        }
+
         internal void Confirm(TalentType type)
         {
             switch (type)
@@ -88,19 +120,16 @@ namespace SexyBackPlayScene
                 case TalentType.Attack:
                     {
                         CurrentATalent.Confirm();
-                        Alevel++;
                         break;
                     }
                 case TalentType.Element:
                     {
                         CurrentETalent.Confirm();
-                        Elevel++;
                         break;
                     }
                 case TalentType.Util:
                     {
                         CurrentUTalent.Confirm();
-                        Ulevel++;
                         break;
                     }
             }

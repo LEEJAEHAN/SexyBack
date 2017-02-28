@@ -25,7 +25,7 @@ namespace SexyBackPlayScene
             Research newone = new Research(data, root, griditem, temptime, totalPrice, researchTick); //,StartPrice, ResearchPrice, PricePerSec, ResearchTime
 
             newone.StateMachine.ChangeState("None");
-            newone.SetStat(Singleton<Player>.getInstance().GetResearchStat);
+            newone.SetStat(Singleton<StatManager>.getInstance().GetPlayerStat);
 
             return newone;
         }

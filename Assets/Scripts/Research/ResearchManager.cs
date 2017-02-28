@@ -11,10 +11,12 @@ namespace SexyBackPlayScene
         ResearchFactory factory = new ResearchFactory();
 
         public int resarchthread = 0;
+        public int maxthread = Singleton<StatManager>.getInstance().GetPlayerStat.ResearchThread;
+        public bool CanUseThread { get { return resarchthread < maxthread; } }
+
         BigInteger minusExp = new BigInteger(0);
         public delegate void ResarchThreadChange_Event(bool available);
         public event ResarchThreadChange_Event Action_ThreadChange = delegate { };
-        public bool CanUseThread { get { return resarchthread < Singleton<Player>.getInstance().GetResearchStat.MaxThread; } }
 
         public Dictionary<string, Research> researches = new Dictionary<string, Research>();
         public List<Research> beToDispose = new List<Research>();
@@ -92,6 +94,11 @@ namespace SexyBackPlayScene
             ViewLoader.Tab2Container.GetComponent<UIGrid>().Reposition();
         }
 
+        internal void SetThread(PlayerStat playerStat)
+        {
+            maxthread = playerStat.ResearchThread;
+            Action_ThreadChange(CanUseThread);
+        }
         public void UseThread(bool start)
         {
             if (start)
@@ -107,17 +114,16 @@ namespace SexyBackPlayScene
             Action_ThreadChange(CanUseThread);
         }
 
-        internal void Destroy(string iD)
-        {
-            beToDispose.Add(researches[iD]);
-        }
-
-        internal void ReduceTime(ResearchUpgradeStat researchStat)
+        internal void SetStat(PlayerStat researchStat)
         {
             foreach (Research research in researches.Values)
             {
                 research.SetStat(researchStat);
             }
+        }
+        internal void Destroy(string iD)
+        {
+            beToDispose.Add(researches[iD]);
         }
     }
 }

@@ -4,22 +4,22 @@ namespace SexyBackPlayScene
 {
     internal class HeroData
     {
-        public readonly string ID = "hero";
-        public readonly string Name = "이재한";
-
-        public readonly double GrowthRate = 1.148698f;
-        public readonly double AttackInterval = 5;
-        public readonly double CriRate = 0.10;
-        public readonly int CriDamage = 200;
-        public readonly float MoveSpeed = 2f;
-        public readonly int AttackCount = 1;
-
-        public readonly BigInteger BaseExp = new BigInteger(100);
-        public readonly BigInteger BaseDpc = new BigInteger(10);
-
+        public readonly string ID;
+        public readonly string Name;
+        public readonly double GrowthRate;
+        public readonly double AttackInterval;
+        public readonly float MoveSpeed;
+        public readonly BigInteger BaseExp;
+        public readonly BigInteger BaseDpc;
         public HeroData()
         {
-
+            ID = "hero";
+            Name = "이재한";
+            GrowthRate = 1.148698f;
+            AttackInterval = 5;
+            MoveSpeed = 2f;
+            BaseExp = new BigInteger(100);
+            BaseDpc = new BigInteger(10);
         }
     }
 }

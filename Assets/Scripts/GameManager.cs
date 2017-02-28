@@ -15,7 +15,7 @@ namespace SexyBackPlayScene
         TalentManager talentManager;
 
         // singleton - player
-        Player player;
+        StatManager player;
         LevelUpManager levelUpManager;
         ResearchManager researchManager;
 
@@ -26,7 +26,7 @@ namespace SexyBackPlayScene
         // Use this for initialization
         internal void Init(GameModeData args)
         {
-            player = Singleton<Player>.getInstance();
+            player = Singleton<StatManager>.getInstance();
             heroManager = Singleton<HeroManager>.getInstance();
             monsterManager = Singleton<MonsterManager>.getInstance();
             elementalManager = Singleton<ElementalManager>.getInstance();

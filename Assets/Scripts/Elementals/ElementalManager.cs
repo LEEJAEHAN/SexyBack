@@ -18,13 +18,10 @@ namespace SexyBackPlayScene
         private bool SummonNewElemental(string id)
         {
             ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
-            Elemental newElemental = new Elemental(data, ViewLoader.area_elemental.transform);
+            ElementalStat stat = Singleton<StatManager>.getInstance().GetElementalStat(id);
+            Elemental newElemental = new Elemental(data, stat, ViewLoader.area_elemental.transform);
             Action_ElementalCreateEvent(newElemental);
-
             elementals.Add(newElemental.GetID, newElemental);
-
-            newElemental.SetDamageX(Singleton<Player>.getInstance().GetElementalStat(id).DpsX);
-            newElemental.SetStat(Singleton<Player>.getInstance().GetElementalStat(id));
             newElemental.LevelUp(1);
             return true;
         }
@@ -68,7 +65,7 @@ namespace SexyBackPlayScene
             if (elementals == null)
                 return;
 
-            foreach(Elemental elemental in elementals.Values)
+            foreach (Elemental elemental in elementals.Values)
             {
                 elemental.targetID = null;
                 sender.StateMachine.Action_changeEvent += elemental.onTargetStateChange;
@@ -80,16 +77,15 @@ namespace SexyBackPlayScene
             return elementals[ElementalID];
         }
 
-        internal void SetDamageX(BigInteger dpsX, string ElementalID)
-        {
-            if (elementals.ContainsKey(ElementalID))
-                elementals[ElementalID].SetDamageX(dpsX);
-        }
-
-        internal void SetStat(ElementalUpgradeStat stat, string ElementalID)
+        internal void SetStat(ElementalStat stat, string ElementalID)
         {
             if (elementals.ContainsKey(ElementalID))
                 elementals[ElementalID].SetStat(stat);
+        }
+        internal void SetStatAll(Dictionary<string, ElementalStat> statList)
+        {
+            foreach (string id in elementals.Keys)
+                elementals[id].SetStat(statList[id]);
         }
     }
 }

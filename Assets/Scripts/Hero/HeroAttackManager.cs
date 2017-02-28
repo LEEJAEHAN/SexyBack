@@ -25,7 +25,7 @@ namespace SexyBackPlayScene
         public HeroAttackManager(Hero hero)
         {
             owner = hero;
-            for (int i = 0; i < 7; i++) // test
+            for (int i = 0; i < hero.MAXATTACKCOUNT; i++) // test
                 AddAttackCount();
             // Instantiate GameObject.
         }

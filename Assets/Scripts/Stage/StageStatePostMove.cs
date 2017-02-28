@@ -45,7 +45,7 @@ namespace SexyBackPlayScene
                 {
                     Singleton<StageManager>.getInstance().onStagePass(owner.floor);
                 }
-                if (owner.zPosition <= -(StageManager.DistancePerFloor - 1)) // talent wait
+                if (owner.zPosition <= -(StageManager.DistancePerFloor - 2)) // talent wait
                 {
                     if (!talentChoice)
                     {

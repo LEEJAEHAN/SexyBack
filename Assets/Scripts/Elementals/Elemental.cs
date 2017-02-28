@@ -10,17 +10,20 @@ namespace SexyBackPlayScene
         public string targetID;
 
         // 변수
-        private int level = 0;
-        BigInteger DpsX = new BigInteger(1);
+        int level = 0;
+        BigInteger dpsX = new BigInteger();
+        int dpsIncreaseXH;
+        int castSpeedXH;
+
         public BigInteger DPS = new BigInteger();
         public BigInteger DAMAGE = new BigInteger();//  dps * attackinterval
-        public double ATTACKINTERVAL = 1000; // (attackinterval1k / 1000) * ( 100 / attackspeed1h ) 
+        public double CASTINTERVAL; // (attackinterval1k / 1000) * ( 100 / attackspeed1h ) 
 
         // 고정수
         readonly string ID;
         readonly int DpsShiftDigit;
         readonly string NAME;
-        readonly int BaseAttackInterval1K;
+        readonly int BaseCastIntervalXK;
         readonly BigInteger BaseDps;
         readonly BigInteger BaseExp;
         readonly double GrowthRate;
@@ -36,21 +39,23 @@ namespace SexyBackPlayScene
         public int LEVEL { get { return level; } }
         public BigInteger LevelUpPrice { get { return BigInteger.PowerByGrowth(BaseExp, level, GrowthRate); } }
         public string LevelUpDamageText { get { return DPS.To5String() + " /Sec"; } }
-        public string LevelUpNextText { get { return (DpsX * BaseDps / DpsShiftDigit).To5String() + " /Sec"; } }
+        public string LevelUpNextText { get { return (dpsX * BaseDps * dpsIncreaseXH * castSpeedXH / (DpsShiftDigit * 10000)).To5String() + " /Sec"; } }
         public event LevelUp_EventHandler Action_LevelUpInfoChange = delegate { };
         // event
         public delegate void ElementalChange_EventHandler(Elemental elemental);
         public event ElementalChange_EventHandler Action_DamageChange = delegate { };
 
-        public Elemental(ElementalData data, Transform area)
+        public Elemental(ElementalData data, ElementalStat stat, Transform area)
         {
             ID = data.ID;
             NAME = data.Name;
-            BaseAttackInterval1K = data.AttackIntervalK;
+            BaseCastIntervalXK = data.BaseCastIntervalXK;
             BaseDps = data.BaseDps;
             DpsShiftDigit = data.FloatDigit;
             BaseExp = data.BaseExp;
             GrowthRate = data.GrowthRate;
+
+            SetStat(stat);
 
             ElementalArea = area;
             ProjectilePrefab = Resources.Load(ElementalData.ProjectilePrefabName(ID)) as GameObject;
@@ -72,33 +77,26 @@ namespace SexyBackPlayScene
             if (CurrentProjectile.Shoot(target, 1f))
                 AttackTimer = 0; // 정상적으로 발사 완료 후 타이머리셋
         }
-
         public void LevelUp(int amount)
         {
             level += amount;
             CalDPS();
-            Action_LevelUpInfoChange(this);
-            Action_DamageChange(this);
         }
-        internal void SetDamageX(BigInteger dpsx) // total
+        internal void SetStat(ElementalStat elementalstat) // total
         {
-            DpsX = dpsx;
+            dpsX = elementalstat.DpsX;
+            dpsIncreaseXH = elementalstat.DpsIncreaseXH;
+            castSpeedXH = elementalstat.CastSpeedXH;
+            CASTINTERVAL = (double)BaseCastIntervalXK / (castSpeedXH * 10);
             CalDPS();
-            Action_LevelUpInfoChange(this);
-            Action_DamageChange(this);
         }
-        internal void SetStat(ElementalUpgradeStat elementalstat)
-        {
-            ATTACKINTERVAL = BaseAttackInterval1K / (double)(10 * elementalstat.ElementalAttackSpeedXH); // (attackinterval1k / 1000) * ( 100 / attackspeed1h ) 
-        }
-
         void CalDPS()
         {
-            if (DpsShiftDigit == 1)
-                DPS = level * DpsX * BaseDps;
-            else
-                DPS = level * DpsX * BaseDps / DpsShiftDigit;
-            DAMAGE = (DPS * BaseAttackInterval1K / 1000); //  dps * attackinterval
+            int intx = level * dpsIncreaseXH * castSpeedXH;
+            DPS = BaseDps * dpsX * intx / (DpsShiftDigit * 10000);
+            DAMAGE = (DPS * BaseCastIntervalXK / 1000); //  dps * attackinterval
+            Action_LevelUpInfoChange(this);
+            Action_DamageChange(this);
         }
 
         // TODO : 여기도 언젠간 statemachine작업을 해야할듯 ㅠㅠ
@@ -107,16 +105,16 @@ namespace SexyBackPlayScene
             AttackTimer += Time.deltaTime;
 
             // 만들어진다.
-            if (AttackTimer > ATTACKINTERVAL - 1 && NoProjectile)
+            if (AttackTimer > CASTINTERVAL - 1 && NoProjectile)
             {
                 CreateProjectile();
             }
-            if (AttackTimer > ATTACKINTERVAL - 1 && !NoProjectile)
+            if (AttackTimer > CASTINTERVAL - 1 && !NoProjectile)
             {
                 // 대기중
             }
 
-            if (AttackTimer > ATTACKINTERVAL)
+            if (AttackTimer > CASTINTERVAL)
             {
                 if (targetID != null)
                 {

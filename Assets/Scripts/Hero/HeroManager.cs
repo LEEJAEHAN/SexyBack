@@ -17,12 +17,10 @@ namespace SexyBackPlayScene
         }
         public void CreateHero()
         {
-            CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable["hero"]);
+            CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable, Singleton<StatManager>.getInstance().GetHeroStat);
             Action_HeroCreateEvent(CurrentHero);
             CurrentHero.ChangeState("Move"); //Ready
             CurrentHero.LevelUp(1);
-            CurrentHero.SetDamageX(Singleton<Player>.getInstance().GetHeroStat.DpcX);
-            CurrentHero.SetStat(Singleton<Player>.getInstance().GetHeroStat);
         }
         internal void Update()
         {
@@ -34,7 +32,6 @@ namespace SexyBackPlayScene
         {
             return CurrentHero;
         }
-
         internal void SetTarget(Monster monster)
         {
             if (CurrentHero == null)

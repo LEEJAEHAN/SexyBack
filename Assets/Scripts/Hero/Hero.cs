@@ -19,24 +19,24 @@ namespace SexyBackPlayScene
         // init member
         private GameObject avatar;
 
-        // 변수
-        private int level = 0;
-        BigInteger DpcX = new BigInteger(1); // 곱계수는 X를붙인다.
+        // 데미지변수
+        int level = 0;
+        BigInteger dpcX = new BigInteger();
+        int dpcIncreaseXH;
+
+        // 기타변수
         public BigInteger DPC = new BigInteger();
         public int MAXATTACKCOUNT;
         public double ATTACKINTERVAL;
         public double CRIRATE;
-        public int CRIDAMAGE;
+        public int CRIDAMAGEXH;
         public double MOVESPEED;
         public double ATTACKSPEED; // for view action, state
 
         // basestat
         readonly BigInteger BaseDpc;
         readonly BigInteger BaseExp;
-        readonly int AttackCount;
         readonly double AttackInterval;
-        readonly double CriRate;
-        readonly int CriDamage;
         readonly float MoveSpeed;
         readonly double GrowthRate;
 
@@ -50,7 +50,7 @@ namespace SexyBackPlayScene
         public int LEVEL { get { return level; } }
         public BigInteger LevelUpPrice { get { return BigInteger.PowerByGrowth(BaseExp, level, GrowthRate); } }
         public string LevelUpDamageText { get { return DPC.To5String() + " /Tap"; } }
-        public string LevelUpNextText { get { return (DpcX * BaseDpc).To5String() + " /Tap"; } }
+        public string LevelUpNextText { get { return (BaseDpc * dpcX * dpcIncreaseXH / 100).To5String() + " /Tap"; } }
         public event LevelUp_EventHandler Action_LevelUpInfoChange = delegate { };
 
         public delegate void HeroChange_EventHandler(Hero hero);
@@ -59,56 +59,51 @@ namespace SexyBackPlayScene
         public delegate void DistanceChange_Event(double distance);
         public event DistanceChange_Event Action_DistanceChange = delegate { };
 
-        public Hero(HeroData data)
+        public Hero(HeroData data, HeroStat stat)
         {
             ID = data.ID;
             Name = data.Name;
             BaseDpc = data.BaseDpc;
             BaseExp = data.BaseExp;
-            AttackCount = data.AttackCount;
-            AttackInterval = data.AttackInterval;
-            CriRate = data.CriRate;
-            CriDamage = data.CriDamage;
-            MoveSpeed = data.MoveSpeed;
             GrowthRate = data.GrowthRate;
+            AttackInterval = data.AttackInterval;
+            MoveSpeed = data.MoveSpeed;
+
+            SetStat(stat);
 
             avatar = ViewLoader.HeroPanel; // 동적으로 생성하지않는다.
             Animator = ViewLoader.hero_sprite.GetComponent<Animator>();
             AttackManager = new HeroAttackManager(this);
             StateMachine = new HeroStateMachine(this);
         }
-
-        internal void SetDamageX(BigInteger dpcx)
+        void CalDpc()
         {
-            DpcX = dpcx;
-            CalDPC();
+            DPC = level * BaseDpc * dpcX * dpcIncreaseXH / 100;
             Action_LevelUpInfoChange(this);
             Action_DamageChange(this);
         }
-
-        internal void SetStat(HeroUpgradeStat herostat)
-        {
-            MAXATTACKCOUNT = AttackCount + herostat.BounsAttackCount;
-            ATTACKINTERVAL = AttackInterval * 100 / herostat.HeroAttackspeedXH;
-            MOVESPEED = MoveSpeed * herostat.MovespeedXH / 100;
-            ATTACKSPEED = herostat.HeroAttackspeedXH / 100;
-            CRIRATE = CriRate + herostat.CriticalRate;
-            CRIDAMAGE = CriDamage + herostat.CriticalDamage;
-            //send event
-        }
-
         public void LevelUp(int amount)
         {
             level += amount;
-            CalDPC();
-            Action_LevelUpInfoChange(this);
-            Action_DamageChange(this);
+            CalDpc();
         }
-
-        void CalDPC()
+        internal void SetDamageStat(HeroStat herostat)
         {
-            //DPC = BigInteger.PowerByGrowth(BaseDpc * DpcX, level, GrowthRate);
-            DPC = level * BaseDpc * DpcX;
+            dpcX = herostat.DpcX;
+            dpcIncreaseXH = herostat.DpcIncreaseXH;
+            CalDpc();
+        }
+        internal void SetStat(HeroStat herostat)
+        {
+            dpcX = herostat.DpcX;
+            dpcIncreaseXH = herostat.DpcIncreaseXH;
+            ATTACKINTERVAL = AttackInterval * 100 / herostat.AttackSpeedXH;
+            MOVESPEED = MoveSpeed * herostat.MovespeedXH / 100;
+            MAXATTACKCOUNT = herostat.AttackCount;
+            ATTACKSPEED = (double)herostat.AttackSpeedXH / 100;
+            CRIRATE = (double)herostat.CriticalRateXH / 100;
+            CRIDAMAGEXH = herostat.CriticalDamageXH;
+            //send event
         }
 
         internal void Move(Vector3 step)
@@ -142,7 +137,7 @@ namespace SexyBackPlayScene
             BigInteger damage;
             bool isCritical = JudgeCritical;
             if (isCritical)
-                damage = DPC * CRIDAMAGE / 100;
+                damage = DPC * CRIDAMAGEXH / 100;
             else
                 damage = DPC;
 

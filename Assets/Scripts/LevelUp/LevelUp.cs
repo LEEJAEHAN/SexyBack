@@ -39,7 +39,7 @@ namespace SexyBackPlayScene
             Icon = new GridItemIcon(data.IconName, null);
             Info_Name = data.InfoName;
 
-            Singleton<Player>.getInstance().Action_ExpChange += onExpChange;
+            Singleton<StatManager>.getInstance().Action_ExpChange += onExpChange;
             itemView = new GridItem("LevelUp", ID, Icon, ViewLoader.Tab1Container);
             itemView.AttachEventListner(this);
             infoPanel = Singleton<InfoPanel>.getInstance();
@@ -49,7 +49,7 @@ namespace SexyBackPlayScene
         {
             for (int i = 0; i < PurchaseCount; PurchaseCount--)
             {
-                if (Singleton<Player>.getInstance().ExpUse(Price))
+                if (Singleton<StatManager>.getInstance().ExpUse(Price))
                     (owner.Target as ICanLevelUp).LevelUp(1);
             }
         }

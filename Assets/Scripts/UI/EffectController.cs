@@ -98,6 +98,9 @@ namespace SexyBackPlayScene
         }
         internal void AddBuffEffect(GridItemIcon icon)
         {
+            if (icon == null)
+                return;
+
             BuffEffectsQueue.Enqueue(icon);
             if (Effect_Buff.GetComponent<UITweener>().isActiveAndEnabled)
                 return;

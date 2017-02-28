@@ -2,9 +2,9 @@
 
 namespace SexyBackPlayScene
 {
-    internal class StateStateDestroy : BaseState<Stage>
+    internal class StageStateDestroy : BaseState<Stage>
     {
-        public StateStateDestroy(Stage owner, StateMachine<Stage> statemachine) : base(owner, statemachine)
+        public StageStateDestroy(Stage owner, StateMachine<Stage> statemachine) : base(owner, statemachine)
         {
         }
 

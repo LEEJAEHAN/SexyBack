@@ -19,7 +19,7 @@ namespace SexyBackPlayScene
                 case "PostMove":
                     return new StageStatePostMove(owner, this);
                 case "Destroy":
-                    return new StateStateDestroy(owner, this);
+                    return new StageStateDestroy(owner, this);
                 default:
                     {
                         UnityEngine.Debug.LogError("");

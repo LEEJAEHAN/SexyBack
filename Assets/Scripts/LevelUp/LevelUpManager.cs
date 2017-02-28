@@ -55,7 +55,7 @@ namespace SexyBackPlayScene
                 return null;
 
             LevelUp levelup = new LevelUp(Singleton<TableLoader>.getInstance().leveluptable[root.GetID], root);
-            levelup.onExpChange(Singleton<Player>.getInstance().EXP);
+            levelup.onExpChange(Singleton<StatManager>.getInstance().EXP);
             levelUpItems.Add(root.GetID, levelup);
             DrawNewMark();
             return levelup;

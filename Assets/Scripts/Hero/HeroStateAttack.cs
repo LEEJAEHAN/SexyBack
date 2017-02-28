@@ -22,7 +22,7 @@ namespace SexyBackPlayScene
         double ForwardSpeed { get { return 100 / (ActionTime * DashRate); } }
         double BackwardSpeed { get { return 100 / (ActionTime * BackRate); } }
         // effect 재생이 0.15초로 가장김
-        double SwingActionTime { get { return 0.15f * AttackSpeed; } }
+        double SwingActionTime { get { return 0.5f / AttackSpeed; } }
 
         HeroMiniState State;
         public Vector3 AttackMoveVector = GameSetting.ECamPosition - GameSetting.defaultHeroPosition;

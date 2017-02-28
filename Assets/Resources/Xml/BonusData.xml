@@ -26,7 +26,7 @@
 	<Bonus group="BR03_003" target="rock" attribute="DpsX" value="10"/>
 	<Bonus group="BR04_001" target="electricball" attribute="DpsX" value="5"/>
 	<Bonus group="BR04_002" target="electricball" attribute="DpsX" value="4"/>
-	<Bonus group="BR99" target="hero" attribute="ResearchTimeX" value="2"/>
-	<Bonus group="BR98" target="hero" attribute="ResearchTimeX" value="2"/>
-	<Bonus group="BR97" target="hero" attribute="ResearchTimeX" value="2"/>
+	<Bonus group="BR99" target="player" attribute="ResearchTimeX" value="2"/>
+	<Bonus group="BR98" target="player" attribute="ResearchTimeX" value="2"/>
+	<Bonus group="BR97" target="player" attribute="ResearchTimeX" value="2"/>
 </BonusList>

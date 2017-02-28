@@ -8,7 +8,7 @@ namespace SexyBackPlayScene
     {
         public List<MonsterData> monstertablelist = new List<MonsterData>();
 
-        public Dictionary<string, HeroData> herotable = new Dictionary<string, HeroData>();
+        public HeroData herotable;
         public Dictionary<string, MonsterData> monstertable = new Dictionary<string, MonsterData>();
         public Dictionary<string, ElementalData> elementaltable = new Dictionary<string, ElementalData>();
         public Dictionary<string, LevelUpData> leveluptable = new Dictionary<string, LevelUpData>();
@@ -34,12 +34,11 @@ namespace SexyBackPlayScene
         private void LoadTalentData()
         {
             // test
-            List<Bonus> bonuses = new List<Bonus>();
-            bonuses.Add(new Bonus("hero", "DpcX", 2, null));
+            Bonus bonus = new Bonus("hero", "CriticalDamageXH", 50, null);
 
-            talenttable.Add(new TalentData("T01", new GridItemIcon("Icon_11", "talA"), "탈렌트1설명", bonuses, TalentType.Attack, 1));
-            talenttable.Add(new TalentData("T02", new GridItemIcon("Icon_02", "talE"), "탈렌트2설명", bonuses, TalentType.Element, 1));
-            talenttable.Add(new TalentData("T03", new GridItemIcon("Icon_19", "talU"), "탈렌트3설명", bonuses, TalentType.Util, 1));
+            talenttable.Add(new TalentData("T01", new GridItemIcon("Icon_11", "talA"), "탈렌트1설명", bonus, TalentType.Attack, 1));
+            talenttable.Add(new TalentData("T02", new GridItemIcon("Icon_02", "talE"), "탈렌트2설명", bonus, TalentType.Element, 1));
+            talenttable.Add(new TalentData("T03", new GridItemIcon("Icon_19", "talU"), "탈렌트3설명", bonus, TalentType.Util, 1));
         }
 
         private void LoadMonsterData()
@@ -58,7 +57,7 @@ namespace SexyBackPlayScene
 
         private void LoadHeroData()
         {
-            herotable.Add("hero", new HeroData());
+            herotable = new HeroData();
         }
 
         private void LoadLevelUpData()
