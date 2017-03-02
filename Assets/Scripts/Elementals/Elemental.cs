@@ -22,7 +22,6 @@ namespace SexyBackPlayScene
         // 고정수
         readonly string ID;
         readonly int DpsShiftDigit;
-        readonly string NAME;
         readonly int BaseCastIntervalXK;
         readonly BigInteger BaseDps;
         readonly BigInteger BaseExp;
@@ -48,7 +47,6 @@ namespace SexyBackPlayScene
         public Elemental(ElementalData data, ElementalStat stat, Transform area)
         {
             ID = data.ID;
-            NAME = data.Name;
             BaseCastIntervalXK = data.BaseCastIntervalXK;
             BaseDps = data.BaseDps;
             DpsShiftDigit = data.FloatDigit;

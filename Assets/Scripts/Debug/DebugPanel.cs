@@ -7,8 +7,8 @@ namespace SexyBackPlayScene
     internal class TestRate
     {
         internal int density = 10;
-        internal string context;
         internal bool abs;
+        internal string context;
         public TestRate(int d, string c, bool abs)
         {
             density = d;
@@ -80,12 +80,12 @@ namespace SexyBackPlayScene
             //GameObject.Find("back_image").transform.position += WallMoveVector * Time.deltaTime * 0.2f;
             //GameObject.Find("back_image2").transform.position += WallMoveVector * Time.deltaTime * 0.2f;
 
-            TestRate result = PickRandomOne(abc);
-            if (result == null)
-                sexybacklog.Console("nonepick.bug");
-            else
-                result.Print();
-            totalcount++;
+            //TestRate result = PickRandomOne(abc);
+            //if (result == null)
+            //    sexybacklog.Console("nonepick.bug");
+            //else
+            //    result.Print();
+            //totalcount++;
 
             if (flipflop)
             {

@@ -34,11 +34,13 @@ namespace SexyBackPlayScene
         private void LoadTalentData()
         {
             // test
-            Bonus bonus = new Bonus("player", "ResearchPriceXH", 20, null);
+            Bonus bonus = new Bonus("hero", "AttackSpeedXH", 5, null);
+            Bonus bonus2 = new Bonus("fireball", "CastSpeedXH", 10, null);
+            Bonus bonus3 = new Bonus("player", "ExpPerFloor", 400, null);
 
-            talenttable.Add(new TalentData("T01", new GridItemIcon("Icon_11", "talA"), "탈렌트1설명", bonus, TalentType.Attack, 1));
-            talenttable.Add(new TalentData("T02", new GridItemIcon("Icon_02", "talE"), "탈렌트2설명", bonus, TalentType.Element, 1));
-            talenttable.Add(new TalentData("T03", new GridItemIcon("Icon_19", "talU"), "탈렌트3설명", bonus, TalentType.Util, 1));
+            talenttable.Add(new TalentData("T01", new GridItemIcon("Icon_10", "A.S"), "공격속도가 $s% 증가합니다.", bonus, TalentType.Attack, 1,true));
+            talenttable.Add(new TalentData("T02", new GridItemIcon("Icon_01", "C.S"), "화염구의 시전속도가 $s% 증가합니다.", bonus2, TalentType.Element, 1, false));
+            talenttable.Add(new TalentData("T03", new GridItemIcon("Icon_18", null), "$s의 경험치를 획득합니다.", bonus3, TalentType.Util, 1, false));
         }
 
         private void LoadMonsterData()
@@ -99,7 +101,6 @@ namespace SexyBackPlayScene
             XmlNode rootNode = xmldoc.SelectSingleNode("Elementals");
             XmlNodeList nodes = rootNode.SelectNodes("Elemental");
 
-            List<Bonus> group = new List<Bonus>();
             foreach (XmlNode node in nodes)
             {
                 string id = node.Attributes["id"].Value;
@@ -128,7 +129,6 @@ namespace SexyBackPlayScene
             XmlNode rootNode = xmldoc.SelectSingleNode("BonusList");
             XmlNodeList nodes = rootNode.SelectNodes("Bonus");
 
-            List<Bonus> group = new List<Bonus>();
             foreach (XmlNode node in nodes)
             {
                 string groupid = node.Attributes["group"].Value;
@@ -189,7 +189,6 @@ namespace SexyBackPlayScene
             XmlNode rootNode = xmldoc.SelectSingleNode("Researches");
             XmlNodeList nodes = rootNode.SelectNodes("Research");
 
-            List<Bonus> group = new List<Bonus>();
             foreach (XmlNode node in nodes)
             {
                 string id = node.Attributes["id"].Value;

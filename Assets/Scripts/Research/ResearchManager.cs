@@ -125,5 +125,24 @@ namespace SexyBackPlayScene
         {
             beToDispose.Add(researches[iD]);
         }
+
+        internal void FinishFrontOne()
+        {
+            int min = int.MaxValue;
+            Research Front = null;
+            foreach (Research research in researches.Values)
+            {
+                if(research.CurrentState == "Work")
+                {
+                    if(research.SortOrder < min)
+                    {
+                        min = research.SortOrder;
+                        Front = research;
+                    }
+                }
+            }
+            if(Front!= null)
+                Front.Finish();
+        }
     }
 }

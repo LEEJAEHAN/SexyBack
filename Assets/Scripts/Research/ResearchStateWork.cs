@@ -7,6 +7,7 @@ namespace SexyBackPlayScene
     {
         double TickTimer = 0;
         bool Result = true;
+        bool InstantFinish = false;
 
         public ResearchStateWork(Research owner, StateMachine<Research> statemachine) : base(owner, statemachine)
         {
@@ -15,6 +16,7 @@ namespace SexyBackPlayScene
         internal override void Begin()
         {
             owner.itemView.Enable();
+            owner.Action_InstantFinish += onInstantFinish;
             Refresh();
         }
 
@@ -32,6 +34,12 @@ namespace SexyBackPlayScene
 
         internal override void End()
         {
+            owner.Action_InstantFinish -= onInstantFinish;
+        }
+
+        void onInstantFinish()
+        {
+            InstantFinish = true;
         }
 
         internal override void Update()
@@ -42,7 +50,7 @@ namespace SexyBackPlayScene
                 owner.RefreshFlag = false;
             }
 
-            if (owner.RemainTime <= 0)
+            if (owner.RemainTime <= 0 || InstantFinish)
             {
                 owner.DoUpgrade();
                 Singleton<ResearchManager>.getInstance().UseThread(false);

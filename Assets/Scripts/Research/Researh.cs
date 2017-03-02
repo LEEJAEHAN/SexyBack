@@ -41,6 +41,9 @@ namespace SexyBackPlayScene
         public string GetID { get { return ID; } }
         public string CurrentState { get { return StateMachine.currStateID; } }
 
+        public delegate void InstantFinish_Event();
+        public event InstantFinish_Event Action_InstantFinish = delegate { };
+
         public Research(ResearchData data, ICanLevelUp root, GridItem itemview, double time, BigInteger totalprice, double tick)
         {
             ID = data.ID;
@@ -157,6 +160,12 @@ namespace SexyBackPlayScene
             }
 
             return temp;
+        }
+
+        internal void Finish()
+        {
+            if(CurrentState == "Work")
+                Action_InstantFinish();
         }
 
         public void Refresh()

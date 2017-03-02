@@ -8,6 +8,7 @@ namespace SexyBackPlayScene
     internal class TalentManager
     {
         TalentPanel window;
+        int CurrentFloor;
         public List<Talent> AttackTalents = new List<Talent>();
         public List<Talent> ElementTalents = new List<Talent>();
         public List<Talent> UtilTalents = new List<Talent>();
@@ -41,48 +42,101 @@ namespace SexyBackPlayScene
             }
         }
 
-
         public void ShowNewTalentWindow(int floor)
         {
-            window.FillWindow(floor, Alevel, Elevel, Ulevel);
-            CurrentATalent = PickRandomTalent(AttackTalents);
-            CurrentETalent = PickRandomTalent(ElementTalents);
-            CurrentUTalent = PickRandomTalent(UtilTalents);
+            CurrentFloor = floor;
+            window.FillWindow(CurrentFloor, Alevel, Elevel, Ulevel);
+            CurrentATalent = PickRandomTalent(CurrentFloor, AttackTalents);
+            CurrentETalent = PickRandomTalent(CurrentFloor, ElementTalents);
+            CurrentUTalent = PickRandomTalent(CurrentFloor, UtilTalents);
 
             window.FillTalents(CurrentATalent, CurrentETalent, CurrentUTalent);
             window.Show();
         }
 
-        private Talent PickRandomTalent(List<Talent> list)
+        private Talent PickRandomTalent(int floor, List<Talent> list)
         {
-            if (list.Count == 0)
-                return null;
-            int rndindex = UnityEngine.Random.Range(0, list.Count);
-            return list[rndindex];
+            Talent result = PickRandomOne(list);
+            if (result != null)
+                result.SetFloor(floor);
+            return result;
+        }
+        private Talent PickRandomOne(List<Talent> list)
+        {
+            Talent AbsResult = CheckAbsouluteRate(list);
+            if (AbsResult == null)
+                return CheckRelativeRate(list);
+            return AbsResult;
+        }
+        private Talent CheckAbsouluteRate(List<Talent> list)
+        {
+            int rand = UnityEngine.Random.Range(0, 100);
+            foreach (Talent one in list)
+            {
+                if (one.AbsRate == true)
+                {
+                    rand -= one.Rate;
+                    if (rand < 0)
+                        return one;
+                }
+            }
+            return null;
+        }
+        private Talent CheckRelativeRate(List<Talent> list)
+        {
+            int sumDensity = GetTotalDensity(list);
+            int rand = UnityEngine.Random.Range(0, sumDensity);
+
+            foreach (Talent one in list)
+            {
+                if (one.AbsRate == false)
+                {
+                    rand -= one.Rate;
+                    if (rand < 0)
+                        return one;
+                }
+            }
+            return null;
+        }
+        private int GetTotalDensity(List<Talent> list)
+        {
+            int result = 0;
+            foreach (Talent one in list)
+            {
+                if (one.AbsRate == false)
+                    result += one.Rate;
+            }
+            return result;
         }
 
         internal void Refresh()
         {
             window.ClaerSlot();
-            CurrentATalent = PickRandomTalent(AttackTalents);
-            CurrentETalent = PickRandomTalent(ElementTalents);
-            CurrentUTalent = PickRandomTalent(UtilTalents);
+            CurrentATalent = PickRandomTalent(CurrentFloor, AttackTalents);
+            CurrentETalent = PickRandomTalent(CurrentFloor, ElementTalents);
+            CurrentUTalent = PickRandomTalent(CurrentFloor, UtilTalents);
             window.FillTalents(CurrentATalent, CurrentETalent, CurrentUTalent);
         }
         public void Update()
         {
-            UpdateTalents(AttackTalents);
-            UpdateTalents(ElementTalents);
-            UpdateTalents(UtilTalents);
+            UpdateTalents(AttackTalents, TalentType.Attack);
+            UpdateTalents(ElementTalents, TalentType.Element);
+            UpdateTalents(UtilTalents, TalentType.Util);
         }
 
-        private void UpdateTalents(List<Talent> talents)
+        private void UpdateTalents(List<Talent> talents, TalentType type)
         {
-            foreach(Talent t in talents)
+            if(confirm == type)
+            {
+                UpgradeTalentBonus(confirm);
+                confirm = 0;
+            }
+
+            foreach (Talent t in talents)
                 t.Update();
         }
 
-        internal void UpgradeTalentBonus(TalentType type)
+        void UpgradeTalentBonus(TalentType type)
         {
             Bonus typebonus = null;
             GridItemIcon typeicon = null;
@@ -111,25 +165,32 @@ namespace SexyBackPlayScene
                     }
             }
             Singleton<StatManager>.getInstance().Upgrade(typebonus, typeicon);
+            Action_ConfirmTalent();
         }
+
+        TalentType confirm = 0;
 
         internal void Confirm(TalentType type)
         {
+            confirm = type;
             switch (type)
             {
                 case TalentType.Attack:
                     {
-                        CurrentATalent.Confirm();
+                        if (CurrentATalent != null)
+                            CurrentATalent.Confirm();
                         break;
                     }
                 case TalentType.Element:
                     {
-                        CurrentETalent.Confirm();
+                        if (CurrentETalent != null)
+                            CurrentETalent.Confirm();
                         break;
                     }
                 case TalentType.Util:
                     {
-                        CurrentUTalent.Confirm();
+                        if (CurrentUTalent != null)
+                            CurrentUTalent.Confirm();
                         break;
                     }
             }
@@ -137,7 +198,6 @@ namespace SexyBackPlayScene
             CurrentETalent = null;
             CurrentUTalent = null;
             window.Hide();
-            Action_ConfirmTalent();
         }
     }
 

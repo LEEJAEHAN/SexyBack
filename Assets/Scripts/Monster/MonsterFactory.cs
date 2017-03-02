@@ -44,8 +44,8 @@ namespace SexyBackPlayScene
 
             monster.Name = data.Name;
             monster.level = level;
-            monster.MAXHP = BigInteger.PowerByGrowth(data.baseHP, level - 1, data.GrowthRate);
-            monster.HP = BigInteger.PowerByGrowth(data.baseHP, level - 1, data.GrowthRate);
+            monster.MAXHP = BigInteger.PowerByGrowth(data.baseHP, level - 1, MonsterData.GrowthRate);
+            monster.HP = BigInteger.PowerByGrowth(data.baseHP, level - 1, MonsterData.GrowthRate);
 
             monster.avatar = InitAvatar(data.ID, ViewLoader.monsterbucket.transform, data.LocalPosition, out monster.CenterPosition); //data.PivotPosition
             monster.sprite = InitSprite(monster.avatar, data.SpritePath, out monster.Size);

@@ -7,7 +7,7 @@ namespace SexyBackPlayScene
     internal class StageManager // stage와 monster를 관리한다. 아마도 몬스터 매니져와 합치는게 좋지않을까.
     {
         int GoalFloor = 20;
-        int currentFloor = 1;
+        public int currentFloor = 1;
         public double Gametime = 0;
         public static readonly int DistancePerFloor = 30;
         public static readonly int HeroPosition = -10;

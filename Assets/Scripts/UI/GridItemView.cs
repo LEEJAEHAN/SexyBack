@@ -15,20 +15,15 @@ namespace SexyBackPlayScene
         public delegate void GridItemPause_Event(string name);
         public event GridItemPause_Event Action_PauseGridItem;
 
-
-        bool selected = false;
-
         public void onItemSelect() //, string ItemButtonName, bool toggleState
         {
             if (GetComponent<UIToggle>().value == false) //// toggle off
             {
-                selected = false;
                 Action_SelectGridItem(null);
             }
 
             else if (GetComponent<UIToggle>().value == true) // toggle on
             {
-                selected = true;
                 Singleton<InfoPanel>.getInstance().SetButton1Event(new EventDelegate(this, "onConfirm"));
                 Singleton<InfoPanel>.getInstance().SetButton2Event(new EventDelegate(this, "onPause"));
                 Action_SelectGridItem(this.name);
@@ -55,7 +50,6 @@ namespace SexyBackPlayScene
             if (GetComponent<UIToggle>().value == true) //// toggle off when disable
             {
                 GetComponent<UIToggle>().value = false;
-                selected = false;
                 Action_SelectGridItem(null);
             }
         }

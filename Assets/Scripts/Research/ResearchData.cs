@@ -51,6 +51,7 @@ namespace SexyBackPlayScene
         public string targetID;  // both hero and elemental
         public string attribute;
         public int value;
+        public BigInteger bigvalue;
         public string strvalue;
 
         public Bonus(string targetID, string attribute, int value, string strvalue)

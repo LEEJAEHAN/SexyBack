@@ -45,7 +45,7 @@ namespace SexyBackPlayScene
         {
             heromanager.CreateHero(); // and hero is move
             //Singleton<Player>.getInstance().ExpGain(new BigInteger(new BigIntExpression(150, "m")));
-            //elementalmanager.LearnNewElemental("magmaball");
+            elementalmanager.LearnNewElemental("magmaball");
             //elementalmanager.LearnNewElemental("fireball");
             //elementalmanager.LearnNewElemental("waterball");
             //elementalmanager.LearnNewElemental("rock");
@@ -133,6 +133,11 @@ namespace SexyBackPlayScene
                     {
                         break;
                     }
+                default:
+                    {
+                        sexybacklog.Error("noAttribute");
+                        break;
+                    }
             }
         }
         private void UpgradeElemental(Bonus bonus)
@@ -168,6 +173,11 @@ namespace SexyBackPlayScene
                     }
                 case "Fever":
                     {
+                        break;
+                    }
+                default:
+                    {
+                        sexybacklog.Error("noAttribute");
                         break;
                     }
             }
@@ -209,6 +219,21 @@ namespace SexyBackPlayScene
                     {
                         playerStat.ResearchPriceXH -= bonus.value;
                         Singleton<ResearchManager>.getInstance().SetStat(playerStat);
+                        break;
+                    }
+                case "FinishResearch":
+                    {
+                        Singleton<ResearchManager>.getInstance().FinishFrontOne();
+                        break;
+                    }
+                case "ExpPerFloor":
+                    {
+                        ExpGain(bonus.bigvalue);
+                        break;
+                    }
+                default:
+                    {
+                        sexybacklog.Error("noAttribute");
                         break;
                     }
             }
