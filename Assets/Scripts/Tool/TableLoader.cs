@@ -34,7 +34,7 @@ namespace SexyBackPlayScene
         private void LoadTalentData()
         {
             // test
-            Bonus bonus = new Bonus("hero", "CriticalDamageXH", 50, null);
+            Bonus bonus = new Bonus("player", "ResearchPriceXH", 20, null);
 
             talenttable.Add(new TalentData("T01", new GridItemIcon("Icon_11", "talA"), "탈렌트1설명", bonus, TalentType.Attack, 1));
             talenttable.Add(new TalentData("T02", new GridItemIcon("Icon_02", "talE"), "탈렌트2설명", bonus, TalentType.Element, 1));

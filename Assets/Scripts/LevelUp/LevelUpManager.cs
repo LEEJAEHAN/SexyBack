@@ -55,7 +55,7 @@ namespace SexyBackPlayScene
                 return null;
 
             LevelUp levelup = new LevelUp(Singleton<TableLoader>.getInstance().leveluptable[root.GetID], root);
-            levelup.onExpChange(Singleton<StatManager>.getInstance().EXP);
+            levelup.SetStat(Singleton<StatManager>.getInstance().GetPlayerStat);
             levelUpItems.Add(root.GetID, levelup);
             DrawNewMark();
             return levelup;
@@ -64,12 +64,20 @@ namespace SexyBackPlayScene
         ///  for test
         internal void BuySelected()
         {
-            foreach(LevelUp a in levelUpItems.Values)
+            foreach(LevelUp item in levelUpItems.Values)
             {
-                if (a.Selected)
-                    a.Purchase();
+                if (item.Selected)
+                    item.Purchase();
             }
         }
 
+        internal void SetStat(PlayerStat stat)
+        {
+            foreach (LevelUp item in levelUpItems.Values)
+            {
+                if (item.Selected)
+                    item.SetStat(stat);
+            }
+        }
     }
 }

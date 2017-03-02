@@ -8,7 +8,7 @@ namespace SexyBackPlayScene
         ResearchManager manager = Singleton<ResearchManager>.getInstance();
         bool Instantbuy = false;
         bool ThreadEmpty = false;
-        bool CanBuy = false;
+        bool CanBuy { get { return player.EXP >= owner.StartPrice; } } 
 
         public ResearchStateReady(Research owner, StateMachine<Research> statemachine) : base(owner, statemachine)
         {
@@ -18,10 +18,9 @@ namespace SexyBackPlayScene
         {
             manager.DrawNewMark();
             Instantbuy = false;
-            player.Action_ExpChange += this.onExpChange;
-            onExpChange(player.EXP);
             manager.Action_ThreadChange += this.onThreadEmpty;
             onThreadEmpty(manager.CanUseThread);
+            player.Action_ExpChange += this.onExpChange;
             Singleton<InfoPanel>.getInstance().SetPauseButton(owner.Selected, false, "");
         }
         internal void onThreadEmpty(bool value)
@@ -42,8 +41,6 @@ namespace SexyBackPlayScene
         {
             if (owner.Purchase)
                 return;
-
-            CanBuy = (exp >= owner.StartPrice);
             Refresh();
         }
 

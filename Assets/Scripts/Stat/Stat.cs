@@ -6,6 +6,8 @@
         internal int ResearchTime; // 보너스 공격스택횟수  6
         internal int ResearchThread;
         internal int ExpIncreaseXH;
+        internal int LevelUpPriceXH;
+        internal int ResearchPriceXH;
 
         public PlayerStat()
         {
@@ -13,6 +15,8 @@
             ResearchTime = 0;
             ResearchThread = 5; // for test
             ExpIncreaseXH = 100;
+            LevelUpPriceXH = 100;
+            ResearchPriceXH = 100;
         }
     }
     internal class HeroStat

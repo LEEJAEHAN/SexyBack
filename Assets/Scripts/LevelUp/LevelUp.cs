@@ -10,20 +10,20 @@ namespace SexyBackPlayScene
         internal GridItemIcon Icon;
 
         InfoPanel infoPanel;
-
         WeakReference owner;
         // 돈관련, protected
-        protected BigInteger originalprice = new BigInteger(0); // original price
-        private int priceXK = 1000;
-        protected int PurchaseCount = 0; // 구매횟수 == level;
-        protected BigInteger Price { get { return originalprice * priceXK / 1000; } }
+        BigInteger originalPrice = new BigInteger(0); // original price
+        int priceXH; // original price
+
+        BigInteger PRICE;
+        int PurchaseCount = 0; // 구매횟수 == level;
 
         internal string ID;// 해당객체view의 name과같다 // id로 이름을바꿔야할듯
         internal string OwnerID;
         internal string Info_Name;
 
-        internal string Button_Text; // 아이템버튼 우하단 텍스트
         internal string Info_Text; // 아이템버튼 인포창 텍스트
+        internal string Price_Text; // 아이템버튼 인포창 텍스트최하단
 
         internal bool CanBuy = false;
         public bool Selected = false;
@@ -49,7 +49,7 @@ namespace SexyBackPlayScene
         {
             for (int i = 0; i < PurchaseCount; PurchaseCount--)
             {
-                if (Singleton<StatManager>.getInstance().ExpUse(Price))
+                if (Singleton<StatManager>.getInstance().ExpUse(PRICE))
                     (owner.Target as ICanLevelUp).LevelUp(1);
             }
         }
@@ -62,9 +62,57 @@ namespace SexyBackPlayScene
 
         public void onExpChange(BigInteger exp)
         {
-            CanBuy = exp > Price;
+            CanBuy = exp > PRICE;
             Refresh();
+        }
 
+        public void onSelect(string id)
+        {
+            if (id == null)
+            {
+                Selected = false;
+                infoPanel.Hide();
+                return;
+            }
+
+            Selected = true;
+            Refresh();
+        }
+
+        public void onConfirm(string id)
+        {   // 중복입력 막는다.
+            if(PurchaseCount == 0)
+                Purchase();
+        }
+
+        public void onPause(string id)
+        {
+        }
+
+        internal void SetStat(PlayerStat stat)
+        {
+            priceXH = stat.LevelUpPriceXH;
+            onPriceChange();
+            Refresh();
+        }
+        void onPriceChange()
+        {
+            PRICE = originalPrice * priceXH / 100;
+            Price_Text = "비용 : " + PRICE.To5String() + " ";
+            CanBuy = Singleton<StatManager>.getInstance().EXP > PRICE;
+        }
+        internal void onLevelChange(ICanLevelUp sender)
+        {
+            string Button_Text = sender.LEVEL.ToString();
+            itemView.FillItemContents(Button_Text);
+
+            Info_Text = Info_Name + " LV " + sender.LEVEL + "\n";
+            Info_Text += "데미지 : " + sender.LevelUpDamageText + "\n";
+            Info_Text += "다음레벨 : +" + sender.LevelUpNextText + "\n";
+
+            originalPrice = sender.LevelUpPrice;
+            onPriceChange();
+            Refresh();
         }
 
         public void Refresh()
@@ -84,46 +132,10 @@ namespace SexyBackPlayScene
                 itemView.SetActive(true);
                 Learn = true;
             }
+
+            infoPanel.Show(Selected, Icon, Info_Text + Price_Text);
         }
-
-        public void onSelect(string id)
-        {
-            if (id == null)
-            {
-                Selected = false;
-                infoPanel.Hide();
-                return;
-            }
-
-            Selected = true;
-            infoPanel.Show(Selected, Icon, Info_Text);
-            Refresh();
-        }
-
-        public void onConfirm(string id)
-        {   // 중복입력 막는다.
-            if(PurchaseCount == 0)
-                Purchase();
-        }
-
-        public void onPause(string id)
-        {
-        }
-
-
-        internal void onLevelChange(ICanLevelUp sender)
-        {
-            originalprice = sender.LevelUpPrice;
-            Button_Text = sender.LEVEL.ToString();
-
-            Info_Text = Info_Name + " LV " + sender.LEVEL + "\n";
-            Info_Text += "데미지 : " + sender.LevelUpDamageText + "\n";
-            Info_Text += "다음레벨 : +" + sender.LevelUpNextText + "\n";
-            Info_Text += "비용 : " + Price.To5String() + " ";
-
-            itemView.FillItemContents(Button_Text);
-            infoPanel.Show(Selected, Icon, Info_Text);
-        }
+        // function
 
     }
 

@@ -14,17 +14,18 @@ namespace SexyBackPlayScene
         string InfoName;
         string Description;
         string ViewText;
-
         public int RequireLevel;
 
-        public BigInteger ResearchPrice = new BigInteger(1);
-        public BigInteger StartPrice = new BigInteger(1); // 
-        public BigInteger PricePerSec = new BigInteger(1); // 
+        // 오리지널 값.
+        public BigInteger researchprice = new BigInteger(1);
+        public BigInteger startprice= new BigInteger(1);
 
-        public readonly double ResearchTime; // 
-        public double ReducedTime; // 
-        public int ReduceTimeX;
-        public int ReduceTime;
+        // stat에 의해 계산되는값.
+        public BigInteger ResearchPrice;
+        public BigInteger StartPrice;
+        public BigInteger PricePerSec; 
+        public readonly double ResearchTime;
+        public double ReducedTime;
 
         List<Bonus> bonuses;
 
@@ -51,13 +52,10 @@ namespace SexyBackPlayScene
 
             ResearchTime = time;
             ReducedTime = ResearchTime;
-            ReduceTimeX = 1;
-            ReduceTime = 1;
             ResearchTick = tick;
 
-            StartPrice = ((100 - data.rate) * totalprice) / 100;
-            ResearchPrice = data.rate * totalprice / 100;
-            //PricePerSec = ResearchPrice / (int)ResearchTime; setstat이나 instantcheck시 설정된다.
+            startprice = ((100 - data.rate) * totalprice) / 100;
+            researchprice = data.rate * totalprice / 100;
 
             icon = data.icon;
             itemView = itemview;
@@ -110,7 +108,6 @@ namespace SexyBackPlayScene
             panel.Show(Selected, icon, ViewText);
         }
 
-
         public void onConfirm(string id)
         {
             Purchase = true;
@@ -125,12 +122,13 @@ namespace SexyBackPlayScene
                 StateMachine.ChangeState("Pause");
         }
 
-        internal void SetStat(PlayerStat researchStat)
+        internal void SetStat(PlayerStat stat)
         {
-            ReduceTimeX = researchStat.ResearchTimeX;
-            ReduceTime = researchStat.ResearchTime;
             double PrevTime = ReducedTime;
-            ReducedTime = ResearchTime / researchStat.ResearchTimeX- researchStat.ResearchTime;
+            ReducedTime = ResearchTime / stat.ResearchTimeX- stat.ResearchTime;
+            ResearchPrice = researchprice * stat.ResearchPriceXH / 100;
+            StartPrice = startprice * stat.ResearchPriceXH / 100;
+
             if (ReducedTime <= 0)
             {
                 ReducedTime = 0;
@@ -165,8 +163,5 @@ namespace SexyBackPlayScene
         {
             RefreshFlag = true;
         }
-
-
-        // update view state
     }
 }

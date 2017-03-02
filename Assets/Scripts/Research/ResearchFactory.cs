@@ -23,7 +23,6 @@ namespace SexyBackPlayScene
             griditem.SetActive(false);
 
             Research newone = new Research(data, root, griditem, temptime, totalPrice, researchTick); //,StartPrice, ResearchPrice, PricePerSec, ResearchTime
-
             newone.StateMachine.ChangeState("None");
             newone.SetStat(Singleton<StatManager>.getInstance().GetPlayerStat);
 

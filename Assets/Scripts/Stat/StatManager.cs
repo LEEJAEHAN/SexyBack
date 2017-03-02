@@ -201,12 +201,14 @@ namespace SexyBackPlayScene
                     }
                 case "LevelUpPriceXH":
                     {
-
+                        playerStat.LevelUpPriceXH -= bonus.value;
+                        Singleton<LevelUpManager>.getInstance().SetStat(playerStat);
                         break;
                     }
                 case "ResearchPriceXH":
                     {
-
+                        playerStat.ResearchPriceXH -= bonus.value;
+                        Singleton<ResearchManager>.getInstance().SetStat(playerStat);
                         break;
                     }
             }
