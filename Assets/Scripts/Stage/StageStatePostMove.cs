@@ -41,12 +41,12 @@ namespace SexyBackPlayScene
         {
             if (waiting == false)
             {
-                if (owner.zPosition <= StageManager.HeroPosition + 1.5f) // change floortext
+                if (owner.zPosition <= GameSetting.HeroCamPosition.z + 1.5f) // change floortext
                 {
                     Singleton<StageManager>.getInstance().onStagePass(owner.floor);
                 }
-                if (owner.zPosition <= -(StageManager.DistancePerFloor - 2)) // talent wait
-                {
+                if (owner.zPosition <= GameSetting.HeroCamPosition.z) // talent wait // StageManager.DistancePerFloor - 20
+                { //TODO: 계속 여기가 문제... 이거 해결해야함.
                     if (!talentChoice)
                     {
                         Singleton<HeroManager>.getInstance().GetHero().ChangeState("Ready");

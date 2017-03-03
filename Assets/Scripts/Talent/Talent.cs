@@ -7,7 +7,7 @@ namespace SexyBackPlayScene
     enum TalentType
     {
         Attack = 1,
-        Element,
+        Elemental,
         Util
     }
     internal class Talent : IDisposable

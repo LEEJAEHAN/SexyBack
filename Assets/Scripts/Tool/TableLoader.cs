@@ -31,17 +31,6 @@ namespace SexyBackPlayScene
             LoadTalentData();
         }
 
-        private void LoadTalentData()
-        {
-            // test
-            Bonus bonus = new Bonus("hero", "AttackSpeedXH", 5, null);
-            Bonus bonus2 = new Bonus("fireball", "CastSpeedXH", 10, null);
-            Bonus bonus3 = new Bonus("player", "ExpPerFloor", 400, null);
-
-            talenttable.Add(new TalentData("T01", new GridItemIcon("Icon_10", "A.S"), "공격속도가 $s% 증가합니다.", bonus, TalentType.Attack, 1,true));
-            talenttable.Add(new TalentData("T02", new GridItemIcon("Icon_01", "C.S"), "화염구의 시전속도가 $s% 증가합니다.", bonus2, TalentType.Element, 1, false));
-            talenttable.Add(new TalentData("T03", new GridItemIcon("Icon_18", null), "$s의 경험치를 획득합니다.", bonus3, TalentType.Util, 1, false));
-        }
 
         private void LoadMonsterData()
         {
@@ -181,8 +170,7 @@ namespace SexyBackPlayScene
         private void LoadResearchData()
         {
             LoadBonus();
-
-
+            
             TextAsset textasset = Resources.Load("Xml/ResearchData") as TextAsset;
             XmlDocument xmldoc = new XmlDocument();
             xmldoc.LoadXml(textasset.text);
@@ -229,6 +217,68 @@ namespace SexyBackPlayScene
 
 
         }
-    }
 
+        private void LoadTalentData()
+        {
+            TextAsset textasset = Resources.Load("Xml/TalentData") as TextAsset;
+            XmlDocument xmldoc = new XmlDocument();
+            xmldoc.LoadXml(textasset.text);
+            XmlNode rootNode = xmldoc.SelectSingleNode("Talents");
+            XmlNodeList nodes = rootNode.SelectNodes("Talent");
+
+            foreach (XmlNode node in nodes)
+            {
+                string id = node.Attributes["id"].Value;
+                string requireid = node.Attributes["requireid"].Value;
+                TalentType type = (TalentType)Enum.Parse(typeof(TalentType), node.Attributes["type"].Value);
+                int maxlevelper10;
+                if (node.Attributes["maxlevelper10"] != null)
+                    maxlevelper10 = int.Parse(node.Attributes["maxlevelper10"].Value);
+
+                XmlNode infonode = node.SelectSingleNode("Info");
+                string icon = infonode.Attributes["icon"].Value;
+                string subicon = null;
+                if (infonode.Attributes["subicon"] != null)
+                    subicon = infonode.Attributes["subicon"].Value;
+                string name = infonode.Attributes["name"].Value;
+                string description = infonode.Attributes["description"].Value;
+
+                XmlNode ratenode = node.SelectSingleNode("Rate");
+                int rate;
+                bool abs;
+                if(ratenode.Attributes["absrate"] != null)
+                {
+                    abs = true;
+                    rate = int.Parse(ratenode.Attributes["absrate"].Value);
+                }
+                else
+                {
+                    abs = false;
+                    rate = int.Parse(ratenode.Attributes["rate"].Value);
+                }
+
+                XmlNode bonusnode = node.SelectSingleNode("Bonus");
+                string target = bonusnode.Attributes["target"].Value;
+                string attribute = bonusnode.Attributes["attribute"].Value;
+                int value = 0;
+                if (bonusnode.Attributes["value"] != null)
+                    value = int.Parse(bonusnode.Attributes["value"].Value);
+                Bonus bonus = new Bonus(target, attribute, value, null);
+
+                GridItemIcon iconinfo = new GridItemIcon(icon, subicon);
+                TalentData talentdata = new TalentData(id, iconinfo, description, bonus, type, rate, abs);
+                talenttable.Add(talentdata);
+            }
+
+            //// test
+            //Bonus bonus = new Bonus("hero", "AttackSpeedXH", 5, null);
+            //Bonus bonus2 = new Bonus("fireball", "CastSpeedXH", 10, null);
+            //Bonus bonus3 = new Bonus("player", "ExpPerFloor", 400, null);
+
+            //talenttable.Add(new TalentData("T01", new GridItemIcon("Icon_10", "A.S"), "공격속도가 $s% 증가합니다.", bonus, TalentType.Attack, 1, true));
+            //talenttable.Add(new TalentData("T02", new GridItemIcon("Icon_01", "C.S"), "화염구의 시전속도가 $s% 증가합니다.", bonus2, TalentType.Element, 1, false));
+            //talenttable.Add(new TalentData("T03", new GridItemIcon("Icon_18", null), "$s의 경험치를 획득합니다.", bonus3, TalentType.Util, 1, false));
+        }
+
+    }
 }

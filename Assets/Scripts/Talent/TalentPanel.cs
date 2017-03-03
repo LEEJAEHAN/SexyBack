@@ -90,7 +90,7 @@ namespace SexyBackPlayScene
         }
         public void onClickE()
         {
-            Singleton<TalentManager>.getInstance().Confirm(TalentType.Element);
+            Singleton<TalentManager>.getInstance().Confirm(TalentType.Elemental);
         }
         public void onClickU()
         {

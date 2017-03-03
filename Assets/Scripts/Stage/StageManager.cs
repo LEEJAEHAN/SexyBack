@@ -10,7 +10,6 @@ namespace SexyBackPlayScene
         public int currentFloor = 1;
         public double Gametime = 0;
         public static readonly int DistancePerFloor = 30;
-        public static readonly int HeroPosition = -10;
 
         public List<Stage> Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
         public List<Stage> beToDispose = new List<Stage>(); // 풀링하지말자. 잦은이동이있는것도아닌데

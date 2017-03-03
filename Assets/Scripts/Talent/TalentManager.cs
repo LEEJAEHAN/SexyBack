@@ -35,7 +35,7 @@ namespace SexyBackPlayScene
             {
                 if (table.type == TalentType.Attack)
                     AttackTalents.Add(new Talent(table));
-                else if (table.type == TalentType.Element)
+                else if (table.type == TalentType.Elemental)
                     ElementTalents.Add(new Talent(table));
                 else if (table.type == TalentType.Util)
                     UtilTalents.Add(new Talent(table));
@@ -120,7 +120,7 @@ namespace SexyBackPlayScene
         public void Update()
         {
             UpdateTalents(AttackTalents, TalentType.Attack);
-            UpdateTalents(ElementTalents, TalentType.Element);
+            UpdateTalents(ElementTalents, TalentType.Elemental);
             UpdateTalents(UtilTalents, TalentType.Util);
         }
 
@@ -149,7 +149,7 @@ namespace SexyBackPlayScene
                         typeicon = new GridItemIcon("Icon_12", Alevel.ToString());
                         break;
                     }
-                case TalentType.Element:
+                case TalentType.Elemental:
                     {
                         Elevel++;
                         typebonus = new Bonus("elementals", "DpsIncreaseXH", 1, null);
@@ -181,7 +181,7 @@ namespace SexyBackPlayScene
                             CurrentATalent.Confirm();
                         break;
                     }
-                case TalentType.Element:
+                case TalentType.Elemental:
                     {
                         if (CurrentETalent != null)
                             CurrentETalent.Confirm();

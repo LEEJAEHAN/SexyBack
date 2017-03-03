@@ -10,7 +10,7 @@ namespace SexyBackPlayScene
         public static float fieldOfView;// 64
         public static float aspect; // 0.5625
         public static float pixelPerUnit;
-        public static Vector3 defaultHeroPosition;
+        public static Vector3 HeroCamPosition;
         public static Vector3 EyeLine = new Vector3(0, 1.5f, 10);
         public static Vector3 ECamPosition;
 
@@ -24,7 +24,7 @@ namespace SexyBackPlayScene
             SetCameraSetting();
             RemoveTestObject();
 
-            defaultHeroPosition = ViewLoader.HeroPanel.transform.position;
+            HeroCamPosition = ViewLoader.HeroPanel.transform.position;
             ECamPosition = ViewLoader.EffectCamera.transform.position;
             // == defaultMonster getPosition 를 effect camera의 z까지만 사영한다.
         }
