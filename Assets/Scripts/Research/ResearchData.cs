@@ -35,13 +35,11 @@ namespace SexyBackPlayScene
             this.icon = icon;
 
             InfoDescription = description;
-
             this.level = level;
             this.baselevel = baselevel;
             this.baseprice = baseprice;
             this.rate = rate;
             this.basetime = basetime;
-
         }
 
     }

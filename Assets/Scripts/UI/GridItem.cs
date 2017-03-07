@@ -19,7 +19,7 @@ namespace SexyBackPlayScene
 
         bool isEnable = true;
 
-        //~GridItem() { sexybacklog.Console("그리드아이템소멸"); }
+        ~GridItem() { sexybacklog.Console("그리드아이템소멸"); }
         public GridItem(string type, string id, GridItemIcon icon, GameObject parent)
         {
             GameObject prefab;
@@ -50,8 +50,6 @@ namespace SexyBackPlayScene
         }
         public void AttachEventListner(IHasGridItem eventListner)
         {
-            eventScript.Action_ConfirmGridItem += eventListner.onConfirm;
-            eventScript.Action_PauseGridItem += eventListner.onPause;
             eventScript.Action_SelectGridItem += eventListner.onSelect; // 매니져가 안받는다.
         }
 

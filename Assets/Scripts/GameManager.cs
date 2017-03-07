@@ -15,7 +15,7 @@ namespace SexyBackPlayScene
         TalentManager talentManager;
 
         // singleton - player
-        StatManager player;
+        StatManager statmanager;
         LevelUpManager levelUpManager;
         ResearchManager researchManager;
 
@@ -26,7 +26,7 @@ namespace SexyBackPlayScene
         // Use this for initialization
         internal void Init(GameModeData args)
         {
-            player = Singleton<StatManager>.getInstance();
+            statmanager = Singleton<StatManager>.getInstance();
             heroManager = Singleton<HeroManager>.getInstance();
             monsterManager = Singleton<MonsterManager>.getInstance();
             elementalManager = Singleton<ElementalManager>.getInstance();
@@ -38,7 +38,7 @@ namespace SexyBackPlayScene
             infoView = Singleton<GameInfoView>.getInstance();
 
 
-            player.Init(args);
+            statmanager.Init(args);
             stageManager.Init(args);
             heroManager.Init();
             monsterManager.Init();
@@ -51,8 +51,21 @@ namespace SexyBackPlayScene
 
         internal void Start()
         {
-            player.Start();
+            heroManager.CreateHero(); // and hero is move
             stageManager.Start();
+
+            elementalManager.LearnNewElemental("fireball");
+
+            //Singleton<Player>.getInstance().ExpGain(new BigInteger(new BigIntExpression(150, "m")));
+            //elementalmanager.LearnNewElemental("magmaball");
+            //elementalmanager.LearnNewElemental("fireball");
+            //elementalmanager.LearnNewElemental("waterball");
+            //elementalmanager.LearnNewElemental("rock");
+            //elementalmanager.LearnNewElemental("electricball");
+            //elementalmanager.LearnNewElemental("snowball");
+            //elementalmanager.LearnNewElemental("earthball");
+            //elementalmanager.LearnNewElemental("airball"); // for test
+            //elementalmanager.LearnNewElemental("iceblock");
         }
         internal void FixedUpdate()
         {
@@ -69,6 +82,7 @@ namespace SexyBackPlayScene
             researchManager.Update();
             talentManager.Update();
             stageManager.Update();
+            statmanager.Update();
         }
 
     }

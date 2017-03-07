@@ -33,9 +33,13 @@ namespace SexyBackPlayScene
         public static GameObject Tab3Container;
         public static GameObject Tab4Container;
 
+
+        public static GameObject Tab1Info;
+
         public static GameObject Bar_Attack;
 
         public static GameObject Reward_PopUp;
+
 
         public ViewLoader()
         {
@@ -62,6 +66,8 @@ namespace SexyBackPlayScene
             Tab2Container = GameObject.Find("Tab2Container");
             Tab3Container = GameObject.Find("Tab3Container");
             Tab4Container = GameObject.Find("Tab4Container");
+            Tab1Info = GameObject.Find("Tab1Info");
+
             Bar_Attack = GameObject.Find("Bar_Attack");
 
             Reward_PopUp = GameObject.Find("Reward_PopUp");

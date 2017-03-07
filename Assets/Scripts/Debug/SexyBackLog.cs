@@ -12,7 +12,7 @@ namespace SexyBackPlayScene
         }
         public static void InGame(object msg)
         {
-            ViewLoader.label_debug.GetComponent<UILabel>().text = msg.ToString();
+            DebugPanel.getInstance.Append(msg.ToString() + "\n");
         }
 
         internal static void Error(object msg)

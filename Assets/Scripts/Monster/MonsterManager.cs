@@ -62,6 +62,14 @@ namespace SexyBackPlayScene
                 monsters.Remove(id);
             }
         }
+
+        internal bool TestDeal(BigInteger damage)
+        {
+            if (BattleMonster != null)
+                return BattleMonster.Hit(new Vector3(360, 800, 0), damage, false);
+            return false;
+        }
+
         internal void DestroyMonster(Monster owner)
         {
             disposeIDs.Enqueue(owner.GetID);

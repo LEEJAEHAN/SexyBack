@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SexyBackPlayScene
 {
-    internal class Elemental : ICanLevelUp// base class of Elementals
+    internal class Elemental// base class of Elementals
     {
         public string GetID { get { return ID; } }
         public string targetID;
@@ -16,6 +16,7 @@ namespace SexyBackPlayScene
         int castSpeedXH;
 
         public BigInteger DPS = new BigInteger();
+        public BigInteger DPSTICK = new BigInteger();
         public BigInteger DAMAGE = new BigInteger();//  dps * attackinterval
         public double CASTINTERVAL; // (attackinterval1k / 1000) * ( 100 / attackspeed1h ) 
 
@@ -37,14 +38,11 @@ namespace SexyBackPlayScene
         // ICanLevelUp
         public int LEVEL { get { return level; } }
         public BigInteger LevelUpPrice { get { return BigInteger.PowerByGrowth(BaseExp, level, GrowthRate); } }
-        public string LevelUpDamageText { get { return DPS.To5String() + " /Sec"; } }
-        public string LevelUpNextText { get { return (dpsX * BaseDps * dpsIncreaseXH * castSpeedXH / (DpsShiftDigit * 10000)).To5String() + " /Sec"; } }
-        public event LevelUp_EventHandler Action_LevelUpInfoChange = delegate { };
         // event
         public delegate void ElementalChange_EventHandler(Elemental elemental);
-        public event ElementalChange_EventHandler Action_DamageChange = delegate { };
+        public event ElementalChange_EventHandler Action_Change = delegate { };
 
-        public Elemental(ElementalData data, ElementalStat stat, Transform area)
+        public Elemental(ElementalData data, Transform area)
         {
             ID = data.ID;
             BaseCastIntervalXK = data.BaseCastIntervalXK;
@@ -52,8 +50,6 @@ namespace SexyBackPlayScene
             DpsShiftDigit = data.FloatDigit;
             BaseExp = data.BaseExp;
             GrowthRate = data.GrowthRate;
-
-            SetStat(stat);
 
             ElementalArea = area;
             ProjectilePrefab = Resources.Load(ElementalData.ProjectilePrefabName(ID)) as GameObject;
@@ -79,22 +75,26 @@ namespace SexyBackPlayScene
         {
             level += amount;
             CalDPS();
+            Action_Change(this);
         }
-        internal void SetStat(ElementalStat elementalstat) // total
+        internal void SetStat(ElementalStat elementalstat, bool CalDamage) // total
         {
             dpsX = elementalstat.DpsX;
             dpsIncreaseXH = elementalstat.DpsIncreaseXH;
             castSpeedXH = elementalstat.CastSpeedXH;
             CASTINTERVAL = (double)BaseCastIntervalXK / (castSpeedXH * 10);
             CalDPS();
+
+            if (CalDamage)
+                CalDPS();
+
+            Action_Change(this);
         }
         void CalDPS()
         {
-            int intx = level * dpsIncreaseXH * castSpeedXH;
-            DPS = BaseDps * dpsX * intx / (DpsShiftDigit * 10000);
+            DPS = BaseDps * dpsX * level * dpsIncreaseXH * castSpeedXH / (DpsShiftDigit * 10000);
+            DPSTICK = (BaseDps * dpsX * dpsIncreaseXH * castSpeedXH / (DpsShiftDigit * 10000));
             DAMAGE = (DPS * BaseCastIntervalXK / 1000); //  dps * attackinterval
-            Action_LevelUpInfoChange(this);
-            Action_DamageChange(this);
         }
 
         // TODO : 여기도 언젠간 statemachine작업을 해야할듯 ㅠㅠ

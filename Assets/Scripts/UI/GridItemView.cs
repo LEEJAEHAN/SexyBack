@@ -24,8 +24,8 @@ namespace SexyBackPlayScene
 
             else if (GetComponent<UIToggle>().value == true) // toggle on
             {
-                Singleton<InfoPanel>.getInstance().SetButton1Event(new EventDelegate(this, "onConfirm"));
-                Singleton<InfoPanel>.getInstance().SetButton2Event(new EventDelegate(this, "onPause"));
+                //Singleton<InfoPanel>.getInstance().SetButton1Event(new EventDelegate(this, "onConfirm"));
+                //Singleton<InfoPanel>.getInstance().SetButton2Event(new EventDelegate(this, "onPause"));
                 Action_SelectGridItem(this.name);
             }
         }
@@ -43,7 +43,7 @@ namespace SexyBackPlayScene
             Action_SelectGridItem = null;
             Action_ConfirmGridItem = null;
             Action_PauseGridItem = null;
-            //sexybacklog.Console("게임오브젝트소멸");
+            sexybacklog.Console("게임오브젝트소멸");
         }
         void OnDisable()
         {

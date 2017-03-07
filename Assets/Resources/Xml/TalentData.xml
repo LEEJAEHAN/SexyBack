@@ -1,77 +1,87 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Talents>
-	<Talent id="T01" requireid="hero" type="Attack" maxlevelper10="10">
-		<Info icon="Icon_10" subicon="A.S" name="빠른검술" description="공격속도가 $s% 증가합니다."/>
+	<Talent id="T00" requireid="hero" type="Attack" maxlevelper10="5">
+		<Info icon="Icon_10" subicon="Dmg" name="증가된힘" description="피해량이 $1$% 증가합니다."/>
 		<Rate rate="100"/>
-		<Bonus target="hero" attribute="AttackSpeedXH" value="5"/>
+		<Bonus target="hero" attribute="DpcIncreaseXH" value="6"/>
 	</Talent>
-	<Talent id="T02" requireid="hero" type="Attack" maxlevelper10="10">
-		<Info icon="Icon_10" subicon="C.R" name="약점포착" description="크리티컬 확률이 $s% 증가합니다."/>
+	<Talent id="T01" requireid="hero" type="Attack" maxlevelper10="5">
+		<Info icon="Icon_10" subicon="A.S" name="빠른검술" description="공격속도가 $1$% 증가합니다."/>
 		<Rate rate="100"/>
-		<Bonus target="hero" attribute="CriticalRateXH" value="1"/>
+		<Bonus target="hero" attribute="AttackSpeedXH" value="6"/>
 	</Talent>
-	<Talent id="T03" requireid="hero" type="Attack" maxlevelper10="10">
-		<Info icon="Icon_10" subicon="C.D" name="예리한검술" description="크리티컬 공격의 피해량이 $s% 증가합니다."/>
+	<Talent id="T02" requireid="hero" type="Attack" maxlevelper10="5">
+		<Info icon="Icon_10" subicon="C.R" name="약점포착" description="크리티컬 확률이 $1$% 증가합니다."/>
 		<Rate rate="100"/>
-		<Bonus target="hero" attribute="CriticalDamageXH" value="10"/>
+		<Bonus target="hero" attribute="CriticalRateXH" value="3"/>
+	</Talent>
+	<Talent id="T03" requireid="hero" type="Attack" maxlevelper10="5">
+		<Info icon="Icon_10" subicon="C.D" name="예리한검술" description="크리티컬 공격의 피해량이 $1$% 증가합니다."/>
+		<Rate rate="100"/>
+		<Bonus target="hero" attribute="CriticalDamageXH" value="30"/>
 	</Talent>
 	<Talent id="T04" requireid="hero" type="Attack">
 		<Info icon="Icon_14" name="광전사의물약" description="다음 스테이지동안 광전사가 되어 강력한 공격이 가능합니다."/>
 		<Rate absrate="10"/>
 		<Bonus target="hero" attribute="Fever"/>
 	</Talent>
-	<Talent id="T05" requireid="fireball" type="Elemental" maxlevelper10="10">
-		<Info icon="Icon_01" subicon="C.S" name="속성강화" description="화염구의 시전속도가 $s% 증가합니다."/>
+	<Talent id="T05" requireid="hero" type="Elemental" maxlevelper10="5">
+		<Info icon="Icon_13" subicon="C.S" name="시전속도" description="모든 마법의 시전속도가 $1$% 증가합니다."/>
 		<Rate rate="100"/>
-		<Bonus target="fireball" attribute="CastSpeedXH" value="10"/>
+		<Bonus target="elementals" attribute="CastSpeedXH" value="6"/>
 	</Talent>
-	<Talent id="T06" requireid="waterball" type="Elemental" maxlevelper10="10">
-		<Info icon="Icon_09" subicon="C.S" name="속성강화" description="물폭탄의 시전속도가 $s% 증가합니다."/>
+	<Talent id="T06" requireid="fireball" type="Elemental" maxlevelper10="5">
+		<Info icon="Icon_01" subicon="Dmg" name="속성강화" description="화염구의 피해량이 $1$% 증가합니다."/>
 		<Rate rate="100"/>
-		<Bonus target="waterball" attribute="CastSpeedXH" value="10"/>
+		<Bonus target="fireball" attribute="DpsIncreaseXH" value="20"/>
 	</Talent>
-	<Talent id="T07" requireid="rock" type="Elemental" maxlevelper10="10">
-		<Info icon="Icon_07" subicon="C.S" name="속성강화" description="짱돌의 시전속도가 $s% 증가합니다."/>
+	<Talent id="T07" requireid="waterball" type="Elemental" maxlevelper10="5">
+		<Info icon="Icon_09" subicon="Dmg" name="속성강화" description="물폭탄의 피해량이 $1$% 증가합니다."/>
 		<Rate rate="100"/>
-		<Bonus target="rock" attribute="CastSpeedXH" value="10"/>
+		<Bonus target="waterball" attribute="DpsIncreaseXH" value="20"/>
 	</Talent>
-	<Talent id="T08" requireid="electricball" type="Elemental" maxlevelper10="10">
-		<Info icon="Icon_04" subicon="C.S" name="속성강화" description="지지직의 시전속도가 $s% 증가합니다."/>
+	<Talent id="T08" requireid="rock" type="Elemental" maxlevelper10="5">
+		<Info icon="Icon_07" subicon="Dmg" name="속성강화" description="짱돌의 피해량이 $1$% 증가합니다."/>
 		<Rate rate="100"/>
-		<Bonus target="electricball" attribute="CastSpeedXH" value="10"/>
+		<Bonus target="rock" attribute="DpsIncreaseXH" value="20"/>
 	</Talent>
-	<Talent id="T09" requireid="snowball" type="Elemental" maxlevelper10="10">
-		<Info icon="Icon_05" subicon="C.S" name="속성강화" description="눈덩이의 시전속도가 $s% 증가합니다."/>
+	<Talent id="T09" requireid="electricball" type="Elemental" maxlevelper10="5">
+		<Info icon="Icon_04" subicon="Dmg" name="속성강화" description="지지직의 피해량이 $1$% 증가합니다."/>
 		<Rate rate="100"/>
-		<Bonus target="snowball" attribute="CastSpeedXH" value="10"/>
+		<Bonus target="electricball" attribute="DpsIncreaseXH" value="20"/>
 	</Talent>
-	<Talent id="T10" requireid="hero" type="Elemental">
+	<Talent id="T10" requireid="snowball" type="Elemental" maxlevelper10="5">
+		<Info icon="Icon_08" subicon="Dmg" name="속성강화" description="눈덩이의 피해량이 $1$% 증가합니다."/>
+		<Rate rate="100"/>
+		<Bonus target="snowball" attribute="DpsIncreaseXH" value="20"/>
+	</Talent>
+	<Talent id="T11" requireid="hero" type="Elemental">
 		<Info icon="Icon_15" name="집중의물약" description="다음 스테이지동안 마력집중 상태가 되어 매우 강력한 마법을 시전합니다."/>
 		<Rate absrate="10"/>
 		<Bonus target="elementals" attribute="Fever"/>
 	</Talent>
-	<Talent id="T11" requireid="player" type="Util" maxlevelper10="5">
-		<Info icon="Icon_18" subicon="-L" name="근면함" description="레벨업 경험치 요구량이 $s% 줄어듭니다."/>
+	<Talent id="T12" requireid="player" type="Util" maxlevelper10="5">
+		<Info icon="Icon_18" subicon="-L" name="근면함" description="레벨업 경험치 요구량이 $1$% 줄어듭니다."/>
 		<Rate rate="100"/>
 		<Bonus target="player" attribute="LevelUpPriceXH" value="2"/>
 	</Talent>
-	<Talent id="T12" requireid="player" type="Util" maxlevelper10="5">
-		<Info icon="Icon_18" subicon="-R" name="학자" description="연구의 경험치 요구량이 $s% 줄어듭니다."/>
+	<Talent id="T13" requireid="player" type="Util" maxlevelper10="5">
+		<Info icon="Icon_18" subicon="-R" name="학자" description="연구의 경험치 요구량이 $1$% 줄어듭니다."/>
 		<Rate rate="100"/>
 		<Bonus target="player" attribute="ResearchPriceXH" value="2"/>
 	</Talent>
-	<Talent id="T13" requireid="player" type="Util">
+	<Talent id="T14" requireid="player" type="Util">
 		<Info icon="Icon_19" name="발명" description="현재 진행중인 연구 중 가장 낮은 연구가 즉시 완료됩니다."/>
 		<Rate rate="100"/>
 		<Bonus target="player" attribute="FinishResearch" value="1"/>
 	</Talent>
-	<Talent id="T14" requireid="player" type="Util">
-		<Info icon="Icon_18" name="경험치획득" description="$s의 경험치를 획득합니다."/>
-		<Rate rate="100"/>
-		<Bonus target="player" attribute="ExpPerFloor" value="400"/>
-	</Talent>
 	<Talent id="T15" requireid="player" type="Util">
-		<Info icon="Icon_18" name="다이아몬드" description="$s 다이아를 획득합니다."/>
+		<Info icon="Icon_18" name="경험치획득" description="$1$의 경험치를 획득합니다."/>
+		<Rate rate="100"/>
+		<Bonus target="player" attribute="ExpPerFloor" value="1000"/>
+	</Talent>
+	<Talent id="T16" requireid="player" type="Util">
+		<Info icon="Icon_18" name="다이아몬드" description="$1$ 다이아를 획득합니다."/>
 		<Rate absrate="10"/>
 		<Bonus target="player" attribute="Diamond" value="1"/>
 	</Talent>

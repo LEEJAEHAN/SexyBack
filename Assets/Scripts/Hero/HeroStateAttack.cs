@@ -11,9 +11,9 @@ namespace SexyBackPlayScene
         double ActionTime;
         double AttackSpeed;
 
-        int DashRate = 25;
-        int SwingRate = 25; // 1.25초 0.15초히어로 공격을 여러번 할수있다.
-        int BackRate = 50;
+        int DashRate = 15;
+        int SwingRate = 20; // 1.25초 0.15초히어로 공격을 여러번 할수있다.
+        int BackRate = 25;
 
         double DashTime { get { return ActionTime * DashRate / 100; } }
         double SwingTime { get { return ActionTime * SwingRate / 100; } }

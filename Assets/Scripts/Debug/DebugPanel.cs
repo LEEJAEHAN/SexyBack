@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
+
     internal class TestRate
     {
         internal int density = 10;
@@ -22,6 +23,20 @@ namespace SexyBackPlayScene
     }
     public class DebugPanel : MonoBehaviour
     {
+        private static DebugPanel instance;
+        public static DebugPanel getInstance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = GameObject.Find("DebugPanel").AddComponent<DebugPanel>();
+
+                return instance;
+            }
+        }
+
+        public string debugText = "";
+
         Vector3 mouseinputpoint;
         Ray ray;
         RaycastHit hit;
@@ -74,6 +89,9 @@ namespace SexyBackPlayScene
         }
         void Update()
         {
+            ViewLoader.label_debug.GetComponent<UILabel>().text = debugText;
+            debugText = "";
+
             //sexybacklog.InGame(Singleton<MonsterManager>.getInstance().GetMonster().HP.ToString());
 
             //Vector3 WallMoveVector = GameSetting.defaultHeroPosition - GameSetting.ECamPosition;
@@ -186,6 +204,11 @@ namespace SexyBackPlayScene
                     result += one.density;
             }
             return result;
+        }
+
+        internal void Append(string v)
+        {
+            debugText += v;
         }
     }
 

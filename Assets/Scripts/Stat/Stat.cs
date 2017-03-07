@@ -21,6 +21,7 @@
     }
     internal class HeroStat
     {
+        internal int Level;
         internal BigInteger DpcX; // 곱계수는 X를붙인다.
         internal int AttackCount; // 보너스 공격스택횟수  6
         internal int DpcIncreaseXH; // 
@@ -31,11 +32,12 @@
 
         internal HeroStat()
         {
+            Level = 1;
             DpcX = 1;
-            AttackCount = 10;
+            AttackCount = 1;
             DpcIncreaseXH = 100; // 
             AttackSpeedXH = 100;
-            MovespeedXH = 1000;
+            MovespeedXH = 100;
             CriticalRateXH = 10;
             CriticalDamageXH = 200;
             AttackSpeedXH = 100;

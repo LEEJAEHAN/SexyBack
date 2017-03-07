@@ -10,8 +10,7 @@ namespace SexyBackPlayScene
 
         internal override void Begin()
         {
-            Singleton<InfoPanel>.getInstance().SetPauseButton(owner.Selected, true, "Play");
-            Singleton<InfoPanel>.getInstance().SetConfirmButton(owner.Selected, false);
+            owner.Panel.SetButton2(owner.Selected, true, "재개");
             Refresh();
         }
 
@@ -35,8 +34,7 @@ namespace SexyBackPlayScene
             if (!owner.Selected)
                 return;
             owner.FillInfoView(false);
-            Singleton<InfoPanel>.getInstance().SetConfirmButton(owner.Selected, false);
-            Singleton<InfoPanel>.getInstance().SetPauseButton(owner.Selected, true, "Work");
+            owner.Panel.SetButton2(owner.Selected, true, "재개");
         }
     }
 }

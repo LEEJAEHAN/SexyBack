@@ -18,8 +18,8 @@ namespace SexyBackPlayScene
             GrowthRate = 1.148698f;
             AttackInterval = 5;
             MoveSpeed = 2f;
-            BaseExp = new BigInteger(100);
-            BaseDpc = new BigInteger(10);
+            BaseExp = new BigInteger(99);
+            BaseDpc = new BigInteger(15);
         }
     }
 }

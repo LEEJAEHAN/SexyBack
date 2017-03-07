@@ -16,12 +16,14 @@ namespace SexyBackPlayScene
 
         internal override void Begin()
         {
+            owner.itemView.SetActive(true);
+            owner.Panel.SetButton2(owner.Selected, false, "");
+
             manager.DrawNewMark();
             Instantbuy = false;
             manager.Action_ThreadChange += this.onThreadEmpty;
             onThreadEmpty(manager.CanUseThread);
             player.Action_ExpChange += this.onExpChange;
-            Singleton<InfoPanel>.getInstance().SetPauseButton(owner.Selected, false, "");
         }
         internal void onThreadEmpty(bool value)
         {
@@ -63,7 +65,7 @@ namespace SexyBackPlayScene
                 return;
 
             owner.FillInfoView(Instantbuy);
-            Singleton<InfoPanel>.getInstance().SetConfirmButton(owner.Selected, CanBuy && ThreadEmpty);
+            owner.Panel.SetButton1(owner.Selected, CanBuy && ThreadEmpty, true);
         }
 
         private void InstantModeCheck()
@@ -87,10 +89,10 @@ namespace SexyBackPlayScene
             }
             if (owner.Purchase)
             {
-                Singleton<InfoPanel>.getInstance().SetConfirmButton(owner.Selected, false);
+                owner.Panel.SetButton1(owner.Selected, false, false);
                 if (Instantbuy)
                 {
-                    if(player.ExpUse(owner.StartPrice))
+                    if(player.ExpUse(owner.StartPrice,false))
                     {
                         owner.DoUpgrade();
                         stateMachine.ChangeState("Destroy");
@@ -100,7 +102,7 @@ namespace SexyBackPlayScene
                 }
                 else
                 {
-                    if (player.ExpUse(owner.StartPrice))
+                    if (player.ExpUse(owner.StartPrice,false))
                     {
                         owner.RemainTime = owner.ReducedTime;
                         manager.UseThread(true);

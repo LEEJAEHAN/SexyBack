@@ -6,13 +6,10 @@ namespace SexyBackPlayScene
 {
     internal class TableLoader
     {
-        public List<MonsterData> monstertablelist = new List<MonsterData>();
-
         public HeroData herotable;
         public Dictionary<string, MonsterData> monstertable = new Dictionary<string, MonsterData>();
         public Dictionary<string, ElementalData> elementaltable = new Dictionary<string, ElementalData>();
         public Dictionary<string, LevelUpData> leveluptable = new Dictionary<string, LevelUpData>();
-
         public Dictionary<string, List<Bonus>> bonuses = new Dictionary<string, List<Bonus>>();
         public List<ResearchData> researchtable = new List<ResearchData>();
         public List<TalentData> talenttable= new List<TalentData>();
@@ -20,7 +17,7 @@ namespace SexyBackPlayScene
 
         public Dictionary<string, GameModeData> gamemodetable = new Dictionary<string, GameModeData>();
 
-        internal void LoadAll()
+        internal void Init()
         {
             LoadHeroData();
             LoadMonsterData();
@@ -190,7 +187,7 @@ namespace SexyBackPlayScene
                     subicon = infonode.Attributes["subicon"].Value;
                 string name = infonode.Attributes["name"].Value;
                 string description = infonode.Attributes["description"].Value;
-
+                
                 XmlNode pricenode = node.SelectSingleNode("Price");
                 int level = int.Parse(pricenode.Attributes["level"].Value);
                 int baselevel = int.Parse(pricenode.Attributes["baselevel"].Value);

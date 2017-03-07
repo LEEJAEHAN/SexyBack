@@ -3,55 +3,45 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    internal class LevelUp : IHasGridItem
+    abstract internal class LevelUp : IHasGridItem
     // 레벨업을 하기 위해 구매해야하는 객체, canlevelup 이만들어지면 기생으로 붙는다. 저장된 게임 능력치와는 관계없다
     {
-        protected GridItem itemView;
+        internal string ID;// 해당객체view의 name
         internal GridItemIcon Icon;
+        protected GridItem itemView;
+        LevelUpWindow Panel;
 
-        InfoPanel infoPanel;
-        WeakReference owner;
-        // 돈관련, protected
-        BigInteger originalPrice = new BigInteger(0); // original price
-        int priceXH; // original price
+        protected BigInteger PRICE;
+        protected BigInteger originalPrice = new BigInteger(0); // original price
+        int priceXH; // stat
 
-        BigInteger PRICE;
-        int PurchaseCount = 0; // 구매횟수 == level;
-
-        internal string ID;// 해당객체view의 name과같다 // id로 이름을바꿔야할듯
-        internal string OwnerID;
-        internal string Info_Name;
-
-        internal string Info_Text; // 아이템버튼 인포창 텍스트
-        internal string Price_Text; // 아이템버튼 인포창 텍스트최하단
+        protected int PurchaseCount = 0; // 구매횟수 == level;
 
         internal bool CanBuy = false;
         public bool Selected = false;
         bool Learn = false;
-        
-        public LevelUp(LevelUpData data, ICanLevelUp root)
-        {
-            owner = new WeakReference(root);
-            root.Action_LevelUpInfoChange += onLevelChange;
 
+        protected string OwnerID;
+        protected string OwnerName;
+ 
+        protected string Name;
+        protected string StatName; // 아이템버튼 인포창 텍스트
+        protected string StatValue; // 아이템버튼 인포창 텍스트최하단
+        protected string PriceName; // 아이템버튼 인포창 텍스트최하단
+        protected string PriceValue; // 아이템버튼 인포창 텍스트최하단
+        protected string Damage; // 아이템버튼 인포창 텍스트최하단
+
+        public LevelUp(LevelUpData data)
+        {
             ID = data.ID;
             OwnerID = data.OwnerID;
+            OwnerName = data.OwnerName;
             Icon = new GridItemIcon(data.IconName, null);
-            Info_Name = data.InfoName;
 
             Singleton<StatManager>.getInstance().Action_ExpChange += onExpChange;
             itemView = new GridItem("LevelUp", ID, Icon, ViewLoader.Tab1Container);
             itemView.AttachEventListner(this);
-            infoPanel = Singleton<InfoPanel>.getInstance();
-        }
-
-        internal void Update()
-        {
-            for (int i = 0; i < PurchaseCount; PurchaseCount--)
-            {
-                if (Singleton<StatManager>.getInstance().ExpUse(PRICE))
-                    (owner.Target as ICanLevelUp).LevelUp(1);
-            }
+            Panel = LevelUpWindow.getInstance;
         }
 
         internal void Purchase()
@@ -71,56 +61,40 @@ namespace SexyBackPlayScene
             if (id == null)
             {
                 Selected = false;
-                infoPanel.Hide();
+                Panel.Action_Confirm -= this.onConfirm;
+                Panel.Hide();
                 return;
             }
 
             Selected = true;
+            Panel.Action_Confirm += this.onConfirm;
             Refresh();
         }
 
-        public void onConfirm(string id)
+        public void onConfirm()
         {   // 중복입력 막는다.
             if(PurchaseCount == 0)
                 Purchase();
         }
 
-        public void onPause(string id)
-        {
-        }
-
         internal void SetStat(PlayerStat stat)
         {
             priceXH = stat.LevelUpPriceXH;
-            onPriceChange();
+            CalPrice();
             Refresh();
         }
-        void onPriceChange()
+        protected void CalPrice()
         {
             PRICE = originalPrice * priceXH / 100;
-            Price_Text = "비용 : " + PRICE.To5String() + " ";
             CanBuy = Singleton<StatManager>.getInstance().EXP > PRICE;
-        }
-        internal void onLevelChange(ICanLevelUp sender)
-        {
-            string Button_Text = sender.LEVEL.ToString();
-            itemView.FillItemContents(Button_Text);
-
-            Info_Text = Info_Name + " LV " + sender.LEVEL + "\n";
-            Info_Text += "데미지 : " + sender.LevelUpDamageText + "\n";
-            Info_Text += "다음레벨 : +" + sender.LevelUpNextText + "\n";
-
-            originalPrice = sender.LevelUpPrice;
-            onPriceChange();
-            Refresh();
         }
 
         public void Refresh()
         {
             if (CanBuy)
-                infoPanel.SetConfirmButton(Selected, true);
+                Panel.SetButton1(Selected, true);
             else
-                infoPanel.SetConfirmButton(Selected, false);
+                Panel.SetButton1(Selected, false);
 
             if (CanBuy)
                 itemView.Enable();
@@ -132,11 +106,12 @@ namespace SexyBackPlayScene
                 itemView.SetActive(true);
                 Learn = true;
             }
-
-            infoPanel.Show(Selected, Icon, Info_Text + Price_Text);
+            
+            Panel.Show(Selected, Icon, Name, StatName, StatValue, PriceName, PriceValue, Damage);
         }
         // function
 
+        public abstract void Update();
     }
 
 }

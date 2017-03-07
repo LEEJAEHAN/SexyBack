@@ -22,7 +22,7 @@ namespace SexyBackPlayScene
             gameSetting.Init();
 
             tableLoader = Singleton<TableLoader>.getInstance();
-            tableLoader.LoadAll();
+            tableLoader.Init();
 
             gameInput = Singleton<GameInput>.getInstance();
 

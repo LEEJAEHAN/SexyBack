@@ -12,8 +12,6 @@ namespace SexyBackPlayScene
         {
             switch (stateid)
             {
-                case "None":
-                    return new ResearchStateNone(owner, this);
                 case "Ready":
                     return new ResearchStateReady(owner, this);
                 case "Work":

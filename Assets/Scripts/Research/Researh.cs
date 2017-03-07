@@ -6,24 +6,25 @@ namespace SexyBackPlayScene
 {
     internal class Research : IDisposable, IHasGridItem, IStateOwner
     {
-        public WeakReference owner;
+        //public WeakReference owner;
         string ID;
 
         public GridItem itemView;
         GridItemIcon icon;
-        string InfoName;
+        public ResearchWindow Panel = ResearchWindow.getInstance;
+
+        string Name;
         string Description;
-        string ViewText;
         public int RequireLevel;
 
         // 오리지널 값.
         public BigInteger researchprice = new BigInteger(1);
-        public BigInteger startprice= new BigInteger(1);
+        public BigInteger startprice = new BigInteger(1);
 
         // stat에 의해 계산되는값.
         public BigInteger ResearchPrice;
         public BigInteger StartPrice;
-        public BigInteger PricePerSec; 
+        public BigInteger PricePerSec;
         public readonly double ResearchTime;
         public double ReducedTime;
 
@@ -44,12 +45,12 @@ namespace SexyBackPlayScene
         public delegate void InstantFinish_Event();
         public event InstantFinish_Event Action_InstantFinish = delegate { };
 
-        public Research(ResearchData data, ICanLevelUp root, GridItem itemview, double time, BigInteger totalprice, double tick)
+        public Research(ResearchData data, GridItem itemview, double time, BigInteger totalprice, double tick)
         {
             ID = data.ID;
             bonuses = data.bonuses;
             RequireLevel = data.requeireLevel;
-            InfoName = data.InfoName;
+            Name = data.InfoName;
             Description = data.InfoDescription;
             SortOrder = data.level + data.baselevel;
 
@@ -65,7 +66,6 @@ namespace SexyBackPlayScene
             itemview.AttachEventListner(this);
 
             StateMachine = new ResearchStateMachine(this);
-            owner = new WeakReference(root);
         }
         public void Dispose()
         {
@@ -73,7 +73,7 @@ namespace SexyBackPlayScene
             StateMachine = null;
         }
 
-        //~Research() { sexybacklog.Console("리서치소멸"); }
+        ~Research() { sexybacklog.Console("리서치소멸"); }
 
         public void Update()
         {   // state machine
@@ -89,15 +89,21 @@ namespace SexyBackPlayScene
         {
             if (id == null)
             {
-                InfoPanel panel = Singleton<InfoPanel>.getInstance();
-                panel.SetPauseButton(Selected, false, "");
-                panel.SetConfirmButton(Selected, true);
-                panel.Hide();
+                Panel.SetButton2(Selected, false, "");
+                Panel.SetButton1(Selected, true, true);
+
+                Panel.Action_Confirm -= this.onConfirm;
+                Panel.Action_Pause -= this.onPause;
+
+                Panel.Hide();
+
                 Selected = false;
                 return;
             }
 
             Selected = true;
+            Panel.Action_Confirm += this.onConfirm;
+            Panel.Action_Pause += this.onPause;
             Refresh();
         }
 
@@ -106,18 +112,33 @@ namespace SexyBackPlayScene
             if (!Selected)
                 return;
 
-            InfoPanel panel = Singleton<InfoPanel>.getInstance();
-            ViewText = MakeDescriptionText(InstanceBuy);
-            panel.Show(Selected, icon, ViewText);
+            string pricename = "";
+            string pricevalue = "";
+
+            if (!InstanceBuy)
+            {
+                pricename = "비용\n\n시간";
+                pricevalue = startprice.To5String() + " 경험치\n" + ((int)ReducedTime).ToString() + " 경험치 / 초\n" +  PricePerSec.To5String() + " 초";
+            }
+            else
+            {
+                pricename = "비용";
+                pricevalue = startprice.To5String() + " 경험치";
+            }
+
+            Panel.Show(Selected, icon, Name, Description, pricename, pricevalue);
         }
 
-        public void onConfirm(string id)
+        public void onConfirm()
         {
-            Purchase = true;
-            Singleton<InfoPanel>.getInstance().SetConfirmButton(Selected, false); // 중복입력 막는다.
+            if (CurrentState == "Ready")
+            {
+                Purchase = true;
+                Panel.SetButton1(Selected, false, false); // 중복입력 막는다.
+            }
         }
 
-        public void onPause(string id)
+        public void onPause()
         {
             if (CurrentState == "Pause")
                 StateMachine.ChangeState("Work");
@@ -128,7 +149,7 @@ namespace SexyBackPlayScene
         internal void SetStat(PlayerStat stat)
         {
             double PrevTime = ReducedTime;
-            ReducedTime = ResearchTime / stat.ResearchTimeX- stat.ResearchTime;
+            ReducedTime = ResearchTime / stat.ResearchTimeX - stat.ResearchTime;
             ResearchPrice = researchprice * stat.ResearchPriceXH / 100;
             StartPrice = startprice * stat.ResearchPriceXH / 100;
 
@@ -145,26 +166,11 @@ namespace SexyBackPlayScene
             Refresh();
         }
 
-        // function
-        private string MakeDescriptionText(bool InstanceBuy)
-        {
-            string temp = "";
-            temp += InfoName + "\n";
-            temp += Description + "\n";
-            temp += "비용 : " + StartPrice.To5String() + "\n";
 
-            if (!InstanceBuy)
-            {
-                temp += "연구시간 : " + ((int)ReducedTime).ToString() + " Sec\n";
-                temp += "연구비용 : " + PricePerSec.To5String() + " /Sec";
-            }
-
-            return temp;
-        }
 
         internal void Finish()
         {
-            if(CurrentState == "Work")
+            if (CurrentState == "Work")
                 Action_InstantFinish();
         }
 

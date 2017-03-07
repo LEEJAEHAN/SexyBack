@@ -23,8 +23,8 @@ namespace SexyBackPlayScene
 
         public void Init()
         {
-            Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
-            Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += onElementalCreate;
+            Singleton<HeroManager>.getInstance().Action_HeroLevelUp += onHeroLevelUp;
+            Singleton<ElementalManager>.getInstance().Action_ElementalLevelUp += onElementalLevelUp;
 
             ViewLoader.TabButton2.GetComponent<TabView>().Action_ShowList += onShowList;
             ViewLoader.TabButton2.GetComponent<TabView>().Action_HideList += onHideList;
@@ -34,7 +34,7 @@ namespace SexyBackPlayScene
 
         int myResearchSort(Transform a, Transform b)
         {
-            return researches[a.gameObject.name].SortOrder -  researches[b.gameObject.name].SortOrder;
+            return researches[a.gameObject.name].SortOrder - researches[b.gameObject.name].SortOrder;
         }
 
         public void DrawNewMark()
@@ -53,23 +53,25 @@ namespace SexyBackPlayScene
             ViewLoader.Tab2Container.SetActive(true);
         }
 
-        private void onHeroCreate(Hero hero)
+        private void onHeroLevelUp(Hero hero)
         {
-            CreateResearch(hero);
+            CreateResearch(hero.GetID, hero.LEVEL);
         }
 
-        private void onElementalCreate(Elemental elemental)
+        private void onElementalLevelUp(Elemental elemental)
         {
-            CreateResearch(elemental); // TODO : 바로만들지말고 업데이트에서 만들어야한다.
+            CreateResearch(elemental.GetID, elemental.LEVEL); // TODO : 바로만들지말고 업데이트에서 만들어야한다.
         }
 
-        private void CreateResearch(ICanLevelUp root)
+        private void CreateResearch(string id, int levelcondition)
         {
             foreach (ResearchData item in Singleton<TableLoader>.getInstance().researchtable)
             {
-                if (item.requireID == root.GetID)
+                if (researches.ContainsKey(item.ID))
+                    continue;
+                if (item.requireID == id && item.requeireLevel <= levelcondition)
                 {
-                    Research research = factory.CreateNewResearch(item, root);
+                    Research research = factory.CreateNewResearch(item);
                     researches.Add(item.ID, research);
                 }
             }
@@ -132,16 +134,16 @@ namespace SexyBackPlayScene
             Research Front = null;
             foreach (Research research in researches.Values)
             {
-                if(research.CurrentState == "Work")
+                if (research.CurrentState == "Work")
                 {
-                    if(research.SortOrder < min)
+                    if (research.SortOrder < min)
                     {
                         min = research.SortOrder;
                         Front = research;
                     }
                 }
             }
-            if(Front!= null)
+            if (Front != null)
                 Front.Finish();
         }
     }

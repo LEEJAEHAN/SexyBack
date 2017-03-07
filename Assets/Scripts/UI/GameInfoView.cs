@@ -77,12 +77,12 @@ namespace SexyBackPlayScene
         }
         void BindHero(Hero hero)
         {
-            hero.Action_DamageChange += PrintDpc;
+            hero.Action_Change += PrintDpc;
         }
 
         private void BindElemental(Elemental elemental)
         {
-            elemental.Action_DamageChange += PrintDps;
+            elemental.Action_Change += PrintDps;
         }
 
         internal void PrintStage(int currentFloor)

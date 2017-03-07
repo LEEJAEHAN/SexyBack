@@ -5,13 +5,13 @@
         public string ID;
         public string OwnerID; // == levelup item 의 id
         public string IconName;
-        public string InfoName;
+        public string OwnerName;
 
         public LevelUpData(string id, string ownerID, string infoName, string iconName)
         {
             ID = id;
             OwnerID = ownerID;
-            InfoName = infoName;
+            OwnerName = infoName;
             IconName = iconName;
         }
     }

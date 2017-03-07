@@ -38,7 +38,7 @@ namespace SexyBackPlayScene
             Rate = data.rate;
             AbsRate = data.absrate;
         }
-        ~Talent() { sexybacklog.Console("특성소멸"); }
+        Talent() { sexybacklog.Console("특성소멸"); }
 
         internal void SetFloor(int floor)
         {
@@ -87,8 +87,6 @@ namespace SexyBackPlayScene
         {
 
         }
-
-
         // update view state
     }
 }

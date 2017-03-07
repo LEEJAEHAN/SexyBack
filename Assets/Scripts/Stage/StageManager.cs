@@ -54,7 +54,8 @@ namespace SexyBackPlayScene
         public void Update()
         {
             Gametime += Time.deltaTime;
-            sexybacklog.InGame("총시간 = " + (int)Gametime + "\n빨리감기 +" + Singleton<GameInput>.getInstance().fowardtimefordebug + " 초");
+            sexybacklog.InGame("총시간 = " + (int)Gametime + " 초");
+            sexybacklog.InGame("빨리감기 +" + Singleton<GameInput>.getInstance().fowardtimefordebug + " 초");
 
             if (needNextStage)
             {

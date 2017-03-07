@@ -7,7 +7,7 @@ namespace SexyBackPlayScene
 {
     internal class ResearchFactory
     {
-        internal Research CreateNewResearch(ResearchData data, ICanLevelUp root)
+        internal Research CreateNewResearch(ResearchData data)
         {
             BigInteger totalPrice = CalPrice(data.level, data.baselevel, data.baseprice);
             double temptime = CalTime(data.level + data.baselevel, data.baseprice, data.rate, data.basetime);
@@ -22,8 +22,8 @@ namespace SexyBackPlayScene
             GridItem griditem = new GridItem("Research", data.ID, data.icon, ViewLoader.Tab2Container);
             griditem.SetActive(false);
 
-            Research newone = new Research(data, root, griditem, temptime, totalPrice, researchTick); //,StartPrice, ResearchPrice, PricePerSec, ResearchTime
-            newone.StateMachine.ChangeState("None");
+            Research newone = new Research(data, griditem, temptime, totalPrice, researchTick); //,StartPrice, ResearchPrice, PricePerSec, ResearchTime
+            newone.StateMachine.ChangeState("Ready");
             newone.SetStat(Singleton<StatManager>.getInstance().GetPlayerStat);
 
             return newone;

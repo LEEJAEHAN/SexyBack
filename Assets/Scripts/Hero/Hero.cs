@@ -4,7 +4,7 @@ using UnityEngine;
 namespace SexyBackPlayScene
 {
 
-    internal class Hero : IStateOwner, ICanLevelUp
+    internal class Hero : IStateOwner
     {
         readonly string ID;
         public readonly string Name;
@@ -22,16 +22,21 @@ namespace SexyBackPlayScene
         // 데미지변수
         int level = 0;
         BigInteger dpcX = new BigInteger();
-        int dpcIncreaseXH;
+        public int DpcIncreaseXH;
 
         // 기타변수
+        public int LEVEL { get { return level; } }
+        public BigInteger LevelUpPrice { get { return BigInteger.PowerByGrowth(BaseExp, level, GrowthRate); } }
+
         public BigInteger DPC = new BigInteger();
+        public BigInteger DPCTick = new BigInteger();
+        
         public int MAXATTACKCOUNT;
         public double ATTACKINTERVAL;
-        public double CRIRATE;
-        public int CRIDAMAGEXH;
         public double MOVESPEED;
         public double ATTACKSPEED; // for view action, state
+        public double CRIRATE;
+        public int CRIDAMAGEXH;
 
         // basestat
         readonly BigInteger BaseDpc;
@@ -46,20 +51,13 @@ namespace SexyBackPlayScene
         // function property
         private bool JudgeCritical { get { return CRIRATE > UnityEngine.Random.Range(0.0f, 1.0f); } }
 
-        // ICanLevelUp
-        public int LEVEL { get { return level; } }
-        public BigInteger LevelUpPrice { get { return BigInteger.PowerByGrowth(BaseExp, level, GrowthRate); } }
-        public string LevelUpDamageText { get { return DPC.To5String() + " /Tap"; } }
-        public string LevelUpNextText { get { return (BaseDpc * dpcX * dpcIncreaseXH / 100).To5String() + " /Tap"; } }
-        public event LevelUp_EventHandler Action_LevelUpInfoChange = delegate { };
-
-        public delegate void HeroChange_EventHandler(Hero hero);
-        public event HeroChange_EventHandler Action_DamageChange = delegate { };
+        public delegate void HeroChange_Event(Hero hero);
+        public event HeroChange_Event Action_Change = delegate { };
 
         public delegate void DistanceChange_Event(double distance);
         public event DistanceChange_Event Action_DistanceChange = delegate { };
 
-        public Hero(HeroData data, HeroStat stat)
+        public Hero(HeroData data)
         {
             ID = data.ID;
             Name = data.Name;
@@ -69,8 +67,6 @@ namespace SexyBackPlayScene
             AttackInterval = data.AttackInterval;
             MoveSpeed = data.MoveSpeed;
 
-            SetStat(stat);
-
             avatar = ViewLoader.HeroPanel; // 동적으로 생성하지않는다.
             Animator = ViewLoader.hero_sprite.GetComponent<Animator>();
             AttackManager = new HeroAttackManager(this);
@@ -78,25 +74,19 @@ namespace SexyBackPlayScene
         }
         void CalDpc()
         {
-            DPC = level * BaseDpc * dpcX * dpcIncreaseXH / 100;
-            Action_LevelUpInfoChange(this);
-            Action_DamageChange(this);
+            DPCTick = BaseDpc * dpcX * DpcIncreaseXH / 100;
+            DPC = level * BaseDpc * dpcX * DpcIncreaseXH / 100;
         }
         public void LevelUp(int amount)
         {
             level += amount;
             CalDpc();
+            Action_Change(this);
         }
-        internal void SetDamageStat(HeroStat herostat)
+        internal void SetStat(HeroStat herostat, bool CalDamage)
         {
             dpcX = herostat.DpcX;
-            dpcIncreaseXH = herostat.DpcIncreaseXH;
-            CalDpc();
-        }
-        internal void SetStat(HeroStat herostat)
-        {
-            dpcX = herostat.DpcX;
-            dpcIncreaseXH = herostat.DpcIncreaseXH;
+            DpcIncreaseXH = herostat.DpcIncreaseXH;
             ATTACKINTERVAL = AttackInterval * 100 / herostat.AttackSpeedXH;
             MOVESPEED = MoveSpeed * herostat.MovespeedXH / 100;
             MAXATTACKCOUNT = herostat.AttackCount;
@@ -104,6 +94,9 @@ namespace SexyBackPlayScene
             CRIRATE = (double)herostat.CriticalRateXH / 100;
             CRIDAMAGEXH = herostat.CriticalDamageXH;
             //send event
+            if(CalDamage)
+                CalDpc();
+            Action_Change(this);
         }
 
         internal void Move(Vector3 step)

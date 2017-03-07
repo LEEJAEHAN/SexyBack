@@ -39,27 +39,29 @@ namespace SexyBackPlayScene
             ViewLoader.Tab1Container.GetComponent<UIGrid>().Reposition();
         }
 
-        void onHeroCreate(Hero sender) // create and bind heroitem
+        void onHeroCreate(Hero hero) // create and bind heroitem
         {
-            CreateLevelUp(sender);
-        }
+            if (Singleton<TableLoader>.getInstance().leveluptable.ContainsKey(hero.GetID) == false)
+                return;
 
-        void onElementalCreate(Elemental sender) // create and bind element item
-        {
-            CreateLevelUp(sender);
-        }
-
-        LevelUp CreateLevelUp(ICanLevelUp root)
-        {
-            if (Singleton<TableLoader>.getInstance().leveluptable.ContainsKey(root.GetID) == false)
-                return null;
-
-            LevelUp levelup = new LevelUp(Singleton<TableLoader>.getInstance().leveluptable[root.GetID], root);
+            LevelUp levelup = new HeroLevelUp(Singleton<TableLoader>.getInstance().leveluptable[hero.GetID], hero);
             levelup.SetStat(Singleton<StatManager>.getInstance().GetPlayerStat);
-            levelUpItems.Add(root.GetID, levelup);
+            levelUpItems.Add(hero.GetID, levelup);
             DrawNewMark();
-            return levelup;
         }
+
+        void onElementalCreate(Elemental elemental) // create and bind element item
+        {
+            if (Singleton<TableLoader>.getInstance().leveluptable.ContainsKey(elemental.GetID) == false)
+                return;
+
+            LevelUp levelup = new ElementalLevelUp(Singleton<TableLoader>.getInstance().leveluptable[elemental.GetID], elemental);
+            levelup.SetStat(Singleton<StatManager>.getInstance().GetPlayerStat);
+            levelUpItems.Add(elemental.GetID, levelup);
+            DrawNewMark();
+            return;
+        }
+
 
         ///  for test
         internal void BuySelected()

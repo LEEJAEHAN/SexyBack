@@ -51,7 +51,7 @@ namespace SexyBackPlayScene
         {
             HP -= damage;
             Singleton<StatManager>.getInstance().ExpGain(damage);
-            sexybacklog.Console(damage);
+            //sexybacklog.Console(damage);
             //particle
             EffectController.getInstance.PlayParticle(hitPosition);
             //damagefont
@@ -90,6 +90,6 @@ namespace SexyBackPlayScene
             isActive = false;
         }
 
-        //~Monster() { sexybacklog.Console("몬스터소멸!"); }
+        ~Monster() { sexybacklog.Console("몬스터소멸!"); }
     }
 }

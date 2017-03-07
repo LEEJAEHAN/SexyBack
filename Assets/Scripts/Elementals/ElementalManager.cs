@@ -11,6 +11,10 @@ namespace SexyBackPlayScene
         public delegate void ElementalCreateEvent_Handler(Elemental sender);
         public event ElementalCreateEvent_Handler Action_ElementalCreateEvent;// = delegate (object sender) { };
 
+        public delegate void ElementalLevelUp_Event(Elemental elemental);
+        public event ElementalLevelUp_Event Action_ElementalLevelUp;
+
+
         internal void Init()
         {
             // this class is event listner
@@ -19,11 +23,18 @@ namespace SexyBackPlayScene
         {
             ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
             ElementalStat stat = Singleton<StatManager>.getInstance().GetElementalStat(id);
-            Elemental newElemental = new Elemental(data, stat, ViewLoader.area_elemental.transform);
+            Elemental newElemental = new Elemental(data, ViewLoader.area_elemental.transform);
             Action_ElementalCreateEvent(newElemental);
             elementals.Add(newElemental.GetID, newElemental);
-            newElemental.LevelUp(1);
+            LevelUp(id, 1);
+            newElemental.SetStat(stat, true);
             return true;
+        }
+
+        internal void LevelUp(string id, int amount)
+        {
+            elementals[id].LevelUp(amount);
+            Action_ElementalLevelUp(elementals[id]);
         }
 
         internal void LearnNewElemental(string id)
@@ -77,15 +88,15 @@ namespace SexyBackPlayScene
             return elementals[ElementalID];
         }
 
-        internal void SetStat(ElementalStat stat, string ElementalID)
+        internal void SetStat(ElementalStat stat, string ElementalID, bool CalDps)
         {
             if (elementals.ContainsKey(ElementalID))
-                elementals[ElementalID].SetStat(stat);
+                elementals[ElementalID].SetStat(stat, CalDps);
         }
-        internal void SetStatAll(Dictionary<string, ElementalStat> statList)
+        internal void SetStatAll(Dictionary<string, ElementalStat> statList, bool CalDps)
         {
             foreach (string id in elementals.Keys)
-                elementals[id].SetStat(statList[id]);
+                elementals[id].SetStat(statList[id], CalDps);
         }
     }
 }

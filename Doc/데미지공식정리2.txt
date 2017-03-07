@@ -1,0 +1,63 @@
+지금 문제는
+
+공격이 element의 전체비중과 같다는 것이다.
+
+
+즉
+element1개와
+hero공격은 동등하지가 않다.
+
+그렇기때문에
+
+같이 공속 10%를 올리는것같은건 hero에게만 유리하다.
+
+
+
+만약 hero공속10%올리면
+전체element공속10%올라가야한다.
+
+그럼 element 1개일시
+hero공속10% = 개별element공속10%
+그럼 element 2개일시
+hero공속10% = 개별element공속20%
+
+이런식의 피곤한 문제가 발생하게 된다.
+
+그렇기때문에 hero공속을 올리지말자.
+
+
+hero 크리, hero 크리뎀 증가 = 개별 hero의 비중 증가.
+개별 element속도 증가 = 개별 element의 비중증가.
+
+
+전체 element속도 증가와 hero공속 증가.
+
+
+
+크리티컬쪽을 올리는행위 = 비중을 증가시키는 행위기 때문에 괜찮다.
+
+
+element와 
+hero  공속을 올리는행위 = 
+
+
+
+
+
+
+
+개별element의 증뎀이나 공속을올리면,
+아웃게임에서 dpsx가 아닌
+increase 로 증가하는 능력을 넣게된다면
+talent가 점감마이너스효과를받게된다.
+
+지금도, talent elementtype = 증뎀
+전체 공속 = 공속
+나머지 개별attr = 증뎀으로, 증뎀이 점감효과를 조금 받는다.
+
+element의 경우
+지금은 DpsIncreaseXH 20 %르 해놨찌만
+이에 준하는 특수능력 확률업그레이드로 변경해도된다.
+20인 이유는 hero글로벌데미지증가율6% * 3.3(  개별element 1 : hero 3.3 이기때문 )
+
+maxlevelper 10 이 아니라 20으로 하는중	
