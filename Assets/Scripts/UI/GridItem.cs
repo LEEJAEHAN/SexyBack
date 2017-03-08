@@ -19,7 +19,7 @@ namespace SexyBackPlayScene
 
         bool isEnable = true;
 
-        ~GridItem() { sexybacklog.Console("그리드아이템소멸"); }
+        ~GridItem() { sexybacklog.Console("아이템소멸"); }
         public GridItem(string type, string id, GridItemIcon icon, GameObject parent)
         {
             GameObject prefab;
@@ -36,7 +36,7 @@ namespace SexyBackPlayScene
 
             // set icon
             GameObject iconObject = avatar.transform.FindChild("Icon").gameObject;
-            icon.Draw(iconObject);
+            GridItemIcon.Draw(icon, iconObject);
 
             // set event
             eventScript = avatar.GetComponent<GridItemView>();

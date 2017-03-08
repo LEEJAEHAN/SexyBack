@@ -3,31 +3,31 @@
 	<Research id="R01" requireid="hero" requirelevel="0">
 		<Info icon="Icon_01" name="화염구 습득" description="화염구를 배웁니다."/>
 		<Price level="0" baselevel="0" baseprice="990"/>
-		<PriceOverTime rate="80" basetime="60"/>
+		<PriceOverTime rate="80" basetime="90"/>
 		<BonusList groupid="BR01"/>
 	</Research>
 	<Research id="R02" requireid="fireball" requirelevel="0">
 		<Info icon="Icon_09" name="물폭탄 습득" description="물폭탄을 배웁니다."/>
 		<Price level="0" baselevel="10" baseprice="1290"/>
-		<PriceOverTime rate="80" basetime="60"/>
+		<PriceOverTime rate="80" basetime="90"/>
 		<BonusList groupid="BR02"/>
 	</Research>
 	<Research id="R03" requireid="waterball" requirelevel="0">
 		<Info icon="Icon_07" name="짱돌 습득" description="짱돌을 배웁니다."/>
 		<Price level="0" baselevel="35" baseprice="1613"/>
-		<PriceOverTime rate="80" basetime="60"/>
+		<PriceOverTime rate="80" basetime="90"/>
 		<BonusList groupid="BR03"/>
 	</Research>
 	<Research id="R04" requireid="rock" requirelevel="0">
 		<Info icon="Icon_04" name="지지직 습득" description="지지직을 배웁니다."/>
 		<Price level="0" baselevel="60" baseprice="1965"/>
-		<PriceOverTime rate="80" basetime="60"/>
+		<PriceOverTime rate="80" basetime="90"/>
 		<BonusList groupid="BR04"/>
 	</Research>
 	<Research id="R05" requireid="electricball" requirelevel="0">
 		<Info icon="Icon_08" name="눈덩이 습득" description="눈덩이를 배웁니다."/>
 		<Price level="0" baselevel="90" baseprice="2355"/>
-		<PriceOverTime rate="80" basetime="60"/>
+		<PriceOverTime rate="80" basetime="90"/>
 		<BonusList groupid="BR05"/>
 	</Research>
 	<Research id="R00_001" requireid="hero" requirelevel="10">

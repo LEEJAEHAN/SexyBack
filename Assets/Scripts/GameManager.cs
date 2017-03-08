@@ -53,10 +53,6 @@ namespace SexyBackPlayScene
         {
             heroManager.CreateHero(); // and hero is move
             stageManager.Start();
-
-            elementalManager.LearnNewElemental("fireball");
-
-            //Singleton<Player>.getInstance().ExpGain(new BigInteger(new BigIntExpression(150, "m")));
             //elementalmanager.LearnNewElemental("magmaball");
             //elementalmanager.LearnNewElemental("fireball");
             //elementalmanager.LearnNewElemental("waterball");

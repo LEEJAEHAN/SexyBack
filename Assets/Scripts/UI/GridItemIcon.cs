@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    public class GridItemIcon
+    public struct GridItemIcon : IDisposable
     {
         public string IconName;
         public string SubIconName;
@@ -26,31 +26,37 @@ namespace SexyBackPlayScene
 
             SubIconText = subicon.Replace("-", "");
         }
-
-        internal void Draw(GameObject gameObject)
+        public void Dispose()
         {
-            gameObject.GetComponent<UISprite>().atlas = Resources.Load("Atlas/IconImage", typeof(UIAtlas)) as UIAtlas;
-            gameObject.GetComponent<UISprite>().spriteName = IconName;
+            IconName = null;
+            SubIconName = null;
+            SubIconText = null;
+        }
 
-            if (gameObject.transform.childCount == 0)
+        internal static void Draw(GridItemIcon icondata, GameObject iconGameObject)
+        {
+            iconGameObject.GetComponent<UISprite>().atlas = Resources.Load("Atlas/IconImage", typeof(UIAtlas)) as UIAtlas;
+            iconGameObject.GetComponent<UISprite>().spriteName = icondata.IconName;
+
+            if (iconGameObject.transform.childCount == 0)
                 return;
 
-            GameObject subiconObject = gameObject.transform.FindChild("SubIcon").gameObject;
-            if (SubIconName == null)
+            GameObject subiconObject = iconGameObject.transform.FindChild("SubIcon").gameObject;
+            if (icondata.SubIconName == null)
                 subiconObject.SetActive(false);
             else
             {
                 subiconObject.SetActive(true);
                 subiconObject.GetComponent<UISprite>().atlas = Resources.Load("Atlas/IconSmall", typeof(UIAtlas)) as UIAtlas;
-                subiconObject.GetComponent<UISprite>().spriteName = SubIconName;
+                subiconObject.GetComponent<UISprite>().spriteName = icondata.SubIconName;
             }
-            GameObject sublabelObject = gameObject.transform.FindChild("SubLabel").gameObject;
-            if (SubIconText == null)
+            GameObject sublabelObject = iconGameObject.transform.FindChild("SubLabel").gameObject;
+            if (icondata.SubIconText == null)
                 sublabelObject.SetActive(false);
             else
             {
                 sublabelObject.SetActive(true);
-                sublabelObject.GetComponent<UILabel>().text = SubIconText;
+                sublabelObject.GetComponent<UILabel>().text = icondata.SubIconText;
             }
         }
     }

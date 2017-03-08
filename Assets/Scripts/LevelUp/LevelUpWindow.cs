@@ -63,7 +63,7 @@ namespace SexyBackPlayScene
             if (!selected)
                 return;
             gameObject.SetActive(true);
-            Icon.Draw(this.Icon);
+            GridItemIcon.Draw(Icon, this.Icon);
 
             Name.text = name;
             StatName.text = statname;

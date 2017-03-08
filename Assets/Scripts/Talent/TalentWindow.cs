@@ -69,19 +69,19 @@ namespace SexyBackPlayScene
             {
                 GameObject talentAView = ViewLoader.InstantiatePrefab(TalentA_Slot, "TalentA", "Prefabs/UI/TalentView");
                 talentAView.transform.FindChild("Description").GetComponent<UILabel>().text = talent1.Description;
-                talent1.Icon.Draw(talentAView.transform.FindChild("Icon").gameObject);
+                GridItemIcon.Draw(talent1.Icon, talentAView.transform.FindChild("Icon").gameObject);
             }
             if(talent2 != null)
             {
                 GameObject talentEView = ViewLoader.InstantiatePrefab(TalentE_Slot, "TalentE", "Prefabs/UI/TalentView");
                 talentEView.transform.FindChild("Description").GetComponent<UILabel>().text = talent2.Description;
-                talent2.Icon.Draw(talentEView.transform.FindChild("Icon").gameObject);
+                GridItemIcon.Draw(talent2.Icon, talentEView.transform.FindChild("Icon").gameObject);
             }
             if(talent3 != null)
             {
                 GameObject talentUView = ViewLoader.InstantiatePrefab(TalentU_Slot, "TalentU", "Prefabs/UI/TalentView");
                 talentUView.transform.FindChild("Description").GetComponent<UILabel>().text = talent3.Description;
-                talent3.Icon.Draw(talentUView.transform.FindChild("Icon").gameObject);
+                GridItemIcon.Draw(talent3.Icon, talentUView.transform.FindChild("Icon").gameObject);
             }
         }
         public void onClickA()

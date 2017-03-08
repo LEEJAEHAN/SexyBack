@@ -68,11 +68,14 @@ namespace SexyBackPlayScene
             StateMachine = new ResearchStateMachine(this);
         }
         public void Dispose()
-        {
+        { // 완전히 해제할때
             itemView.Dispose();
+            itemView = null;
             StateMachine = null;
+            Action_InstantFinish = null;
+            Panel = null;
         }
-
+        
         ~Research() { sexybacklog.Console("리서치소멸"); }
 
         public void Update()
@@ -118,12 +121,12 @@ namespace SexyBackPlayScene
             if (!InstanceBuy)
             {
                 pricename = "비용\n\n시간";
-                pricevalue = startprice.To5String() + " 경험치\n" + ((int)ReducedTime).ToString() + " 경험치 / 초\n" +  PricePerSec.To5String() + " 초";
+                pricevalue = StartPrice.To5String() + " 경험치\n" + PricePerSec.To5String() + " 경험치 / 초\n" + ((int)ReducedTime).ToString() + " 초";
             }
             else
             {
                 pricename = "비용";
-                pricevalue = startprice.To5String() + " 경험치";
+                pricevalue = StartPrice.To5String() + " 경험치";
             }
 
             Panel.Show(Selected, icon, Name, Description, pricename, pricevalue);
@@ -165,9 +168,7 @@ namespace SexyBackPlayScene
 
             Refresh();
         }
-
-
-
+        
         internal void Finish()
         {
             if (CurrentState == "Work")

@@ -52,7 +52,11 @@ namespace SexyBackPlayScene
             }
             if (Input.GetKeyDown(KeyCode.U))
             {
-                Singleton<StatManager>.getInstance().Upgrade(new Bonus("player", "ResearchTimeX", 2, ""), null);
+                Singleton<StatManager>.getInstance().Upgrade(new Bonus("player", "ResearchTimeX", 2, ""), new GridItemIcon());
+            }
+            if(Input.GetKey(KeyCode.M))
+            {
+                Singleton<StatManager>.getInstance().ExpGain(new BigInteger(new BigIntExpression(100, "m")));
             }
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {

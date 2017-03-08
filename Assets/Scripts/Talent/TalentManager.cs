@@ -138,7 +138,7 @@ namespace SexyBackPlayScene
         void UpgradeTalentBonus(TalentType type)
         {
             Bonus typebonus = null;
-            GridItemIcon typeicon = null;
+            GridItemIcon typeicon = new GridItemIcon();
             switch (type)
             {
                 case TalentType.Attack:

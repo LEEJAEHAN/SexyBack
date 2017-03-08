@@ -15,12 +15,14 @@ namespace SexyBackPlayScene
         public bool CanUseThread { get { return resarchthread < maxthread; } }
 
         BigInteger minusExp = new BigInteger(0);
+        public Dictionary<string, Research> researches = new Dictionary<string, Research>();
+        public Queue<string> idQueue = new Queue<string>();
+        public HashSet<string> FinishList = new HashSet<string>();
+
         public delegate void ResarchThreadChange_Event(bool available);
         public event ResarchThreadChange_Event Action_ThreadChange = delegate { };
-
-        public Dictionary<string, Research> researches = new Dictionary<string, Research>();
-        public List<Research> beToDispose = new List<Research>();
-
+        
+                
         public void Init()
         {
             Singleton<HeroManager>.getInstance().Action_HeroLevelUp += onHeroLevelUp;
@@ -69,6 +71,9 @@ namespace SexyBackPlayScene
             {
                 if (researches.ContainsKey(item.ID))
                     continue;
+                if (FinishList.Contains(item.ID))
+                    continue;
+
                 if (item.requireID == id && item.requeireLevel <= levelcondition)
                 {
                     Research research = factory.CreateNewResearch(item);
@@ -76,23 +81,25 @@ namespace SexyBackPlayScene
                 }
             }
         }
+
         public void Update()
         {
-            minusExp = 0;
+            for(int i = 0; i < idQueue.Count; i++)
+            {
+                string targetid = idQueue.Dequeue();
+                researches[targetid].Dispose();
+                researches.Remove(targetid);
+            }
+
             foreach (Research research in researches.Values)
             {
                 research.Update();
                 if (research.CurrentState == "Work")
                     minusExp += research.PricePerSec;
-                Singleton<GameInfoView>.getInstance().PrintMinusDps(minusExp);
             }
+            Singleton<GameInfoView>.getInstance().PrintMinusDps(minusExp);
+            minusExp = 0;
 
-            foreach (Research research in beToDispose)
-            {
-                researches.Remove(research.GetID);
-                research.Dispose();
-            }
-            beToDispose.Clear(); // TODO : 이거 찜찜함
             ViewLoader.Tab2Container.GetComponent<UIGrid>().Reposition();
         }
 
@@ -123,10 +130,6 @@ namespace SexyBackPlayScene
                 research.SetStat(researchStat);
             }
         }
-        internal void Destroy(string iD)
-        {
-            beToDispose.Add(researches[iD]);
-        }
 
         internal void FinishFrontOne()
         {
@@ -145,6 +148,12 @@ namespace SexyBackPlayScene
             }
             if (Front != null)
                 Front.Finish();
+        }
+
+        internal void Destory(string id)
+        {
+            idQueue.Enqueue(id);
+            FinishList.Add(id);
         }
     }
 }
