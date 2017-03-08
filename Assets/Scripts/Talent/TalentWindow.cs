@@ -3,10 +3,8 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    internal class TalentPanel : MonoBehaviour
+    internal class TalentWindow : MonoBehaviour
     {
-        GameObject PanelObject;
-
         UILabel TalentA_Level;
         UILabel TalentE_Level;
         UILabel TalentU_Level;
@@ -17,30 +15,32 @@ namespace SexyBackPlayScene
 
         GameObject RefreshButton;
 
-        private static TalentPanel instance;
-        public static TalentPanel getInstance
+        private static TalentWindow instance;
+        public static TalentWindow getInstance
         {
             get
             {
                 if (instance == null)
-                    instance = GameObject.Find("Talent_PopUp").AddComponent<TalentPanel>();
+                {
+                    GameObject owner = ViewLoader.InstantiatePrefab(GameObject.Find("Middle_Area").transform, "TalentWindow", "Prefabs/UI/TalentWindow");
+                    instance = owner.AddComponent<TalentWindow>();
+                }
 
                 return instance;
             }
         }
 
-        internal void Init()
+        internal void Awake()
         {
-            PanelObject = GameObject.Find("Talent_PopUp");
-            TalentA_Level = PanelObject.transform.FindChild("Container/Table/Grid/TalentA_Dialog/TalentA_Value").GetComponent<UILabel>();
-            TalentE_Level = PanelObject.transform.FindChild("Container/Table/Grid/TalentE_Dialog/TalentE_Value").GetComponent<UILabel>();
-            TalentU_Level = PanelObject.transform.FindChild("Container/Table/Grid/TalentU_Dialog/TalentU_Value").GetComponent<UILabel>();
+            TalentA_Level = gameObject.transform.FindChild("Container/Table/Grid/TalentA_Dialog/TalentA_Value").GetComponent<UILabel>();
+            TalentE_Level = gameObject.transform.FindChild("Container/Table/Grid/TalentE_Dialog/TalentE_Value").GetComponent<UILabel>();
+            TalentU_Level = gameObject.transform.FindChild("Container/Table/Grid/TalentU_Dialog/TalentU_Value").GetComponent<UILabel>();
 
-            TalentA_Slot = PanelObject.transform.FindChild("Container/Table/Grid/TalentA_Dialog/TalentA_Slot").transform;
-            TalentE_Slot = PanelObject.transform.FindChild("Container/Table/Grid/TalentE_Dialog/TalentE_Slot").transform;
-            TalentU_Slot = PanelObject.transform.FindChild("Container/Table/Grid/TalentU_Dialog/TalentU_Slot").transform;
+            TalentA_Slot = gameObject.transform.FindChild("Container/Table/Grid/TalentA_Dialog/TalentA_Slot").transform;
+            TalentE_Slot = gameObject.transform.FindChild("Container/Table/Grid/TalentE_Dialog/TalentE_Slot").transform;
+            TalentU_Slot = gameObject.transform.FindChild("Container/Table/Grid/TalentU_Dialog/TalentU_Slot").transform;
 
-            RefreshButton = PanelObject.transform.FindChild("Container/Table/Container/Button_Change").gameObject;
+            RefreshButton = gameObject.transform.FindChild("Container/Table/Container/Button_Change").gameObject;
 
             TalentA_Slot.parent.gameObject.GetComponent<UIButton>().onClick.Add(new EventDelegate(this, "onClickA"));
             TalentE_Slot.parent.gameObject.GetComponent<UIButton>().onClick.Add(new EventDelegate(this, "onClickE"));
@@ -53,7 +53,7 @@ namespace SexyBackPlayScene
         internal void Hide()
         {
             ClaerSlot();
-            PanelObject.SetActive(false);
+            gameObject.SetActive(false);
         }
 
         internal void ClaerSlot()
@@ -99,7 +99,7 @@ namespace SexyBackPlayScene
 
         internal void Show()
         {
-            PanelObject.SetActive(true);
+            gameObject.SetActive(true);
         }
 
         internal void Refresh()
@@ -109,7 +109,7 @@ namespace SexyBackPlayScene
 
         internal void FillWindow(int floor, int alevel, int elevel, int ulevel)
         {
-            PanelObject.transform.FindChild("Container/Table/Talent_Title").GetComponent<UILabel>().text = floor.ToString() + "스테이지 클리어!";
+            gameObject.transform.FindChild("Container/Table/Talent_Title").GetComponent<UILabel>().text = floor.ToString() + "스테이지 클리어!";
             TalentA_Level.text = alevel.ToString();
             TalentE_Level.text = elevel.ToString();
             TalentU_Level.text = ulevel.ToString();

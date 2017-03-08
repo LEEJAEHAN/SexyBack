@@ -8,7 +8,7 @@ namespace SexyBackPlayScene
         //string ID; // useless, projectile은 elemental에 종속된다.
         public GameObject view; // projectile View
 
-        ~Projectile(){ sexybacklog.Console("projectile 소멸!"); }
+        //~Projectile(){ sexybacklog.Console("projectile 소멸!"); }
 
         public Projectile(Elemental owner, GameObject prefabs, Vector3 genPosition)
         {

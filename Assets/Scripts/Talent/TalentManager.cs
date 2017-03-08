@@ -7,7 +7,7 @@ namespace SexyBackPlayScene
 {
     internal class TalentManager
     {
-        TalentPanel window;
+        TalentWindow window;
         int CurrentFloor;
         public List<Talent> AttackTalents = new List<Talent>();
         public List<Talent> ElementTalents = new List<Talent>();
@@ -24,8 +24,7 @@ namespace SexyBackPlayScene
 
         internal void Init()
         {
-            window = TalentPanel.getInstance;
-            window.Init();
+            window = TalentWindow.getInstance;
             MakeTalent();
         }
 
