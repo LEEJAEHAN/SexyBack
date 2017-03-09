@@ -27,10 +27,8 @@ namespace SexyBackPlayScene
 
         internal void InitAvatar()
         {
-            avatar = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/stage"));
-            avatar.transform.parent = ViewLoader.StagePanel.transform;
-            avatar.name = "stage" + floor.ToString();
-            avatar.transform.localPosition = GameSetting.EyeLine * (zPosition / 10);
+            avatar = ViewLoader.InstantiatePrefab(ViewLoader.stagepanel.transform, "stage" + floor.ToString(), "Prefabs/stage");
+            avatar.transform.localPosition = GameCameras.EyeLine * (zPosition / 10);
             // TODO : 배경 스킨 chaange
         }
 

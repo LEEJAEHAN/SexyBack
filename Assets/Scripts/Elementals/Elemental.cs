@@ -31,7 +31,6 @@ namespace SexyBackPlayScene
         // for projectile action;
         private Transform ElementalArea; // avatar
         private Projectile CurrentProjectile;
-        private GameObject ProjectilePrefab;
         private double AttackTimer;
         private bool NoProjectile { get { return CurrentProjectile == null; } }
 
@@ -52,13 +51,12 @@ namespace SexyBackPlayScene
             GrowthRate = data.GrowthRate;
 
             ElementalArea = area;
-            ProjectilePrefab = Resources.Load(ElementalData.ProjectilePrefabName(ID)) as GameObject;
         }
 
         internal void CreateProjectile()
         {
             Vector3 genPosition = RandomRangeVector3(ElementalArea.position, ElementalArea.localScale / 2);
-            CurrentProjectile = new Projectile(this, ProjectilePrefab, genPosition);
+            CurrentProjectile = new Projectile(this, ElementalData.ProjectilePrefabName(ID), genPosition);
         }
 
         internal void onDestroyProjectile()

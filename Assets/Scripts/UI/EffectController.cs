@@ -49,16 +49,18 @@ namespace SexyBackPlayScene
             GameObject.Destroy(damageFontEffect);
         }
 
-        internal void PlayDamageFont(BigInteger dmg, Vector3 position)
+        internal void PlayDamageFont(BigInteger dmg, Vector3 screenPosition)
         {
-            Vector3 screenpos = ViewLoader.HeroCamera.WorldToScreenPoint(position);
+            // 720 x 1280
+            Vector3 uiPosition = GameCameras.ScreenPosToUIPos(screenPosition);
+
             GameObject Effect_DamageFont = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/UI/EffectDamageFont"));
             Effect_DamageFont.transform.parent = this.gameObject.transform;
-            Effect_DamageFont.transform.localPosition = screenpos;
+            Effect_DamageFont.transform.localPosition = uiPosition;
 
             Effect_DamageFont.SetActive(true);
             Effect_DamageFont.GetComponent<UILabel>().text = dmg.To5String();
-            Effect_DamageFont.GetComponent<UILabel>().fontSize = (int)((30 + 10 * (10 - screenpos.z)));
+            Effect_DamageFont.GetComponent<UILabel>().fontSize = (int)((30 + 10 * (10 - screenPosition.z)));
 
             EventDelegate eventdel = new EventDelegate(this, "OnDamageFontFinish");
             eventdel.parameters[0] = new EventDelegate.Parameter();

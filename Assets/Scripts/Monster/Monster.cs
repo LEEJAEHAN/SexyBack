@@ -47,15 +47,18 @@ namespace SexyBackPlayScene
                 StateMachine.Update();
         }
 
-        internal bool Hit(Vector3 hitPosition, BigInteger damage, bool isCritical)
+        internal bool Hit(Vector3 hitWoridPosition, BigInteger damage, bool isCritical)
         {
             HP -= damage;
             Singleton<StatManager>.getInstance().ExpGain(damage);
             //sexybacklog.Console(damage);
             //particle
-            EffectController.getInstance.PlayParticle(hitPosition);
+            EffectController.getInstance.PlayParticle(hitWoridPosition);
             //damagefont
-            EffectController.getInstance.PlayDamageFont(damage, hitPosition);
+
+            Vector3 hitScreenPosition = GameCameras.HeroCamera.WorldToScreenPoint(hitWoridPosition);
+
+            EffectController.getInstance.PlayDamageFont(damage, hitScreenPosition);
 
             //avatar
             sprite.GetComponent<Animator>().rootPosition = avatar.transform.position;

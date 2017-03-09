@@ -10,15 +10,13 @@ namespace SexyBackPlayScene
 
         //~Projectile(){ sexybacklog.Console("projectile 소멸!"); }
 
-        public Projectile(Elemental owner, GameObject prefabs, Vector3 genPosition)
+        public Projectile(Elemental owner, string prefabpath, Vector3 genPosition)
         {
             ownerID = owner.GetID;
-            view = GameObject.Instantiate<GameObject>(prefabs);
-            view.transform.name = this.ownerID;
-            // position 은 월드포지션. localpositoin은 부모에서 얼마떨어져있냐, localScale은 그 객체클릭했을때 나오는 사이즈값. lossyscale은 최고 root로빠졌을때의 사이즈값.
-            view.transform.position = genPosition;
+            view = ViewLoader.InstantiatePrefab(ViewLoader.shooter.transform, this.ownerID, prefabpath);
+            view.transform.position = genPosition; // not local position
             view.transform.localScale = ViewLoader.projectiles.transform.lossyScale;
-            view.transform.parent = ViewLoader.shooter.transform;
+            // position 은 월드포지션. localpositoin은 부모에서 얼마떨어져있냐, localScale은 그 객체클릭했을때 나오는 사이즈값. lossyscale은 최고 root로빠졌을때의 사이즈값.
             view.GetComponent<ProjectileView>().noticeDestroy += owner.onDestroyProjectile;
             view.GetComponent<SphereCollider>().enabled = false;
             //TODO : 아직 리팩토링할곳이많은부분, 바로윗줄은 shooter object의 scale을 world에서 조정해야함

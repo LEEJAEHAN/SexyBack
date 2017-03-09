@@ -38,7 +38,7 @@ namespace SexyBackPlayScene
         public void onHeroMove(double delta_z)
         {
             owner.zPosition -= (float)delta_z;  // 벽이 다가온다
-            owner.avatar.transform.localPosition = GameSetting.EyeLine * (owner.zPosition / 10);
+            owner.avatar.transform.localPosition = GameCameras.EyeLine * (owner.zPosition / 10);
         }
 
         internal override void Update()

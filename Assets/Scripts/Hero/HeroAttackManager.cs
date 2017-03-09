@@ -16,15 +16,15 @@ namespace SexyBackPlayScene
         public bool CanMakePlan { get { return currentAttackCount > 0; } }
         public bool CanAttack { get { return AttackPlan.Count > 0; } }
 
+        private GameObject CoolTimeBar = GameObject.Find("Bar_Attack");
         private GameObject[] SwordIcons = new GameObject[10];
         private int[] iconangle = { 0, 30, -30, 60, -60, 90, -90 };
 
-        private GameObject SwordIcon = Resources.Load<GameObject>("prefabs/UI/attackcount");
-        private GameObject CoolTimeBar = ViewLoader.Bar_Attack;
 
         public HeroAttackManager(Hero hero)
         {
             owner = hero;
+            CoolTimeBar.transform.DestroyChildren();
             for (int i = 0; i < hero.MAXATTACKCOUNT; i++) // test
                 AddAttackCount();
             // Instantiate GameObject.
@@ -89,22 +89,18 @@ namespace SexyBackPlayScene
                 CoolTimeBar.GetComponent<UISlider>().value = 1;
         }
 
-        public void MoveMakePlayEffect(TapPoint Tap, Vector3 monsterPos, bool isCritical)
+        public void MakeSlashEffect(TapPoint Tap, Vector3 monsterPos, bool isCritical)
         {
             // rotate
-            Vector3 directionVector = monsterPos - Tap.GamePos;
+            Vector3 directionVector = monsterPos - Tap.PosInHeroCam;
             float rot = UnityEngine.Mathf.Atan2(directionVector.y, directionVector.x) * UnityEngine.Mathf.Rad2Deg;
-
-            EffectController.getInstance.PlaySwordEffect(Tap.EffectPos, new Vector3(0, 0, rot), isCritical);
+            EffectController.getInstance.PlaySwordEffect(Tap.PosInEffectCam, new Vector3(0, 0, rot), isCritical);
         }
 
         private void AddSwordIcon(int sequence)
-        {   
-            GameObject swordicon = GameObject.Instantiate(SwordIcon) as GameObject;
-            swordicon.name = "attackcount" + sequence;
-            swordicon.transform.parent = CoolTimeBar.transform;
+        {
+            GameObject swordicon = ViewLoader.InstantiatePrefab(CoolTimeBar.transform, "attackcount" + sequence, "prefabs/UI/attackcount");
             swordicon.transform.localScale = Vector3.one;
-            swordicon.transform.localPosition = Vector3.zero;
             swordicon.transform.rotation = Quaternion.Euler(0, 0, 45 + iconangle[sequence - 1]);
             SwordIcons[sequence - 1] = swordicon;
         }

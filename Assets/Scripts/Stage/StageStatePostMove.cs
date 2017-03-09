@@ -33,7 +33,7 @@ namespace SexyBackPlayScene
         public void onHeroMove(double delta_z)
         {
             owner.zPosition -= (float)delta_z;  // 벽이 다가온다
-            owner.avatar.transform.localPosition = GameSetting.EyeLine * (owner.zPosition / 10);
+            owner.avatar.transform.localPosition = GameCameras.EyeLine * (owner.zPosition / 10);
             //owner.Move(delta_z);
         }
 
@@ -41,11 +41,11 @@ namespace SexyBackPlayScene
         {
             if (waiting == false)
             {
-                if (owner.zPosition <= GameSetting.HeroCamPosition.z + 1.5f) // change floortext
+                if (owner.zPosition <= GameCameras.HeroCamPosition.z + 1.5f) // change floortext
                 {
                     Singleton<StageManager>.getInstance().onStagePass(owner.floor);
                 }
-                if (owner.zPosition <= GameSetting.HeroCamPosition.z) // talent wait // StageManager.DistancePerFloor - 20
+                if (owner.zPosition <= GameCameras.HeroCamPosition.z) // talent wait // StageManager.DistancePerFloor - 20
                 { //TODO: 계속 여기가 문제... 이거 해결해야함.
                     if (!talentChoice)
                     {

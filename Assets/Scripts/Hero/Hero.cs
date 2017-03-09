@@ -67,8 +67,8 @@ namespace SexyBackPlayScene
             AttackInterval = data.AttackInterval;
             MoveSpeed = data.MoveSpeed;
 
-            avatar = ViewLoader.HeroPanel; // 동적으로 생성하지않는다.
-            Animator = ViewLoader.hero_sprite.GetComponent<Animator>();
+            avatar = GameObject.Find("HeroPanel"); // 동적으로 생성하지 않는다.
+            Animator = GameObject.Find("hero_sprite").GetComponent<Animator>();
             AttackManager = new HeroAttackManager(this);
             StateMachine = new HeroStateMachine(this);
         }
@@ -141,11 +141,12 @@ namespace SexyBackPlayScene
 
             // do deal
             TapPoint atkPlan = AttackManager.NextAttackPlan();
-            target.Hit(atkPlan.EffectPos, damage, isCritical);
+
+            target.Hit(atkPlan.PosInEffectCam, damage, isCritical);
 
             // make attack effect
             Vector3 targetpos = target.CenterPosition;
-            AttackManager.MoveMakePlayEffect(atkPlan, targetpos, isCritical);
+            AttackManager.MakeSlashEffect(atkPlan, targetpos, isCritical);
             return true;
         }
         public void onTargetStateChange(string monsterid, string stateID)

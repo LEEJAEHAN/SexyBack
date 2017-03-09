@@ -21,11 +21,13 @@ namespace SexyBackPlayScene
             if (UICamera.Raycast(position))
                 return;
 
-            ray = ViewLoader.EffectCamera.ScreenPointToRay(mouseinputpoint);
+//            sexybacklog.Console(mouseinputpoint);
+
+            ray = GameCameras.EffectCamera.ScreenPointToRay(mouseinputpoint);
 
             Physics.Raycast(ray, out effecthit, 100, 1000000000); // 이펙트영역  1<<9
 
-            ray = ViewLoader.HeroCamera.ScreenPointToRay(mouseinputpoint);
+            ray = GameCameras.HeroCamera.ScreenPointToRay(mouseinputpoint);
 
             if (Physics.Raycast(ray, out hit, 100, 0100000000)) // 게임영역 1<< 8
             {
@@ -71,7 +73,6 @@ namespace SexyBackPlayScene
             }
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Application.Quit();
             }
 
 
@@ -81,14 +82,14 @@ namespace SexyBackPlayScene
     }
     internal struct TapPoint
     {
-        public Vector3 GamePos;  // world unit
-        public Vector3 EffectPos;   // world unit
-        public Vector3 UiPos;   // pixel unit
+        public Vector3 PosInHeroCam;  // world unit, default 메인 캠에서 본 위치
+        public Vector3 PosInEffectCam;   // world unit, effect cam position 에서 본 위치
+        public Vector3 UiPos;   // pixel unit, 1280,720 기준의 좌표이다.
 
         internal TapPoint(Vector3 gamepos, Vector3 effectpos, Vector3 uipos)
         {
-            GamePos = gamepos;
-            EffectPos = effectpos;
+            PosInHeroCam = gamepos;
+            PosInEffectCam = effectpos;
             UiPos = uipos;
         }
     }

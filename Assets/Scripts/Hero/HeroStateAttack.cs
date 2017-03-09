@@ -25,7 +25,7 @@ namespace SexyBackPlayScene
         double SwingActionTime { get { return 0.5f / AttackSpeed; } }
 
         HeroMiniState State;
-        public Vector3 AttackMoveVector = GameSetting.ECamPosition - GameSetting.HeroCamPosition;
+        public Vector3 AttackMoveVector = GameCameras.ECamPosition - GameCameras.HeroCamPosition;
 
         public HeroStateAttack(Hero owner, HeroStateMachine stateMachine) : base(owner, stateMachine)
         {
@@ -36,13 +36,13 @@ namespace SexyBackPlayScene
             AttackSpeed = owner.ATTACKSPEED;
             State = HeroMiniState.None;
             Singleton<GameInput>.getInstance().Action_TouchEvent += onTouch;
-            owner.Warp(GameSetting.HeroCamPosition);
+            owner.Warp(GameCameras.HeroCamPosition);
         }
 
         internal override void End()
         {
             Singleton<GameInput>.getInstance().Action_TouchEvent -= onTouch;
-            owner.Warp(GameSetting.HeroCamPosition);
+            owner.Warp(GameCameras.HeroCamPosition);
         }
 
         internal void onTouch(TapPoint pos)
@@ -65,7 +65,7 @@ namespace SexyBackPlayScene
             else if (State == HeroMiniState.Dash && timer > DashTime)
             {
                 State = HeroMiniState.Swing;
-                owner.Warp(GameSetting.ECamPosition);
+                owner.Warp(GameCameras.ECamPosition);
                 owner.Animator.SetBool("Move", false);
                 return;
             }

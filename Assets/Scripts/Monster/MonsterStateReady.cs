@@ -9,12 +9,12 @@ namespace SexyBackPlayScene
         List<HitPlan> hitplans = new List<HitPlan>();
         struct HitPlan
         {
-            public Vector3 hitposition;
+            public Vector3 hitWorldPosition;
             public BigInteger damage;
 
             public HitPlan(Vector3 pos, BigInteger dmg)
             {
-                hitposition = pos;
+                hitWorldPosition = pos;
                 damage = dmg;
             }
         }
@@ -36,10 +36,10 @@ namespace SexyBackPlayScene
             BackCollision.Action_HitEvent -= onHitByProjectile;
         }
 
-        public void onHitByProjectile(Vector3 hitposition, string elementalID)
+        public void onHitByProjectile(Vector3 hitWorldPosition, string elementalID)
         {   // view를 통해서 받은것.
             BigInteger damage = Singleton<ElementalManager>.getInstance().GetElementalDamage(elementalID);
-            hitplans.Add(new HitPlan(hitposition, damage));
+            hitplans.Add(new HitPlan(hitWorldPosition, damage));
         }
 
         internal override void Update()
@@ -49,7 +49,7 @@ namespace SexyBackPlayScene
 
             foreach(HitPlan a in hitplans)
             {
-                if (owner.Hit(a.hitposition, a.damage, false) == false) // enumarator 돌고있을때 죽으면
+                if (owner.Hit(a.hitWorldPosition, a.damage, false) == false) // enumarator 돌고있을때 죽으면
                     break;
             }
             hitplans.Clear();

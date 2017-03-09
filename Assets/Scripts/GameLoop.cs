@@ -11,15 +11,15 @@ namespace SexyBackPlayScene
         TableLoader tableLoader;
         GameManager gameManager;
         GameInput gameInput;
-        GameSetting gameSetting;
+        GameCameras gameSetting;
 
         // Use this for initialization
         void Awake()
         {
             viewLoader = new ViewLoader();
+            viewLoader.RemoveTestObject();
 
-            gameSetting = new GameSetting();
-            gameSetting.Init();
+            gameSetting = new GameCameras();
 
             tableLoader = Singleton<TableLoader>.getInstance();
             tableLoader.Init();
