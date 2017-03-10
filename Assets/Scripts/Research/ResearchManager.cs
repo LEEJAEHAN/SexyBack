@@ -11,7 +11,7 @@ namespace SexyBackPlayScene
         ResearchFactory factory = new ResearchFactory();
 
         public int resarchthread = 0;
-        public int maxthread = Singleton<StatManager>.getInstance().GetPlayerStat.ResearchThread;
+        public int maxthread;
         public bool CanUseThread { get { return resarchthread < maxthread; } }
 
         BigInteger minusExp = new BigInteger(0);
@@ -21,10 +21,10 @@ namespace SexyBackPlayScene
 
         public delegate void ResarchThreadChange_Event(bool available);
         public event ResarchThreadChange_Event Action_ThreadChange = delegate { };
-        
-                
-        public void Init()
+                        
+        public void Init(int maxThread)
         {
+            maxthread = maxThread;
             Singleton<HeroManager>.getInstance().Action_HeroLevelUp += onHeroLevelUp;
             Singleton<ElementalManager>.getInstance().Action_ElementalLevelUp += onElementalLevelUp;
 

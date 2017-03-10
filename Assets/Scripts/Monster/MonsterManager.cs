@@ -5,8 +5,12 @@ using System.Collections.Generic;
 namespace SexyBackPlayScene
 {
     // 몬스터와 관련된 입력을 처리
-    internal class MonsterManager
+    internal class MonsterManager : IDisposable
     {
+        ~MonsterManager()
+        {
+            sexybacklog.Console("MonsterManager 소멸");
+        }
         Dictionary<string, Monster> monsters = new Dictionary<string, Monster>();
         Queue<string> disposeIDs= new Queue<string>();
 
@@ -19,6 +23,17 @@ namespace SexyBackPlayScene
             HpBar = Singleton<MonsterHpBar>.getInstance();
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += onElementalCreate;
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
+        }
+
+        public void Dispose()
+        {
+            monsters = null;
+            disposeIDs = null;
+            BattleMonster = null; // TODO: bucket으로수정해야함;
+            monsterFactory = null;
+            HpBar.Dispose();
+            HpBar = null;
+            Singleton<MonsterHpBar>.Clear();
         }
 
         public void onHit(Monster sender)

@@ -6,8 +6,25 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    internal class StatManager // 누적배수를 가지고있다.
+    internal class StatManager : IDisposable // 누적배수를 가지고있다. BattleScene안에서만 동작한다.
     {
+        ~StatManager()
+        {
+            sexybacklog.Console("StatManager 소멸");
+        }
+        public void Dispose()
+        {
+            heromanager = null;
+            elementalmanager = null;
+            playerStat = null;
+            heroStat = null;
+            elementalStats = null;
+            Action_ExpChange = null;
+            exp = null;
+            lspend = null;
+            rspend = null;
+        }
+
         private BigInteger exp = new BigInteger(0);
         public BigInteger EXP { get { return exp; } }
 
@@ -20,7 +37,7 @@ namespace SexyBackPlayScene
 
         PlayerStat playerStat;
         HeroStat heroStat;
-        Dictionary<string, ElementalStat> elementalStats = new Dictionary<string, ElementalStat>();
+        Dictionary<string, ElementalStat> elementalStats;
 
         internal PlayerStat GetPlayerStat { get { return playerStat; } }
         internal HeroStat GetHeroStat { get { return heroStat; } }
@@ -29,26 +46,18 @@ namespace SexyBackPlayScene
         HeroManager heromanager = Singleton<HeroManager>.getInstance();
         ElementalManager elementalmanager = Singleton<ElementalManager>.getInstance();
 
-        public StatManager()
-        {
+        internal void Init(HeroStat HStat, PlayerStat PStat, Dictionary<string, ElementalStat> EStatList, BigInteger StartExp)
+        {   // 아직할것없음.
             heroStat = new HeroStat();
             playerStat = new PlayerStat();
-            foreach (string elementalid in Singleton<TableLoader>.getInstance().elementaltable.Keys)
-                elementalStats.Add(elementalid, new ElementalStat());
-        }
-
-        internal void Init(GameModeData args)
-        {
-            // 아직할것없음.
+            elementalStats = EStatList;
+            exp = StartExp;
         }
 
         internal void Update()
         {
             sexybacklog.InGame("레벨업에쓴돈 " + lspend.To5String());
             sexybacklog.InGame("리서치에쓴돈 " + rspend.To5String());
-        }
-        internal void Start()
-        {
         }
 
         internal void Buff(Bonus bonus, GridItemIcon icon, int duration)
@@ -259,7 +268,7 @@ namespace SexyBackPlayScene
                 exp -= e;
                 result = true;
 
-                if(islevelup)
+                if (islevelup)
                     lspend += e;
                 else
                     rspend += e;
@@ -270,6 +279,7 @@ namespace SexyBackPlayScene
 
             return result;
         }
+
 
     }
 

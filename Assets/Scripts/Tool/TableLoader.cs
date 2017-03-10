@@ -4,33 +4,43 @@ using System.Xml;
 using UnityEngine;
 namespace SexyBackPlayScene
 {
-    internal class TableLoader
+    internal class TableLoader : IDisposable
     {
         public HeroData herotable;
-        public Dictionary<string, MonsterData> monstertable = new Dictionary<string, MonsterData>();
-        public Dictionary<string, ElementalData> elementaltable = new Dictionary<string, ElementalData>();
-        public Dictionary<string, LevelUpData> leveluptable = new Dictionary<string, LevelUpData>();
-        public Dictionary<string, List<Bonus>> bonuses = new Dictionary<string, List<Bonus>>();
-        public List<ResearchData> researchtable = new List<ResearchData>();
-        public List<TalentData> talenttable= new List<TalentData>();
+        public Dictionary<string, MonsterData> monstertable;
+        public Dictionary<string, ElementalData> elementaltable;
+        public Dictionary<string, GameModeData> gamemodetable;
 
+        public Dictionary<string, LevelUpData> leveluptable;
+        public List<ResearchData> researchtable;
+        public List<TalentData> talenttable;
 
-        public Dictionary<string, GameModeData> gamemodetable = new Dictionary<string, GameModeData>();
+        bool FinishLoad = false;
+
+        ~TableLoader()
+        {
+            sexybacklog.Console("TableLoader 소멸");
+        }
 
         internal void Init()
         {
-            LoadHeroData();
-            LoadMonsterData();
-            LoadElementData();
-            LoadStageData();
-            LoadLevelUpData();
-            LoadResearchData();
-            LoadTalentData();
+            if (FinishLoad == false)
+            {
+                sexybacklog.Console("Xml데이터를 로드합니다.");
+                LoadHeroData();
+                LoadMonsterData();
+                LoadElementData();
+                LoadStageData();
+                LoadLevelUpData();
+                LoadResearchData();
+                LoadTalentData();
+            }
+            FinishLoad = true;
         }
-
 
         private void LoadMonsterData()
         {
+            monstertable = new Dictionary<string, MonsterData>();
             monstertable.Add("m01", new MonsterData("m01", "슬라임", 0, 0f));
             monstertable.Add("m02", new MonsterData("m02", "불멍멍이", 0, 0f));
             monstertable.Add("m03", new MonsterData("m03", "맹금류", 0, 0f));
@@ -43,6 +53,17 @@ namespace SexyBackPlayScene
             monstertable.Add("m10", new MonsterData("m10", "21세기산적", 0, 0f));
         }
 
+        public void Dispose()
+        {
+            herotable = null;
+            monstertable = null;
+            elementaltable = null;
+            gamemodetable = null;
+            leveluptable = null;
+            researchtable = null;
+            talenttable = null;
+        }
+
         private void LoadHeroData()
         {
             herotable = new HeroData();
@@ -50,6 +71,7 @@ namespace SexyBackPlayScene
 
         private void LoadLevelUpData()
         {
+            leveluptable = new Dictionary<string, LevelUpData>();
             LevelUpData heroAttack = new LevelUpData("L001", "hero", "일반공격", "Icon_11");
             LevelUpData item1 = new LevelUpData("L002", "fireball", "파이어볼", "Icon_01");
             LevelUpData item2 = new LevelUpData("L003", "waterball", "물폭탄", "Icon_09");
@@ -74,13 +96,14 @@ namespace SexyBackPlayScene
 
         private void LoadStageData()
         {
-            GameModeData data1 = new GameModeData("TestStage", 20, 0);
+            gamemodetable = new Dictionary<string, GameModeData>();
+            GameModeData data1 = new GameModeData("TestStage", 100, 0);
             gamemodetable.Add(data1.ID, data1);
-
         }
 
         private void LoadElementData()
         {
+            elementaltable = new Dictionary<string, ElementalData>();
             TextAsset textasset = Resources.Load("Xml/ElementalData") as TextAsset;
             XmlDocument xmldoc = new XmlDocument();
             xmldoc.LoadXml(textasset.text);
@@ -107,8 +130,9 @@ namespace SexyBackPlayScene
             }
         }
 
-        private void LoadBonus()
+        private Dictionary<string, List<Bonus>> LoadBonus()
         {
+            Dictionary<string, List<Bonus>> bonuses = new Dictionary<string, List<Bonus>>();
             TextAsset textasset = Resources.Load("Xml/BonusData") as TextAsset;
             XmlDocument xmldoc = new XmlDocument();
             xmldoc.LoadXml(textasset.text);
@@ -140,6 +164,7 @@ namespace SexyBackPlayScene
                 else
                     bonuses[groupid].Add(bonus);
             }
+            return bonuses;
         }
 
         private void TestParsing()
@@ -166,8 +191,9 @@ namespace SexyBackPlayScene
 
         private void LoadResearchData()
         {
-            LoadBonus();
-            
+            Dictionary<string, List<Bonus>> bonuses = LoadBonus();
+            researchtable = new List<ResearchData>();
+
             TextAsset textasset = Resources.Load("Xml/ResearchData") as TextAsset;
             XmlDocument xmldoc = new XmlDocument();
             xmldoc.LoadXml(textasset.text);
@@ -187,7 +213,7 @@ namespace SexyBackPlayScene
                     subicon = infonode.Attributes["subicon"].Value;
                 string name = infonode.Attributes["name"].Value;
                 string description = infonode.Attributes["description"].Value;
-                
+
                 XmlNode pricenode = node.SelectSingleNode("Price");
                 int level = int.Parse(pricenode.Attributes["level"].Value);
                 int baselevel = int.Parse(pricenode.Attributes["baselevel"].Value);
@@ -217,6 +243,8 @@ namespace SexyBackPlayScene
 
         private void LoadTalentData()
         {
+            talenttable = new List<TalentData>();
+
             TextAsset textasset = Resources.Load("Xml/TalentData") as TextAsset;
             XmlDocument xmldoc = new XmlDocument();
             xmldoc.LoadXml(textasset.text);
@@ -243,7 +271,7 @@ namespace SexyBackPlayScene
                 XmlNode ratenode = node.SelectSingleNode("Rate");
                 int rate;
                 bool abs;
-                if(ratenode.Attributes["absrate"] != null)
+                if (ratenode.Attributes["absrate"] != null)
                 {
                     abs = true;
                     rate = int.Parse(ratenode.Attributes["absrate"].Value);

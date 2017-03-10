@@ -1,6 +1,8 @@
-﻿namespace SexyBackPlayScene
+﻿using System;
+
+namespace SexyBackPlayScene
 {
-    class Singleton<T> where T : class, new()
+    class Singleton<T> where T : class, new() // ISingleton, IDisposable, 
     {
         public static T Instance;
         public static T getInstance()
@@ -10,13 +12,12 @@
             return Instance;
         }
 
-        public virtual void Clear()
+        public static void Clear()
         {
             Instance = null;
-            Instance = new T();
         }
         // Use this for initialization
-//        abstract protected void Init();
+        //        abstract protected void Init();
 
     }
 }

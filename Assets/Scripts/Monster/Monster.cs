@@ -5,6 +5,8 @@ namespace SexyBackPlayScene
 {
     internal class Monster : IStateOwner, IDisposable// model
     {
+        ~Monster() { sexybacklog.Console("몬스터 소멸!"); }
+
         readonly string ID;
         public string GetID { get { return ID; } }
         public string Name;
@@ -93,6 +95,5 @@ namespace SexyBackPlayScene
             isActive = false;
         }
 
-        ~Monster() { sexybacklog.Console("몬스터소멸!"); }
     }
 }

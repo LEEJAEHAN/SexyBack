@@ -17,6 +17,7 @@ namespace SexyBackPlayScene
         // 완전히 한 system에 종속되지 않은 gameobject에 한해. 임시로
 
         // NGUI
+        public static GameObject PopUpcPanel;
         public static GameObject BottomScrollView;
 
         public static GameObject TabButton1;
@@ -31,6 +32,8 @@ namespace SexyBackPlayScene
 
         public ViewLoader()
         {
+            PopUpcPanel = GameObject.Find("PopUpPanel");
+
             area_elemental = GameObject.Find("elementals");
             monsterbucket = GameObject.Find("monsters");
             shooter = GameObject.Find("shooter");
@@ -48,12 +51,13 @@ namespace SexyBackPlayScene
             Tab4Container = GameObject.Find("Tab4Container");
         }
 
-        internal void RemoveTestObject()
+        internal void Init() // remove and hide test game objects
         {
             ViewLoader.shooter.transform.DestroyChildren();
             ViewLoader.monsterbucket.transform.DestroyChildren();
             ViewLoader.Tab1Container.transform.DestroyChildren();
             ViewLoader.stagepanel.transform.DestroyChildren();
+            PopUpcPanel.SetActive(false);
         }
 
         public static GameObject InstantiatePrefab(Transform parent, string objectname, string prefabpath )

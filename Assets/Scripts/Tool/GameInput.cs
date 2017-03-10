@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    internal class GameInput
+    internal class GameInput : IDisposable
     {
+        ~GameInput()
+        {
+            sexybacklog.Console("GameInput 소멸");
+        }
         public delegate void Touch_Event(TapPoint tap);
         public event Touch_Event Action_TouchEvent = delegate { }; // back viewport 에서의 터치포지션
 
@@ -14,7 +19,12 @@ namespace SexyBackPlayScene
 
         public int fowardtimefordebug = 0;
 
-        void Touch(Vector3 position)
+        public void Dispose()
+        {
+            Action_TouchEvent = null;
+        }
+
+        void TouchGameScreen(Vector3 position)
         {
             mouseinputpoint = position;
 
@@ -36,12 +46,11 @@ namespace SexyBackPlayScene
             }
         }
 
-
         public void CheckInput()
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Touch(Input.mousePosition);
+                TouchGameScreen(Input.mousePosition);
             }
 
             if (Input.GetKey(KeyCode.UpArrow))
@@ -50,7 +59,7 @@ namespace SexyBackPlayScene
             }
             if (Input.GetKey(KeyCode.Space))
             {
-                Touch(new Vector3(360,800,0));
+                TouchGameScreen(new Vector3(360,800,0));
             }
             if (Input.GetKeyDown(KeyCode.U))
             {
@@ -73,11 +82,10 @@ namespace SexyBackPlayScene
             }
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                Singleton<GameManager>.getInstance().ExitGame();
             }
 
-
         }
-
 
     }
     internal struct TapPoint

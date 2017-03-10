@@ -48,8 +48,7 @@ namespace SexyBackPlayScene
 
         private void Refresh()
         {
-            if (!Instantbuy)
-                InstantModeCheck();
+            InstantModeCheck();
 
             if (!Instantbuy)
                 owner.itemView.ShowRBar(0, (int)owner.ReducedTime, false);

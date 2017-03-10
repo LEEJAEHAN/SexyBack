@@ -21,10 +21,27 @@ namespace SexyBackMenuScene
 
         }
 
-        public void onClick()
+        public void NewGame()
         {
             SceneManager.LoadScene("BattleScene");
-            Debug.Log("0nclick");
+        }
+
+        public void LoadGame()
+        {
+
+            if (PlayerPrefs.HasKey("게임중저장데이터"))
+            {
+                string data = PlayerPrefs.GetString("게임중저장데이터");
+                Debug.Log(data + "를 불러옵니다");
+                SceneManager.LoadScene("BattleScene");
+            }
+            else
+                Debug.Log("저장데이터가음습니다.");
+        }
+
+        public void QuitGame()
+        {
+            Application.Quit();
         }
 
         private void OnDisable()

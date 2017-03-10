@@ -23,6 +23,7 @@ namespace SexyBackPlayScene
                 if (instance == null)
                 {
                     GameObject owner = ViewLoader.InstantiatePrefab(GameObject.Find("Middle_Area").transform, "TalentWindow", "Prefabs/UI/TalentWindow");
+                    owner.transform.localPosition = new Vector3(24, -24, 0);
                     instance = owner.AddComponent<TalentWindow>();
                 }
 
