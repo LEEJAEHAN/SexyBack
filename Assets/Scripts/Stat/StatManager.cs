@@ -25,7 +25,7 @@ namespace SexyBackPlayScene
             rspend = null;
         }
 
-        private BigInteger exp = new BigInteger(0);
+        private BigInteger exp;
         public BigInteger EXP { get { return exp; } }
 
         // for test
@@ -46,10 +46,14 @@ namespace SexyBackPlayScene
         HeroManager heromanager = Singleton<HeroManager>.getInstance();
         ElementalManager elementalmanager = Singleton<ElementalManager>.getInstance();
 
-        internal void Init(HeroStat HStat, PlayerStat PStat, Dictionary<string, ElementalStat> EStatList, BigInteger StartExp)
-        {   // 아직할것없음.
-            heroStat = new HeroStat();
-            playerStat = new PlayerStat();
+        internal void Init()
+        {
+            // 아직할것없음.
+        }
+        internal void Start(HeroStat HStat, PlayerStat PStat, Dictionary<string, ElementalStat> EStatList, BigInteger StartExp)
+        {
+            heroStat = HStat;
+            playerStat = PStat;
             elementalStats = EStatList;
             exp = StartExp;
         }
@@ -80,7 +84,6 @@ namespace SexyBackPlayScene
             }
             EffectController.getInstance.AddBuffEffect(icon);
         }
-
 
 
         private void UpgradeHero(Bonus bonus)

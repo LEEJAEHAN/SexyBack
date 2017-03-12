@@ -6,29 +6,38 @@ using System.Collections.Generic;
 
 namespace SexyBackPlayScene
 {
+    [Serializable]
     public class GameManager : IDisposable
     {
         ~GameManager()
         {
             sexybacklog.Console("GameManager 소멸");
         }
-
-        // singleton - stage
+        // serialized
         StageManager stageManager; // 일종의 스크립트
+
+        [NonSerialized]
         MonsterManager monsterManager;
+        [NonSerialized]
         HeroManager heroManager;
+        [NonSerialized]
         ElementalManager elementalManager;
+        [NonSerialized]
         TalentManager talentManager;
 
         // singleton - player
+        [NonSerialized]
         StatManager statmanager;
+        [NonSerialized]
         LevelUpManager levelUpManager;
+        [NonSerialized]
         ResearchManager researchManager;
 
         // View
+        [NonSerialized]
         GameInfoView infoView;
         // member
-
+        [NonSerialized]
         bool isPause = false;
 
         // Use this for initialization
@@ -45,8 +54,8 @@ namespace SexyBackPlayScene
             infoView = Singleton<GameInfoView>.getInstance();
             
             // TODO : menuScene과 연동필요
-            statmanager.Init(new HeroStat(), new PlayerStat(), MakeElementalStat(), new BigInteger(0));            // 원래는 menuscene에서 연계된다.
-            stageManager.Init(Singleton<TableLoader>.getInstance().gamemodetable["TestStage"]); // 이것역시 마찬가지.
+            statmanager.Init();            // 원래는 menuscene에서 연계된다.
+            stageManager.Init(); // 이것역시 마찬가지.
             heroManager.Init();
             monsterManager.Init();
             elementalManager.Init();
@@ -54,6 +63,30 @@ namespace SexyBackPlayScene
             researchManager.Init(5); // new PlayerStat.ResearchThread
             talentManager.Init();
             infoView.Init();
+        }
+        internal void NewInstance() // 글로벌 히어로 데이터를 받아서 시작한다.
+        {
+            statmanager.Start(new HeroStat(), new PlayerStat(), MakeElementalStat(), new BigInteger(0));
+            stageManager.Start(Singleton<TableLoader>.getInstance().gamemodetable["TestStage"]);
+            heroManager.Start(); // and hero is move
+
+            //elementalmanager.LearnNewElemental("magmaball");
+            //elementalmanager.LearnNewElemental("fireball");
+            //elementalmanager.LearnNewElemental("waterball");
+            //elementalmanager.LearnNewElemental("rock");
+            //elementalmanager.LearnNewElemental("electricball");
+            //elementalmanager.LearnNewElemental("snowball");
+            //elementalmanager.LearnNewElemental("earthball");
+            //elementalmanager.LearnNewElemental("airball"); // for test
+            //elementalmanager.LearnNewElemental("iceblock");
+        }
+        internal void LoadInstance()
+        {
+            GameManager loaddata = null;
+
+            statmanager.Start(new HeroStat(), new PlayerStat(), MakeElementalStat(), new BigInteger(0));
+            stageManager.Load(loaddata.stageManager);
+            heroManager.Start(); // and hero is move
         }
 
 
@@ -105,36 +138,22 @@ namespace SexyBackPlayScene
         internal void SaveInstance()
         {
             PlayerPrefs.SetString("InstanceData", "Yes");
+            
         }
         internal void ClearInstance()
         {
             PlayerPrefs.DeleteKey("InstanceData");
             PlayerPrefs.DeleteAll();
         }
-        internal void LoadInstance()
-        {
 
-        }
 
         internal void GameClear()
         {
             // 보상작업
         }
 
-        internal void Start()
-        {
-            heroManager.CreateHero(); // and hero is move
-            stageManager.Start();
-            //elementalmanager.LearnNewElemental("magmaball");
-            //elementalmanager.LearnNewElemental("fireball");
-            //elementalmanager.LearnNewElemental("waterball");
-            //elementalmanager.LearnNewElemental("rock");
-            //elementalmanager.LearnNewElemental("electricball");
-            //elementalmanager.LearnNewElemental("snowball");
-            //elementalmanager.LearnNewElemental("earthball");
-            //elementalmanager.LearnNewElemental("airball"); // for test
-            //elementalmanager.LearnNewElemental("iceblock");
-        }
+
+
         internal void FixedUpdate()
         {
             if (isPause)

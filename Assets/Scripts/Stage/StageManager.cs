@@ -4,43 +4,71 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
+    [Serializable]
     internal class StageManager // stage와 monster를 관리한다. 아마도 몬스터 매니져와 합치는게 좋지않을까.
     {
         // 저장되야할 데이터.
-        int GoalFloor = 20;
-        public int currentFloor = 1;
-        public double Gametime = 0;
-        public List<Stage> Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
+        public int GoalFloor;
+        public int currentFloor;
+        public double Gametime;
+        public List<Stage> Stages; // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
 
+        [NonSerialized]
         public static readonly int DistancePerFloor = 30;
-
         public List<Stage> beToDispose = new List<Stage>(); // 풀링하지말자. 잦은이동이있는것도아닌데
         private bool needNextStage = false;
 
-        public void Init(GameModeData gamemodetata)
+        public void Init()
         {
-            GoalFloor = 20;
-            currentFloor = 1;
-            Gametime = 0;
-            Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
-        }
-        public void Start() // start stagebuilder
-        {
-            Stages.Add(CreateStage(currentFloor, 5, 1));
-            Stages.Add(CreateStage(currentFloor + 1, 5 + DistancePerFloor, 1));
         }
 
-        private Stage CreateStage(int floor, int zPosition, int monsterCount)
+        internal void Start(GameModeData gameModeData) // start, no Load
         {
-            Stage abc = new Stage(floor, zPosition);
-            abc.InitAvatar();
-            for (int i = 0; i < monsterCount; i++)
-            {
-                abc.CreateMonster();
-            }
-            abc.StateMachine.ChangeState("Move");
-            return abc;
+            GoalFloor = gameModeData.GoalFloor;
+            currentFloor = 1;
+            Gametime = 0;
+            Singleton<GameInfoView>.getInstance().PrintStage(currentFloor);
+            Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
+            Stages.Add(new Stage(1, 5, false, false, Singleton<MonsterManager>.getInstance().CreateRandomMonster(1)));
+            Stages.Add(new Stage(2, 5 + DistancePerFloor, false, false, Singleton<MonsterManager>.getInstance().CreateRandomMonster(2)));
         }
+        internal void Load(StageManager data) // 클래스가 로드가 된뒤 셋해야 할것들.
+        {
+            //GoalFloor =  20;
+            //currentFloor = 11;
+            //Singleton<GameInfoView>.getInstance().PrintStage(currentFloor);
+            //Gametime = 0;
+            //Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
+            //Stage front = new Stage(10, -5, false, true, Singleton<MonsterManager>.getInstance().CreateRandomMonster(10));
+            //front.StateMachine.ChangeState("PostMove");
+            //Stage behind = new Stage(11, -5 + DistancePerFloor, false, false, Singleton<MonsterManager>.getInstance().CreateRandomMonster(11));
+            //behind.StateMachine.ChangeState("Move");
+            //Stages.Add(front);
+            //Stages.Add(behind);
+
+            GoalFloor = data.GoalFloor;
+            currentFloor = data.currentFloor;
+            Singleton<GameInfoView>.getInstance().PrintStage(currentFloor);
+            Gametime = data.Gametime;
+            Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다. 
+
+            foreach( Stage stagedata in data.Stages)
+            {
+                Stage stage = new Stage(stagedata.floor, stagedata.zPosition, stagedata.isLastStage, stagedata.rewardComplete, stagedata.monsterID);
+                stage.StateMachine.ChangeState(stagedata.CurrentState);
+                Stages.Add(stage);
+            }
+        }
+
+
+        private Stage CreateNextStage()
+        {
+            string monsterID = Singleton<MonsterManager>.getInstance().CreateRandomMonster(currentFloor + 1);
+            bool isLast = (currentFloor + 1 == GoalFloor);
+            Stage next = new Stage(currentFloor + 1, DistancePerFloor, isLast, false, monsterID);
+            return next;
+        }
+
         public void onStagePass(int floor)
         {
             currentFloor = floor + 1;
@@ -62,9 +90,7 @@ namespace SexyBackPlayScene
             {
                 if(currentFloor < GoalFloor)
                 {
-                    Stage newStage = CreateStage(currentFloor + 1, DistancePerFloor, 1);
-                    if (currentFloor + 1 == GoalFloor)
-                        newStage.isLastStage = true;
+                    Stage newStage = CreateNextStage();
                     Stages.Add(newStage);
                 }
                 needNextStage = false;
@@ -82,5 +108,6 @@ namespace SexyBackPlayScene
             }
             beToDispose.Clear();
         }
+
     }
 }

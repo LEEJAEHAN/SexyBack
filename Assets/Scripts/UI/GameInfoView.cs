@@ -20,10 +20,10 @@ namespace SexyBackPlayScene
 
         internal void Init()
         {
-            Set();
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += BindHero;
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += BindElemental;
             Singleton<StatManager>.getInstance().Action_ExpChange += PrintExp;
+            Set();
         }
 
         public void Set()
@@ -44,7 +44,7 @@ namespace SexyBackPlayScene
             HeroDpcLabel.text = "";
             ExpLabel.text = "";
             MinusDpsLabel.text = "";
-            FloorLabel.text = "1 Floor";
+            FloorLabel.text = "";
         }
 
         public void PrintDps(Elemental elemenetal)

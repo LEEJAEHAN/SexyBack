@@ -24,7 +24,6 @@ namespace SexyBackPlayScene
 
             viewLoader.Init();
             tableLoader.Init();
-
             gameManager.Init();
         }
             //        GameModeData args;
@@ -34,8 +33,9 @@ namespace SexyBackPlayScene
             {
                 gameManager.LoadInstance();
             }
+            else
             {
-                gameManager.Start();
+                gameManager.NewInstance();
             }
         }
         // Update is called once per frame

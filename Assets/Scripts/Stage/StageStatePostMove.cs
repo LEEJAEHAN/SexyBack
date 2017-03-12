@@ -5,7 +5,7 @@ namespace SexyBackPlayScene
 {
     internal class StageStatePostMove : BaseState<Stage>
     {
-        bool talentChoice = false;
+        // talent를 찍기 전까지.
         bool waiting = false;
 
         public StageStatePostMove(Stage owner, StateMachine<Stage> statemachine) : base(owner, statemachine)
@@ -14,7 +14,7 @@ namespace SexyBackPlayScene
 
         void onTalentConfirm()
         {
-            talentChoice = true;
+            owner.rewardComplete = true;
         }
 
         internal override void Begin()
@@ -27,7 +27,6 @@ namespace SexyBackPlayScene
         {
             Singleton<HeroManager>.getInstance().GetHero().Action_DistanceChange -= onHeroMove;
             Singleton<TalentManager>.getInstance().Action_ConfirmTalent -= onTalentConfirm;
-
         }
 
         public void onHeroMove(double delta_z)
@@ -47,22 +46,19 @@ namespace SexyBackPlayScene
                 }
                 if (owner.zPosition <= GameCameras.HeroCamPosition.z) // talent wait // StageManager.DistancePerFloor - 20
                 { //TODO: 계속 여기가 문제... 이거 해결해야함.
-                    if (!talentChoice)
+                    if (!owner.rewardComplete)
                     {
                         Singleton<HeroManager>.getInstance().GetHero().ChangeState("Ready");
                         waiting = true;
                     }
                 }
-                if (owner.zPosition <= -(StageManager.DistancePerFloor)) // remove stage
-                {
-                    stateMachine.ChangeState("Destroy");
-                }
             }
             else // waiting true
             {
-                if (talentChoice)
+                if (owner.rewardComplete)
                 {
                     Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
+                    stateMachine.ChangeState("Destroy");
                     waiting = false;
                 }
             }

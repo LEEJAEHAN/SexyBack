@@ -5,34 +5,18 @@ namespace SexyBackPlayScene
 {
     internal class StageStateMove : BaseState<Stage>
     {
-        Hero bindHero;
-
         public StageStateMove(Stage owner, StateMachine<Stage> statemachine) : base(owner, statemachine)
         {
         }
 
         internal override void Begin()
         {
-            bindHero = Singleton<HeroManager>.getInstance().GetHero();
-            if (bindHero == null) // 히어로가없으면,
-                Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
-            else
-            {
-                bindHero.Action_DistanceChange += onHeroMove;
-            }
-        }
-
-        void onHeroCreate(Hero newHero)
-        {
-            bindHero = newHero;
-            bindHero.Action_DistanceChange += onHeroMove;
+            Singleton<HeroManager>.getInstance().GetHero().Action_DistanceChange += onHeroMove;
         }
 
         internal override void End()
         {
-            Singleton<HeroManager>.getInstance().Action_HeroCreateEvent -= onHeroCreate;
-            bindHero.Action_DistanceChange -= onHeroMove;
-            bindHero = null;
+            Singleton<HeroManager>.getInstance().GetHero().Action_DistanceChange -= onHeroMove;
         }
 
         public void onHeroMove(double delta_z)
@@ -43,9 +27,8 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
-            if (owner.zPosition < 0 && owner.monsterQueue.Count > 0)
+            if (owner.zPosition < 0 && owner.monsterID != null)
             {
-                bindHero.ChangeState("Ready");
                 owner.StateMachine.ChangeState("Battle");
             }
         }

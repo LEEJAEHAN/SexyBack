@@ -13,7 +13,7 @@ namespace SexyBackPlayScene
 
         static float orthographicSize;
         static float fieldOfView;// 64
-        static float pixelPerUnit;
+        static float pixelPerUnit; // 100
         public static Vector3 HeroCamPosition;
         public static Vector3 EyeLine = new Vector3(0, 1.5f, 10);
         public static Vector3 ECamPosition;

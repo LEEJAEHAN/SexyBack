@@ -30,7 +30,7 @@ namespace SexyBackPlayScene
         {
             // this class is event listner
         }
-        public void CreateHero()
+        public void Start()
         {
             CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable);
             Action_HeroCreateEvent(CurrentHero);
