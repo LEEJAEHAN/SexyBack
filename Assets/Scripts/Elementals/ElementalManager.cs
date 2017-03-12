@@ -2,18 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SexyBackPlayScene
+namespace SexyBackPlayScene 
 {
-    class ElementalManager
+    class ElementalManager : IDisposable
     {
+        ~ElementalManager()
+        {
+            sexybacklog.Console("ElementalManager 소멸");
+        }
+
+        public void Dispose()
+        {
+            elementals = null;
+            readyToCreate = null;
+            Action_ElementalCreateEvent = null;// = delegate (object sender) { };
+            Action_ElementalLevelUp = null;
+        }
+
         public Dictionary<string, Elemental> elementals = new Dictionary<string, Elemental>();
         public Queue<string> readyToCreate = new Queue<string>();
         public delegate void ElementalCreateEvent_Handler(Elemental sender);
         public event ElementalCreateEvent_Handler Action_ElementalCreateEvent;// = delegate (object sender) { };
-
         public delegate void ElementalLevelUp_Event(Elemental elemental);
         public event ElementalLevelUp_Event Action_ElementalLevelUp;
-
 
         internal void Init()
         {
@@ -98,5 +109,6 @@ namespace SexyBackPlayScene
             foreach (string id in elementals.Keys)
                 elementals[id].SetStat(statList[id], CalDps);
         }
+
     }
 }

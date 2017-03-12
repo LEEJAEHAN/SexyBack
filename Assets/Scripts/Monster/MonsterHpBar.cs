@@ -9,6 +9,18 @@ namespace SexyBackPlayScene
         {
             sexybacklog.Console("MonsterHpBar 소멸");
         }
+        public void Dispose()
+        {
+            Hpbar = null;
+            LateBar1 = null;
+            LateBar2 = null;
+            Bar2 = null;
+            Bar1 = null;
+            HPBar_Name = null;
+            HPBar_Unit = null;
+            HPBar_Count = null;
+        }
+
         GameObject Hpbar;
         GameObject LateBar1;
         GameObject LateBar2;
@@ -32,17 +44,6 @@ namespace SexyBackPlayScene
         float InitHue = 1f;
         private bool Decreasing = false;
 
-        public void Dispose()
-        {
-            Hpbar = null;
-            LateBar1 = null;
-            LateBar2 = null;
-            Bar2 = null;
-            Bar1 = null;
-            HPBar_Name = null;
-            HPBar_Unit = null;
-            HPBar_Count = null;
-        }
 
         public float IGauge
         {

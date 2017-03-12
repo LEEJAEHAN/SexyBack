@@ -6,6 +6,10 @@ namespace SexyBackPlayScene
     abstract internal class LevelUp : IHasGridItem
     // 레벨업을 하기 위해 구매해야하는 객체, canlevelup 이만들어지면 기생으로 붙는다. 저장된 게임 능력치와는 관계없다
     {
+        ~LevelUp()
+        {
+            sexybacklog.Console("LevelUp 소멸");
+        }
         internal string ID;// 해당객체view의 name
         internal GridItemIcon Icon;
         protected GridItem itemView;

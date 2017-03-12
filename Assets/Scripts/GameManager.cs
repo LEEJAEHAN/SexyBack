@@ -56,6 +56,7 @@ namespace SexyBackPlayScene
             infoView.Init();
         }
 
+
         private Dictionary<string, ElementalStat> MakeElementalStat()
         {
             Dictionary<string, ElementalStat> elementalStats = new Dictionary<string, ElementalStat>();
@@ -67,9 +68,8 @@ namespace SexyBackPlayScene
         public void Dispose()
         {
             // TODO : 해제작업계속.
-            statmanager.Dispose();
+            //statmanager.Dispose();
             //heroManager.Dispose();
-            monsterManager.Dispose();
             //elementalManager.Dispose();
             //levelUpManager.Dispose();
             //researchManager.Dispose();
@@ -77,25 +77,48 @@ namespace SexyBackPlayScene
             //stageManager.Dispose();
             //infoView.Dispose();
 
-            Singleton<StatManager>.Clear();
-            //Singleton<HeroManager>.Clear();
-            Singleton<MonsterManager>.Clear();
-            //Singleton<ElementalManager>.Clear();
+            monsterManager.Dispose();
+            levelUpManager.Dispose();
+            researchManager.Dispose();
+            talentManager.Dispose();
 
+            Singleton<StatManager>.Clear();
+            Singleton<HeroManager>.Clear();
+            Singleton<MonsterManager>.Clear();
+            Singleton<ElementalManager>.Clear();
+            Singleton<LevelUpManager>.Clear();
+            Singleton<ResearchManager>.Clear();
+            Singleton<TalentManager>.Clear();
+            Singleton<StageManager>.Clear();
+            Singleton<GameInfoView>.Clear();
+            
             statmanager = null;
-            //heroManager = null;
+            heroManager = null;
             monsterManager = null;
-            //elementalManager = null;
+            elementalManager = null;
+            levelUpManager = null;
+            researchManager = null;
+            talentManager = null;
+            stageManager = null;
+            infoView = null;
+        }
+        internal void SaveInstance()
+        {
+            PlayerPrefs.SetString("InstanceData", "Yes");
+        }
+        internal void ClearInstance()
+        {
+            PlayerPrefs.DeleteKey("InstanceData");
+            PlayerPrefs.DeleteAll();
+        }
+        internal void LoadInstance()
+        {
 
         }
 
         internal void GameClear()
         {
-        }
-        internal void ExitGame()
-        {
-            PlayerPrefs.SetString("게임중저장데이터", "게임상태저장");
-            Application.Quit();
+            // 보상작업
         }
 
         internal void Start()

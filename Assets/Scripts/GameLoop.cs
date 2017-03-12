@@ -24,12 +24,19 @@ namespace SexyBackPlayScene
 
             viewLoader.Init();
             tableLoader.Init();
+
             gameManager.Init();
         }
-//        GameModeData args;
+            //        GameModeData args;
         void Start()
         {
-            gameManager.Start();
+            if (PlayerPrefs.HasKey("InstanceData"))
+            {
+                gameManager.LoadInstance();
+            }
+            {
+                gameManager.Start();
+            }
         }
         // Update is called once per frame
         void Update()
@@ -52,26 +59,29 @@ namespace SexyBackPlayScene
         public void EndGame() // 메뉴로 버튼을 눌렀을때,
         {
             // TODO : 게임매니저. 게임클리어에서 보상절차 작업해야함.
-            gameManager.GameClear();
-            PlayerPrefs.DeleteKey("게임중저장데이터");
+            gameManager.GameClear();                  // 보상절차과정
+            gameManager.ClearInstance(); // 인스턴스세이브 데이터 지움.
             SceneManager.LoadScene("MenuScene");
         }
-
         private void OnDestroy()
         {
-            //TODO : 3개 Destory() 체크해야함.
             //tableLoader.Dispose();            // 테이블 로더는 남겨둔다.
             //Singleton<TableLoader>.Clear();
-
+            sexybacklog.Console("플레이씬 디스트로이");
             gameInput.Dispose();
             gameManager.Dispose();
-
             Singleton<GameInput>.Clear();
             Singleton<GameManager>.Clear();
-
-            sexybacklog.Console("플레이씬 디스트로이");
         }
-
+        public void Quit()
+        {
+            Application.Quit();
+        }
+        private void OnApplicationQuit()
+        {
+            sexybacklog.Console("어플강제종료");
+            gameManager.SaveInstance(); // 인스턴스세이브
+        }
         private void OnApplicationPause(bool pause)
         {
             // 별다른 처리안해도 되는듯?

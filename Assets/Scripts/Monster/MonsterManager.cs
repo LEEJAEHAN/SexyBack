@@ -20,20 +20,16 @@ namespace SexyBackPlayScene
 
         internal void Init()
         {
-            HpBar = Singleton<MonsterHpBar>.getInstance();
+            HpBar = new MonsterHpBar();
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += onElementalCreate;
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
         }
-
         public void Dispose()
         {
-            monsters = null;
-            disposeIDs = null;
-            BattleMonster = null; // TODO: bucket으로수정해야함;
-            monsterFactory = null;
             HpBar.Dispose();
             HpBar = null;
             Singleton<MonsterHpBar>.Clear();
+            EffectController.Clear();
         }
 
         public void onHit(Monster sender)

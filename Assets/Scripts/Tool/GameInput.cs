@@ -82,7 +82,6 @@ namespace SexyBackPlayScene
             }
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Singleton<GameManager>.getInstance().ExitGame();
             }
 
         }

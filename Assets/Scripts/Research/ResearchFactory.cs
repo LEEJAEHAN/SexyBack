@@ -7,8 +7,15 @@ namespace SexyBackPlayScene
 {
     internal class ResearchFactory
     {
+        ~ResearchFactory()
+        {
+            sexybacklog.Console("ResearchFactory 소멸");
+        }
+
         internal Research CreateNewResearch(ResearchData data)
         {
+
+
             BigInteger totalPrice = CalPrice(data.level, data.baselevel, data.baseprice);
             double temptime = CalTime(data.level + data.baselevel, data.baseprice, data.rate, data.basetime);
             double researchTick;

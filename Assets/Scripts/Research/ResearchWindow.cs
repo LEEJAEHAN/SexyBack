@@ -5,6 +5,17 @@ namespace SexyBackPlayScene
 {
     public class ResearchWindow : MonoBehaviour// singleton 사용
     {
+        ~ResearchWindow()
+        {
+            sexybacklog.Console("ResearchWindow 소멸");
+        }
+
+        internal static void Clear()
+        {
+            Destroy(instance);
+            instance = null;
+        }
+
         GameObject Icon;
 
         UILabel Name;

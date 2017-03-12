@@ -6,8 +6,17 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    class ResearchManager
+    class ResearchManager : IDisposable
     {
+        ~ResearchManager()
+        {
+            sexybacklog.Console("ResearchManager 소멸");
+        }
+        public void Dispose()
+        {
+            ResearchWindow.Clear();
+        }
+
         ResearchFactory factory = new ResearchFactory();
 
         public int resarchthread = 0;

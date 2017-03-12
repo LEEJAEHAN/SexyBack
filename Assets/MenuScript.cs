@@ -9,6 +9,10 @@ namespace SexyBackMenuScene
     public class MenuScript : MonoBehaviour
     {
 
+        private void Awake()
+        {
+            LoadGame();
+        }
         // Use this for initialization
         void Start()
         {
@@ -28,11 +32,9 @@ namespace SexyBackMenuScene
 
         public void LoadGame()
         {
-
-            if (PlayerPrefs.HasKey("게임중저장데이터"))
+            if (PlayerPrefs.HasKey("InstanceData"))
             {
-                string data = PlayerPrefs.GetString("게임중저장데이터");
-                Debug.Log(data + "를 불러옵니다");
+                Debug.Log("인스턴스데이터를 불러옵니다.");
                 SceneManager.LoadScene("BattleScene");
             }
             else

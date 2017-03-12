@@ -5,6 +5,20 @@ namespace SexyBackPlayScene
 {
     public class LevelUpWindow : MonoBehaviour// singleton 사용
     {
+        LevelUpWindow()
+        {
+            sexybacklog.Console("새로운 LevelUpWindow 생성 ");
+        }
+        ~LevelUpWindow()
+        {
+            sexybacklog.Console("LevelUpWindow 소멸");
+        }
+
+        public static void Clear()
+        {
+            Destroy(instance);
+            instance = null;
+        }
         GameObject Icon;
 
         UILabel Name;
@@ -33,22 +47,18 @@ namespace SexyBackPlayScene
                 return instance;
             }
         }
-
         private void Awake()
         {
             Icon = gameObject.transform.FindChild("Icon").gameObject;
-
             Button1 = gameObject.transform.FindChild("Right/Button").GetComponent<UIButton>();
             Damage = gameObject.transform.FindChild("Right/Damage").GetComponent<UILabel>();
             PriceName = gameObject.transform.FindChild("Right/PriceName").GetComponent<UILabel>();
             PriceValue = gameObject.transform.FindChild("Right/PriceValue").GetComponent<UILabel>();
-
             Name = gameObject.transform.FindChild("Middle/Name").GetComponent<UILabel>();
             StatName = gameObject.transform.FindChild("Middle/StatName").GetComponent<UILabel>();
             StatValue = gameObject.transform.FindChild("Middle/StatValue").GetComponent<UILabel>();
 
             gameObject.SetActive(false);
-
             Button1.onClick.Add(new EventDelegate(this, "onButton1"));
         }
 
@@ -90,7 +100,6 @@ namespace SexyBackPlayScene
             else
                 Button1.SetState(UIButtonColor.State.Disabled, true);
         }
-
 
     }
 }

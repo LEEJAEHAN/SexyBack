@@ -6,27 +6,28 @@ namespace SexyBackPlayScene
 {
     internal class StageManager // stage와 monster를 관리한다. 아마도 몬스터 매니져와 합치는게 좋지않을까.
     {
+        // 저장되야할 데이터.
         int GoalFloor = 20;
         public int currentFloor = 1;
         public double Gametime = 0;
+        public List<Stage> Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
+
         public static readonly int DistancePerFloor = 30;
 
-        public List<Stage> Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
         public List<Stage> beToDispose = new List<Stage>(); // 풀링하지말자. 잦은이동이있는것도아닌데
         private bool needNextStage = false;
 
-        public void Init(GameModeData gamemode)
+        public void Init(GameModeData gamemodetata)
         {
-            SetGameMode(gamemode);
-        }
-        private void SetGameMode(GameModeData gamemode)
-        {
-            GoalFloor = gamemode.GoalFloor;
+            GoalFloor = 20;
+            currentFloor = 1;
+            Gametime = 0;
+            Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
         }
         public void Start() // start stagebuilder
         {
             Stages.Add(CreateStage(currentFloor, 5, 1));
-            Stages.Add(CreateStage(currentFloor + 1, 5+ DistancePerFloor, 1));
+            Stages.Add(CreateStage(currentFloor + 1, 5 + DistancePerFloor, 1));
         }
 
         private Stage CreateStage(int floor, int zPosition, int monsterCount)

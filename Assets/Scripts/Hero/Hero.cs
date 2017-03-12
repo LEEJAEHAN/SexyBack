@@ -4,8 +4,23 @@ using UnityEngine;
 namespace SexyBackPlayScene
 {
 
-    internal class Hero : IStateOwner
+    internal class Hero : IStateOwner, IDisposable
     {
+        ~Hero()
+        {
+            sexybacklog.Console("Hero 소멸");
+        }
+
+        public void Dispose()
+        {
+            // manager
+            StateMachine = null;
+            AttackManager.Dispose();
+            AttackManager = null;
+            avatar = null;
+            Action_Change = null;
+            Action_DistanceChange = null;
+        }
         readonly string ID;
         public readonly string Name;
         public string GetID { get { return ID; } }
@@ -30,7 +45,7 @@ namespace SexyBackPlayScene
 
         public BigInteger DPC = new BigInteger();
         public BigInteger DPCTick = new BigInteger();
-        
+
         public int MAXATTACKCOUNT;
         public double ATTACKINTERVAL;
         public double MOVESPEED;
@@ -94,7 +109,7 @@ namespace SexyBackPlayScene
             CRIRATE = (double)herostat.CriticalRateXH / 100;
             CRIDAMAGEXH = herostat.CriticalDamageXH;
             //send event
-            if(CalDamage)
+            if (CalDamage)
                 CalDpc();
             Action_Change(this);
         }

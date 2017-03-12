@@ -4,8 +4,20 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    internal class HeroAttackManager // 쿨타임관리, 이펙트생성 등
+    internal class HeroAttackManager : IDisposable // 쿨타임관리, 이펙트생성 등
     {
+        ~HeroAttackManager()
+        {
+            sexybacklog.Console("HeroAttackManager 소멸");
+        }
+        public void Dispose()
+        {
+            owner = null;
+            AttackPlan = null;
+            CoolTimeBar = null;
+            SwordIcons = null;
+        }
+
         private Hero owner;
         private Queue<TapPoint> AttackPlan = new Queue<TapPoint>();
 

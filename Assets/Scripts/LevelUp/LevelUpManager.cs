@@ -4,12 +4,24 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    internal class LevelUpManager
+    internal class LevelUpManager : IDisposable
     {
+        ~LevelUpManager()
+        {
+            sexybacklog.Console("LevelUpManager 소멸");
+        }
+
+        public void Dispose()
+        {
+            LevelUpWindow.Clear();
+            Panel = null;
+        }
+        LevelUpWindow Panel;
         Dictionary<string, LevelUp> levelUpItems = new Dictionary<string, LevelUp>();
 
         internal void Init()
         {
+            Panel = LevelUpWindow.getInstance;
             // this class is event listner
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += onElementalCreate;
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
@@ -81,5 +93,6 @@ namespace SexyBackPlayScene
                     item.SetStat(stat);
             }
         }
+
     }
 }

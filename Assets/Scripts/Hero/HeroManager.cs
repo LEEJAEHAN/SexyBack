@@ -3,8 +3,20 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    class HeroManager
+    class HeroManager : IDisposable
     {
+        ~HeroManager()
+        {
+            sexybacklog.Console("HeroManager 소멸");
+        }
+        public void Dispose()
+        {
+            Action_HeroCreateEvent = null;
+            Action_HeroLevelUp = null;
+            CurrentHero.Dispose();
+            CurrentHero = null;
+        }
+
         Hero CurrentHero;
 
         // this class is event publisher
@@ -49,5 +61,6 @@ namespace SexyBackPlayScene
             CurrentHero.LevelUp(amount);
             Action_HeroLevelUp(CurrentHero);
         }
+
     }
 }

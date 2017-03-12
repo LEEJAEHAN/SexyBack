@@ -7,6 +7,10 @@ namespace SexyBackPlayScene
 {
     public class EffectController : MonoBehaviour
     {
+        ~EffectController()
+        {
+            sexybacklog.Console("EffectController 소멸");
+        }
         GameObject Effect_Particle;
         GameObject Effect_Sword;
         GameObject Effect_Buff;
@@ -24,6 +28,12 @@ namespace SexyBackPlayScene
                 return instance;
             }
         }
+        public static void Clear()
+        {
+            Destroy(instance);
+            instance = null;
+        }
+
         //public void OnApplicationQuit()
         //{
         //    instance = null;

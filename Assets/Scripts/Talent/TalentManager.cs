@@ -5,8 +5,19 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    internal class TalentManager
+    internal class TalentManager : IDisposable
     {
+        ~TalentManager()
+        {
+            sexybacklog.Console("TalentManager 소멸");
+        }
+        public void Dispose()
+        {
+            TalentWindow.Clear();
+            window = null;
+        }
+
+
         TalentWindow window;
         int CurrentFloor;
         public List<Talent> AttackTalents = new List<Talent>();

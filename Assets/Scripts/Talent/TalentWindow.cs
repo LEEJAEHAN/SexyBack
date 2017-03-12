@@ -5,6 +5,16 @@ namespace SexyBackPlayScene
 {
     internal class TalentWindow : MonoBehaviour
     {
+        ~TalentWindow()
+        {
+            sexybacklog.Console("TalentWindow 소멸");
+        }
+        internal static void Clear()
+        {
+            Destroy(instance);
+            instance = null;
+        }
+
         UILabel TalentA_Level;
         UILabel TalentE_Level;
         UILabel TalentU_Level;
