@@ -1,5 +1,9 @@
-﻿namespace SexyBackPlayScene
+﻿using System;
+using System.Runtime.Serialization;
+
+namespace SexyBackPlayScene
 {
+    [Serializable]
     internal class PlayerStat
     {
         internal int ResearchTimeX; // 곱계수는 X를붙인다.
@@ -19,6 +23,7 @@
             ResearchPriceXH = 100;
         }
     }
+    [Serializable]
     internal class HeroStat
     {
         internal int Level;
@@ -42,8 +47,14 @@
             CriticalDamageXH = 200;
             AttackSpeedXH = 100;
         }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            throw new NotImplementedException();
+        }
     }
-    internal class ElementalStat // 누적배수
+    [Serializable]
+    internal class ElementalStat// 누적배수
     {
         internal BigInteger DpsX;
         internal int DpsIncreaseXH; // 
@@ -55,6 +66,7 @@
             DpsIncreaseXH = 100;
             CastSpeedXH = 100;
         }
+
     }
 
 

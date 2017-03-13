@@ -17,18 +17,17 @@ namespace SexyBackPlayScene
         // serialized
         StageManager stageManager; // 일종의 스크립트
         MonsterManager monsterManager;
-        [NonSerialized]
         HeroManager heroManager;
-        [NonSerialized]
         ElementalManager elementalManager;
+        [NonSerialized]
+        LevelUpManager levelUpManager;
+
         [NonSerialized]
         TalentManager talentManager;
 
-        // singleton - player
         [NonSerialized]
         StatManager statmanager;
-        [NonSerialized]
-        LevelUpManager levelUpManager;
+        // singleton - player
         [NonSerialized]
         ResearchManager researchManager;
 
@@ -81,21 +80,48 @@ namespace SexyBackPlayScene
         }
         internal void LoadInstance()
         {
-            GameManager loaddata = null;
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open("GameSaveData.dat", FileMode.Open);
-            if (file != null && file.Length > 0)
-            {
-                loaddata = (GameManager)bf.Deserialize(file);
-            }
-            file.Close();
+            //GameManager loaddata = null;
 
-            statmanager.Start(new HeroStat(), new PlayerStat(), MakeElementalStat(), new BigInteger(0));
-            stageManager.Load(loaddata.stageManager);
-            monsterManager.Load(loaddata.monsterManager);
-            heroManager.Start(); // and hero is move
+            //statmanager.Start(new HeroStat(), new PlayerStat(), MakeElementalStat(), new BigInteger(0));
+            StatManager sData = (StatManager)SaveSystem.Load("statmanager.dat");
+            statmanager.Load(sData);              // 만들때
+            stageManager.Load((StageManager)SaveSystem.Load("stagemanager.dat"));       // 상관관계 x
+            monsterManager.Load((MonsterManager)SaveSystem.Load("monsterManager.dat")); // 상관관계 x
+            HeroManager hData = (HeroManager)SaveSystem.Load("heroManager.dat");
+            heroManager.Load(hData);   // pre : statamaniger.herostat필요함. post : 스텟
+            ElementalManager eData = (ElementalManager)SaveSystem.Load("elementalManager.dat");
+            elementalManager.Load(eData);   // pre : statmaiger.elementastst. post : 스텟
+
+            //resaearch 로드
+            //talent 로드
+            // gameinfo ( 시간 ) 로드
+
+            //statmanager.setallstat;
+            heroManager.CurrentHero.SetStat(statmanager.GetHeroStat, true);
+            elementalManager.SetStatAll(statmanager.GetElementalStats, true);
+            //heroManager.levelup;
+            heroManager.LevelUp(hData.CurrentHero.LEVEL);
+            //elementalManager.levelup;
+            elementalManager.LevelUpAll(eData.elementals);
+            statmanager.ExpGain(sData.EXP, false);
+            //statmanager.gainexp;
+
+            // 리서치 매니져 // pre : 스텟메니져.research스텟과 post : 스텟메니져.exp와 hero,레벨 elements.level, 스텟
+            // 레벨업 매니져 // pre : 스텟매니져.levelup스텟, hero, element creates, post : hero레벨, element레벨, 스텟
+
+            //heroManager.Load(loaddata.heroManager); // and hero is move
         }
+        internal void SaveInstance()
+        {
+            PlayerPrefs.SetString("InstanceData", "Yes");
 
+            SaveSystem.Save(statmanager, "statmanager.dat");
+            SaveSystem.Save(stageManager, "stagemanager.dat");
+            SaveSystem.Save(monsterManager, "monsterManager.dat");
+            SaveSystem.Save(heroManager, "heroManager.dat");
+            SaveSystem.Save(elementalManager, "elementalManager.dat");
+
+        }
 
         private Dictionary<string, ElementalStat> MakeElementalStat()
         {
@@ -142,15 +168,7 @@ namespace SexyBackPlayScene
             stageManager = null;
             infoView = null;
         }
-        internal void SaveInstance()
-        {
-            PlayerPrefs.SetString("InstanceData", "Yes");
 
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Create("GameSaveData.dat");
-            bf.Serialize(file, this);
-            file.Close();
-        }
         internal void ClearInstance()
         {
             PlayerPrefs.DeleteKey("InstanceData");

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 using DType = System.UInt32; // This could be UInt32, UInt16 or Byte; not UInt64.
 
@@ -294,7 +295,8 @@ namespace SexyBackPlayScene
     ///		}
     ///	</code>
     /// </example>
-    public class BigInteger
+    [Serializable]
+    public class BigInteger : ISerializable
     {
         private DigitsArray m_digits;
 
@@ -304,25 +306,37 @@ namespace SexyBackPlayScene
         /// </summary>
         public BigInteger(int value, Digit digit)
         {
-            string temp = value.ToString();
+            string BigIntegerString = value.ToString();
             for (int i = 0; i < (int)digit; i++)
-                temp += "000";
+                BigIntegerString += "000";
 
-            BigInteger a = new BigInteger(temp);
-            a.m_digits.ResetDataUsed();
-            this.m_digits = a.m_digits;
+            BigInteger temp = new BigInteger(BigIntegerString);
+            temp.m_digits.ResetDataUsed();
+            this.m_digits = temp.m_digits;
         }
         public BigInteger(BigIntExpression exp)
         {
-            string temp = exp.value.ToString();
+            string BigIntegerString = exp.value.ToString();
             int digit = (int)exp.digit;
             for (int i = 0; i < (int)digit; i++)
-                temp += "000";
+                BigIntegerString += "000";
 
-            BigInteger a = new BigInteger(temp);
-            a.m_digits.ResetDataUsed();
-            this.m_digits = a.m_digits;
+            BigInteger temp = new BigInteger(BigIntegerString);
+            temp.m_digits.ResetDataUsed();
+            this.m_digits = temp.m_digits;
         }
+        public BigInteger(SerializationInfo info, StreamingContext context)
+        {
+            string BigIntegerString = (string)info.GetValue("BigIntegerString", typeof(string));
+            BigInteger temp = new BigInteger(BigIntegerString);
+            temp.m_digits.ResetDataUsed();
+            this.m_digits = temp.m_digits;
+        }
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("BigIntegerString", this.ToString());
+        }
+
         public string To5String()
         {
             int digit3 = 3; // 3자리마다 단위를늘린다..

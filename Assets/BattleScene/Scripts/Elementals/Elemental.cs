@@ -1,10 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
-
+using System.Runtime.Serialization;
 namespace SexyBackPlayScene
 {
-    internal class Elemental// base class of Elementals
+    [Serializable]
+    internal class Elemental : ISerializable// base class of Elementals
     {
         public string GetID { get { return ID; } }
         public string targetID;
@@ -49,10 +50,16 @@ namespace SexyBackPlayScene
             DpsShiftDigit = data.FloatDigit;
             BaseExp = data.BaseExp;
             GrowthRate = data.GrowthRate;
-
             ElementalArea = area;
         }
-
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("level", level);
+        }
+        public Elemental(SerializationInfo info, StreamingContext context)
+        {
+            level = (int)info.GetValue("level", typeof(int));
+        }
         internal void CreateProjectile()
         {
             Vector3 genPosition = RandomRangeVector3(ElementalArea.position, ElementalArea.localScale / 2);
@@ -149,5 +156,7 @@ namespace SexyBackPlayScene
                 UnityEngine.Random.Range(min.y, max.y),
                 UnityEngine.Random.Range(min.z, max.z));
         }
+
+
     }
 }

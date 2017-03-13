@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    class HeroManager : IDisposable
+    [Serializable]
+    internal class HeroManager : IDisposable
     {
         ~HeroManager()
         {
@@ -17,13 +18,15 @@ namespace SexyBackPlayScene
             CurrentHero = null;
         }
 
-        Hero CurrentHero;
+        public Hero CurrentHero;
 
         // this class is event publisher
         public delegate void HeroCreate_Event(Hero hero);
+        [field: NonSerialized]
         public event HeroCreate_Event Action_HeroCreateEvent;
 
         public delegate void HeroLevelUp_Event(Hero hero);
+        [field: NonSerialized]
         public event HeroLevelUp_Event Action_HeroLevelUp;
 
         public void Init()
@@ -38,6 +41,15 @@ namespace SexyBackPlayScene
             LevelUp(1);
             CurrentHero.ChangeState("Move"); //Ready
         }
+        internal void Load(HeroManager heroManager)
+        {
+            CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable);
+            Action_HeroCreateEvent(CurrentHero);
+            //CurrentHero.SetStat(Singleton<StatManager>.getInstance().GetHeroStat, true);
+            //LevelUp(heroManager.CurrentHero.LEVEL);
+            CurrentHero.ChangeState("Move"); //Ready
+        }
+
         internal void Update()
         {
             if (CurrentHero == null)

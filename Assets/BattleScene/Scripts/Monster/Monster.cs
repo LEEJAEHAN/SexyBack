@@ -62,7 +62,7 @@ namespace SexyBackPlayScene
         internal bool Hit(Vector3 hitWoridPosition, BigInteger damage, bool isCritical)
         {
             HP -= damage;
-            Singleton<StatManager>.getInstance().ExpGain(damage);
+            Singleton<StatManager>.getInstance().ExpGain(damage, true);
             //sexybacklog.Console(damage);
             //particle
             EffectController.getInstance.PlayParticle(hitWoridPosition);

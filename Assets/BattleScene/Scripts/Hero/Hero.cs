@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.Serialization;
+
 namespace SexyBackPlayScene
 {
-
-    internal class Hero : IStateOwner, IDisposable
+    [Serializable]
+    internal class Hero : IStateOwner, IDisposable, ISerializable
     {
         ~Hero()
         {
@@ -25,7 +27,8 @@ namespace SexyBackPlayScene
         public readonly string Name;
         public string GetID { get { return ID; } }
         public string targetID;
-    
+        int level = 0;
+
         // manager
         public HeroStateMachine StateMachine;
         public Animator Animator;
@@ -35,7 +38,6 @@ namespace SexyBackPlayScene
         private GameObject avatar;
 
         // 데미지변수
-        int level = 0;
         BigInteger dpcX = new BigInteger();
         public int DpcIncreaseXH;
 
@@ -85,6 +87,16 @@ namespace SexyBackPlayScene
             AttackManager = new HeroAttackManager(this);
             StateMachine = new HeroStateMachine(this);
         }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("level", level);
+        }
+        public Hero(SerializationInfo info, StreamingContext context)
+        {
+            level = (int)info.GetValue("level", typeof(int));
+        }
+
         void CalDpc()
         {
             DPCTick = BaseDpc * dpcX * DpcIncreaseXH / 100;

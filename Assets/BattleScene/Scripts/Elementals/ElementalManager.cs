@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace SexyBackPlayScene 
 {
+    [Serializable]
     class ElementalManager : IDisposable
     {
         ~ElementalManager()
@@ -20,16 +21,20 @@ namespace SexyBackPlayScene
         }
 
         public Dictionary<string, Elemental> elementals = new Dictionary<string, Elemental>();
+        [NonSerialized]
         public Queue<string> readyToCreate = new Queue<string>();
         public delegate void ElementalCreateEvent_Handler(Elemental sender);
+        [field:NonSerialized]
         public event ElementalCreateEvent_Handler Action_ElementalCreateEvent;// = delegate (object sender) { };
         public delegate void ElementalLevelUp_Event(Elemental elemental);
+        [field: NonSerialized]
         public event ElementalLevelUp_Event Action_ElementalLevelUp;
 
         internal void Init()
         {
             // this class is event listner
         }
+
         private bool SummonNewElemental(string id)
         {
             ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
@@ -40,6 +45,26 @@ namespace SexyBackPlayScene
             LevelUp(id, 1);
             newElemental.SetStat(stat, true);
             return true;
+        }
+
+        internal void Load(ElementalManager elementalManager)
+        {
+            foreach(string saveEID in elementalManager.elementals.Keys)
+            {
+                ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[saveEID];
+                ElementalStat stat = Singleton<StatManager>.getInstance().GetElementalStat(saveEID);
+                Elemental newElemental = new Elemental(data, ViewLoader.area_elemental.transform);
+                Action_ElementalCreateEvent(newElemental);
+                elementals.Add(saveEID, newElemental);
+                //LevelUp(saveEID, elementalManager.elementals[saveEID].LEVEL);
+                //newElemental.SetStat(stat, true);
+            }
+        }
+
+        internal void LevelUpAll(Dictionary<string, Elemental> elementals)
+        {
+            foreach (string saveEID in elementals.Keys)
+                LevelUp(saveEID, elementals[saveEID].LEVEL);
         }
 
         internal void LevelUp(string id, int amount)
@@ -104,6 +129,7 @@ namespace SexyBackPlayScene
             if (elementals.ContainsKey(ElementalID))
                 elementals[ElementalID].SetStat(stat, CalDps);
         }
+
         internal void SetStatAll(Dictionary<string, ElementalStat> statList, bool CalDps)
         {
             foreach (string id in elementals.Keys)

@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
+    [Serializable]
     internal class StatManager : IDisposable // 누적배수를 가지고있다. BattleScene안에서만 동작한다.
     {
         ~StatManager()
@@ -29,10 +30,13 @@ namespace SexyBackPlayScene
         public BigInteger EXP { get { return exp; } }
 
         // for test
+        [NonSerialized]
         BigInteger lspend = new BigInteger(0);
+        [NonSerialized]
         BigInteger rspend = new BigInteger(0);
 
         public delegate void ExpChange_Event(BigInteger exp);
+        [field:NonSerialized]
         public event ExpChange_Event Action_ExpChange;
 
         PlayerStat playerStat;
@@ -41,9 +45,12 @@ namespace SexyBackPlayScene
 
         internal PlayerStat GetPlayerStat { get { return playerStat; } }
         internal HeroStat GetHeroStat { get { return heroStat; } }
+        internal Dictionary<string, ElementalStat> GetElementalStats { get { return elementalStats; } }
         internal ElementalStat GetElementalStat(string id) { return elementalStats[id]; }
 
+        [NonSerialized]
         HeroManager heromanager = Singleton<HeroManager>.getInstance();
+        [NonSerialized]
         ElementalManager elementalmanager = Singleton<ElementalManager>.getInstance();
 
         internal void Init()
@@ -57,6 +64,15 @@ namespace SexyBackPlayScene
             elementalStats = EStatList;
             exp = StartExp;
         }
+        internal void Load(StatManager loadData)
+        {
+            exp = new BigInteger(0);
+            //exp = loadData.exp;
+            playerStat = loadData.playerStat;
+            heroStat = loadData.heroStat;
+            elementalStats = loadData.elementalStats;
+        }
+
 
         internal void Update()
         {
@@ -148,6 +164,8 @@ namespace SexyBackPlayScene
                     }
             }
         }
+
+
         private void UpgradeElemental(Bonus bonus)
         {
             switch (bonus.attribute)
@@ -245,7 +263,7 @@ namespace SexyBackPlayScene
                     }
                 case "ExpPerFloor":
                     {
-                        ExpGain(bonus.bigvalue);
+                        ExpGain(bonus.bigvalue, false);
                         break;
                     }
                 default:
@@ -255,11 +273,20 @@ namespace SexyBackPlayScene
                     }
             }
         }
-        public void ExpGain(BigInteger e)
+        public void ExpGain(BigInteger e, bool isApplyStat)
         {
-            exp += e * playerStat.ExpIncreaseXH / 100;
+            if (isApplyStat)
+                exp += e * playerStat.ExpIncreaseXH / 100;
+            else
+                exp += e;
             Action_ExpChange(exp);
         }
+        //public void ExpGain(BigInteger e)
+        //{
+        //    exp += e * playerStat.ExpIncreaseXH / 100;
+        //    Action_ExpChange(exp);
+        //}
+
         internal bool ExpUse(BigInteger e, bool islevelup)
         {
             bool result;

@@ -67,7 +67,7 @@ namespace SexyBackPlayScene
             }
             if(Input.GetKey(KeyCode.M))
             {
-                Singleton<StatManager>.getInstance().ExpGain(new BigInteger(new BigIntExpression(100, "m")));
+                Singleton<StatManager>.getInstance().ExpGain(new BigInteger(new BigIntExpression(100, "m")), false);
             }
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {

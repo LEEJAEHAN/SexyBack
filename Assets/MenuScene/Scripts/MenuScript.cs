@@ -5,10 +5,8 @@ using UnityEngine.SceneManagement;
 
 namespace SexyBackMenuScene
 {
-
     public class MenuScript : MonoBehaviour
     {
-
         private void Awake()
         {
             LoadGame();

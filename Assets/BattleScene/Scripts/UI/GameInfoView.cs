@@ -70,7 +70,7 @@ namespace SexyBackPlayScene
             HeroDpcLabel.text = dpsString;
         }
 
-        void PrintExp(BigInteger exp)
+        public void PrintExp(BigInteger exp)
         {
             string expstring = exp.To5String() + "";
             ExpLabel.text = expstring;
