@@ -34,6 +34,7 @@ namespace SexyBackPlayScene
             }
             CurrState = newState;
             currStateID = newStateID;
+
             Action_changeEvent(owner.GetID, currStateID);
             newStateID = null;
             CurrState.Begin();

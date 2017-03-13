@@ -15,7 +15,9 @@ namespace SexyBackPlayScene
 
         [NonSerialized]
         public static readonly int DistancePerFloor = 30;
+        [NonSerialized]
         public List<Stage> beToDispose = new List<Stage>(); // 풀링하지말자. 잦은이동이있는것도아닌데
+        [NonSerialized]
         private bool needNextStage = false;
 
         public void Init()
@@ -55,7 +57,7 @@ namespace SexyBackPlayScene
             foreach( Stage stagedata in data.Stages)
             {
                 Stage stage = new Stage(stagedata.floor, stagedata.zPosition, stagedata.isLastStage, stagedata.rewardComplete, stagedata.monsterID);
-                stage.StateMachine.ChangeState(stagedata.CurrentState);
+                stage.ChangeState(stagedata.savedState);
                 Stages.Add(stage);
             }
         }

@@ -25,7 +25,7 @@ namespace SexyBackPlayScene
         public readonly string Name;
         public string GetID { get { return ID; } }
         public string targetID;
-
+    
         // manager
         public HeroStateMachine StateMachine;
         public Animator Animator;
@@ -60,9 +60,7 @@ namespace SexyBackPlayScene
         readonly float MoveSpeed;
         readonly double GrowthRate;
 
-        //stateOwner
         public string CurrentState { get { return StateMachine.currStateID; } }
-
         // function property
         private bool JudgeCritical { get { return CRIRATE > UnityEngine.Random.Range(0.0f, 1.0f); } }
 

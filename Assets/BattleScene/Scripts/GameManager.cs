@@ -2,7 +2,8 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
-
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace SexyBackPlayScene
 {
@@ -15,8 +16,6 @@ namespace SexyBackPlayScene
         }
         // serialized
         StageManager stageManager; // 일종의 스크립트
-
-        [NonSerialized]
         MonsterManager monsterManager;
         [NonSerialized]
         HeroManager heroManager;
@@ -83,9 +82,17 @@ namespace SexyBackPlayScene
         internal void LoadInstance()
         {
             GameManager loaddata = null;
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open("GameSaveData.dat", FileMode.Open);
+            if (file != null && file.Length > 0)
+            {
+                loaddata = (GameManager)bf.Deserialize(file);
+            }
+            file.Close();
 
             statmanager.Start(new HeroStat(), new PlayerStat(), MakeElementalStat(), new BigInteger(0));
             stageManager.Load(loaddata.stageManager);
+            monsterManager.Load(loaddata.monsterManager);
             heroManager.Start(); // and hero is move
         }
 
@@ -138,7 +145,11 @@ namespace SexyBackPlayScene
         internal void SaveInstance()
         {
             PlayerPrefs.SetString("InstanceData", "Yes");
-            
+
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Create("GameSaveData.dat");
+            bf.Serialize(file, this);
+            file.Close();
         }
         internal void ClearInstance()
         {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace SexyBackPlayScene
 {
+    [Serializable]
     // 몬스터와 관련된 입력을 처리
     internal class MonsterManager : IDisposable
     {
@@ -11,19 +12,42 @@ namespace SexyBackPlayScene
         {
             sexybacklog.Console("MonsterManager 소멸");
         }
-        Dictionary<string, Monster> monsters = new Dictionary<string, Monster>();
-        Queue<string> disposeIDs= new Queue<string>();
 
+        Dictionary<string, Monster> monsters = new Dictionary<string, Monster>();
+
+        [NonSerialized]
+        Queue<string> disposeIDs= new Queue<string>();
+        [NonSerialized]
         Monster BattleMonster; // TODO: bucket으로수정해야함;
+        [NonSerialized]
         MonsterHpBar HpBar;
-        MonsterFactory monsterFactory = new MonsterFactory();
+        [NonSerialized]
+        MonsterFactory monsterFactory;
 
         internal void Init()
         {
             HpBar = new MonsterHpBar();
+            monsterFactory = new MonsterFactory();
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += onElementalCreate;
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
         }
+        internal void Load(MonsterManager monsterManager)
+        {
+            foreach (string id in monsterManager.monsters.Keys)
+            {
+                Monster data = monsterManager.monsters[id];
+                if (data.HP <= 0)
+                    continue;
+                Monster monster = monsterFactory.LoadMonster(data.dataID, data.level, data.HP);
+                monsters.Add(id, monster);
+            }
+        }
+
+        internal void SpawnBattleMonster(Transform transform)
+        {
+            BattleMonster.Spawn(transform);            // 여기가 실제 monstermanager의 기능.
+        }
+
         public void Dispose()
         {
             HpBar.Dispose();
@@ -49,7 +73,6 @@ namespace SexyBackPlayScene
             BattleMonster = monsters[id];
             HpBar.FillNewBar(BattleMonster);
             HpBar.UpdateBar(BattleMonster);
-            BattleMonster.Join();            // 여기가 실제 monstermanager의 기능.
         }
 
         internal void FixedUpdate()
@@ -62,7 +85,7 @@ namespace SexyBackPlayScene
             foreach( Monster m in monsters.Values)
                 m.Update();
 
-            while(disposeIDs.Count!=0)
+            while (disposeIDs.Count!=0)
             {
                 string id = disposeIDs.Dequeue();
                 if (id == BattleMonster.GetID)
@@ -104,5 +127,6 @@ namespace SexyBackPlayScene
             BattleMonster.StateMachine.Action_changeEvent += hero.onTargetStateChange;
             //hero.SetDirection(CurrentMonster.CenterPosition);
         }
+
     }
 }

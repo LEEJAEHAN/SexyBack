@@ -3,6 +3,6 @@
     internal interface IStateOwner
     {
         string GetID { get; }
-        string CurrentState { get; }
+        //        string State{ get; set; }
     }
 }

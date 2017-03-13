@@ -1,52 +1,62 @@
 ﻿using System;
 using UnityEngine;
+using System.Runtime.Serialization;
 
 namespace SexyBackPlayScene
 {
-    internal class Monster : IStateOwner, IDisposable// model
+    [Serializable]
+    internal class Monster : IStateOwner, IDisposable, ISerializable// model
     {
         ~Monster() { sexybacklog.Console("몬스터 소멸!"); }
 
-        readonly string ID;
-        public string GetID { get { return ID; } }
-        public string Name;
-        public int level;   
+        public readonly string dataID;
+        public int level;
         public BigInteger HP;
-        public BigInteger MAXHP;
 
+        public string Name;
+        public BigInteger MAXHP;
         // view
         public GameObject avatar;
         public GameObject sprite;
-
         // state
         public StateMachine<Monster> StateMachine;
-        public string CurrentState { get { return StateMachine.currStateID; } }
-
         //size value
         public Vector3 CenterPosition; // 몬스터 중점의 world상 위치.
         public Vector3 Size;           // sprite size, collider size는 이것과 동기화.
 
+        public string GetID { get { return dataID + "/" + level.ToString(); } }
+        public string CurrentState { get { return StateMachine.currStateID; } }
         public MonsterStateMachine.StateChangeHandler Action_StateChangeEvent { set { StateMachine.Action_changeEvent += value; } }
 
-        //TODO: 임시로작성.
-        public bool isActive = false;
-
-        internal Monster(string InstsanceID)
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            ID = InstsanceID;
+            info.AddValue("dataID", dataID);
+            info.AddValue("level", level);
+            info.AddValue("HP", HP.ToString());
+        }
+        public Monster(SerializationInfo info, StreamingContext context)
+        {
+            dataID = (string)info.GetValue("dataID", typeof(string));
+            level = (int)info.GetValue("level", typeof(int));
+            HP = new BigInteger((string)info.GetValue("HP", typeof(string)));
         }
 
-        internal void Join() // join the battle
+        internal Monster(string dataID)
         {
-            isActive = true;
+            this.dataID = dataID;
+        }
+
+        internal void Spawn(Transform transform) // join the battle
+        {
+            avatar.transform.parent = transform;
+            avatar.transform.localPosition = Vector3.zero;
             avatar.SetActive(true);
             StateMachine.ChangeState("Appear");
         }
 
         public void Update()
         {
-            if (isActive)
-                StateMachine.Update();
+            StateMachine.Update();
         }
 
         internal bool Hit(Vector3 hitWoridPosition, BigInteger damage, bool isCritical)
@@ -88,11 +98,11 @@ namespace SexyBackPlayScene
         {
             HP = null;
             MAXHP = null;
-            avatar.GetComponent<MonsterView>().Dispose();
+            if(avatar!= null) // stage에 의해 먼저 제거될 위험이 있음.
+                avatar.GetComponent<MonsterView>().Dispose();
             avatar = null;
             sprite = null;
             StateMachine = null;
-            isActive = false;
         }
 
     }

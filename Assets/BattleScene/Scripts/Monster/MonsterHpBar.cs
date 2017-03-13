@@ -114,7 +114,7 @@ namespace SexyBackPlayScene
 
         private void onTargetStateChange(string id, string stateid)
         {
-            if (stateid == "Appear") //stateid == "Death" || 
+            if (stateid == "Appear" || stateid == "Death") //stateid == "Death" || 
                 Hpbar.SetActive(false);
             else if(stateid == "Ready" || stateid == "Flying")
                 Hpbar.SetActive(true);

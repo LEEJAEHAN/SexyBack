@@ -37,7 +37,7 @@
             AttackCount = 1;
             DpcIncreaseXH = 100; // 
             AttackSpeedXH = 100;
-            MovespeedXH = 1000;
+            MovespeedXH = 200;
             CriticalRateXH = 10;
             CriticalDamageXH = 200;
             AttackSpeedXH = 100;

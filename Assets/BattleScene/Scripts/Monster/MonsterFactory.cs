@@ -6,8 +6,6 @@ namespace SexyBackPlayScene
 {
     internal class MonsterFactory
     {
-        int TotalProductCount = 0;
-
         public MonsterFactory()
         {
         }
@@ -38,16 +36,13 @@ namespace SexyBackPlayScene
         public Monster CreateMonster(string id, int level)
         {
             MonsterData data = Singleton<TableLoader>.getInstance().monstertable[id];
-            TotalProductCount++;
-            string InstanceID = TotalProductCount + "/" + data.ID + "/" + level.ToString();
-            Monster monster = new Monster(InstanceID);
-
-            monster.Name = data.Name;
+            Monster monster = new Monster(id);
             monster.level = level;
+            monster.Name = data.Name;
             monster.MAXHP = BigInteger.PowerByGrowth(data.baseHP, level - 1, MonsterData.GrowthRate);
             monster.HP = BigInteger.PowerByGrowth(data.baseHP, level - 1, MonsterData.GrowthRate);
 
-            monster.avatar = InitAvatar(data.ID, ViewLoader.monsterbucket.transform, data.LocalPosition, out monster.CenterPosition); //data.PivotPosition
+            monster.avatar = InitAvatar(monster.GetID, ViewLoader.monsterbucket.transform, data.LocalPosition, out monster.CenterPosition); //data.PivotPosition
             monster.sprite = InitSprite(monster.avatar, data.SpritePath, out monster.Size);
             SetCollider(monster.avatar, monster.Size, Vector3.zero);
             monster.StateMachine = new MonsterStateMachine(monster);
@@ -57,11 +52,29 @@ namespace SexyBackPlayScene
             return monster;
         }
 
+        public Monster LoadMonster(string monsterdataid, int level, BigInteger hp)
+        {
+            MonsterData data = Singleton<TableLoader>.getInstance().monstertable[monsterdataid];
+            Monster monster = new Monster(monsterdataid);
+            monster.level = level;
+            monster.Name = data.Name;
+            monster.MAXHP = BigInteger.PowerByGrowth(data.baseHP, level - 1, MonsterData.GrowthRate);
+            monster.HP = hp;
+
+            monster.avatar = InitAvatar(monster.GetID, ViewLoader.monsterbucket.transform, data.LocalPosition, out monster.CenterPosition); //data.PivotPosition
+            monster.sprite = InitSprite(monster.avatar, data.SpritePath, out monster.Size);
+            SetCollider(monster.avatar, monster.Size, Vector3.zero);
+            monster.StateMachine = new MonsterStateMachine(monster);
+
+            //Action_MonsterChangeEvent(this);
+            monster.avatar.SetActive(false);
+            return monster;
+        }
+
+
         private GameObject InitAvatar(string name, Transform parent, Vector3 localposition, out Vector3 realposition)
         {
-            GameObject temp = GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/monster") as GameObject);
-            temp.name = name;
-            temp.transform.parent = parent; // genposition
+            GameObject temp = ViewLoader.InstantiatePrefab(parent, name, "Prefabs/monster");
             temp.transform.localPosition = localposition;
             realposition = temp.transform.position; // 피봇으로 옮겨간정도 + 원래의 위치  ( 실제 위치는 옮겨놓지않았기떄문에 monsters(부모)의위치를더함 // pivot으로 몬스터위치조정은힘들어서 collider와 sprite만조정한다.
             return temp;
@@ -82,19 +95,6 @@ namespace SexyBackPlayScene
             return sprobj;
         }
 
-
-        //private List<E> ShuffleList<E>(List<E> inputList)
-        //{
-        //    List<E> randomList = new List<E>();
-        //    int randomIndex = 0;
-        //    while (inputList.Count > 0)
-        //    {
-        //        randomIndex = UnityEngine.Random.Range(0, inputList.Count); //Choose a random object in the list
-        //        randomList.Add(inputList[randomIndex]); //add it to the new, random list
-        //        inputList.RemoveAt(randomIndex); //remove to avoid duplicates
-        //    }
-        //    return randomList; //return the new random list
-        //}
 
     }
 }

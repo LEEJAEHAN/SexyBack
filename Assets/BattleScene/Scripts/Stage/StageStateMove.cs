@@ -29,7 +29,7 @@ namespace SexyBackPlayScene
         {
             if (owner.zPosition < 0 && owner.monsterID != null)
             {
-                owner.StateMachine.ChangeState("Battle");
+                owner.ChangeState("Battle");
             }
         }
     }

@@ -7,19 +7,19 @@ namespace SexyBackPlayScene
     [Serializable]
     internal class Stage : IDisposable, IStateOwner
     {
-        public int floor = 0;
-        public float zPosition = 0;
+        public int floor;
+        public float zPosition;
         public bool isLastStage = false;
         public bool rewardComplete;
-        public string CurrentState { get { return StateMachine.currStateID; } }
+        public string savedState;
         public string monsterID;
 
         [NonSerialized]
         public GameObject avatar;
+        [NonSerialized]
         internal StageStateMachine StateMachine;
 
         public string GetID { get { return "F" + floor; } }
-
         public Stage(int currentFloor, float zPosition, bool isLast, bool rewardComplete, string MonsterID)
         {
             floor = currentFloor;
@@ -30,12 +30,8 @@ namespace SexyBackPlayScene
             InitAvatar();
 
             this.monsterID = MonsterID;
-            Monster monster = Singleton<MonsterManager>.getInstance().GetMonster(MonsterID);
-            monster.avatar.transform.parent = avatar.transform.FindChild("monster");
-            monster.avatar.transform.localPosition = Vector3.zero;
-
             StateMachine = new StageStateMachine(this);
-            StateMachine.ChangeState("Move");
+            ChangeState("Move");
         }
 
         internal void InitAvatar()
@@ -55,6 +51,11 @@ namespace SexyBackPlayScene
             GameObject.Destroy(avatar);
         }
 
+        public void ChangeState(string stateid)
+        {
+            savedState = stateid;
+            StateMachine.ChangeState(stateid);
+        }
         ~Stage() { sexybacklog.Console("스테이지소멸!"); }
     }
 }

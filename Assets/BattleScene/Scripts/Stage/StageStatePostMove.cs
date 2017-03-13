@@ -7,6 +7,9 @@ namespace SexyBackPlayScene
     {
         // talent를 찍기 전까지.
         bool waiting = false;
+        bool flipflop = false;
+        double flyingwaitTime = 2;
+        double timer = 0;
 
         public StageStatePostMove(Stage owner, StateMachine<Stage> statemachine) : base(owner, statemachine)
         {
@@ -40,9 +43,17 @@ namespace SexyBackPlayScene
         {
             if (waiting == false)
             {
-                if (owner.zPosition <= GameCameras.HeroCamPosition.z + 1.5f) // change floortext
+                timer += Time.deltaTime;
+                if(flyingwaitTime > 0 && timer > flyingwaitTime)
+                {
+                    Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
+                    flyingwaitTime = -1;
+                }
+                if (!flipflop && owner.zPosition <= GameCameras.HeroCamPosition.z + 1.5f) // change floortext
                 {
                     Singleton<StageManager>.getInstance().onStagePass(owner.floor);
+                    Singleton<TalentManager>.getInstance().ShowNewTalentWindow(owner.floor);
+                    flipflop = true;
                 }
                 if (owner.zPosition <= GameCameras.HeroCamPosition.z) // talent wait // StageManager.DistancePerFloor - 20
                 { //TODO: 계속 여기가 문제... 이거 해결해야함.
@@ -58,7 +69,7 @@ namespace SexyBackPlayScene
                 if (owner.rewardComplete)
                 {
                     Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
-                    stateMachine.ChangeState("Destroy");
+                    owner.ChangeState("Destroy");
                     waiting = false;
                 }
             }

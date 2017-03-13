@@ -22,16 +22,20 @@ namespace SexyBackPlayScene
         public void BattleStart() // 사거리내에 들어옴. battle 시작. 
         {
             DuringBattle = true;
+
+            Singleton<MonsterManager>.getInstance().JoinBattle(owner.monsterID);
+            Singleton<MonsterManager>.getInstance().SpawnBattleMonster(owner.avatar.transform.FindChild("monster"));
+
             BattleMonster = Singleton<MonsterManager>.getInstance().GetMonster(owner.monsterID);
+
             BattleMonster.StateMachine.Action_changeEvent += onTargetStateChange;
             Singleton<ElementalManager>.getInstance().SetTarget(BattleMonster);
             Singleton<HeroManager>.getInstance().SetTarget(BattleMonster);
-            Singleton<MonsterManager>.getInstance().JoinBattle(owner.monsterID);
         }
 
         public void onTargetStateChange(string monsterid, string stateID)
         {
-            if (stateID == "Death")
+            if (stateID == "Flying")
             {
                 DuringBattle = false;
                 BattleMonster.StateMachine.Action_changeEvent -= onTargetStateChange;
@@ -67,9 +71,7 @@ namespace SexyBackPlayScene
                 return;
             }
 
-            Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
-            Singleton<TalentManager>.getInstance().ShowNewTalentWindow(owner.floor);
-            stateMachine.ChangeState("PostMove");
+            owner.ChangeState("PostMove");
         }
 
     }
