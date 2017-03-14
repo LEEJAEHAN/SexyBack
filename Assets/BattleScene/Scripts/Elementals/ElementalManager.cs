@@ -35,7 +35,7 @@ namespace SexyBackPlayScene
             // this class is event listner
         }
 
-        private bool SummonNewElemental(string id)
+        private bool SummonNewElemental(string id) // Create == 생성만, Summon ==  스텟과 레벨업설정까지
         {
             ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
             ElementalStat stat = Singleton<StatManager>.getInstance().GetElementalStat(id);
@@ -47,12 +47,11 @@ namespace SexyBackPlayScene
             return true;
         }
 
-        internal void Load(ElementalManager elementalManager)
+        internal void Load(ElementalManager elementalManager) // Create
         {
             foreach(string saveEID in elementalManager.elementals.Keys)
             {
                 ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[saveEID];
-                ElementalStat stat = Singleton<StatManager>.getInstance().GetElementalStat(saveEID);
                 Elemental newElemental = new Elemental(data, ViewLoader.area_elemental.transform);
                 Action_ElementalCreateEvent(newElemental);
                 elementals.Add(saveEID, newElemental);

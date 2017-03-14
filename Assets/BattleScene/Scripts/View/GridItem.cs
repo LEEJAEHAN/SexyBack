@@ -26,9 +26,9 @@ namespace SexyBackPlayScene
             Type = type;
 
             if (type == "Research")
-                prefab = Resources.Load<GameObject>("Prefabs/UI/ResearchView") as GameObject;
+                prefab = Resources.Load<GameObject>("Prefabs/UI/ResearchGridItem") as GameObject;
             else
-                prefab = Resources.Load<GameObject>("Prefabs/UI/LevelUpItemView") as GameObject;
+                prefab = Resources.Load<GameObject>("Prefabs/UI/LevelUpGridItem") as GameObject;
 
             // Instantiate object
             avatar = GameObject.Instantiate<GameObject>(prefab) as GameObject;
@@ -66,14 +66,14 @@ namespace SexyBackPlayScene
         {
             if (!isEnable)
                 return;
-            avatar.GetComponent<UISprite>().color = new Color(0.5f, 0.5f, 0.5f, 0.8f);
+                avatar.transform.FindChild("Back").GetComponent<UISprite>().applyGradient = true;
             isEnable = false;
         }
         public void Enable()
         {
             if (isEnable)
                 return;
-            avatar.GetComponent<UISprite>().color = new Color(1, 1, 1, 1);
+                avatar.transform.FindChild("Back").GetComponent<UISprite>().applyGradient = false;
             isEnable = true;
         }
         public void SetActive(bool value)

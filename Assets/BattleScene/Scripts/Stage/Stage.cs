@@ -11,7 +11,7 @@ namespace SexyBackPlayScene
         public float zPosition;
         public bool isLastStage = false;
         public bool rewardComplete;
-        public string savedState;
+        public string savedState; // TODO : 이거빼는게좋을듯
         public string monsterID;
 
         [NonSerialized]

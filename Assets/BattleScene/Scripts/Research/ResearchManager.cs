@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-
+using System.Runtime.Serialization;
 namespace SexyBackPlayScene
 {
+    [Serializable]
     class ResearchManager : IDisposable
     {
         ~ResearchManager()
@@ -17,29 +18,30 @@ namespace SexyBackPlayScene
             ResearchWindow.Clear();
         }
 
+        public int resarchthread = 0;
+        public Dictionary<string, Research> researches = new Dictionary<string, Research>();
+        public Dictionary<string, string> FinishList = new Dictionary<string, string>();
+
+        [NonSerialized]
+        public int maxthread;
+        [NonSerialized]
+        public Queue<string> idQueue = new Queue<string>();
+        public delegate void ResarchThreadChange_Event(bool available);
+        [field: NonSerialized]
+        public event ResarchThreadChange_Event Action_ThreadChange = delegate { };
+        [NonSerialized]
+        BigInteger minusExp = new BigInteger(0);
+        [NonSerialized]
         ResearchFactory factory = new ResearchFactory();
 
-        public int resarchthread = 0;
-        public int maxthread;
         public bool CanUseThread { get { return resarchthread < maxthread; } }
 
-        BigInteger minusExp = new BigInteger(0);
-        public Dictionary<string, Research> researches = new Dictionary<string, Research>();
-        public Queue<string> idQueue = new Queue<string>();
-        public HashSet<string> FinishList = new HashSet<string>();
-
-        public delegate void ResarchThreadChange_Event(bool available);
-        public event ResarchThreadChange_Event Action_ThreadChange = delegate { };
-                        
-        public void Init(int maxThread)
+        public void Init()
         {
-            maxthread = maxThread;
             Singleton<HeroManager>.getInstance().Action_HeroLevelUp += onHeroLevelUp;
             Singleton<ElementalManager>.getInstance().Action_ElementalLevelUp += onElementalLevelUp;
-
             ViewLoader.TabButton2.GetComponent<TabView>().Action_ShowList += onShowList;
             ViewLoader.TabButton2.GetComponent<TabView>().Action_HideList += onHideList;
-
             ViewLoader.Tab2Container.GetComponent<UIGrid>().onCustomSort = myResearchSort;
         }
 
@@ -66,30 +68,57 @@ namespace SexyBackPlayScene
 
         private void onHeroLevelUp(Hero hero)
         {
-            CreateResearch(hero.GetID, hero.LEVEL);
+            SummonResearch(hero.GetID, hero.LEVEL);
         }
 
         private void onElementalLevelUp(Elemental elemental)
         {
-            CreateResearch(elemental.GetID, elemental.LEVEL); // TODO : 바로만들지말고 업데이트에서 만들어야한다.
+            SummonResearch(elemental.GetID, elemental.LEVEL); // TODO : 바로만들지말고 업데이트에서 만들어야한다.
         }
 
-        private void CreateResearch(string id, int levelcondition)
+        private void SummonResearch(string id, int levelcondition)
         {
-            foreach (ResearchData item in Singleton<TableLoader>.getInstance().researchtable)
+            foreach (ResearchData item in Singleton<TableLoader>.getInstance().researchtable.Values)
             {
                 if (researches.ContainsKey(item.ID))
                     continue;
-                if (FinishList.Contains(item.ID))
+                if (FinishList.ContainsKey(item.ID))
                     continue;
 
                 if (item.requireID == id && item.requeireLevel <= levelcondition)
                 {
-                    Research research = factory.CreateNewResearch(item);
+                    DrawNewMark();
+                    Research research = factory.SummonNewResearch(item);
                     researches.Add(item.ID, research);
                 }
             }
         }
+
+        internal void Load(ResearchManager loadedData)
+        {
+            this.resarchthread = loadedData.resarchthread;
+            this.FinishList = loadedData.FinishList;
+
+            foreach (string id in loadedData.researches.Keys)
+            {
+                ResearchData baseData = Singleton<TableLoader>.getInstance().researchtable[id];
+                Research research = factory.SummonNewResearch(baseData);
+                researches.Add(id, research);
+            }
+        }
+        internal void SetStateNTime(ResearchManager loadedData)
+        {
+            foreach (string id in loadedData.researches.Keys)
+            {
+                Research from = loadedData.researches[id];
+                Research to = researches[id];
+                to.StateMachine.ChangeState(from.SavedState);
+                to.itemView.SetActive(true);
+                to.RemainTime = from.RemainTime;
+            }
+        }
+
+
 
         public void Update()
         {
@@ -112,11 +141,7 @@ namespace SexyBackPlayScene
             ViewLoader.Tab2Container.GetComponent<UIGrid>().Reposition();
         }
 
-        internal void SetThread(PlayerStat playerStat)
-        {
-            maxthread = playerStat.ResearchThread;
-            Action_ThreadChange(CanUseThread);
-        }
+
         public void UseThread(bool start)
         {
             if (start)
@@ -132,13 +157,20 @@ namespace SexyBackPlayScene
             Action_ThreadChange(CanUseThread);
         }
 
+
         internal void SetStat(PlayerStat researchStat)
         {
+            if(maxthread != researchStat.ResearchThread)
+            {
+                maxthread = researchStat.ResearchThread;
+                Action_ThreadChange(CanUseThread);
+            }
             foreach (Research research in researches.Values)
             {
                 research.SetStat(researchStat);
             }
         }
+
 
         internal void FinishFrontOne()
         {
@@ -162,7 +194,8 @@ namespace SexyBackPlayScene
         internal void Destory(string id)
         {
             idQueue.Enqueue(id);
-            FinishList.Add(id);
+            FinishList.Add(id, id);
         }
+
     }
 }

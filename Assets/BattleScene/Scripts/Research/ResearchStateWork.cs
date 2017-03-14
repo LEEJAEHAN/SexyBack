@@ -29,6 +29,7 @@ namespace SexyBackPlayScene
 
             owner.FillInfoView(false);
             owner.Panel.SetButton2(owner.Selected, true, "일시정지");
+            owner.Panel.SetButton1(owner.Selected, false, false); // 중복입력 막는다.
         }
 
         internal override void End()

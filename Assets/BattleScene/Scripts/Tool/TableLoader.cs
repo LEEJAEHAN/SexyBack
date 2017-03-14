@@ -12,7 +12,7 @@ namespace SexyBackPlayScene
         public Dictionary<string, GameModeData> gamemodetable;
 
         public Dictionary<string, LevelUpData> leveluptable;
-        public List<ResearchData> researchtable;
+        public Dictionary<string, ResearchData> researchtable;
         public List<TalentData> talenttable;
 
         bool FinishLoad = false;
@@ -192,7 +192,7 @@ namespace SexyBackPlayScene
         private void LoadResearchData()
         {
             Dictionary<string, List<Bonus>> bonuses = LoadBonus();
-            researchtable = new List<ResearchData>();
+            researchtable = new Dictionary<string, ResearchData>();
 
             TextAsset textasset = Resources.Load("Xml/ResearchData") as TextAsset;
             XmlDocument xmldoc = new XmlDocument();
@@ -235,7 +235,7 @@ namespace SexyBackPlayScene
                 GridItemIcon iconinfo = new GridItemIcon(icon, subicon);
                 ResearchData research = new ResearchData(id, requireid, requirelevel, iconinfo, name, description, level, baselevel, baseprice,
                     rate, basetime, bonuselist);
-                researchtable.Add(research);
+                researchtable.Add(id, research);
             }
 
 

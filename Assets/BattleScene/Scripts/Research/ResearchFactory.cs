@@ -12,10 +12,8 @@ namespace SexyBackPlayScene
             sexybacklog.Console("ResearchFactory 소멸");
         }
 
-        internal Research CreateNewResearch(ResearchData data)
+        internal Research SummonNewResearch(ResearchData data)
         {
-
-
             BigInteger totalPrice = CalPrice(data.level, data.baselevel, data.baseprice);
             double temptime = CalTime(data.level + data.baselevel, data.baseprice, data.rate, data.basetime);
             double researchTick;
@@ -27,7 +25,7 @@ namespace SexyBackPlayScene
                 researchTick = 0.1f;
 
             GridItem griditem = new GridItem("Research", data.ID, data.icon, ViewLoader.Tab2Container);
-            griditem.SetActive(false);
+            griditem.SetActive(true);
 
             Research newone = new Research(data, griditem, temptime, totalPrice, researchTick); //,StartPrice, ResearchPrice, PricePerSec, ResearchTime
             newone.StateMachine.ChangeState("Ready");

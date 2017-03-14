@@ -12,7 +12,7 @@ namespace SexyBackPlayScene
         }
         public static void InGame(object msg)
         {
-            DebugPanel.getInstance.Append(msg.ToString() + "\n");
+            DebugText.getInstance.Append(msg.ToString() + "\n");
         }
 
         internal static void Error(object msg)

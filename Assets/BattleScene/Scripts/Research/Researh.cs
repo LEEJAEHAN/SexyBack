@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Runtime.Serialization;
 namespace SexyBackPlayScene
 {
-    internal class Research : IDisposable, IHasGridItem, IStateOwner
+    [Serializable]
+    internal class Research : IDisposable, IHasGridItem, IStateOwner, ISerializable
     {
         //public WeakReference owner;
         string ID;
@@ -39,11 +40,27 @@ namespace SexyBackPlayScene
         public bool RefreshFlag = false;
 
         public ResearchStateMachine StateMachine;
+
+        public string SavedState;
         public string GetID { get { return ID; } }
         public string CurrentState { get { return StateMachine.currStateID; } }
 
         public delegate void InstantFinish_Event();
         public event InstantFinish_Event Action_InstantFinish = delegate { };
+
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("SavedState", CurrentState);
+            info.AddValue("RemainTime", RemainTime);
+
+        }
+        public Research(SerializationInfo info, StreamingContext context)
+        {
+            SavedState = (string)info.GetValue("SavedState", typeof(string));
+            RemainTime = (double)info.GetValue("RemainTime", typeof(double));
+        }
+
 
         public Research(ResearchData data, GridItem itemview, double time, BigInteger totalprice, double tick)
         {
@@ -179,5 +196,7 @@ namespace SexyBackPlayScene
         {
             RefreshFlag = true;
         }
+
+
     }
 }

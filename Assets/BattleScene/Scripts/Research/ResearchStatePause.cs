@@ -35,6 +35,7 @@ namespace SexyBackPlayScene
                 return;
             owner.FillInfoView(false);
             owner.Panel.SetButton2(owner.Selected, true, "재개");
+            owner.Panel.SetButton1(owner.Selected, false, false); // 중복입력 막는다.
         }
     }
 }

@@ -31,23 +31,11 @@ namespace SexyBackPlayScene
             Gametime = 0;
             Singleton<GameInfoView>.getInstance().PrintStage(currentFloor);
             Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
-            Stages.Add(new Stage(1, 5, false, false, Singleton<MonsterManager>.getInstance().CreateRandomMonster(1)));
-            Stages.Add(new Stage(2, 5 + DistancePerFloor, false, false, Singleton<MonsterManager>.getInstance().CreateRandomMonster(2)));
+            Stages.Add(new Stage(1, 10, false, false, Singleton<MonsterManager>.getInstance().CreateRandomMonster(1)));
+            Stages.Add(new Stage(2, 10 + DistancePerFloor, false, false, Singleton<MonsterManager>.getInstance().CreateRandomMonster(2)));
         }
         internal void Load(StageManager data) // 클래스가 로드가 된뒤 셋해야 할것들.
         {
-            //GoalFloor =  20;
-            //currentFloor = 11;
-            //Singleton<GameInfoView>.getInstance().PrintStage(currentFloor);
-            //Gametime = 0;
-            //Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
-            //Stage front = new Stage(10, -5, false, true, Singleton<MonsterManager>.getInstance().CreateRandomMonster(10));
-            //front.StateMachine.ChangeState("PostMove");
-            //Stage behind = new Stage(11, -5 + DistancePerFloor, false, false, Singleton<MonsterManager>.getInstance().CreateRandomMonster(11));
-            //behind.StateMachine.ChangeState("Move");
-            //Stages.Add(front);
-            //Stages.Add(behind);
-
             GoalFloor = data.GoalFloor;
             currentFloor = data.currentFloor;
             Singleton<GameInfoView>.getInstance().PrintStage(currentFloor);

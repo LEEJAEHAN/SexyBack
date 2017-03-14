@@ -11,13 +11,13 @@ namespace SexyBackPlayScene
         TableLoader tableLoader;
         GameManager gameManager;
         GameInput gameInput;
-        GameCameras gameSetting;
+        GameCameras cameraSetting;
 
         // Use this for initialization
         void Awake()
         {
             viewLoader = new ViewLoader();
-            gameSetting = new GameCameras();
+            cameraSetting = new GameCameras();
             tableLoader = Singleton<TableLoader>.getInstance();
             gameInput = Singleton<GameInput>.getInstance();
             gameManager = Singleton<GameManager>.getInstance();
@@ -48,21 +48,19 @@ namespace SexyBackPlayScene
         {
             gameManager.FixedUpdate();
         }
-        public void userPause()
+        public void Option()
         {
             gameManager.Pause(true);
+            ViewLoader.PopUpPanel.SetActive(true);
+            ViewLoader.OptionPanel.SetActive(true);
         }
-        public void userUnPause()
+        public void ExitOption()
         {
             gameManager.Pause(false);
+            ViewLoader.OptionPanel.SetActive(false);
+            ViewLoader.PopUpPanel.SetActive(false);
         }
-        public void EndGame() // 메뉴로 버튼을 눌렀을때,
-        {
-            // TODO : 게임매니저. 게임클리어에서 보상절차 작업해야함.
-            gameManager.GameClear();                  // 보상절차과정
-            gameManager.ClearInstance(); // 인스턴스세이브 데이터 지움.
-            SceneManager.LoadScene("MenuScene");
-        }
+
         private void OnDestroy()
         {
             //tableLoader.Dispose();            // 테이블 로더는 남겨둔다.

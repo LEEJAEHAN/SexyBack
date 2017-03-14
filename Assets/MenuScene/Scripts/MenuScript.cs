@@ -9,7 +9,7 @@ namespace SexyBackMenuScene
     {
         private void Awake()
         {
-            LoadGame();
+            //LoadGame();
         }
         // Use this for initialization
         void Start()
@@ -25,7 +25,7 @@ namespace SexyBackMenuScene
 
         public void NewGame()
         {
-            SceneManager.LoadScene("BattleScene");
+            SceneManager.LoadScene("PlayScene");
         }
 
         public void LoadGame()
@@ -33,7 +33,7 @@ namespace SexyBackMenuScene
             if (PlayerPrefs.HasKey("InstanceData"))
             {
                 Debug.Log("인스턴스데이터를 불러옵니다.");
-                SceneManager.LoadScene("BattleScene");
+                SceneManager.LoadScene("PlayScene");
             }
             else
                 Debug.Log("저장데이터가음습니다.");

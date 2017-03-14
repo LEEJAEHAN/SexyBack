@@ -21,7 +21,6 @@ namespace SexyBackPlayScene
         // Update is called once per frame
         void Update()
         {
-
         }
 
         public void onChangeTap(bool value)

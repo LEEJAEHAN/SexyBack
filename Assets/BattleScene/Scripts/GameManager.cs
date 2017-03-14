@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 namespace SexyBackPlayScene
 {
@@ -58,78 +59,94 @@ namespace SexyBackPlayScene
             monsterManager.Init();
             elementalManager.Init();
             levelUpManager.Init();
-            researchManager.Init(5); // new PlayerStat.ResearchThread
+            researchManager.Init(); // new PlayerStat.ResearchThread
             talentManager.Init();
             infoView.Init();
+
+
         }
         internal void NewInstance() // 글로벌 히어로 데이터를 받아서 시작한다.
         {
-            statmanager.Start(new HeroStat(), new PlayerStat(), MakeElementalStat(), new BigInteger(0));
-            stageManager.Start(Singleton<TableLoader>.getInstance().gamemodetable["TestStage"]);
-            heroManager.Start(); // and hero is move
+            HeroStat hStat = new HeroStat();
+            PlayerStat pStat = new PlayerStat();
+            Dictionary<string, ElementalStat> eStats = StatManager.MakeElementalStats();
+            BigInteger exp = new BigInteger(0);
 
-            //elementalmanager.LearnNewElemental("magmaball");
-            //elementalmanager.LearnNewElemental("fireball");
-            //elementalmanager.LearnNewElemental("waterball");
-            //elementalmanager.LearnNewElemental("rock");
-            //elementalmanager.LearnNewElemental("electricball");
-            //elementalmanager.LearnNewElemental("snowball");
-            //elementalmanager.LearnNewElemental("earthball");
-            //elementalmanager.LearnNewElemental("airball"); // for test
-            //elementalmanager.LearnNewElemental("iceblock");
+            //load
+            stageManager.Start(Singleton<TableLoader>.getInstance().gamemodetable["TestStage"]);
+            heroManager.CreateHero();
+
+            // post event : levelup
+            heroManager.LevelUp(1);
+            // post event : statup
+            statmanager.SetStat(hStat, pStat, eStats);
+            // post event : exp gain 
+            statmanager.ExpGain(exp, false);
+
+            //elementalManager.LearnNewElemental("magmaball");
+            //elementalManager.LearnNewElemental("fireball");
+            //elementalManager.LearnNewElemental("waterball");
+            //elementalManager.LearnNewElemental("rock");
+            //elementalManager.LearnNewElemental("electricball");
+            //elementalManager.LearnNewElemental("snowball");
+            //elementalManager.LearnNewElemental("earthball");
+            //elementalManager.LearnNewElemental("airball");
+            //elementalManager.LearnNewElemental("iceblock");
         }
         internal void LoadInstance()
         {
-            //GameManager loaddata = null;
-
-            //statmanager.Start(new HeroStat(), new PlayerStat(), MakeElementalStat(), new BigInteger(0));
+            ElementalManager eData = (ElementalManager)SaveSystem.Load("elementalManager.dat");
             StatManager sData = (StatManager)SaveSystem.Load("statmanager.dat");
-            statmanager.Load(sData);              // 만들때
+            HeroManager hData = (HeroManager)SaveSystem.Load("heroManager.dat");
+            ResearchManager rData = (ResearchManager)SaveSystem.Load("researchManager.dat");
+            HeroStat hStat = sData.GetHeroStat;
+            PlayerStat pStat = sData.GetPlayerStat;
+            Dictionary<string, ElementalStat> eStats = sData.GetElementalStats;
+
+            //load
+            heroManager.CreateHero();   // post : 스텟
             stageManager.Load((StageManager)SaveSystem.Load("stagemanager.dat"));       // 상관관계 x
             monsterManager.Load((MonsterManager)SaveSystem.Load("monsterManager.dat")); // 상관관계 x
-            HeroManager hData = (HeroManager)SaveSystem.Load("heroManager.dat");
-            heroManager.Load(hData);   // pre : statamaniger.herostat필요함. post : 스텟
-            ElementalManager eData = (ElementalManager)SaveSystem.Load("elementalManager.dat");
-            elementalManager.Load(eData);   // pre : statmaiger.elementastst. post : 스텟
+            elementalManager.Load(eData);   //post : 스텟
+            researchManager.Load(rData);
 
-            //resaearch 로드
-            //talent 로드
-            // gameinfo ( 시간 ) 로드
+            // post event : levelup
+            heroManager.LevelUp(hData.CurrentHero.LEVEL);            //heroManager.levelup;
+            elementalManager.LevelUpAll(eData.elementals);            //elementalManager.levelup;
+            // post event : statup
+            statmanager.SetStat(hStat, pStat, eStats);
+            researchManager.SetStateNTime(rData);
 
-            //statmanager.setallstat;
-            heroManager.CurrentHero.SetStat(statmanager.GetHeroStat, true);
-            elementalManager.SetStatAll(statmanager.GetElementalStats, true);
-            //heroManager.levelup;
-            heroManager.LevelUp(hData.CurrentHero.LEVEL);
-            //elementalManager.levelup;
-            elementalManager.LevelUpAll(eData.elementals);
-            statmanager.ExpGain(sData.EXP, false);
-            //statmanager.gainexp;
+            // post event : exp gain 
+            statmanager.ExpGain(sData.EXP, false);                   // set exp
 
-            // 리서치 매니져 // pre : 스텟메니져.research스텟과 post : 스텟메니져.exp와 hero,레벨 elements.level, 스텟
-            // 레벨업 매니져 // pre : 스텟매니져.levelup스텟, hero, element creates, post : hero레벨, element레벨, 스텟
 
+            //GameManager loaddata = null;
             //heroManager.Load(loaddata.heroManager); // and hero is move
         }
         internal void SaveInstance()
         {
-            PlayerPrefs.SetString("InstanceData", "Yes");
+            SaveSystem.SaveInstacne();
 
             SaveSystem.Save(statmanager, "statmanager.dat");
             SaveSystem.Save(stageManager, "stagemanager.dat");
             SaveSystem.Save(monsterManager, "monsterManager.dat");
             SaveSystem.Save(heroManager, "heroManager.dat");
             SaveSystem.Save(elementalManager, "elementalManager.dat");
-
+            SaveSystem.Save(researchManager, "researchManager.dat");
         }
-
-        private Dictionary<string, ElementalStat> MakeElementalStat()
+        public void EndGame(bool clear) // 메뉴로 버튼을 눌렀을때,
         {
-            Dictionary<string, ElementalStat> elementalStats = new Dictionary<string, ElementalStat>();
-            foreach (string elementalid in Singleton<TableLoader>.getInstance().elementaltable.Keys)
-                elementalStats.Add(elementalid, new ElementalStat());
-            return elementalStats;
+            // TODO : 게임매니저. 게임클리어에서 보상절차 작업해야함.
+            if(clear)
+            {
+                //rewardmanager.makereward(시간기록,스테이지);
+            }
+            SaveSystem.ClearInstance();
+            SceneManager.LoadScene("MenuScene");
         }
+
+
 
         public void Dispose()
         {
@@ -169,20 +186,6 @@ namespace SexyBackPlayScene
             infoView = null;
         }
 
-        internal void ClearInstance()
-        {
-            PlayerPrefs.DeleteKey("InstanceData");
-            PlayerPrefs.DeleteAll();
-        }
-
-
-        internal void GameClear()
-        {
-            // 보상작업
-        }
-
-
-
         internal void FixedUpdate()
         {
             if (isPause)
@@ -193,10 +196,6 @@ namespace SexyBackPlayScene
         public void Pause(bool value)
         {
             isPause = value;
-            if (isPause)
-                ViewLoader.PopUpcPanel.SetActive(true);
-            else
-                ViewLoader.PopUpcPanel.SetActive(false);
         }
 
 

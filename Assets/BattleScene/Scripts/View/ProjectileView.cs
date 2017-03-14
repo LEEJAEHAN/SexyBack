@@ -3,7 +3,6 @@ using System.Collections;
 
 namespace SexyBackPlayScene
 {
-
     public class ProjectileView : MonoBehaviour // view와 동일하다
     {
         // projectile data

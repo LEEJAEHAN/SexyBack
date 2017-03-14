@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using UnityEngine;
 
 namespace SexyBackPlayScene
 {
@@ -25,6 +26,17 @@ namespace SexyBackPlayScene
             }
             file.Close();
             return loaddata;
+        }
+
+        internal static void ClearInstance()
+        {
+            PlayerPrefs.DeleteKey("InstanceData");
+            PlayerPrefs.DeleteAll();
+        }
+
+        internal static void SaveInstacne()
+        {
+            PlayerPrefs.SetString("InstanceData", "Yes");
         }
     }
 }

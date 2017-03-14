@@ -55,24 +55,30 @@ namespace SexyBackPlayScene
 
         internal void Init()
         {
-            // 아직할것없음.
+            heroStat = new HeroStat();
+            playerStat = new PlayerStat();
+            elementalStats = MakeElementalStats();
+            exp = new BigInteger(0);
         }
-        internal void Start(HeroStat HStat, PlayerStat PStat, Dictionary<string, ElementalStat> EStatList, BigInteger StartExp)
+        internal void SetStat(HeroStat HStat, PlayerStat PStat, Dictionary<string, ElementalStat> EStatList)
         {
             heroStat = HStat;
             playerStat = PStat;
             elementalStats = EStatList;
-            exp = StartExp;
-        }
-        internal void Load(StatManager loadData)
-        {
-            exp = new BigInteger(0);
-            //exp = loadData.exp;
-            playerStat = loadData.playerStat;
-            heroStat = loadData.heroStat;
-            elementalStats = loadData.elementalStats;
-        }
 
+            // 스텟 적용해야하는놈들, 히어로, 엘리멘탈, 리서치 레벨업, 스텟매니져 
+            Singleton<ResearchManager>.getInstance().SetStat(playerStat); //첨엔 없고, herocreate시 서먼된다.
+            Singleton<LevelUpManager>.getInstance().SetStat(playerStat); //첨엔 없고, herocreate시 서먼된다.
+            elementalmanager.SetStatAll(elementalStats, true); // 첨엔 없고, 서먼된다.
+            heromanager.CurrentHero.SetStat(heroStat, true);
+        }
+        public static Dictionary<string, ElementalStat> MakeElementalStats()
+        {
+            Dictionary<string, ElementalStat> elementalStats = new Dictionary<string, ElementalStat>();
+            foreach (string elementalid in Singleton<TableLoader>.getInstance().elementaltable.Keys)
+                elementalStats.Add(elementalid, new ElementalStat());
+            return elementalStats;
+        }
 
         internal void Update()
         {
@@ -241,7 +247,7 @@ namespace SexyBackPlayScene
                 case "ResearchThread":
                     {
                         playerStat.ResearchThread += bonus.value;
-                        Singleton<ResearchManager>.getInstance().SetThread(playerStat);
+                        Singleton<ResearchManager>.getInstance().SetStat(playerStat);
                         break;
                     }
                 case "LevelUpPriceXH":

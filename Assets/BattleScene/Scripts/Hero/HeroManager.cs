@@ -33,21 +33,13 @@ namespace SexyBackPlayScene
         {
             // this class is event listner
         }
-        public void Start()
-        {
-            CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable);
-            Action_HeroCreateEvent(CurrentHero);
-            CurrentHero.SetStat(Singleton<StatManager>.getInstance().GetHeroStat, true);
-            LevelUp(1);
-            CurrentHero.ChangeState("Move"); //Ready
-        }
-        internal void Load(HeroManager heroManager)
+        public void CreateHero()
         {
             CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable);
             Action_HeroCreateEvent(CurrentHero);
             //CurrentHero.SetStat(Singleton<StatManager>.getInstance().GetHeroStat, true);
-            //LevelUp(heroManager.CurrentHero.LEVEL);
-            CurrentHero.ChangeState("Move"); //Ready
+            //LevelUp(1);
+            CurrentHero.ChangeState("Move"); //Init state is move
         }
 
         internal void Update()

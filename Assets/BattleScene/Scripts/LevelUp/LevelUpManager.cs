@@ -23,8 +23,8 @@ namespace SexyBackPlayScene
         {
             Panel = LevelUpWindow.getInstance;
             // this class is event listner
-            Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += onElementalCreate;
-            Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
+            Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += SummonElemetalLevelUpItem;
+            Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += SummonHeroLevelUpItem;
             ViewLoader.TabButton1.GetComponent<TabView>().Action_ShowList += onShowList;
             ViewLoader.TabButton1.GetComponent<TabView>().Action_HideList += onHideList;
         }
@@ -51,7 +51,7 @@ namespace SexyBackPlayScene
             ViewLoader.Tab1Container.GetComponent<UIGrid>().Reposition();
         }
 
-        void onHeroCreate(Hero hero) // create and bind heroitem
+        void SummonHeroLevelUpItem(Hero hero) // create and bind heroitem
         {
             if (Singleton<TableLoader>.getInstance().leveluptable.ContainsKey(hero.GetID) == false)
                 return;
@@ -62,7 +62,7 @@ namespace SexyBackPlayScene
             DrawNewMark();
         }
 
-        void onElementalCreate(Elemental elemental) // create and bind element item
+        void SummonElemetalLevelUpItem(Elemental elemental) // create and bind element item
         {
             if (Singleton<TableLoader>.getInstance().leveluptable.ContainsKey(elemental.GetID) == false)
                 return;
@@ -73,7 +73,6 @@ namespace SexyBackPlayScene
             DrawNewMark();
             return;
         }
-
 
         ///  for test
         internal void BuySelected()

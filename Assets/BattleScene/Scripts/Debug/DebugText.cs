@@ -4,16 +4,15 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    public class DebugPanel : MonoBehaviour
+    public class DebugText : MonoBehaviour
     {
-
-        private static DebugPanel instance;
-        public static DebugPanel getInstance
+        private static DebugText instance;
+        public static DebugText getInstance
         {
             get
             {
                 if (instance == null)
-                    instance = GameObject.Find("DebugPanel").AddComponent<DebugPanel>();
+                    instance = GameObject.Find("DebugText").AddComponent<DebugText>();
 
                 return instance;
             }
@@ -25,7 +24,7 @@ namespace SexyBackPlayScene
 
         private void Awake()
         {
-            debugTextObject = GameObject.Find("DebugText").GetComponent<UILabel>();
+            debugTextObject = gameObject.GetComponent<UILabel>();
         }
 
         Vector3 mouseinputpoint;

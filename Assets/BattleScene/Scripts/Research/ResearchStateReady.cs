@@ -16,10 +16,7 @@ namespace SexyBackPlayScene
 
         internal override void Begin()
         {
-            owner.itemView.SetActive(true);
             owner.Panel.SetButton2(owner.Selected, false, "");
-
-            manager.DrawNewMark();
             Instantbuy = false;
             manager.Action_ThreadChange += this.onThreadEmpty;
             onThreadEmpty(manager.CanUseThread);
