@@ -83,15 +83,15 @@ namespace SexyBackPlayScene
             // post event : exp gain 
             statmanager.ExpGain(exp, false);
 
-            //elementalManager.LearnNewElemental("magmaball");
-            //elementalManager.LearnNewElemental("fireball");
-            //elementalManager.LearnNewElemental("waterball");
-            //elementalManager.LearnNewElemental("rock");
-            //elementalManager.LearnNewElemental("electricball");
-            //elementalManager.LearnNewElemental("snowball");
-            //elementalManager.LearnNewElemental("earthball");
-            //elementalManager.LearnNewElemental("airball");
-            //elementalManager.LearnNewElemental("iceblock");
+            elementalManager.LearnNewElemental("magmaball");
+            elementalManager.LearnNewElemental("fireball");
+            elementalManager.LearnNewElemental("waterball");
+            elementalManager.LearnNewElemental("rock");
+            elementalManager.LearnNewElemental("electricball");
+            elementalManager.LearnNewElemental("snowball");
+            elementalManager.LearnNewElemental("earthball");
+            elementalManager.LearnNewElemental("airball");
+            elementalManager.LearnNewElemental("iceblock");
         }
         internal void LoadInstance()
         {

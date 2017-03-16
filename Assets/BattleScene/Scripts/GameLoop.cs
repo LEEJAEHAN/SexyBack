@@ -31,7 +31,8 @@ namespace SexyBackPlayScene
         {
             if (PlayerPrefs.HasKey("InstanceData"))
             {
-                gameManager.LoadInstance();
+                gameManager.NewInstance();
+//                gameManager.LoadInstance();
             }
             else
             {

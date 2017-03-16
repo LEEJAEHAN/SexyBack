@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Elementals>
+	<Elemental id="fireball" name="화염구" attackIntervalK="5200" basedps="1" baseexp="129"/>
+	<Elemental id="waterball" name="물폭탄" attackIntervalK="5300" basedps="8.6" baseexp="1290"/>
+	<Elemental id="rock" name="짱돌" attackIntervalK="5500" basedps="150.4" baseexp="25152"/>
+	<Elemental id="electricball" name="지지직" attackIntervalK="5700" basedps="5324.8" baseexp="964608"/>
+	<Elemental id="snowball" name="눈덩이" attackIntervalK="6100" basedps="380108" baseexp="73138176"/>
+	<Elemental id="earthball" name="흙덩이" attackIntervalK="6300" basedps="2493587062" baseexp="110794606976"/>
+	<Elemental id="airball" name="바람바람" attackIntervalK="6700" basedps="5904814163707" baseexp="285955496724019"/>
+	<Elemental id="iceblock" name="각얼음" attackIntervalK="6900" basedps="6789346620545210" baseexp="360711894850848000"/>
+	<Elemental id="magmaball" name="메테오" attackIntervalK="7300" basedps="47961534591645900000" baseexp="2719050076464850000000"/>
+</Elementals>
