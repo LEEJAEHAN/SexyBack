@@ -39,11 +39,11 @@ namespace SexyBackPlayScene
         {
             ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
             ElementalStat stat = Singleton<StatManager>.getInstance().GetElementalStat(id);
-            Elemental newElemental = new Elemental(data, ViewLoader.area_elemental.transform);
+            Elemental newElemental = new Elemental(data);
             Action_ElementalCreateEvent(newElemental);
             elementals.Add(newElemental.GetID, newElemental);
-            LevelUp(id, 1);
             newElemental.SetStat(stat, true);
+            LevelUp(id, 1);
             return true;
         }
 
@@ -52,7 +52,7 @@ namespace SexyBackPlayScene
             foreach(string saveEID in elementalManager.elementals.Keys)
             {
                 ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[saveEID];
-                Elemental newElemental = new Elemental(data, ViewLoader.area_elemental.transform);
+                Elemental newElemental = new Elemental(data);
                 Action_ElementalCreateEvent(newElemental);
                 elementals.Add(saveEID, newElemental);
                 //LevelUp(saveEID, elementalManager.elementals[saveEID].LEVEL);
@@ -97,12 +97,6 @@ namespace SexyBackPlayScene
 
             while (readyToCreate.Count > 0)
                 SummonNewElemental(readyToCreate.Dequeue());
-        }
-
-
-        internal BigInteger GetElementalDamage(string id)
-        {
-            return elementals[id].DAMAGE;
         }
 
         // recieve event

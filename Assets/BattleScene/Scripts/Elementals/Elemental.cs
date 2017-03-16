@@ -20,6 +20,8 @@ namespace SexyBackPlayScene
         public BigInteger DPSTICK = new BigInteger();
         public BigInteger DAMAGE = new BigInteger();//  dps * attackinterval
         public double CASTINTERVAL; // (attackinterval1k / 1000) * ( 100 / attackspeed1h ) 
+        public double SKILLRATE;
+        public SkillData SKILLDATA;
 
         // 고정수
         readonly string ID;
@@ -30,10 +32,8 @@ namespace SexyBackPlayScene
         readonly double GrowthRate;
 
         // for projectile action;
-        private Transform ElementalArea; // avatar
-        private Projectile CurrentProjectile;
+        private Shooter shooter;
         private double AttackTimer;
-        private bool NoProjectile { get { return CurrentProjectile == null; } }
 
         // ICanLevelUp
         public int LEVEL { get { return level; } }
@@ -42,7 +42,7 @@ namespace SexyBackPlayScene
         public delegate void ElementalChange_EventHandler(Elemental elemental);
         public event ElementalChange_EventHandler Action_Change = delegate { };
 
-        public Elemental(ElementalData data, Transform area)
+        public Elemental(ElementalData data)
         {
             ID = data.ID;
             BaseCastIntervalXK = data.BaseCastIntervalXK;
@@ -50,7 +50,7 @@ namespace SexyBackPlayScene
             DpsShiftDigit = data.FloatDigit;
             BaseExp = data.BaseExp;
             GrowthRate = data.GrowthRate;
-            ElementalArea = area;
+            shooter = new Shooter(ID, ElementalData.ProjectilePrefabName(ID));
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -60,22 +60,7 @@ namespace SexyBackPlayScene
         {
             level = (int)info.GetValue("level", typeof(int));
         }
-        internal void CreateProjectile()
-        {
-            Vector3 genPosition = RandomRangeVector3(ElementalArea.position, ElementalArea.localScale / 2);
-            CurrentProjectile = new Projectile(this, ElementalData.ProjectilePrefabName(ID), genPosition);
-        }
 
-        internal void onDestroyProjectile()
-        {
-            CurrentProjectile = null;
-        }
-
-        public void Shoot(Vector3 target)
-        {
-            if (CurrentProjectile.Shoot(target,0.25f))
-                AttackTimer = 0; // 정상적으로 발사 완료 후 타이머리셋
-        }
         public void LevelUp(int amount)
         {
             level += amount;
@@ -87,7 +72,10 @@ namespace SexyBackPlayScene
             dpsX = elementalstat.DpsX;
             dpsIncreaseXH = elementalstat.DpsIncreaseXH;
             castSpeedXH = elementalstat.CastSpeedXH;
-            CASTINTERVAL = (double)BaseCastIntervalXK / (castSpeedXH * 10);
+
+            // CASTINTERVAL이 0.5보다 낮아져선 안된다. ( 실제는 0.8 )
+            CASTINTERVAL = UnityEngine.Mathf.Max(0.8f,((float)BaseCastIntervalXK / (float)(castSpeedXH * 10)));
+            SKILLRATE = (double)elementalstat.SkillRateXH / 100;
             CalDPS();
 
             if (CalDamage)
@@ -99,7 +87,7 @@ namespace SexyBackPlayScene
         {
             DPS = BaseDps * dpsX * level * dpsIncreaseXH * castSpeedXH / (DpsShiftDigit * 10000);
             DPSTICK = (BaseDps * dpsX * dpsIncreaseXH * castSpeedXH / (DpsShiftDigit * 10000));
-            DAMAGE = (DPS * BaseCastIntervalXK / 1000); //  dps * attackinterval
+            DAMAGE = DPS * BaseCastIntervalXK / (castSpeedXH * 10); //  dps * CASTINTERVAL
         }
 
         // TODO : 여기도 언젠간 statemachine작업을 해야할듯 ㅠㅠ
@@ -107,30 +95,53 @@ namespace SexyBackPlayScene
         {
             AttackTimer += Time.deltaTime;
 
-            // 만들어진다.
-            if (AttackTimer > CASTINTERVAL - 1 && NoProjectile)
+            double SummonTime = UnityEngine.Mathf.Max((float)(CASTINTERVAL - 1f), (float)(CASTINTERVAL * 0.5));
+
+            if (!isSkillAttack)
             {
-                CreateProjectile();
-            }
-            if (AttackTimer > CASTINTERVAL - 1 && !NoProjectile)
-            {
-                // 대기중
+                // 만들어진다.
+                if (AttackTimer > SummonTime && !shooter.isReady)
+                {
+                    sexybacklog.Console("SummonTime : " + SummonTime + " Interval : " + CASTINTERVAL);
+                    shooter.reload(ElementalData.ProjectilePrefabName(ID));
+                }
+                if (AttackTimer > CASTINTERVAL && shooter.isReady)
+                {
+                    if (targetID != null)
+                    {
+                        if (shooter.Shoot(targetID, 0.8f))
+                            EndAttack();
+                    }
+                    else if (targetID == null) { } //타겟이생길떄까지 대기한다. 
+                }
             }
 
-            if (AttackTimer > CASTINTERVAL)
+            if (isSkillAttack)
             {
-                if (targetID != null)
-                {
-                    Vector3 destination = calDestination(targetID);
-                    Shoot(destination);
-                }
-                else if (targetID == null)
-                {
-                    //타겟이생길떄까지 대기한다.
-                }
+                //skill.Update(this);
+
+                // if skilltype == drop
+                // createAndDrop(amount, scale, position);
+
+                // if skilltype == special atk
+                // sprj = createSkillProj();
+                // Shoot(sprj);
+
+                //
+
             }
         }
 
+        bool isSkillAttack = false; // 이번공격이 스킬인지 
+        private bool JudgeSkill { get { return SKILLRATE > UnityEngine.Random.Range(0.0f, 1.0f); } }
+
+        void EndAttack()
+        {
+            AttackTimer = 0; // 정상적으로 발사 완료 후 타이머리셋
+            //isSkillAttack = JudgeSkill;
+        }
+
+        
         public void onTargetStateChange(string monsterID, string stateID)
         {
             if (stateID == "Ready")
@@ -139,23 +150,6 @@ namespace SexyBackPlayScene
                 targetID = null;
         }
 
-        private Vector3 calDestination(string targetID)
-        {
-            Monster target = Singleton<MonsterManager>.getInstance().GetMonster(targetID);
-            Vector3 center = target.CenterPosition;
-            Vector3 extend = target.Size / 2;
-            Vector3 dest = RandomRangeVector3(center, extend);
-            return dest;
-        }
-        private Vector3 RandomRangeVector3(Vector3 center, Vector3 extend)
-        {
-            Vector3 min = center - extend;
-            Vector3 max = center + extend;
-
-            return new Vector3(UnityEngine.Random.Range(min.x, max.x),
-                UnityEngine.Random.Range(min.y, max.y),
-                UnityEngine.Random.Range(min.z, max.z));
-        }
 
 
     }

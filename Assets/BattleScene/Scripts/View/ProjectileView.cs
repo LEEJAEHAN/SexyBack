@@ -8,9 +8,6 @@ namespace SexyBackPlayScene
         // projectile data
         // animation info
 
-        public delegate void PrjectileDestroyEvent();
-        public event PrjectileDestroyEvent noticeDestroy;
-
         // TODO: statemachine을 view가 가진다 ㅠㅠ.. 이것도 리팩토링해야함.
         Animator anim;
 
@@ -24,9 +21,7 @@ namespace SexyBackPlayScene
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("Base.Destroy"))
             {
                 Destroy(this.gameObject);
-                noticeDestroy();
             }
-
             if (anim.GetBool("Shoot") == true)
             {
                 float xVec = GetComponent<Rigidbody>().velocity.x;
@@ -37,7 +32,6 @@ namespace SexyBackPlayScene
 
                 transform.eulerAngles = new Vector3(0, 0, rot + 180);
             }
-
         }
 
         void Init()

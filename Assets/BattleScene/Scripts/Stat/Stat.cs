@@ -59,12 +59,14 @@ namespace SexyBackPlayScene
         internal BigInteger DpsX;
         internal int DpsIncreaseXH; // 
         internal int CastSpeedXH; //
+        internal int SkillRateXH; //
 
         internal ElementalStat()
         {
             DpsX = new BigInteger(1);
             DpsIncreaseXH = 100;
-            CastSpeedXH = 100;
+            CastSpeedXH = 200;
+            SkillRateXH = 50;
         }
 
     }

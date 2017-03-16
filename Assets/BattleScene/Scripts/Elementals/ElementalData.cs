@@ -34,12 +34,10 @@ namespace SexyBackPlayScene
             BaseDps = new BigInteger((int)basedps);
             BaseExp = baseexp;
         }
-
         public static string ProjectilePrefabName(string elementalid)
         {
             return "prefabs/Projectile/" + elementalid;
         }
-
         public static string ProjectileReadyStateName(string elementalid)
         {
             return elementalid + "_spot";

@@ -6,7 +6,7 @@ namespace SexyBackPlayScene
     public class MonsterView : MonoBehaviour, IDisposable
     {
         // event publisher
-        public delegate void MonsterHit_Event(Vector3 hitPosition, string elementID);
+        public delegate void MonsterHit_Event(Vector3 hitPosition, string elementID, bool skillattack);
         public event MonsterHit_Event Action_HitEvent = delegate { };
         
         bool isdisposing = false;
@@ -29,7 +29,11 @@ namespace SexyBackPlayScene
                 return;
             if (collider.gameObject.tag == "Projectile")
             {
-                Action_HitEvent(collider.transform.position, collider.gameObject.name);
+                Action_HitEvent(collider.transform.position, collider.gameObject.name, false);
+            }
+            if( collider.gameObject.tag == "Skill")
+            {
+                Action_HitEvent(collider.transform.position, collider.gameObject.name, true);
             }
         }
         private void OnCollisionEnter(Collision collision)

@@ -7,6 +7,8 @@ namespace SexyBackPlayScene
     internal class MonsterStateReady: BaseState<Monster>
     {
         List<HitPlan> hitplans = new List<HitPlan>();
+        List<HitPlan> dotplans = new List<HitPlan>();
+
         struct HitPlan
         {
             public Vector3 hitWorldPosition;
@@ -36,10 +38,19 @@ namespace SexyBackPlayScene
             BackCollision.Action_HitEvent -= onHitByProjectile;
         }
 
-        public void onHitByProjectile(Vector3 hitWorldPosition, string elementalID)
+        public void onHitByProjectile(Vector3 hitWorldPosition, string elementalID, bool skillattack)
         {   // view를 통해서 받은것.
-            BigInteger damage = Singleton<ElementalManager>.getInstance().GetElementalDamage(elementalID);
-            hitplans.Add(new HitPlan(hitWorldPosition, damage));
+            Elemental elemental = Singleton<ElementalManager>.getInstance().elementals[elementalID];
+//            Skill skill = elemental.skill;
+
+            if(!skillattack)
+            {
+                hitplans.Add(new HitPlan(hitWorldPosition, elemental.DAMAGE));
+            }
+            else if(skillattack)
+            {
+             //   skill.Apply(owner , this);
+            }
         }
 
         internal override void Update()
@@ -51,7 +62,17 @@ namespace SexyBackPlayScene
             {
                 if (owner.Hit(a.hitWorldPosition, a.damage, false) == false) // enumarator 돌고있을때 죽으면
                     break;
+                // if ( scalebyhp )
+                // 
             }
+
+            // if ( burn)
+            // if ( poisoned)
+            // 1초마다
+            // sum = foreach(도트합산) { remaintime-1.}
+            // hit(sum, noposition, 칼라오버레이dotteffect);
+            // remaintime == 0 이면 dotplan에서 뺌.
+
             hitplans.Clear();
         }
     }
