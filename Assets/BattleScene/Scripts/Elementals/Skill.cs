@@ -1,106 +1,80 @@
-﻿//using System;
-//using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-//namespace SexyBackPlayScene
-//{
-//    internal class Skill
-//    {
-//        internal int DamageXH = 300;
-//        internal readonly int DamageXHPerLV = 20;
+namespace SexyBackPlayScene
+{
+    public enum DamageType
+    {
+        Hit,
+        DeBuff,
+        HitDebuff,
+        HitPerHPLow,
+        HitPerHPHigh,
+    }
 
-//        internal int Duration = 30;
+    internal class Debuff
+    {
+        public int DAMAGERATIO;
+        public int baseRatio;
+        public BigInteger DAMAGE;
 
-//        internal int ProjectileAmount = 15;
-//        internal double scale = 1;
-//        internal double speed = 1;
+        public Debuff(int baseDamageRatio)
+        {
+            baseRatio = baseDamageRatio;
+        }
+        internal void Update()
+        {
+        }
+    }
 
-//        internal string buffID = "";
-//        internal string buffTarget = "";
+    //Type; // "shoot", "drop", "fastshoot" "cast"; // dot,4  childtype
+    internal abstract class Skill // case drop
+    {
+        // skilldata
+        protected string ownerID;
+        protected bool ReLoaded = false;
+        protected double CASTINTERVAL;
+        protected bool isTargetEnemy;
+        protected string prefabname;
+        public DamageType ability;
+        public int baseRatio; // base
+        public int DAMAGERATIO;
+        public BigInteger DAMAGE;
 
-//        internal Color color; // overray color
-//        internal string ability; //  "instancedmg", "buff", "dotdmg", , ;
-//        internal string casttype; // "shoot", "drop", "fastshoot" "cast"; // dot,4 
+        public Debuff debuff;
 
+        public Skill(string ownerID, string prefab, DamageType ability, int baseDamageRatio, Debuff debuff)
+        {
+            this.ownerID = ownerID;
+            prefabname = prefab;
+            isTargetEnemy = true;
+            baseRatio = baseDamageRatio;
+            this.debuff = debuff;
+        }
 
+        abstract internal void ReLoad(double timer);
+        abstract internal bool Shoot(double timer, string targetID);
+        virtual internal void Update()
+        {
 
-//        bool ready;
-//        bool attack;
+        }
 
+        internal void SetStat(int skilldamageIncreaseXH)
+        {
+            DAMAGERATIO = baseRatio * skilldamageIncreaseXH / 100;
+            if(debuff != null)
+                debuff.DAMAGERATIO = baseRatio * skilldamageIncreaseXH / 100;
+        }
+        virtual internal void SetInterval(double interval)
+        {
+            this.CASTINTERVAL = interval;
+        }
+        virtual internal void CalDamage(BigInteger elementaldmg)
+        {
+            DAMAGE = elementaldmg * DAMAGERATIO / 100;
+            if (debuff != null)
+                debuff.DAMAGE = elementaldmg * debuff.DAMAGERATIO / 100;
+        }
+    }
 
-//        internal void Update(Elemental elemental)
-//        {     
-//            // case shoot
-//            if (ready)
-//            {
-//                elemental.currentporjectile = CreateProjectile(슈터위치, 량, 스케일, 속도, 칼라, 프리펩네임));
-//            }
-//            if (attack)
-//            {
-//                if (CastShoot(this))
-//                    EndAttack();
-//            }
-
-//            // case drop
-//            if (ready)
-//            {
-//                elemental.currentporjectile = CreateProjectile(CurrentProjectile);
-//            }
-//            if (attack)
-//            {
-//                if (CastShoot(this))
-//                    EndAttack();
-//            }
-
-//        }
-
-//        internal void CastShoot(Elemental elemental)
-//        {
-//            if (elemental.targetID != null)
-//            {
-//                Vector3 destination = elemental.calDestination(elemental.targetID);
-//                if (elemental.CurrentProjectile.Shoot(destination, 0.8f))
-//                    EndAttack();
-//            }
-//            else if (targetID == null) { } //타겟이생길떄까지 대기한다. 
-
-//        }
-
-//        internal void CastDrop(Elemental elemental)
-//        {
-//            if (elemental.targetID != null)
-//            {
-//                Vector3 destination = elemental.calDestination(targetID);
-//                if (CurrentProjectile.Shoot(destination, 0.8f))
-//                    EndAttack();
-//            }
-//            else if (targetID == null) { } //타겟이생길떄까지 대기한다. 
-
-//        }
-
-//        internal void CastCast(Elemental elemental)
-//        {
-//            if (elemental.targetID != null)
-//            {
-//                Vector3 destination = elemental.calDestination(targetID);
-//                if (CurrentProjectile.Shoot(destination, 0.8f))
-//                    EndAttack();
-//            }
-//            else if (targetID == null) { } //타겟이생길떄까지 대기한다. 
-
-//        }
-
-
-//        internal void Apply(Monster owner, MonsterStateReady monsterStateReady)
-//        {
-//            if (skill.ability == "Dot")
-//            {
-
-//            }
-
-//            dobplans.Add
-//            //debuffplans.add(  
-//        }
-
-//    }
-
-//}
+}

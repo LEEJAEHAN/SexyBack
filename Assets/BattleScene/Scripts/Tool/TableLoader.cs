@@ -112,21 +112,26 @@ namespace SexyBackPlayScene
 
             foreach (XmlNode node in nodes)
             {
-                string id = node.Attributes["id"].Value;
-                string name = node.Attributes["name"].Value;
-                int attackIntervalK = int.Parse(node.Attributes["attackIntervalK"].Value);
+                ElementalData elemental = new ElementalData();
+                elemental.ID = node.Attributes["id"].Value;
+                elemental.Name = node.Attributes["name"].Value;
+                elemental.BaseCastIntervalXK = int.Parse(node.Attributes["basecastintervalxk"].Value);
                 string basedps = node.Attributes["basedps"].Value;
-                string baseexp = node.Attributes["baseexp"].Value;
-
-                ElementalData elemental;
-                if (basedps.Contains("."))
+                if(basedps.Contains("."))
                 {
                     double basedpsdouble = double.Parse(basedps);
-                    elemental = new ElementalData(id, name, attackIntervalK, basedpsdouble, new BigInteger(baseexp));
+                    elemental.FloatDigit = 10;
+                    basedpsdouble *= 10;
+                    elemental.BaseDps = new BigInteger((int)basedpsdouble);
                 }
                 else
-                    elemental = new ElementalData(id, name, attackIntervalK, new BigInteger(basedps), new BigInteger(baseexp));
-                elementaltable.Add(id, elemental);
+                    elemental.BaseDps = new BigInteger(basedps);
+                elemental.BaseExp = new BigInteger(node.Attributes["baseexp"].Value);
+                elemental.PrefabName = node.Attributes["prefab"].Value;
+                elemental.SkillPrefabName = node.Attributes["skillprefab"].Value;
+                elemental.BaseSkillRate= int.Parse(node.Attributes["baseskillrate"].Value);
+                elemental.BaseSkillDamageXH = int.Parse(node.Attributes["baseskilldamagexh"].Value); ;
+                elementaltable.Add(elemental.ID, elemental);
             }
         }
 

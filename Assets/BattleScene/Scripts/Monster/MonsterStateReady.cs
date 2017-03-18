@@ -7,7 +7,7 @@ namespace SexyBackPlayScene
     internal class MonsterStateReady: BaseState<Monster>
     {
         List<HitPlan> hitplans = new List<HitPlan>();
-        List<HitPlan> dotplans = new List<HitPlan>();
+        List<Debuff> debuffs = new List<Debuff>();
 
         struct HitPlan
         {
@@ -46,10 +46,33 @@ namespace SexyBackPlayScene
             if(!skillattack)
             {
                 hitplans.Add(new HitPlan(hitWorldPosition, elemental.DAMAGE));
+                return;
             }
-            else if(skillattack)
+            switch(elemental.skill.ability)
             {
-             //   skill.Apply(owner , this);
+                case DamageType.DeBuff:
+                    {
+                        //elemental.skill.debuff
+                        //debuffs.Apply();
+                        return;
+                    }
+                case DamageType.Hit:
+                    {
+                        hitplans.Add(new HitPlan(hitWorldPosition, elemental.skill.DAMAGE));
+                        return;
+                    }
+                case DamageType.HitDebuff:
+                    {
+                        return;
+                    }
+                case DamageType.HitPerHPHigh:
+                    {
+                        return;
+                    }
+                case DamageType.HitPerHPLow:
+                    {
+                        return;
+                    }
             }
         }
 
@@ -58,12 +81,22 @@ namespace SexyBackPlayScene
             if (hitplans.Count == 0)
                 return;
 
+            //
+            //buff loop
+            //
+
+
             foreach(HitPlan a in hitplans)
             {
                 if (owner.Hit(a.hitWorldPosition, a.damage, false) == false) // enumarator 돌고있을때 죽으면
                     break;
                 // if ( scalebyhp )
                 // 
+            }
+
+            foreach(Debuff debuff in debuffs)
+            {
+                debuff.Update();
             }
 
             // if ( burn)

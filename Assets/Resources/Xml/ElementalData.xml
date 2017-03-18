@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Elementals>
-	<Elemental id="fireball" name="화염구" attackIntervalK="5000" basedps="1" baseexp="10"/>
-	<Elemental id="waterball" name="물폭탄" attackIntervalK="5000" basedps="1" baseexp="10"/>
-	<Elemental id="rock" name="짱돌" attackIntervalK="5000" basedps="1" baseexp="1"/>
-	<Elemental id="electricball" name="지지직" attackIntervalK="5000" basedps="1" baseexp="10"/>
-	<Elemental id="snowball" name="눈덩이" attackIntervalK="5000" basedps="1" baseexp="10"/>
-	<Elemental id="earthball" name="흙덩이" attackIntervalK="5000" basedps="1" baseexp="10"/>
-	<Elemental id="airball" name="바람바람" attackIntervalK="5000" basedps="1" baseexp="10"/>
-	<Elemental id="iceblock" name="각얼음" attackIntervalK="5000" basedps="1" baseexp="10"/>
-	<Elemental id="magmaball" name="메테오" attackIntervalK="5000" basedps="1" baseexp="10"/>
+	<Elemental id="fireball" name="화염구" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/fireball" skillprefab="prefabs/Projectile/fireball_skill" baseskillrate="50" baseskilldamagexh="300"/>
+	<Elemental id="iceblock" name="각얼음" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/iceblock" skillprefab="prefabs/Projectile/iceblock_skill" baseskillrate="50" baseskilldamagexh="300"/>
+	<Elemental id="rock" name="짱돌" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/rock" skillprefab="prefabs/Projectile/rock_skill" baseskillrate="50" baseskilldamagexh="300"/>
+	<Elemental id="electricball" name="지지직" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/electricball" skillprefab="prefabs/Projectile/electricball_skill" baseskillrate="50" baseskilldamagexh="300"/>
+	<Elemental id="waterball" name="물폭탄" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/waterball" skillprefab="prefabs/Projectile/waterball_skill" baseskillrate="50" baseskilldamagexh="300"/>
+	<Elemental id="earthball" name="흙덩이" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/earthball" skillprefab="prefabs/Projectile/earthball_skill" baseskillrate="50" baseskilldamagexh="300"/>
+	<Elemental id="airball" name="바람바람" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/airball" skillprefab="prefabs/Projectile/airball_skill" baseskillrate="50" baseskilldamagexh="300"/>
+	<Elemental id="snowball" name="눈덩이" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/snowball" skillprefab="prefabs/Projectile/snowball_skill" baseskillrate="50" baseskilldamagexh="300"/>
+	<Elemental id="magmaball" name="메테오" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/magmaball" skillprefab="prefabs/Projectile/magmaball_skill" baseskillrate="50" baseskilldamagexh="300"/>
 </Elementals>

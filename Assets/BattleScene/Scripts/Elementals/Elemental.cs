@@ -15,13 +15,16 @@ namespace SexyBackPlayScene
         BigInteger dpsX = new BigInteger();
         int dpsIncreaseXH;
         int castSpeedXH;
+        int skillrateIncreaseXH;
+        int skilldamageIncreaseXH;
 
         public BigInteger DPS = new BigInteger();
         public BigInteger DPSTICK = new BigInteger();
         public BigInteger DAMAGE = new BigInteger();//  dps * attackinterval
-        public double CASTINTERVAL; // (attackinterval1k / 1000) * ( 100 / attackspeed1h ) 
-        public double SKILLRATE;
-        public SkillData SKILLDATA;
+        public int SKILLRATIO;
+        public int SKILLRATE;
+        public BigInteger SKILLDAMAGE = new BigInteger();
+        public double CASTINTERVAL { get { return shooter.CASTINTERVAL; }  set { shooter.SetInterval(value); skill.SetInterval(value); } } // (attackinterval1k / 1000) * ( 100 / attackspeed1h ) 
 
         // 고정수
         readonly string ID;
@@ -29,11 +32,15 @@ namespace SexyBackPlayScene
         readonly int BaseCastIntervalXK;
         readonly BigInteger BaseDps;
         readonly BigInteger BaseExp;
+        readonly int BaseSkillRate;
+        readonly int BaseSkillRatio;
+
         readonly double GrowthRate;
 
         // for projectile action;
         private Shooter shooter;
-        private double AttackTimer;
+        public Skill skill;
+        private double AttackTimer = 0;
 
         // ICanLevelUp
         public int LEVEL { get { return level; } }
@@ -50,7 +57,11 @@ namespace SexyBackPlayScene
             DpsShiftDigit = data.FloatDigit;
             BaseExp = data.BaseExp;
             GrowthRate = data.GrowthRate;
-            shooter = new Shooter(ID, ElementalData.ProjectilePrefabName(ID));
+            BaseSkillRate = data.BaseSkillRate;
+            BaseSkillRatio = data.BaseSkillDamageXH;
+
+            shooter = new Shooter(ID, data.PrefabName );
+            skill = SkillFactory.Create(ID, data.SkillPrefabName, BaseSkillRatio);
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -75,8 +86,9 @@ namespace SexyBackPlayScene
 
             // CASTINTERVAL이 0.5보다 낮아져선 안된다. ( 실제는 0.8 )
             CASTINTERVAL = UnityEngine.Mathf.Max(0.8f,((float)BaseCastIntervalXK / (float)(castSpeedXH * 10)));
-            SKILLRATE = (double)elementalstat.SkillRateXH / 100;
-            CalDPS();
+            SKILLRATE = BaseSkillRate * elementalstat.skillrateIncreaseXH / 100;
+            SKILLRATIO = BaseSkillRatio* elementalstat.skilldamageIncreaseXH/ 100;
+            skill.SetStat(elementalstat.skilldamageIncreaseXH);
 
             if (CalDamage)
                 CalDPS();
@@ -85,60 +97,44 @@ namespace SexyBackPlayScene
         }
         void CalDPS()
         {
-            DPS = BaseDps * dpsX * level * dpsIncreaseXH * castSpeedXH / (DpsShiftDigit * 10000);
-            DPSTICK = (BaseDps * dpsX * dpsIncreaseXH * castSpeedXH / (DpsShiftDigit * 10000));
-            DAMAGE = DPS * BaseCastIntervalXK / (castSpeedXH * 10); //  dps * CASTINTERVAL
+            DPS = BaseDps * dpsX * (level * dpsIncreaseXH * castSpeedXH) / (DpsShiftDigit * 10000);
+            DPSTICK = BaseDps * dpsX * (dpsIncreaseXH * castSpeedXH) / (DpsShiftDigit * 10000);
+            DAMAGE = DPS * BaseCastIntervalXK / (castSpeedXH * 10); //  dps * CASTINTERVAL]
+            skill.CalDamage(DAMAGE);
         }
 
         // TODO : 여기도 언젠간 statemachine작업을 해야할듯 ㅠㅠ
         internal void Update()
         {
-            AttackTimer += Time.deltaTime;
+            //shooter 리로드
+            //shooter 발사.
 
-            double SummonTime = UnityEngine.Mathf.Max((float)(CASTINTERVAL - 1f), (float)(CASTINTERVAL * 0.5));
-
-            if (!isSkillAttack)
+            if(!isSkillAttack)
             {
-                // 만들어진다.
-                if (AttackTimer > SummonTime && !shooter.isReady)
-                {
-                    sexybacklog.Console("SummonTime : " + SummonTime + " Interval : " + CASTINTERVAL);
-                    shooter.reload(ElementalData.ProjectilePrefabName(ID));
-                }
-                if (AttackTimer > CASTINTERVAL && shooter.isReady)
-                {
-                    if (targetID != null)
-                    {
-                        if (shooter.Shoot(targetID, 0.8f))
-                            EndAttack();
-                    }
-                    else if (targetID == null) { } //타겟이생길떄까지 대기한다. 
-                }
+                shooter.ReLoad(AttackTimer);
+                if (shooter.Shoot(AttackTimer, targetID))
+                    EndAttack();
             }
 
             if (isSkillAttack)
             {
-                //skill.Update(this);
-
-                // if skilltype == drop
-                // createAndDrop(amount, scale, position);
-
-                // if skilltype == special atk
-                // sprj = createSkillProj();
-                // Shoot(sprj);
-
-                //
-
+                skill.ReLoad(AttackTimer);
+                if (skill.Shoot(AttackTimer, targetID))
+                    EndAttack();
             }
+
+            skill.Update(); // cast 이후의 post업데이트.
+            AttackTimer += Time.deltaTime;
         }
 
         bool isSkillAttack = false; // 이번공격이 스킬인지 
-        private bool JudgeSkill { get { return SKILLRATE > UnityEngine.Random.Range(0.0f, 1.0f); } }
+        private bool JudgeSkill { get { return SKILLRATE > UnityEngine.Random.Range(0, 100); } }
+
 
         void EndAttack()
         {
             AttackTimer = 0; // 정상적으로 발사 완료 후 타이머리셋
-            //isSkillAttack = JudgeSkill;
+            isSkillAttack = JudgeSkill;
         }
 
         

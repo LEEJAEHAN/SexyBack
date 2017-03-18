@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Elementals>
+  <Elemental id="fireball" name="파이어볼" attackIntervalK="5500" basedps="1" baseexp="10"/>
+  <Elemental id="fireball" name="파이어볼" attackIntervalK="5500" basedps="1.23" baseexp="10"/>
+</Elementals>
