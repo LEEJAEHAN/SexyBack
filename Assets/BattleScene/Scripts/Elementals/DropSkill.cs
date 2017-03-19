@@ -62,14 +62,14 @@ namespace SexyBackPlayScene
         {
             GameObject view = GameObject.Instantiate<GameObject>(Resources.Load(prefabpath) as GameObject);
             view.name = ownerID;
-            view.tag = "DropProjectile";
+            view.tag = "SkillProjectile";
             view.transform.parent = ViewLoader.projectiles.transform;
             view.transform.position = Shooter.RandomRangeVector3(SpawnCenter, SpawnSize / 2);
             view.GetComponent<Animator>().SetBool("Shoot", true);
             view.SetActive(true);
         }
 
-        internal override void Update()
+        internal override void Update(string targetID)
         {
             if (remainCount <= 0)
                 return;

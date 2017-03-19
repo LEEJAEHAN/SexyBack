@@ -26,11 +26,11 @@ namespace SexyBackPlayScene
             {
                 Action_HitEvent(collider.transform.position, collider.gameObject.name, false);
             }
-            if (collider.gameObject.tag == "DropProjectile")
+            if (collider.gameObject.tag == "MeteorProjectile")
             {
                 Action_HitEvent(collider.transform.position, collider.gameObject.name, true);
             }
-            if (collider.gameObject.tag == "Skill")
+            if (collider.gameObject.tag == "SkillProjectile")
             {
                 Action_HitEvent(collider.transform.position, collider.gameObject.name, true);
             }

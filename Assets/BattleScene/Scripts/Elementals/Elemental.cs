@@ -123,7 +123,7 @@ namespace SexyBackPlayScene
                     EndAttack();
             }
 
-            skill.Update(); // cast 이후의 post업데이트.
+            skill.Update(targetID); // cast 이후의 post업데이트.
             AttackTimer += Time.deltaTime;
         }
 

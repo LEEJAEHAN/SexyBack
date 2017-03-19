@@ -31,14 +31,11 @@ namespace SexyBackPlayScene
             {
                 Action_HitEvent(collider.transform.position, collider.gameObject.name, false);
             }
-            if (collider.gameObject.tag == "DropProjectile")
+            if ( collider.gameObject.tag == "SkillProjectile")
             {
                 Action_HitEvent(collider.transform.position, collider.gameObject.name, true);
             }
-            if ( collider.gameObject.tag == "Skill")
-            {
-                Action_HitEvent(collider.transform.position, collider.gameObject.name, true);
-            }
+            //MeteorProjectile 은 통과한다.
         }
         private void OnCollisionEnter(Collision collision)
         {

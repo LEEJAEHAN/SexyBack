@@ -18,7 +18,7 @@ namespace SexyBackPlayScene
         public int baseRatio;
         public BigInteger DAMAGE;
 
-        public Debuff(int baseDamageRatio)
+        public Debuff(int baseDamageRatio, int duration)
         {
             baseRatio = baseDamageRatio;
         }
@@ -54,7 +54,7 @@ namespace SexyBackPlayScene
 
         abstract internal void ReLoad(double timer);
         abstract internal bool Shoot(double timer, string targetID);
-        virtual internal void Update()
+        virtual internal void Update(string targetID)
         {
 
         }
