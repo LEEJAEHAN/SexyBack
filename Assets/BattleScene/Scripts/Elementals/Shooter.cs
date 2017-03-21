@@ -20,14 +20,18 @@ namespace SexyBackPlayScene
         {
             this.ownerID = ownerID;
             prefabname = normalprefab;
+
+
         }
 
+        //                sexybacklog.Console("SummonTime : " + ReLoadInterval + " Interval : " + CASTINTERVAL);
         internal void ReLoad(double timer)
         {
             if (timer > ReLoadInterval && !ReLoaded)
             {
-                sexybacklog.Console("SummonTime : " + ReLoadInterval + " Interval : " + CASTINTERVAL);
-                projectile = LoadProjectile(ownerID, prefabname);
+                Transform shootZone = ViewLoader.area_elemental.transform;
+                Vector3 genPosition = RandomRangeVector3(shootZone.position, shootZone.localScale / 2);
+                projectile = LoadProjectile(ownerID, prefabname, genPosition);
                 ReLoaded = true;
             }
         }
@@ -38,7 +42,8 @@ namespace SexyBackPlayScene
             {
                 if (targetID != null)
                 {
-                    Shoot(targetID, 1.25f, projectile);
+                    Vector3 target = calPosition(targetID, true);
+                    Shoot(target, 0.8f, projectile);
                     ReLoaded = false;
                     return true;
                 }
@@ -65,23 +70,24 @@ namespace SexyBackPlayScene
         }
 
 
-        public static Vector3 calDestination(string targetID)
+        public static Vector3 calPosition(string targetID, bool randomPosition)
         {
             Monster target = Singleton<MonsterManager>.getInstance().GetMonster(targetID);
             Vector3 center = target.CenterPosition;
             Vector3 extend = target.Size / 2;
-            Vector3 dest = RandomRangeVector3(center, extend);
-            return dest;
+            if (randomPosition)
+                return RandomRangeVector3(center, extend);
+            else
+                return center;
         }
 
-        internal static GameObject LoadProjectile(string id, string prefabpath)
+        internal static GameObject LoadProjectile(string id, string prefabpath, Vector3 genPosition)
         {
-            Transform shootZone = ViewLoader.area_elemental.transform;
             GameObject view = GameObject.Instantiate<GameObject>(Resources.Load(prefabpath) as GameObject);
             view.name = id;
             view.tag = "Projectile";
             view.transform.parent = ViewLoader.shooter.transform;
-            view.transform.position = RandomRangeVector3(shootZone.position, shootZone.localScale / 2); // not local position
+            view.transform.position = genPosition;// not local position
             view.GetComponent<SphereCollider>().enabled = false;
             view.SetActive(true);
             return view;
@@ -89,12 +95,10 @@ namespace SexyBackPlayScene
             //view.GetComponent<ProjectileView>().noticeDestroy += owner.onDestroyProjectile;
         }
 
-        internal static bool Shoot(string targetID, float speed, GameObject view) // 1개 쏘기
+        internal static bool Shoot(Vector3 target, float speed, GameObject view) // 1개 쏘기
         {
             if (view == null)
                 return false;
-
-            Vector3 target = calDestination(targetID);
 
             view.transform.parent = ViewLoader.projectiles.transform; // 슈터에서 빠진다.
                                                                       // Shootfunc
@@ -108,6 +112,8 @@ namespace SexyBackPlayScene
 
             float throwangle_xy;
 
+            if (xDistance == 0) // angle is 90
+                xDistance = -0.001f;
             throwangle_xy = Mathf.Atan((yDistance + (-Physics.gravity.y * Mathf.Pow(1f/speed, 2) / 2)) / xDistance);
 
             //float totalVelo = xDistance / Mathf.Cos(throwangle_xy);

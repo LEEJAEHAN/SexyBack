@@ -83,12 +83,14 @@ namespace SexyBackPlayScene
             dpsX = elementalstat.DpsX;
             dpsIncreaseXH = elementalstat.DpsIncreaseXH;
             castSpeedXH = elementalstat.CastSpeedXH;
+            skillrateIncreaseXH = elementalstat.skillrateIncreaseXH;
+            skilldamageIncreaseXH = elementalstat.skilldamageIncreaseXH;
 
             // CASTINTERVAL이 0.5보다 낮아져선 안된다. ( 실제는 0.8 )
             CASTINTERVAL = UnityEngine.Mathf.Max(0.8f,((float)BaseCastIntervalXK / (float)(castSpeedXH * 10)));
-            SKILLRATE = BaseSkillRate * elementalstat.skillrateIncreaseXH / 100;
-            SKILLRATIO = BaseSkillRatio* elementalstat.skilldamageIncreaseXH/ 100;
-            skill.SetStat(elementalstat.skilldamageIncreaseXH);
+            SKILLRATE = BaseSkillRate * skillrateIncreaseXH / 100;
+            SKILLRATIO = BaseSkillRatio* skilldamageIncreaseXH / 100;
+            skill.SetStat(skilldamageIncreaseXH);
 
             if (CalDamage)
                 CalDPS();
@@ -123,7 +125,7 @@ namespace SexyBackPlayScene
                     EndAttack();
             }
 
-            skill.Update(targetID); // cast 이후의 post업데이트.
+            skill.Update(); // cast 이후의 post업데이트.
             AttackTimer += Time.deltaTime;
         }
 

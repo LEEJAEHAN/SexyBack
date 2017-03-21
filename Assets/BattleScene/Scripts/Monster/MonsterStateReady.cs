@@ -8,6 +8,7 @@ namespace SexyBackPlayScene
     {
         List<HitPlan> hitplans = new List<HitPlan>();
         List<Debuff> debuffs = new List<Debuff>();
+        Queue<Debuff> finishDebuffs= new Queue<Debuff>();
 
         struct HitPlan
         {
@@ -54,6 +55,7 @@ namespace SexyBackPlayScene
                     {
                         //elemental.skill.debuff
                         //debuffs.Apply();
+                        debuffs.Add(SkillFactory.CreateDebuff(elemental.skill.debuff, elemental.skill.DAMAGE));
                         return;
                     }
                 case DamageType.Hit:
@@ -63,6 +65,8 @@ namespace SexyBackPlayScene
                     }
                 case DamageType.HitDebuff:
                     {
+                        hitplans.Add(new HitPlan(hitWorldPosition, elemental.skill.DAMAGE));
+                        debuffs.Add(SkillFactory.CreateDebuff(elemental.skill.debuff, elemental.skill.DAMAGE));
                         return;
                     }
                 case DamageType.HitPerHPHigh:
@@ -78,35 +82,44 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
+            if (debuffs.Count > 0)
+            {
+                debuffTimer += Time.deltaTime;
+                if (debuffTimer > tick)
+                {
+                    debuffTimer -= tick;
+                    BigInteger sum = new BigInteger(0);
+                    foreach (Debuff debuff in debuffs)
+                    {
+                        sum += debuff.PopOneTickDamage();
+                        if (debuff.CheckEnd())
+                            finishDebuffs.Enqueue(debuff);
+                    }
+                    hitplans.Add(new HitPlan(owner.CenterPosition, sum));
+                }
+                while (finishDebuffs.Count > 0)
+                    debuffs.Remove(finishDebuffs.Dequeue());
+            }
+
             if (hitplans.Count == 0)
                 return;
 
-            //
-            //buff loop
-            //
-
-
-            foreach(HitPlan a in hitplans)
+            
+            foreach (HitPlan a in hitplans)
             {
-                if (owner.Hit(a.hitWorldPosition, a.damage, false) == false) // enumarator 돌고있을때 죽으면
+                if (owner.Hit(a.hitWorldPosition, a.damage, false) == false) //enumarator 돌고있을때 죽으면
                     break;
-                // if ( scalebyhp )
-                // 
             }
+            hitplans.Clear();
 
-            foreach(Debuff debuff in debuffs)
-            {
-                debuff.Update();
-            }
-
-            // if ( burn)
-            // if ( poisoned)
             // 1초마다
             // sum = foreach(도트합산) { remaintime-1.}
             // hit(sum, noposition, 칼라오버레이dotteffect);
             // remaintime == 0 이면 dotplan에서 뺌.
 
-            hitplans.Clear();
         }
+
+        double debuffTimer;
+        double tick = 1f;
     }
 }

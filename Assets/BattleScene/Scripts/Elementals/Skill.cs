@@ -14,16 +14,44 @@ namespace SexyBackPlayScene
 
     internal class Debuff
     {
-        public int DAMAGERATIO;
-        public int baseRatio;
-        public BigInteger DAMAGE;
+        public BigInteger TickDamage;
+        public int duration;
 
-        public Debuff(int baseDamageRatio, int duration)
+        double duriationTimer = 0;
+        double tickTimer = 0;
+        double tick = 0.2f;
+
+        public Debuff(BigInteger tickDamage, int duration)
         {
-            baseRatio = baseDamageRatio;
+            TickDamage = tickDamage;
+            this.duration = duration;
         }
-        internal void Update()
+        //internal void Update()
+        //{
+        //    duriationTimer += Time.deltaTime;
+
+        //    if(duriationTimer <= duration)
+        //    {
+        //        tickTimer += Time.deltaTime;
+        //        while (tickTimer > tick)
+        //        {
+        //            tickTimer -= tick;
+        //        }
+
+        //    }   
+        //}
+
+        internal BigInteger PopOneTickDamage()
         {
+            duration -= 1;
+            return TickDamage;
+        }
+
+        internal bool CheckEnd()
+        {
+            if (duration <= 0)
+                return true;
+            return false;
         }
     }
 
@@ -38,23 +66,24 @@ namespace SexyBackPlayScene
         protected string prefabname;
         public DamageType ability;
         public int baseRatio; // base
+        public string debuff;
         public int DAMAGERATIO;
         public BigInteger DAMAGE;
 
-        public Debuff debuff;
 
-        public Skill(string ownerID, string prefab, DamageType ability, int baseDamageRatio, Debuff debuff)
+        public Skill(string ownerID, string prefab, DamageType ability, int baseDamageRatio, string debuffID)
         {
             this.ownerID = ownerID;
             prefabname = prefab;
             isTargetEnemy = true;
+            this.ability = ability;
+            this.debuff = debuffID;
             baseRatio = baseDamageRatio;
-            this.debuff = debuff;
         }
 
         abstract internal void ReLoad(double timer);
         abstract internal bool Shoot(double timer, string targetID);
-        virtual internal void Update(string targetID)
+        virtual internal void Update()
         {
 
         }
@@ -62,8 +91,6 @@ namespace SexyBackPlayScene
         internal void SetStat(int skilldamageIncreaseXH)
         {
             DAMAGERATIO = baseRatio * skilldamageIncreaseXH / 100;
-            if(debuff != null)
-                debuff.DAMAGERATIO = baseRatio * skilldamageIncreaseXH / 100;
         }
         virtual internal void SetInterval(double interval)
         {
@@ -72,8 +99,6 @@ namespace SexyBackPlayScene
         virtual internal void CalDamage(BigInteger elementaldmg)
         {
             DAMAGE = elementaldmg * DAMAGERATIO / 100;
-            if (debuff != null)
-                debuff.DAMAGE = elementaldmg * debuff.DAMAGERATIO / 100;
         }
     }
 

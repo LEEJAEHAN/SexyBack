@@ -18,7 +18,7 @@ namespace SexyBackPlayScene
         Vector3 SpawnCenter;
         Vector3 SpawnSize;
 
-        public DropSkill(string ownerID, string prefab, DamageType ability, int damageRatio, Debuff debuff, int Amount, double Tick )
+        public DropSkill(string ownerID, string prefab, DamageType ability, int damageRatio, string debuff, int Amount, double Tick )
             : base(ownerID, prefab, ability, damageRatio, debuff)
         {
             Unit = Amount;
@@ -69,7 +69,7 @@ namespace SexyBackPlayScene
             view.SetActive(true);
         }
 
-        internal override void Update(string targetID)
+        internal override void Update()
         {
             if (remainCount <= 0)
                 return;
@@ -86,8 +86,6 @@ namespace SexyBackPlayScene
         internal override void CalDamage(BigInteger elementaldmg)
         {
             DAMAGE = elementaldmg * DAMAGERATIO / (100 * this.Unit);
-            if (debuff != null)
-                debuff.DAMAGE = elementaldmg * debuff.DAMAGERATIO / (100 * this.Unit);
         }
     }
 

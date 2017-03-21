@@ -16,6 +16,10 @@ namespace SexyBackPlayScene
             anim = gameObject.GetComponent<Animator>();
         }
 
+        private void Update()
+        {
+            
+        }
         void FixedUpdate()
         {
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("Base.Destroy"))

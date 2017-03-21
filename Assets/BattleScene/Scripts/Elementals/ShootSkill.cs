@@ -17,15 +17,19 @@ namespace SexyBackPlayScene
 //        public int remainCount = 0;
         internal double ticktimer = 0;
         double ReLoadInterval;
-        bool duringShoot = false;
+        bool PostUpdate = false;
+        bool RandomGen = false;
+
+        Vector3 target;
         
-        public ShootSkill(string ownerID, string prefab, DamageType ability, int damageRatio, Debuff debuff, float Speed, int Amount, double Tick)
+        public ShootSkill(string ownerID, string prefab, DamageType ability, int damageRatio, string debuff, float Speed, int Amount, double Tick, bool randomgen)
             : base(ownerID, prefab, ability, damageRatio, debuff)
         {
             this.Speed = Speed;
             this.Unit = Amount;
             this.Tick = Tick;
             isTargetEnemy = true;
+            RandomGen = randomgen;
         }
 
         internal override void ReLoad(double timer)
@@ -35,8 +39,17 @@ namespace SexyBackPlayScene
                 ticktimer += Time.deltaTime;
                 while (ticktimer > Tick)
                 {
-                    GameObject view = Shooter.LoadProjectile(this.ownerID, prefabname);
+                    Transform shootZone = ViewLoader.area_elemental.transform;
+                    GameObject view;
+                    if(RandomGen)
+                    {
+                        Vector3 randPosition = Shooter.RandomRangeVector3(shootZone.position, shootZone.localScale / 2);
+                        view = Shooter.LoadProjectile(this.ownerID, prefabname, randPosition);
+                    }
+                    else
+                        view = Shooter.LoadProjectile(this.ownerID, prefabname, shootZone.position);
                     view.tag = "SkillProjectile";
+
                     projectiles.Enqueue(view);
                     ticktimer -= Tick;
                     if(projectiles.Count >= Unit)
@@ -61,9 +74,11 @@ namespace SexyBackPlayScene
             {
                 if (targetID != null)
                 {
-                    Shooter.Shoot(targetID, Speed, projectiles.Dequeue());
+                    target = Shooter.calPosition(targetID, false);
+                    Shooter.Shoot(target, Speed, projectiles.Dequeue());
                     ReLoaded = false;
-                    duringShoot = true;
+                    if(projectiles.Count > 0)
+                        PostUpdate = true;
                     return true;
                 }
                 else if (targetID == null) { } //타겟이생길떄까지 대기한다. 
@@ -71,19 +86,19 @@ namespace SexyBackPlayScene
             return false;
         }
 
-        internal override void Update(string targetID) // 큐에서 나머지남은것들 날림
+        internal override void Update() // 큐에서 나머지남은것들 날림
         {
-            if (projectiles.Count <= 0 || !duringShoot)
+            if (projectiles.Count <= 0 || !PostUpdate)
                 return;
 
             ticktimer += Time.deltaTime;
             while (ticktimer > Tick)
             {
                 ticktimer -= Tick;
-                Shooter.Shoot(targetID, Speed, projectiles.Dequeue());
+                Shooter.Shoot(target, Speed, projectiles.Dequeue());
                 if (projectiles.Count <= 0)
                 {
-                    duringShoot = false;
+                    PostUpdate = false;
                     return;
                 }
             }
@@ -92,8 +107,6 @@ namespace SexyBackPlayScene
         internal override void CalDamage(BigInteger elementaldmg)
         {
             DAMAGE = elementaldmg * DAMAGERATIO / (100 * this.Unit);
-            if (debuff != null)
-                debuff.DAMAGE = elementaldmg * debuff.DAMAGERATIO / (100 * this.Unit);
         }
     }
 
