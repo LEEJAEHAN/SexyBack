@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Elementals>
-	<Elemental id="fireball" name="화염구" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/fireball" skillprefab="prefabs/Projectile/fireball_skill" baseskillrate="50" baseskilldamagexh="300"/>
-	<Elemental id="iceblock" name="각얼음" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/iceblock" skillprefab="prefabs/Projectile/iceblock_skill" baseskillrate="50" baseskilldamagexh="300"/>
-	<Elemental id="rock" name="짱돌" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/rock" skillprefab="prefabs/Projectile/rock_skill" baseskillrate="50" baseskilldamagexh="300"/>
-	<Elemental id="electricball" name="지지직" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/electricball" skillprefab="prefabs/Projectile/electricball_skill" baseskillrate="50" baseskilldamagexh="300"/>
-	<Elemental id="waterball" name="물폭탄" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/waterball" skillprefab="prefabs/Projectile/waterball_skill" baseskillrate="50" baseskilldamagexh="300"/>
-	<Elemental id="earthball" name="흙덩이" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/earthball" skillprefab="prefabs/Projectile/earthball_skill" baseskillrate="50" baseskilldamagexh="300"/>
-	<Elemental id="airball" name="바람바람" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/airball" skillprefab="prefabs/Projectile/airball_skill" baseskillrate="50" baseskilldamagexh="300"/>
-	<Elemental id="snowball" name="눈덩이" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/snowball" skillprefab="prefabs/Projectile/snowball_skill" baseskillrate="50" baseskilldamagexh="300"/>
-	<Elemental id="magmaball" name="메테오" basecastintervalxk="5000" basedps="10" baseexp="10" prefab="prefabs/Projectile/magmaball" skillprefab="prefabs/Projectile/magmaball_skill" baseskillrate="50" baseskilldamagexh="300"/>
+	<Elemental id="fireball" name="화염구" basecastintervalxk="10000" basedps="10" baseexp="10" prefab="prefabs/Projectile/fireball" skillprefab="prefabs/Projectile/fireball_skill" baseskillratexk="120" baseskilldamagexh="225"/>
+	<Elemental id="iceblock" name="각얼음" basecastintervalxk="10000" basedps="10" baseexp="10" prefab="prefabs/Projectile/iceblock" skillprefab="prefabs/Projectile/iceblock_skill" baseskillratexk="100" baseskilldamagexh="800"/>
+	<Elemental id="rock" name="짱돌" basecastintervalxk="10000" basedps="10" baseexp="10" prefab="prefabs/Projectile/rock" skillprefab="prefabs/Projectile/rock_skill" baseskillratexk="50" baseskilldamagexh="1550"/>
+	<Elemental id="electricball" name="지지직" basecastintervalxk="10000" basedps="10" baseexp="10" prefab="prefabs/Projectile/electricball" skillprefab="prefabs/Projectile/electricball_skill" baseskillratexk="75" baseskilldamagexh="350"/>
+	<Elemental id="waterball" name="물폭탄" basecastintervalxk="10000" basedps="10" baseexp="10" prefab="prefabs/Projectile/waterball" skillprefab="prefabs/Projectile/waterball_skill" baseskillratexk="150" baseskilldamagexh="50"/>
+	<Elemental id="earthball" name="흙덩이" basecastintervalxk="10000" basedps="10" baseexp="10" prefab="prefabs/Projectile/earthball" skillprefab="prefabs/Projectile/earthball_skill" baseskillratexk="30" baseskilldamagexh="850"/>
+	<Elemental id="airball" name="바람바람" basecastintervalxk="10000" basedps="10" baseexp="10" prefab="prefabs/Projectile/airball" skillprefab="prefabs/Projectile/airball_skill" baseskillratexk="50" baseskilldamagexh="1550"/>
+	<Elemental id="snowball" name="눈덩이" basecastintervalxk="10000" basedps="10" baseexp="10" prefab="prefabs/Projectile/snowball" skillprefab="prefabs/Projectile/snowball_skill" baseskillratexk="60" baseskilldamagexh="1300"/>
+	<Elemental id="magmaball" name="메테오" basecastintervalxk="10000" basedps="10" baseexp="10" prefab="prefabs/Projectile/magmaball" skillprefab="prefabs/Projectile/magmaball_skill" baseskillratexk="30" baseskilldamagexh="2550"/>
 </Elementals>

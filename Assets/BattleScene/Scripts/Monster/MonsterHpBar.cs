@@ -116,13 +116,13 @@ namespace SexyBackPlayScene
         {
             if (stateid == "Appear" || stateid == "Death") //stateid == "Death" || 
                 Hpbar.SetActive(false);
-            else if(stateid == "Ready" || stateid == "Flying")
+            else if (stateid == "Ready" || stateid == "Flying")
                 Hpbar.SetActive(true);
         }
 
         public void UpdateBar(Monster monster)
         {
-            if (goal < 0 )
+            if (goal < 0)
             {
                 IGauge = 0;
                 currentIstack = 1;
@@ -229,6 +229,9 @@ namespace SexyBackPlayScene
             LateBar1.GetComponent<UISprite>().fillAmount = fillAmount;
         }
 
-
+        public int GetPercent()
+        {
+            return (int)((goal / representGauge) * 100f);
+        }
     }
 }
