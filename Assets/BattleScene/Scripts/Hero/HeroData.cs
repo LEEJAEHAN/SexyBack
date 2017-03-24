@@ -17,9 +17,9 @@ namespace SexyBackPlayScene
             Name = "이재한";
             GrowthRate = 1.148698f;
             AttackInterval = 5;
-            MoveSpeed = 2f;
-            BaseExp = new BigInteger(99);
-            BaseDpc = new BigInteger(15);
+            MoveSpeed = 1f;
+            BaseExp = new BigInteger(60);
+            BaseDpc = new BigInteger(5);
         }
     }
 }
