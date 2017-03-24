@@ -16,7 +16,7 @@ namespace SexyBackPlayScene
         public int FloatDigit = 1;
         public string PrefabName;
         public string SkillPrefabName;
-        public int BaseSkillRateXK;
+        public int BaseSkillRate;
         public int BaseSkillDamageXH;
 
         public ElementalData()

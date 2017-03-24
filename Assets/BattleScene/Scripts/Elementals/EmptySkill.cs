@@ -4,7 +4,7 @@ namespace SexyBackPlayScene
 {
     internal class EmptySkill : Skill
     {
-        public EmptySkill() : base("none", "none", DamageType.Hit, 0, Debuff.Type.None)
+        public EmptySkill() : base("none", "none", DamageType.Hit, 0, null)
         {
 
         }

@@ -31,7 +31,7 @@ namespace SexyBackPlayScene
             {
                 Transform shootZone = ViewLoader.area_elemental.transform;
                 Vector3 genPosition = RandomRangeVector3(shootZone.position, shootZone.localScale / 2);
-                projectile = LoadProjectile(ownerID, prefabname, ViewLoader.shooter.transform, genPosition);
+                projectile = LoadProjectile(ownerID, prefabname, genPosition);
                 ReLoaded = true;
             }
         }
@@ -42,8 +42,8 @@ namespace SexyBackPlayScene
             {
                 if (targetID != null)
                 {
-                    Monster target = Singleton<MonsterManager>.getInstance().GetMonster(targetID);
-                    Shoot(RandomRangeVector3(target.CenterPosition, target.Size / 2), 1f, projectile);
+                    Vector3 target = calPosition(targetID, true);
+                    Shoot(target, 0.8f, projectile);
                     ReLoaded = false;
                     return true;
                 }
@@ -69,12 +69,24 @@ namespace SexyBackPlayScene
                 UnityEngine.Random.Range(min.z, max.z));
         }
 
-        internal static GameObject LoadProjectile(string id, string prefabpath, Transform parent, Vector3 genPosition)
+
+        public static Vector3 calPosition(string targetID, bool randomPosition)
+        {
+            Monster target = Singleton<MonsterManager>.getInstance().GetMonster(targetID);
+            Vector3 center = target.CenterPosition;
+            Vector3 extend = target.Size / 2;
+            if (randomPosition)
+                return RandomRangeVector3(center, extend);
+            else
+                return center;
+        }
+
+        internal static GameObject LoadProjectile(string id, string prefabpath, Vector3 genPosition)
         {
             GameObject view = GameObject.Instantiate<GameObject>(Resources.Load(prefabpath) as GameObject);
             view.name = id;
             view.tag = "Projectile";
-            view.transform.parent = parent;
+            view.transform.parent = ViewLoader.shooter.transform;
             view.transform.position = genPosition;// not local position
             view.GetComponent<SphereCollider>().enabled = false;
             view.SetActive(true);

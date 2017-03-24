@@ -33,7 +33,6 @@ namespace SexyBackPlayScene
 
         static float ViewPortWidthShift;
         static float ViewPortHeightShift;
-        internal static bool DamageFontFlag = true;
 
         public GameCameras()
         {

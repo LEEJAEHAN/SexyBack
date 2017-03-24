@@ -14,44 +14,39 @@ namespace SexyBackPlayScene
 
     internal class Debuff
     {
-        internal enum Type
-        {
-            Burn = 20,
-            Poison = 10,
-            None = 0
-        }
-
         public BigInteger TickDamage;
-        public int duration;        
-        public Type type;
+        public int duration;
 
-        public Debuff(Type type, BigInteger tickDamage, int duration)
+        double duriationTimer = 0;
+        double tickTimer = 0;
+        double tick = 0.2f;
+
+        public Debuff(BigInteger tickDamage, int duration)
         {
             TickDamage = tickDamage;
             this.duration = duration;
-            this.type = type;
         }
+        //internal void Update()
+        //{
+        //    duriationTimer += Time.deltaTime;
+
+        //    if(duriationTimer <= duration)
+        //    {
+        //        tickTimer += Time.deltaTime;
+        //        while (tickTimer > tick)
+        //        {
+        //            tickTimer -= tick;
+        //        }
+
+        //    }   
+        //}
+
         internal BigInteger PopOneTickDamage()
         {
             duration -= 1;
             return TickDamage;
         }
-        public static Color GetMask(Type t)
-        {
-            switch(t)
-            {
-                case Type.Burn:
-                    {
-                        return Color.red;
-                    }
-                case Type.Poison:
-                    {
-                        return Color.green;
-                    }
-                default:
-                    return Color.white;
-            }
-        }
+
         internal bool CheckEnd()
         {
             if (duration <= 0)
@@ -71,18 +66,18 @@ namespace SexyBackPlayScene
         protected string prefabname;
         public DamageType ability;
         public int baseRatio; // base
-        public Debuff.Type debuff;
+        public string debuff;
         public int DAMAGERATIO;
         public BigInteger DAMAGE;
 
 
-        public Skill(string ownerID, string prefab, DamageType ability, int baseDamageRatio, Debuff.Type debuff)
+        public Skill(string ownerID, string prefab, DamageType ability, int baseDamageRatio, string debuffID)
         {
             this.ownerID = ownerID;
             prefabname = prefab;
             isTargetEnemy = true;
             this.ability = ability;
-            this.debuff = debuff;
+            this.debuff = debuffID;
             baseRatio = baseDamageRatio;
         }
 

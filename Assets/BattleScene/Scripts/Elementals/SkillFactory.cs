@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace SexyBackPlayScene
 {
@@ -7,61 +6,36 @@ namespace SexyBackPlayScene
     {
         internal static Skill Create(string owner, string prefabname, int baseSkillRatio)
         {
-            switch (owner)
+            if (owner == "fireball")
             {
-                case "fireball":
-                    {
-                        return new ShootSkill(owner, prefabname, DamageType.HitDebuff, baseSkillRatio, Debuff.Type.Burn, 0.75f, 1, 0, true, true);
-                    }
-                case "iceblock":
-                    {
-                        return new ShootSkill(owner, prefabname, DamageType.Hit, baseSkillRatio, Debuff.Type.None, 5f, 10, 0.1f, true, true);
-                    }
-                case "rock":
-                    {
-                        return new DropSkill(owner, prefabname, DamageType.Hit, baseSkillRatio, Debuff.Type.None, 31, 0.1f);
-                    }
-                case "electricball":
-                    {
-                        return new ShootSkill(owner, prefabname, DamageType.HitPerHPHigh, baseSkillRatio, Debuff.Type.None, 5f, 5, 0.2f, true, false);
-                    }
-                case "waterball":
-                    {
-                        return new ShootSkill(owner, prefabname, DamageType.HitDebuff, baseSkillRatio, Debuff.Type.Poison, 0.75f, 1, 0, true, true);
-                    }
-                case "earthball":
-                    {
-                        return new CrashSkill(owner, prefabname, DamageType.HitPerHPLow, baseSkillRatio, Debuff.Type.None, 1.3f, true);
-                    }
-                case "airball":
-                    {
-                        return new ShootSkill(owner, prefabname, DamageType.Hit, baseSkillRatio, Debuff.Type.None, 5f, 5, 0.2f, false, false);
-                    }
-                case "snowball":
-                    {
-                        return new DropSkill(owner, prefabname, DamageType.Hit, baseSkillRatio, Debuff.Type.None, 26, 0.1f);
-                    }
-                case "magmaball":
-                    {
-                        return new CrashSkill(owner, prefabname, DamageType.Hit, baseSkillRatio, Debuff.Type.None, 1.6f, false);
-                    }
-                default:
-                    return new EmptySkill();
+                return new ShootSkill(owner, prefabname, DamageType.HitDebuff, baseSkillRatio, "burn", 1.6f, 1, 0, true);
             }
+            //if (owner == "rock")
+            //{
+            //    return new DropSkill(owner, prefabname, DamageType.Hit, baseSkillRatio, null, 15, 0.1f);
+            //}
+            //if (owner == "airball")
+            //{
+            //    return new ShootSkill(owner, prefabname, DamageType.Hit, baseSkillRatio, null, 5f, 5, 0.2f);
+            //}
+
+            return new EmptySkill();
         }
 
-        internal static Debuff CreateDebuff(Debuff.Type type, BigInteger Damage)
+        internal static Debuff CreateDebuff(string debuffID, BigInteger Damage )
         {
             Debuff debuff = null;
-            if (type == Debuff.Type.Burn)
+            if(debuffID == "burn")
             {
-                int Duration = 2;
-                debuff = new Debuff(Debuff.Type.Burn, Damage, Duration);
-            }
-            if (type == Debuff.Type.Poison)
-            {
+                int DotRatio = 2;
                 int Duration = 10;
-                debuff = new Debuff(Debuff.Type.Poison, Damage, Duration); //Damage * DotRatio / Duration
+                debuff = new Debuff(Damage * DotRatio / Duration, Duration);
+            }
+            if(debuffID == "poision")
+            {
+                int DotRatio = 1;
+                int Duration = 30;
+                debuff = new Debuff(Damage * DotRatio / Duration, Duration);
             }
             return debuff;
         }
