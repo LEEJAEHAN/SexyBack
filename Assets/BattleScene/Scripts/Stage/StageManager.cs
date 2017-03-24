@@ -31,8 +31,8 @@ namespace SexyBackPlayScene
             Gametime = 0;
             Singleton<GameInfoView>.getInstance().PrintStage(currentFloor);
             Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
-            Stages.Add(new Stage(1, 10, false, false, Singleton<MonsterManager>.getInstance().CreateRandomMonster(1)));
-            Stages.Add(new Stage(2, 10 + DistancePerFloor, false, false, Singleton<MonsterManager>.getInstance().CreateRandomMonster(2)));
+            Stages.Add(new Stage(1, DistancePerFloor, false, false, Singleton<MonsterManager>.getInstance().CreateRandomMonster(1)));
+            Stages.Add(new Stage(2, DistancePerFloor + DistancePerFloor, false, false, Singleton<MonsterManager>.getInstance().CreateRandomMonster(2)));
         }
         internal void Load(StageManager data) // 클래스가 로드가 된뒤 셋해야 할것들.
         {

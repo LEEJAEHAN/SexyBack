@@ -76,22 +76,22 @@ namespace SexyBackPlayScene
             stageManager.Start(Singleton<TableLoader>.getInstance().gamemodetable["TestStage"]);
             heroManager.CreateHero();
 
-            // post event : levelup
-            heroManager.LevelUp(1);
             // post event : statup
             statmanager.SetStat(hStat, pStat, eStats);
+            // post event : levelup
+            heroManager.LevelUp(1);
             // post event : exp gain 
             statmanager.ExpGain(exp, false);
 
-            elementalManager.LearnNewElemental("magmaball");
-            elementalManager.LearnNewElemental("fireball");
-            elementalManager.LearnNewElemental("waterball");
-            elementalManager.LearnNewElemental("rock");
-            elementalManager.LearnNewElemental("electricball");
-            elementalManager.LearnNewElemental("snowball");
-            elementalManager.LearnNewElemental("earthball");
-            elementalManager.LearnNewElemental("airball");
-            elementalManager.LearnNewElemental("iceblock");
+            //elementalManager.LearnNewElemental("magmaball");
+            //elementalManager.LearnNewElemental("fireball");
+            //elementalManager.LearnNewElemental("waterball");
+            //elementalManager.LearnNewElemental("rock");
+            //elementalManager.LearnNewElemental("electricball");
+            //elementalManager.LearnNewElemental("snowball");
+            //elementalManager.LearnNewElemental("earthball");
+            //elementalManager.LearnNewElemental("airball");
+            //elementalManager.LearnNewElemental("iceblock");
         }
         internal void LoadInstance()
         {
@@ -110,17 +110,17 @@ namespace SexyBackPlayScene
             elementalManager.Load(eData);   //post : 스텟
             researchManager.Load(rData);
 
-            // post event : levelup
-            heroManager.LevelUp(hData.CurrentHero.LEVEL);            //heroManager.levelup;
-            elementalManager.LevelUpAll(eData.elementals);            //elementalManager.levelup;
             // post event : statup
             statmanager.SetStat(hStat, pStat, eStats);
             researchManager.SetStateNTime(rData);
 
+            // post event : levelup
+            heroManager.LevelUp(hData.CurrentHero.LEVEL);            //heroManager.levelup;
+            elementalManager.LevelUpAll(eData.elementals);            //elementalManager.levelup;
+
             // post event : exp gain 
             statmanager.ExpGain(sData.EXP, false);                   // set exp
-
-
+            
             //GameManager loaddata = null;
             //heroManager.Load(loaddata.heroManager); // and hero is move
         }

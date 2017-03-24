@@ -74,13 +74,13 @@ namespace SexyBackPlayScene
             leveluptable = new Dictionary<string, LevelUpData>();
             LevelUpData heroAttack = new LevelUpData("L001", "hero", "일반공격", "Icon_11");
             LevelUpData item1 = new LevelUpData("L002", "fireball", "파이어볼", "Icon_01");
-            LevelUpData item2 = new LevelUpData("L003", "waterball", "물폭탄", "Icon_09");
+            LevelUpData item2 = new LevelUpData("L003", "iceblock", "각얼음", "Icon_05");
             LevelUpData item3 = new LevelUpData("L004", "rock", "짱돌", "Icon_07");
             LevelUpData item4 = new LevelUpData("L005", "electricball", "지지직", "Icon_04");
-            LevelUpData item5 = new LevelUpData("L006", "snowball", "눈덩이", "Icon_08");
+            LevelUpData item5 = new LevelUpData("L006", "waterball", "물폭탄", "Icon_09");
             LevelUpData item6 = new LevelUpData("L007", "earthball", "똥", "Icon_03");
             LevelUpData item7 = new LevelUpData("L008", "airball", "바람바람", "Icon_02");
-            LevelUpData item8 = new LevelUpData("L009", "iceblock", "각얼음", "Icon_05");
+            LevelUpData item8 = new LevelUpData("L009", "snowball", "눈덩이", "Icon_08");
             LevelUpData item9 = new LevelUpData("L010", "magmaball", "메테오", "Icon_06");
             leveluptable.Add(heroAttack.OwnerID, heroAttack);
             leveluptable.Add(item1.OwnerID, item1);
