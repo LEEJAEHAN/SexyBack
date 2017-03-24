@@ -7,7 +7,7 @@
 		<BonusList groupid="BR01"/>
 	</Research>
 	<Research id="R02" requireid="fireball" requirelevel="0">
-		<Info icon="Icon_05" name="각얼음 습득" description="각얼음을 배웁니다."/>
+		<Info icon="Icon_09" name="각얼음 습득" description="각얼음을 배웁니다."/>
 		<Price level="0" baselevel="10" baseprice="945"/>
 		<PriceOverTime rate="80" basetime="90"/>
 		<BonusList groupid="BR02"/>
@@ -25,7 +25,7 @@
 		<BonusList groupid="BR04"/>
 	</Research>
 	<Research id="R05" requireid="electricball" requirelevel="0">
-		<Info icon="Icon_09" name="물폭탄 습득" description="물폭탄을 배웁니다."/>
+		<Info icon="Icon_08" name="물폭탄 습득" description="물폭탄을 배웁니다."/>
 		<Price level="0" baselevel="90" baseprice="2235"/>
 		<PriceOverTime rate="80" basetime="90"/>
 		<BonusList groupid="BR05"/>
@@ -43,19 +43,19 @@
 		<BonusList groupid="BR00_002"/>
 	</Research>
 	<Research id="R00_003" requireid="hero" requirelevel="25">
-		<Info icon="Icon_11" subicon="x4" name="검술연마3" description="기본공격의 공격력이 4배 증가합니다."/>
+		<Info icon="Icon_11" subicon="x2" name="검술연마3" description="기본공격의 공격력이 2배 증가합니다."/>
 		<Price level="45" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="60"/>
 		<BonusList groupid="BR00_003"/>
 	</Research>
 	<Research id="R00_004" requireid="hero" requirelevel="45">
-		<Info icon="Icon_11" subicon="x12" name="검술연마4" description="기본공격의 공격력이 12배 증가합니다."/>
+		<Info icon="Icon_11" subicon="x10" name="검술연마4" description="기본공격의 공격력이 10배 증가합니다."/>
 		<Price level="70" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="60"/>
 		<BonusList groupid="BR00_004"/>
 	</Research>
 	<Research id="R00_005" requireid="hero" requirelevel="70">
-		<Info icon="Icon_11" subicon="x20" name="검술연마5" description="기본공격의 공격력이 20배 증가합니다."/>
+		<Info icon="Icon_11" subicon="x25" name="검술연마5" description="기본공격의 공격력이 25배 증가합니다."/>
 		<Price level="95" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="60"/>
 		<BonusList groupid="BR00_005"/>
@@ -91,7 +91,7 @@
 		<BonusList groupid="BR01_005"/>
 	</Research>
 	<Research id="R01_006" requireid="fireball" requirelevel="75">
-		<Info icon="Icon_01" subicon="x20" name="비법 : 화염구6" description="화염구의 공격력이 20배 증가합니다."/>
+		<Info icon="Icon_02" subicon="x20" name="비법 : 화염구6" description="화염구의 공격력이 20배 증가합니다."/>
 		<Price level="100" baselevel="0" baseprice="600"/>
 		<PriceOverTime rate="80" basetime="60"/>
 		<BonusList groupid="BR01_006"/>
@@ -156,19 +156,19 @@
 		<PriceOverTime rate="80" basetime="60"/>
 		<BonusList groupid="BR05_001"/>
 	</Research>
-	<Research id="R99" requireid="hero" requirelevel="40">
+	<Research id="R99" requireid="hero" requirelevel="0">
 		<Info icon="Icon_19" subicon="-x2" name="시간왜곡1" description="연구시간이 절반으로 줄어듭니다. 단 시간당 연구비용은 2배로 증가합니다."/>
 		<Price level="60" baselevel="0" baseprice="1328"/>
 		<PriceOverTime rate="0" basetime="0"/>
 		<BonusList groupid="BR99"/>
 	</Research>
-	<Research id="R98" requireid="hero" requirelevel="60">
+	<Research id="R98" requireid="hero" requirelevel="0">
 		<Info icon="Icon_19" subicon="-x2" name="시간왜곡2" description="연구시간이 절반으로 줄어듭니다. 단 시간당 연구비용은 2배로 증가합니다."/>
 		<Price level="80" baselevel="0" baseprice="1755"/>
 		<PriceOverTime rate="0" basetime="0"/>
 		<BonusList groupid="BR98"/>
 	</Research>
-	<Research id="R97" requireid="hero" requirelevel="80">
+	<Research id="R97" requireid="hero" requirelevel="0">
 		<Info icon="Icon_19" subicon="-x2" name="시간왜곡3" description="연구시간이 절반으로 줄어듭니다. 단 시간당 연구비용은 2배로 증가합니다."/>
 		<Price level="100" baselevel="0" baseprice="2235"/>
 		<PriceOverTime rate="0" basetime="0"/>

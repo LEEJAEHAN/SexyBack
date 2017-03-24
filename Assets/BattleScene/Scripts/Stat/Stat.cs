@@ -42,7 +42,7 @@ namespace SexyBackPlayScene
             AttackCount = 3;
             DpcIncreaseXH = 100; // 
             AttackSpeedXH = 100;
-            MovespeedXH = 200;
+            MovespeedXH = 1000;
             CriticalRateXH = 20;
             CriticalDamageXH = 425;
             AttackSpeedXH = 100;
@@ -67,7 +67,7 @@ namespace SexyBackPlayScene
             DpsX = new BigInteger(1);
             DpsIncreaseXH = 100;
             CastSpeedXH = 100;
-            skillrateIncreaseXH = 100;
+            skillrateIncreaseXH = 10000;
             skilldamageIncreaseXH = 100;
         }
 
