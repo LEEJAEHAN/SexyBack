@@ -69,8 +69,9 @@ namespace SexyBackPlayScene
             //damagefont
 
             Vector3 hitScreenPosition = GameCameras.HeroCamera.WorldToScreenPoint(hitWoridPosition);
-
-            EffectController.getInstance.PlayDamageFont(damage, hitScreenPosition);
+            
+            if(GameCameras.DamageFontFlag)
+                EffectController.getInstance.PlayDamageFont(damage, hitScreenPosition);
 
             //avatar
             sprite.GetComponent<Animator>().rootPosition = avatar.transform.position;

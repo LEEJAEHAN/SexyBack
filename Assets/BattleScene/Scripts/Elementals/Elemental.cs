@@ -22,7 +22,7 @@ namespace SexyBackPlayScene
         public BigInteger DPSTICK = new BigInteger();
         public BigInteger DAMAGE = new BigInteger();//  dps * attackinterval
         public int SKILLRATIO;
-        public int SKILLRATE;
+        public int SKILLRATEXK;
         public BigInteger SKILLDAMAGE = new BigInteger();
         public double CASTINTERVAL { get { return shooter.CASTINTERVAL; }  set { shooter.SetInterval(value); skill.SetInterval(value); } } // (attackinterval1k / 1000) * ( 100 / attackspeed1h ) 
 
@@ -32,7 +32,7 @@ namespace SexyBackPlayScene
         readonly int BaseCastIntervalXK;
         readonly BigInteger BaseDps;
         readonly BigInteger BaseExp;
-        readonly int BaseSkillRate;
+        readonly int BaseSkillRateXK;
         readonly int BaseSkillRatio;
 
         readonly double GrowthRate;
@@ -57,7 +57,7 @@ namespace SexyBackPlayScene
             DpsShiftDigit = data.FloatDigit;
             BaseExp = data.BaseExp;
             GrowthRate = data.GrowthRate;
-            BaseSkillRate = data.BaseSkillRate;
+            BaseSkillRateXK = data.BaseSkillRateXK;
             BaseSkillRatio = data.BaseSkillDamageXH;
 
             shooter = new Shooter(ID, data.PrefabName );
@@ -88,7 +88,7 @@ namespace SexyBackPlayScene
 
             // CASTINTERVAL이 0.5보다 낮아져선 안된다. ( 실제는 0.8 )
             CASTINTERVAL = UnityEngine.Mathf.Max(0.8f,((float)BaseCastIntervalXK / (float)(castSpeedXH * 10)));
-            SKILLRATE = BaseSkillRate * skillrateIncreaseXH / 100;
+            SKILLRATEXK = BaseSkillRateXK * skillrateIncreaseXH / 100;
             SKILLRATIO = BaseSkillRatio* skilldamageIncreaseXH / 100;
             skill.SetStat(skilldamageIncreaseXH);
 
@@ -122,7 +122,9 @@ namespace SexyBackPlayScene
             {
                 skill.ReLoad(AttackTimer);
                 if (skill.Shoot(AttackTimer, targetID))
+                {
                     EndAttack();
+                }
             }
 
             skill.Update(); // cast 이후의 post업데이트.
@@ -130,7 +132,7 @@ namespace SexyBackPlayScene
         }
 
         bool isSkillAttack = false; // 이번공격이 스킬인지 
-        private bool JudgeSkill { get { return SKILLRATE > UnityEngine.Random.Range(0, 100); } }
+        private bool JudgeSkill { get { return SKILLRATEXK > UnityEngine.Random.Range(0, 1000); } }
 
 
         void EndAttack()

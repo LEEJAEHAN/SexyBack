@@ -128,5 +128,10 @@ namespace SexyBackPlayScene
             //hero.SetDirection(CurrentMonster.CenterPosition);
         }
 
+        public int GetHPPercent()
+        {
+            return HpBar.GetPercent();
+        }
+
     }
 }

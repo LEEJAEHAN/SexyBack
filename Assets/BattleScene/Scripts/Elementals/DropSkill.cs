@@ -18,7 +18,7 @@ namespace SexyBackPlayScene
         Vector3 SpawnCenter;
         Vector3 SpawnSize;
 
-        public DropSkill(string ownerID, string prefab, DamageType ability, int damageRatio, string debuff, int Amount, double Tick )
+        public DropSkill(string ownerID, string prefab, DamageType ability, int damageRatio, Debuff.Type debuff, int Amount, double Tick )
             : base(ownerID, prefab, ability, damageRatio, debuff)
         {
             Unit = Amount;
@@ -42,7 +42,6 @@ namespace SexyBackPlayScene
                 if (targetID != null)
                 {
                     SetSpawnZone(targetID);
-                    sexybacklog.Console("remain porjectile : " + remainCount);
                     remainCount += Unit;
                     return true;
                 }

@@ -129,7 +129,7 @@ namespace SexyBackPlayScene
                 elemental.BaseExp = new BigInteger(node.Attributes["baseexp"].Value);
                 elemental.PrefabName = node.Attributes["prefab"].Value;
                 elemental.SkillPrefabName = node.Attributes["skillprefab"].Value;
-                elemental.BaseSkillRate= int.Parse(node.Attributes["baseskillrate"].Value);
+                elemental.BaseSkillRateXK= int.Parse(node.Attributes["baseskillratexk"].Value);
                 elemental.BaseSkillDamageXH = int.Parse(node.Attributes["baseskilldamagexh"].Value); ;
                 elementaltable.Add(elemental.ID, elemental);
             }
