@@ -67,7 +67,7 @@ namespace SexyBackPlayScene
             DpsX = new BigInteger(1);
             DpsIncreaseXH = 100;
             CastSpeedXH = 100;
-            skillrateIncreaseXH = 10000;
+            skillrateIncreaseXH = 100;
             skilldamageIncreaseXH = 100;
         }
 

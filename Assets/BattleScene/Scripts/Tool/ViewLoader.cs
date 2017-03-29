@@ -12,7 +12,6 @@ namespace SexyBackPlayScene
         public static GameObject area_elemental;
         public static GameObject monsterbucket;
 
-
         // 고정 포지션을 가진 인스턴스화 되어있는 뷰를 로드해놓는다.
         // 주로 프리펩이 생길 곳들.
         // 완전히 한 system에 종속되지 않은 gameobject에 한해. 임시로
@@ -40,7 +39,6 @@ namespace SexyBackPlayScene
             PopUpPanel = GameObject.Find("UI PopUp");
             OptionPanel = GameObject.Find("OptionWindow");
 
-
             area_elemental = GameObject.Find("elementals");
             monsterbucket = GameObject.Find("monsters");
             shooter = GameObject.Find("shooter");
@@ -56,9 +54,11 @@ namespace SexyBackPlayScene
             Tab2Container = GameObject.Find("Tab2Container");
             Tab3Container = GameObject.Find("Tab3Container");
             Tab4Container = GameObject.Find("Tab4Container");
+
+            InitUISetting();
         }
 
-        internal void Init() // remove and hide test game objects
+        internal void InitUISetting() // remove and hide test game objects
         {
             ViewLoader.shooter.transform.DestroyChildren();
             ViewLoader.monsterbucket.transform.DestroyChildren();
@@ -79,14 +79,13 @@ namespace SexyBackPlayScene
             return newone;
         }
 
-        
         internal static GameObject MakePopUp(string v, string context, Action yesfun, Action nofun)
         {
             GameObject newone = GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/UI/StandardPopUp") as GameObject);
             newone.name = "YesOrNoWindow";
             newone.transform.parent = PopUpPanel.transform;
             newone.transform.localScale = Vector3.one;
-            newone.transform.localPosition= Vector3.zero;
+            newone.transform.localPosition = Vector3.zero;
 
             newone.GetComponent<StandardPopUpView>().Action_Yes += yesfun;
             newone.GetComponent<StandardPopUpView>().Action_No += nofun;

@@ -63,17 +63,20 @@ namespace SexyBackPlayScene
             talentManager.Init();
             infoView.Init();
 
-
         }
         internal void NewInstance() // 글로벌 히어로 데이터를 받아서 시작한다.
         {
+            SceneParmater param = Singleton<SceneParmater>.getInstance();
+
             HeroStat hStat = new HeroStat();
             PlayerStat pStat = new PlayerStat();
             Dictionary<string, ElementalStat> eStats = StatManager.MakeElementalStats();
             BigInteger exp = new BigInteger(0);
 
             //load
-            stageManager.Start(Singleton<TableLoader>.getInstance().gamemodetable["TestStage"]);
+
+            sexybacklog.Console(param.StageID);
+            stageManager.Start(param.StageID, param.StageBonus);
             heroManager.CreateHero();
 
             // post event : statup
@@ -83,15 +86,6 @@ namespace SexyBackPlayScene
             // post event : exp gain 
             statmanager.ExpGain(exp, false);
 
-            elementalManager.LearnNewElemental("magmaball");
-            elementalManager.LearnNewElemental("fireball");
-            elementalManager.LearnNewElemental("waterball");
-            elementalManager.LearnNewElemental("rock");
-            elementalManager.LearnNewElemental("electricball");
-            elementalManager.LearnNewElemental("snowball");
-            elementalManager.LearnNewElemental("earthball");
-            elementalManager.LearnNewElemental("airball");
-            elementalManager.LearnNewElemental("iceblock");
         }
         internal void LoadInstance()
         {
@@ -142,11 +136,12 @@ namespace SexyBackPlayScene
             {
                 //rewardmanager.makereward(시간기록,스테이지);
             }
+
+            //SaveInstance(); // TODO : 테스트용으로있다.
             SaveSystem.ClearInstance();
+
             SceneManager.LoadScene("MenuScene");
         }
-
-
 
         public void Dispose()
         {

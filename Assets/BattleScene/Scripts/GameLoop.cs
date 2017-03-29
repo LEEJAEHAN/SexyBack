@@ -8,7 +8,6 @@ namespace SexyBackPlayScene
     public class GameLoop : MonoBehaviour
     {
         ViewLoader viewLoader;
-        TableLoader tableLoader;
         GameManager gameManager;
         GameInput gameInput;
         GameCameras cameraSetting;
@@ -18,12 +17,10 @@ namespace SexyBackPlayScene
         {
             viewLoader = new ViewLoader();
             cameraSetting = new GameCameras();
-            tableLoader = Singleton<TableLoader>.getInstance();
+            Singleton<TableLoader>.getInstance().Init();
             gameInput = Singleton<GameInput>.getInstance();
             gameManager = Singleton<GameManager>.getInstance();
 
-            viewLoader.Init();
-            tableLoader.Init();
             gameManager.Init();
         }
             //        GameModeData args;
@@ -31,10 +28,10 @@ namespace SexyBackPlayScene
         {
             if (PlayerPrefs.HasKey("InstanceData"))
             {
-                gameManager.NewInstance();
-                //gameManager.LoadInstance();
+                //gameManager.NewInstance();
+                gameManager.LoadInstance();
             }
-            else
+            else // 메뉴로부터실행됬을때
             {
                 gameManager.NewInstance();
             }
@@ -64,8 +61,6 @@ namespace SexyBackPlayScene
 
         private void OnDestroy()
         {
-            //tableLoader.Dispose();            // 테이블 로더는 남겨둔다.
-            //Singleton<TableLoader>.Clear();
             sexybacklog.Console("플레이씬 디스트로이");
             gameInput.Dispose();
             gameManager.Dispose();

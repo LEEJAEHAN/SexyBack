@@ -8,23 +8,12 @@ namespace SexyBackMenuScene
 {
     public class MenuScript : MonoBehaviour
     {
+
         private void Awake()
         {
-            InitUISetting();
+            Singleton<ViewLoader>.getInstance().InitUISetting();
+            Singleton<TableLoader>.getInstance().Init();
         }
-
-        private void InitUISetting()
-        {
-            GameObject.Find("UI PopUp").transform.position = GameObject.Find("UI Root").transform.position;
-            GameObject.Find("UI PopUp").SetActive(false);
-            GameObject.Find("Middle_Window").SetActive(false);
-            GameObject.Find("Slot1New").SetActive(false);
-            GameObject.Find("Slot2New").SetActive(false);
-            GameObject.Find("SP").GetComponent<UILabel>().text ="";
-            GameObject.Find("GEM").GetComponent<UILabel>().text = "";
-            GameObject.Find("IconTable").transform.DestroyChildren();
-        }
-
         // Use this for initialization
         void Start()
         {
@@ -60,6 +49,7 @@ namespace SexyBackMenuScene
 
         private void OnDestroy()
         {
+            Singleton<ViewLoader>.Clear();
             Debug.Log("메뉴신 소멸");
         }
     }

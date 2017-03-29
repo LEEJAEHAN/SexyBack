@@ -1,7 +1,6 @@
 ﻿using System;
 
-namespace SexyBackPlayScene
-{
+
     class Singleton<T> where T : class, new() // ISingleton, IDisposable, 
     {
         public static T Instance;
@@ -20,4 +19,3 @@ namespace SexyBackPlayScene
         //        abstract protected void Init();
 
     }
-}
