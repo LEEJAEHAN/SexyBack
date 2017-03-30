@@ -69,12 +69,18 @@ namespace SexyBackPlayScene
             return newmonster.GetID;
         }
 
-        public void JoinBattle(string id, Transform genTransform) // 사거리내에 들어옴. battle 시작. 
+        public void JoinBattle(string monsterid, int floor, int sequence, bool isboss, Transform genTransform) // 사거리내에 들어옴. battle 시작. 
         {   // TODO : 몬스터매니져가 왜 배틀을 주관하는지? 다른곳으로빠져야할듯. 마찬가지로 몬스터 죽음을 이용하여 너무 많은 컨트롤을 함.
-            BattleMonster = monsters[id];
+            BattleMonster = monsters[monsterid];
             BattleMonster.Spawn(genTransform);            // 여기가 실제 monstermanager의 기능.
-            HpBar.FillNewBar(BattleMonster);
-            HpBar.UpdateBar(BattleMonster);
+            string HpBarName;
+            if (isboss)
+                HpBarName = "[" + floor.ToString() + "층 보스]" + BattleMonster.Name;
+            else
+                HpBarName = "[" + floor.ToString() + "층 " + sequence.ToString() + "단계] " + BattleMonster.Name;
+
+            HpBar.FillNewBar(HpBarName, BattleMonster);
+            //HpBar.UpdateBar(BattleMonster);
         }
 
         internal void FixedUpdate()

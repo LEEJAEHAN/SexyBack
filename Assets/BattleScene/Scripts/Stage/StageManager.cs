@@ -45,14 +45,11 @@ namespace SexyBackPlayScene
             CurrentFloor = 1;
             CurrentGameTime = 0;
 
-            Singleton<GameInfoView>.getInstance().PrintStage(CurrentFloor);
             Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
 
             CreateStageInstance(CurrentFloor, DistancePerFloor);
             CreateStageInstance(CurrentFloor + 1, DistancePerFloor * 2);
         }
-
-
 
         internal void Load(StageManager data) // 클래스가 로드가 된뒤 셋해야 할것들.
         {
@@ -62,7 +59,6 @@ namespace SexyBackPlayScene
             MaxFloor = map.MaxFloor;
             LimitGameTime = map.LimitTime;
 
-            Singleton<GameInfoView>.getInstance().PrintStage(CurrentFloor);
             CurrentGameTime = data.CurrentGameTime;
             Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다. 
             foreach( Stage stagedata in data.Stages)
@@ -76,7 +72,7 @@ namespace SexyBackPlayScene
         void CreateStageInstance(int floor, int zPosition)
         {
             bool isLast = floor == MaxFloor;
-            Stages.Add(new Stage(floor, zPosition, isLast, false, MakeMonsters(floor, MonsterCountPerFloor, isLast)));
+            Stages.Add(new Stage(floor, zPosition, isLast, false, MakeMonsters(floor, MonsterCountPerFloor, true)));
         }
 
         List<string> MakeMonsters(int floor, int monsterCount, bool hasBoss)
@@ -94,11 +90,9 @@ namespace SexyBackPlayScene
             return result;
         }
 
-
         public void onStagePass(int floor)
         {
             CurrentFloor = floor + 1;
-            Singleton<GameInfoView>.getInstance().PrintStage(CurrentFloor);
         }
         public void onStageClear(Stage stage)
         {

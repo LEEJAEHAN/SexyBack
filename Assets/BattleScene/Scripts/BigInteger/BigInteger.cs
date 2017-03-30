@@ -394,7 +394,7 @@ namespace SexyBackPlayScene
         }
 
 
-        public string toLeftDigitString(out int maxdigitN, int digitN, int overload) // overload 소숫점 뒤에로드될 숫자갯수.
+        public string ToStringAndMakeDigit(out int maxdigitN, int digitN, int overload) // 왼쪽에서부터 digitN만큼 짜른뒤, digitn을 반환한다. overload 소숫점 뒤에로드될 숫자갯수.
         {
             string thisStr = this.ToString(); // digitN은 N자리숫자마다끊는다는걸 의미.
             int length = thisStr.Length;
@@ -410,24 +410,24 @@ namespace SexyBackPlayScene
             string reminder = thisStr.Substring(digitN, overload);
             return quotient.ToString() + "." + reminder.ToString();// + chardigit.ToString();
         }
-        internal string toLeftDigitString(int maxdigit, int overload)
+        internal string ToStringAsDigit(int ToThisDigit, int overload)
         {
-            if (maxdigit == 0)
+            if (ToThisDigit == 0)
                 return "0";
             string thisStr = this.ToString(); // digitN은 N자리숫자마다끊는다는걸 의미.
             int length = thisStr.Length;
-            if (length < maxdigit - overload)
+            if (length < ToThisDigit - overload)
                 return "0";
-            if(length < maxdigit && length >= maxdigit - overload)
+            if(length < ToThisDigit && length >= ToThisDigit - overload)
             {
-                while(length < maxdigit)
+                while(length < ToThisDigit)
                 {
                     thisStr = "0" + thisStr;
                     length++;
                 }
             } // new lenght>- maxdigit
 
-            return toRightDigitString(thisStr, maxdigit, 4);
+            return toRightDigitString(thisStr, ToThisDigit, overload);
         }
         private string toRightDigitString(string text, int maxdigitN, int overload) // overload 소숫점 뒤에로드될 숫자갯수.
         {
@@ -483,6 +483,48 @@ namespace SexyBackPlayScene
             return result;
         }
 
+        public string ToCommaString()
+        {
+            if (IsZero)
+            {
+                return "0";
+            }
+
+            BigInteger a = this;
+            bool negative = a.IsNegative;
+            a = Abs(this);
+
+            BigInteger quotient;
+            BigInteger remainder;
+            BigInteger biRadix = new BigInteger(10);
+
+            const string charSet = "0123456789";
+            System.Collections.ArrayList al = new System.Collections.ArrayList();
+            int commacount = 0;
+            while (a.m_digits.DataUsed > 1 || (a.m_digits.DataUsed == 1 && a.m_digits[0] != 0))
+            {
+                Divide(a, biRadix, out quotient, out remainder);
+                al.Insert(0, charSet[(int)remainder.m_digits[0]]);
+                a = quotient;
+                commacount++;
+                if(commacount == 3)
+                {
+                    commacount = 0;
+                    al.Insert(0, ',');
+                }
+            }
+            if ((char)al[0] == ',')
+                al.RemoveAt(0);
+
+            string result = new String((char[])al.ToArray(typeof(char)));
+
+            if (negative)
+            {
+                return "-" + result;
+            }
+
+            return result;
+        }
 
         //private string ToDigitString(out Digit chardigit)
         //{

@@ -24,7 +24,10 @@ namespace SexyBackPlayScene
         {
             DuringBattle = true;
 
-            mManager.JoinBattle(owner.monsters[index], owner.avatar.transform.FindChild("monster"));
+            int sequence = StageManager.MonsterCountPerFloor - owner.monsters.Count + 1;
+            bool isBoss = StageManager.MonsterCountPerFloor == sequence;
+
+            mManager.JoinBattle(owner.monsters[index], owner.floor, sequence, isBoss, owner.avatar.transform.FindChild("monster"));
 
             Monster BattleMonster = mManager.GetMonster(owner.monsters[index]);
             BattleMonster.StateMachine.Action_changeEvent += onTargetStateChange;
@@ -66,6 +69,7 @@ namespace SexyBackPlayScene
         {
             if (owner.isLastStage)
             {
+                sexybacklog.Console("마지막도달!");
                 return;
             }
 

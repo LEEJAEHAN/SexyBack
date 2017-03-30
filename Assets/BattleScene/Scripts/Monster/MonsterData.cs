@@ -12,7 +12,7 @@ namespace SexyBackPlayScene
         //public BigInteger MaxHP;
         public readonly string SpritePath;
         public readonly Vector3 LocalPosition;
-        public int baseHP = 9999;
+        public int baseHP = 2000;
 
         public MonsterData(string id, string name, float x, float y)
         {

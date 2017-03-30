@@ -10,10 +10,8 @@ namespace SexyBackPlayScene
         GameObject LABEL_DPS;
         GameObject LABEL_MINUSDPS;
         GameObject LABEL_EXP;
-        GameObject LABEL_FLOOR;
 
         UITable sorter;
-
 
         internal void Init()
         {
@@ -32,8 +30,6 @@ namespace SexyBackPlayScene
             LABEL_MINUSDPS = GameObject.Find("4MDPS");
 
             LABEL_DPS.SetActive(false);
-
-            LABEL_FLOOR = GameObject.Find("FLOOR");
         }
 
         public void SetMiddleText(BigInteger value, string context, GameObject tableobject)
@@ -77,10 +73,6 @@ namespace SexyBackPlayScene
         {
             string context = "-" + totalMinusDps.To5String() + " / 초";
             SetMiddleText(totalMinusDps, context, LABEL_MINUSDPS);
-        }
-        internal void PrintStage(int floor)
-        {
-            LABEL_FLOOR.GetComponent<UILabel>().text = floor.ToString();
         }
 
         void BindHero(Hero hero)

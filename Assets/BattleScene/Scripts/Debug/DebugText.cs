@@ -20,11 +20,18 @@ namespace SexyBackPlayScene
 
         UILabel debugTextObject;
         public string debugText = "";
-        bool flipflop = true;
 
         private void Awake()
         {
             debugTextObject = gameObject.GetComponent<UILabel>();
+
+            //BigInteger a = new BigInteger("12");
+            //BigInteger a = new BigInteger("123456789123456789");
+            //int maxDigit = 0;
+            //sexybacklog.Console(a.ToStringAndMakeDigit(out maxDigit, 3, 2));
+            //BigInteger b = new BigInteger("12");
+            //sexybacklog.Console(b.ToStringAsDigit(maxDigit, 2));
+
         }
 
         Vector3 mouseinputpoint;
@@ -62,10 +69,6 @@ namespace SexyBackPlayScene
             debugTextObject.text = debugText;
             debugText = "";
 
-            if (flipflop)
-            {
-                flipflop = !flipflop;
-            }
 
             if (Input.GetMouseButtonDown(0))
             {

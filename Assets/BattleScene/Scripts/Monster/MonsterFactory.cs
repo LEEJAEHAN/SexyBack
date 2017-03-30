@@ -40,11 +40,19 @@ namespace SexyBackPlayScene
             Monster monster = new Monster(instanceID, dataID);
             monster.level = level;
             monster.Name = data.Name;
+
             monster.MAXHP = BigInteger.PowerByGrowth(data.baseHP, level - 1, MonsterData.GrowthRate);
             monster.HP = BigInteger.PowerByGrowth(data.baseHP, level - 1, MonsterData.GrowthRate);
 
             monster.avatar = InitAvatar(monster.GetID, ViewLoader.monsterbucket.transform, data.LocalPosition, out monster.CenterPosition); //data.PivotPosition
             monster.sprite = InitSprite(monster.avatar, data.SpritePath, out monster.Size);
+
+            if (boss)
+            {
+                monster.MAXHP *= 10;
+                monster.HP *= 10;
+            }
+
             SetCollider(monster.avatar, monster.Size, Vector3.zero);
             monster.StateMachine = new MonsterStateMachine(monster);
 
