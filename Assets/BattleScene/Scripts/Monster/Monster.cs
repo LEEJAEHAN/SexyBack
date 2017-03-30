@@ -9,7 +9,8 @@ namespace SexyBackPlayScene
     {
         ~Monster() { sexybacklog.Console("몬스터 소멸!"); }
 
-        public readonly string dataID;
+        public readonly string ID;
+        public readonly string DataID;
         public int level;
         public BigInteger HP;
 
@@ -24,26 +25,30 @@ namespace SexyBackPlayScene
         public Vector3 CenterPosition; // 몬스터 중점의 world상 위치.
         public Vector3 Size;           // sprite size, collider size는 이것과 동기화.
 
-        public string GetID { get { return dataID + "/" + level.ToString(); } }
         public string CurrentState { get { return StateMachine.currStateID; } }
         public MonsterStateMachine.StateChangeHandler Action_StateChangeEvent { set { StateMachine.Action_changeEvent += value; } }
 
+        public string GetID { get { return ID; } }
+
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("dataID", dataID);
+            info.AddValue("ID", ID);
+            info.AddValue("DataID", DataID);
             info.AddValue("level", level);
             info.AddValue("HP", HP.ToString());
         }
         public Monster(SerializationInfo info, StreamingContext context)
         {
-            dataID = (string)info.GetValue("dataID", typeof(string));
+            ID = (string)info.GetValue("ID", typeof(string));
+            DataID = (string)info.GetValue("DataID", typeof(string));
             level = (int)info.GetValue("level", typeof(int));
             HP = new BigInteger((string)info.GetValue("HP", typeof(string)));
         }
 
-        internal Monster(string dataID)
+        internal Monster(string id, string dataID)
         {
-            this.dataID = dataID;
+            ID = id;
+            DataID = dataID;
         }
 
         internal void Spawn(Transform transform) // join the battle

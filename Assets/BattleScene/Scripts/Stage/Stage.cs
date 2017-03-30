@@ -12,7 +12,7 @@ namespace SexyBackPlayScene
         public bool isLastStage = false;
         public bool rewardComplete;
         public string savedState; // TODO : 이거빼는게좋을듯
-        public string monsterID;
+        public List<string> monsters;
 
         [NonSerialized]
         public GameObject avatar;
@@ -20,7 +20,7 @@ namespace SexyBackPlayScene
         internal StageStateMachine StateMachine;
 
         public string GetID { get { return "F" + floor; } }
-        public Stage(int currentFloor, float zPosition, bool isLast, bool rewardComplete, string MonsterID)
+        public Stage(int currentFloor, float zPosition, bool isLast, bool rewardComplete, List<string> monsters)
         {
             floor = currentFloor;
             this.zPosition = zPosition;
@@ -28,8 +28,7 @@ namespace SexyBackPlayScene
             this.rewardComplete = rewardComplete;
 
             InitAvatar();
-
-            this.monsterID = MonsterID;
+            this.monsters = monsters;
             StateMachine = new StageStateMachine(this);
             ChangeState("Move");
         }

@@ -19,7 +19,7 @@ namespace SexyBackPlayScene
             AttackInterval = 5;
             MoveSpeed = 1f;
             BaseExp = new BigInteger(60);
-            BaseDpc = new BigInteger(5);
+            BaseDpc = new BigInteger(50000); // 60 / 5
         }
     }
 }

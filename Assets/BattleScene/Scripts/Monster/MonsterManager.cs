@@ -38,14 +38,9 @@ namespace SexyBackPlayScene
                 Monster data = monsterManager.monsters[id];
                 if (data.HP <= 0)
                     continue;
-                Monster monster = monsterFactory.LoadMonster(data.dataID, data.level, data.HP);
+                Monster monster = monsterFactory.LoadMonster(data.ID, data.DataID, data.level, data.HP);
                 monsters.Add(id, monster);
             }
-        }
-
-        internal void SpawnBattleMonster(Transform transform)
-        {
-            BattleMonster.Spawn(transform);            // 여기가 실제 monstermanager의 기능.
         }
 
         public void Dispose()
@@ -61,16 +56,23 @@ namespace SexyBackPlayScene
             if (BattleMonster.GetID == sender.GetID)
                 HpBar.UpdateBar(sender);
         }
-        internal string CreateRandomMonster(int floor)
+        //internal string CreateRandomMonster(int floor)
+        //{
+        //    Monster newmonster = monsterFactory.CreateRandomMonster(floor);
+        //    monsters.Add(newmonster.GetID, newmonster);
+        //    return newmonster.GetID;
+        //}
+        internal string CreateRandomMonster(string monsterID, int floor, bool isBoss)
         {
-            Monster newmonster = monsterFactory.CreateRandomMonster(floor);
+            Monster newmonster = monsterFactory.CreateRandomMonster(monsterID, floor, isBoss);
             monsters.Add(newmonster.GetID, newmonster);
             return newmonster.GetID;
         }
 
-        public void JoinBattle(string id) // 사거리내에 들어옴. battle 시작. 
+        public void JoinBattle(string id, Transform genTransform) // 사거리내에 들어옴. battle 시작. 
         {   // TODO : 몬스터매니져가 왜 배틀을 주관하는지? 다른곳으로빠져야할듯. 마찬가지로 몬스터 죽음을 이용하여 너무 많은 컨트롤을 함.
             BattleMonster = monsters[id];
+            BattleMonster.Spawn(genTransform);            // 여기가 실제 monstermanager의 기능.
             HpBar.FillNewBar(BattleMonster);
             HpBar.UpdateBar(BattleMonster);
         }

@@ -9,12 +9,12 @@ namespace SexyBackPlayScene
         public MonsterFactory()
         {
         }
-        public Monster CreateRandomMonster(int level)
+        public Monster CreateRandomMonster(string ID, int level, bool boss)
         {
-            return CreateMonster(FindRandomMonsterID(level), level);
+            return CreateMonster(ID, FindRandomMonsterDataID(level), level, boss);
         }
 
-        public string FindRandomMonsterID(int level)
+        public string FindRandomMonsterDataID(int level)
         {
             List<MonsterData> monsterListInLevel = new List<MonsterData>();
             foreach (MonsterData mdata in Singleton<TableLoader>.getInstance().monstertable.Values)
@@ -33,10 +33,11 @@ namespace SexyBackPlayScene
             return monsterListInLevel[randIndex].ID;
         }
 
-        public Monster CreateMonster(string id, int level)
+        public Monster CreateMonster(string instanceID, string dataID, int level, bool boss)
         {
-            MonsterData data = Singleton<TableLoader>.getInstance().monstertable[id];
-            Monster monster = new Monster(id);
+            //TODO : 보스따로구분해야함.
+            MonsterData data = Singleton<TableLoader>.getInstance().monstertable[dataID];
+            Monster monster = new Monster(instanceID, dataID);
             monster.level = level;
             monster.Name = data.Name;
             monster.MAXHP = BigInteger.PowerByGrowth(data.baseHP, level - 1, MonsterData.GrowthRate);
@@ -52,10 +53,10 @@ namespace SexyBackPlayScene
             return monster;
         }
 
-        public Monster LoadMonster(string monsterdataid, int level, BigInteger hp)
+        public Monster LoadMonster(string instanceID, string dataID, int level, BigInteger hp)
         {
-            MonsterData data = Singleton<TableLoader>.getInstance().monstertable[monsterdataid];
-            Monster monster = new Monster(monsterdataid);
+            MonsterData data = Singleton<TableLoader>.getInstance().monstertable[dataID];
+            Monster monster = new Monster(instanceID, dataID);
             monster.level = level;
             monster.Name = data.Name;
             monster.MAXHP = BigInteger.PowerByGrowth(data.baseHP, level - 1, MonsterData.GrowthRate);

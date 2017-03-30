@@ -6,10 +6,11 @@ namespace SexyBackPlayScene
     internal class StageStateBattle : BaseState<Stage>
     {
         bool DuringBattle = false;
-        Monster BattleMonster;
+        MonsterManager mManager;
 
         public StageStateBattle(Stage owner, StateMachine<Stage> statemachine) : base(owner, statemachine)
         {
+            mManager = Singleton<MonsterManager>.getInstance();
         }
 
         internal override void Begin()
@@ -19,15 +20,13 @@ namespace SexyBackPlayScene
             Singleton<HeroManager>.getInstance().GetHero().ChangeState("Ready");
         }
 
-        public void BattleStart() // 사거리내에 들어옴. battle 시작. 
+        public void BattleStart(int index) // 사거리내에 들어옴. battle 시작. 
         {
             DuringBattle = true;
 
-            Singleton<MonsterManager>.getInstance().JoinBattle(owner.monsterID);
-            Singleton<MonsterManager>.getInstance().SpawnBattleMonster(owner.avatar.transform.FindChild("monster"));
+            mManager.JoinBattle(owner.monsters[index], owner.avatar.transform.FindChild("monster"));
 
-            BattleMonster = Singleton<MonsterManager>.getInstance().GetMonster(owner.monsterID);
-
+            Monster BattleMonster = mManager.GetMonster(owner.monsters[index]);
             BattleMonster.StateMachine.Action_changeEvent += onTargetStateChange;
             Singleton<ElementalManager>.getInstance().SetTarget(BattleMonster);
             Singleton<HeroManager>.getInstance().SetTarget(BattleMonster);
@@ -37,28 +36,27 @@ namespace SexyBackPlayScene
         {
             if (stateID == "Flying")
             {
+                owner.monsters.Remove(monsterid);
+            }
+            if(stateID == "Death")
+            {
+                mManager.GetMonster(monsterid).StateMachine.Action_changeEvent -= onTargetStateChange;
                 DuringBattle = false;
-                BattleMonster.StateMachine.Action_changeEvent -= onTargetStateChange;
-                owner.monsterID = null;
             }
         }
 
         internal override void End()
         {
-            owner.monsterID = null;
-            if(BattleMonster.StateMachine != null)
-                BattleMonster.StateMachine.Action_changeEvent -= onTargetStateChange;
-            BattleMonster = null;
         }
 
         internal override void Update()
         {
-            if(!DuringBattle && owner.monsterID != null)
+            if(!DuringBattle && owner.monsters.Count > 0)
             {
-                BattleStart();
+                BattleStart(0);
             }
 
-            if(!DuringBattle && owner.monsterID == null)  // battle end
+            if(!DuringBattle && owner.monsters.Count <= 0)  // battle end
             {
                 NextState();
             }
