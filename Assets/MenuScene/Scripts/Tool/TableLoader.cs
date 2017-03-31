@@ -14,6 +14,8 @@ internal class TableLoader
     public Dictionary<string, MapData> gamemodetable;
     public Dictionary<string, LevelUpData> leveluptable;
     public Dictionary<string, ResearchData> researchtable;
+    public Dictionary<string, ConsumableData> consumable;
+
     public List<TalentData> talenttable;
 
     bool FinishLoad = false;
@@ -35,8 +37,16 @@ internal class TableLoader
             LoadLevelUpData();
             LoadResearchData();
             LoadTalentData();
+            LoadConsumableData();
         }
         FinishLoad = true;
+    }
+
+    private void LoadConsumableData()
+    {
+        consumable = new Dictionary<string, ConsumableData>();
+
+        //TODO : 채워넣어야함
     }
 
     private void LoadMonsterData()

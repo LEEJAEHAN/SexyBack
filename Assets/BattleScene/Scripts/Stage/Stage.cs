@@ -4,40 +4,29 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
+
     [Serializable]
     internal class Stage : IDisposable, IStateOwner
     {
         public int floor;
         public float zPosition;
-        public bool isLastStage = false;
         public bool rewardComplete;
         public string savedState; // TODO : 이거빼는게좋을듯
         public List<string> monsters;
 
+        [NonSerialized]
+        public StageType type;
         [NonSerialized]
         public GameObject avatar;
         [NonSerialized]
         internal StageStateMachine StateMachine;
 
         public string GetID { get { return "F" + floor; } }
-        public Stage(int currentFloor, float zPosition, bool isLast, bool rewardComplete, List<string> monsters)
-        {
-            floor = currentFloor;
-            this.zPosition = zPosition;
-            isLastStage = isLast;
-            this.rewardComplete = rewardComplete;
 
-            InitAvatar();
-            this.monsters = monsters;
+        public Stage()
+        {
             StateMachine = new StageStateMachine(this);
-            ChangeState("Move");
-        }
-
-        internal void InitAvatar()
-        {
-            avatar = ViewLoader.InstantiatePrefab(ViewLoader.stagepanel.transform, "stage" + floor.ToString(), "Prefabs/stage");
-            avatar.transform.localPosition = GameCameras.EyeLine * (zPosition / 10);
-            // TODO : 배경 스킨 chaange
+            monsters = new List<string>();
         }
 
         internal void Update()
@@ -55,6 +44,29 @@ namespace SexyBackPlayScene
             savedState = stateid;
             StateMachine.ChangeState(stateid);
         }
+
+        public void MakeMonsters(int count)
+        {
+            MonsterManager mManager = Singleton<MonsterManager>.getInstance();
+
+            for (int i = 0; i < count; i++)
+            {
+                if (i == count - 1)
+                    monsters.Add(mManager.CreateRandomMonster("F" + floor + "M" + i, floor, true));
+                else
+                    monsters.Add(mManager.CreateRandomMonster("F" + floor + "M" + i, floor, false));
+            }
+        }
+
+
         ~Stage() { sexybacklog.Console("스테이지소멸!"); }
     }
+
+    public enum StageType
+    {
+        Normal,
+        FirstPortal,
+        LastPortal
+    }
+
 }

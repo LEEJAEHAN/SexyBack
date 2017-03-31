@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    internal class TalentWindow : MonoBehaviour
+    internal class ConsumableWindow : MonoBehaviour
     {
-        ~TalentWindow()
+        ~ConsumableWindow()
         {
             sexybacklog.Console("TalentWindow 소멸");
         }
@@ -25,8 +25,8 @@ namespace SexyBackPlayScene
 
         GameObject RefreshButton;
 
-        private static TalentWindow instance;
-        public static TalentWindow getInstance
+        private static ConsumableWindow instance;
+        public static ConsumableWindow getInstance
         {
             get
             {
@@ -34,7 +34,7 @@ namespace SexyBackPlayScene
                 {
                     GameObject owner = ViewLoader.InstantiatePrefab(GameObject.Find("Middle_Area").transform, "TalentWindow", "Prefabs/UI/TalentWindow");
                     owner.transform.localPosition = new Vector3(24, -24, 0);
-                    instance = owner.AddComponent<TalentWindow>();
+                    instance = owner.AddComponent<ConsumableWindow>();
                 }
 
                 return instance;
@@ -97,15 +97,15 @@ namespace SexyBackPlayScene
         }
         public void onClickA()
         {
-            Singleton<TalentManager>.getInstance().Confirm(TalentType.Attack);
+            Singleton<ConsumableManager>.getInstance().Confirm(TalentType.Attack);
         }
         public void onClickE()
         {
-            Singleton<TalentManager>.getInstance().Confirm(TalentType.Elemental);
+            Singleton<ConsumableManager>.getInstance().Confirm(TalentType.Elemental);
         }
         public void onClickU()
         {
-            Singleton<TalentManager>.getInstance().Confirm(TalentType.Util);
+            Singleton<ConsumableManager>.getInstance().Confirm(TalentType.Util);
         }
 
         internal void Show()
@@ -115,7 +115,7 @@ namespace SexyBackPlayScene
 
         internal void Refresh()
         {
-            Singleton<TalentManager>.getInstance().Refresh();
+            Singleton<ConsumableManager>.getInstance().Refresh();
         }
 
         internal void FillWindow(int floor, int alevel, int elevel, int ulevel)

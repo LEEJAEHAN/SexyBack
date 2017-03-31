@@ -24,7 +24,7 @@ namespace SexyBackPlayScene
         LevelUpManager levelUpManager;
 
         [NonSerialized]
-        TalentManager talentManager;
+        ConsumableManager consumableManager;
 
         [NonSerialized]
         StatManager statmanager;
@@ -48,7 +48,7 @@ namespace SexyBackPlayScene
             elementalManager = Singleton<ElementalManager>.getInstance();
             levelUpManager = Singleton<LevelUpManager>.getInstance();
             researchManager = Singleton<ResearchManager>.getInstance();
-            talentManager = Singleton<TalentManager>.getInstance();
+            consumableManager = Singleton<ConsumableManager>.getInstance();
             stageManager = Singleton<StageManager>.getInstance();
             infoView = Singleton<GameInfoView>.getInstance();
             
@@ -60,7 +60,7 @@ namespace SexyBackPlayScene
             elementalManager.Init();
             levelUpManager.Init();
             researchManager.Init(); // new PlayerStat.ResearchThread
-            talentManager.Init();
+            consumableManager.Init();
             infoView.Init();
 
         }
@@ -158,7 +158,7 @@ namespace SexyBackPlayScene
             monsterManager.Dispose();
             levelUpManager.Dispose();
             researchManager.Dispose();
-            talentManager.Dispose();
+            consumableManager.Dispose();
 
             Singleton<StatManager>.Clear();
             Singleton<HeroManager>.Clear();
@@ -166,7 +166,7 @@ namespace SexyBackPlayScene
             Singleton<ElementalManager>.Clear();
             Singleton<LevelUpManager>.Clear();
             Singleton<ResearchManager>.Clear();
-            Singleton<TalentManager>.Clear();
+            Singleton<ConsumableManager>.Clear();
             Singleton<StageManager>.Clear();
             Singleton<GameInfoView>.Clear();
             
@@ -176,7 +176,7 @@ namespace SexyBackPlayScene
             elementalManager = null;
             levelUpManager = null;
             researchManager = null;
-            talentManager = null;
+            consumableManager = null;
             stageManager = null;
             infoView = null;
         }
@@ -205,7 +205,7 @@ namespace SexyBackPlayScene
             elementalManager.Update();
             levelUpManager.Update();
             researchManager.Update();
-            talentManager.Update();
+            consumableManager.Update();
             stageManager.Update();
             statmanager.Update();
         }

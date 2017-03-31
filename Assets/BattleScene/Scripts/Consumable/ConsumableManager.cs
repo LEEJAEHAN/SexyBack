@@ -5,20 +5,20 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    internal class TalentManager : IDisposable
+    internal class ConsumableManager : IDisposable
     {
-        ~TalentManager()
+        ~ConsumableManager()
         {
             sexybacklog.Console("TalentManager 소멸");
         }
+
         public void Dispose()
         {
-            TalentWindow.Clear();
+            ConsumableWindow.Clear();
             window = null;
         }
 
-
-        TalentWindow window;
+        ConsumableWindow window;
         int CurrentFloor;
         public List<Talent> AttackTalents = new List<Talent>();
         public List<Talent> ElementTalents = new List<Talent>();
@@ -35,7 +35,7 @@ namespace SexyBackPlayScene
 
         internal void Init()
         {
-            window = TalentWindow.getInstance;
+            window = ConsumableWindow.getInstance;
             MakeTalent();
         }
 

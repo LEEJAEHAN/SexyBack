@@ -27,9 +27,13 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
-            if (owner.zPosition < 0 && owner.monsters.Count >= 0)
+            if (owner.zPosition < 0 && owner.type == StageType.Normal)
             {
                 owner.ChangeState("Battle");
+            }
+            else if ( owner.zPosition < 0)
+            {
+                owner.ChangeState("PostMove");
             }
         }
     }

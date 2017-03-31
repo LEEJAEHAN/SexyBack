@@ -67,12 +67,12 @@ namespace SexyBackPlayScene
 
         void NextState()
         {
-            if (owner.isLastStage)
+            if (owner.floor == StageManager.MaxFloor)
             {
-                sexybacklog.Console("마지막도달!");
-                return;
+                sexybacklog.Console("마지막층도달!");
             }
 
+            Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
             owner.ChangeState("PostMove");
         }
 
