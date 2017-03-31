@@ -18,17 +18,19 @@ namespace SexyBackPlayScene
         [NonSerialized]
         public static readonly int DistancePerFloor = 30;
         [NonSerialized]
-        public static readonly int MonsterCountPerFloor= 1;
+        public static readonly int MonsterCountPerFloor= 2;
 
         [NonSerialized]
-        public int MaxFloor;
+        public static int MaxFloor;
         [NonSerialized]
-        public int LimitGameTime;
+        public static int LimitGameTime;
 
         [NonSerialized]
         public List<Stage> beToDispose = new List<Stage>(); // 풀링하지말자. 잦은이동이있는것도아닌데
         [NonSerialized]
         private bool needNextStage = false;
+        [NonSerialized]
+        StageFactory Factory = new StageFactory();
 
         public void Init()
         {
@@ -42,13 +44,12 @@ namespace SexyBackPlayScene
             MaxFloor = map.MaxFloor;
             LimitGameTime = map.LimitTime;
 
-            CurrentFloor = 1;
+            CurrentFloor = 0;
             CurrentGameTime = 0;
 
-            Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
-
-            CreateStageInstance(CurrentFloor, DistancePerFloor);
-            CreateStageInstance(CurrentFloor + 1, DistancePerFloor * 2);
+            Stages = new List<Stage>();
+            Stages.Add(Factory.CreateStage(CurrentFloor, DistancePerFloor));
+            Stages.Add(Factory.CreateStage(CurrentFloor+1, DistancePerFloor * 2));
         }
 
         internal void Load(StageManager data) // 클래스가 로드가 된뒤 셋해야 할것들.
@@ -59,35 +60,14 @@ namespace SexyBackPlayScene
             MaxFloor = map.MaxFloor;
             LimitGameTime = map.LimitTime;
 
+            CurrentFloor = data.CurrentFloor;
             CurrentGameTime = data.CurrentGameTime;
+
             Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다. 
             foreach( Stage stagedata in data.Stages)
             {
-                Stage stage = new Stage(stagedata.floor, stagedata.zPosition, stagedata.isLastStage, stagedata.rewardComplete, stagedata.monsters);
-                stage.ChangeState(stagedata.savedState);
-                Stages.Add(stage);
+                Stages.Add(Factory.LoadStage(stagedata));
             }
-        }
-
-        void CreateStageInstance(int floor, int zPosition)
-        {
-            bool isLast = floor == MaxFloor;
-            Stages.Add(new Stage(floor, zPosition, isLast, false, MakeMonsters(floor, MonsterCountPerFloor, true)));
-        }
-
-        List<string> MakeMonsters(int floor, int monsterCount, bool hasBoss)
-        {
-            List<string> result = new List<string>(monsterCount);
-            MonsterManager mManager = Singleton<MonsterManager>.getInstance();
-
-            for (int i = 0; i < monsterCount; i++)
-            {
-                if (i == monsterCount - 1)
-                    result.Add(mManager.CreateRandomMonster("F" + floor + "M" + i, floor, hasBoss));
-                else
-                    result.Add(mManager.CreateRandomMonster("F" + floor + "M" + i, floor, false));
-            }
-            return result;
         }
 
         public void onStagePass(int floor)
@@ -108,8 +88,8 @@ namespace SexyBackPlayScene
 
             if (needNextStage)
             {
-                if(CurrentFloor < MaxFloor)
-                    CreateStageInstance(CurrentFloor + 1, DistancePerFloor);
+                if(CurrentFloor <= MaxFloor)
+                    Stages.Add(Factory.CreateStage(CurrentFloor + 1 , DistancePerFloor));
                 needNextStage = false;
             }
 
