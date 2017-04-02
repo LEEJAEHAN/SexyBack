@@ -46,6 +46,9 @@ namespace SexyBackPlayScene
         internal PlayerStat GetPlayerStat { get { return playerStat; } }
         internal HeroStat GetHeroStat { get { return heroStat; } }
         internal Dictionary<string, ElementalStat> GetElementalStats { get { return elementalStats; } }
+
+
+
         internal ElementalStat GetElementalStat(string id) { return elementalStats[id]; }
 
         [NonSerialized]
@@ -60,7 +63,7 @@ namespace SexyBackPlayScene
             elementalStats = MakeElementalStats();
             exp = new BigInteger(0);
         }
-        internal void SetStat(HeroStat HStat, PlayerStat PStat, Dictionary<string, ElementalStat> EStatList)
+        internal void SetInitStat(HeroStat HStat, PlayerStat PStat, Dictionary<string, ElementalStat> EStatList)
         {
             heroStat = HStat;
             playerStat = PStat;
@@ -69,8 +72,8 @@ namespace SexyBackPlayScene
             // 스텟 적용해야하는놈들, 히어로, 엘리멘탈, 리서치 레벨업, 스텟매니져 
             Singleton<ResearchManager>.getInstance().SetStat(playerStat); //첨엔 없고, herocreate시 서먼된다.
             Singleton<LevelUpManager>.getInstance().SetStat(playerStat); //첨엔 없고, herocreate시 서먼된다.
-            elementalmanager.SetStatAll(elementalStats, true); // 첨엔 없고, 서먼된다.
-            heromanager.CurrentHero.SetStat(heroStat, true);
+            elementalmanager.SetStatAll(elementalStats, false); // 첨엔 없고, 서먼된다.
+            heromanager.CurrentHero.SetStat(heroStat, false);
         }
         public static Dictionary<string, ElementalStat> MakeElementalStats()
         {
@@ -85,6 +88,7 @@ namespace SexyBackPlayScene
             sexybacklog.InGame("레벨업에쓴돈 " + lspend.To5String());
             sexybacklog.InGame("리서치에쓴돈 " + rspend.To5String());
         }
+
 
         internal void Buff(Bonus bonus, GridItemIcon icon, int duration)
         {
@@ -316,6 +320,29 @@ namespace SexyBackPlayScene
             return result;
         }
 
+
+
+        public static double Growth(double growthRate, int power)
+        {
+            //TODO : 더블에걸림.
+            return Math.Pow(growthRate, power);
+        }
+
+
+        internal static double GetTotalDensityPerLevel(int level)
+        {
+            foreach (PriceData pData in Singleton<TableLoader>.getInstance().pricetable)
+            {
+                if (level >= pData.minLevel && level <= pData.maxLevel)
+                {
+                    sexybacklog.Console("currentlv Density " + pData.basePriceDensity);
+                    return pData.basePriceDensity;
+                }
+            }
+
+            sexybacklog.Error("no PriceInfo Level " +  level);
+            return double.MaxValue;
+        }
 
     }
 

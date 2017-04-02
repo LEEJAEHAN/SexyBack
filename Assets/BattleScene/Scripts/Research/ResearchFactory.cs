@@ -35,9 +35,10 @@ namespace SexyBackPlayScene
         }
         private BigInteger CalPrice(int level, int baselevel, int baseprice)
         {
-            int reallevel = level + baselevel;
-            int baseDamageRateXK = 1000 + 5 * baselevel; // 원래 double값은 1 + baselevel/20;
-            BigInteger TotalPrice = BigInteger.PowerByGrowth(baseDamageRateXK * baseprice, reallevel, ResearchData.GrowthRate) / 1000;
+            double BasePriceDensity = StatManager.GetTotalDensityPerLevel( baselevel + level );
+            double growth = StatManager.Growth(ResearchData.GrowthRate, baselevel + level);
+            double doubleC = baseprice * BasePriceDensity * growth;
+            BigInteger TotalPrice = BigInteger.FromDouble(doubleC);
             return TotalPrice;
         }
         private double CalTime(int reallevel, int baseprice, int rate, int basetime)

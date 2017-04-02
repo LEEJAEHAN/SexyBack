@@ -9,9 +9,9 @@ namespace SexyBackPlayScene
         public MonsterFactory()
         {
         }
-        public Monster CreateRandomMonster(string ID, int level, bool boss)
+        public Monster CreateRandomMonster(string ID, int floor, bool boss)
         {
-            return CreateMonster(ID, FindRandomMonsterDataID(level), level, boss);
+            return CreateMonster(ID, FindRandomMonsterDataID(floor), floor, boss);
         }
 
         public string FindRandomMonsterDataID(int level)
@@ -33,16 +33,19 @@ namespace SexyBackPlayScene
             return monsterListInLevel[randIndex].ID;
         }
 
-        public Monster CreateMonster(string instanceID, string dataID, int level, bool boss)
+        public Monster CreateMonster(string instanceID, string dataID, int floor, bool boss)
         {
             //TODO : 보스따로구분해야함.
             MonsterData data = Singleton<TableLoader>.getInstance().monstertable[dataID];
             Monster monster = new Monster(instanceID, dataID);
-            monster.level = level;
+            monster.level = floor - 1; // 1층이면 0레벨 몬스터, 2층이면 5레벨(2의1승) 몬스터, 
             monster.Name = data.Name;
 
-            monster.MAXHP = BigInteger.PowerByGrowth(data.baseHP, level - 1, MonsterData.GrowthRate);
-            monster.HP = BigInteger.PowerByGrowth(data.baseHP, level - 1, MonsterData.GrowthRate);
+            double growth = StatManager.Growth(MonsterData.GrowthRate, monster.level); // 
+            monster.MAXHP = BigInteger.FromDouble(growth);
+            monster.MAXHP *= data.baseHP;
+            monster.HP = BigInteger.FromDouble(growth);
+            monster.HP *= data.baseHP;
 
             monster.avatar = InitAvatar(monster.GetID, ViewLoader.monsterbucket.transform, data.LocalPosition, out monster.CenterPosition); //data.PivotPosition
             monster.sprite = InitSprite(monster.avatar, data.SpritePath, out monster.Size);
@@ -67,7 +70,9 @@ namespace SexyBackPlayScene
             Monster monster = new Monster(instanceID, dataID);
             monster.level = level;
             monster.Name = data.Name;
-            monster.MAXHP = BigInteger.PowerByGrowth(data.baseHP, level - 1, MonsterData.GrowthRate);
+            double growth = StatManager.Growth(MonsterData.GrowthRate, monster.level);
+            monster.MAXHP = BigInteger.FromDouble(growth);
+            monster.MAXHP *= data.baseHP;
             monster.HP = hp;
 
             monster.avatar = InitAvatar(monster.GetID, ViewLoader.monsterbucket.transform, data.LocalPosition, out monster.CenterPosition); //data.PivotPosition

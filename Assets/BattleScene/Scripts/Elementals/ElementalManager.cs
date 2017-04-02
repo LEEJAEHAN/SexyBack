@@ -42,7 +42,7 @@ namespace SexyBackPlayScene
             Elemental newElemental = new Elemental(data);
             Action_ElementalCreateEvent(newElemental);
             elementals.Add(newElemental.GetID, newElemental);
-            newElemental.SetStat(stat, true);
+            newElemental.SetStat(stat, false);
             LevelUp(id, 1);
             return true;
         }

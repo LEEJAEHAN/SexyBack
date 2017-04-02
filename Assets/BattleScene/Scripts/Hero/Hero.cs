@@ -27,7 +27,6 @@ namespace SexyBackPlayScene
         public readonly string Name;
         public string GetID { get { return ID; } }
         public string targetID;
-        int level = 0;
 
         // manager
         public HeroStateMachine StateMachine;
@@ -42,9 +41,8 @@ namespace SexyBackPlayScene
         public int DpcIncreaseXH;
 
         // 기타변수
-        public int LEVEL { get { return level; } }
-        public BigInteger LevelUpPrice { get { return BigInteger.PowerByGrowth(BaseExp, level, GrowthRate); } }
-
+        public int LEVEL = 0;
+        public BigInteger PRICE = new BigInteger();
         public BigInteger DPC = new BigInteger();
         public BigInteger DPCTick = new BigInteger();
 
@@ -56,11 +54,11 @@ namespace SexyBackPlayScene
         public int CRIDAMAGEXH;
 
         // basestat
-        readonly BigInteger BaseDpc;
-        readonly BigInteger BaseExp;
+        readonly double BaseDmgDensity;
+        readonly int BaseLevel;
+        readonly int BasePrice;
         readonly double AttackInterval;
         readonly float MoveSpeed;
-        readonly double GrowthRate;
 
         public string CurrentState { get { return StateMachine.currStateID; } }
         // function property
@@ -76,9 +74,9 @@ namespace SexyBackPlayScene
         {
             ID = data.ID;
             Name = data.Name;
-            BaseDpc = data.BaseDpc;
-            BaseExp = data.BaseExp;
-            GrowthRate = data.GrowthRate;
+            BaseDmgDensity = data.BaseDmgDensity;
+            BasePrice = data.BasePrice;
+            BaseLevel = data.BaseLevel;
             AttackInterval = data.AttackInterval;
             MoveSpeed = data.MoveSpeed;
 
@@ -90,24 +88,38 @@ namespace SexyBackPlayScene
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("level", level);
+            info.AddValue("level", LEVEL);
         }
         public Hero(SerializationInfo info, StreamingContext context)
         {
-            level = (int)info.GetValue("level", typeof(int));
+            LEVEL = (int)info.GetValue("level", typeof(int));
         }
 
         void CalDpc()
         {
-            DPCTick = BaseDpc * dpcX * DpcIncreaseXH / 100;
-            DPC = level * BaseDpc * dpcX * DpcIncreaseXH / 100;
+            double growth = StatManager.Growth(HeroData.GrowthRate, BaseLevel); // 
+            double doubleC = 5 * BaseDmgDensity * growth * LEVEL * DpcIncreaseXH / 100;
+            BigInteger Coefficient = BigInteger.FromDouble(doubleC);
+            DPC = dpcX * Coefficient;
+            DPCTick = DPC / LEVEL;
         }
         public void LevelUp(int amount)
         {
-            level += amount;
+            LEVEL += amount;
             CalDpc();
+            CalPrice();
             Action_Change(this);
         }
+
+        private void CalPrice()
+        {
+            double BasePriceDensity = StatManager.GetTotalDensityPerLevel(BaseLevel + LEVEL);
+            // cal price
+            double growth = StatManager.Growth(ElementalData.GrowthRate, BaseLevel + LEVEL);
+            double doubleC = BasePrice * BasePriceDensity * growth;
+            PRICE = BigInteger.FromDouble(doubleC);
+        }
+
         internal void SetStat(HeroStat herostat, bool CalDamage)
         {
             dpcX = herostat.DpcX;

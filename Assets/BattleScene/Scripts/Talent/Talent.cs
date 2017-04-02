@@ -44,7 +44,7 @@ namespace SexyBackPlayScene
         {
             if (bonus.attribute == "ExpPerFloor")
             {
-                bonus.bigvalue = BigInteger.PowerByGrowth(bonus.value, floor - 1, MonsterData.GrowthRate);
+//                bonus.bigvalue = BigInteger.PowerByGrowth(bonus.value, floor - 1, MonsterData.GrowthRate);
                 Icon.SubIconText = bonus.bigvalue.To5String();
             }
         }

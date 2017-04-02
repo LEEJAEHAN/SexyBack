@@ -15,7 +15,7 @@ internal class TableLoader
     public Dictionary<string, LevelUpData> leveluptable;
     public Dictionary<string, ResearchData> researchtable;
     public Dictionary<string, ConsumableData> consumable;
-
+    public List<PriceData> pricetable;
     public List<TalentData> talenttable;
 
     bool FinishLoad = false;
@@ -30,6 +30,7 @@ internal class TableLoader
         if (FinishLoad == false)
         {
             sexybacklog.Console("Xml데이터를 로드합니다.");
+            LoadPriceData();
             LoadHeroData();
             LoadMonsterData();
             LoadElementData();
@@ -41,6 +42,33 @@ internal class TableLoader
         }
         FinishLoad = true;
     }
+
+    public XmlDocument OpenXml(string path)
+    {
+        TextAsset textasset = Resources.Load(path) as TextAsset;
+        XmlDocument xmldoc = new XmlDocument();
+        xmldoc.LoadXml(textasset.text);
+        return xmldoc;
+    }
+
+    private void LoadPriceData()
+    {
+        pricetable = new List<PriceData>();
+
+        XmlDocument xmldoc = OpenXml("Xml/PriceData");
+        XmlNode rootNode = xmldoc.SelectSingleNode("Prices");
+        XmlNodeList nodes = rootNode.SelectNodes("Price");
+
+        foreach (XmlNode node in nodes)
+        {
+            PriceData temp = new PriceData();
+            temp.minLevel = int.Parse(node.Attributes["fromlevel"].Value);
+            temp.maxLevel = int.Parse(node.Attributes["tolevel"].Value);
+            temp.basePriceDensity = double.Parse(node.Attributes["base"].Value);
+            pricetable.Add(temp);
+        }
+    }
+
 
     private void LoadConsumableData()
     {
@@ -108,9 +136,7 @@ internal class TableLoader
     private void LoadElementData()
     {
         elementaltable = new Dictionary<string, ElementalData>();
-        TextAsset textasset = Resources.Load("Xml/ElementalData") as TextAsset;
-        XmlDocument xmldoc = new XmlDocument();
-        xmldoc.LoadXml(textasset.text);
+        XmlDocument xmldoc = OpenXml("Xml/ElementalData");
         XmlNode rootNode = xmldoc.SelectSingleNode("Elementals");
         XmlNodeList nodes = rootNode.SelectNodes("Elemental");
 
@@ -120,17 +146,9 @@ internal class TableLoader
             elemental.ID = node.Attributes["id"].Value;
             elemental.Name = node.Attributes["name"].Value;
             elemental.BaseCastIntervalXK = int.Parse(node.Attributes["basecastintervalxk"].Value);
-            string basedps = node.Attributes["basedps"].Value;
-            if (basedps.Contains("."))
-            {
-                double basedpsdouble = double.Parse(basedps);
-                elemental.FloatDigit = 10;
-                basedpsdouble *= 10;
-                elemental.BaseDps = new BigInteger((int)basedpsdouble);
-            }
-            else
-                elemental.BaseDps = new BigInteger(basedps);
-            elemental.BaseExp = new BigInteger(node.Attributes["baseexp"].Value);
+            elemental.BaseDmgDensity = double.Parse(node.Attributes["basedensity"].Value);
+            elemental.BasePrice = int.Parse(node.Attributes["baseprice"].Value);
+            elemental.BaseLevel = int.Parse(node.Attributes["baselevel"].Value);
             elemental.PrefabName = node.Attributes["prefab"].Value;
             elemental.SkillPrefabName = node.Attributes["skillprefab"].Value;
             elemental.BaseSkillRateXK = int.Parse(node.Attributes["baseskillratexk"].Value);
@@ -142,9 +160,7 @@ internal class TableLoader
     private Dictionary<string, List<Bonus>> LoadBonus()
     {
         Dictionary<string, List<Bonus>> bonuses = new Dictionary<string, List<Bonus>>();
-        TextAsset textasset = Resources.Load("Xml/BonusData") as TextAsset;
-        XmlDocument xmldoc = new XmlDocument();
-        xmldoc.LoadXml(textasset.text);
+        XmlDocument xmldoc = OpenXml("Xml/BonusData");
         XmlNode rootNode = xmldoc.SelectSingleNode("BonusList");
         XmlNodeList nodes = rootNode.SelectNodes("Bonus");
 
@@ -203,9 +219,7 @@ internal class TableLoader
         Dictionary<string, List<Bonus>> bonuses = LoadBonus();
         researchtable = new Dictionary<string, ResearchData>();
 
-        TextAsset textasset = Resources.Load("Xml/ResearchData") as TextAsset;
-        XmlDocument xmldoc = new XmlDocument();
-        xmldoc.LoadXml(textasset.text);
+        XmlDocument xmldoc = OpenXml("Xml/ResearchData");
         XmlNode rootNode = xmldoc.SelectSingleNode("Researches");
         XmlNodeList nodes = rootNode.SelectNodes("Research");
 
@@ -254,9 +268,7 @@ internal class TableLoader
     {
         talenttable = new List<TalentData>();
 
-        TextAsset textasset = Resources.Load("Xml/TalentData") as TextAsset;
-        XmlDocument xmldoc = new XmlDocument();
-        xmldoc.LoadXml(textasset.text);
+        XmlDocument xmldoc = OpenXml("Xml/TalentData");
         XmlNode rootNode = xmldoc.SelectSingleNode("Talents");
         XmlNodeList nodes = rootNode.SelectNodes("Talent");
 

@@ -11,16 +11,17 @@ namespace SexyBackPlayScene
         public string targetID;
 
         // 변수
-        int level = 0;
         BigInteger dpsX = new BigInteger();
         int dpsIncreaseXH;
         int castSpeedXH;
         int skillrateIncreaseXH;
         int skilldamageIncreaseXH;
 
+        public int LEVEL = 0;
         public BigInteger DPS = new BigInteger();
-        public BigInteger DPSTICK = new BigInteger();
         public BigInteger DAMAGE = new BigInteger();//  dps * attackinterval
+        public BigInteger PRICE = new BigInteger();
+        public BigInteger DPSTICK = new BigInteger();
         public int SKILLRATIO;
         public int SKILLRATEXK;
         public BigInteger SKILLDAMAGE = new BigInteger();
@@ -28,14 +29,12 @@ namespace SexyBackPlayScene
 
         // 고정수
         readonly string ID;
-        readonly int DpsShiftDigit;
         readonly int BaseCastIntervalXK;
-        readonly BigInteger BaseDps;
-        readonly BigInteger BaseExp;
+        public int BaseLevel;
+        public int BasePrice;
+        public double BaseDmgDensity;
         readonly int BaseSkillRateXK;
         readonly int BaseSkillRatio;
-
-        readonly double GrowthRate;
 
         // for projectile action;
         private Shooter shooter;
@@ -43,8 +42,6 @@ namespace SexyBackPlayScene
         private double AttackTimer = 0;
 
         // ICanLevelUp
-        public int LEVEL { get { return level; } }
-        public BigInteger LevelUpPrice { get { return BigInteger.PowerByGrowth(BaseExp, level, GrowthRate); } }
         // event
         public delegate void ElementalChange_EventHandler(Elemental elemental);
         public event ElementalChange_EventHandler Action_Change = delegate { };
@@ -53,10 +50,9 @@ namespace SexyBackPlayScene
         {
             ID = data.ID;
             BaseCastIntervalXK = data.BaseCastIntervalXK;
-            BaseDps = data.BaseDps;
-            DpsShiftDigit = data.FloatDigit;
-            BaseExp = data.BaseExp;
-            GrowthRate = data.GrowthRate;
+            BaseDmgDensity = data.BaseDmgDensity;
+            BaseLevel = data.BaseLevel;
+            BasePrice = data.BasePrice;
             BaseSkillRateXK = data.BaseSkillRateXK;
             BaseSkillRatio = data.BaseSkillDamageXH;
 
@@ -65,19 +61,32 @@ namespace SexyBackPlayScene
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("level", level);
+            info.AddValue("level", LEVEL);
         }
         public Elemental(SerializationInfo info, StreamingContext context)
         {
-            level = (int)info.GetValue("level", typeof(int));
+            LEVEL = (int)info.GetValue("level", typeof(int));
         }
 
         public void LevelUp(int amount)
         {
-            level += amount;
+            LEVEL += amount;
+
+            CalPrice();
             CalDPS();
+
             Action_Change(this);
         }
+
+        private void CalPrice()
+        {
+            double BasePriceDensity = StatManager.GetTotalDensityPerLevel(BaseLevel + LEVEL);
+            // cal price
+            double growth = StatManager.Growth(ElementalData.GrowthRate, BaseLevel + LEVEL);
+            double doubleC = BasePrice * BasePriceDensity * growth;
+            PRICE = BigInteger.FromDouble(doubleC); // 60(랩업비기본) * 2.08(비중) * power수
+        }
+
         internal void SetStat(ElementalStat elementalstat, bool CalDamage) // total
         {
             dpsX = elementalstat.DpsX;
@@ -99,8 +108,11 @@ namespace SexyBackPlayScene
         }
         void CalDPS()
         {
-            DPS = BaseDps * dpsX * (level * dpsIncreaseXH * castSpeedXH) / (DpsShiftDigit * 10000);
-            DPSTICK = BaseDps * dpsX * (dpsIncreaseXH * castSpeedXH) / (DpsShiftDigit * 10000);
+            double growth = StatManager.Growth(ElementalData.GrowthRate, BaseLevel); // 
+            double doubleC = 1 * BaseDmgDensity * growth * LEVEL * dpsIncreaseXH * castSpeedXH / 10000;
+            BigInteger Coefficient = BigInteger.FromDouble(doubleC);
+            DPS = dpsX * Coefficient;
+            DPSTICK = DPS / LEVEL;
             DAMAGE = DPS * BaseCastIntervalXK / (castSpeedXH * 10); //  dps * CASTINTERVAL]
             skill.CalDamage(DAMAGE);
         }

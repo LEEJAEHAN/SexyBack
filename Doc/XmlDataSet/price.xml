@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Prices>
+  <Price fromlevel="0" tolevel="14" base="2"/>
+  <Price fromlevel="15" tolevel="34" base="3.075"/>
+</Prices>

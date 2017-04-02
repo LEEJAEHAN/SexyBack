@@ -27,7 +27,7 @@ namespace SexyBackPlayScene
         internal void onElementalChange(Elemental elemental)
         {
             itemView.FillItemContents(elemental.LEVEL.ToString());
-            originalPrice = elemental.LevelUpPrice;
+            originalPrice = elemental.PRICE;
             CalPrice();
 
             Name = OwnerName + " LV." + elemental.LEVEL.ToString();

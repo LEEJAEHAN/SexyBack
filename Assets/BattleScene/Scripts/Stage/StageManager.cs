@@ -18,7 +18,7 @@ namespace SexyBackPlayScene
         [NonSerialized]
         public static readonly int DistancePerFloor = 30;
         [NonSerialized]
-        public static readonly int MonsterCountPerFloor= 2;
+        public static readonly int MonsterCountPerFloor= 10;
 
         [NonSerialized]
         public static int MaxFloor;

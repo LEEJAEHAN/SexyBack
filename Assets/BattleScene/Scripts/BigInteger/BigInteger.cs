@@ -453,35 +453,51 @@ namespace SexyBackPlayScene
             return MaxDigit - digitTerm;
         }
 
-        public static BigInteger PowerByGrowth(BigInteger baseValue, double level, double growthRate)
-        {  
-            if (level <= 0)
-                level = 0;
-
-            BigInteger result = new BigInteger(new DigitsArray(baseValue.m_digits)); // clone
-            double growth = Math.Pow(growthRate, level);
-            // TODO : 더블을 넘어갈 위험.
-
-            if (growth > int.MaxValue)
+        public static BigInteger FromDouble(double value)
+        {
+            if (value > int.MaxValue)
             {
-                string growthstring = growth.ToString("F0");
-                result = result * new BigInteger(growthstring);
+                return new BigInteger(value.ToString("F0"));
             }
-            else // intmax보다 작을때
+            else if (value < int.MaxValue)
             {
-                if ((int)growth < int.MaxValue / 100000)
-                {
-                    int intgrowth = (int)(growth * 100000);
-                    result = result * intgrowth / 100000;
-                }
-                else
-                {
-                    int intgrowth = (int)growth;
-                    result = result * intgrowth;
-                }
+                return new BigInteger((int)value);
             }
-            return result;
+            else if (value < 0)
+                return null;
+            else
+                return null;
         }
+
+        //public static BigInteger PowerByGrowth(BigInteger baseValue, double level, double growthRate)
+        //{  
+        //    if (level <= 0)
+        //        level = 0;
+
+        //    BigInteger result = new BigInteger(new DigitsArray(baseValue.m_digits)); // clone
+        //    double growth = Math.Pow(growthRate, level);
+        //    // TODO : 더블을 넘어갈 위험.
+
+        //    if (growth > int.MaxValue)
+        //    {
+        //        string growthstring = growth.ToString("F0");
+        //        result = result * new BigInteger(growthstring);
+        //    }
+        //    else // intmax보다 작을때
+        //    {
+        //        if ((int)growth < int.MaxValue / 100000)
+        //        {
+        //            int intgrowth = (int)(growth * 100000);
+        //            result = result * intgrowth / 100000;
+        //        }
+        //        else
+        //        {
+        //            int intgrowth = (int)growth;
+        //            result = result * intgrowth;
+        //        }
+        //    }
+        //    return result;
+        //}
 
         public string ToCommaString()
         {

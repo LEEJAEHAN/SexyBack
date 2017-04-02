@@ -80,7 +80,7 @@ namespace SexyBackPlayScene
             heroManager.CreateHero();
 
             // post event : statup
-            statmanager.SetStat(hStat, pStat, eStats);
+            statmanager.SetInitStat(hStat, pStat, eStats);
             // post event : levelup
             heroManager.LevelUp(1);
             // post event : exp gain 
@@ -105,7 +105,7 @@ namespace SexyBackPlayScene
             researchManager.Load(rData);
 
             // post event : statup
-            statmanager.SetStat(hStat, pStat, eStats);
+            statmanager.SetInitStat(hStat, pStat, eStats);
             researchManager.SetStateNTime(rData);
 
             // post event : levelup
