@@ -17,7 +17,7 @@ namespace SexyBackPlayScene
         int skillrateIncreaseXH;
         int skilldamageIncreaseXH;
 
-        public int LEVEL = 0;
+        public int LEVEL = 1;
         public BigInteger DPS = new BigInteger();
         public BigInteger DAMAGE = new BigInteger();//  dps * attackinterval
         public BigInteger PRICE = new BigInteger();
@@ -61,40 +61,22 @@ namespace SexyBackPlayScene
             shooter = new Shooter(ID, data.PrefabName );
             skill = SkillFactory.Create(ID, data.SkillPrefabName, BaseSkillRatio);
         }
+
         public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("level", LEVEL);
-            info.AddValue("skillActive", skillActive);
-            // skill active, skill forcecount
+        {   // 소모성 변수는 저장한다. 영구 스텟은 스텟에서저장한다.
+            info.AddValue("skillForceCount", skillForceCount);
         }
         public Elemental(SerializationInfo info, StreamingContext context)
         {
-            LEVEL = (int)info.GetValue("level", typeof(int));
-            skillActive = (bool)info.GetValue("skillActive", typeof(bool));
+            skillForceCount = (int)info.GetValue("skillForceCount", typeof(int));
         }
 
-        public void LevelUp(int amount)
+        internal void SetStat(ElementalStat elementalstat, bool NeedCalDamage, bool NeedCalPrice) // total
         {
-            LEVEL += amount;
-
-            CalPrice();
-            CalDPS();
-
-            Action_Change(this);
-        }
-
-        private void CalPrice()
-        {
-            double BasePriceDensity = StatManager.GetTotalDensityPerLevel(BaseLevel + LEVEL);
-            // cal price
-            double growth = StatManager.Growth(ElementalData.GrowthRate, BaseLevel + LEVEL);
-            double doubleC = BasePrice * BasePriceDensity * growth;
-            PRICE = BigInteger.FromDouble(doubleC); // 60(랩업비기본) * 2.08(비중) * power수
-        }
-
-        internal void SetStat(ElementalStat elementalstat, bool CalDamage) // total
-        {
+            LEVEL = elementalstat.Level;
+            skillActive = elementalstat.skillActive;
             dpsX = elementalstat.DpsX;
+            skillActive = elementalstat.skillActive;
             dpsIncreaseXH = elementalstat.DpsIncreaseXH;
             castSpeedXH = elementalstat.CastSpeedXH;
             skillrateIncreaseXH = elementalstat.skillrateIncreaseXH;
@@ -106,9 +88,10 @@ namespace SexyBackPlayScene
             SKILLRATIO = BaseSkillRatio* skilldamageIncreaseXH / 100;
             skill.SetStat(skilldamageIncreaseXH);
 
-            if (CalDamage)
+            if (NeedCalDamage)
                 CalDPS();
-
+            if(NeedCalPrice)
+                CalPrice();
             Action_Change(this);
         }
         void CalDPS()
@@ -121,7 +104,14 @@ namespace SexyBackPlayScene
             DAMAGE = DPS * BaseCastIntervalXK / (castSpeedXH * 10); //  dps * CASTINTERVAL]
             skill.CalDamage(DAMAGE);
         }
-
+        private void CalPrice()
+        {
+            double BasePriceDensity = StatManager.GetTotalDensityPerLevel(BaseLevel + LEVEL);
+            // cal price
+            double growth = StatManager.Growth(ElementalData.GrowthRate, BaseLevel + LEVEL);
+            double doubleC = BasePrice * BasePriceDensity * growth;
+            PRICE = BigInteger.FromDouble(doubleC); // 60(랩업비기본) * 2.08(비중) * power수
+        }
         // TODO : 여기도 언젠간 statemachine작업을 해야할듯 ㅠㅠ
         internal void Update()
         {
@@ -176,8 +166,5 @@ namespace SexyBackPlayScene
             else
                 targetID = null;
         }
-
-
-
     }
 }

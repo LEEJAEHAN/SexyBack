@@ -18,19 +18,18 @@ namespace SexyBackPlayScene
         // serialized
         StageManager stageManager; // 일종의 스크립트
         MonsterManager monsterManager;
-        HeroManager heroManager;
         ElementalManager elementalManager;
+        ResearchManager researchManager;
+
+        [NonSerialized]
+        HeroManager heroManager;
         [NonSerialized]
         LevelUpManager levelUpManager;
-
         [NonSerialized]
         ConsumableManager consumableManager;
-
         [NonSerialized]
         StatManager statmanager;
         // singleton - player
-        [NonSerialized]
-        ResearchManager researchManager;
 
         // View
         [NonSerialized]
@@ -74,15 +73,10 @@ namespace SexyBackPlayScene
             BigInteger exp = new BigInteger(0);
 
             //load
-
             sexybacklog.Console(param.StageID);
             stageManager.Start(param.StageID, param.StageBonus);
-            heroManager.CreateHero();
-
-            // post event : statup
-            statmanager.SetInitStat(hStat, pStat, eStats);
-            // post event : levelup
-            heroManager.LevelUp(1);
+            heroManager.CreateHero(); // no level and stat
+            statmanager.SetInitStat(hStat, pStat, eStats); // post event : statup
             // post event : exp gain 
             statmanager.ExpGain(exp, false);
 
@@ -91,14 +85,13 @@ namespace SexyBackPlayScene
         {
             ElementalManager eData = (ElementalManager)SaveSystem.Load("elementalManager.dat");
             StatManager sData = (StatManager)SaveSystem.Load("statmanager.dat");
-            HeroManager hData = (HeroManager)SaveSystem.Load("heroManager.dat");
             ResearchManager rData = (ResearchManager)SaveSystem.Load("researchManager.dat");
             HeroStat hStat = sData.GetHeroStat;
             PlayerStat pStat = sData.GetPlayerStat;
             Dictionary<string, ElementalStat> eStats = sData.GetElementalStats;
 
             //load
-            heroManager.CreateHero();   // post : 스텟
+            heroManager.Load((HeroManager)SaveSystem.Load("heroManager.dat"));   // post : 스텟
             stageManager.Load((StageManager)SaveSystem.Load("stagemanager.dat"));       // 상관관계 x
             monsterManager.Load((MonsterManager)SaveSystem.Load("monsterManager.dat")); // 상관관계 x
             elementalManager.Load(eData);   //post : 스텟
@@ -108,10 +101,6 @@ namespace SexyBackPlayScene
             statmanager.SetInitStat(hStat, pStat, eStats);
             researchManager.SetStateNTime(rData);
 
-            // post event : levelup
-            heroManager.LevelUp(hData.CurrentHero.LEVEL);            //heroManager.levelup;
-            elementalManager.LevelUpAll(eData.elementals);            //elementalManager.levelup;
-
             // post event : exp gain 
             statmanager.ExpGain(sData.EXP, false);                   // set exp
             
@@ -120,8 +109,7 @@ namespace SexyBackPlayScene
         }
         internal void SaveInstance()
         {
-            SaveSystem.SaveInstacne();
-
+            //SaveSystem.SaveInstacne();
             SaveSystem.Save(statmanager, "statmanager.dat");
             SaveSystem.Save(stageManager, "stagemanager.dat");
             SaveSystem.Save(monsterManager, "monsterManager.dat");

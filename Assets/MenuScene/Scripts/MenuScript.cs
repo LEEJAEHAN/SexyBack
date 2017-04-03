@@ -11,8 +11,17 @@ namespace SexyBackMenuScene
 
         private void Awake()
         {
-            Singleton<ViewLoader>.getInstance().InitUISetting();
             Singleton<TableLoader>.getInstance().Init();
+
+            if (SaveSystem.CanLoad())
+            {
+                Debug.Log("인스턴스데이터를 불러옵니다.");
+                SceneManager.LoadScene("PlayScene");
+            }
+            else
+                Debug.Log("저장데이터가음습니다.");
+
+            Singleton<ViewLoader>.getInstance().InitUISetting();
         }
         // Use this for initialization
         void Start()
@@ -33,13 +42,14 @@ namespace SexyBackMenuScene
 
         public void TestLoadGAme()
         {
-            if (PlayerPrefs.HasKey("InstanceData"))
+            if (SaveSystem.CanLoad())
             {
                 Debug.Log("인스턴스데이터를 불러옵니다.");
                 SceneManager.LoadScene("PlayScene");
             }
             else
                 Debug.Log("저장데이터가음습니다.");
+            //PlayerPrefs.HasKey("InstanceData")
         }
 
         public void QuitGame()

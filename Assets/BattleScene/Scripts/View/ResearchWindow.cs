@@ -26,8 +26,6 @@ namespace SexyBackPlayScene
         UIButton Button1;
         UIButton Button2;
 
-        UILabel Info_Description_Label;
-
         public delegate void Confirm_Event();
         public event Confirm_Event Action_Confirm;
 

@@ -72,8 +72,8 @@ namespace SexyBackPlayScene
             // 스텟 적용해야하는놈들, 히어로, 엘리멘탈, 리서치 레벨업, 스텟매니져 
             Singleton<ResearchManager>.getInstance().SetStat(playerStat); //첨엔 없고, herocreate시 서먼된다.
             Singleton<LevelUpManager>.getInstance().SetStat(playerStat); //첨엔 없고, herocreate시 서먼된다.
-            elementalmanager.SetStatAll(elementalStats, false); // 첨엔 없고, 서먼된다.
-            heromanager.CurrentHero.SetStat(heroStat, false);
+            elementalmanager.SetLevelAndStat(elementalStats); // 첨엔 없고, 서먼된다.
+            heromanager.SetLevelAndStat(heroStat);
         }
         public static Dictionary<string, ElementalStat> MakeElementalStats()
         {
@@ -94,7 +94,8 @@ namespace SexyBackPlayScene
         {
 
         }
-        internal void Upgrade(Bonus bonus, GridItemIcon icon)
+
+        internal void Upgrade(Bonus bonus)
         {
             switch (bonus.targetID)
             {
@@ -108,6 +109,10 @@ namespace SexyBackPlayScene
                     UpgradeElemental(bonus);
                     break;
             }
+        }
+        internal void Upgrade(Bonus bonus, GridItemIcon icon)
+        {
+            Upgrade(bonus);
             EffectController.getInstance.AddBuffEffect(icon);
         }
 
@@ -116,6 +121,18 @@ namespace SexyBackPlayScene
         {
             switch (bonus.attribute)
             {
+                case "Level":
+                    {
+                        heroStat.Level += bonus.value;
+                        heromanager.SetLevelAndStat(heroStat);
+                        break;
+                    }
+                case "Enchant":
+                    {
+                        heroStat.Enchant = bonus.strvalue;
+                        heromanager.SetStat(heroStat, true, false);
+                        break;
+                    }
                 case "ActiveElement":
                     {
                         elementalmanager.LearnNewElemental(bonus.strvalue);
@@ -124,43 +141,43 @@ namespace SexyBackPlayScene
                 case "DpcX":
                     {
                         heroStat.DpcX *= bonus.value;
-                        heromanager.GetHero().SetStat(heroStat, true);
+                        heromanager.SetStat(heroStat, true, false);
                         break;
                     }
                 case "DpcIncreaseXH":
                     {
                         heroStat.DpcIncreaseXH += bonus.value;
-                        heromanager.GetHero().SetStat(heroStat, true);
+                        heromanager.SetStat(heroStat, true, false);
                         break;
                     }
                 case "AttackCount":
                     {
                         heroStat.AttackCount += bonus.value;
-                        heromanager.GetHero().SetStat(heroStat, false);
+                        heromanager.SetStat(heroStat, false, false);
                         break;
                     }
                 case "AttackSpeedXH":
                     {
                         heroStat.AttackSpeedXH += bonus.value;
-                        heromanager.GetHero().SetStat(heroStat, false);
+                        heromanager.SetStat(heroStat, false, false);
                         break;
                     }
                 case "CriticalRateXH":
                     {
                         heroStat.CriticalRateXH += bonus.value;
-                        heromanager.GetHero().SetStat(heroStat, false);
+                        heromanager.SetStat(heroStat, false, false);
                         break;
                     }
                 case "CriticalDamageXH":
                     {
                         heroStat.CriticalDamageXH += bonus.value;
-                        heromanager.GetHero().SetStat(heroStat, false);
+                        heromanager.SetStat(heroStat, false, false);
                         break;
                     }
                 case "MovespeedXH":
                     {
                         heroStat.MovespeedXH += bonus.value;
-                        heromanager.GetHero().SetStat(heroStat, false);
+                        heromanager.SetStat(heroStat, false, false);
                         break;
                     }
                 case "Fever":
@@ -175,50 +192,40 @@ namespace SexyBackPlayScene
             }
         }
 
-
-        private void UpgradeElemental(Bonus bonus)
+        private void UpgradeElemental(Bonus bonus) // 각 element에게만 해당하는것. 전체는 player
         {
+            string targetID = bonus.targetID;
+            ElementalStat stat = elementalStats[bonus.targetID];
             switch (bonus.attribute)
             {
+                case "Level":
+                    {
+                        stat.Level += bonus.value;
+                        elementalmanager.SetLevelAndStat(stat, targetID);
+                        break;
+                    }
                 case "ActiveSkill":
                     {
-                        elementalmanager.ActiveSkill(bonus.targetID);
+                        stat.skillActive =true;
+                        elementalmanager.ActiveSkill(stat, targetID);
                         break;
                     }
                 case "DpsX":
                     {
-                        elementalStats[bonus.targetID].DpsX *= bonus.value;
-                        elementalmanager.SetStat(elementalStats[bonus.targetID], bonus.targetID, true);
+                        stat.DpsX *= bonus.value;
+                        elementalmanager.SetStat(stat, targetID, true, false);
                         break;
                     }
                 case "DpsIncreaseXH":
                     {
-                        if (bonus.targetID == "elementals")
-                        {
-                            foreach (ElementalStat stat in elementalStats.Values)
-                                stat.DpsIncreaseXH += bonus.value;
-                            elementalmanager.SetStatAll(elementalStats, true);
-                        }
-                        else
-                        {
-                            elementalStats[bonus.targetID].DpsIncreaseXH += bonus.value;
-                            elementalmanager.SetStat(elementalStats[bonus.targetID], bonus.targetID, true);
-                        }
-                        break;
+                        stat.DpsIncreaseXH += bonus.value;
+                       elementalmanager.SetStat(stat, targetID, true, false);
+                       break;
                     }
                 case "CastSpeedXH":
                     {
-                        if (bonus.targetID == "elementals")
-                        {
-                            foreach (ElementalStat stat in elementalStats.Values)
-                                stat.CastSpeedXH += bonus.value;
-                            elementalmanager.SetStatAll(elementalStats, true);
-                        }
-                        else
-                        {
-                            elementalStats[bonus.targetID].CastSpeedXH += bonus.value;
-                            elementalmanager.SetStat(elementalStats[bonus.targetID], bonus.targetID, true);
-                        }
+                        stat.CastSpeedXH += bonus.value;
+                        elementalmanager.SetStat(stat, targetID, true, false);
                         break;
                     }
                 case "Fever":
@@ -236,6 +243,20 @@ namespace SexyBackPlayScene
         {
             switch (bonus.attribute)
             {
+                case "DpsIncreaseXH": // TODO : case all elemental 현재 안쓰고있음.
+                    {
+                        foreach (ElementalStat stat in elementalStats.Values)
+                            stat.DpsIncreaseXH += bonus.value;
+                        elementalmanager.SetStatAll(elementalStats, true, false);
+                        break;
+                    }
+                case "CastSpeedXH": // case all elemental
+                    {
+                        foreach (ElementalStat stat in elementalStats.Values)
+                            stat.CastSpeedXH += bonus.value;
+                        elementalmanager.SetStatAll(elementalStats, true, false);
+                        break;
+                    }
                 case "ExpIncreaseXH":
                     {
                         playerStat.ExpIncreaseXH += bonus.value;

@@ -37,9 +37,14 @@ namespace SexyBackPlayScene
         {
             CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable);
             Action_HeroCreateEvent(CurrentHero);
-            //CurrentHero.SetStat(Singleton<StatManager>.getInstance().GetHeroStat, true);
-            //LevelUp(1);
             CurrentHero.ChangeState("Move"); //Init state is move
+        }
+        internal void Load(HeroManager heroManager)
+        {
+            CreateHero();
+            // 변수 load 
+            int temp = heroManager.CurrentHero.AttackCount;
+            CurrentHero.AttackManager.SetAttackCount(temp);
         }
 
         internal void Update()
@@ -59,11 +64,14 @@ namespace SexyBackPlayScene
 
             monster.StateMachine.Action_changeEvent += CurrentHero.onTargetStateChange;
         }
-
-        internal void LevelUp(int amount)
+        internal void SetLevelAndStat(HeroStat stat)
         {
-            CurrentHero.LevelUp(amount);
+            CurrentHero.SetStat(stat, true, true);
             Action_HeroLevelUp(CurrentHero);
+        }
+        internal void SetStat(HeroStat stat, bool CalDamage, bool CalPrice)
+        {
+            CurrentHero.SetStat(stat, CalDamage, CalPrice);
         }
 
     }

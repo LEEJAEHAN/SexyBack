@@ -38,12 +38,13 @@ namespace SexyBackPlayScene
         private bool SummonNewElemental(string id) // Create == 생성만, Summon ==  스텟과 레벨업설정까지
         {
             ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
-            ElementalStat stat = Singleton<StatManager>.getInstance().GetElementalStat(id);
             Elemental newElemental = new Elemental(data);
             Action_ElementalCreateEvent(newElemental);
-            elementals.Add(newElemental.GetID, newElemental);
-            newElemental.SetStat(stat, false);
-            LevelUp(id, 1);
+
+            elementals.Add(id, newElemental);
+
+            ElementalStat stat = Singleton<StatManager>.getInstance().GetElementalStat(id);
+            SetLevelAndStat(stat, id);
             return true;
         }
 
@@ -55,38 +56,12 @@ namespace SexyBackPlayScene
                 Elemental newElemental = new Elemental(data);
                 Action_ElementalCreateEvent(newElemental);
                 elementals.Add(saveEID, newElemental);
-                //LevelUp(saveEID, elementalManager.elementals[saveEID].LEVEL);
-                //newElemental.SetStat(stat, true);
+
+                // 변수 load 
+                newElemental.skillForceCount = elementalManager.elementals[saveEID].skillForceCount;
             }
         }
-
-        internal void LevelUpAll(Dictionary<string, Elemental> elementals)
-        {
-            foreach (string saveEID in elementals.Keys)
-                LevelUp(saveEID, elementals[saveEID].LEVEL);
-        }
-
-        internal void LevelUp(string id, int amount)
-        {
-            elementals[id].LevelUp(amount);
-            Action_ElementalLevelUp(elementals[id]);
-        }
-
-        internal void LearnNewElemental(string id)
-        {
-            if (Singleton<TableLoader>.getInstance().elementaltable.ContainsKey(id) == false)
-                return;
-            if (elementals.ContainsKey(id)) // 이미있는경우   
-                return;
-
-            readyToCreate.Enqueue(id);
-        }
-        internal void ActiveSkill(string id)
-        {
-            elementals[id].skillActive = true;
-            elementals[id].skillForceCount++;
-        }
-
+        
 
         public BigInteger GetTotalDps()
         {
@@ -123,18 +98,42 @@ namespace SexyBackPlayScene
             return elementals[ElementalID];
         }
 
-        internal void SetStat(ElementalStat stat, string ElementalID, bool CalDps)
+        internal void LearnNewElemental(string id)
         {
-            if (elementals.ContainsKey(ElementalID))
-                elementals[ElementalID].SetStat(stat, CalDps);
+            if (Singleton<TableLoader>.getInstance().elementaltable.ContainsKey(id) == false)
+                return;
+            if (elementals.ContainsKey(id)) // 이미있는경우   
+                return;
+            readyToCreate.Enqueue(id);
         }
 
+        internal void ActiveSkill(ElementalStat stat, string ElementalID)
+        {
+            SetStat(stat, ElementalID, false, false);
+            elementals[ElementalID].skillForceCount++;
+        }
 
-        internal void SetStatAll(Dictionary<string, ElementalStat> statList, bool CalDps)
+        internal void SetLevelAndStat(Dictionary<string, ElementalStat> statList)
         {
             foreach (string id in elementals.Keys)
-                elementals[id].SetStat(statList[id], CalDps);
+                SetLevelAndStat(statList[id], id);
         }
+        internal void SetLevelAndStat(ElementalStat stat, string ElementalID)
+        {
+            SetStat(stat, ElementalID, true, true);
+            Action_ElementalLevelUp(elementals[ElementalID]);
+        }
+        internal void SetStatAll(Dictionary<string, ElementalStat> statList, bool CalDps, bool CalPrice)
+        {
+            foreach (string id in elementals.Keys)
+                elementals[id].SetStat(statList[id], CalDps, CalPrice);
+        }
+        internal void SetStat(ElementalStat stat, string ElementalID, bool CalDps, bool CalPrice)
+        {
+            if (elementals.ContainsKey(ElementalID))
+                elementals[ElementalID].SetStat(stat, CalDps, CalPrice);
+        }
+
 
     }
 }

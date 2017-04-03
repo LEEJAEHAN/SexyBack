@@ -26,7 +26,7 @@ namespace SexyBackPlayScene
             //        GameModeData args;
         void Start()
         {
-            if (PlayerPrefs.HasKey("InstanceData"))
+            if (SaveSystem.CanLoad())
             {
                 //gameManager.NewInstance();
                 gameManager.LoadInstance();
@@ -66,10 +66,6 @@ namespace SexyBackPlayScene
             gameManager.Dispose();
             Singleton<GameInput>.Clear();
             Singleton<GameManager>.Clear();
-        }
-        public void Quit()
-        {
-            Application.Quit();
         }
         private void OnApplicationQuit()
         {

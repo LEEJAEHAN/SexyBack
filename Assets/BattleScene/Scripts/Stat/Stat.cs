@@ -26,6 +26,7 @@ namespace SexyBackPlayScene
     [Serializable]
     internal class HeroStat
     {
+        internal int Level;
         internal BigInteger DpcX; // 곱계수는 X를붙인다.
         internal int AttackCount; // 보너스 공격스택횟수  6
         internal int DpcIncreaseXH; // 
@@ -33,9 +34,11 @@ namespace SexyBackPlayScene
         internal int CriticalRateXH;
         internal int CriticalDamageXH;
         internal int MovespeedXH;
+        internal string Enchant;
 
         internal HeroStat()
         {
+            Level = 1;
             DpcX = 1;
             AttackCount = 3;
             DpcIncreaseXH = 100; // 
@@ -44,6 +47,7 @@ namespace SexyBackPlayScene
             CriticalRateXH = 20;
             CriticalDamageXH = 425;
             AttackSpeedXH = 100;
+            Enchant = "fireball";
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -54,17 +58,21 @@ namespace SexyBackPlayScene
     [Serializable]
     internal class ElementalStat// 누적배수
     {
+        internal int Level;
         internal BigInteger DpsX;
         internal int DpsIncreaseXH; // 
         internal int CastSpeedXH; //
+        internal bool skillActive;
         internal int skillrateIncreaseXH;
         internal int skilldamageIncreaseXH;
 
         internal ElementalStat()
         {
+            Level = 1;
             DpsX = new BigInteger(1);
             DpsIncreaseXH = 100;
             CastSpeedXH = 100;
+            skillActive = false;
             skillrateIncreaseXH = 100;
             skilldamageIncreaseXH = 100;
         }

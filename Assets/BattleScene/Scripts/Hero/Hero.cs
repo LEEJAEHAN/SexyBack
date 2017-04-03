@@ -8,54 +8,39 @@ namespace SexyBackPlayScene
     [Serializable]
     internal class Hero : IStateOwner, IDisposable, ISerializable
     {
-        ~Hero()
-        {
-            sexybacklog.Console("Hero 소멸");
-        }
-
-        public void Dispose()
-        {
-            // manager
-            StateMachine = null;
-            AttackManager.Dispose();
-            AttackManager = null;
-            avatar = null;
-            Action_Change = null;
-            Action_DistanceChange = null;
-        }
+        // id
         readonly string ID;
         public readonly string Name;
         public string GetID { get { return ID; } }
-        public string targetID;
 
         // manager
         public HeroStateMachine StateMachine;
         public Animator Animator;
         public HeroAttackManager AttackManager;
-
-        // init member
+        // view
         private GameObject avatar;
 
-        // 데미지변수
-        BigInteger dpcX = new BigInteger();
-        public int DpcIncreaseXH;
-
-        // 기타변수
-        public int LEVEL = 0;
+        // 계산되는값.
         public BigInteger PRICE = new BigInteger();
         public BigInteger DPC = new BigInteger();
         public BigInteger DPCTick = new BigInteger();
 
+        // 변수
+        public int AttackCount; // 누를시 바로 소모된다.
+        public string targetID;
+        // public int buffduration
+
+        // 스텟
+        public int LEVEL = 0;
+        BigInteger dpcX = new BigInteger();
+        public int DpcIncreaseXH;
         public int MAXATTACKCOUNT;
         public double ATTACKINTERVAL;
         public double MOVESPEED;
         public double ATTACKSPEED; // for view action, state
         public double CRIRATE;
         public int CRIDAMAGEXH;
-
-        // basestat
-        readonly double BaseDmgDensity;
-        readonly string Enchant;
+        double BaseDmgDensity;
         readonly int BaseLevel;
         readonly int BasePrice;
         readonly double AttackInterval;
@@ -75,7 +60,6 @@ namespace SexyBackPlayScene
         {
             ID = data.ID;
             Name = data.Name;
-            BaseDmgDensity = data.BaseDmgDensity;
             BasePrice = data.BasePrice;
             BaseLevel = data.BaseLevel;
             AttackInterval = data.AttackInterval;
@@ -87,17 +71,6 @@ namespace SexyBackPlayScene
             StateMachine = new HeroStateMachine(this);
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("level", LEVEL);
-            info.AddValue("Enchant", Enchant);
-        }
-        public Hero(SerializationInfo info, StreamingContext context)
-        {
-            LEVEL = (int)info.GetValue("level", typeof(int));
-            Enchant = (string)info.GetValue("Enchant", typeof(string));
-        }
-
         void CalDpc()
         {
             double growth = StatManager.Growth(HeroData.GrowthRate, BaseLevel); // 
@@ -105,13 +78,6 @@ namespace SexyBackPlayScene
             BigInteger Coefficient = BigInteger.FromDouble(doubleC);
             DPC = dpcX * Coefficient;
             DPCTick = DPC / LEVEL;
-        }
-        public void LevelUp(int amount)
-        {
-            LEVEL += amount;
-            CalDpc();
-            CalPrice();
-            Action_Change(this);
         }
 
         private void CalPrice()
@@ -123,8 +89,10 @@ namespace SexyBackPlayScene
             PRICE = BigInteger.FromDouble(doubleC);
         }
 
-        internal void SetStat(HeroStat herostat, bool CalDamage)
+        internal void SetStat(HeroStat herostat, bool needCalDamage, bool needCalPrice)
         {
+            LEVEL = herostat.Level;
+            BaseDmgDensity = Singleton<TableLoader>.getInstance().elementaltable[herostat.Enchant].BaseDmgDensity;
             dpcX = herostat.DpcX;
             DpcIncreaseXH = herostat.DpcIncreaseXH;
             ATTACKINTERVAL = AttackInterval * 100 / herostat.AttackSpeedXH;
@@ -134,8 +102,11 @@ namespace SexyBackPlayScene
             CRIRATE = (double)herostat.CriticalRateXH / 100;
             CRIDAMAGEXH = herostat.CriticalDamageXH;
             //send event
-            if (CalDamage)
+            if (needCalDamage)
                 CalDpc();
+            if (needCalPrice)
+                CalPrice();
+
             Action_Change(this);
         }
 
@@ -196,10 +167,33 @@ namespace SexyBackPlayScene
             else
                 targetID = null;
         }
-
         public void ChangeState(string stateid)
         {
             StateMachine.ChangeState(stateid);
+        }
+
+        //// Init and Dispose
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("AttackCount", AttackCount);
+        }
+        public Hero(SerializationInfo info, StreamingContext context)
+        {
+            AttackCount = (int)info.GetValue("AttackCount", typeof(int));
+        }
+        public void Dispose()
+        {
+            // manager
+            StateMachine = null;
+            AttackManager.Dispose();
+            AttackManager = null;
+            avatar = null;
+            Action_Change = null;
+            Action_DistanceChange = null;
+        }
+        ~Hero()
+        {
+            sexybacklog.Console("Hero 소멸");
         }
 
     }
