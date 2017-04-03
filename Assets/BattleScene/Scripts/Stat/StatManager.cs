@@ -116,7 +116,7 @@ namespace SexyBackPlayScene
         {
             switch (bonus.attribute)
             {
-                case "LearnSkill":
+                case "ActiveElement":
                     {
                         elementalmanager.LearnNewElemental(bonus.strvalue);
                         break;
@@ -180,6 +180,11 @@ namespace SexyBackPlayScene
         {
             switch (bonus.attribute)
             {
+                case "ActiveSkill":
+                    {
+                        elementalmanager.ActiveSkill(bonus.targetID);
+                        break;
+                    }
                 case "DpsX":
                     {
                         elementalStats[bonus.targetID].DpsX *= bonus.value;

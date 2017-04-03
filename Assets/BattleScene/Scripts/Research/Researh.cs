@@ -17,6 +17,7 @@ namespace SexyBackPlayScene
         string Name;
         string Description;
         public int RequireLevel;
+        Bonus bonus;
 
         // 오리지널 값.
         public BigInteger researchprice = new BigInteger(1);
@@ -28,8 +29,6 @@ namespace SexyBackPlayScene
         public BigInteger PricePerSec;
         public readonly double ResearchTime;
         public double ReducedTime;
-
-        List<Bonus> bonuses;
 
         public int SortOrder;
         public double RemainTime;
@@ -65,7 +64,7 @@ namespace SexyBackPlayScene
         public Research(ResearchData data, GridItem itemview, double time, BigInteger totalprice, double tick)
         {
             ID = data.ID;
-            bonuses = data.bonuses;
+            bonus = data.bonus;
             RequireLevel = data.requeireLevel;
             Name = data.InfoName;
             Description = data.InfoDescription;
@@ -101,8 +100,7 @@ namespace SexyBackPlayScene
         }
         public void DoUpgrade()
         {
-            foreach (Bonus bonus in bonuses)
-                Singleton<StatManager>.getInstance().Upgrade(bonus, icon);
+            Singleton<StatManager>.getInstance().Upgrade(bonus, icon);
         }
 
         public void onSelect(string id)

@@ -40,7 +40,7 @@ namespace SexyBackPlayScene
             ID = data.ID;
             OwnerID = data.OwnerID;
             OwnerName = data.OwnerName;
-            Icon = new GridItemIcon(data.IconName, null);
+            Icon = new GridItemIcon(data.IconName);
 
             Singleton<StatManager>.getInstance().Action_ExpChange += onExpChange;
             itemView = new GridItem("LevelUp", ID, Icon, ViewLoader.Tab1Container);

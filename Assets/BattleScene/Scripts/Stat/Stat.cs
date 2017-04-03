@@ -26,7 +26,6 @@ namespace SexyBackPlayScene
     [Serializable]
     internal class HeroStat
     {
-        internal int Level;
         internal BigInteger DpcX; // 곱계수는 X를붙인다.
         internal int AttackCount; // 보너스 공격스택횟수  6
         internal int DpcIncreaseXH; // 
@@ -37,7 +36,6 @@ namespace SexyBackPlayScene
 
         internal HeroStat()
         {
-            Level = 1;
             DpcX = 1;
             AttackCount = 3;
             DpcIncreaseXH = 100; // 

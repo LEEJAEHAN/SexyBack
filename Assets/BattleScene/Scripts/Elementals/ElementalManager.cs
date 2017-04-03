@@ -81,6 +81,12 @@ namespace SexyBackPlayScene
 
             readyToCreate.Enqueue(id);
         }
+        internal void ActiveSkill(string id)
+        {
+            elementals[id].skillActive = true;
+            elementals[id].skillForceCount++;
+        }
+
 
         public BigInteger GetTotalDps()
         {
@@ -122,6 +128,7 @@ namespace SexyBackPlayScene
             if (elementals.ContainsKey(ElementalID))
                 elementals[ElementalID].SetStat(stat, CalDps);
         }
+
 
         internal void SetStatAll(Dictionary<string, ElementalStat> statList, bool CalDps)
         {

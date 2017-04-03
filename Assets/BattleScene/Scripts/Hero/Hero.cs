@@ -55,6 +55,7 @@ namespace SexyBackPlayScene
 
         // basestat
         readonly double BaseDmgDensity;
+        readonly string Enchant;
         readonly int BaseLevel;
         readonly int BasePrice;
         readonly double AttackInterval;
@@ -89,10 +90,12 @@ namespace SexyBackPlayScene
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("level", LEVEL);
+            info.AddValue("Enchant", Enchant);
         }
         public Hero(SerializationInfo info, StreamingContext context)
         {
             LEVEL = (int)info.GetValue("level", typeof(int));
+            Enchant = (string)info.GetValue("Enchant", typeof(string));
         }
 
         void CalDpc()

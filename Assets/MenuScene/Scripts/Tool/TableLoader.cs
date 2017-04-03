@@ -157,40 +157,40 @@ internal class TableLoader
         }
     }
 
-    private Dictionary<string, List<Bonus>> LoadBonus()
-    {
-        Dictionary<string, List<Bonus>> bonuses = new Dictionary<string, List<Bonus>>();
-        XmlDocument xmldoc = OpenXml("Xml/BonusData");
-        XmlNode rootNode = xmldoc.SelectSingleNode("BonusList");
-        XmlNodeList nodes = rootNode.SelectNodes("Bonus");
+    //private Dictionary<string, List<Bonus>> LoadBonus()
+    //{
+    //    Dictionary<string, List<Bonus>> bonuses = new Dictionary<string, List<Bonus>>();
+    //    XmlDocument xmldoc = OpenXml("Xml/BonusData");
+    //    XmlNode rootNode = xmldoc.SelectSingleNode("BonusList");
+    //    XmlNodeList nodes = rootNode.SelectNodes("Bonus");
 
-        foreach (XmlNode node in nodes)
-        {
-            string groupid = node.Attributes["group"].Value;
-            string target = node.Attributes["target"].Value;
-            string attribute = node.Attributes["attribute"].Value;
-            int value = 0;
-            string stringvalue = "";
-            if (node.Attributes["value"] != null)
-            {
-                if (int.TryParse(node.Attributes["value"].Value, out value) == false)
-                    value = 0;
-            }
-            else
-                stringvalue = node.Attributes["stringvalue"].Value;
+    //    foreach (XmlNode node in nodes)
+    //    {
+    //        string groupid = node.Attributes["group"].Value;
+    //        string target = node.Attributes["target"].Value;
+    //        string attribute = node.Attributes["attribute"].Value;
+    //        int value = 0;
+    //        string stringvalue = "";
+    //        if (node.Attributes["value"] != null)
+    //        {
+    //            if (int.TryParse(node.Attributes["value"].Value, out value) == false)
+    //                value = 0;
+    //        }
+    //        else
+    //            stringvalue = node.Attributes["stringvalue"].Value;
 
-            Bonus bonus = new Bonus(target, attribute, value, stringvalue);
-            if (!bonuses.ContainsKey(groupid))
-            {
-                List<Bonus> grouplist = new List<Bonus>();
-                grouplist.Add(bonus);
-                bonuses.Add(groupid, grouplist);
-            }
-            else
-                bonuses[groupid].Add(bonus);
-        }
-        return bonuses;
-    }
+    //        Bonus bonus = new Bonus(target, attribute, value, stringvalue);
+    //        if (!bonuses.ContainsKey(groupid))
+    //        {
+    //            List<Bonus> grouplist = new List<Bonus>();
+    //            grouplist.Add(bonus);
+    //            bonuses.Add(groupid, grouplist);
+    //        }
+    //        else
+    //            bonuses[groupid].Add(bonus);
+    //    }
+    //    return bonuses;
+    //}
 
     private void TestParsing()
     {
@@ -216,9 +216,7 @@ internal class TableLoader
 
     private void LoadResearchData()
     {
-        Dictionary<string, List<Bonus>> bonuses = LoadBonus();
         researchtable = new Dictionary<string, ResearchData>();
-
         XmlDocument xmldoc = OpenXml("Xml/ResearchData");
         XmlNode rootNode = xmldoc.SelectSingleNode("Researches");
         XmlNodeList nodes = rootNode.SelectNodes("Research");
@@ -231,7 +229,10 @@ internal class TableLoader
 
             XmlNode infonode = node.SelectSingleNode("Info");
             string icon = infonode.Attributes["icon"].Value;
+            string icontext = null;
             string subicon = null;
+            if (infonode.Attributes["icontext"] != null)
+                icontext = infonode.Attributes["icontext"].Value;
             if (infonode.Attributes["subicon"] != null)
                 subicon = infonode.Attributes["subicon"].Value;
             string name = infonode.Attributes["name"].Value;
@@ -246,21 +247,22 @@ internal class TableLoader
             int rate = int.Parse(potnode.Attributes["rate"].Value);
             int basetime = int.Parse(potnode.Attributes["basetime"].Value);
 
-            XmlNode bonusnode = node.SelectSingleNode("BonusList");
-            string groupid = bonusnode.Attributes["groupid"].Value;
-
-            List<Bonus> bonuselist;
-            if (!bonuses.ContainsKey(groupid))
-                bonuselist = new List<Bonus>();
+            XmlNode bonusnode = node.SelectSingleNode("Bonus");
+            string target = bonusnode.Attributes["target"].Value;
+            string attribute = bonusnode.Attributes["attribute"].Value;
+            int value = 0;
+            string stringvalue = null;
+            if (bonusnode.Attributes["value"] != null)
+                value = int.Parse(bonusnode.Attributes["value"].Value);
             else
-                bonuselist = bonuses[groupid];
+                stringvalue = bonusnode.Attributes["stringvalue"].Value;
 
-            GridItemIcon iconinfo = new GridItemIcon(icon, subicon);
+            Bonus bonus = new Bonus(target, attribute, value, stringvalue);
+            GridItemIcon iconinfo = new GridItemIcon(icon, icontext, subicon);
             ResearchData research = new ResearchData(id, requireid, requirelevel, iconinfo, name, description, level, baselevel, baseprice,
-                rate, basetime, bonuselist);
+                rate, basetime, bonus);
             researchtable.Add(id, research);
         }
-
 
     }
 
@@ -311,7 +313,7 @@ internal class TableLoader
                 value = int.Parse(bonusnode.Attributes["value"].Value);
             Bonus bonus = new Bonus(target, attribute, value, null);
 
-            GridItemIcon iconinfo = new GridItemIcon(icon, subicon);
+            GridItemIcon iconinfo = new GridItemIcon(icon, "",  subicon);
             TalentData talentdata = new TalentData(id, iconinfo, description, bonus, type, rate, abs);
             talenttable.Add(talentdata);
         }

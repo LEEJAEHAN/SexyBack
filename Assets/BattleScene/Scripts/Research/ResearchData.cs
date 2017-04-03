@@ -9,7 +9,7 @@ namespace SexyBackPlayScene
         public static double TimeGrothRate = 1.035264924;
 
         public string ID; // 리서치아이디
-        public List<Bonus> bonuses = new List<Bonus>();
+        public Bonus bonus;
         public string requireID;
         public int requeireLevel;
 
@@ -24,10 +24,10 @@ namespace SexyBackPlayScene
         public int rate;
         public int basetime;
 
-        public ResearchData(string id, string requireid, int requirelevel, GridItemIcon icon, string name, string description, int level, int baselevel, int baseprice, int rate, int basetime, List<Bonus> bonuselist)
+        public ResearchData(string id, string requireid, int requirelevel, GridItemIcon icon, string name, string description, int level, int baselevel, int baseprice, int rate, int basetime, Bonus bonus)
         {
             ID = id;
-            bonuses = bonuselist;
+            this.bonus = bonus;
             requireID = requireid;
             requeireLevel = requirelevel;
 

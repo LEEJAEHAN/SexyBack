@@ -39,6 +39,8 @@ namespace SexyBackPlayScene
         // for projectile action;
         private Shooter shooter;
         public Skill skill;
+        public bool skillActive = false;
+        public int skillForceCount = 0;
         private double AttackTimer = 0;
 
         // ICanLevelUp
@@ -62,10 +64,13 @@ namespace SexyBackPlayScene
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("level", LEVEL);
+            info.AddValue("skillActive", skillActive);
+            // skill active, skill forcecount
         }
         public Elemental(SerializationInfo info, StreamingContext context)
         {
             LEVEL = (int)info.GetValue("level", typeof(int));
+            skillActive = (bool)info.GetValue("skillActive", typeof(bool));
         }
 
         public void LevelUp(int amount)
@@ -144,8 +149,19 @@ namespace SexyBackPlayScene
         }
 
         bool isSkillAttack = false; // 이번공격이 스킬인지 
-        private bool JudgeSkill { get { return SKILLRATEXK > UnityEngine.Random.Range(0, 1000); } }
-
+        private bool JudgeSkill {
+            get
+            {
+                if (skillForceCount > 0)
+                {
+                    skillForceCount--;
+                    return true;
+                }
+                if (!skillActive)
+                    return false;
+                return SKILLRATEXK > UnityEngine.Random.Range(0, 1000);
+            }
+        }
 
         void EndAttack()
         {
@@ -153,7 +169,6 @@ namespace SexyBackPlayScene
             isSkillAttack = JudgeSkill;
         }
 
-        
         public void onTargetStateChange(string monsterID, string stateID)
         {
             if (stateID == "Ready")

@@ -75,7 +75,6 @@ namespace SexyBackPlayScene
         public int DAMAGERATIO;
         public BigInteger DAMAGE;
 
-
         public Skill(string ownerID, string prefab, DamageType ability, int baseDamageRatio, Debuff.Type debuff)
         {
             this.ownerID = ownerID;

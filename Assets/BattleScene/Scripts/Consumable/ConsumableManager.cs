@@ -156,21 +156,18 @@ namespace SexyBackPlayScene
                     {
                         Alevel++;
                         typebonus = new Bonus("hero", "DpcIncreaseXH", 1, null);
-                        typeicon = new GridItemIcon("Icon_12", Alevel.ToString());
                         break;
                     }
                 case TalentType.Elemental:
                     {
                         Elevel++;
                         typebonus = new Bonus("elementals", "DpsIncreaseXH", 1, null);
-                        typeicon = new GridItemIcon("Icon_13", Elevel.ToString());
                         break;
                     }
                 case TalentType.Util:
                     {
                         Ulevel++;
                         typebonus = new Bonus("player", "ExpIncreaseXH", 1, null);
-                        typeicon = new GridItemIcon("Icon_17", Ulevel.ToString());
                         break;
                     }
             }

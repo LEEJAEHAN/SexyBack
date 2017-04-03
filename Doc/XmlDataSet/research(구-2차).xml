@@ -4,17 +4,17 @@
 <Researches>
 
   <Research id="R03" requireid="hero" requirelevel="0">
-    <Info icon="SexyBackIcon_FireElemental" icontext ="d" subicon="-x2" name="@SR02N@" description="@SR02D@"/>
+    <Info icon="SexyBackIcon_FireElemental" subicon="-x2" name="@SR02N@" description="@SR02D@"/>
     <Price level="40" baselevel="15" baseprice="50"/>
     <PriceOverTime rate="8" basetime="30"/>
-    <Bonus target="hero" attribute="LearnSkill" value="1" stringvalue="fireball"/>
+    <BonusList groupid="R01bonus"/>
   </Research>
 
   <Research id="R03" requireid="hero" requirelevel="0">
-    <Info icon="SexyBackIcon_FireElemental" icontext ="d" subicon="-x2" name="@SR02N@" description="@SR02D@"/>
+    <Info icon="SexyBackIcon_FireElemental" subicon="-x2" name="@SR02N@" description="@SR02D@"/>
     <Price level="40" baselevel="15" baseprice="50"/>
     <PriceOverTime rate="8" basetime="30"/>
-    <Bonus target="hero" attribute="LearnSkill" value="1" stringvalue="fireball"/>
+    <BonusList groupid="R01bonus"/>
   </Research>
 
 </Researches>
