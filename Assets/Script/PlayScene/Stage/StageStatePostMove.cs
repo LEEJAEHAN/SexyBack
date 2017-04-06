@@ -49,11 +49,11 @@ namespace SexyBackPlayScene
                 }
                 if (owner.zPosition <= GameCameras.HeroCamPosition.z) // 문이 완전히 화면에서 지나칠때 talent wait // StageManager.DistancePerFloor - 20
                 { //TODO: 계속 여기가 문제... 이거 해결해야함.
+                    waiting = true;
                     if (owner.rewardComplete == false)
                     {
 //                        Singleton<ConsumableManager>.getInstance().ShowNewTalentWindow(owner.floor);
                         Singleton<HeroManager>.getInstance().GetHero().ChangeState("Ready");
-                        waiting = true;
                     }
                 }
             }

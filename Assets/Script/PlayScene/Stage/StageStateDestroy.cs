@@ -28,6 +28,17 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
+            if(owner.type == StageType.LastPortal)
+            {
+                if (flipflop)
+                {
+                    Singleton<HeroManager>.getInstance().GetHero().Action_DistanceChange -= onHeroMove;
+                    Singleton<StageManager>.getInstance().onStageClear(owner);
+                    flipflop = false;
+                    return;
+                }
+            }
+
             if (owner.zPosition <= -(StageManager.DistancePerFloor)) // remove stage
             {
                 if(flipflop)

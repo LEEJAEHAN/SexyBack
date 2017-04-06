@@ -39,7 +39,7 @@ namespace SexyBackPlayScene
         internal HeroStat()
         {
             Level = 1;
-            DpcX = 1;
+            DpcX = 100000;
             AttackCount = 3;
             DpcIncreaseXH = 100; // 
             AttackSpeedXH = 100;

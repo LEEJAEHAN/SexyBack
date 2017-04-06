@@ -22,7 +22,7 @@ namespace SexyBackPlayScene
             }
             else if (baseStage.type == StageType.FirstPortal)
             {
-                baseStage.rewardComplete = false    ;
+                baseStage.rewardComplete = false;
                 baseStage.ChangeState("Move");
             }
             else if (baseStage.type == StageType.LastPortal)

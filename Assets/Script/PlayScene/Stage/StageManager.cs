@@ -22,7 +22,7 @@ namespace SexyBackPlayScene
         [NonSerialized]
         public static readonly int DistancePerFloor = 30;
         [NonSerialized]
-        public static readonly int MonsterCountPerFloor= 10;
+        public static readonly int MonsterCountPerFloor= 1;
         [NonSerialized]
         public static int MaxFloor;
         [NonSerialized]
@@ -66,7 +66,7 @@ namespace SexyBackPlayScene
 
             CurrentFloor = data.CurrentFloor;
             CurrentGameTime = data.CurrentGameTime;
-
+ 
             Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다. 
             foreach( Stage stagedata in data.Stages)
             {
