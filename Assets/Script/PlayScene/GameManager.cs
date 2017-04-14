@@ -123,7 +123,7 @@ namespace SexyBackPlayScene
                 SaveSystem.ClearInstance();
 //                Singleton<RewardScene>.getInstance().Clear = true;
 
-                SceneManager.LoadScene("MenuScene");
+                SceneManager.LoadScene("RewardScene");
                 //rewardmanager.makereward(시간기록,스테이지);
             }
             else
