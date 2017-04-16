@@ -1,9 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-namespace SexyBackPlayScene
-{
-    public class GridItem : IDisposable //TODO : 두가지타입 상속으로바꾼다.
+
+public class GridItem : IDisposable //TODO : 두가지타입 상속으로바꾼다.
     {
         string Type;
 
@@ -117,4 +116,3 @@ namespace SexyBackPlayScene
         }
 
     }
-}

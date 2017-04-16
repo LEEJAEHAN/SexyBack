@@ -1,35 +1,40 @@
 ﻿using UnityEngine;
 
-namespace SexyBackPlayScene
+namespace SexyBackRewardScene
 {
     internal class MainScript : MonoBehaviour
     {
         double startTime = 1;
         double timer = 0;
+        double appearTick = 0.3f;
+        bool pause = false;
 
-        GameObject Window;
         private void Awake()
         {
-            Window = GameObject.Find("RewardWindow");
-
-            Window.SetActive(false);
+            Singleton<RewardManager>.getInstance().InitWindow();
         }
 
         private void Update()
         {
-            timer += Time.deltaTime;
+            if(!pause)
+                timer += Time.deltaTime;
 
             if(timer > startTime)
             {
-                if(!Window.activeInHierarchy)
+                Singleton<RewardManager>.getInstance().ActiveWindow();
+
+                if(timer > startTime + 1f + appearTick)
                 {
-                    Window.SetActive(true);
-                    Window.GetComponent<UITweener>().PlayForward();
+                    if (!Singleton<RewardManager>.getInstance().NextShow())
+                    {
+                        timer -= appearTick;
+                    }
+                    else
+                    {
+                        pause = true;
+                    }
                 }
             }
-
-
-            
         }
     }
 }

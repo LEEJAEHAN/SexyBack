@@ -14,7 +14,8 @@
         {
             Instance = null;
         }
-        // Use this for initialization
-        //        abstract protected void Init();
 
-    }
+    // Use this for initialization
+    //        abstract protected void Init();
+
+}

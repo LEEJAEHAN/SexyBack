@@ -34,9 +34,9 @@ internal class TableLoader
             LoadHeroData();
             LoadMonsterData();
             LoadElementData();
-            LoadStageData();
             LoadLevelUpData();
             LoadResearchData();
+            LoadMapData();
             LoadTalentData();
             LoadConsumableData();
         }
@@ -122,16 +122,19 @@ internal class TableLoader
         leveluptable.Add(item9.OwnerID, item9);
     }
 
-    private void LoadStageData()
+    private void LoadMapData()
     {
+
         mapTable = new Dictionary<string, MapData>();
-        MapData data1 = new MapData("Map01", "10층돌파", 1, 3600);
-        MapData data2 = new MapData("Map02", "20층돌파", 2, 7200);
+
+        MapData data1 = new MapData("Map01", 50, "10층돌파", 1, 3600, 150, 18);
+        MapData data2 = new MapData("Map02", 100, "20층돌파", 2, 7200, 400, 38);
 
         mapTable.Add(data1.ID, data1);
         mapTable.Add(data2.ID, data2);
 
     }
+
 
     private void LoadElementData()
     {

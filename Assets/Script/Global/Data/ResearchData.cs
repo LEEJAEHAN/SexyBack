@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SexyBackPlayScene
-{
     public class ResearchData
     {
         public static double GrowthRate = 1.148698f; // / 100
@@ -30,7 +28,6 @@ namespace SexyBackPlayScene
             this.bonus = bonus;
             requireID = requireid;
             requeireLevel = requirelevel;
-
             InfoName = name;
             this.icon = icon;
 
@@ -63,5 +60,3 @@ namespace SexyBackPlayScene
     //DpsXPer5LV,
     //DpsX,
     //attackspeedXH,
-
-}

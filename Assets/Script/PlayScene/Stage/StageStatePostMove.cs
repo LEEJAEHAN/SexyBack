@@ -44,7 +44,7 @@ namespace SexyBackPlayScene
             {
                 if (!PassDoor && owner.zPosition <= GameCameras.HeroCamPosition.z + 1.5f) // 영웅이 문을 지나칠때 change floortext
                 {
-                    Singleton<StageManager>.getInstance().onStagePass(owner.floor);
+                    Singleton<StageManager>.getInstance().onStagePass(owner);
                     PassDoor = true;
                 }
                 if (owner.zPosition <= GameCameras.HeroCamPosition.z) // 문이 완전히 화면에서 지나칠때 talent wait // StageManager.DistancePerFloor - 20

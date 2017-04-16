@@ -116,21 +116,12 @@ namespace SexyBackPlayScene
         }
         public void EndGame(bool clear) // 메뉴로 버튼을 눌렀을때,
         {
-            // TODO : 게임매니저. 게임클리어에서 보상절차 작업해야함.
-            if(clear)
-            {
-                sexybacklog.Console("맵 클리어!");
-                SaveSystem.ClearInstance();
-//                Singleton<RewardScene>.getInstance().Clear = true;
-
-                SceneManager.LoadScene("RewardScene");
-                //rewardmanager.makereward(시간기록,스테이지);
-            }
-            else
-            {
-                SaveSystem.ClearInstance();
-                SceneManager.LoadScene("MenuScene");
-            }
+            int lastStage = Singleton<StageManager>.getInstance().LastStage;
+            string map = Singleton<StageManager>.getInstance().MapID;
+            int timeRecord = (int)Singleton<StageManager>.getInstance().CurrentGameTime;
+            SaveSystem.ClearInstance();
+            Singleton<SexyBackRewardScene.RewardManager>.getInstance().CalReward(map, clear, lastStage, timeRecord, 0);
+            SceneManager.LoadScene("RewardScene");
             //SaveInstance(); // TODO : 테스트용으로있다.
         }
 

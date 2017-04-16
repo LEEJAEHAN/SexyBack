@@ -17,6 +17,7 @@ namespace SexyBackPlayScene
         public bool isBonused = false;
         public double CurrentGameTime;
         public int CurrentFloor;
+        public int LastStage { get { return CurrentFloor - 1; } }
         public List<Stage> Stages; // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
 
         [NonSerialized]
@@ -33,6 +34,7 @@ namespace SexyBackPlayScene
         private bool needNextStage = false;
         [NonSerialized]
         StageFactory Factory = new StageFactory();
+
 
         public void Init(string mapid, bool bonus)
         {
@@ -74,18 +76,19 @@ namespace SexyBackPlayScene
             }
         }
 
-        public void onStagePass(int floor)
+        public void onStagePass(Stage stage)
         {
-            CurrentFloor = floor + 1;
+            CurrentFloor = stage.floor + 1;
+            if (stage.type == StageType.LastPortal)
+            {
+                Singleton<GameManager>.getInstance().EndGame(true);
+            }
+
         }
         public void onStageClear(Stage stage)
         {
             beToDispose.Add(stage);
             needNextStage = true;
-            if(stage.type == StageType.LastPortal)
-            {
-                Singleton<GameManager>.getInstance().EndGame(true);
-            }
         }
 
         public void Update()

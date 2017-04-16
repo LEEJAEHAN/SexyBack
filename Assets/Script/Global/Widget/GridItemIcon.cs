@@ -1,8 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-namespace SexyBackPlayScene
-{
     public struct GridItemIcon : IDisposable
     {
         public string IconName;
@@ -58,5 +56,3 @@ namespace SexyBackPlayScene
             }
         }
     }
-
-}
