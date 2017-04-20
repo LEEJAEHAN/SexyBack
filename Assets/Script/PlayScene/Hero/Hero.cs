@@ -73,7 +73,7 @@ namespace SexyBackPlayScene
 
         void CalDpc()
         {
-            double growth = StatManager.Growth(HeroData.GrowthRate, BaseLevel); // 
+            double growth = InstanceStat.CalGrowthPower(HeroData.GrowthRate, BaseLevel); // 
             double doubleC = 5 * BaseDmgDensity * growth * LEVEL * DpcIncreaseXH / 100;
             BigInteger Coefficient = BigInteger.FromDouble(doubleC);
             DPC = dpcX * Coefficient;
@@ -82,9 +82,9 @@ namespace SexyBackPlayScene
 
         private void CalPrice()
         {
-            double BasePriceDensity = StatManager.GetTotalDensityPerLevel(BaseLevel + LEVEL);
+            double BasePriceDensity = InstanceStat.GetTotalDensityPerLevel(BaseLevel + LEVEL);
             // cal price
-            double growth = StatManager.Growth(ElementalData.GrowthRate, BaseLevel + LEVEL);
+            double growth = InstanceStat.CalGrowthPower(ElementalData.GrowthRate, BaseLevel + LEVEL);
             double doubleC = BasePrice * BasePriceDensity * growth;
             PRICE = BigInteger.FromDouble(doubleC);
         }
@@ -92,12 +92,12 @@ namespace SexyBackPlayScene
         internal void SetStat(HeroStat herostat, bool needCalDamage, bool needCalPrice)
         {
             LEVEL = herostat.Level;
-            BaseDmgDensity = Singleton<TableLoader>.getInstance().elementaltable[herostat.Enchant].BaseDmgDensity;
+            BaseDmgDensity = herostat.BaseDmg;
             dpcX = herostat.DpcX;
             DpcIncreaseXH = herostat.DpcIncreaseXH;
             ATTACKINTERVAL = AttackInterval * 100 / herostat.AttackSpeedXH;
             MOVESPEED = MoveSpeed * herostat.MovespeedXH / 100;
-            MAXATTACKCOUNT = herostat.AttackCount;
+            MAXATTACKCOUNT = herostat.AttackCapacity;
             ATTACKSPEED = (double)herostat.AttackSpeedXH / 100;
             CRIRATE = (double)herostat.CriticalRateXH / 100;
             CRIDAMAGEXH = herostat.CriticalDamageXH;

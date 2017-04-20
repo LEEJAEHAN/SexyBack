@@ -78,7 +78,7 @@ namespace SexyBackPlayScene
 
         public void DoUpgrade()
         {
-            Singleton<StatManager>.getInstance().Upgrade(bonus, Icon);
+            Singleton<InstanceStat>.getInstance().ApplyBonusWithIcon(bonus, Icon);
             isConfirm = false;
         }
 

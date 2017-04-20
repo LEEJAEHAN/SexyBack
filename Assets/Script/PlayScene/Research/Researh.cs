@@ -100,7 +100,7 @@ namespace SexyBackPlayScene
         }
         public void DoUpgrade()
         {
-            Singleton<StatManager>.getInstance().Upgrade(bonus, icon);
+            Singleton<InstanceStat>.getInstance().ApplyBonusWithIcon(bonus, icon);
         }
 
         public void onSelect(string id)

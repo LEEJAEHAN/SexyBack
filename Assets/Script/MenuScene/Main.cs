@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using SexyBackPlayScene;
 
 namespace SexyBackMenuScene
 {
@@ -12,6 +11,9 @@ namespace SexyBackMenuScene
         private void Awake()
         {
             Singleton<TableLoader>.getInstance().Init();
+            Singleton<PlayerStatus>.getInstance().Init(); //TODO : 로드만들어야한다. 
+
+
             // TODO :  ResourceLoader 제작, 캐싱;
 
             if (SaveSystem.CanLoad())
@@ -27,7 +29,9 @@ namespace SexyBackMenuScene
 
         internal void GoPlayScene(string selectedMapID, bool selectedBonus)
         {
-            Singleton<StageManager>.getInstance().Init(selectedMapID, selectedBonus);
+            Singleton<PlayerStatus>.getInstance().mapID = selectedMapID;
+            Singleton<PlayerStatus>.getInstance().boost = selectedBonus;
+
             SceneManager.LoadScene("PlayScene");
         }
 

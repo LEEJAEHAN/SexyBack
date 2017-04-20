@@ -30,11 +30,6 @@ namespace SexyBackPlayScene
         [field: NonSerialized]
         public event ElementalLevelUp_Event Action_ElementalLevelUp;
 
-        internal void Init()
-        {
-            // this class is event listner
-        }
-
         private bool SummonNewElemental(string id) // Create == 생성만, Summon ==  스텟과 레벨업설정까지
         {
             ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
@@ -43,7 +38,7 @@ namespace SexyBackPlayScene
 
             elementals.Add(id, newElemental);
 
-            ElementalStat stat = Singleton<StatManager>.getInstance().GetElementalStat(id);
+            ElementalStat stat = Singleton<InstanceStat>.getInstance().GetIElementalStat(id);
             SetLevelAndStat(stat, id);
             return true;
         }

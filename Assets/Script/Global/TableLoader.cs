@@ -127,8 +127,8 @@ internal class TableLoader
 
         mapTable = new Dictionary<string, MapData>();
 
-        MapData data1 = new MapData("Map01", 50, "10층돌파", 1, 3600, 150, 18);
-        MapData data2 = new MapData("Map02", 100, "20층돌파", 2, 7200, 400, 38);
+        MapData data1 = new MapData("Map01", 50, "10층돌파", 10, 3600, 150, 18);
+        MapData data2 = new MapData("Map02", 100, "20층돌파", 20, 7200, 400, 38);
 
         mapTable.Add(data1.ID, data1);
         mapTable.Add(data2.ID, data2);

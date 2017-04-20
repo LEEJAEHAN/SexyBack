@@ -13,8 +13,8 @@ namespace SexyBackPlayScene
         }
 
         // 저장되야할 데이터.
-        public string MapID = "Map01";
-        public bool isBonused = false;
+        public string MapID;
+        public bool isBonused;
         public double CurrentGameTime;
         public int CurrentFloor;
         public int LastStage { get { return CurrentFloor - 1; } }
@@ -35,17 +35,24 @@ namespace SexyBackPlayScene
         [NonSerialized]
         StageFactory Factory = new StageFactory();
 
-
-        public void Init(string mapid, bool bonus)
+        public void Init()
         {
-            MapID = mapid;
-            isBonused = bonus;
         }
 
-        internal void Start() // start, no Load
+        internal void Start(string mapid, bool bonus) // start, no Load
         {
-            sexybacklog.Console(MapID);
-            MapData map = Singleton<TableLoader>.getInstance().mapTable[MapID];
+            // playscene 에서 시작할때를 위한 Test
+            if (mapid == null)
+            {
+                sexybacklog.Console("플레이씬에서 새 게임을 시작합니다. 더미맵을 출력합니다.");
+                mapid = "Map01";
+                bonus = false;
+            }
+
+            MapID = mapid;
+            isBonused = bonus;
+            sexybacklog.Console(mapid);
+            MapData map = Singleton<TableLoader>.getInstance().mapTable[mapid];
             MaxFloor = map.MaxFloor;
             LimitGameTime = map.LimitTime;
 

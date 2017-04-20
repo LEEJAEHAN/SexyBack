@@ -17,7 +17,7 @@ namespace SexyBackPlayScene
         {
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += BindHero;
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += BindElemental;
-            Singleton<StatManager>.getInstance().Action_ExpChange += PrintExp;
+            Singleton<InstanceStat>.getInstance().Action_ExpChange += PrintExp;
             Set();
         }
 

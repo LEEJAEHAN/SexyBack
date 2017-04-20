@@ -63,11 +63,11 @@ namespace SexyBackPlayScene
             }
             if (Input.GetKeyDown(KeyCode.U))
             {
-                Singleton<StatManager>.getInstance().Upgrade(new Bonus("player", "ResearchTimeX", 999, null), new GridItemIcon("Icon_19", "x999", "IconSmall_02"));
+                Singleton<InstanceStat>.getInstance().ApplyBonusWithIcon(new Bonus("player", "ResearchTimeX", 999, null), new GridItemIcon("Icon_19", "x999", "IconSmall_02"));
             }
             if(Input.GetKey(KeyCode.M))
             {
-                Singleton<StatManager>.getInstance().ExpGain(new BigInteger(new BigIntExpression(100, "Z")), false);
+                Singleton<InstanceStat>.getInstance().ExpGain(new BigInteger(new BigIntExpression(100, "Z")), false);
             }
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -75,9 +75,9 @@ namespace SexyBackPlayScene
                 result = Singleton<MonsterManager>.getInstance().TestDeal(Singleton<HeroManager>.getInstance().GetHero().DPC);
                 result = Singleton<MonsterManager>.getInstance().TestDeal(Singleton<ElementalManager>.getInstance().GetTotalDps() * 5);
 
-                //Singleton<StatManager>.getInstance().ExpGain(Singleton<HeroManager>.getInstance().GetHero().DPC);
-                //Singleton<StatManager>.getInstance().ExpGain(Singleton<ElementalManager>.getInstance().GetTotalDps() * 5);
-                if(result)
+                //Singleton<InstanceStat>.getInstance().ExpGain(Singleton<HeroManager>.getInstance().GetHero().DPC);
+                //Singleton<InstanceStat>.getInstance().ExpGain(Singleton<ElementalManager>.getInstance().GetTotalDps() * 5);
+                if (result)
                     fowardtimefordebug +=5;
             }
             if (Input.GetKeyDown(KeyCode.Escape))

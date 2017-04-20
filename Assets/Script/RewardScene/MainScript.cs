@@ -1,40 +1,44 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SexyBackRewardScene
 {
     internal class MainScript : MonoBehaviour
     {
-        double startTime = 1;
-        double timer = 0;
-        double appearTick = 0.3f;
+        RewardManager rManager;
         bool pause = false;
+        bool firstTouch = false;
 
         private void Awake()
         {
-            Singleton<RewardManager>.getInstance().InitWindow();
+            rManager = Singleton<RewardManager>.getInstance();
+            rManager.Init();
+            rManager.InitWindow();
         }
 
         private void Update()
         {
             if(!pause)
-                timer += Time.deltaTime;
+                rManager.Update();
+        }
 
-            if(timer > startTime)
-            {
-                Singleton<RewardManager>.getInstance().ActiveWindow();
+        public void onFinishTween()
+        {
+            rManager.TweenComplete();
+        }
 
-                if(timer > startTime + 1f + appearTick)
-                {
-                    if (!Singleton<RewardManager>.getInstance().NextShow())
-                    {
-                        timer -= appearTick;
-                    }
-                    else
-                    {
-                        pause = true;
-                    }
-                }
-            }
+        public void onTouch()
+        {
+            Debug.Log("클릭함");
+            if (rManager.ShowAll())
+                pause = true;
+        }
+        public void onButtonClick()
+        {
+            pause = true;
+            rManager.Dispose();
+            Singleton<RewardManager>.Clear();
+            SceneManager.LoadScene("MenuScene");
         }
     }
 }

@@ -19,8 +19,8 @@ namespace SexyBackPlayScene
         {
             for (int i = 0; i < PurchaseCount; PurchaseCount--)
             {
-                if (Singleton<StatManager>.getInstance().ExpUse(PRICE, true))
-                    Singleton<StatManager>.getInstance().Upgrade(bonus);
+                if (Singleton<InstanceStat>.getInstance().ExpUse(PRICE, true))
+                    Singleton<InstanceStat>.getInstance().ApplyBonus(bonus,true);
             }
         }
 
@@ -31,7 +31,7 @@ namespace SexyBackPlayScene
             CalPrice();
 
             Name = OwnerName + " LV." + hero.LEVEL.ToString();
-            HeroStat stat = Singleton<StatManager>.getInstance().GetHeroStat;
+            HeroStat stat = Singleton<InstanceStat>.getInstance().GetIHeroStat;
             StatName = "피해량\n공격속도\n크리티컬\n크리티컬데미지";
             StatValue = stat.DpcIncreaseXH.ToString() + "%\n" + stat.AttackSpeedXH.ToString() + "%\n" + stat.CriticalRateXH.ToString() + "%\n" + stat.CriticalDamageXH.ToString() + "%";
             Damage = hero.DPC.To5String() + " 피해 / 탭";

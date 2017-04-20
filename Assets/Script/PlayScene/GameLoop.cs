@@ -20,16 +20,25 @@ namespace SexyBackPlayScene
             Singleton<TableLoader>.getInstance().Init();
             gameInput = Singleton<GameInput>.getInstance();
             gameManager = Singleton<GameManager>.getInstance();
-
             gameManager.Init();
         }
-            //        GameModeData args;
+        //        GameModeData args;
         void Start()
         {
             if (SaveSystem.CanLoad())
             {
                 //gameManager.NewInstance();
-                gameManager.LoadInstance();
+                try
+                {
+                    gameManager.LoadInstance();
+                }
+                catch (Exception e)
+                {
+                    sexybacklog.Console("로드에이상이있었습니다. 클리어합니다.");
+                    SaveSystem.ClearInstance();
+                    OnDestroy();
+                    SceneManager.LoadScene("MenuScene");
+                }
             }
             else // 메뉴로부터실행됬을때
             {

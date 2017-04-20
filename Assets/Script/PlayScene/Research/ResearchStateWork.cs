@@ -62,7 +62,7 @@ namespace SexyBackPlayScene
                 double mintick = Math.Min(owner.RemainTime, owner.ResearchTick);
                 if (TickTimer >= mintick)
                 {
-                    if (Result = Singleton<StatManager>.getInstance().ExpUse((owner.PricePerSec * (int)(mintick * 100)) / 100, false)) //if (Singleton<StageManager>.getInstance().ExpUse(PricePerSec * (int)(tick * 10000) / 10000))
+                    if (Result = Singleton<InstanceStat>.getInstance().ExpUse((owner.PricePerSec * (int)(mintick * 100)) / 100, false)) //if (Singleton<StageManager>.getInstance().ExpUse(PricePerSec * (int)(tick * 10000) / 10000))
                         owner.RemainTime -= TickTimer;
                     owner.itemView.ShowRBar((float)owner.RemainTime / (float)owner.ReducedTime, (int)owner.RemainTime, Result);
                     TickTimer -= owner.ResearchTick;                    

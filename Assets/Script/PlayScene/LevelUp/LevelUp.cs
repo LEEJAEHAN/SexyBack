@@ -44,7 +44,7 @@ namespace SexyBackPlayScene
             bonus = new Bonus(OwnerID, "Level", 1, null);
             Icon = new GridItemIcon(data.IconName);
 
-            Singleton<StatManager>.getInstance().Action_ExpChange += onExpChange;
+            Singleton<InstanceStat>.getInstance().Action_ExpChange += onExpChange;
             itemView = new GridItem("LevelUp", ID, Icon, ViewLoader.Tab1Container);
             itemView.AttachEventListner(this);
             Panel = LevelUpWindow.getInstance;
@@ -92,7 +92,7 @@ namespace SexyBackPlayScene
         protected void CalPrice()
         {
             PRICE = originalPrice * priceXH / 100;
-            CanBuy = Singleton<StatManager>.getInstance().EXP > PRICE;
+            CanBuy = Singleton<InstanceStat>.getInstance().EXP > PRICE;
         }
 
         public void Refresh()

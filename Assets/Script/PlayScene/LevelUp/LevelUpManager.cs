@@ -57,7 +57,7 @@ namespace SexyBackPlayScene
                 return;
 
             LevelUp levelup = new HeroLevelUp(Singleton<TableLoader>.getInstance().leveluptable[hero.GetID], hero);
-            levelup.SetStat(Singleton<StatManager>.getInstance().GetPlayerStat);
+            levelup.SetStat(Singleton<InstanceStat>.getInstance().GetIPlayerStat);
             levelUpItems.Add(hero.GetID, levelup);
             DrawNewMark();
         }
@@ -68,7 +68,7 @@ namespace SexyBackPlayScene
                 return;
 
             LevelUp levelup = new ElementalLevelUp(Singleton<TableLoader>.getInstance().leveluptable[elemental.GetID], elemental);
-            levelup.SetStat(Singleton<StatManager>.getInstance().GetPlayerStat);
+            levelup.SetStat(Singleton<InstanceStat>.getInstance().GetIPlayerStat);
             levelUpItems.Add(elemental.GetID, levelup);
             DrawNewMark();
             return;

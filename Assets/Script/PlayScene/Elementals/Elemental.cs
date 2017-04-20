@@ -74,13 +74,13 @@ namespace SexyBackPlayScene
         internal void SetStat(ElementalStat elementalstat, bool NeedCalDamage, bool NeedCalPrice) // total
         {
             LEVEL = elementalstat.Level;
-            skillActive = elementalstat.skillActive;
+            skillActive = elementalstat.SkillLaunch;
             dpsX = elementalstat.DpsX;
-            skillActive = elementalstat.skillActive;
+            skillActive = elementalstat.SkillLaunch;
             dpsIncreaseXH = elementalstat.DpsIncreaseXH;
             castSpeedXH = elementalstat.CastSpeedXH;
-            skillrateIncreaseXH = elementalstat.skillrateIncreaseXH;
-            skilldamageIncreaseXH = elementalstat.skilldamageIncreaseXH;
+            skillrateIncreaseXH = elementalstat.SkillRateIncreaseXH;
+            skilldamageIncreaseXH = elementalstat.SkillDmgIncreaseXH;
 
             // CASTINTERVAL이 0.5보다 낮아져선 안된다. ( 실제는 0.8 )
             CASTINTERVAL = UnityEngine.Mathf.Max(0.8f,((float)BaseCastIntervalXK / (float)(castSpeedXH * 10)));
@@ -96,7 +96,7 @@ namespace SexyBackPlayScene
         }
         void CalDPS()
         {
-            double growth = StatManager.Growth(ElementalData.GrowthRate, BaseLevel); // 
+            double growth = InstanceStat.CalGrowthPower(ElementalData.GrowthRate, BaseLevel); // 
             double doubleC = 1 * BaseDmgDensity * growth * LEVEL * dpsIncreaseXH * castSpeedXH / 10000;
             BigInteger Coefficient = BigInteger.FromDouble(doubleC);
             DPS = dpsX * Coefficient;
@@ -106,9 +106,9 @@ namespace SexyBackPlayScene
         }
         private void CalPrice()
         {
-            double BasePriceDensity = StatManager.GetTotalDensityPerLevel(BaseLevel + LEVEL);
+            double BasePriceDensity = InstanceStat.GetTotalDensityPerLevel(BaseLevel + LEVEL);
             // cal price
-            double growth = StatManager.Growth(ElementalData.GrowthRate, BaseLevel + LEVEL);
+            double growth = InstanceStat.CalGrowthPower(ElementalData.GrowthRate, BaseLevel + LEVEL);
             double doubleC = BasePrice * BasePriceDensity * growth;
             PRICE = BigInteger.FromDouble(doubleC); // 60(랩업비기본) * 2.08(비중) * power수
         }
