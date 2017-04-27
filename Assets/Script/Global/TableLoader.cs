@@ -17,6 +17,8 @@ internal class TableLoader
     public Dictionary<string, ConsumableData> consumable;
     public List<PriceData> pricetable;
     public List<TalentData> talenttable;
+    public Dictionary<string, EquipmentData> equipmenttable;
+
 
     bool FinishLoad = false;
 
@@ -39,6 +41,7 @@ internal class TableLoader
             LoadMapData();
             LoadTalentData();
             LoadConsumableData();
+            LoadEquipmentData();
         }
         FinishLoad = true;
     }
@@ -69,6 +72,16 @@ internal class TableLoader
         }
     }
 
+
+    private void LoadEquipmentData()
+    {
+        equipmenttable = new Dictionary<string, EquipmentData>();
+
+        equipmenttable.Add("E01", new EquipmentData());
+        equipmenttable.Add("E02", new EquipmentData());
+
+        //TODO : 채워넣어야함
+    }
 
     private void LoadConsumableData()
     {

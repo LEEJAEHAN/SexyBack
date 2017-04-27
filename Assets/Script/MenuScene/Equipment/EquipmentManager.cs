@@ -5,9 +5,19 @@ using SexyBackRewardScene;
 
 internal class EquipmentManager
 {
+    Dictionary<string, Equipment> equipments;
+    public List<Equipment> inventory;
 
-    Dictionary<string, Equipment> equipments = new Dictionary<string, Equipment>();
-    List<Equipment> inventory = new List<Equipment>(20);
+    internal void Init()
+    {
+        equipments = new Dictionary<string, Equipment>();
+        inventory = new List<Equipment>(20);
+
+        inventory.Add(EquipFactory.CraftEquipment("E01"));
+        inventory.Add(EquipFactory.CraftEquipment("E02"));
+
+        //        equipments.Add("Weapon", new Equipment());
+    }
 
     internal Equipment Craft(int level, RewardRank rank)
     {
@@ -20,6 +30,8 @@ internal class EquipmentManager
 
 //        return new Equipment("앨런블랙", "Equip01", Equipment.Type.Weapon, );
     }
+
+
     internal void GetReward(Reward currentReward)
     {
         //inventory.Add(Singleton<EquipmentManager>.getInstance().Items[currentReward.ItemID])

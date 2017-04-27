@@ -8,7 +8,6 @@ namespace SexyBackMenuScene
         public static GameObject Main;
         public static GameObject Mask;
         public static GameObject PopUps;
-        public static GameObject Middle_Window;
         public static GameObject Slot1New;
         public static GameObject Slot2New;
 
@@ -17,7 +16,6 @@ namespace SexyBackMenuScene
             Main = GameObject.Find("Main");
             Mask = GameObject.Find("Mask");
             PopUps = GameObject.Find("PopUps");
-            Middle_Window = GameObject.Find("Middle_Window");
             Slot1New = GameObject.Find("Slot1New");
             Slot2New = GameObject.Find("Slot2New");
         }
@@ -33,7 +31,6 @@ namespace SexyBackMenuScene
             Slot1New.SetActive(false);
             Slot2New.SetActive(false);
 
-            Middle_Window.GetComponent<GameModeWindow>().Clear();
             GameObject.Find("SP").GetComponent<UILabel>().text = "";
             GameObject.Find("GEM").GetComponent<UILabel>().text = "";
             GameObject.Find("IconTable").transform.DestroyChildren();

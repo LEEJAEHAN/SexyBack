@@ -1,5 +1,5 @@
 ﻿
-internal class BaseStat
+public class BaseStat
 {
     public int Str;
     public int Int;
@@ -12,6 +12,13 @@ internal class BaseStat
         Int = 0;
         Spd = 0;
         Luck = 0;
+    }
+    public BaseStat(int str, int intel, int spd, int luc)
+    {
+        Str = str;
+        Int = intel;
+        Spd = spd;
+        Luck = luc;
     }
 
 }

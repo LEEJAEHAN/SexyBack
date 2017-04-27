@@ -12,11 +12,15 @@ namespace SexyBackMenuScene
 
         private void Awake()
         {
+            Clear();
         }
-
-        public void Select(bool toggle)
+        internal void Clear()
         {
-            this.gameObject.SetActive(toggle);
+            transform.FindChild("ContentTable").transform.DestroyChildren();
+        }
+        
+        public void OnEnable()
+        {
             if(!Load)
             {
                 FillWindow(Singleton<TableLoader>.getInstance().mapTable);
@@ -50,8 +54,8 @@ namespace SexyBackMenuScene
         {
             string mapID = selectedObject.name;
             GameObject.Find("Bottom_Window").transform.DestroyChildren();
-            GameObject.Find("Middle_Area").transform.DestroyChildren();
-            GameObject.Find("Middle_Window").transform.DestroyChildren();
+            GameObject.Find("Top_Buttons").transform.DestroyChildren();
+            transform.DestroyChildren();
 
             GameObject boosting = ViewLoader.InstantiatePrefab(transform, "BoostingPopUp", "Prefabs/UI/BoostingPopUp");
             boosting.transform.FindChild("Yes").GetComponent<UIButton>().onClick.Add(new EventDelegate(this, "BoostStart"));
@@ -71,10 +75,5 @@ namespace SexyBackMenuScene
             ViewLoader.Main.GetComponent<Main>().GoPlayScene(selectedMapID, selectedBonus);
         }
 
-        internal void Clear()
-        {
-            this.transform.FindChild("ContentTable").transform.DestroyChildren();
-
-        }
     }
 }

@@ -12,10 +12,10 @@ namespace SexyBackMenuScene
         {
             Singleton<TableLoader>.getInstance().Init();
             Singleton<PlayerStatus>.getInstance().Init(); //TODO : 로드만들어야한다. 
+            Singleton<EquipmentManager>.getInstance().Init();
 
 
             // TODO :  ResourceLoader 제작, 캐싱;
-
             if (SaveSystem.CanLoad())
             {
                 Debug.Log("인스턴스데이터를 불러옵니다.");
