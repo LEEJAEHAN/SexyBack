@@ -77,8 +77,20 @@ internal class TableLoader
     {
         equipmenttable = new Dictionary<string, EquipmentData>();
 
-        equipmenttable.Add("E01", new EquipmentData());
-        equipmenttable.Add("E02", new EquipmentData());
+        List<BonusStat> skillstats = new List<BonusStat>();
+        skillstats.Add(new BonusStat("fireball", "DpsX", 10, null, "화염구의 데미지 증가 %d%"));
+
+        EquipmentData e01 = new EquipmentData("E01", "Icon_11", "롱소드", Equipment.Type.Weapon, 0,
+            new BaseStat(30, 0, 0, 0), "자와자와", skillstats);
+
+        skillstats.Clear();
+        skillstats.Add(new BonusStat("hero", "DpcX", 10, null, "히어로 데미지 증가 %d%"));
+
+        EquipmentData e02 = new EquipmentData("E02", "Icon_10", "두번째아이템", Equipment.Type.Weapon, 0,
+            new BaseStat(0, 10, 10, 0), "술렁술렁", skillstats);
+
+        equipmenttable.Add("E01", e01);
+        equipmenttable.Add("E02", e02);
 
         //TODO : 채워넣어야함
     }
@@ -273,7 +285,7 @@ internal class TableLoader
             else
                 stringvalue = bonusnode.Attributes["stringvalue"].Value;
 
-            Bonus bonus = new Bonus(target, attribute, value, stringvalue);
+            BonusStat bonus = new BonusStat(target, attribute, value, stringvalue, null);
             GridItemIcon iconinfo = new GridItemIcon(icon, icontext, subicon);
             ResearchData research = new ResearchData(id, requireid, requirelevel, iconinfo, name, description, level, baselevel, baseprice,
                 rate, basetime, bonus);
@@ -327,7 +339,7 @@ internal class TableLoader
             int value = 0;
             if (bonusnode.Attributes["value"] != null)
                 value = int.Parse(bonusnode.Attributes["value"].Value);
-            Bonus bonus = new Bonus(target, attribute, value, null);
+            BonusStat bonus = new BonusStat(target, attribute, value, null, null);
 
             GridItemIcon iconinfo = new GridItemIcon(icon, "",  subicon);
             TalentData talentdata = new TalentData(id, iconinfo, description, bonus, type, rate, abs);

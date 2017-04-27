@@ -7,6 +7,8 @@ internal class EquipmentManager
 {
     Dictionary<string, Equipment> equipments;
     public List<Equipment> inventory;
+    EquipmentWindow view;
+    public Equipment Selected;
 
     internal void Init()
     {
@@ -15,8 +17,26 @@ internal class EquipmentManager
 
         inventory.Add(EquipFactory.CraftEquipment("E01"));
         inventory.Add(EquipFactory.CraftEquipment("E02"));
-
         //        equipments.Add("Weapon", new Equipment());
+    }
+
+    internal void BindView(EquipmentWindow equipmentWindow)
+    {
+        view = equipmentWindow;
+    }
+
+    internal bool SelectInventory(string indexstring)
+    {
+        int i;
+        if (int.TryParse(indexstring, out i) == false)
+            return false;
+
+        if (inventory[i] == null)
+            return false;
+
+        Selected = inventory[i];
+        view.FillSelected(Selected, Selected.Exp, Selected.evolution);
+        return true;
     }
 
     internal Equipment Craft(int level, RewardRank rank)

@@ -32,7 +32,7 @@ internal class HeroStat
         MovespeedXH = 1000;
         AttackCapacity = 3;
     }
-    internal void Add(Bonus bonus)
+    internal void Add(BonusStat bonus)
     {
         switch (bonus.attribute)
         {
@@ -75,7 +75,7 @@ internal class HeroStat
                 }
         }
     }
-    internal void Remove(Bonus bonus)
+    internal void Remove(BonusStat bonus)
     {
         switch (bonus.attribute)
         {

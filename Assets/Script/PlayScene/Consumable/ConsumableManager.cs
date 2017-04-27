@@ -148,26 +148,26 @@ namespace SexyBackPlayScene
 
         void UpgradeTalentBonus(TalentType type)
         {
-            Bonus typebonus = null;
+            BonusStat typebonus = null;
             GridItemIcon typeicon = new GridItemIcon();
             switch (type)
             {
                 case TalentType.Attack:
                     {
                         Alevel++;
-                        typebonus = new Bonus("hero", "DpcIncreaseXH", 1, null);
+                        typebonus = new BonusStat("hero", "DpcIncreaseXH", 1, null, null);
                         break;
                     }
                 case TalentType.Elemental:
                     {
                         Elevel++;
-                        typebonus = new Bonus("elementals", "DpsIncreaseXH", 1, null);
+                        typebonus = new BonusStat("elementals", "DpsIncreaseXH", 1, null, null);
                         break;
                     }
                 case TalentType.Util:
                     {
                         Ulevel++;
-                        typebonus = new Bonus("player", "ExpIncreaseXH", 1, null);
+                        typebonus = new BonusStat("player", "ExpIncreaseXH", 1, null, null);
                         break;
                     }
             }

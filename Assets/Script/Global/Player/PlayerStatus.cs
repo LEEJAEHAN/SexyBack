@@ -40,7 +40,7 @@ internal class PlayerStatus
         baseStat.Spd = equipstat.Spd;
         baseStat.Luck = equipstat.Luck;
     }
-    void Add(Bonus bonus)
+    void Add(BonusStat bonus)
     {
         switch (bonus.targetID)
         {
@@ -61,7 +61,7 @@ internal class PlayerStatus
         }
     }
 
-    void Remove(Bonus bonus)
+    void Remove(BonusStat bonus)
     {
         switch (bonus.targetID)
         {

@@ -24,10 +24,10 @@ namespace SexyBackPlayScene
         internal string requireID;
         internal GridItemIcon icon;
         internal string description;
-        internal Bonus bonus;
+        internal BonusStat bonus;
         internal int rate;
 
-        public ConsumableData(string id, ConsumableGroup group, GridItemIcon icon, string description, Bonus bonus, string requireID, int rate)
+        public ConsumableData(string id, ConsumableGroup group, GridItemIcon icon, string description, BonusStat bonus, string requireID, int rate)
         {
             this.id = id;
             this.icon = icon;

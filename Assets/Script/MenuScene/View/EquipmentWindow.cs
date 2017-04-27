@@ -10,7 +10,37 @@ public class EquipmentWindow : MonoBehaviour
         setPosition();
         ClearWindow();
         FillInventory(Singleton<EquipmentManager>.getInstance().inventory);
+        Singleton<EquipmentManager>.getInstance().BindView(this);
+       }
+
+    public void FillSelected(Equipment e, int NextExp, int NextEvolution) // 강화나 각성시 사전정보 들어오기.
+    {
+        Transform selected = transform.FindChild("아이템정보");
+        selected.gameObject.SetActive(true);
+
+        selected.FindChild("Icon").GetComponent<UISprite>().spriteName = e.iconID;
+        selected.FindChild("Name").GetComponent<UILabel>().text = e.name + EquipmentWiki.EvToString(NextEvolution);
+
+        if (NextExp > e.Exp || NextEvolution > e.evolution)
+            selected.FindChild("Stat").GetComponent<UILabel>().color = Color.blue;
+
+        if (NextEvolution > e.evolution) // 각성 예
+        {
+            selected.FindChild("Name").GetComponent<UILabel>().color = Color.blue;
+            NextExp = 0;
+            selected.FindChild("EnchantBar").GetComponent<UIProgressBar>().value = 0;
+        }
+        else
+            selected.FindChild("EnchantBar").GetComponent<UIProgressBar>().value = (float)e.Exp / (float)EquipmentWiki.GetMaxExp(e.grade, NextEvolution);
+
+        selected.FindChild("Stat").GetComponent<UILabel>().text = e.GetStat(NextExp, NextEvolution).ToString();
+        selected.FindChild("EnchantBar/RBar_Fill2").GetComponent<UISprite>().fillAmount = (float)NextExp / (float)EquipmentWiki.GetMaxExp(e.grade, NextEvolution);
+        selected.FindChild("EnchantBar/RBar_Text").GetComponent<UILabel>().text = NextExp.ToString() + "% 강화";
+
+        selected.FindChild("SkillName").GetComponent<UILabel>().text = e.skillName + " Lv." + e.skillLevel.ToString();
+        selected.FindChild("SkillStat").GetComponent<UILabel>().text = EquipmentWiki.SkillStatToString(e.GetSkillStat());
     }
+
 
     public void FillInventory(List<Equipment> equipments)
     {
@@ -27,6 +57,7 @@ public class EquipmentWindow : MonoBehaviour
             EventDelegate.Parameter Eparam1 = new EventDelegate.Parameter();
             Eparam1.obj = EquipView;
             Eparam1.field = "name";
+
             EventDelegate.Parameter Eparam2 = new EventDelegate.Parameter();
             Eparam2.obj = EquipView.GetComponent<UIToggle>();
             Eparam2.field = "value";
@@ -50,16 +81,14 @@ public class EquipmentWindow : MonoBehaviour
     }
     public void onInvenTouch(string index, bool toggle)
     {
-        if(toggle)
+        if (toggle)
         {
+            Singleton<EquipmentManager>.getInstance().SelectInventory(index);
             sexybacklog.Console("아이콘눌렀다." + toggle + index);
             transform.FindChild("ButtonSet/Set1").gameObject.SetActive(true);
         }
         else
-        {
-            sexybacklog.Console("아이콘뗏다." + toggle + index);
-            transform.FindChild("ButtonSet/Set1").gameObject.SetActive(false);
-        }
+            return;
     }
 
     internal void setPosition()

@@ -34,7 +34,7 @@ namespace SexyBackPlayScene
                 }
                 catch (Exception e)
                 {
-                    sexybacklog.Console("로드에이상이있었습니다. 클리어합니다.");
+                    sexybacklog.Console("로드에이상이있었습니다. 클리어합니다." + e.Message);
                     SaveSystem.ClearInstance();
                     OnDestroy();
                     SceneManager.LoadScene("MenuScene");

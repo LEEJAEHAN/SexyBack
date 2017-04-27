@@ -7,12 +7,12 @@ namespace SexyBackPlayScene
         internal string id;
         internal GridItemIcon icon;
         internal string description;
-        internal Bonus bonus;
+        internal BonusStat bonus;
         internal TalentType type;
         internal int rate;
         internal bool absrate;
 
-        public TalentData(string id, GridItemIcon icon, string description, Bonus bonus, TalentType type, int rate, bool absrate)
+        public TalentData(string id, GridItemIcon icon, string description, BonusStat bonus, TalentType type, int rate, bool absrate)
         {
             this.id = id;
             this.icon = icon;

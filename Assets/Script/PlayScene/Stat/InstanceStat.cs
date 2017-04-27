@@ -83,16 +83,16 @@ namespace SexyBackPlayScene // instance 던젼안에서의 스텟
             sexybacklog.InGame("레벨업에쓴돈 " + lspend.To5String());
             sexybacklog.InGame("리서치에쓴돈 " + rspend.To5String());
         }
-        internal void Buff(Bonus bonus, GridItemIcon icon, int duration)
+        internal void Buff(BonusStat bonus, GridItemIcon icon, int duration)
         {
 
         }
-        internal void ApplyBonusWithIcon(Bonus bonus, GridItemIcon icon)
+        internal void ApplyBonusWithIcon(BonusStat bonus, GridItemIcon icon)
         {
             ApplyBonus(bonus, true);
             EffectController.getInstance.AddBuffEffect(icon);
         }
-        internal void DisableBonusWithIcon(Bonus bonus, GridItemIcon icon)
+        internal void DisableBonusWithIcon(BonusStat bonus, GridItemIcon icon)
         {
             ApplyBonus(bonus, false);
             EffectController.getInstance.AddBuffEffect(icon);
@@ -115,7 +115,7 @@ namespace SexyBackPlayScene // instance 던젼안에서의 스텟
             //    break;
             //}
         }
-        internal void ApplyBonus(Bonus bonus, bool signPositive)
+        internal void ApplyBonus(BonusStat bonus, bool signPositive)
         {
             switch (bonus.targetID)
             {
@@ -130,7 +130,7 @@ namespace SexyBackPlayScene // instance 던젼안에서의 스텟
                     break;
             }
         }
-        private void ApplyHeroBonus(Bonus bonus, bool signPositive)
+        private void ApplyHeroBonus(BonusStat bonus, bool signPositive)
         {
             if (signPositive)
                 IHeroSTat.Add(bonus);
@@ -157,7 +157,7 @@ namespace SexyBackPlayScene // instance 던젼안에서의 스텟
             }
         }
 
-        private void ApplyElementalBonus(Bonus bonus, bool signPositive) // 각 element에게만 해당하는것. 전체는 player
+        private void ApplyElementalBonus(BonusStat bonus, bool signPositive) // 각 element에게만 해당하는것. 전체는 player
         {
             string targetID = bonus.targetID;
             ElementalStat IElementalStat = IElementalStats[bonus.targetID];
@@ -186,7 +186,7 @@ namespace SexyBackPlayScene // instance 던젼안에서의 스텟
                     break;
             }
         }
-        private void ApplyPlayerBonus(Bonus bonus, bool signPositive)
+        private void ApplyPlayerBonus(BonusStat bonus, bool signPositive)
         {
             if (signPositive)
                 IPlayerStat.Add(bonus);
@@ -199,7 +199,7 @@ namespace SexyBackPlayScene // instance 던젼안에서의 스텟
                     Singleton<ResearchManager>.getInstance().FinishFrontOne();
                     break;
                 case "ExpPerFloor":
-                    ExpGain(bonus.bigvalue, false);
+                    ExpGain(new BigInteger(bonus.strvalue), false);
                     break;
                 case "ResearchTimeX":
                 case "ResearchTime":

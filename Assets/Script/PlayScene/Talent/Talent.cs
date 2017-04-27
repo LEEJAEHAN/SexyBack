@@ -20,7 +20,7 @@ namespace SexyBackPlayScene
         // from data
         internal GridItemIcon Icon;
         string description;
-        internal Bonus bonus;
+        internal BonusStat bonus;
         internal TalentType Type;
 
         internal bool AbsRate;
@@ -45,7 +45,7 @@ namespace SexyBackPlayScene
             if (bonus.attribute == "ExpPerFloor")
             {
 //                bonus.bigvalue = BigInteger.PowerByGrowth(bonus.value, floor - 1, MonsterData.GrowthRate);
-                Icon.IconText = bonus.bigvalue.To5String();
+                Icon.IconText = bonus.strvalue;
             }
         }
         public string Description
@@ -54,7 +54,7 @@ namespace SexyBackPlayScene
             {
                 if (bonus.attribute == "ExpPerFloor")
                 {
-                    return StringParser.ReplaceString(description, bonus.bigvalue.To5String());
+                    return StringParser.ReplaceString(description, bonus.strvalue);
                 }
                 else
                 {

@@ -17,7 +17,7 @@ namespace SexyBackPlayScene
         string Name;
         string Description;
         public int RequireLevel;
-        Bonus bonus;
+        BonusStat bonus;
 
         // 오리지널 값.
         public BigInteger researchprice = new BigInteger(1);

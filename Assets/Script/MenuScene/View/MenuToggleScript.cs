@@ -17,7 +17,6 @@ namespace SexyBackMenuScene
             EquipmentWindow.transform.localPosition = Vector3.zero;
             EquipmentWindow.SetActive(false);
 
-
         }
 
         public void onToggle(string ButtonName, bool togglevalue)

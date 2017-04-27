@@ -15,7 +15,7 @@ namespace SexyBackPlayScene
         protected GridItem itemView;
         LevelUpWindow Panel;
 
-        protected Bonus bonus;
+        protected BonusStat bonus;
         protected BigInteger PRICE;
         protected BigInteger originalPrice = new BigInteger(0); // original price
         int priceXH; // stat
@@ -41,7 +41,7 @@ namespace SexyBackPlayScene
             ID = data.ID;
             OwnerID = data.OwnerID;
             OwnerName = data.OwnerName;
-            bonus = new Bonus(OwnerID, "Level", 1, null);
+            bonus = new BonusStat(OwnerID, "Level", 1, null, null);
             Icon = new GridItemIcon(data.IconName);
 
             Singleton<InstanceStat>.getInstance().Action_ExpChange += onExpChange;

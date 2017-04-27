@@ -28,7 +28,7 @@ internal class ElementalStat// 누적배수
         SkillLaunch = false;
     }
 
-    internal void Add(Bonus bonus)
+    internal void Add(BonusStat bonus)
     {
         switch (bonus.attribute)
         {
@@ -61,7 +61,7 @@ internal class ElementalStat// 누적배수
                     break;
         }
     }
-    internal void Remove(Bonus bonus)
+    internal void Remove(BonusStat bonus)
     {
         switch (bonus.attribute)
         {

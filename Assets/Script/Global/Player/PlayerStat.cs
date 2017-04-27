@@ -26,7 +26,7 @@ internal class PlayerStat
         InitExp = new BigInteger(0);
     }
 
-internal void Add(Bonus bonus)
+internal void Add(BonusStat bonus)
     {
         switch (bonus.attribute)
         {
@@ -46,7 +46,7 @@ internal void Add(Bonus bonus)
                     ResearchPriceXH -= bonus.value;
                     break;
             case "InitExp":
-                    InitExp += bonus.bigvalue;
+                    InitExp += new BigInteger(bonus.strvalue);
                     break;
             default:
                 {
@@ -55,7 +55,7 @@ internal void Add(Bonus bonus)
                 }
         }
     }
-    internal void Remove(Bonus bonus)
+    internal void Remove(BonusStat bonus)
     {
         switch (bonus.attribute)
         {
@@ -75,7 +75,7 @@ internal void Add(Bonus bonus)
                 ResearchPriceXH += bonus.value;
                 break;
             case "InitExp":
-                InitExp -= bonus.bigvalue;
+                InitExp -= new BigInteger(bonus.strvalue);
                 break;
             default:
                 {

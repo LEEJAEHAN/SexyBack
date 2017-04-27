@@ -62,7 +62,7 @@ internal class SaveSystem
                 }
                 catch (System.IO.IOException e)
                 {
-                    sexybacklog.Error("No SavedFile");
+                    sexybacklog.Error("No SavedFile" + e.Message);
                     return;
                 }
             }
