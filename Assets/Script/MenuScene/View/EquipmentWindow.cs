@@ -2,16 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 using SexyBackMenuScene;
+using System;
 
 public class EquipmentWindow : MonoBehaviour
 {
+    public State mode;
+    public enum State
+    {
+        Normal,
+        EquipSelected,
+        InvenSelected,
+        EnchantMode,
+        EvolutionMode
+    }
+
     public void OnEnable()
     {
         setPosition();
         ClearWindow();
         FillInventory(Singleton<EquipmentManager>.getInstance().inventory);
+        FillEquipments(Singleton<EquipmentManager>.getInstance().equipments);
         Singleton<EquipmentManager>.getInstance().BindView(this);
-       }
+        mode = State.Normal;
+    }
 
     public void FillSelected(Equipment e, int NextExp, int NextEvolution) // 강화나 각성시 사전정보 들어오기.
     {
@@ -41,54 +54,89 @@ public class EquipmentWindow : MonoBehaviour
         selected.FindChild("SkillStat").GetComponent<UILabel>().text = EquipmentWiki.SkillStatToString(e.GetSkillStat());
     }
 
-
-    public void FillInventory(List<Equipment> equipments)
+    internal void FillEquipments(Dictionary<string, Equipment> equipments)
     {
-        GameObject inventory = transform.FindChild("인벤토리/Grid").gameObject;
+        FillEquipment(transform.FindChild("장비슬롯/Slot1").gameObject, Equipment.Type.Weapon, equipments);
+        FillEquipment(transform.FindChild("장비슬롯/Slot2").gameObject, Equipment.Type.Staff, equipments);
+        FillEquipment(transform.FindChild("장비슬롯/Slot3").gameObject, Equipment.Type.Ring, equipments);
+    }
 
-        for(int i = 0; i < equipments.Count; i++)
+    internal void ForceToggle(bool isInventory, string index)
+    {
+        if(isInventory)
+            transform.FindChild("인벤토리/Grid/"+index).gameObject.GetComponent<UIToggle>().value = true;
+        else
+            transform.FindChild("장비슬롯/Slot1/"+index).gameObject.GetComponent<UIToggle>().value = true;
+    }
+
+    private void FillEquipment(GameObject Slot, Equipment.Type part, Dictionary<string, Equipment> equipments)
+    {
+        Slot.transform.DestroyChildren();
+        if (equipments.ContainsKey(part.ToString()))
         {
-            if (equipments[i] == null)
-                continue;
-
-            GameObject EquipView = ViewLoader.InstantiatePrefab(inventory.transform, i.ToString(), "Prefabs/UI/Equipment");
-
-            EventDelegate Ehandler = new EventDelegate(this, "onInvenTouch");
-            EventDelegate.Parameter Eparam1 = new EventDelegate.Parameter();
-            Eparam1.obj = EquipView;
-            Eparam1.field = "name";
-
-            EventDelegate.Parameter Eparam2 = new EventDelegate.Parameter();
-            Eparam2.obj = EquipView.GetComponent<UIToggle>();
-            Eparam2.field = "value";
-
-            Ehandler.parameters[0] = Eparam1;
-            Ehandler.parameters[1] = Eparam2;
-
-            EquipView.GetComponent<UIToggle>().onChange.Add(Ehandler);
-       }
-
-        //foreach (Equipment a in equipments)
-        //{
-        //    ViewLoader.InstantiatePrefab(inventory.transform, a., "Prefabs/UI/Equipment");
-        //}
-
-        inventory.GetComponent<UIGrid>().Reposition();
+            GameObject Weapon = MakeGridView(Slot.transform, part.ToString(), "onEquipTouch");
+            Weapon.transform.GetComponent<UIWidget>().width = Slot.transform.GetComponent<UIWidget>().width;
+        }
     }
-    public void onEquipTouch()
+
+    private GameObject MakeGridView(Transform Parent, string Name, string EventMethod )
     {
-
+        GameObject EquipView = ViewLoader.InstantiatePrefab(Parent, Name, "Prefabs/UI/Equipment");
+        EventDelegate Ehandler = new EventDelegate(this, EventMethod);
+        EventDelegate.Parameter Eparam1 = new EventDelegate.Parameter();
+        Eparam1.obj = EquipView;
+        Eparam1.field = "name";
+        EventDelegate.Parameter Eparam2 = new EventDelegate.Parameter();
+        Eparam2.obj = EquipView.GetComponent<UIToggle>();
+        Eparam2.field = "value";
+        Ehandler.parameters[0] = Eparam1;
+        Ehandler.parameters[1] = Eparam2;
+        EquipView.GetComponent<UIToggle>().onChange.Add(Ehandler);
+        return EquipView;
     }
+
+    public void FillInventory(List<Equipment> items)
+    {
+        GameObject inventoryView = transform.FindChild("인벤토리/Grid").gameObject;
+        inventoryView.transform.DestroyChildren();
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i] == null)
+                continue;
+            GameObject EquipView = MakeGridView(inventoryView.transform, i.ToString(), "onInvenTouch");
+       }
+        inventoryView.GetComponent<UIGrid>().Reposition();
+    }
+    public void onEquipTouch(string part, bool toggle)
+    {
+        if (toggle)
+        {
+            Singleton<EquipmentManager>.getInstance().SelectEquipment(part);
+            mode = State.EquipSelected;
+        }
+        else
+        {
+            Singleton<EquipmentManager>.getInstance().Unselect();
+            mode = State.Normal;
+        }
+    }
+
     public void onInvenTouch(string index, bool toggle)
     {
         if (toggle)
         {
             Singleton<EquipmentManager>.getInstance().SelectInventory(index);
-            sexybacklog.Console("아이콘눌렀다." + toggle + index);
-            transform.FindChild("ButtonSet/Set1").gameObject.SetActive(true);
+            mode = EquipmentWindow.State.InvenSelected;
         }
         else
-            return;
+        {
+            Singleton<EquipmentManager>.getInstance().Unselect();
+            mode = State.Normal;
+        }
+
+        //else
+        //    Singleton<EquipmentManager>.getInstance().Unselect();
     }
 
     internal void setPosition()
@@ -96,46 +144,56 @@ public class EquipmentWindow : MonoBehaviour
         transform.localPosition = Vector3.zero;
     }
 
-
     private void ClearWindow()
     {
         transform.FindChild("아이템정보").gameObject.SetActive(false);
-
-        //transform.FindChild("장비슬롯/Slot1/Equip1").gameObject.SetActive(false);
-        transform.FindChild("장비슬롯/Slot2/Equip2").gameObject.SetActive(false);
-        transform.FindChild("장비슬롯/Slot3/Equip3").gameObject.SetActive(false);
         transform.FindChild("장비슬롯/Mask").gameObject.SetActive(false);
 
         transform.FindChild("Text").GetComponent<UILabel>().text = "";
 
         transform.FindChild("ButtonSet/Set1").gameObject.SetActive(false);
         transform.FindChild("ButtonSet/Set2").gameObject.SetActive(false);
-        transform.FindChild("인벤토리/Grid").DestroyChildren();
 
+        transform.FindChild("장비슬롯/Slot1").DestroyChildren();
+        transform.FindChild("장비슬롯/Slot2").DestroyChildren();
+        transform.FindChild("장비슬롯/Slot3").DestroyChildren();
+        transform.FindChild("인벤토리/Grid").DestroyChildren();
     }
 
+    public void onEquipButton()
+    {
+        Singleton<EquipmentManager>.getInstance().Equip();
+    }
+    public void onUnEquipButton()
+    {
+        Singleton<EquipmentManager>.getInstance().UnEquip();
+    }
 
+    private void Update()
+    {
+        if(mode == State.Normal)
+        {
+            transform.FindChild("아이템정보").gameObject.SetActive(false);
+            transform.FindChild("ButtonSet/Set1").gameObject.SetActive(false);
+            transform.FindChild("ButtonSet/Set2").gameObject.SetActive(false);
+        }
+        else if (mode == State.InvenSelected)
+        {
+            transform.FindChild("아이템정보").gameObject.SetActive(true);
+            transform.FindChild("ButtonSet/Set1").gameObject.SetActive(true);
+            transform.FindChild("ButtonSet/Set1/Table/Button1/Label").GetComponent<UILabel>().text = "장착";
+            transform.FindChild("ButtonSet/Set1/Table/Button1").GetComponent<UIButton>().onClick.Clear();
+            transform.FindChild("ButtonSet/Set1/Table/Button1").GetComponent<UIButton>().onClick.Add(new EventDelegate(onEquipButton));
+        }
+        else if (mode == State.EquipSelected)
+        {
+            transform.FindChild("아이템정보").gameObject.SetActive(true);
+            transform.FindChild("ButtonSet/Set1").gameObject.SetActive(true);
+            transform.FindChild("ButtonSet/Set1/Table/Button1/Label").GetComponent<UILabel>().text = "해제";
+            transform.FindChild("ButtonSet/Set1/Table/Button1").GetComponent<UIButton>().onClick.Clear();
+            transform.FindChild("ButtonSet/Set1/Table/Button1").GetComponent<UIButton>().onClick.Add(new EventDelegate(onUnEquipButton));
+        }
+    }
 
-    //private void FillWindow(Dictionary<string, MapData> gamemodetable)
-    //{
-    //    foreach (MapData data in Singleton<TableLoader>.getInstance().mapTable.Values)
-    //    {
-    //        GameObject Widget = ViewLoader.InstantiatePrefab(transform.GetChild(1), data.ID, "Prefabs/UI/StageWidget");
-    //        TimeSpan ts = TimeSpan.FromSeconds(data.LimitTime);
-    //        string expresson = ts.Hours + ":" + ts.Minutes.ToString("D2") + ":" + ts.Seconds.ToString("D2");
-    //        Widget.transform.FindChild("BestTime").gameObject.GetComponent<UILabel>().text = "";
-    //        Widget.transform.FindChild("TimeLimit").gameObject.GetComponent<UILabel>().text = expresson;
-    //        Widget.transform.FindChild("StartButton/StageName").gameObject.GetComponent<UILabel>().text = data.Name;
-
-    //        EventDelegate ed = new EventDelegate(this, "onStartButton");
-    //        EventDelegate.Parameter param = new EventDelegate.Parameter();
-    //        param.obj = Widget;
-    //        param.field = "selectedObject";
-    //        ed.parameters[0] = param;
-    //        Widget.transform.FindChild("StartButton").GetComponent<UIButton>().onClick.Add(ed);
-    //    }
-
-    //    gameObject.GetComponentInChildren<UITable>().Reposition();
-    //}
 
 }

@@ -5,7 +5,7 @@ using SexyBackRewardScene;
 
 internal class EquipmentManager
 {
-    Dictionary<string, Equipment> equipments;
+    public Dictionary<string, Equipment> equipments;
     public List<Equipment> inventory;
     EquipmentWindow view;
     public Equipment Selected;
@@ -35,9 +35,28 @@ internal class EquipmentManager
             return false;
 
         Selected = inventory[i];
+//        view.mode = EquipmentWindow.State.InvenSelected;
         view.FillSelected(Selected, Selected.Exp, Selected.evolution);
         return true;
     }
+    internal bool SelectEquipment(string part)
+    {
+        if (equipments.ContainsKey(part) == false)
+            return false;
+
+        Selected = equipments[part];
+ //       view.mode = EquipmentWindow.State.EquipSelected;
+        view.FillSelected(Selected, Selected.Exp, Selected.evolution);
+        return true;
+    }
+
+    internal void Unselect()
+    {
+        Selected = null;
+  //      view.mode = EquipmentWindow.State.Normal;
+    }
+
+
 
     internal Equipment Craft(int level, RewardRank rank)
     {
@@ -61,5 +80,45 @@ internal class EquipmentManager
 
         // 
     }
+
+    internal void Equip()
+    {
+        string part = Selected.type.ToString();
+
+        if (equipments.ContainsKey(part))
+        {
+            Equipment old = equipments[part];
+            equipments.Remove(part);
+            inventory.Add(old);
+        }
+
+        equipments.Add(part, Selected);
+        inventory.Remove(Selected);
+        view.FillInventory(inventory);
+        view.FillEquipments(equipments);
+        view.ForceToggle(false, part);
+        //view.mode = EquipmentWindow.State.EquipSelected;
+        //Selected = equipments[part];
+        //view.FillSelected(Selected, Selected.Exp, Selected.evolution);
+    }
+
+    internal void UnEquip()
+    {
+        if (equipments.ContainsValue(Selected) == false)
+            return;
+
+        string part = Selected.type.ToString();
+        Equipment target = equipments[part];
+        equipments.Remove(part);
+        inventory.Add(target);
+
+        view.FillInventory(inventory);
+        view.FillEquipments(equipments);
+        view.ForceToggle(true, (inventory.Count-1).ToString());
+        //view.mode = EquipmentWindow.State.InvenSelected;
+        //Selected = target;
+        //view.FillSelected(Selected, Selected.Exp, Selected.evolution);
+    }
+
 
 }

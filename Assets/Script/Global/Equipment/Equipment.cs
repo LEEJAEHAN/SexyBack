@@ -5,7 +5,7 @@ using System.Linq;
 public class Equipment
 {
     string dataID;
-    Type type;
+    public Type type;
     public int grade; // N, R, SR ;;
     public int Exp;
     public int evolution; // n, +, ++;
@@ -75,6 +75,8 @@ public class Equipment
     }
     public enum Type
     {
-        Weapon
+        Weapon,
+        Staff,
+        Ring
     }
 }
