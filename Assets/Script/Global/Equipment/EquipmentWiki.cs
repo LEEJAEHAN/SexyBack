@@ -5,13 +5,9 @@ using System.Text;
 
 public static class EquipmentWiki
 {
-
-
-
-
     public static int GetMaxExp(int grade, int evolution)
     {
-        return 100;
+        return 100 * (grade + 1) * (evolution + 1);
     }
 
     internal static string EvToString(int evolution)
@@ -34,4 +30,8 @@ public static class EquipmentWiki
         return temp.Substring(0, temp.Length - 1);
     }
 
+    internal static int GetMaterialExp(int grade, int evolution)
+    {
+        return 10 * (grade + 1) * (evolution + 1);
+    }
 }

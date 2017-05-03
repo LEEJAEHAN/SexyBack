@@ -10,6 +10,7 @@ public class Equipment
     public int Exp;
     public int evolution; // n, +, ++;
     public string iconID;
+    public bool Lock;
 
     public string name;
     BaseStat stat;

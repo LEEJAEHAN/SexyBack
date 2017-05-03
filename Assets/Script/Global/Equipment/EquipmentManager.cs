@@ -9,6 +9,7 @@ internal class EquipmentManager
     public List<Equipment> inventory;
     EquipmentWindow view;
     public Equipment Selected;
+    public int SelectIndex {  get { return inventory.IndexOf(Selected); } }
 
     internal void Init()
     {
@@ -17,6 +18,8 @@ internal class EquipmentManager
 
         inventory.Add(EquipFactory.CraftEquipment("E01"));
         inventory.Add(EquipFactory.CraftEquipment("E02"));
+        inventory.Add(EquipFactory.CraftEquipment("E03"));
+
         //        equipments.Add("Weapon", new Equipment());
     }
 
@@ -120,5 +123,34 @@ internal class EquipmentManager
         //view.FillSelected(Selected, Selected.Exp, Selected.evolution);
     }
 
+    internal void Enchant()
+    {
+            // enchant
+            //
+//            view.
+    }
 
+    internal void ApplyCheckList(List<int> checkList)
+    {
+        int expSum = Selected.Exp; 
+        foreach( int index in checkList)
+        {
+            expSum += EquipmentWiki.GetMaterialExp(inventory[index].grade, inventory[index].evolution);
+        }
+
+        view.FillSelected(Selected, expSum, Selected.evolution);
+    }
+
+    internal void reSelect()
+    {
+        if(equipments.ContainsValue(Selected))
+        {
+            string part = Selected.type.ToString();
+            view.ForceToggle(false, part);
+        }
+        else if (inventory.Contains(Selected))
+        {
+            view.ForceToggle(true, inventory.IndexOf(Selected).ToString());
+        }
+    }
 }

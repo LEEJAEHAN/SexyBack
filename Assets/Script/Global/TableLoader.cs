@@ -86,11 +86,16 @@ internal class TableLoader
         skillstats.Clear();
         skillstats.Add(new BonusStat("hero", "DpcX", 10, null, "히어로 데미지 증가 %d%"));
 
-        EquipmentData e02 = new EquipmentData("E02", "Icon_10", "두번째아이템", Equipment.Type.Weapon, 0,
+        EquipmentData e02 = new EquipmentData("E02", "Icon_10", "두번째아이템", Equipment.Type.Ring, 0,
             new BaseStat(0, 10, 10, 0), "술렁술렁", skillstats);
+
+        EquipmentData e03 = new EquipmentData("E03", "Icon_09", "세번째아이템", Equipment.Type.Staff, 0,
+            new BaseStat(0, 0, 0, 10), "술렁술렁", skillstats);
+
 
         equipmenttable.Add("E01", e01);
         equipmenttable.Add("E02", e02);
+        equipmenttable.Add("E03", e03);
 
         //TODO : 채워넣어야함
     }
