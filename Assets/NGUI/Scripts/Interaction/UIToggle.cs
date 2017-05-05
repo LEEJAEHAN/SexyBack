@@ -226,6 +226,8 @@ public class UIToggle : UIWidgetContainer
 
 	public void Set (bool state, bool notify = true)
 	{
+        //sexybacklog.Console(this.gameObject.name + " Toggle Change to " + state);
+
 		if (validator != null && !validator(state)) return;
 
 		if (!mStarted)

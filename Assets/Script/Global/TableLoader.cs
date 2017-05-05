@@ -89,7 +89,7 @@ internal class TableLoader
         EquipmentData e02 = new EquipmentData("E02", "Icon_10", "두번째아이템", Equipment.Type.Ring, 0,
             new BaseStat(0, 10, 10, 0), "술렁술렁", skillstats);
 
-        EquipmentData e03 = new EquipmentData("E03", "Icon_09", "세번째아이템", Equipment.Type.Staff, 0,
+        EquipmentData e03 = new EquipmentData("E03", "Icon_09", "세번째아이템", Equipment.Type.Staff, 2,
             new BaseStat(0, 0, 0, 10), "술렁술렁", skillstats);
 
 

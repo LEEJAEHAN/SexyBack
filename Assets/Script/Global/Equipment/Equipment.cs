@@ -13,8 +13,8 @@ public class Equipment
     public bool Lock;
 
     public string name;
-    BaseStat stat;
-    List<BonusStat> skillStat;
+    public BaseStat baseStat;
+    List<BonusStat> baseSkillStat;
     public int skillLevel;
     public string skillName;
 
@@ -26,35 +26,57 @@ public class Equipment
         return ExpectedStat.ToString();
     }
 
-    public BaseStat GetStat()
+    public int MaxExp
     {
-        return GetStat(Exp, evolution);
-    }
-    public BaseStat GetStat(int ExpectedExp, int ExpectedEvolution)
-    {
-        double evolCoef;
-        double expCoef;
-
-        if (ExpectedEvolution >= 2)
-            evolCoef = 2;
-        else if (ExpectedEvolution == 1)
-            evolCoef = 1.5f;
-        else
-            evolCoef = 1f;
-
-        expCoef = 1 + (double)ExpectedExp / (double)EquipmentWiki.GetMaxExp(grade, ExpectedEvolution);
-        return stat * (evolCoef * expCoef);
-    }
-    public List<BonusStat> GetSkillStat()
-    {
-        List<BonusStat> result = new List<BonusStat>();
-        foreach (BonusStat b in skillStat)
+        get
         {
-            BonusStat temp = (BonusStat)b.Clone();
-            temp.value = (int)(b.value + b.value * ((skillLevel - 1) * 0.3334f));
-            result.Add(temp);
+            return EquipmentWiki.CalMaxExp(grade, evolution);
         }
-        return result;
+    }
+    public int MaterialExp
+    {
+        get
+        {
+            return 10 * (grade + 1) * (evolution + 1);
+        }
+    }
+    public BaseStat Stat
+    {
+        get
+        {
+            double evolCoef = EquipmentWiki.CalEvolCoef(evolution);
+            double expCoef = EquipmentWiki.CalExpCoef(Exp, MaxExp);
+            return baseStat * (evolCoef * expCoef);
+        }
+    }
+    public BaseStat ExpectStat(int ExpectedExp, int ExpectedEvolution)
+    {
+        double evolCoef = EquipmentWiki.CalEvolCoef(ExpectedEvolution);
+        double expCoef = EquipmentWiki.CalExpCoef(ExpectedExp, EquipmentWiki.CalMaxExp(grade, ExpectedEvolution));
+        return baseStat * (evolCoef * expCoef);
+    }
+
+
+    //public static int CalMaxExp(int grade, int evolution)
+    //{
+    //}
+    //internal static int CalMaterialExp(int grade, int evolution)
+    //{
+    //}
+
+    public List<BonusStat> SkillStat
+    {
+        get
+        {
+            List<BonusStat> result = new List<BonusStat>();
+            foreach (BonusStat b in baseSkillStat)
+            {
+                BonusStat temp = (BonusStat)b.Clone();
+                temp.value = (int)(b.value + b.value * ((skillLevel - 1) * 0.3334f));
+                result.Add(temp);
+            }
+            return result;
+        }
     }
 
     public Equipment(EquipmentData data)
@@ -68,8 +90,8 @@ public class Equipment
         evolution = 0;
         skillLevel = 5;
 
-        stat = data.baseStat;
-        skillStat = data.baseSkillStat;
+        baseStat = data.baseStat;
+        baseSkillStat = data.baseSkillStat;
 
         skillName = data.baseSkillName;
         name = data.baseName;

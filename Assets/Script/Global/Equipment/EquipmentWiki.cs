@@ -5,10 +5,7 @@ using System.Text;
 
 public static class EquipmentWiki
 {
-    public static int GetMaxExp(int grade, int evolution)
-    {
-        return 100 * (grade + 1) * (evolution + 1);
-    }
+
 
     internal static string EvToString(int evolution)
     {
@@ -30,8 +27,33 @@ public static class EquipmentWiki
         return temp.Substring(0, temp.Length - 1);
     }
 
-    internal static int GetMaterialExp(int grade, int evolution)
+    internal static double CalEvolCoef(int evolution)
     {
-        return 10 * (grade + 1) * (evolution + 1);
+        if (evolution >= 2)
+            return 2f;
+        else if (evolution == 1)
+            return 1.5f;
+        else
+            return 1f;
+    }
+
+    internal static double CalExpCoef(int exp, int maxExp)
+    {
+        return 1 + (double)exp / (double)maxExp;
+    }
+
+    public static int CalMaxExp(int grade, int evolution)
+    {
+        return 100 * (grade + 1) * (evolution + 1);
+    }
+
+    internal static string CalExpPercent(int nextExp, int maxExp)
+    {
+        if (nextExp == 0)
+            return "0%";
+        if (nextExp == maxExp)
+            return "Max";
+        else
+            return (nextExp * 100 / maxExp).ToString() + "%";
     }
 }

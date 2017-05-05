@@ -8,6 +8,9 @@ internal class PlayerStatus
     // 진행중인 맵
     public string mapID;
     public bool boost;
+    public int MaxInventory = 30;
+    public int Jewel;
+    public int SkillPoint;
 
     //base stat
     BaseStat baseStat;
@@ -44,10 +47,10 @@ internal class PlayerStatus
     {
         switch (bonus.targetID)
         {
-            case "Hero":
+            case "hero":
                 heroStat.Add(bonus);
                 break;
-            case "Player":
+            case "player":
                 playerStat.Add(bonus);
                 break;
             default:
@@ -65,10 +68,10 @@ internal class PlayerStatus
     {
         switch (bonus.targetID)
         {
-            case "Hero":
+            case "hero":
                 heroStat.Remove(bonus);
                 break;
-            case "Player":
+            case "player":
                 playerStat.Remove(bonus);
                 break;
             default:

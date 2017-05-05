@@ -36,6 +36,9 @@ internal void Add(BonusStat bonus)
             case "ResearchTime":
                     ResearchTime += bonus.value;
                     break;
+            case "ResearchTimeX":
+                this.ResearchTimeX *= bonus.value;
+                break;
             case "ResearchThread":
                     ResearchThread += bonus.value;
                     break;
@@ -64,6 +67,9 @@ internal void Add(BonusStat bonus)
                 break;
             case "ResearchTime":
                 ResearchTime -= bonus.value;
+                break;
+            case "ResearchTimeX":
+                this.ResearchTimeX /= bonus.value;
                 break;
             case "ResearchThread":
                 ResearchThread -= bonus.value;
