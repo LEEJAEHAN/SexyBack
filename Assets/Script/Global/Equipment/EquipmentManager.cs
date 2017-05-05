@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using SexyBackRewardScene;
+using SexyBackMenuScene;
 
 internal class EquipmentManager
 {
@@ -83,7 +84,6 @@ internal class EquipmentManager
 //        return new Equipment("앨런블랙", "Equip01", Equipment.Type.Weapon, );
     }
 
-
     internal void GetReward(Reward currentReward)
     {
         //inventory.Add(Singleton<EquipmentManager>.getInstance().Items[currentReward.ItemID])
@@ -92,6 +92,12 @@ internal class EquipmentManager
 
 
         // 
+    }
+    internal bool Lock()
+    {
+        Selected.Lock = !Selected.Lock;
+        view.FillSelected(Selected);
+        return Selected.Lock;
     }
 
     internal void Equip()
@@ -133,14 +139,15 @@ internal class EquipmentManager
         //view.FillSelected(Selected, Selected.Exp, Selected.evolution);
     }
 
-    internal EquipmentWindow.State GetPrevMode()
+
+    internal EquipmentState GetPrevMode()
     {
         if (equipments.ContainsValue(Selected))
-            return EquipmentWindow.State.EquipSelected;
+            return EquipmentState.EquipSelected;
         else if (inventory.Contains(Selected))
-            return EquipmentWindow.State.InvenSelected;
+            return EquipmentState.InvenSelected;
         else
-            return EquipmentWindow.State.None;
+            return EquipmentState.None;
     }
 
     internal void Enchant(List<int> checkList)
@@ -159,27 +166,48 @@ internal class EquipmentManager
             }
             inventory.RemoveAt(i);
         }
+        Selected.AddExp(sum);
+    }
+    internal void Evolution(int meterialIndex)
+    {
+        if (!isEvolutionMaterial(meterialIndex))
+            return;
 
-        Selected.Exp += sum;
-        if (Selected.Exp > Selected.MaxExp)
-            Selected.Exp = Selected.MaxExp;
+        inventory.RemoveAt(meterialIndex);
+        Selected.Evolution();
+        Selected.Exp = 0;
     }
 
-    internal void CheckInventory(List<int> checkList)
+    internal void CalExpectedView(List<int> checkList, EquipmentState mode)
     {
-        int expSum = Selected.Exp; 
-        foreach( int index in checkList)
+        if (checkList.Count <= 0)
         {
-            expSum += inventory[index].MaterialExp;
+            view.FillSelected(Selected);
+            return;
         }
 
-        view.FillExpectedSelect(Selected, expSum, Selected.evolution);
+        int expSum = Selected.Exp; 
+        foreach( int index in checkList)
+            expSum += inventory[index].MaterialExp;
+
+        if (mode == EquipmentState.EnchantMode)
+            view.FillExpectedSelect(Selected, expSum, Selected.evolution);
+        else if (mode == EquipmentState.EvolutionMode)
+            view.FillExpectedSelect(Selected, 0, Selected.evolution + 1);
     }
 
     internal void reSelect()
     {
     }
 
+    internal bool isEvolutionMaterial(int meterialIndex)
+    {
+        if (Selected.Compare(inventory[meterialIndex]) == false)
+            return false;
+        if (inventory[meterialIndex].isMaxExp == false)
+            return false;
 
+        return true;
+    }
 
 }

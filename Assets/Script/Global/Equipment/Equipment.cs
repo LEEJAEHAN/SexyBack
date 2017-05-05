@@ -25,7 +25,13 @@ public class Equipment
         BaseStat ExpectedStat = (BaseStat)stat.Clone();
         return ExpectedStat.ToString();
     }
-
+    public bool isMaxExp
+    {
+        get
+        {
+            return Exp == MaxExp;
+        }
+    }
     public int MaxExp
     {
         get
@@ -57,13 +63,6 @@ public class Equipment
     }
 
 
-    //public static int CalMaxExp(int grade, int evolution)
-    //{
-    //}
-    //internal static int CalMaterialExp(int grade, int evolution)
-    //{
-    //}
-
     public List<BonusStat> SkillStat
     {
         get
@@ -86,9 +85,9 @@ public class Equipment
         grade = data.grade;
         iconID = data.iconID;
 
-        Exp = 20;
+        Exp = 100;
         evolution = 0;
-        skillLevel = 5;
+        skillLevel = 1;
 
         baseStat = data.baseStat;
         baseSkillStat = data.baseSkillStat;
@@ -102,4 +101,32 @@ public class Equipment
         Staff,
         Ring
     }
+
+    internal bool Compare(Equipment equipment)
+    {
+        return (this.grade == equipment.grade && this.evolution == equipment.evolution && this.dataID.Equals(equipment.dataID));
+    }
+
+    internal void AddExp(int amount)
+    {
+        Exp += amount;
+        if (Exp > MaxExp)
+            Exp = MaxExp;
+    }
+
+    internal void Evolution()
+    {
+        evolution++;
+        if (evolution > 2)
+            evolution = 2;
+    }
+    internal bool CanEvolution
+    {
+        get
+        {
+            return isMaxExp && evolution < 2;
+        }
+
+    }
+
 }

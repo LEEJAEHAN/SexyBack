@@ -56,4 +56,12 @@ public static class EquipmentWiki
         else
             return (nextExp * 100 / maxExp).ToString() + "%";
     }
+
+    internal static string LockToString(bool isLock)
+    {
+        if(isLock)
+            return "잠금해제";
+        else
+            return "잠금";
+    }
 }
