@@ -30,10 +30,6 @@ namespace SexyBackMenuScene
 
             Slot1New.SetActive(false);
             Slot2New.SetActive(false);
-
-            GameObject.Find("SP").GetComponent<UILabel>().text = "";
-            GameObject.Find("GEM").GetComponent<UILabel>().text = "";
-            GameObject.Find("IconTable").transform.DestroyChildren();
         }
 
         internal void Clear()

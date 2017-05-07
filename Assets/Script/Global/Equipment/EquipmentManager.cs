@@ -6,12 +6,16 @@ using SexyBackMenuScene;
 
 internal class EquipmentManager
 {
-    public Dictionary<string, Equipment> equipments;
+    public List<Dictionary<string, Equipment>> equipSets;
     public List<Equipment> inventory;
 
     EquipmentWindow view;
-    public Equipment Selected;
-    public int SelectIndex {  get { return inventory.IndexOf(Selected); } }
+    TopWindow topView;
+
+    public Dictionary<string, Equipment> currentEquipSet;
+    public int EquipSetIndex { get { return equipSets.IndexOf(currentEquipSet); } }
+    public Equipment Focused;
+    public int SelectIndex {  get { return inventory.IndexOf(Focused); } }
 
     internal bool AddEquipment(Equipment e)
     {
@@ -24,7 +28,11 @@ internal class EquipmentManager
 
     internal void Init()
     {
-        equipments = new Dictionary<string, Equipment>();
+        equipSets = new List<Dictionary<string, Equipment>>(3);
+        for(int i = 0; i < equipSets.Capacity; i++)
+            equipSets.Add(new Dictionary<string, Equipment>());
+        currentEquipSet = equipSets[0];
+
         inventory = new List<Equipment>();
 
         int loop = 100;
@@ -36,12 +44,16 @@ internal class EquipmentManager
             loop--;
         }
 
-
+        topView.DrawEquipments(Singleton<EquipmentManager>.getInstance().currentEquipSet);
     }
 
-    internal void BindView(EquipmentWindow equipmentWindow)
+    internal void BindTopView(TopWindow view)
     {
-        view = equipmentWindow;
+        topView = view;
+    }
+    internal void BindView(EquipmentWindow view)
+    {
+        this.view = view;
     }
 
     internal bool SelectInventory(string indexstring)
@@ -52,36 +64,31 @@ internal class EquipmentManager
         if (inventory[i] == null)
             return false;
 
-        Selected = inventory[i];
+        Focused = inventory[i];
         return true;
     }
     internal bool SelectEquipment(string part)
     {
-        if (equipments.ContainsKey(part) == false)
+        if (currentEquipSet.ContainsKey(part) == false)
             return false;
 
-        Selected = equipments[part];
+        Focused = currentEquipSet[part];
         return true;
     }
 
     internal void Unselect()
     {
-        Selected = null;
-  //      view.mode = EquipmentWindow.State.Normal;
+        Focused = null;
     }
-
-
 
     internal Equipment Craft(int level, RewardRank rank)
     {
         // random gen "Equip01" from level and rank;
         // random gen Type;
         // random 
+        //        return new Equipment("앨런블랙", "Equip01", Equipment.Type.Weapon, );
 
         return null;
-
-
-//        return new Equipment("앨런블랙", "Equip01", Equipment.Type.Weapon, );
     }
 
     internal void GetReward(Reward currentReward)
@@ -95,56 +102,76 @@ internal class EquipmentManager
     }
     internal bool Lock()
     {
-        Selected.Lock = !Selected.Lock;
-        view.FillSelected(Selected);
-        return Selected.Lock;
+        Focused.Lock = !Focused.Lock;
+        view.FillSelected(Focused);
+        return Focused.Lock;
+    }
+
+    internal void ChangeEquipSet(bool next)
+    {
+        if (equipSets.Count <= 1)
+            return;
+
+        int toIndex;
+        if(next)
+        {
+            toIndex = EquipSetIndex + 1;
+            if (toIndex >= equipSets.Count)
+                toIndex = 0;
+        }
+        else
+        {
+            toIndex = EquipSetIndex - 1;
+            if (toIndex < 0)
+                toIndex = equipSets.Count - 1;
+        }
+
+        currentEquipSet = equipSets[toIndex];
+        view.FillEquipments(currentEquipSet, toIndex);
+        topView.DrawEquipments(currentEquipSet);
     }
 
     internal void Equip()
     {
-        string part = Selected.type.ToString();
+        string part = Focused.type.ToString();
 
-        if (equipments.ContainsKey(part))
+        if (currentEquipSet.ContainsKey(part))
         {
-            Equipment old = equipments[part];
-            equipments.Remove(part);
+            Equipment old = currentEquipSet[part];
+            currentEquipSet.Remove(part);
             inventory.Add(old);
         }
 
-        equipments.Add(part, Selected);
-        inventory.Remove(Selected);
+        currentEquipSet.Add(part, Focused);
+        inventory.Remove(Focused);
         view.FillInventory(inventory);
-        view.FillEquipments(equipments);
+        view.FillEquipments(currentEquipSet, EquipSetIndex);
+        topView.DrawEquipments(currentEquipSet);
         view.ForceSelect(false, part);
-        //view.mode = EquipmentWindow.State.EquipSelected;
-        //Selected = equipments[part];
-        //view.FillSelected(Selected, Selected.Exp, Selected.evolution);
     }
 
     internal void UnEquip()
     {
-        if (equipments.ContainsValue(Selected) == false)
+        if (currentEquipSet.ContainsValue(Focused) == false)
             return;
 
-        string part = Selected.type.ToString();
-        Equipment target = equipments[part];
-        equipments.Remove(part);
+        string part = Focused.type.ToString();
+        Equipment target = currentEquipSet[part];
+        currentEquipSet.Remove(part);
         inventory.Add(target);
 
         view.FillInventory(inventory);
-        view.FillEquipments(equipments);
+        view.FillEquipments(currentEquipSet, EquipSetIndex);
+        topView.DrawEquipments(currentEquipSet);
         view.ForceSelect(true, (inventory.Count-1).ToString());
-        //view.mode = EquipmentWindow.State.InvenSelected;
-        //Selected = target;
-        //view.FillSelected(Selected, Selected.Exp, Selected.evolution);
     }
 
 
     internal EquipmentState GetPrevMode()
     {
-        if (equipments.ContainsValue(Selected))
+        if (currentEquipSet.ContainsValue(Focused))
             return EquipmentState.EquipSelected;
-        else if (inventory.Contains(Selected))
+        else if (inventory.Contains(Focused))
             return EquipmentState.InvenSelected;
         else
             return EquipmentState.None;
@@ -158,15 +185,13 @@ internal class EquipmentManager
         foreach(int i in checkList)
         {
             sum += inventory[i].MaterialExp;
-            if (inventory[i].skillName.Equals(Selected.skillName))
-            {
-                if (Selected.skillLevel < 10)
-                    if(UnityEngine.Random.Range(1,10) > 8)
-                        Selected.skillLevel++;                    
-            }
+            if (inventory[i].skillName.Equals(Focused.skillName))
+                if (Focused.skillLevel < 10)
+                    if (UnityEngine.Random.Range(0, 10) >= 8)
+                        Focused.skillLevel++;
             inventory.RemoveAt(i);
         }
-        Selected.AddExp(sum);
+        Focused.AddExp(sum);
     }
     internal void Evolution(int meterialIndex)
     {
@@ -174,26 +199,26 @@ internal class EquipmentManager
             return;
 
         inventory.RemoveAt(meterialIndex);
-        Selected.Evolution();
-        Selected.Exp = 0;
+        Focused.Evolution();
+        Focused.Exp = 0;
     }
 
     internal void CalExpectedView(List<int> checkList, EquipmentState mode)
     {
         if (checkList.Count <= 0)
         {
-            view.FillSelected(Selected);
+            view.FillSelected(Focused);
             return;
         }
 
-        int expSum = Selected.Exp; 
+        int expSum = Focused.Exp; 
         foreach( int index in checkList)
             expSum += inventory[index].MaterialExp;
 
         if (mode == EquipmentState.EnchantMode)
-            view.FillExpectedSelect(Selected, expSum, Selected.evolution);
+            view.FillExpectedSelect(Focused, expSum, Focused.evolution);
         else if (mode == EquipmentState.EvolutionMode)
-            view.FillExpectedSelect(Selected, 0, Selected.evolution + 1);
+            view.FillExpectedSelect(Focused, 0, Focused.evolution + 1);
     }
 
     internal void reSelect()
@@ -202,7 +227,7 @@ internal class EquipmentManager
 
     internal bool isEvolutionMaterial(int meterialIndex)
     {
-        if (Selected.Compare(inventory[meterialIndex]) == false)
+        if (Focused.Compare(inventory[meterialIndex]) == false)
             return false;
         if (inventory[meterialIndex].isMaxExp == false)
             return false;

@@ -46,25 +46,25 @@ namespace SexyBackMenuScene
             }
             else if (state == EquipmentState.InvenSelected)
             {
-                script.FillSelected(manager.Selected);
+                script.FillSelected(manager.Focused);
                 transform.FindChild("ButtonSet/Set1").gameObject.SetActive(true);
                 transform.FindChild("ButtonSet/Set1/Table/Button1/Label").GetComponent<UILabel>().text = "장착";
                 transform.FindChild("ButtonSet/Set1/Table/Button1").GetComponent<UIButton>().onClick.Add(new EventDelegate(script, "onEquipButton"));
-                transform.FindChild("ButtonSet/Set1/Table/Button2").GetComponent<UIButton>().isEnabled = manager.Selected.CanEvolution;
-                transform.FindChild("ButtonSet/Set1/Table/Button4/Label").GetComponent<UILabel>().text = EquipmentWiki.LockToString(manager.Selected.Lock);
+                transform.FindChild("ButtonSet/Set1/Table/Button2").GetComponent<UIButton>().isEnabled = manager.Focused.CanEvolution;
+                transform.FindChild("ButtonSet/Set1/Table/Button4/Label").GetComponent<UILabel>().text = EquipmentWiki.LockToString(manager.Focused.Lock);
             }
             else if (state == EquipmentState.EquipSelected)
             {
-                script.FillSelected(manager.Selected);
+                script.FillSelected(manager.Focused);
                 transform.FindChild("ButtonSet/Set1").gameObject.SetActive(true);
                 transform.FindChild("ButtonSet/Set1/Table/Button1/Label").GetComponent<UILabel>().text = "해제";
                 transform.FindChild("ButtonSet/Set1/Table/Button1").GetComponent<UIButton>().onClick.Add(new EventDelegate(script, "onUnEquipButton"));
-                transform.FindChild("ButtonSet/Set1/Table/Button2").GetComponent<UIButton>().isEnabled = manager.Selected.CanEvolution;
-                transform.FindChild("ButtonSet/Set1/Table/Button4/Label").GetComponent<UILabel>().text = EquipmentWiki.LockToString(manager.Selected.Lock);
+                transform.FindChild("ButtonSet/Set1/Table/Button2").GetComponent<UIButton>().isEnabled = manager.Focused.CanEvolution;
+                transform.FindChild("ButtonSet/Set1/Table/Button4/Label").GetComponent<UILabel>().text = EquipmentWiki.LockToString(manager.Focused.Lock);
             }
             else if (state == EquipmentState.EnchantMode)
             {
-                script.FillSelected(manager.Selected);
+                script.FillSelected(manager.Focused);
                 transform.FindChild("Text").GetComponent<UILabel>().text = "재료로 사용할 장비를 선택해 주세요.\n<주의> 재료로 사용되는 장비는 사라지며 복구되지 않습니다.";
                 transform.FindChild("ButtonSet/Set2").gameObject.SetActive(true);
                 transform.FindChild("ButtonSet/Set2/Button1").GetComponent<UIButton>().onClick.Add(new EventDelegate(script, "onEnchantConfirm"));
@@ -102,7 +102,7 @@ namespace SexyBackMenuScene
             }
             else if (state == EquipmentState.EvolutionMode)
             {
-                script.FillSelected(manager.Selected);
+                script.FillSelected(manager.Focused);
                 transform.FindChild("Text").GetComponent<UILabel>().text = "MAX 강화된 동일장비 1개를 재료로 선택해주세요.\n<주의> 재료로 사용되는 장비는 사라지며 복구되지 않습니다.";
                 transform.FindChild("ButtonSet/Set2").gameObject.SetActive(true);
                 transform.FindChild("ButtonSet/Set2/Button1").GetComponent<UIButton>().onClick.Add(new EventDelegate(script, "onEvolutionConfirm"));
@@ -150,7 +150,7 @@ namespace SexyBackMenuScene
             if(enable)
             {
                 sexybacklog.Console("인챈팅시작");
-                script.FillSelected(manager.Selected);
+                script.FillSelected(manager.Focused);
                 transform.FindChild("아이템정보배경/Effect").gameObject.SetActive(true);
                 transform.FindChild("아이템정보배경/Effect").GetComponent<TweenAlpha>().PlayForward();
                 GameObject.Find("UICamera").GetComponent<UICamera>().eventReceiverMask = 0; // nothing

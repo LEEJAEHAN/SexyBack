@@ -14,16 +14,15 @@ namespace SexyBackMenuScene
         public void Awake()
         {
             statemachine = new EquipmentStateMachine(transform, this);
+            Singleton<EquipmentManager>.getInstance().BindView(this);
         }
         public void OnEnable()
         {
             SetPosition();
             ClearWindow();
             FillInventory(Singleton<EquipmentManager>.getInstance().inventory);
-            FillEquipments(Singleton<EquipmentManager>.getInstance().equipments);
-            Singleton<EquipmentManager>.getInstance().BindView(this);
+            FillEquipments(Singleton<EquipmentManager>.getInstance().currentEquipSet, Singleton<EquipmentManager>.getInstance().EquipSetIndex);
             statemachine.ChangeMode(EquipmentState.None);
-//            ChangeMode(State.None);
         }
 
         internal void ForceSelect(bool isInventory, string index)
@@ -34,7 +33,7 @@ namespace SexyBackMenuScene
             }
             else
             {
-                //transform.FindChild("장비슬w롯/Slot_" + index + "/" + index).gameObject.GetComponent<UIToggle>().value = true;
+                //transform.FindChild("장비슬롯/Slot_" + index + "/" + index).gameObject.GetComponent<UIToggle>().value = true;
                 transform.FindChild("장비슬롯/Slot_" + index + "/" + index).gameObject.GetComponent<UIToggle>().Set(true, true);
             }
         }
@@ -70,7 +69,18 @@ namespace SexyBackMenuScene
             Singleton<EquipmentManager>.getInstance().CalExpectedView(CheckList, statemachine.Mode);
             transform.FindChild("ButtonSet/Set2/Button1").GetComponent<UIButton>().isEnabled = CheckList.Count > 0;
         }
-        
+        public void onRightButton()
+        {
+            Singleton<EquipmentManager>.getInstance().ChangeEquipSet(true);
+            if (statemachine.Mode == EquipmentState.EquipSelected)
+                statemachine.ChangeMode(EquipmentState.None);
+        }
+        public void onLeftButton()
+        {
+            Singleton<EquipmentManager>.getInstance().ChangeEquipSet(false);
+            if (statemachine.Mode == EquipmentState.EquipSelected)
+                statemachine.ChangeMode(EquipmentState.None);
+        }
 
         public void onEquipButton()
         {
@@ -117,8 +127,9 @@ namespace SexyBackMenuScene
         /// <summary>
         /// 드로잉 메서드
         /// </summary>
-        internal void FillEquipments(Dictionary<string, Equipment> equipments)
+        internal void FillEquipments(Dictionary<string, Equipment> equipments, int setIndex)
         {
+            transform.FindChild("장비슬롯/Slot_Name").GetComponent<UILabel>().text = "장비편성 " + (setIndex + 1).ToString();
             FillEquipment(transform.FindChild("장비슬롯/Slot_Weapon").gameObject, Equipment.Type.Weapon, equipments);
             FillEquipment(transform.FindChild("장비슬롯/Slot_Staff").gameObject, Equipment.Type.Staff, equipments);
             FillEquipment(transform.FindChild("장비슬롯/Slot_Ring").gameObject, Equipment.Type.Ring, equipments);
@@ -149,6 +160,8 @@ namespace SexyBackMenuScene
                 capacity.color = Color.red;
             else
                 capacity.color = Color.yellow;
+
+            transform.FindChild("인벤토리/ScrollView").GetComponent<UIScrollView>().ResetPosition();
         }
         public void FillExpectedSelect(Equipment e, int NextExp, int NextEvolution) // 강화나 각성시 사전정보 들어오기.
         {
