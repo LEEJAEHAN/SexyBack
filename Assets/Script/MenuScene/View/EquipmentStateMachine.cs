@@ -51,7 +51,7 @@ namespace SexyBackMenuScene
                 transform.FindChild("ButtonSet/Set1/Table/Button1/Label").GetComponent<UILabel>().text = "장착";
                 transform.FindChild("ButtonSet/Set1/Table/Button1").GetComponent<UIButton>().onClick.Add(new EventDelegate(script, "onEquipButton"));
                 transform.FindChild("ButtonSet/Set1/Table/Button2").GetComponent<UIButton>().isEnabled = manager.Focused.CanEvolution;
-                transform.FindChild("ButtonSet/Set1/Table/Button4/Label").GetComponent<UILabel>().text = EquipmentWiki.LockToString(manager.Focused.Lock);
+                transform.FindChild("ButtonSet/Set1/Table/Button4/Label").GetComponent<UILabel>().text = EquipmentWiki.LockToString(manager.Focused.isLock);
             }
             else if (state == EquipmentState.EquipSelected)
             {
@@ -60,7 +60,7 @@ namespace SexyBackMenuScene
                 transform.FindChild("ButtonSet/Set1/Table/Button1/Label").GetComponent<UILabel>().text = "해제";
                 transform.FindChild("ButtonSet/Set1/Table/Button1").GetComponent<UIButton>().onClick.Add(new EventDelegate(script, "onUnEquipButton"));
                 transform.FindChild("ButtonSet/Set1/Table/Button2").GetComponent<UIButton>().isEnabled = manager.Focused.CanEvolution;
-                transform.FindChild("ButtonSet/Set1/Table/Button4/Label").GetComponent<UILabel>().text = EquipmentWiki.LockToString(manager.Focused.Lock);
+                transform.FindChild("ButtonSet/Set1/Table/Button4/Label").GetComponent<UILabel>().text = EquipmentWiki.LockToString(manager.Focused.isLock);
             }
             else if (state == EquipmentState.EnchantMode)
             {
@@ -83,7 +83,7 @@ namespace SexyBackMenuScene
                         view.GetComponent<UIToggle>().Set(true, false);
                         view.GetComponent<UIToggle>().enabled = false;
                     }
-                    else if (manager.inventory[i].Lock)
+                    else if (manager.inventory[i].isLock)
                     {
                         view.FindChild("Lock").gameObject.SetActive(true);
                         view.FindChild("Mask").gameObject.SetActive(true);
@@ -120,7 +120,7 @@ namespace SexyBackMenuScene
                         view.GetComponent<UIToggle>().Set(true, false);
                         view.GetComponent<UIToggle>().enabled = false;
                     }
-                    else if (manager.inventory[i].Lock)
+                    else if (manager.inventory[i].isLock)
                     {
                         view.FindChild("Lock").gameObject.SetActive(true);
                         view.FindChild("Mask").gameObject.SetActive(true);

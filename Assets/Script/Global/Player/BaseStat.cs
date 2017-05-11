@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
+[Serializable]
 public class BaseStat : ICloneable
 {
     public int Str;

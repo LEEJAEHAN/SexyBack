@@ -2,20 +2,20 @@
 using System.Runtime.Serialization;
 
 [Serializable]
-internal class HeroStat
+public class HeroStat
 {
-    internal int BonusLevel;
-    internal BigInteger DpcX; // 곱계수는 X를붙인다.
-    internal int AttackCapacity; // 공격스택횟수
-    internal int DpcIncreaseXH; // 
-    internal int AttackSpeedXH;
-    internal int CriticalRateXH;
-    internal int CriticalDamageXH;
-    internal int MovespeedXH;
+    public int BonusLevel;
+    public BigInteger DpcX; // 곱계수는 X를붙인다.
+    public int AttackCapacity; // 공격스택횟수
+    public int DpcIncreaseXH; // 
+    public int AttackSpeedXH;
+    public int CriticalRateXH;
+    public int CriticalDamageXH;
+    public int MovespeedXH;
 
     // only use battleScene
-    internal int Level;
-    internal double BaseDmg;
+    public int Level;
+    public double BaseDmg;
 
     internal HeroStat()
     {
@@ -41,8 +41,6 @@ internal class HeroStat
                 break;
             case "Enchant":
                 BaseDmg += Singleton<TableLoader>.getInstance().elementaltable[bonus.strvalue].BaseDmgDensity;
-                break;
-            case "ActiveElement":
                 break;
             case "BonusLevel":
                 BonusLevel += bonus.value;

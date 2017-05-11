@@ -4,21 +4,19 @@ using System.Linq;
 
 public class Equipment
 {
-    string dataID;
+    public string dataID;
     public Type type;
-    public int grade; // N, R, SR ;;
-    public int Exp;
-    public int evolution; // n, +, ++;
+    public int grade; // N, R, SR ;;    // 저장변수
+    public int exp; // 저장변수
+    public int evolution; // n, +, ++;  // 저장변수
     public string iconID;
-    public bool Lock;
+    public bool isLock;   // 저장변수
 
     public string name;
-    public BaseStat baseStat;
-    List<BonusStat> baseSkillStat;
-    public int skillLevel;
-    public string skillName;
-
-    bool isLock;
+    public BaseStat baseStat;   // data로부터
+    List<BonusStat> baseSkillStat; // data로부터
+    public int skillLevel;  // 저장변수
+    public string skillName;    // data로부터
 
     internal static string StatToString(BaseStat stat, int exp, int maxExp)
     {
@@ -29,7 +27,7 @@ public class Equipment
     {
         get
         {
-            return Exp == MaxExp;
+            return exp == MaxExp;
         }
     }
     public int MaxExp
@@ -51,7 +49,7 @@ public class Equipment
         get
         {
             double evolCoef = EquipmentWiki.CalEvolCoef(evolution);
-            double expCoef = EquipmentWiki.CalExpCoef(Exp, MaxExp);
+            double expCoef = EquipmentWiki.CalExpCoef(exp, MaxExp);
             return baseStat * (evolCoef * expCoef);
         }
     }
@@ -85,9 +83,10 @@ public class Equipment
         grade = data.grade;
         iconID = data.iconID;
 
-        Exp = 100;
+        exp = 0;
         evolution = 0;
         skillLevel = 1;
+        isLock = false;
 
         baseStat = data.baseStat;
         baseSkillStat = data.baseSkillStat;
@@ -95,9 +94,10 @@ public class Equipment
         skillName = data.baseSkillName;
         name = data.baseName;
     }
+
     public enum Type
     {
-        Weapon,
+        Weapon = 0,
         Staff,
         Ring
     }
@@ -109,9 +109,9 @@ public class Equipment
 
     internal void AddExp(int amount)
     {
-        Exp += amount;
-        if (Exp > MaxExp)
-            Exp = MaxExp;
+        exp += amount;
+        if (exp > MaxExp)
+            exp = MaxExp;
     }
 
     internal void Evolution()

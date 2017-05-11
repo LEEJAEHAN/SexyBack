@@ -96,7 +96,7 @@ namespace SexyBackPlayScene
         }
         void CalDPS()
         {
-            double growth = InstanceStat.CalGrowthPower(ElementalData.GrowthRate, BaseLevel); // 
+            double growth = InstanceStatus.CalGrowthPower(ElementalData.GrowthRate, BaseLevel); // 
             double doubleC = 1 * BaseDmgDensity * growth * LEVEL * dpsIncreaseXH * castSpeedXH / 10000;
             BigInteger Coefficient = BigInteger.FromDouble(doubleC);
             DPS = dpsX * Coefficient;
@@ -106,9 +106,9 @@ namespace SexyBackPlayScene
         }
         private void CalPrice()
         {
-            double BasePriceDensity = InstanceStat.GetTotalDensityPerLevel(BaseLevel + LEVEL);
+            double BasePriceDensity = InstanceStatus.GetTotalDensityPerLevel(BaseLevel + LEVEL);
             // cal price
-            double growth = InstanceStat.CalGrowthPower(ElementalData.GrowthRate, BaseLevel + LEVEL);
+            double growth = InstanceStatus.CalGrowthPower(ElementalData.GrowthRate, BaseLevel + LEVEL);
             double doubleC = BasePrice * BasePriceDensity * growth;
             PRICE = BigInteger.FromDouble(doubleC); // 60(랩업비기본) * 2.08(비중) * power수
         }

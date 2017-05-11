@@ -35,9 +35,11 @@ internal class ElementalStat// 누적배수
             case "Level":
                 Level += bonus.value;
                 break;
+            case "Active":
+                break;
             case "ActiveSkill":
-                    SkillLaunch = true;
-                    break;
+                SkillLaunch = true;
+                break;
             case "BonusLevel":
                 BonusLevel += bonus.value;
                 break;

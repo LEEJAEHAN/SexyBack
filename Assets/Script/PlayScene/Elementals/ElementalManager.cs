@@ -18,6 +18,7 @@ namespace SexyBackPlayScene
             readyToCreate = null;
             Action_ElementalCreateEvent = null;// = delegate (object sender) { };
             Action_ElementalLevelUp = null;
+            Singleton<PlayerStatus>.getInstance().Action_ElementalStatChange -= this.onElementalStatChange;
         }
 
         public Dictionary<string, Elemental> elementals = new Dictionary<string, Elemental>();
@@ -38,9 +39,39 @@ namespace SexyBackPlayScene
 
             elementals.Add(id, newElemental);
 
-            ElementalStat stat = Singleton<InstanceStat>.getInstance().GetIElementalStat(id);
+            ElementalStat stat = Singleton<PlayerStatus>.getInstance().GetElementalStat(id);
             SetLevelAndStat(stat, id);
             return true;
+        }
+
+
+        public void onElementalStatChange(ElementalStat newStat, string elementalIndex, string eventType)
+        {
+            switch (eventType)
+            {
+                case "Level":
+                    SetLevelAndStat(newStat, elementalIndex);
+                    break;
+                case "Active":
+                    LearnNewElemental(elementalIndex);
+                    break;
+                case "ActiveSkill":
+                    ActiveSkill(newStat, elementalIndex);
+                    break;
+                case "DpsX":
+                case "DpsIncreaseXH":
+                case "CastSpeedXH":
+                    SetStat(newStat, elementalIndex, true, false);
+                    break;
+                default:
+                    SetStat(newStat, elementalIndex, false, false);
+                    break;
+            }
+        }
+
+        internal void Init()
+        {
+            Singleton<PlayerStatus>.getInstance().Action_ElementalStatChange += this.onElementalStatChange;
         }
 
         internal void Load(ElementalManager elementalManager) // Create

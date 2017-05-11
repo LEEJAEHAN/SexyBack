@@ -13,10 +13,11 @@ namespace SexyBackPlayScene
         }
 
         // 저장되야할 데이터.
-        public string MapID;
-        public bool isBonused;
-        public double CurrentGameTime;
+        //public string MapID;
         public int CurrentFloor;
+        [NonSerialized]
+        public static int MaxFloor;
+
         public int LastStage { get { return CurrentFloor - 1; } }
         public List<Stage> Stages; // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
 
@@ -24,10 +25,6 @@ namespace SexyBackPlayScene
         public static readonly int DistancePerFloor = 30;
         [NonSerialized]
         public static readonly int MonsterCountPerFloor= 1;
-        [NonSerialized]
-        public static int MaxFloor;
-        [NonSerialized]
-        public static int LimitGameTime;
         [NonSerialized]
         public List<Stage> beToDispose = new List<Stage>(); // 풀링하지말자. 잦은이동이있는것도아닌데
         [NonSerialized]
@@ -39,43 +36,22 @@ namespace SexyBackPlayScene
         {
         }
 
-        internal void Start(string mapid, bool bonus) // start, no Load
+        internal void Start(string MapID) // start, no Load
         {
             // playscene 에서 시작할때를 위한 Test
-            if (mapid == null)
-            {
-                sexybacklog.Console("플레이씬에서 새 게임을 시작합니다. 더미맵을 출력합니다.");
-                mapid = "Map01";
-                bonus = false;
-            }
-
-            MapID = mapid;
-            isBonused = bonus;
-            sexybacklog.Console(mapid);
-            MapData map = Singleton<TableLoader>.getInstance().mapTable[mapid];
-            MaxFloor = map.MaxFloor;
-            LimitGameTime = map.LimitTime;
-
+            MaxFloor = Singleton<TableLoader>.getInstance().mapTable[MapID].MaxFloor;
             CurrentFloor = 0;
-            CurrentGameTime = 0;
 
             Stages = new List<Stage>();
             Stages.Add(Factory.CreateStage(CurrentFloor, DistancePerFloor));
             Stages.Add(Factory.CreateStage(CurrentFloor+1, DistancePerFloor * 2));
         }
 
-        internal void Load(StageManager data) // 클래스가 로드가 된뒤 셋해야 할것들.
+        internal void Load(string MapID, StageManager data) // 클래스가 로드가 된뒤 셋해야 할것들.
         {
-            MapID = data.MapID;
-            isBonused = data.isBonused;
-            sexybacklog.Console(data.MapID);
-            MapData map = Singleton<TableLoader>.getInstance().mapTable[data.MapID];
-            MaxFloor = map.MaxFloor;
-            LimitGameTime = map.LimitTime;
-
+            MaxFloor = Singleton<TableLoader>.getInstance().mapTable[MapID].MaxFloor;
             CurrentFloor = data.CurrentFloor;
-            CurrentGameTime = data.CurrentGameTime;
- 
+
             Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다. 
             foreach( Stage stagedata in data.Stages)
             {
@@ -100,10 +76,6 @@ namespace SexyBackPlayScene
 
         public void Update()
         {
-            CurrentGameTime += Time.deltaTime;
-            sexybacklog.InGame("총시간 = " + (int)CurrentGameTime + " 초");
-            sexybacklog.InGame("빨리감기 +" + Singleton<GameInput>.getInstance().fowardtimefordebug + " 초");
-
             if (needNextStage)
             {
                 if(CurrentFloor <= MaxFloor)

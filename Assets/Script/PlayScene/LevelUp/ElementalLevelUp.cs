@@ -19,8 +19,8 @@ namespace SexyBackPlayScene
         {
             for (int i = 0; i < PurchaseCount; PurchaseCount--)
             {
-                if (Singleton<InstanceStat>.getInstance().ExpUse(PRICE, true))
-                    Singleton<InstanceStat>.getInstance().ApplyBonus(bonus, true);
+                if (Singleton<InstanceStatus>.getInstance().ExpUse(PRICE, true))
+                    Singleton<PlayerStatus>.getInstance().ApplyBonus(bonus, true);
             }
         }
 
@@ -31,7 +31,7 @@ namespace SexyBackPlayScene
             CalPrice();
 
             Name = OwnerName + " LV." + elemental.LEVEL.ToString();
-            ElementalStat stat = Singleton<InstanceStat>.getInstance().GetIElementalStat(elemental.GetID);
+            ElementalStat stat = Singleton<PlayerStatus>.getInstance().GetElementalStat(elemental.GetID);
             StatName = "피해량\n공격속도";
             StatValue = stat.DpsIncreaseXH.ToString() + "%\n" + stat.CastSpeedXH.ToString() + "%";
             Damage = elemental.DPS.To5String() + " 피해 / 초";

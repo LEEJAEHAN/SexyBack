@@ -10,9 +10,9 @@ namespace SexyBackPlayScene
         {
             sexybacklog.Console("LevelUpManager 소멸");
         }
-
         public void Dispose()
         {
+            Singleton<PlayerStatus>.getInstance().Action_UtilStatChange -= this.onUtilStatChange;
             LevelUpWindow.Clear();
             Panel = null;
         }
@@ -22,6 +22,7 @@ namespace SexyBackPlayScene
         internal void Init()
         {
             Panel = LevelUpWindow.getInstance;
+            Singleton<PlayerStatus>.getInstance().Action_UtilStatChange += this.onUtilStatChange;
             // this class is event listner
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += SummonElemetalLevelUpItem;
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += SummonHeroLevelUpItem;
@@ -37,6 +38,15 @@ namespace SexyBackPlayScene
         {
             ViewLoader.Tab1Container.SetActive(false);
             // ViewLoader.Info_Context.SetActive(false);
+        }
+        public void onUtilStatChange(UtilStat newStat, string eventType)
+        {
+            switch (eventType)
+            {
+                case "LevelUpPriceXH":
+                    SetStat(newStat);
+                    break;
+            }
         }
 
         private void onShowList()
@@ -57,7 +67,7 @@ namespace SexyBackPlayScene
                 return;
 
             LevelUp levelup = new HeroLevelUp(Singleton<TableLoader>.getInstance().leveluptable[hero.GetID], hero);
-            levelup.SetStat(Singleton<InstanceStat>.getInstance().GetIPlayerStat);
+            levelup.SetStat(Singleton<PlayerStatus>.getInstance().GetUtilStat);
             levelUpItems.Add(hero.GetID, levelup);
             DrawNewMark();
         }
@@ -68,7 +78,7 @@ namespace SexyBackPlayScene
                 return;
 
             LevelUp levelup = new ElementalLevelUp(Singleton<TableLoader>.getInstance().leveluptable[elemental.GetID], elemental);
-            levelup.SetStat(Singleton<InstanceStat>.getInstance().GetIPlayerStat);
+            levelup.SetStat(Singleton<PlayerStatus>.getInstance().GetUtilStat);
             levelUpItems.Add(elemental.GetID, levelup);
             DrawNewMark();
             return;
@@ -84,7 +94,7 @@ namespace SexyBackPlayScene
             }
         }
 
-        internal void SetStat(PlayerStat stat)
+        internal void SetStat(UtilStat stat)
         {
             foreach (LevelUp item in levelUpItems.Values)
             {

@@ -22,12 +22,11 @@ namespace SexyBackPlayScene
             gameManager = Singleton<GameManager>.getInstance();
             gameManager.Init();
         }
-        //        GameModeData args;
+        //GameModeData args;
         void Start()
         {
-            if (SaveSystem.CanLoad())
+            if (SaveSystem.InstanceDataExist)
             {
-                //gameManager.NewInstance();
                 try
                 {
                     gameManager.LoadInstance();
@@ -68,8 +67,9 @@ namespace SexyBackPlayScene
             ViewLoader.PopUpPanel.SetActive(false);
         }
 
-        private void OnDestroy()
+        private void OnDestroy()    
         {
+            // 주의 : 플레이 씬에서만 쓰이는 모든 singleton 해제가 필요하다.
             sexybacklog.Console("플레이씬 디스트로이");
             gameInput.Dispose();
             gameManager.Dispose();
@@ -79,6 +79,8 @@ namespace SexyBackPlayScene
         private void OnApplicationQuit()
         {
             sexybacklog.Console("어플강제종료");
+
+            SaveSystem.SaveGlobalData();
             gameManager.SaveInstance(); // 인스턴스세이브
         }
         private void OnApplicationPause(bool pause)

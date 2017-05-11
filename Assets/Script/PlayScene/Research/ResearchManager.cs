@@ -15,6 +15,7 @@ namespace SexyBackPlayScene
         }
         public void Dispose()
         {
+            Singleton<PlayerStatus>.getInstance().Action_UtilStatChange -= this.onUtilStatChange;
             ResearchWindow.Clear();
         }
 
@@ -38,11 +39,28 @@ namespace SexyBackPlayScene
 
         public void Init()
         {
+            Singleton<PlayerStatus>.getInstance().Action_UtilStatChange += this.onUtilStatChange;
             Singleton<HeroManager>.getInstance().Action_HeroLevelUp += onHeroLevelUp;
             Singleton<ElementalManager>.getInstance().Action_ElementalLevelUp += onElementalLevelUp;
             ViewLoader.TabButton2.GetComponent<TabView>().Action_ShowList += onShowList;
             ViewLoader.TabButton2.GetComponent<TabView>().Action_HideList += onHideList;
             ViewLoader.Tab2Container.GetComponent<UIGrid>().onCustomSort = myResearchSort;
+        }
+
+        public void onUtilStatChange(UtilStat newStat, string eventType)
+        {
+            switch (eventType)
+            {
+                case "FinishResearch":
+                    FinishFrontOne();
+                    break;
+                case "ResearchTimeX":
+                case "ResearchTime":
+                case "ResearchThread":
+                case "ResearchPriceXH":
+                    SetStat(newStat);
+                    break;
+            }
         }
 
         int myResearchSort(Transform a, Transform b)
@@ -158,16 +176,16 @@ namespace SexyBackPlayScene
         }
 
 
-        internal void SetStat(PlayerStat researchStat)
+        internal void SetStat(UtilStat utilStat)
         {
-            if(maxthread != researchStat.ResearchThread)
+            if(maxthread != utilStat.ResearchThread)
             {
-                maxthread = researchStat.ResearchThread;
+                maxthread = utilStat.ResearchThread;
                 Action_ThreadChange(CanUseThread);
             }
             foreach (Research research in researches.Values)
             {
-                research.SetStat(researchStat);
+                research.SetStat(utilStat);
             }
         }
 

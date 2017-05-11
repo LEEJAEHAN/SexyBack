@@ -41,7 +41,7 @@ namespace SexyBackPlayScene
             monster.level = floor - 1; // 1층이면 0레벨 몬스터, 2층이면 5레벨(2의1승) 몬스터, 
             monster.Name = data.Name;
 
-            double growth = InstanceStat.CalGrowthPower(MonsterData.GrowthRate, monster.level); // 
+            double growth = InstanceStatus.CalGrowthPower(MonsterData.GrowthRate, monster.level); // 
             monster.MAXHP = BigInteger.FromDouble(growth);
             monster.MAXHP *= data.baseHP;
             monster.HP = BigInteger.FromDouble(growth);
@@ -70,7 +70,7 @@ namespace SexyBackPlayScene
             Monster monster = new Monster(instanceID, dataID);
             monster.level = level;
             monster.Name = data.Name;
-            double growth = InstanceStat.CalGrowthPower(MonsterData.GrowthRate, monster.level);
+            double growth = InstanceStatus.CalGrowthPower(MonsterData.GrowthRate, monster.level);
             monster.MAXHP = BigInteger.FromDouble(growth);
             monster.MAXHP *= data.baseHP;
             monster.HP = hp;

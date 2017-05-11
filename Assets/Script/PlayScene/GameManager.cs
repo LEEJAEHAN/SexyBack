@@ -28,7 +28,8 @@ namespace SexyBackPlayScene
         [NonSerialized]
         ConsumableManager consumableManager;
         [NonSerialized]
-        InstanceStat instanceStat;
+        InstanceStatus instanceStat;
+        PlayerStatus outGameStat;
         // singleton - player
 
         // View
@@ -41,8 +42,7 @@ namespace SexyBackPlayScene
         // Use this for initialization
         internal void Init()
         {
-
-            instanceStat = Singleton<InstanceStat>.getInstance();
+            instanceStat = Singleton<InstanceStatus>.getInstance();
             stageManager = Singleton<StageManager>.getInstance();
             heroManager = Singleton<HeroManager>.getInstance();
             monsterManager = Singleton<MonsterManager>.getInstance();
@@ -51,12 +51,17 @@ namespace SexyBackPlayScene
             researchManager = Singleton<ResearchManager>.getInstance();
             consumableManager = Singleton<ConsumableManager>.getInstance();
             infoView = Singleton<GameInfoView>.getInstance();
+            outGameStat = Singleton<PlayerStatus>.getInstance();
 
             // event listner가 없으면 딱히 init은 필요없다.
+            outGameStat.NewData();     // menu단계에서 이미 load되있으면 init을안할테고, 만약 playscene실행이면 init을함.
             monsterManager.Init();
             levelUpManager.Init();
             researchManager.Init(); // new PlayerStat.ResearchThread
             consumableManager.Init();
+            heroManager.Init();
+            elementalManager.Init();
+            instanceStat.Init();
             infoView.Init();
 
         }
@@ -66,29 +71,42 @@ namespace SexyBackPlayScene
             // 인스턴스 스텟은 기본스텟과 별개로 저장한다.
             // 기본스텟은 저장되지 않고, 로드(menuscene)시 1에서부터 특성(저장)과 장비(저장)로부터 항상 새로계산한다.
 
-
             // for test  원래라면 meneuscene에서 이미 init되있다.
-
-            instanceStat.Start(Singleton<PlayerStatus>.getInstance());
+            instanceStat.Start();
             heroManager.CreateHero(); // no level and stat
-            stageManager.Start(Singleton<PlayerStatus>.getInstance().mapID, Singleton<PlayerStatus>.getInstance().boost);
-            instanceStat.ApplyStat(); // post event : statup
+            stageManager.Start(instanceStat.GetMapID);
+
+//            PlayerStatus stat
+            ApplyStat(); // post event : statup
             // post event : exp gain 
         }
 
+        internal void ApplyStat() // 스텟 적용해야하는놈들, 히어로, 엘리멘탈, 리서치, 레벨업, 인스턴스스텟(exp)
+        {
+            researchManager.SetStat(outGameStat.GetUtilStat); //첨엔 없고, herocreate시 서먼된다.
+            levelUpManager.SetStat(outGameStat.GetUtilStat); //첨엔 없고, herocreate시 서먼된다.
+            elementalManager.SetLevelAndStat(outGameStat.GetElementalStats); // 첨엔 없고, 서먼된다.
+            heroManager.SetLevelAndStat(outGameStat.GetHeroStat);
+            instanceStat.SetStat(outGameStat.GetUtilStat);
+            instanceStat.ExpGain(instanceStat.EXP, false);
+        }
+
+
         internal void LoadInstance()
         {
+            //스텟은 instance manager 파일에 저장또는 로드되지않는다.
             //load
-            instanceStat.Load((InstanceStat)SaveSystem.Load("statmanager.dat"));
+            instanceStat.Load((InstanceStatus)SaveSystem.Load("statmanager.dat"));
             heroManager.Load((HeroManager)SaveSystem.Load("heroManager.dat"));   // post : 스텟
-            stageManager.Load((StageManager)SaveSystem.Load("stagemanager.dat"));       // 상관관계 x
+            stageManager.Load(instanceStat.GetMapID, (StageManager)SaveSystem.Load("stagemanager.dat"));       // 상관관계 x
             monsterManager.Load((MonsterManager)SaveSystem.Load("monsterManager.dat")); // 상관관계 x
             elementalManager.Load((ElementalManager)SaveSystem.Load("elementalManager.dat"));   //post : 스텟
             ResearchManager rData = (ResearchManager)SaveSystem.Load("researchManager.dat");
             researchManager.Load(rData);
 
             // post event : statup, expgain
-            instanceStat.ApplyStat();
+            ApplyStat();
+
             researchManager.SetStateNTime(rData);
 
             //GameManager loaddata = null;
@@ -107,8 +125,8 @@ namespace SexyBackPlayScene
         public void EndGame(bool clear) // 메뉴로 버튼을 눌렀을때,
         {
             int lastStage = Singleton<StageManager>.getInstance().LastStage;
-            string map = Singleton<StageManager>.getInstance().MapID;
-            int timeRecord = (int)Singleton<StageManager>.getInstance().CurrentGameTime;
+            string map = Singleton<InstanceStatus>.getInstance().GetMapID;
+            int timeRecord = (int)Singleton<InstanceStatus>.getInstance().CurrentGameTime;
             SaveSystem.ClearInstance();
             Singleton<SexyBackRewardScene.RewardManager>.getInstance().GiveReward(map, clear, lastStage, timeRecord, 0);
             SceneManager.LoadScene("RewardScene");
@@ -131,8 +149,11 @@ namespace SexyBackPlayScene
             levelUpManager.Dispose();
             researchManager.Dispose();
             consumableManager.Dispose();
+            elementalManager.Dispose();
+            heroManager.Dispose();
+            instanceStat.Dispose();
 
-            Singleton<InstanceStat>.Clear();
+            Singleton<InstanceStatus>.Clear();
             Singleton<HeroManager>.Clear();
             Singleton<MonsterManager>.Clear();
             Singleton<ElementalManager>.Clear();

@@ -91,7 +91,8 @@ namespace SexyBackPlayScene
             Action_InstantFinish = null;
             Panel = null;
         }
-        
+
+
         ~Research() { sexybacklog.Console("리서치소멸"); }
 
         public void Update()
@@ -100,7 +101,7 @@ namespace SexyBackPlayScene
         }
         public void DoUpgrade()
         {
-            Singleton<InstanceStat>.getInstance().ApplyBonusWithIcon(bonus, icon);
+            Singleton<InstanceStatus>.getInstance().ApplyBonusWithIcon(bonus, icon);
         }
 
         public void onSelect(string id)
@@ -164,7 +165,7 @@ namespace SexyBackPlayScene
                 StateMachine.ChangeState("Pause");
         }
 
-        internal void SetStat(PlayerStat stat)
+        internal void SetStat(UtilStat stat)
         {
             double PrevTime = ReducedTime;
             ReducedTime = ResearchTime / stat.ResearchTimeX - stat.ResearchTime;

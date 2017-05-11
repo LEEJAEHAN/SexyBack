@@ -27,23 +27,33 @@ internal class TableLoader
         sexybacklog.Console("TableLoader 소멸");
     }
 
-    internal void Init()
+    internal bool Init()
     {
         if (FinishLoad == false)
         {
-            sexybacklog.Console("Xml데이터를 로드합니다.");
-            LoadPriceData();
-            LoadHeroData();
-            LoadMonsterData();
-            LoadElementData();
-            LoadLevelUpData();
-            LoadResearchData();
-            LoadMapData();
-            LoadTalentData();
-            LoadConsumableData();
-            LoadEquipmentData();
+            sexybacklog.Console("게임 데이터 테이블을 로드합니다.");
+            try
+            {
+                LoadPriceData();
+                LoadHeroData();
+                LoadMonsterData();
+                LoadElementData();
+                LoadLevelUpData();
+                LoadResearchData();
+                LoadMapData();
+                LoadTalentData();
+                LoadConsumableData();
+                LoadEquipmentData();
+            }
+            catch ( Exception e)
+            {
+                sexybacklog.Error("게임 데이터 테이블 로드에 문제가 있었습니다. " + e.Message);
+                return false;
+            }
+            return true;
         }
         FinishLoad = true;
+        return true;
     }
 
     public XmlDocument OpenXml(string path)

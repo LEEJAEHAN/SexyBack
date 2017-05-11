@@ -11,27 +11,34 @@ namespace SexyBackMenuScene
         private void Awake()
         {
             Singleton<TableLoader>.getInstance().Init();
-            Singleton<PlayerStatus>.getInstance().Init(); //TODO : 로드만들어야한다. 
+            // TODO :  ResourceLoader 제작, 캐싱;
+
+            // 파일이없을시에만 이닛. 있으면 무조건 로드시도, 실패시 메시지처리
+            Singleton<PlayerStatus>.getInstance().Init();
             Singleton<EquipmentManager>.getInstance().Init();
 
-
-            // TODO :  ResourceLoader 제작, 캐싱;
-            if (SaveSystem.CanLoad())
+            // set scene state
+            if (SaveSystem.InstanceDataExist) // case PlayScene
             {
-                Debug.Log("인스턴스데이터를 불러옵니다.");
+                Debug.Log("인스턴스 데이터를 불러옵니다.");
                 SceneManager.LoadScene("PlayScene");
             }
-            else
-                Debug.Log("저장데이터가음습니다.");
+            else // case MenuScene
+            {
+                Debug.Log("진행중인 인스턴스 저장데이터가 없습니다.");
+                Singleton<PlayerStatus>.getInstance().ReCheckStat(); // 메뉴진입시. 장비와 특성으로부터 새로이 스텟 계산
+                Singleton<ViewLoader>.getInstance().InitUISetting();
+            }
+        }
 
-            Singleton<ViewLoader>.getInstance().InitUISetting();
+        private void Start()
+        {
         }
 
         internal void GoPlayScene(string selectedMapID, bool selectedBonus)
         {
-            Singleton<PlayerStatus>.getInstance().mapID = selectedMapID;
-            Singleton<PlayerStatus>.getInstance().boost = selectedBonus;
-
+            Singleton<SexyBackPlayScene.InstanceStatus>.getInstance().mapID = selectedMapID;
+            Singleton<SexyBackPlayScene.InstanceStatus>.getInstance().isBonused = selectedBonus;
             SceneManager.LoadScene("PlayScene");
         }
 
@@ -40,6 +47,11 @@ namespace SexyBackMenuScene
             Application.Quit();
         }
 
+        private void OnApplicationQuit()
+        {
+            sexybacklog.Console("어플강제종료");
+            SaveSystem.SaveGlobalData(); // 글로벌 데이터 세이브.
+        }
         private void OnDestroy()
         {
             Singleton<ViewLoader>.Clear();

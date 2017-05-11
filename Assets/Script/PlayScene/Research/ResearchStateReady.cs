@@ -4,7 +4,7 @@ namespace SexyBackPlayScene
 {
     internal class ResearchStateReady : BaseState<Research>
     {
-        InstanceStat player = Singleton<InstanceStat>.getInstance();
+        InstanceStatus player = Singleton<InstanceStatus>.getInstance();
         ResearchManager manager = Singleton<ResearchManager>.getInstance();
         bool Instantbuy = false;
         bool ThreadEmpty = false;

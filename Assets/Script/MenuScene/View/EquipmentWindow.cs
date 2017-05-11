@@ -127,19 +127,19 @@ namespace SexyBackMenuScene
         /// <summary>
         /// 드로잉 메서드
         /// </summary>
-        internal void FillEquipments(Dictionary<string, Equipment> equipments, int setIndex)
+        internal void FillEquipments(Dictionary<Equipment.Type, Equipment> equipments, int setIndex)
         {
             transform.FindChild("장비슬롯/Slot_Name").GetComponent<UILabel>().text = "장비편성 " + (setIndex + 1).ToString();
             FillEquipment(transform.FindChild("장비슬롯/Slot_Weapon").gameObject, Equipment.Type.Weapon, equipments);
             FillEquipment(transform.FindChild("장비슬롯/Slot_Staff").gameObject, Equipment.Type.Staff, equipments);
             FillEquipment(transform.FindChild("장비슬롯/Slot_Ring").gameObject, Equipment.Type.Ring, equipments);
         }
-        private void FillEquipment(GameObject Slot, Equipment.Type part, Dictionary<string, Equipment> equipments)
+        private void FillEquipment(GameObject Slot, Equipment.Type part, Dictionary<Equipment.Type, Equipment> equipments)
         {
             Slot.transform.DestroyChildren();
-            if (equipments.ContainsKey(part.ToString()))
+            if (equipments.ContainsKey(part))
             {
-                GameObject Weapon = MakeGridView(Slot.transform, part.ToString(), equipments[part.ToString()].iconID, "onEquipToggle");
+                GameObject Weapon = MakeGridView(Slot.transform, part.ToString(), equipments[part].iconID, "onEquipToggle");
                 Weapon.transform.GetComponent<UIWidget>().width = Slot.transform.GetComponent<UIWidget>().width;
             }
         }
@@ -155,8 +155,8 @@ namespace SexyBackMenuScene
             }
             inventoryView.GetComponent<UIGrid>().Reposition();
             UILabel capacity = transform.FindChild("인벤토리/ScrollView/Capacity").GetComponent<UILabel>();
-            capacity.text = "최대 소지 한도 수 " + items.Count + " / " + Singleton<PlayerStatus>.getInstance().MaxInventory;
-            if (items.Count >= Singleton<PlayerStatus>.getInstance().MaxInventory)
+            capacity.text = "최대 소지 한도 수 " + items.Count + " / " + items.Capacity;
+            if (items.Count >= items.Capacity)
                 capacity.color = Color.red;
             else
                 capacity.color = Color.yellow;
@@ -172,9 +172,9 @@ namespace SexyBackMenuScene
             Transform info = transform.FindChild("아이템정보");
             info.gameObject.SetActive(true);
             info.FindChild("Icon").GetComponent<UISprite>().spriteName = e.iconID;
-            info.FindChild("Lock").GetComponent<UISprite>().gameObject.SetActive(e.Lock);
+            info.FindChild("Lock").GetComponent<UISprite>().gameObject.SetActive(e.isLock);
             info.FindChild("Name").GetComponent<UILabel>().text = e.name + EquipmentWiki.EvToString(NextEvolution);
-            if (NextExp > e.Exp || NextEvolution > e.evolution)
+            if (NextExp > e.exp || NextEvolution > e.evolution)
                 info.FindChild("Stat").GetComponent<UILabel>().color = Color.blue;
             else
                 info.FindChild("Stat").GetComponent<UILabel>().color = Color.black;
@@ -187,7 +187,7 @@ namespace SexyBackMenuScene
             else // 강화 예
             {
                 info.FindChild("Name").GetComponent<UILabel>().color = Color.black;
-                info.FindChild("EnchantBar").GetComponent<UIProgressBar>().value = (float)e.Exp / (float)MaxExp;
+                info.FindChild("EnchantBar").GetComponent<UIProgressBar>().value = (float)e.exp / (float)MaxExp;
             }
             info.FindChild("Stat").GetComponent<UILabel>().text = e.ExpectStat(NextExp, NextEvolution).ToString();
             info.FindChild("EnchantBar/RBar_Fill2").GetComponent<UISprite>().fillAmount = (float)NextExp / (float)EquipmentWiki.CalMaxExp(e.grade, NextEvolution);
@@ -198,7 +198,7 @@ namespace SexyBackMenuScene
         }
         public void FillSelected(Equipment selected)
         {
-            FillExpectedSelect(selected, selected.Exp, selected.evolution);
+            FillExpectedSelect(selected, selected.exp, selected.evolution);
         }
         private void ClearWindow()
         {

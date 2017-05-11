@@ -16,16 +16,22 @@ public class TopWindow : MonoBehaviour {
         }
     }
 
-    public void DrawEquipments(Dictionary<string, Equipment> equipments)
+    public void Start()
+    {
+        DrawEquipments(Singleton<EquipmentManager>.getInstance().currentEquipSet);
+    }
+
+    public void DrawEquipments(Dictionary<Equipment.Type, Equipment> equipments)
     {
         Transform equipIcons = transform.FindChild("Slot2/Table");       
         for (int i = 0; i < equipIcons.childCount; i++)
         {
             Transform part = equipIcons.GetChild(i);
-            if (equipments.ContainsKey(part.name))
+            Equipment.Type t = (Equipment.Type)Enum.Parse(typeof(Equipment.Type), part.name);
+            if (equipments.ContainsKey(t))
             {
                 part.gameObject.SetActive(true);
-                part.GetComponent<UISprite>().spriteName = equipments[part.name].iconID;
+                part.GetComponent<UISprite>().spriteName = equipments[t].iconID;
             }
             else
             {
@@ -35,11 +41,6 @@ public class TopWindow : MonoBehaviour {
         equipIcons.GetComponent<UITable>().Reposition();
     }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
 	// Update is called once per frame
 	void Update () {
 		

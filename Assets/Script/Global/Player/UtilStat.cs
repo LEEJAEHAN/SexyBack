@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 
 [Serializable]
-internal class PlayerStat
+internal class UtilStat
 {
     internal int ResearchTime; 
     internal int ResearchThread;
@@ -15,7 +15,7 @@ internal class PlayerStat
     internal int ResearchTimeX; 
 
 
-    public PlayerStat()
+    public UtilStat()
     {
         ResearchTimeX = 1;
         ResearchTime = 0;

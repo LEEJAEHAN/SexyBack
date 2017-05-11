@@ -29,14 +29,14 @@ namespace SexyBackPlayScene
 
             Research newone = new Research(data, griditem, temptime, totalPrice, researchTick); //,StartPrice, ResearchPrice, PricePerSec, ResearchTime
             newone.StateMachine.ChangeState("Ready");
-            newone.SetStat(Singleton<InstanceStat>.getInstance().GetIPlayerStat);
+            newone.SetStat(Singleton<PlayerStatus>.getInstance().GetUtilStat);
 
             return newone;
         }
         private BigInteger CalPrice(int level, int baselevel, int baseprice)
         {
-            double BasePriceDensity = InstanceStat.GetTotalDensityPerLevel( baselevel + level );
-            double growth = InstanceStat.CalGrowthPower(ResearchData.GrowthRate, baselevel + level);
+            double BasePriceDensity = InstanceStatus.GetTotalDensityPerLevel( baselevel + level );
+            double growth = InstanceStatus.CalGrowthPower(ResearchData.GrowthRate, baselevel + level);
             double doubleC = baseprice * BasePriceDensity * growth;
             BigInteger TotalPrice = BigInteger.FromDouble(doubleC);
             return TotalPrice;

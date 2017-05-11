@@ -73,7 +73,7 @@ namespace SexyBackPlayScene
 
         void CalDpc()
         {
-            double growth = InstanceStat.CalGrowthPower(HeroData.GrowthRate, BaseLevel); // 
+            double growth = InstanceStatus.CalGrowthPower(HeroData.GrowthRate, BaseLevel); // 
             double doubleC = 5 * BaseDmgDensity * growth * LEVEL * DpcIncreaseXH / 100;
             BigInteger Coefficient = BigInteger.FromDouble(doubleC);
             DPC = dpcX * Coefficient;
@@ -82,9 +82,9 @@ namespace SexyBackPlayScene
 
         private void CalPrice()
         {
-            double BasePriceDensity = InstanceStat.GetTotalDensityPerLevel(BaseLevel + LEVEL);
+            double BasePriceDensity = InstanceStatus.GetTotalDensityPerLevel(BaseLevel + LEVEL);
             // cal price
-            double growth = InstanceStat.CalGrowthPower(ElementalData.GrowthRate, BaseLevel + LEVEL);
+            double growth = InstanceStatus.CalGrowthPower(ElementalData.GrowthRate, BaseLevel + LEVEL);
             double doubleC = BasePrice * BasePriceDensity * growth;
             PRICE = BigInteger.FromDouble(doubleC);
         }
