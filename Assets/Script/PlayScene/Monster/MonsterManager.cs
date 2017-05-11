@@ -13,7 +13,7 @@ namespace SexyBackPlayScene
             sexybacklog.Console("MonsterManager 소멸");
         }
 
-        Dictionary<string, Monster> monsters = new Dictionary<string, Monster>();
+        public Dictionary<string, Monster> monsters = new Dictionary<string, Monster>();
 
         [NonSerialized]
         Queue<string> disposeIDs= new Queue<string>();

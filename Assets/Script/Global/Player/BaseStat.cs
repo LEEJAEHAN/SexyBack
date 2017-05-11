@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml;
 
 [Serializable]
 public class BaseStat : ICloneable
@@ -8,21 +9,24 @@ public class BaseStat : ICloneable
     public int Int;
     public int Spd;
     public int Luck;
+    private XmlNode xmlNode;
 
-    public BaseStat()
-    {
-        Str = 0;
-        Int = 0;
-        Spd = 0;
-        Luck = 0;
-    }
-    public BaseStat(int str, int intel, int spd, int luc)
+    public BaseStat(int str = 0, int intel = 0, int spd = 0, int luc = 0)
     {
         Str = str;
         Int = intel;
         Spd = spd;
         Luck = luc;
     }
+
+    public BaseStat(XmlNode xmlNode)
+    {
+        Str = int.Parse(xmlNode.Attributes["Str"].Value);
+        Int = int.Parse(xmlNode.Attributes["Int"].Value);
+        Spd = int.Parse(xmlNode.Attributes["Spd"].Value);
+        Luck = int.Parse(xmlNode.Attributes["Luck"].Value);
+    }
+
     public override string ToString()
     {
         string temp = "";

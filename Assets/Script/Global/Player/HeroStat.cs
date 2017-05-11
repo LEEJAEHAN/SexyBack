@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml;
 
 [Serializable]
 public class HeroStat
@@ -16,22 +17,38 @@ public class HeroStat
     // only use battleScene
     public int Level;
     public double BaseDmg;
+    private XmlNode xmlNode;
 
     internal HeroStat()
     {
         Level = 1;
-        BonusLevel = 0;
         BaseDmg = 1;
 
+        BonusLevel = 0;
         DpcX = 1;
         DpcIncreaseXH = 100; // Str과는 다르다.
         AttackSpeedXH = 100; // Spd와는 다르다.
         CriticalRateXH = 20;
         CriticalDamageXH = 425;
-
-        MovespeedXH = 1000;
-        AttackCapacity = 3;
+        MovespeedXH = 100;
+        AttackCapacity = 1;
     }
+
+    public HeroStat(XmlNode xmlNode)
+    {
+        Level = 1;
+        BaseDmg = 1;
+
+        BonusLevel = int.Parse(xmlNode.Attributes["BonusLevel"].Value);
+        DpcX = new BigInteger(xmlNode.Attributes["DpcX"].Value);
+        DpcIncreaseXH = int.Parse(xmlNode.Attributes["DpcIncreaseXH"].Value);
+        AttackSpeedXH = int.Parse(xmlNode.Attributes["AttackSpeedXH"].Value);
+        CriticalRateXH = int.Parse(xmlNode.Attributes["CriticalRateXH"].Value);
+        CriticalDamageXH = int.Parse(xmlNode.Attributes["CriticalDamageXH"].Value);
+        MovespeedXH = int.Parse(xmlNode.Attributes["MovespeedXH"].Value);
+        AttackCapacity = int.Parse(xmlNode.Attributes["AttackCapacity"].Value);
+    }
+
     internal void Add(BonusStat bonus)
     {
         switch (bonus.attribute)

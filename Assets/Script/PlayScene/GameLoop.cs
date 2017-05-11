@@ -25,7 +25,7 @@ namespace SexyBackPlayScene
         //GameModeData args;
         void Start()
         {
-            if (SaveSystem.InstanceDataExist)
+            if (InstanceSaveSystem.InstanceDataExist)
             {
                 try
                 {
@@ -34,7 +34,7 @@ namespace SexyBackPlayScene
                 catch (Exception e)
                 {
                     sexybacklog.Console("로드에이상이있었습니다. 클리어합니다." + e.Message);
-                    SaveSystem.ClearInstance();
+                    InstanceSaveSystem.ClearInstance();
                     OnDestroy();
                     SceneManager.LoadScene("MenuScene");
                 }
@@ -79,9 +79,8 @@ namespace SexyBackPlayScene
         private void OnApplicationQuit()
         {
             sexybacklog.Console("어플강제종료");
-
-            SaveSystem.SaveGlobalData();
             gameManager.SaveInstance(); // 인스턴스세이브
+            SaveSystem.SaveGlobalData();
         }
         private void OnApplicationPause(bool pause)
         {

@@ -14,8 +14,8 @@ namespace SexyBackPlayScene // instance 던젼안에서의 스텟
             sexybacklog.Console("InstanceStat 소멸");
         }
         // map and 진행 info
-        public string mapID = null;
-        public bool isBonused = false;
+        public string MapID = null;
+        public bool IsBonused = false;
         public double CurrentGameTime;
         [NonSerialized]
         public static int LimitGameTime;
@@ -33,12 +33,12 @@ namespace SexyBackPlayScene // instance 던젼안에서의 스텟
         {
             get
             {
-                if (mapID == null)
+                if (MapID == null)
                 {
                     sexybacklog.Console("플레이씬에서 새 게임을 시작합니다. 더미맵을 출력합니다.");
-                    mapID = "Map01";
+                    MapID = "Map01";
                 }
-                return mapID;
+                return MapID;
             }
         }
 
@@ -58,23 +58,24 @@ namespace SexyBackPlayScene // instance 던젼안에서의 스텟
         }
         internal void Init()
         {
+            exp = new BigInteger();
             Singleton<PlayerStatus>.getInstance().Action_UtilStatChange += this.onUtilStatChange;
         }
         internal void Start() //new game
         {
-            exp = Singleton<PlayerStatus>.getInstance().GetUtilStat.InitExp;
-            mapID = GetMapID;   // 외부에서 setting 되어있으면 setting된값으로 아니면 더미값을출력
+            ExpGain(Singleton<PlayerStatus>.getInstance().GetUtilStat.InitExp, false);
+            MapID = GetMapID;   // 외부에서 setting 되어있으면 setting된값으로 아니면 더미값을출력
             // isBonused // 외부에서 이미 setting; 안되있으면 false;
-            LimitGameTime = Singleton<TableLoader>.getInstance().mapTable[mapID].LimitTime;
+            LimitGameTime = Singleton<TableLoader>.getInstance().mapTable[MapID].LimitTime;
             expIncreaseXH = 0;
             CurrentGameTime = 0;
         }
         internal void Load(InstanceStatus sData) // load game
         {
-            exp = sData.EXP;
-            mapID = sData.mapID;
-            isBonused = sData.isBonused;
-            LimitGameTime = Singleton<TableLoader>.getInstance().mapTable[mapID].LimitTime;
+            ExpGain(sData.EXP, false);
+            MapID = sData.MapID;
+            IsBonused = sData.IsBonused;
+            LimitGameTime = Singleton<TableLoader>.getInstance().mapTable[MapID].LimitTime;
             //expincrease // 이건stat; 적용될때 적용됨.
             CurrentGameTime = sData.CurrentGameTime;
         }
@@ -102,12 +103,12 @@ namespace SexyBackPlayScene // instance 던젼안에서의 스텟
         }
         internal void ApplyBonusWithIcon(BonusStat bonus, GridItemIcon icon)
         {
-            Singleton<PlayerStatus>.getInstance().ApplyBonus(bonus, true);
+            Singleton<PlayerStatus>.getInstance().ApplySpecialStat(bonus, true);
             EffectController.getInstance.AddBuffEffect(icon);
         }
         internal void DisableBonusWithIcon(BonusStat bonus, GridItemIcon icon)
         {
-            Singleton<PlayerStatus>.getInstance().ApplyBonus(bonus, false);
+            Singleton<PlayerStatus>.getInstance().ApplySpecialStat(bonus, false);
             EffectController.getInstance.AddBuffEffect(icon);
         }
         internal void Buff(BonusStat bonus, GridItemIcon icon, int duration)

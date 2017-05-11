@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Xml;
 
 namespace SexyBackPlayScene
 {
@@ -18,7 +19,6 @@ namespace SexyBackPlayScene
         [NonSerialized]
         public static int MaxFloor;
 
-        public int LastStage { get { return CurrentFloor - 1; } }
         public List<Stage> Stages; // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
 
         [NonSerialized]
@@ -58,6 +58,23 @@ namespace SexyBackPlayScene
                 Stages.Add(Factory.LoadStage(stagedata));
             }
         }
+
+        internal void Load()
+        {
+            XmlDocument doc = SaveSystem.LoadXml(InstanceSaveSystem.InstanceDataPath);
+            XmlNode rootNode = doc.SelectSingleNode("InstanceStatus/Stages");
+            CurrentFloor = int.Parse(rootNode.Attributes["MapCurrentFloorID"].Value);
+
+            Stages = new List<Stage>();
+            Stages.Add(Factory.CreateStage(CurrentFloor, DistancePerFloor));
+            Stages.Add(Factory.CreateStage(CurrentFloor + 1, DistancePerFloor * 2));
+            foreach (XmlNode node in rootNode.ChildNodes)
+            {
+                Stages.Add(Factory.LoadStage(node));
+            }
+        }
+
+
 
         public void onStagePass(Stage stage)
         {

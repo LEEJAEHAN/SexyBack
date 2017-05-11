@@ -27,8 +27,6 @@ internal class PlayerStatus
     public event Action<BaseStat> Action_BaseStatChange;
     [field: NonSerialized]
     public event Action<UtilStat, string> Action_UtilStatChange;
-
-
     [field: NonSerialized]
     public event Action<HeroStat, string> Action_HeroStatChange;
     [field: NonSerialized]
@@ -48,7 +46,8 @@ internal class PlayerStatus
             XmlNode EquipmentNodes = rootNode.SelectSingleNode("Equipments");
 
             //for test
-            NewData();
+            Load();
+            //NewData();
         }
         else
         {
@@ -57,87 +56,59 @@ internal class PlayerStatus
         }
     }
 
+    private void Load()
+    {
+        XmlDocument doc = SaveSystem.LoadXml(SaveSystem.SaveDataPath);
+        XmlNode BaseStatNode = doc.SelectSingleNode("PlayerStatus/Stats/BaseStat");
+        baseStat = new BaseStat(doc.SelectSingleNode("PlayerStatus/Stats/BaseStat"));
+        utilStat = new UtilStat(doc.SelectSingleNode("PlayerStatus/Stats/UtilStat"));
+        heroStat = new HeroStat(doc.SelectSingleNode("PlayerStatus/Stats/HeroStat"));
+
+        elementalStats = new Dictionary<string, ElementalStat>();
+        foreach (string elementalid in Singleton<TableLoader>.getInstance().elementaltable.Keys)
+            elementalStats.Add(elementalid, new ElementalStat());
+        foreach ( XmlNode node in doc.SelectSingleNode("PlayerStatus/Stats/ElementalStats").ChildNodes)
+            elementalStats[node.Attributes["id"].Value].LoadStat(node);
+    }
+
     public void NewData()
     {
-        if(baseStat == null)
-        {
-            sexybacklog.Console("플레이씬에서 새 게임을 시작합니다. 더미스텟으로 시작합니다.");
-            baseStat = new BaseStat();
-            utilStat = new UtilStat();
-            heroStat = new HeroStat();
-            elementalStats = new Dictionary<string, ElementalStat>();
-            foreach (string elementalid in Singleton<TableLoader>.getInstance().elementaltable.Keys)
-                elementalStats.Add(elementalid, new ElementalStat());
-        }
+        sexybacklog.Console("플레이씬에서 새 게임을 시작합니다. 더미스텟으로 시작합니다.");
+        baseStat = new BaseStat();
+        utilStat = new UtilStat();
+        heroStat = new HeroStat();
+        elementalStats = new Dictionary<string, ElementalStat>();
+        foreach (string elementalid in Singleton<TableLoader>.getInstance().elementaltable.Keys)
+            elementalStats.Add(elementalid, new ElementalStat());
     }
 
     internal void ReCheckStat()
     {
+        NewData();
         sexybacklog.Console("장비와 특성으로부터 스텟을 새로 계산합니다.");
     }
 
-
-    internal void Load(PlayerStatus sData) // load game stat
+    void ApplyBaseStat(BaseStat stat, bool signPositive)
     {
-        //MaxInventory = sData.MaxInventory;
-        //Jewel = sData.Jewel;
-        //SkillPoint = sData.SkillPoint;
-        //baseStat = sData.baseStat;
-        //utilStat = sData.utilStat;
-        //heroStat = sData.heroStat;
-        //elementalStats = sData.elementalStats;
-    }
-
-    void Add(BaseStat equipstat)
-    {
-        baseStat.Int = equipstat.Int;
-        baseStat.Str = equipstat.Str;
-        baseStat.Spd = equipstat.Spd;
-        baseStat.Luck = equipstat.Luck;
-    }
-    void Add(BonusStat bonus)
-    {
-        switch (bonus.targetID)
+        if (signPositive)
         {
-            case "hero":
-                heroStat.Add(bonus);
-                break;
-            case "player":
-                utilStat.Add(bonus);
-                break;
-            default:
-                if (elementalStats[bonus.targetID] == null)
-                {
-                    sexybacklog.Error("no Attribute");
-                    return;
-                }
-                elementalStats[bonus.targetID].Add(bonus);
-                break;
+            baseStat.Int += stat.Int;
+            baseStat.Str += stat.Str;
+            baseStat.Spd += stat.Spd;
+            baseStat.Luck += stat.Luck;
         }
-    }
-
-    void Remove(BonusStat bonus)
-    {
-        switch (bonus.targetID)
+        else
         {
-            case "hero":
-                heroStat.Remove(bonus);
-                break;
-            case "player":
-                utilStat.Remove(bonus);
-                break;
-            default:
-                if (elementalStats[bonus.targetID] == null)
-                {
-                    sexybacklog.Error("no Attribute");
-                    return;
-                }
-                elementalStats[bonus.targetID].Remove(bonus);
-                break;
+            baseStat.Int -= stat.Int;
+            baseStat.Str -= stat.Str;
+            baseStat.Spd -= stat.Spd;
+            baseStat.Luck -= stat.Luck;
         }
+
+        Action_BaseStatChange(baseStat);
     }
 
-    internal void ApplyBonus(BonusStat bonus, bool signPositive)
+    internal void ApplySpecialStat(BonusStat bonus, bool signPositive)
     {
         switch (bonus.targetID)
         {

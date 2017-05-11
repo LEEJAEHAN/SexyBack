@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<InstanceStatus Exp="100" MapID="Map01" IsBonused="False" CurrentGameTime="0.892945034429431">
+  <Hero level="1" basedmgdensity="1" />
+  <Elementals />
+  <Researchs resarchthread="0">
+    <FinishResearchs />
+    <RemainResearch>
+      <Research id="R01" state="Ready" remaintime="0" />
+      <Research id="R15" state="Ready" remaintime="0" />
+      <Research id="R36" state="Ready" remaintime="0" />
+      <Research id="R37" state="Ready" remaintime="0" />
+      <Research id="R38" state="Ready" remaintime="0" />
+    </RemainResearch>
+  </Researchs>
+  <Stages CurrentFloor="0">
+    <Stage floor="0" zPosition="27.38116" rewardcomplete="False" state="Move" monstercount="0" />
+    <Stage floor="1" zPosition="57.38116" rewardcomplete="False" state="Move" monstercount="0" />
+  </Stages>
+  <Monsters>
+    <Monster id="F1M0" dataid="m02" level="0" hp="20000" />
+  </Monsters>
+</InstanceStatus>

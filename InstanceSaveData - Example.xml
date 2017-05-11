@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<InstanceStatus Exp="" mapID = "" isBonused = "" CurrentGameTime="">
+  <Hero Level="" Enchant="" />
+  <Elementals>
+    <Elemental id="" level="" skillActive="" forceSkillCount=""/>
+  </Elementals>
+  <Researchs Thread="">
+    <FinishResearch>
+      <Research id=""/>
+
+    </FinishResearch>
+    <RemainResearch>
+      <Research id="" state="" ReaminTime=""/>
+
+    </RemainResearch>
+  </Researchs>
+  <Monsters>
+    <Monster ID="" DataID="" level="" HP=""/>
+  </Monsters>
+  <Stages CurrentFloor="">
+    <Stage floor="" zPosition="" rewardComplete="" savedState="" remainMonsterCount=""/>
+    <Stage floor="" zPosition="" rewardComplete="" savedState="" remainMonsterCount=""/>
+  </Stages>
+</InstanceStatus>

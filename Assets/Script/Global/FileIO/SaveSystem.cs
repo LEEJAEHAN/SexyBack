@@ -20,34 +20,7 @@ internal class SaveSystem
 {
     internal static readonly string SaveDataPath = "SaveData.xml";
 
-    internal static void Save(object target, string filename)
-    {
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/" + filename);
-        bf.Serialize(file, target);
-        file.Close();
-    }
 
-    internal static object Load(string filename)
-    {
-        object loaddata = null;
-        BinaryFormatter bf = new BinaryFormatter();
-        try
-        {
-            FileStream file = File.Open(Application.persistentDataPath + "/" + filename, FileMode.Open);
-            if (file != null && file.Length > 0)
-            {
-                loaddata = bf.Deserialize(file);
-            }
-            file.Close();
-            return loaddata;
-        }
-        catch (Exception e)
-        {
-            sexybacklog.Error("FileLoad Error " + e.Message);
-            return null;
-        }
-    }
 
     //internal static void SaveInstacne()
     //{
@@ -61,25 +34,6 @@ internal class SaveSystem
         }
     }
 
-    internal static bool InstanceDataExist
-    {
-        get
-        {
-            return System.IO.File.Exists(Application.persistentDataPath + "/statmanager.dat");
-        }
-    }
-
-    internal static void ClearInstance()
-    {
-        DeleteFile(Application.persistentDataPath + "/statmanager.dat");
-        DeleteFile(Application.persistentDataPath + "/stagemanager.dat");
-        DeleteFile(Application.persistentDataPath + "/monsterManager.dat");
-        DeleteFile(Application.persistentDataPath + "/heroManager.dat");
-        DeleteFile(Application.persistentDataPath + "/elementalManager.dat");
-        DeleteFile(Application.persistentDataPath + "/researchManager.dat");
-        //PlayerPrefs.DeleteKey("InstanceData");
-        //PlayerPrefs.DeleteAll();
-    }
 
     internal static XmlDocument LoadXml(string saveDataPath)
     {
@@ -94,26 +48,11 @@ internal class SaveSystem
         return xmldoc;
     }
 
-    private static void DeleteFile(string path)
-    {
-        if (System.IO.File.Exists(path))
-        {
-            try
-            {
-                System.IO.File.Delete(path);
-            }
-            catch (System.IO.IOException e)
-            {
-                sexybacklog.Error("No SavedFile" + e.Message);
-                return;
-            }
-        }
-    }
+
+
 
     internal static void SaveGlobalData()
     {
-        EquipmentManager equipManager = Singleton<EquipmentManager>.getInstance();
-
         XmlWriterSettings setting = new XmlWriterSettings();
         setting.Indent = true;
 
@@ -144,6 +83,7 @@ internal class SaveSystem
         {
             writer.WriteStartElement("UtilStat");
             UtilStat utilStat = playerStatus.GetUtilStat;
+            writer.WriteAttributeString("ResearchTimeX", utilStat.ResearchTimeX.ToString());
             writer.WriteAttributeString("ResearchTime", utilStat.ResearchTime.ToString());
             writer.WriteAttributeString("ResearchThread", utilStat.ResearchThread.ToString());
             writer.WriteAttributeString("ExpIncreaseXH", utilStat.ExpIncreaseXH.ToString());
@@ -174,17 +114,19 @@ internal class SaveSystem
                 ElementalStat eStat = playerStatus.GetElementalStat(id);
                 writer.WriteAttributeString("id", id);
                 writer.WriteAttributeString("BonusLevel", eStat.BonusLevel.ToString());
-                writer.WriteAttributeString("DpcX", eStat.DpsX.ToString());
-                writer.WriteAttributeString("AttackCapacity", eStat.DpsIncreaseXH.ToString());
-                writer.WriteAttributeString("DpcIncreaseXH", eStat.CastSpeedXH.ToString());
-                writer.WriteAttributeString("AttackSpeedXH", eStat.SkillRateIncreaseXH.ToString());
-                writer.WriteAttributeString("CriticalRateXH", eStat.SkillDmgIncreaseXH.ToString());
+                writer.WriteAttributeString("DpsX", eStat.DpsX.ToString());
+                writer.WriteAttributeString("DpsIncreaseXH", eStat.DpsIncreaseXH.ToString());
+                writer.WriteAttributeString("CastSpeedXH", eStat.CastSpeedXH.ToString());
+                writer.WriteAttributeString("SkillRateIncreaseXH", eStat.SkillRateIncreaseXH.ToString());
+                writer.WriteAttributeString("SkillDmgIncreaseXH", eStat.SkillDmgIncreaseXH.ToString());
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();
         }
         writer.WriteEndElement();
     }
+
+
     private static void SaveEquipments(XmlWriter writer)
     {
         var eManager = Singleton<EquipmentManager>.getInstance();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml;
 
 [Serializable]
 internal class UtilStat
@@ -12,8 +13,7 @@ internal class UtilStat
     internal BigInteger InitExp;
 
     // only use battleScene
-    internal int ResearchTimeX; 
-
+    internal int ResearchTimeX;
 
     public UtilStat()
     {
@@ -26,7 +26,18 @@ internal class UtilStat
         InitExp = new BigInteger(0);
     }
 
-internal void Add(BonusStat bonus)
+    public UtilStat(XmlNode xmlNode)
+    {
+        ResearchTimeX = int.Parse(xmlNode.Attributes["ResearchTimeX"].Value);
+        ResearchTime = int.Parse(xmlNode.Attributes["ResearchTime"].Value);
+        ResearchThread = int.Parse(xmlNode.Attributes["ResearchThread"].Value);
+        ExpIncreaseXH = int.Parse(xmlNode.Attributes["ExpIncreaseXH"].Value);
+        LevelUpPriceXH = int.Parse(xmlNode.Attributes["LevelUpPriceXH"].Value);
+        ResearchPriceXH = int.Parse(xmlNode.Attributes["ResearchPriceXH"].Value);
+        InitExp = new BigInteger(xmlNode.Attributes["ResearchPriceXH"].Value);
+    }
+
+    internal void Add(BonusStat bonus)
     {
         switch (bonus.attribute)
         {

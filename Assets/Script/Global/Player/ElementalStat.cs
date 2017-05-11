@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml;
 
 [Serializable]
 internal class ElementalStat// 누적배수
@@ -15,18 +16,29 @@ internal class ElementalStat// 누적배수
     internal int Level;
     internal bool SkillLaunch;
 
-
     internal ElementalStat()
     {
         Level = 1;
+        SkillLaunch = false;
         BonusLevel = 0;
         DpsX = new BigInteger(1);
         DpsIncreaseXH = 100;
         CastSpeedXH = 100;
         SkillRateIncreaseXH = 100;
         SkillDmgIncreaseXH = 100;
-        SkillLaunch = false;
     }
+    internal void LoadStat(XmlNode xmlNode)
+    {
+        Level = 1;
+        SkillLaunch = false;
+        BonusLevel = int.Parse(xmlNode.Attributes["BonusLevel"].Value);
+        DpsX = new BigInteger(xmlNode.Attributes["DpsX"].Value);
+        DpsIncreaseXH = int.Parse(xmlNode.Attributes["DpsIncreaseXH"].Value);
+        CastSpeedXH = int.Parse(xmlNode.Attributes["CastSpeedXH"].Value);
+        SkillRateIncreaseXH = int.Parse(xmlNode.Attributes["SkillRateIncreaseXH"].Value);
+        SkillDmgIncreaseXH = int.Parse(xmlNode.Attributes["SkillDmgIncreaseXH"].Value);
+    }
+
 
     internal void Add(BonusStat bonus)
     {
@@ -90,5 +102,6 @@ internal class ElementalStat// 누적배수
                 break;
         }
     }
+
 }
 

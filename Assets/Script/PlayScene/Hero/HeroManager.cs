@@ -18,8 +18,7 @@ namespace SexyBackPlayScene
             CurrentHero = null;
             Singleton<PlayerStatus>.getInstance().Action_HeroStatChange -= onHeroStatChange;
         }
-
-        public Hero CurrentHero;
+        Hero CurrentHero;
 
         // this class is event publisher
         public delegate void HeroCreate_Event(Hero hero);

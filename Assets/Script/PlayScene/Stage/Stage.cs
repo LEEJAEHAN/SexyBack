@@ -14,6 +14,8 @@ namespace SexyBackPlayScene
         public string savedState; // TODO : 이거빼는게좋을듯
         public List<string> monsters;
 
+        public int monsterCount = 0;
+
         [NonSerialized]
         public StageType type;
         [NonSerialized]
@@ -22,6 +24,7 @@ namespace SexyBackPlayScene
         internal StageStateMachine StateMachine;
 
         public string GetID { get { return "F" + floor; } }
+        public string CurrentState { get { return StateMachine.currStateID; } }
 
         public Stage()
         {

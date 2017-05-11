@@ -8,6 +8,8 @@ namespace SexyBackMenuScene
 {
     public class Main : MonoBehaviour
     {
+        bool LoadComplete = false;
+
         private void Awake()
         {
             Singleton<TableLoader>.getInstance().Init();
@@ -18,7 +20,7 @@ namespace SexyBackMenuScene
             Singleton<EquipmentManager>.getInstance().Init();
 
             // set scene state
-            if (SaveSystem.InstanceDataExist) // case PlayScene
+            if (SexyBackPlayScene.InstanceSaveSystem.InstanceXmlDataExist) // case PlayScene
             {
                 Debug.Log("인스턴스 데이터를 불러옵니다.");
                 SceneManager.LoadScene("PlayScene");
@@ -29,6 +31,8 @@ namespace SexyBackMenuScene
                 Singleton<PlayerStatus>.getInstance().ReCheckStat(); // 메뉴진입시. 장비와 특성으로부터 새로이 스텟 계산
                 Singleton<ViewLoader>.getInstance().InitUISetting();
             }
+
+            LoadComplete = true;
         }
 
         private void Start()
@@ -37,8 +41,8 @@ namespace SexyBackMenuScene
 
         internal void GoPlayScene(string selectedMapID, bool selectedBonus)
         {
-            Singleton<SexyBackPlayScene.InstanceStatus>.getInstance().mapID = selectedMapID;
-            Singleton<SexyBackPlayScene.InstanceStatus>.getInstance().isBonused = selectedBonus;
+            Singleton<SexyBackPlayScene.InstanceStatus>.getInstance().MapID = selectedMapID;
+            Singleton<SexyBackPlayScene.InstanceStatus>.getInstance().IsBonused = selectedBonus;
             SceneManager.LoadScene("PlayScene");
         }
 
@@ -50,7 +54,8 @@ namespace SexyBackMenuScene
         private void OnApplicationQuit()
         {
             sexybacklog.Console("어플강제종료");
-            SaveSystem.SaveGlobalData(); // 글로벌 데이터 세이브.
+            if(LoadComplete)
+                SaveSystem.SaveGlobalData(); // 글로벌 데이터 세이브.
         }
         private void OnDestroy()
         {

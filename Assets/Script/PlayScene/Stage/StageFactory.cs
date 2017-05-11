@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using UnityEngine;
 
 namespace SexyBackPlayScene
 {
     internal class StageFactory
     {
-
         internal Stage CreateStage(int floor, float zPosition)
         {
             Stage baseStage = MakeBaseStage(zPosition, floor);
@@ -30,7 +30,6 @@ namespace SexyBackPlayScene
                 baseStage.rewardComplete = true;
                 baseStage.ChangeState("Move");
             }
-
             return baseStage;
         }
         internal Stage LoadStage(Stage stagedata)
@@ -41,7 +40,17 @@ namespace SexyBackPlayScene
             baseStage.ChangeState(stagedata.savedState);
             return baseStage;
         }
-
+        internal Stage LoadStage(XmlNode node)
+        {
+            int zPosition = int.Parse(node.Attributes["zPosition"].Value);
+            int floor = int.Parse(node.Attributes["floor"].Value);
+            Stage baseStage = MakeBaseStage(zPosition, floor);
+            baseStage.rewardComplete = bool.Parse(node.Attributes["rewardcomplete"].Value);
+            baseStage.monsterCount = int.Parse(node.Attributes["monstercount"].Value);
+            baseStage.ChangeState(node.Attributes["state"].Value);
+            return baseStage;
+        }
+        
         Stage MakeBaseStage(float zPosition, int floor)
         {
             Stage result = new Stage();
@@ -68,5 +77,6 @@ namespace SexyBackPlayScene
 
             return result;
         }
+
     }
 }

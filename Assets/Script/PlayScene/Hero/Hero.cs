@@ -40,7 +40,7 @@ namespace SexyBackPlayScene
         public double ATTACKSPEED; // for view action, state
         public double CRIRATE;
         public int CRIDAMAGEXH;
-        double BaseDmgDensity;
+        public double BaseDmgDensity;
         readonly int BaseLevel;
         readonly int BasePrice;
         readonly double AttackInterval;
