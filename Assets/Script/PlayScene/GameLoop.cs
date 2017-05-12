@@ -17,30 +17,39 @@ namespace SexyBackPlayScene
         {
             viewLoader = new ViewLoader();
             cameraSetting = new GameCameras();
-            Singleton<TableLoader>.getInstance().Init();
             gameInput = Singleton<GameInput>.getInstance();
             gameManager = Singleton<GameManager>.getInstance();
+
+            Singleton<TableLoader>.getInstance().Init();
+            Singleton<PlayerStatus>.getInstance().Init();
+            Singleton<EquipmentManager>.getInstance().Init();
+            // menu단계에서 이미 load되있으면 init을안할테고, 만약 playscene실행이면 init을함.
+            // 파일이없을시에만 이닛. 있으면 무조건 로드시도, 실패시 메시지처리
             gameManager.Init();
         }
         //GameModeData args;
         void Start()
-        {
-            if (InstanceSaveSystem.InstanceDataExist)
+        {            
+            if (InstanceSaveSystem.InstanceXmlDataExist)
             {
-                try
-                {
+                //try
+                //{
+                    sexybacklog.Console("인스턴스데이터 로드");
                     gameManager.LoadInstance();
-                }
-                catch (Exception e)
-                {
-                    sexybacklog.Console("로드에이상이있었습니다. 클리어합니다." + e.Message);
-                    InstanceSaveSystem.ClearInstance();
-                    OnDestroy();
-                    SceneManager.LoadScene("MenuScene");
-                }
+                //}
+                //catch (Exception e)
+                //{
+                //    sexybacklog.Console("로드에이상이있었습니다. 클리어합니다." + e.Message);
+                //    InstanceSaveSystem.ClearInstance();
+                //    OnDestroy();
+                //    Debug.Break();
+                //    SceneManager.LoadScene("MenuScene");
+                //    return;
+                //}
             }
             else // 메뉴로부터실행됬을때
             {
+                sexybacklog.Console("새 인스턴스데이터 생성");
                 gameManager.NewInstance();
             }
         }

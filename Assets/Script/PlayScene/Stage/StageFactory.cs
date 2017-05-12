@@ -34,15 +34,16 @@ namespace SexyBackPlayScene
         }
         internal Stage LoadStage(Stage stagedata)
         {
-            Stage baseStage = MakeBaseStage(stagedata.zPosition, stagedata.floor);
-            baseStage.rewardComplete = stagedata.rewardComplete;
-            baseStage.monsters = stagedata.monsters;
-            baseStage.ChangeState(stagedata.savedState);
-            return baseStage;
+            //Stage baseStage = MakeBaseStage(stagedata.zPosition, stagedata.floor);
+            //baseStage.rewardComplete = stagedata.rewardComplete;
+            //baseStage.monsters = stagedata.monsters;
+            //baseStage.ChangeState(stagedata.savedState);
+            //return baseStage;
+            return null;
         }
         internal Stage LoadStage(XmlNode node)
         {
-            int zPosition = int.Parse(node.Attributes["zPosition"].Value);
+            float zPosition = float.Parse(node.Attributes["zPosition"].Value);
             int floor = int.Parse(node.Attributes["floor"].Value);
             Stage baseStage = MakeBaseStage(zPosition, floor);
             baseStage.rewardComplete = bool.Parse(node.Attributes["rewardcomplete"].Value);

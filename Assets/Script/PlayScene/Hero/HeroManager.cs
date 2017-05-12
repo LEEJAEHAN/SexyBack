@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml;
 using UnityEngine;
 
 namespace SexyBackPlayScene
@@ -28,46 +29,41 @@ namespace SexyBackPlayScene
         public delegate void HeroLevelUp_Event(Hero hero);
         [field: NonSerialized]
         public event HeroLevelUp_Event Action_HeroLevelUp;
-
+                
         public void Init()
         {
             Singleton<PlayerStatus>.getInstance().Action_HeroStatChange += onHeroStatChange;
             // this class is event listner
         }
-        internal void Load(HeroManager heroManager)
+        internal void Load(XmlDocument doc)
         {
-            CreateHero();
-            // 변수 load 
-            int temp = heroManager.CurrentHero.AttackCount;
-            CurrentHero.AttackManager.SetAttackCount(temp);
+            XmlNode rootNode = doc.SelectSingleNode("InstanceStatus/Hero");
+            CreateNewHero();
+            CurrentHero.BaseDmg = double.Parse(rootNode.Attributes["basedmg"].Value);
+            // 레벨업 이벤트를 안줘서 research를 생성하지 않는다.
+            LevelUp(int.Parse(rootNode.Attributes["level"].Value));
         }
 
-        public void onHeroStatChange(HeroStat newStat, string eventType)
+        internal void LevelUp(int value)
         {
-            switch (eventType) // 이벤트 처리
-            {
-                case "Level":
-                    SetLevelAndStat(newStat);
-                    break;
-                case "Enchant":
-                case "DpcX":
-                case "DpcIncreaseXH":
-                    CurrentHero.SetStat(newStat, true, false);
-                    break;
-                // case "BonusLevel": //미구현
-                //case "ActiveElement":
-                //    Singleton<ElementalManager>.getInstance().LearnNewElemental(bonus.strvalue);
-                //    break;
-                default:
-                    CurrentHero.SetStat(newStat, false, false);
-                    break;
-            }
+            CurrentHero.LevelUp(value);
+            Action_HeroLevelUp(CurrentHero);
         }
-        public void CreateHero()
+        internal void Enchant(string elementID)
+        {
+            CurrentHero.Enchant(elementID);
+        }
+
+        public void onHeroStatChange(HeroStat newStat)
+        {
+            CurrentHero.SetStat(newStat);
+        }
+        public void CreateNewHero()
         {
             CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable);
             Action_HeroCreateEvent(CurrentHero);
             CurrentHero.ChangeState("Move"); //Init state is move
+            CurrentHero.SetStat(Singleton<PlayerStatus>.getInstance().GetHeroStat);
         }
 
         internal void Update()
@@ -88,10 +84,5 @@ namespace SexyBackPlayScene
             monster.StateMachine.Action_changeEvent += CurrentHero.onTargetStateChange;
         }
 
-        internal void SetLevelAndStat(HeroStat getHeroStat)
-        {
-            CurrentHero.SetStat(getHeroStat, true, true);
-            Action_HeroLevelUp(CurrentHero);
-        }
     }
 }

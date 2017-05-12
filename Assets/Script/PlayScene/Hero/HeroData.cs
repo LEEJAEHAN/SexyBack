@@ -11,6 +11,7 @@ namespace SexyBackPlayScene
         public readonly float MoveSpeed;
         public readonly int BaseLevel;
         public readonly int BasePrice;
+        public readonly double BaseDmg;
 
         public HeroData()
         {
@@ -20,6 +21,7 @@ namespace SexyBackPlayScene
             MoveSpeed = 3f;
             BaseLevel = 0;
             BasePrice = 60;
+            BaseDmg = 1f;
         }
     }
 }

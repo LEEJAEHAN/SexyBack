@@ -35,21 +35,18 @@ internal class SaveSystem
     }
 
 
-    internal static XmlDocument LoadXml(string saveDataPath)
+    internal static XmlDocument LoadXml(string path)
     {
         //SaveSystem.LoadEquipments()
         //TextAsset textasset = Resources.Load(SaveDataPath) as TextAsset;
         //XmlDocument xmldoc = new XmlDocument();
         //xmldoc.LoadXml(SaveDataPath);
         //xmldoc.LoadXml(textasset.text);
-
+        
         XmlDocument xmldoc = new XmlDocument();
-        xmldoc.Load(SaveDataPath);
+        xmldoc.Load(path);
         return xmldoc;
     }
-
-
-
 
     internal static void SaveGlobalData()
     {
@@ -85,7 +82,7 @@ internal class SaveSystem
             UtilStat utilStat = playerStatus.GetUtilStat;
             writer.WriteAttributeString("ResearchTimeX", utilStat.ResearchTimeX.ToString());
             writer.WriteAttributeString("ResearchTime", utilStat.ResearchTime.ToString());
-            writer.WriteAttributeString("ResearchThread", utilStat.ResearchThread.ToString());
+            writer.WriteAttributeString("MaxResearchThread", utilStat.MaxResearchThread.ToString());
             writer.WriteAttributeString("ExpIncreaseXH", utilStat.ExpIncreaseXH.ToString());
             writer.WriteAttributeString("LevelUpPriceXH", utilStat.LevelUpPriceXH.ToString());
             writer.WriteAttributeString("ResearchPriceXH", utilStat.ResearchPriceXH.ToString());

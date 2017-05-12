@@ -42,7 +42,7 @@ namespace SexyBackPlayScene
             {
                 if (targetID != null)
                 {
-                    Monster target = Singleton<MonsterManager>.getInstance().GetMonster(targetID);
+                    Monster target = Singleton<MonsterManager>.getInstance().GetMonster();
                     Shoot(RandomRangeVector3(target.CenterPosition, target.Size / 2), 1f, projectile);
                     ReLoaded = false;
                     return true;

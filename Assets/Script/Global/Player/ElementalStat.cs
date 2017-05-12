@@ -13,13 +13,11 @@ internal class ElementalStat// 누적배수
     internal int SkillDmgIncreaseXH;
 
     // only use battleScene
-    internal int Level;
-    internal bool SkillLaunch;
+    //internal int Level;
+    //internal bool SkillLaunch;
 
     internal ElementalStat()
     {
-        Level = 1;
-        SkillLaunch = false;
         BonusLevel = 0;
         DpsX = new BigInteger(1);
         DpsIncreaseXH = 100;
@@ -29,8 +27,6 @@ internal class ElementalStat// 누적배수
     }
     internal void LoadStat(XmlNode xmlNode)
     {
-        Level = 1;
-        SkillLaunch = false;
         BonusLevel = int.Parse(xmlNode.Attributes["BonusLevel"].Value);
         DpsX = new BigInteger(xmlNode.Attributes["DpsX"].Value);
         DpsIncreaseXH = int.Parse(xmlNode.Attributes["DpsIncreaseXH"].Value);
@@ -39,19 +35,10 @@ internal class ElementalStat// 누적배수
         SkillDmgIncreaseXH = int.Parse(xmlNode.Attributes["SkillDmgIncreaseXH"].Value);
     }
 
-
     internal void Add(BonusStat bonus)
     {
         switch (bonus.attribute)
         {
-            case "Level":
-                Level += bonus.value;
-                break;
-            case "Active":
-                break;
-            case "ActiveSkill":
-                SkillLaunch = true;
-                break;
             case "BonusLevel":
                 BonusLevel += bonus.value;
                 break;

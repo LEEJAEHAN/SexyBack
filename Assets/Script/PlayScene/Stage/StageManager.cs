@@ -18,13 +18,12 @@ namespace SexyBackPlayScene
         public int CurrentFloor;
         [NonSerialized]
         public static int MaxFloor;
-
         public List<Stage> Stages; // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
 
         [NonSerialized]
         public static readonly int DistancePerFloor = 30;
         [NonSerialized]
-        public static readonly int MonsterCountPerFloor= 1;
+        public static readonly int MonsterCountPerFloor= 3;
         [NonSerialized]
         public List<Stage> beToDispose = new List<Stage>(); // 풀링하지말자. 잦은이동이있는것도아닌데
         [NonSerialized]
@@ -47,34 +46,19 @@ namespace SexyBackPlayScene
             Stages.Add(Factory.CreateStage(CurrentFloor+1, DistancePerFloor * 2));
         }
 
-        internal void Load(string MapID, StageManager data) // 클래스가 로드가 된뒤 셋해야 할것들.
+        internal void Load(XmlDocument doc)
         {
-            MaxFloor = Singleton<TableLoader>.getInstance().mapTable[MapID].MaxFloor;
-            CurrentFloor = data.CurrentFloor;
+            string mapID = doc.SelectSingleNode("InstanceStatus").Attributes["MapID"].Value;
+            XmlNode stagesNode = doc.SelectSingleNode("InstanceStatus/Stages");
 
-            Stages = new List<Stage>(); // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다. 
-            foreach( Stage stagedata in data.Stages)
-            {
-                Stages.Add(Factory.LoadStage(stagedata));
-            }
-        }
-
-        internal void Load()
-        {
-            XmlDocument doc = SaveSystem.LoadXml(InstanceSaveSystem.InstanceDataPath);
-            XmlNode rootNode = doc.SelectSingleNode("InstanceStatus/Stages");
-            CurrentFloor = int.Parse(rootNode.Attributes["MapCurrentFloorID"].Value);
-
+            MaxFloor = Singleton<TableLoader>.getInstance().mapTable[mapID].MaxFloor;
+            CurrentFloor = int.Parse(stagesNode.Attributes["currentfloor"].Value);
             Stages = new List<Stage>();
-            Stages.Add(Factory.CreateStage(CurrentFloor, DistancePerFloor));
-            Stages.Add(Factory.CreateStage(CurrentFloor + 1, DistancePerFloor * 2));
-            foreach (XmlNode node in rootNode.ChildNodes)
+            foreach (XmlNode stageNode in stagesNode.ChildNodes)
             {
-                Stages.Add(Factory.LoadStage(node));
+                Stages.Add(Factory.LoadStage(stageNode));
             }
         }
-
-
 
         public void onStagePass(Stage stage)
         {

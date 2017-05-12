@@ -15,15 +15,10 @@ public class HeroStat
     public int MovespeedXH;
 
     // only use battleScene
-    public int Level;
-    public double BaseDmg;
-    private XmlNode xmlNode;
+    //public int Level;
 
     internal HeroStat()
     {
-        Level = 1;
-        BaseDmg = 1;
-
         BonusLevel = 0;
         DpcX = 1;
         DpcIncreaseXH = 100; // Str과는 다르다.
@@ -36,9 +31,6 @@ public class HeroStat
 
     public HeroStat(XmlNode xmlNode)
     {
-        Level = 1;
-        BaseDmg = 1;
-
         BonusLevel = int.Parse(xmlNode.Attributes["BonusLevel"].Value);
         DpcX = new BigInteger(xmlNode.Attributes["DpcX"].Value);
         DpcIncreaseXH = int.Parse(xmlNode.Attributes["DpcIncreaseXH"].Value);
@@ -53,12 +45,6 @@ public class HeroStat
     {
         switch (bonus.attribute)
         {
-            case "Level":
-                Level += bonus.value;
-                break;
-            case "Enchant":
-                BaseDmg += Singleton<TableLoader>.getInstance().elementaltable[bonus.strvalue].BaseDmgDensity;
-                break;
             case "BonusLevel":
                 BonusLevel += bonus.value;
                 break;

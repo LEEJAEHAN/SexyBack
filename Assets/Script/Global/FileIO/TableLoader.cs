@@ -189,7 +189,7 @@ internal class TableLoader
             elemental.ID = node.Attributes["id"].Value;
             elemental.Name = node.Attributes["name"].Value;
             elemental.BaseCastIntervalXK = int.Parse(node.Attributes["basecastintervalxk"].Value);
-            elemental.BaseDmgDensity = double.Parse(node.Attributes["basedensity"].Value);
+            elemental.BaseDmg = double.Parse(node.Attributes["basedensity"].Value);
             elemental.BasePrice = int.Parse(node.Attributes["baseprice"].Value);
             elemental.BaseLevel = int.Parse(node.Attributes["baselevel"].Value);
             elemental.PrefabName = node.Attributes["prefab"].Value;

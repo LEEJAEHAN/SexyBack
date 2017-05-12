@@ -13,6 +13,7 @@ namespace SexyBackPlayScene
         {
             OwnerID = hero.GetID;
             hero.Action_Change += onHeroChange;
+            onHeroChange(hero);
         }
 
         public override void Update()
@@ -20,7 +21,10 @@ namespace SexyBackPlayScene
             for (int i = 0; i < PurchaseCount; PurchaseCount--)
             {
                 if (Singleton<InstanceStatus>.getInstance().ExpUse(PRICE, true))
-                    Singleton<PlayerStatus>.getInstance().ApplySpecialStat(bonus,true);
+                {
+                    Singleton<HeroManager>.getInstance().LevelUp(1);
+                    //Singleton<PlayerStatus>.getInstance().ApplySpecialStat(bonus, true);
+                }
             }
         }
 

@@ -6,7 +6,7 @@ using System.Xml;
 internal class UtilStat
 {
     internal int ResearchTime; 
-    internal int ResearchThread;
+    internal int MaxResearchThread;
     internal int ExpIncreaseXH;
     internal int LevelUpPriceXH;
     internal int ResearchPriceXH;
@@ -19,7 +19,7 @@ internal class UtilStat
     {
         ResearchTimeX = 1;
         ResearchTime = 0;
-        ResearchThread = 5; // for test
+        MaxResearchThread = 5; // for test
         ExpIncreaseXH = 100;
         LevelUpPriceXH = 100;
         ResearchPriceXH = 100;
@@ -30,7 +30,7 @@ internal class UtilStat
     {
         ResearchTimeX = int.Parse(xmlNode.Attributes["ResearchTimeX"].Value);
         ResearchTime = int.Parse(xmlNode.Attributes["ResearchTime"].Value);
-        ResearchThread = int.Parse(xmlNode.Attributes["ResearchThread"].Value);
+        MaxResearchThread = int.Parse(xmlNode.Attributes["MaxResearchThread"].Value);
         ExpIncreaseXH = int.Parse(xmlNode.Attributes["ExpIncreaseXH"].Value);
         LevelUpPriceXH = int.Parse(xmlNode.Attributes["LevelUpPriceXH"].Value);
         ResearchPriceXH = int.Parse(xmlNode.Attributes["ResearchPriceXH"].Value);
@@ -50,8 +50,8 @@ internal class UtilStat
             case "ResearchTimeX":
                 this.ResearchTimeX *= bonus.value;
                 break;
-            case "ResearchThread":
-                    ResearchThread += bonus.value;
+            case "MaxResearchThread":
+                    MaxResearchThread += bonus.value;
                     break;
             case "LevelUpPriceXH":
                     LevelUpPriceXH -= bonus.value;
@@ -82,8 +82,8 @@ internal class UtilStat
             case "ResearchTimeX":
                 this.ResearchTimeX /= bonus.value;
                 break;
-            case "ResearchThread":
-                ResearchThread -= bonus.value;
+            case "MaxResearchThread":
+                MaxResearchThread -= bonus.value;
                 break;
             case "LevelUpPriceXH":
                 LevelUpPriceXH += bonus.value;

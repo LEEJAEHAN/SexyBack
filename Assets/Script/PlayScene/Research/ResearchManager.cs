@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using System.Runtime.Serialization;
+using System.Xml;
+
 namespace SexyBackPlayScene
 {
     [Serializable]
@@ -19,12 +21,11 @@ namespace SexyBackPlayScene
             ResearchWindow.Clear();
         }
 
-        public int resarchthread = 0;
+        public int currentthread = 0;
+        public int maxthread;
         public Dictionary<string, Research> researches = new Dictionary<string, Research>();
         public Dictionary<string, string> FinishList = new Dictionary<string, string>();
 
-        [NonSerialized]
-        public int maxthread;
         [NonSerialized]
         public Queue<string> idQueue = new Queue<string>();
         public delegate void ResarchThreadChange_Event(bool available);
@@ -35,7 +36,7 @@ namespace SexyBackPlayScene
         [NonSerialized]
         ResearchFactory factory = new ResearchFactory();
 
-        public bool CanUseThread { get { return resarchthread < maxthread; } }
+        public bool CanUseThread { get { return currentthread < maxthread; } }
 
         public void Init()
         {
@@ -46,21 +47,15 @@ namespace SexyBackPlayScene
             ViewLoader.TabButton2.GetComponent<TabView>().Action_HideList += onHideList;
             ViewLoader.Tab2Container.GetComponent<UIGrid>().onCustomSort = myResearchSort;
         }
-
-        public void onUtilStatChange(UtilStat newStat, string eventType)
+        public void Start()
         {
-            switch (eventType)
-            {
-                case "FinishResearch":
-                    FinishFrontOne();
-                    break;
-                case "ResearchTimeX":
-                case "ResearchTime":
-                case "ResearchThread":
-                case "ResearchPriceXH":
-                    SetStat(newStat);
-                    break;
-            }
+            currentthread = 0;
+            maxthread = Singleton<PlayerStatus>.getInstance().GetUtilStat.MaxResearchThread;
+        }
+
+        public void onUtilStatChange(UtilStat newStat)
+        {
+            SetStatAll(newStat);
         }
 
         int myResearchSort(Transform a, Transform b)
@@ -112,31 +107,34 @@ namespace SexyBackPlayScene
             }
         }
 
-        internal void Load(ResearchManager loadedData)
+        internal void Load(XmlDocument doc)
         {
-            this.resarchthread = loadedData.resarchthread;
-            this.FinishList = loadedData.FinishList;
-
-            foreach (string id in loadedData.researches.Keys)
+            XmlNode rootNode = doc.SelectSingleNode("InstanceStatus/Researchs");
+            currentthread = int.Parse(rootNode.Attributes["currentthread"].Value);
+            maxthread = Singleton<PlayerStatus>.getInstance().GetUtilStat.MaxResearchThread;
             {
-                ResearchData baseData = Singleton<TableLoader>.getInstance().researchtable[id];
-                Research research = factory.SummonNewResearch(baseData);
-                researches.Add(id, research);
+                XmlNode FinishNode = rootNode.SelectSingleNode("FinishResearchs");
+                foreach (XmlNode rNode in FinishNode.ChildNodes)
+                {
+                    string id = rNode.Attributes["id"].Value;
+                    FinishList.Add(id, id);
+                }
+            }
+            {
+                XmlNode remainNode = rootNode.SelectSingleNode("RemainResearchs");
+                foreach (XmlNode rNode in remainNode.ChildNodes)
+                {
+                    string id = rNode.Attributes["id"].Value;
+                    ResearchData baseData = Singleton<TableLoader>.getInstance().researchtable[id];
+                    Research research = factory.SummonNewResearch(baseData);
+                    researches.Add(id, research);
+
+                    research.StateMachine.ChangeState(rNode.Attributes["state"].Value);
+                    research.itemView.SetActive(true);
+                    research.RemainTime = double.Parse(rNode.Attributes["remaintime"].Value);
+                }
             }
         }
-        internal void SetStateNTime(ResearchManager loadedData)
-        {
-            foreach (string id in loadedData.researches.Keys)
-            {
-                Research from = loadedData.researches[id];
-                Research to = researches[id];
-                to.StateMachine.ChangeState(from.SavedState);
-                to.itemView.SetActive(true);
-                to.RemainTime = from.RemainTime;
-            }
-        }
-
-
 
         public void Update()
         {
@@ -165,30 +163,25 @@ namespace SexyBackPlayScene
             if (start)
             {
                 if (CanUseThread)
-                    resarchthread++;
+                    currentthread++;
             }
             else
             {
-                if (resarchthread > 0)
-                    resarchthread--;
+                if (currentthread > 0)
+                    currentthread--;
             }
             Action_ThreadChange(CanUseThread);
         }
+        
 
-
-        internal void SetStat(UtilStat utilStat)
+        internal void SetStatAll(UtilStat utilStat)
         {
-            if(maxthread != utilStat.ResearchThread)
-            {
-                maxthread = utilStat.ResearchThread;
-                Action_ThreadChange(CanUseThread);
-            }
             foreach (Research research in researches.Values)
-            {
                 research.SetStat(utilStat);
-            }
-        }
 
+            maxthread = utilStat.MaxResearchThread;
+            Action_ThreadChange(CanUseThread);
+        }
 
         internal void FinishFrontOne()
         {

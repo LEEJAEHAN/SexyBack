@@ -20,7 +20,7 @@ namespace SexyBackPlayScene
             for (int i = 0; i < PurchaseCount; PurchaseCount--)
             {
                 if (Singleton<InstanceStatus>.getInstance().ExpUse(PRICE, true))
-                    Singleton<PlayerStatus>.getInstance().ApplySpecialStat(bonus, true);
+                    Singleton<ElementalManager>.getInstance().LevelUp(OwnerID, 1);
             }
         }
 

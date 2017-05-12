@@ -2,8 +2,8 @@
 <PlayerStatus>
   <Stats>
     <BaseStat Str="0" Int="0" Spd="0" Luck="0" />
-    <UtilStat ResearchTimeX="2" ResearchTime="0" ResearchThread="5" ExpIncreaseXH="100" LevelUpPriceXH="100" ResearchPriceXH="100" InitExp="100" />
-    <HeroStat BonusLevel="0" DpcX="3" AttackCapacity="1" DpcIncreaseXH="100" AttackSpeedXH="100" CriticalRateXH="20" CriticalDamageXH="425" MovespeedXH="100" />
+    <UtilStat ResearchTimeX="1" ResearchTime="0" MaxResearchThread="5" ExpIncreaseXH="100" LevelUpPriceXH="100" ResearchPriceXH="100" InitExp="0" />
+    <HeroStat BonusLevel="0" DpcX="1" AttackCapacity="1" DpcIncreaseXH="100" AttackSpeedXH="100" CriticalRateXH="20" CriticalDamageXH="425" MovespeedXH="100" />
     <ElementalStats>
       <ElementalStat id="fireball" BonusLevel="0" DpsX="1" DpsIncreaseXH="100" CastSpeedXH="100" SkillRateIncreaseXH="100" SkillDmgIncreaseXH="100" />
       <ElementalStat id="iceblock" BonusLevel="0" DpsX="1" DpsIncreaseXH="100" CastSpeedXH="100" SkillRateIncreaseXH="100" SkillDmgIncreaseXH="100" />

@@ -83,8 +83,8 @@ namespace SexyBackPlayScene
                 if (targetID != null)
                 {
                     ShootCount = Unit;
-                    center = Singleton<MonsterManager>.getInstance().GetMonster(targetID).CenterPosition;
-                    extend = Singleton<MonsterManager>.getInstance().GetMonster(targetID).Size / 2;
+                    center = Singleton<MonsterManager>.getInstance().GetMonster().CenterPosition;
+                    extend = Singleton<MonsterManager>.getInstance().GetMonster().Size / 2;
                     if (RandomTarget)
                         Shooter.Shoot(Shooter.RandomRangeVector3(center, extend), Speed, projectiles.Dequeue());
                     else

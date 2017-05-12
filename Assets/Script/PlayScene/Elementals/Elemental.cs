@@ -17,7 +17,7 @@ namespace SexyBackPlayScene
         int skillrateIncreaseXH;
         int skilldamageIncreaseXH;
 
-        public int LEVEL = 1;
+        public int LEVEL;
         public BigInteger DPS = new BigInteger();
         public BigInteger DAMAGE = new BigInteger();//  dps * attackinterval
         public BigInteger PRICE = new BigInteger();
@@ -32,7 +32,7 @@ namespace SexyBackPlayScene
         readonly int BaseCastIntervalXK;
         public int BaseLevel;
         public int BasePrice;
-        public double BaseDmgDensity;
+        public double BaseDmg;
         readonly int BaseSkillRateXK;
         readonly int BaseSkillRatio;
 
@@ -52,7 +52,7 @@ namespace SexyBackPlayScene
         {
             ID = data.ID;
             BaseCastIntervalXK = data.BaseCastIntervalXK;
-            BaseDmgDensity = data.BaseDmgDensity;
+            BaseDmg = data.BaseDmg;
             BaseLevel = data.BaseLevel;
             BasePrice = data.BasePrice;
             BaseSkillRateXK = data.BaseSkillRateXK;
@@ -71,12 +71,17 @@ namespace SexyBackPlayScene
             skillForceCount = (int)info.GetValue("skillForceCount", typeof(int));
         }
 
-        internal void SetStat(ElementalStat elementalstat, bool NeedCalDamage, bool NeedCalPrice) // total
+        internal void LevelUp(int value)
         {
-            LEVEL = elementalstat.Level;
-            skillActive = elementalstat.SkillLaunch;
+            LEVEL += value;
+            CalDPS();
+            CalPrice();
+            Action_Change(this);
+        }
+
+        internal void SetStat(ElementalStat elementalstat) // total
+        {
             dpsX = elementalstat.DpsX;
-            skillActive = elementalstat.SkillLaunch;
             dpsIncreaseXH = elementalstat.DpsIncreaseXH;
             castSpeedXH = elementalstat.CastSpeedXH;
             skillrateIncreaseXH = elementalstat.SkillRateIncreaseXH;
@@ -88,19 +93,18 @@ namespace SexyBackPlayScene
             SKILLRATIO = BaseSkillRatio* skilldamageIncreaseXH / 100;
             skill.SetStat(skilldamageIncreaseXH);
 
-            if (NeedCalDamage)
-                CalDPS();
-            if(NeedCalPrice)
-                CalPrice();
+            CalDPS();
+            CalPrice();
             Action_Change(this);
         }
         void CalDPS()
         {
             double growth = InstanceStatus.CalGrowthPower(ElementalData.GrowthRate, BaseLevel); // 
-            double doubleC = 1 * BaseDmgDensity * growth * LEVEL * dpsIncreaseXH * castSpeedXH / 10000;
+            double doubleC = 1 * BaseDmg * growth * LEVEL * dpsIncreaseXH * castSpeedXH / 10000;
             BigInteger Coefficient = BigInteger.FromDouble(doubleC);
             DPS = dpsX * Coefficient;
-            DPSTICK = DPS / LEVEL;
+            if(LEVEL > 0)
+                DPSTICK = DPS / LEVEL;
             DAMAGE = DPS * BaseCastIntervalXK / (castSpeedXH * 10); //  dps * CASTINTERVAL]
             skill.CalDamage(DAMAGE);
         }
@@ -137,6 +141,8 @@ namespace SexyBackPlayScene
             skill.Update(); // cast 이후의 post업데이트.
             AttackTimer += Time.deltaTime;
         }
+
+
 
         bool isSkillAttack = false; // 이번공격이 스킬인지 
         private bool JudgeSkill {

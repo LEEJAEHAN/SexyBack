@@ -26,11 +26,11 @@ internal class PlayerStatus
     [field: NonSerialized]
     public event Action<BaseStat> Action_BaseStatChange;
     [field: NonSerialized]
-    public event Action<UtilStat, string> Action_UtilStatChange;
+    public event Action<UtilStat> Action_UtilStatChange;
     [field: NonSerialized]
-    public event Action<HeroStat, string> Action_HeroStatChange;
+    public event Action<HeroStat> Action_HeroStatChange;
     [field: NonSerialized]
-    public event Action<ElementalStat, string, string> Action_ElementalStatChange;
+    public event Action<ElementalStat, string> Action_ElementalStatChange;
 
     internal void Init()
     {
@@ -113,28 +113,28 @@ internal class PlayerStatus
         switch (bonus.targetID)
         {
             case "hero":
-                ApplyHeroBonus(bonus, signPositive);
+                ApplyHeroStat(bonus, signPositive);
                 break;
             case "player":
-                ApplyPlayerBonus(bonus, signPositive);
+                ApplyPlayerStat(bonus, signPositive);
                 break;
             default:
-                ApplyElementalBonus(bonus, signPositive);
+                ApplyElementStat(bonus, signPositive);
                 break;
         }
     }
 
-    private void ApplyHeroBonus(BonusStat bonus, bool signPositive)
+    private void ApplyHeroStat(BonusStat bonus, bool signPositive)
     {
         if (signPositive)
             heroStat.Add(bonus);
         else
             heroStat.Remove(bonus);
 
-        Action_HeroStatChange(heroStat, bonus.attribute);
+        Action_HeroStatChange(heroStat);
     }
 
-    private void ApplyElementalBonus(BonusStat bonus, bool signPositive) // 각 element에게만 해당하는것. 전체는 player
+    private void ApplyElementStat(BonusStat bonus, bool signPositive) // 각 element에게만 해당하는것. 전체는 player
     {
         string targetID = bonus.targetID;
         ElementalStat elementalStat = elementalStats[bonus.targetID];
@@ -144,17 +144,17 @@ internal class PlayerStatus
         else
             elementalStat.Remove(bonus);
 
-        Action_ElementalStatChange(elementalStat, bonus.targetID, bonus.attribute);
+        Action_ElementalStatChange(elementalStat, bonus.targetID);
     }
 
-    private void ApplyPlayerBonus(BonusStat bonus, bool signPositive)
+    private void ApplyPlayerStat(BonusStat bonus, bool signPositive)
     {
         if (signPositive)
             utilStat.Add(bonus);
         else
             utilStat.Remove(bonus);
         
-        Action_UtilStatChange(utilStat, bonus.attribute);
+        Action_UtilStatChange(utilStat);
     }
 
     //internal void Upgrade(BaseStat basestat)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
 
 namespace SexyBackPlayScene
@@ -64,7 +65,20 @@ namespace SexyBackPlayScene
             return monster;
         }
 
-        public Monster LoadMonster(string instanceID, string dataID, int level, BigInteger hp)
+        internal Monster LoadMonster(XmlNode node)
+        {
+            string dataID = node.Attributes["dataid"].Value;
+            string id = node.Attributes["id"].Value;
+            int level = int.Parse(node.Attributes["level"].Value);
+            BigInteger hp = new BigInteger(node.Attributes["hp"].Value);
+
+            if (hp <= 0)
+                return null;
+            else
+                return LoadMonster(id, dataID, level, hp);
+        }
+
+        private Monster LoadMonster(string instanceID, string dataID, int level, BigInteger hp)
         {
             MonsterData data = Singleton<TableLoader>.getInstance().monstertable[dataID];
             Monster monster = new Monster(instanceID, dataID);

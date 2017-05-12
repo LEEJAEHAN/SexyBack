@@ -11,8 +11,14 @@ public class TopWindow : MonoBehaviour {
         if (SceneManager.GetActiveScene().name == "MenuScene")
         {
             Singleton<EquipmentManager>.getInstance().BindTopView(this);
-            GameObject.Find("SP").GetComponent<UILabel>().text = "";
-            GameObject.Find("GEM").GetComponent<UILabel>().text = "";
+            transform.FindChild("Slot1/Title").GetComponent<UILabel>().text = "특성포인트";
+            transform.FindChild("Slot1/Value").GetComponent<UILabel>().text = "0";
+        }
+        else if (SceneManager.GetActiveScene().name == "PlayScene")
+        {
+            Singleton<EquipmentManager>.getInstance().BindTopView(this);
+            transform.FindChild("Slot1/Title").GetComponent<UILabel>().text = "남은시간";
+            transform.FindChild("Slot1/Value").GetComponent<UILabel>().text = "1:00:00";
         }
     }
 

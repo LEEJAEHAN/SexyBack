@@ -21,6 +21,7 @@ namespace SexyBackPlayScene
             manager.Action_ThreadChange += this.onThreadEmpty;
             onThreadEmpty(manager.CanUseThread);
             player.Action_ExpChange += this.onExpChange;
+            onExpChange(player.EXP);
         }
         internal void onThreadEmpty(bool value)
         {

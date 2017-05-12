@@ -31,16 +31,17 @@ namespace SexyBackPlayScene
         // public int buffduration
 
         // 스텟
-        public int LEVEL = 0;
+        public int LEVEL;
         BigInteger dpcX = new BigInteger();
         public int DpcIncreaseXH;
+        
         public int MAXATTACKCOUNT;
         public double ATTACKINTERVAL;
         public double MOVESPEED;
         public double ATTACKSPEED; // for view action, state
         public double CRIRATE;
         public int CRIDAMAGEXH;
-        public double BaseDmgDensity;
+        public double BaseDmg;
         readonly int BaseLevel;
         readonly int BasePrice;
         readonly double AttackInterval;
@@ -49,6 +50,7 @@ namespace SexyBackPlayScene
         public string CurrentState { get { return StateMachine.currStateID; } }
         // function property
         private bool JudgeCritical { get { return CRIRATE > UnityEngine.Random.Range(0.0f, 1.0f); } }
+
 
         public delegate void HeroChange_Event(Hero hero);
         public event HeroChange_Event Action_Change = delegate { };
@@ -64,20 +66,22 @@ namespace SexyBackPlayScene
             BaseLevel = data.BaseLevel;
             AttackInterval = data.AttackInterval;
             MoveSpeed = data.MoveSpeed;
+            BaseDmg = data.BaseDmg;
 
             avatar = GameObject.Find("HeroPanel"); // 동적으로 생성하지 않는다.
             Animator = GameObject.Find("hero_sprite").GetComponent<Animator>();
             AttackManager = new HeroAttackManager(this);
             StateMachine = new HeroStateMachine(this);
         }
-
+        
         void CalDpc()
         {
             double growth = InstanceStatus.CalGrowthPower(HeroData.GrowthRate, BaseLevel); // 
-            double doubleC = 5 * BaseDmgDensity * growth * LEVEL * DpcIncreaseXH / 100;
+            double doubleC = 5 * BaseDmg * growth * LEVEL * DpcIncreaseXH / 100;
             BigInteger Coefficient = BigInteger.FromDouble(doubleC);
             DPC = dpcX * Coefficient;
-            DPCTick = DPC / LEVEL;
+            if (LEVEL > 0)
+                DPCTick = DPC / LEVEL;
         }
 
         private void CalPrice()
@@ -89,10 +93,8 @@ namespace SexyBackPlayScene
             PRICE = BigInteger.FromDouble(doubleC);
         }
 
-        internal void SetStat(HeroStat herostat, bool needCalDamage, bool needCalPrice)
+        internal void SetStat(HeroStat herostat)
         {
-            LEVEL = herostat.Level;
-            BaseDmgDensity = herostat.BaseDmg;
             dpcX = herostat.DpcX;
             DpcIncreaseXH = herostat.DpcIncreaseXH;
             ATTACKINTERVAL = AttackInterval * 100 / herostat.AttackSpeedXH;
@@ -102,11 +104,22 @@ namespace SexyBackPlayScene
             CRIRATE = (double)herostat.CriticalRateXH / 100;
             CRIDAMAGEXH = herostat.CriticalDamageXH;
             //send event
-            if (needCalDamage)
-                CalDpc();
-            if (needCalPrice)
-                CalPrice();
+            CalDpc();
+            CalPrice();
+            Action_Change(this);
+        }
 
+        internal void Enchant(string elementID)
+        {
+            BaseDmg += Singleton<TableLoader>.getInstance().elementaltable[elementID].BaseDmg;
+            CalDpc();
+            Action_Change(this);
+        }
+        internal void LevelUp(int value)
+        {
+            LEVEL += value;
+            CalDpc();
+            CalPrice();
             Action_Change(this);
         }
 
@@ -133,7 +146,7 @@ namespace SexyBackPlayScene
         {
             if (!AttackManager.CanAttack || targetID == null)
                 return false;
-            Monster target = Singleton<MonsterManager>.getInstance().GetMonster(targetID);
+            Monster target = Singleton<MonsterManager>.getInstance().GetMonster();
             if (target == null)
                 return false;
 

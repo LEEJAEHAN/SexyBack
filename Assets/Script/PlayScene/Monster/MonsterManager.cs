@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace SexyBackPlayScene
 {
@@ -13,10 +14,10 @@ namespace SexyBackPlayScene
             sexybacklog.Console("MonsterManager 소멸");
         }
 
-        public Dictionary<string, Monster> monsters = new Dictionary<string, Monster>();
+        public Queue<Monster> monsters = new Queue<Monster>();
 
         [NonSerialized]
-        Queue<string> disposeIDs= new Queue<string>();
+        int DeadCount;      // ready to pop;
         [NonSerialized]
         Monster BattleMonster; // TODO: bucket으로수정해야함;
         [NonSerialized]
@@ -31,18 +32,16 @@ namespace SexyBackPlayScene
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += onElementalCreate;
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += onHeroCreate;
         }
-        internal void Load(MonsterManager monsterManager)
+        internal void Load(XmlDocument doc)
         {
-            foreach (string id in monsterManager.monsters.Keys)
+            XmlNode rootNode = doc.SelectSingleNode("InstanceStatus/Monsters");
+            foreach (XmlNode node in rootNode.ChildNodes)
             {
-                Monster data = monsterManager.monsters[id];
-                if (data.HP <= 0)
-                    continue;
-                Monster monster = monsterFactory.LoadMonster(data.ID, data.DataID, data.level, data.HP);
-                monsters.Add(id, monster);
+                Monster monster = monsterFactory.LoadMonster(node);
+                if(monster != null)
+                    monsters.Enqueue(monster);
             }
         }
-
         public void Dispose()
         {
             HpBar.Dispose();
@@ -65,22 +64,20 @@ namespace SexyBackPlayScene
         internal string CreateRandomMonster(string monsterID, int floor, bool isBoss)
         {
             Monster newmonster = monsterFactory.CreateRandomMonster(monsterID, floor, isBoss);
-            monsters.Add(newmonster.GetID, newmonster);
+            monsters.Enqueue(newmonster);
             return newmonster.GetID;
         }
 
-        public void JoinBattle(string monsterid, int floor, int sequence, bool isboss, Transform genTransform) // 사거리내에 들어옴. battle 시작. 
+        public void JoinBattle(int floor, int sequence, bool isboss, Transform genTransform) // 사거리내에 들어옴. battle 시작. 
         {   // TODO : 몬스터매니져가 왜 배틀을 주관하는지? 다른곳으로빠져야할듯. 마찬가지로 몬스터 죽음을 이용하여 너무 많은 컨트롤을 함.
-            BattleMonster = monsters[monsterid];
+            BattleMonster = monsters.Peek();
             BattleMonster.Spawn(genTransform);            // 여기가 실제 monstermanager의 기능.
             string HpBarName;
             if (isboss)
                 HpBarName = "[" + floor.ToString() + "층 보스]" + BattleMonster.Name;
             else
                 HpBarName = "[" + floor.ToString() + "층 " + sequence.ToString() + "단계] " + BattleMonster.Name;
-
             HpBar.FillNewBar(HpBarName, BattleMonster);
-            //HpBar.UpdateBar(BattleMonster);
         }
 
         internal void FixedUpdate()
@@ -90,16 +87,14 @@ namespace SexyBackPlayScene
 
         internal void Update()
         {
-            foreach( Monster m in monsters.Values)
+            foreach( Monster m in monsters)
                 m.Update();
 
-            while (disposeIDs.Count!=0)
+            while (DeadCount > 0)
             {
-                string id = disposeIDs.Dequeue();
-                if (id == BattleMonster.GetID)
-                    BattleMonster = null;
-                monsters[id].Dispose();
-                monsters.Remove(id);
+                Monster DeadMonster = monsters.Dequeue();
+                DeadMonster.Dispose();
+                DeadCount--;
             }
         }
 
@@ -110,15 +105,13 @@ namespace SexyBackPlayScene
             return false;
         }
 
-        internal void DestroyMonster(Monster owner)
+        internal void DestroyFirstMonster()
         {
-            disposeIDs.Enqueue(owner.GetID);
+            DeadCount++;
         }
-        internal Monster GetMonster(string id)
+        internal Monster GetMonster()
         {
-            if (!monsters.ContainsKey(id))
-                return null;
-            return monsters[id];
+            return monsters.Peek();
         }
         private void onElementalCreate(Elemental elemental)
         {

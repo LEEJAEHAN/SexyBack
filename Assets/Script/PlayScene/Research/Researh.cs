@@ -59,8 +59,7 @@ namespace SexyBackPlayScene
             SavedState = (string)info.GetValue("SavedState", typeof(string));
             RemainTime = (double)info.GetValue("RemainTime", typeof(double));
         }
-
-
+        
         public Research(ResearchData data, GridItem itemview, double time, BigInteger totalprice, double tick)
         {
             ID = data.ID;
@@ -92,7 +91,6 @@ namespace SexyBackPlayScene
             Panel = null;
         }
 
-
         ~Research() { sexybacklog.Console("리서치소멸"); }
 
         public void Update()
@@ -101,7 +99,7 @@ namespace SexyBackPlayScene
         }
         public void DoUpgrade()
         {
-            Singleton<InstanceStatus>.getInstance().ApplyBonusWithIcon(bonus, icon);
+            Singleton<InstanceStatus>.getInstance().Upgrade(bonus, icon);
         }
 
         public void onSelect(string id)

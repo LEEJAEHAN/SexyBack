@@ -4,31 +4,31 @@
 		<Info icon="Icon_01" name="화염구 습득" description="화염구를 배웁니다."/>
 		<Price level="0" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
-		<Bonus target="fireball" attribute="Active" value="1"/>
+		<Bonus target="fireball" attribute="Active" stringvalue="fireball"/>
 	</Research>
 	<Research id="R02" requireid="fireball" requirelevel="0">
 		<Info icon="Icon_09" name="각얼음 습득" description="각얼음을 배웁니다."/>
 		<Price level="0" baselevel="15" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
-		<Bonus target="iceblock" attribute="Active" value="1"/>
+		<Bonus target="iceblock" attribute="Active" stringvalue="iceblock"/>
 	</Research>
 	<Research id="R03" requireid="iceblock" requirelevel="0">
 		<Info icon="Icon_07" name="짱돌 습득" description="짱돌을 배웁니다."/>
 		<Price level="0" baselevel="35" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
-		<Bonus target="rock" attribute="Active" value="1"/>
+		<Bonus target="rock" attribute="Active" stringvalue="rock"/>
 	</Research>
 	<Research id="R04" requireid="rock" requirelevel="0">
 		<Info icon="Icon_04" name="지지직 습득" description="지지직을 배웁니다."/>
 		<Price level="0" baselevel="60" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
-		<Bonus target="electricball" attribute="Active" value="1"/>
+		<Bonus target="electricball" attribute="Active" stringvalue="electricball"/>
 	</Research>
 	<Research id="R05" requireid="electricball" requirelevel="0">
 		<Info icon="Icon_08" name="물폭탄 습득" description="물폭탄을 배웁니다."/>
 		<Price level="0" baselevel="90" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
-		<Bonus target="waterball" attribute="Active" value="1"/>
+		<Bonus target="waterball" attribute="Active" stringvalue="waterball"/>
 	</Research>
 	<Research id="R06" requireid="fireball" requirelevel="0">
 		<Info icon="Icon_20" name="불덩이작렬 습득" description="화염구가 일정확률로 불덩이작렬으로 대체됩니다."/>

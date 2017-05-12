@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using System.Xml;
 
-namespace SexyBackPlayScene // instance 던젼안에서의 스텟
+namespace SexyBackPlayScene 
 {
+    // instance 던젼안에서의 스텟을 관리한다. BattleScene안에서만 동작한다.
     [Serializable]
-    internal class InstanceStatus : IDisposable // 던젼안에서의 스텟을 가지고있다. BattleScene안에서만 동작한다.
+    internal class InstanceStatus : IDisposable
     {
         ~InstanceStatus()
         {
@@ -63,21 +65,23 @@ namespace SexyBackPlayScene // instance 던젼안에서의 스텟
         }
         internal void Start() //new game
         {
-            ExpGain(Singleton<PlayerStatus>.getInstance().GetUtilStat.InitExp, false);
+            SetStat(Singleton<PlayerStatus>.getInstance().GetUtilStat);
             MapID = GetMapID;   // 외부에서 setting 되어있으면 setting된값으로 아니면 더미값을출력
             // isBonused // 외부에서 이미 setting; 안되있으면 false;
-            LimitGameTime = Singleton<TableLoader>.getInstance().mapTable[MapID].LimitTime;
-            expIncreaseXH = 0;
             CurrentGameTime = 0;
-        }
-        internal void Load(InstanceStatus sData) // load game
-        {
-            ExpGain(sData.EXP, false);
-            MapID = sData.MapID;
-            IsBonused = sData.IsBonused;
+            ExpGain(Singleton<PlayerStatus>.getInstance().GetUtilStat.InitExp, false);
             LimitGameTime = Singleton<TableLoader>.getInstance().mapTable[MapID].LimitTime;
-            //expincrease // 이건stat; 적용될때 적용됨.
-            CurrentGameTime = sData.CurrentGameTime;
+        }
+        internal void Load(XmlDocument doc)
+        {
+            SetStat(Singleton<PlayerStatus>.getInstance().GetUtilStat);
+
+            XmlNode mainNode = doc.SelectSingleNode("InstanceStatus");
+            ExpGain(new BigInteger(mainNode.Attributes["Exp"].Value), false);
+            MapID = mainNode.Attributes["MapID"].Value;
+            IsBonused = bool.Parse(mainNode.Attributes["IsBonused"].Value);
+            LimitGameTime = Singleton<TableLoader>.getInstance().mapTable[MapID].LimitTime;
+            CurrentGameTime = double.Parse(mainNode.Attributes["CurrentGameTime"].Value);
         }
 
         public void Update()
@@ -92,25 +96,39 @@ namespace SexyBackPlayScene // instance 던젼안에서의 스텟
         {
             expIncreaseXH = uStat.ExpIncreaseXH;
         }
-        public void onUtilStatChange(UtilStat newStat, string eventType)
+        public void onUtilStatChange(UtilStat newStat)
         {
-            switch (eventType)
+            SetStat(newStat);
+        }
+        internal void Upgrade(BonusStat bonus, GridItemIcon icon)
+        {
+            // case skill, active, stat 분리
+            switch (bonus.attribute)
             {
-                case "ExpIncreaseXH":
-                    expIncreaseXH = newStat.ExpIncreaseXH;
+                case "Active":
+                    Singleton<ElementalManager>.getInstance().LearnNewElemental(bonus.strvalue);
+                    break;
+                case "ActiveSkill":
+                    Singleton<ElementalManager>.getInstance().ActiveSkill(bonus.strvalue);
+                    break;
+                case "Enchant":
+                    Singleton<HeroManager>.getInstance().Enchant(bonus.strvalue);
+                    break;
+                case "FinishResearch":
+                    Singleton<ResearchManager>.getInstance().FinishFrontOne();
+                    break;
+                default:
+                    Singleton<PlayerStatus>.getInstance().ApplySpecialStat(bonus, true);
                     break;
             }
-        }
-        internal void ApplyBonusWithIcon(BonusStat bonus, GridItemIcon icon)
-        {
-            Singleton<PlayerStatus>.getInstance().ApplySpecialStat(bonus, true);
             EffectController.getInstance.AddBuffEffect(icon);
         }
-        internal void DisableBonusWithIcon(BonusStat bonus, GridItemIcon icon)
+        internal void DownGrade(BonusStat bonus, GridItemIcon icon)
         {
             Singleton<PlayerStatus>.getInstance().ApplySpecialStat(bonus, false);
             EffectController.getInstance.AddBuffEffect(icon);
         }
+
         internal void Buff(BonusStat bonus, GridItemIcon icon, int duration)
         {
         }

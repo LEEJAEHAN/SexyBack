@@ -19,7 +19,7 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
-            Singleton<MonsterManager>.getInstance().DestroyMonster(owner);
+            Singleton<MonsterManager>.getInstance().DestroyFirstMonster();
         }
     }
 }

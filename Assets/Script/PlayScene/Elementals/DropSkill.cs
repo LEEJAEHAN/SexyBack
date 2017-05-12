@@ -52,8 +52,8 @@ namespace SexyBackPlayScene
 
         private void SetSpawnZone(string targetID)
         {
-            SpawnCenter = Singleton<MonsterManager>.getInstance().GetMonster(targetID).CenterPosition;
-            SpawnSize = Singleton<MonsterManager>.getInstance().GetMonster(targetID).Size;
+            SpawnCenter = Singleton<MonsterManager>.getInstance().GetMonster().CenterPosition;
+            SpawnSize = Singleton<MonsterManager>.getInstance().GetMonster().Size;
             SpawnCenter.y += 6.4f; // 천장에서떨군다.
         }
 

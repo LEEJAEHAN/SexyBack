@@ -57,7 +57,7 @@ namespace SexyBackPlayScene
             avatar.transform.localPosition = Vector3.zero;
             avatar.SetActive(true);
             StateMachine.ChangeState("Appear");
-        }
+        }   
 
         public void Update()
         {

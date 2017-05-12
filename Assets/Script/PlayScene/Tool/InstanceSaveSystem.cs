@@ -59,6 +59,7 @@ namespace SexyBackPlayScene
         }
         internal static void ClearInstance()
         {
+            DeleteFile(InstanceDataPath);
             DeleteFile(Application.persistentDataPath + "/statmanager.dat");
             DeleteFile(Application.persistentDataPath + "/stagemanager.dat");
             DeleteFile(Application.persistentDataPath + "/monsterManager.dat");
@@ -77,13 +78,13 @@ namespace SexyBackPlayScene
             }
         }
 
-        internal static bool InstanceDataExist
-        {
-            get
-            {
-                return System.IO.File.Exists(Application.persistentDataPath + "/statmanager.dat");
-            }
-        }
+        //internal static bool InstanceDataExist
+        //{
+        //    get
+        //    {
+        //        return System.IO.File.Exists(Application.persistentDataPath + "/statmanager.dat");
+        //    }
+        //}
 
         // 로드가 완료되지 않은 시점에서 save가 뜨면 안된다.
         internal void SaveInstacne()
@@ -117,7 +118,7 @@ namespace SexyBackPlayScene
         private void SaveMonster(XmlWriter writer)
         {
             writer.WriteStartElement("Monsters");
-            foreach (Monster data in Singleton<MonsterManager>.getInstance().monsters.Values)
+            foreach (Monster data in Singleton<MonsterManager>.getInstance().monsters.ToArray())
             {
                 writer.WriteStartElement("Monster");
                 writer.WriteAttributeString("id", data.GetID.ToString());
@@ -133,7 +134,7 @@ namespace SexyBackPlayScene
         {
             StageManager manager = Singleton<StageManager>.getInstance();
             writer.WriteStartElement("Stages");
-            writer.WriteAttributeString("CurrentFloor", manager.CurrentFloor.ToString());
+            writer.WriteAttributeString("currentfloor", manager.CurrentFloor.ToString());
             foreach (Stage data in manager.Stages)
             {
                 writer.WriteStartElement("Stage");
@@ -151,7 +152,7 @@ namespace SexyBackPlayScene
         {
             ResearchManager manager = Singleton<ResearchManager>.getInstance();
             writer.WriteStartElement("Researchs");
-            writer.WriteAttributeString("resarchthread", manager.resarchthread.ToString());
+            writer.WriteAttributeString("currentthread", manager.currentthread.ToString());
             {
                 writer.WriteStartElement("FinishResearchs");
                 foreach (string id in manager.FinishList.Keys)
@@ -161,7 +162,7 @@ namespace SexyBackPlayScene
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();
-                writer.WriteStartElement("RemainResearch");
+                writer.WriteStartElement("RemainResearchs");
                 foreach (Research data in manager.researches.Values)
                 {
                     writer.WriteStartElement("Research");
@@ -180,7 +181,7 @@ namespace SexyBackPlayScene
             Hero data = Singleton<HeroManager>.getInstance().GetHero();
             writer.WriteStartElement("Hero");
             writer.WriteAttributeString("level", data.LEVEL.ToString());
-            writer.WriteAttributeString("basedmgdensity", data.BaseDmgDensity.ToString());
+            writer.WriteAttributeString("basedmg", data.BaseDmg.ToString());
             writer.WriteEndElement();
         }
 

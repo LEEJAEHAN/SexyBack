@@ -20,16 +20,15 @@ namespace SexyBackPlayScene
             Singleton<HeroManager>.getInstance().GetHero().ChangeState("Ready");
         }
 
-        public void BattleStart(int index) // 사거리내에 들어옴. battle 시작. 
+        public void BattleStart() // 사거리내에 들어옴. battle 시작. 
         {
             DuringBattle = true;
-
-            int sequence = StageManager.MonsterCountPerFloor - owner.monsters.Count + 1;
+            int sequence = StageManager.MonsterCountPerFloor - owner.monsterCount + 1;
             bool isBoss = StageManager.MonsterCountPerFloor == sequence;
 
-            mManager.JoinBattle(owner.monsters[index], owner.floor, sequence, isBoss, owner.avatar.transform.FindChild("monster"));
+            mManager.JoinBattle(owner.floor, sequence, isBoss, owner.avatar.transform.FindChild("monster"));
 
-            Monster BattleMonster = mManager.GetMonster(owner.monsters[index]);
+            Monster BattleMonster = mManager.GetMonster();
             BattleMonster.StateMachine.Action_changeEvent += onTargetStateChange;
             Singleton<ElementalManager>.getInstance().SetTarget(BattleMonster);
             Singleton<HeroManager>.getInstance().SetTarget(BattleMonster);
@@ -39,11 +38,11 @@ namespace SexyBackPlayScene
         {
             if (stateID == "Flying")
             {
-                owner.monsters.Remove(monsterid);
+                owner.monsterCount--;
             }
             if(stateID == "Death")
             {
-                mManager.GetMonster(monsterid).StateMachine.Action_changeEvent -= onTargetStateChange;
+                mManager.GetMonster().StateMachine.Action_changeEvent -= onTargetStateChange;
                 DuringBattle = false;
             }
         }
@@ -54,12 +53,12 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
-            if(!DuringBattle && owner.monsters.Count > 0)
+            if(!DuringBattle && owner.monsterCount > 0)
             {
-                BattleStart(0);
+                BattleStart();
             }
 
-            if(!DuringBattle && owner.monsters.Count <= 0)  // battle end
+            if(!DuringBattle && owner.monsterCount <= 0)  // battle end
             {
                 NextState();
             }

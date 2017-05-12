@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-
     [Serializable]
     internal class Stage : IDisposable, IStateOwner
     {
@@ -12,8 +11,6 @@ namespace SexyBackPlayScene
         public float zPosition;
         public bool rewardComplete;
         public string savedState; // TODO : 이거빼는게좋을듯
-        public List<string> monsters;
-
         public int monsterCount = 0;
 
         [NonSerialized]
@@ -29,7 +26,6 @@ namespace SexyBackPlayScene
         public Stage()
         {
             StateMachine = new StageStateMachine(this);
-            monsters = new List<string>();
         }
 
         internal void Update()
@@ -51,13 +47,13 @@ namespace SexyBackPlayScene
         public void MakeMonsters(int count)
         {
             MonsterManager mManager = Singleton<MonsterManager>.getInstance();
-
+            monsterCount = count;
             for (int i = 0; i < count; i++)
             {
-                if (i == count - 1)
-                    monsters.Add(mManager.CreateRandomMonster("F" + floor + "M" + i, floor, true));
+                if (i == count - 1)// case boss
+                    mManager.CreateRandomMonster("F" + floor + "M" + i, floor, true);
                 else
-                    monsters.Add(mManager.CreateRandomMonster("F" + floor + "M" + i, floor, false));
+                    mManager.CreateRandomMonster("F" + floor + "M" + i, floor, false);
             }
         }
 

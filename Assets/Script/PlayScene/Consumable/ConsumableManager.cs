@@ -171,7 +171,7 @@ namespace SexyBackPlayScene
                         break;
                     }
             }
-            Singleton<InstanceStatus>.getInstance().ApplyBonusWithIcon(typebonus, typeicon);
+            //Singleton<InstanceStatus>.getInstance().ApplyBonusWithIcon(typebonus, typeicon);
             Action_ConfirmTalent();
         }
 

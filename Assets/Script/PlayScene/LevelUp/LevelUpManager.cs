@@ -39,14 +39,9 @@ namespace SexyBackPlayScene
             ViewLoader.Tab1Container.SetActive(false);
             // ViewLoader.Info_Context.SetActive(false);
         }
-        public void onUtilStatChange(UtilStat newStat, string eventType)
+        public void onUtilStatChange(UtilStat newStat)
         {
-            switch (eventType)
-            {
-                case "LevelUpPriceXH":
-                    SetStat(newStat);
-                    break;
-            }
+            SetStat(newStat);
         }
 
         private void onShowList()

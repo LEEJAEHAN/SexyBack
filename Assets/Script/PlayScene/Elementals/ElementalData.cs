@@ -12,7 +12,7 @@ namespace SexyBackPlayScene
         public string Name;
         public int BaseLevel;
         public int BasePrice;
-        public double BaseDmgDensity;
+        public double BaseDmg;
         public int BaseCastIntervalXK; //  elemental 마다 고유하다.
         public string PrefabName;
         public string SkillPrefabName;

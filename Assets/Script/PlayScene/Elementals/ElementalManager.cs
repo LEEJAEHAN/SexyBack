@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
 
 namespace SexyBackPlayScene 
@@ -25,48 +26,23 @@ namespace SexyBackPlayScene
         [NonSerialized]
         public Queue<string> readyToCreate = new Queue<string>();
         public delegate void ElementalCreateEvent_Handler(Elemental sender);
+
+
         [field:NonSerialized]
         public event ElementalCreateEvent_Handler Action_ElementalCreateEvent;// = delegate (object sender) { };
         public delegate void ElementalLevelUp_Event(Elemental elemental);
         [field: NonSerialized]
         public event ElementalLevelUp_Event Action_ElementalLevelUp;
 
-        private bool SummonNewElemental(string id) // Create == 생성만, Summon ==  스텟과 레벨업설정까지
+        private Elemental SummonNewElemental(string id) // Create == 생성만, Summon ==  스텟과 레벨업설정까지
         {
             ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
             Elemental newElemental = new Elemental(data);
             Action_ElementalCreateEvent(newElemental);
-
             elementals.Add(id, newElemental);
-
             ElementalStat stat = Singleton<PlayerStatus>.getInstance().GetElementalStat(id);
-            SetLevelAndStat(stat, id);
-            return true;
-        }
-
-
-        public void onElementalStatChange(ElementalStat newStat, string elementalIndex, string eventType)
-        {
-            switch (eventType)
-            {
-                case "Level":
-                    SetLevelAndStat(newStat, elementalIndex);
-                    break;
-                case "Active":
-                    LearnNewElemental(elementalIndex);
-                    break;
-                case "ActiveSkill":
-                    ActiveSkill(newStat, elementalIndex);
-                    break;
-                case "DpsX":
-                case "DpsIncreaseXH":
-                case "CastSpeedXH":
-                    SetStat(newStat, elementalIndex, true, false);
-                    break;
-                default:
-                    SetStat(newStat, elementalIndex, false, false);
-                    break;
-            }
+            SetStat(stat, id);
+            return newElemental;
         }
 
         internal void Init()
@@ -74,20 +50,19 @@ namespace SexyBackPlayScene
             Singleton<PlayerStatus>.getInstance().Action_ElementalStatChange += this.onElementalStatChange;
         }
 
-        internal void Load(ElementalManager elementalManager) // Create
+        internal void Load(XmlDocument doc)
         {
-            foreach(string saveEID in elementalManager.elementals.Keys)
+            XmlNode eNodes = doc.SelectSingleNode("InstanceStatus/Elementals");
+            foreach(XmlNode eNode in eNodes.ChildNodes)
             {
-                ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[saveEID];
-                Elemental newElemental = new Elemental(data);
-                Action_ElementalCreateEvent(newElemental);
-                elementals.Add(saveEID, newElemental);
-
-                // 변수 load 
-                newElemental.skillForceCount = elementalManager.elementals[saveEID].skillForceCount;
+                string id = eNode.Attributes["id"].Value;
+                Elemental newElemental= SummonNewElemental(id);
+                LevelUp(id, int.Parse(eNode.Attributes["level"].Value));
+                newElemental.skillForceCount = int.Parse(eNode.Attributes["skillforcecount"].Value);
+                newElemental.skillActive = bool.Parse(eNode.Attributes["skillactive"].Value);
+                ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
             }
         }
-        
 
         public BigInteger GetTotalDps()
         {
@@ -103,7 +78,10 @@ namespace SexyBackPlayScene
                 elemenatal.Update();
 
             while (readyToCreate.Count > 0)
-                SummonNewElemental(readyToCreate.Dequeue());
+            {
+                SummonNewElemental(readyToCreate.Peek());
+                LevelUp(readyToCreate.Dequeue(), 1);
+            }
         }
 
         // recieve event
@@ -133,31 +111,33 @@ namespace SexyBackPlayScene
             readyToCreate.Enqueue(id);
         }
 
-        internal void ActiveSkill(ElementalStat stat, string ElementalID)
+        internal void ActiveSkill(string ElementalID)
         {
-            SetStat(stat, ElementalID, false, false);
+            elementals[ElementalID].skillActive = true;
             elementals[ElementalID].skillForceCount++;
+            // no post events
         }
 
-        internal void SetLevelAndStat(Dictionary<string, ElementalStat> statList)
+        internal void LevelUp(string ownerID, int value)
+        {
+            elementals[ownerID].LevelUp(value);
+            Action_ElementalLevelUp(elementals[ownerID]);
+        }
+        internal void SetStatAll(Dictionary<string, ElementalStat> statList)
         {
             foreach (string id in elementals.Keys)
-                SetLevelAndStat(statList[id], id);
+                elementals[id].SetStat(statList[id]);
         }
-        internal void SetLevelAndStat(ElementalStat stat, string ElementalID)
+
+
+        void onElementalStatChange(ElementalStat newStat, string elementalIndex)
         {
-            SetStat(stat, ElementalID, true, true);
-            Action_ElementalLevelUp(elementals[ElementalID]);
+            SetStat(newStat, elementalIndex);
         }
-        internal void SetStatAll(Dictionary<string, ElementalStat> statList, bool CalDps, bool CalPrice)
-        {
-            foreach (string id in elementals.Keys)
-                elementals[id].SetStat(statList[id], CalDps, CalPrice);
-        }
-        internal void SetStat(ElementalStat stat, string ElementalID, bool CalDps, bool CalPrice)
+        internal void SetStat(ElementalStat stat, string ElementalID)
         {
             if (elementals.ContainsKey(ElementalID))
-                elementals[ElementalID].SetStat(stat, CalDps, CalPrice);
+                elementals[ElementalID].SetStat(stat);
         }
 
 

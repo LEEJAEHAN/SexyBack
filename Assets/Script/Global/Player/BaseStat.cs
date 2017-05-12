@@ -9,7 +9,6 @@ public class BaseStat : ICloneable
     public int Int;
     public int Spd;
     public int Luck;
-    private XmlNode xmlNode;
 
     public BaseStat(int str = 0, int intel = 0, int spd = 0, int luc = 0)
     {
