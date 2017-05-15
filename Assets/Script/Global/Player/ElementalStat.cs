@@ -20,10 +20,10 @@ internal class ElementalStat// 누적배수
     {
         BonusLevel = 0;
         DpsX = new BigInteger(1);
-        DpsIncreaseXH = 100;
-        CastSpeedXH = 100;
-        SkillRateIncreaseXH = 100;
-        SkillDmgIncreaseXH = 100;
+        DpsIncreaseXH = 0;
+        CastSpeedXH = 0;
+        SkillRateIncreaseXH = 0;
+        SkillDmgIncreaseXH = 0;
     }
     internal void LoadStat(XmlNode xmlNode)
     {

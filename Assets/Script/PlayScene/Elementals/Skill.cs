@@ -92,9 +92,9 @@ namespace SexyBackPlayScene
 
         }
 
-        internal void SetStat(int skilldamageIncreaseXH)
+        internal void SetRatio(int damageRatio)
         {
-            DAMAGERATIO = baseRatio * skilldamageIncreaseXH / 100;
+            DAMAGERATIO = damageRatio;
         }
         virtual internal void SetInterval(double interval)
         {

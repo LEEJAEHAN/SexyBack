@@ -32,8 +32,8 @@ namespace SexyBackPlayScene
         }
         internal override void Begin()
         {
-            ActionTime = owner.ATTACKINTERVAL;  // 중간에 값이 업데이트되도 무시하기위해
-            AttackSpeed = owner.ATTACKSPEED;
+            ActionTime = owner.AttackInterval;  // 중간에 값이 업데이트되도 무시하기위해
+            AttackSpeed = owner.AttackSpeed;
             State = HeroMiniState.None;
             Singleton<GameInput>.getInstance().Action_TouchEvent += onTouch;
             owner.Warp(GameCameras.HeroCamPosition);
@@ -42,6 +42,7 @@ namespace SexyBackPlayScene
         internal override void End()
         {
             Singleton<GameInput>.getInstance().Action_TouchEvent -= onTouch;
+            owner.Animator.speed = 1;
             owner.Warp(GameCameras.HeroCamPosition);
         }
 

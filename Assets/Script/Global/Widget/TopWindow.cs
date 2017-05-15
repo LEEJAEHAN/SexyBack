@@ -8,18 +8,34 @@ public class TopWindow : MonoBehaviour {
 
     public void Awake()
     {
+        Singleton<EquipmentManager>.getInstance().BindTopView(this);
         if (SceneManager.GetActiveScene().name == "MenuScene")
         {
-            Singleton<EquipmentManager>.getInstance().BindTopView(this);
             transform.FindChild("Slot1/Title").GetComponent<UILabel>().text = "특성포인트";
             transform.FindChild("Slot1/Value").GetComponent<UILabel>().text = "0";
+            transform.FindChild("Slot2/Title/LeftArrow").gameObject.SetActive(false);
+            transform.FindChild("Slot2/Title/RightArrow").gameObject.SetActive(false);
         }
         else if (SceneManager.GetActiveScene().name == "PlayScene")
         {
-            Singleton<EquipmentManager>.getInstance().BindTopView(this);
-            transform.FindChild("Slot1/Title").GetComponent<UILabel>().text = "남은시간";
+            transform.FindChild("Slot1/Title").GetComponent<UILabel>().text = "진행시간";
             transform.FindChild("Slot1/Value").GetComponent<UILabel>().text = "1:00:00";
+            transform.FindChild("Slot2/Title/LeftArrow").gameObject.SetActive(true);
+            transform.FindChild("Slot2/Title/RightArrow").gameObject.SetActive(true);
         }
+    }
+    internal void PrintSlot1String(string value)
+    {
+        transform.FindChild("Slot1/Value").GetComponent<UILabel>().text = value;
+    }
+
+    public void onRightButton()
+    {
+        Singleton<EquipmentManager>.getInstance().SwapEquipSet(true);
+    }
+    public void onLeftButton()
+    {
+        Singleton<EquipmentManager>.getInstance().SwapEquipSet(false);
     }
 
     public void Start()
@@ -51,4 +67,5 @@ public class TopWindow : MonoBehaviour {
 	void Update () {
 		
 	}
+
 }

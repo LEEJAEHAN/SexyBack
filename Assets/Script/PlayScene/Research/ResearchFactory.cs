@@ -29,7 +29,7 @@ namespace SexyBackPlayScene
 
             Research newone = new Research(data, griditem, temptime, totalPrice, researchTick); //,StartPrice, ResearchPrice, PricePerSec, ResearchTime
             newone.StateMachine.ChangeState("Ready");
-            newone.SetStat(Singleton<PlayerStatus>.getInstance().GetUtilStat);
+            newone.SetStat();
 
             return newone;
         }

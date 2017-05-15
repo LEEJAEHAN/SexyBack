@@ -93,14 +93,14 @@ namespace SexyBackPlayScene
 
         private void CheckCoolDown()
         {
-            if (atkCount < owner.MAXATTACKCOUNT)
+            if (atkCount < owner.MaxAttackCount)
             {
                 attackTimer += Time.deltaTime;
-                CoolTimeBar.GetComponent<UISlider>().value = (float)(attackTimer / owner.ATTACKINTERVAL);
-                if (attackTimer > owner.ATTACKINTERVAL)
+                CoolTimeBar.GetComponent<UISlider>().value = (float)(attackTimer / owner.AttackInterval);
+                if (attackTimer > owner.AttackInterval)
                 {
                     AddAttackCount();
-                    attackTimer -= owner.ATTACKINTERVAL;
+                    attackTimer -= owner.AttackInterval;
                 }
             }
             else // staic is max

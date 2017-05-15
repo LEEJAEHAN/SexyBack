@@ -63,12 +63,12 @@
 	<Talent id="T12" requireid="player" type="Util" maxlevelper10="5">
 		<Info icon="Icon_18" subicon="-L" name="근면함" description="레벨업 경험치 요구량이 $1$% 줄어듭니다."/>
 		<Rate rate="100"/>
-		<Bonus target="player" attribute="LevelUpPriceXH" value="2"/>
+		<Bonus target="player" attribute="LPriceReduceXH" value="2"/>
 	</Talent>
 	<Talent id="T13" requireid="player" type="Util" maxlevelper10="5">
 		<Info icon="Icon_18" subicon="-R" name="학자" description="연구의 경험치 요구량이 $1$% 줄어듭니다."/>
 		<Rate rate="100"/>
-		<Bonus target="player" attribute="ResearchPriceXH" value="2"/>
+		<Bonus target="player" attribute="RPriceReduceXH" value="2"/>
 	</Talent>
 	<Talent id="T14" requireid="player" type="Util">
 		<Info icon="Icon_19" name="발명" description="현재 진행중인 연구 중 가장 낮은 연구가 즉시 완료됩니다."/>

@@ -30,7 +30,7 @@ namespace SexyBackPlayScene
         }
         internal void onTouch(TapPoint pos)
         {   
-            if (owner.targetID != null)
+            if (owner.TargetID != null)
             {
                 if(owner.AttackManager.CanMakePlan)
                 {

@@ -19,30 +19,29 @@ namespace SexyBackPlayScene
         public override void Update()
         {
             for (int i = 0; i < PurchaseCount; PurchaseCount--)
-            {
                 if (Singleton<InstanceStatus>.getInstance().ExpUse(PRICE, true))
-                {
                     Singleton<HeroManager>.getInstance().LevelUp(1);
-                    //Singleton<PlayerStatus>.getInstance().ApplySpecialStat(bonus, true);
-                }
-            }
+            if (ViewRefreshFlag)
+                ViewRefresh();
         }
 
         internal void onHeroChange(Hero hero)
         {
             itemView.FillItemContents(hero.LEVEL.ToString());
-            originalPrice = hero.PRICE;
-            CalPrice();
+            OriginalPrice = hero.PRICE;
+            PRICE = OriginalPrice * (100 - LPriceReduceXH) / 100;
 
             Name = OwnerName + " LV." + hero.LEVEL.ToString();
-            HeroStat stat = Singleton<PlayerStatus>.getInstance().GetHeroStat;
-            StatName = "피해량\n공격속도\n크리티컬\n크리티컬데미지";
-            StatValue = stat.DpcIncreaseXH.ToString() + "%\n" + stat.AttackSpeedXH.ToString() + "%\n" + stat.CriticalRateXH.ToString() + "%\n" + stat.CriticalDamageXH.ToString() + "%";
+            StatName = "피해량\n공격속도\n강타확률\n강타데미지";
+            StatValue = hero.DpcXH.ToString() + "%\n"
+                + hero.AttackSpeedXH.ToString() + "%\n"
+                + ((double)hero.CriRateXK / 10f).ToString("N1") + "%\n"
+                + hero.CriDamageXH.ToString() + "%";
             Damage = hero.DPC.To5String() + " 피해 / 탭";
             PriceName = "다음\n요구";
             PriceValue = hero.DPCTick.To5String() + " 피해 / 탭\n" + PRICE.To5String() + " 경험치";
 
-            Refresh();
+            ViewRefresh();
         }
 
     }

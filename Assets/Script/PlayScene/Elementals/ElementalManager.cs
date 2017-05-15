@@ -20,13 +20,14 @@ namespace SexyBackPlayScene
             Action_ElementalCreateEvent = null;// = delegate (object sender) { };
             Action_ElementalLevelUp = null;
             Singleton<PlayerStatus>.getInstance().Action_ElementalStatChange -= this.onElementalStatChange;
+            Singleton<PlayerStatus>.getInstance().Action_BaseStatChange -= onBaseStatChange;
+
         }
 
         public Dictionary<string, Elemental> elementals = new Dictionary<string, Elemental>();
         [NonSerialized]
         public Queue<string> readyToCreate = new Queue<string>();
         public delegate void ElementalCreateEvent_Handler(Elemental sender);
-
 
         [field:NonSerialized]
         public event ElementalCreateEvent_Handler Action_ElementalCreateEvent;// = delegate (object sender) { };
@@ -40,14 +41,13 @@ namespace SexyBackPlayScene
             Elemental newElemental = new Elemental(data);
             Action_ElementalCreateEvent(newElemental);
             elementals.Add(id, newElemental);
-            ElementalStat stat = Singleton<PlayerStatus>.getInstance().GetElementalStat(id);
-            SetStat(stat, id);
             return newElemental;
         }
 
         internal void Init()
         {
             Singleton<PlayerStatus>.getInstance().Action_ElementalStatChange += this.onElementalStatChange;
+            Singleton<PlayerStatus>.getInstance().Action_BaseStatChange += onBaseStatChange;
         }
 
         internal void Load(XmlDocument doc)
@@ -58,8 +58,8 @@ namespace SexyBackPlayScene
                 string id = eNode.Attributes["id"].Value;
                 Elemental newElemental= SummonNewElemental(id);
                 LevelUp(id, int.Parse(eNode.Attributes["level"].Value));
-                newElemental.skillForceCount = int.Parse(eNode.Attributes["skillforcecount"].Value);
-                newElemental.skillActive = bool.Parse(eNode.Attributes["skillactive"].Value);
+                newElemental.SkillForceCount = int.Parse(eNode.Attributes["skillforcecount"].Value);
+                newElemental.SkillActive = bool.Parse(eNode.Attributes["skillactive"].Value);
                 ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
             }
         }
@@ -96,12 +96,6 @@ namespace SexyBackPlayScene
                 sender.StateMachine.Action_changeEvent += elemental.onTargetStateChange;
             }
         }
-
-        internal Elemental GetElemental(string ElementalID)
-        {
-            return elementals[ElementalID];
-        }
-
         internal void LearnNewElemental(string id)
         {
             if (Singleton<TableLoader>.getInstance().elementaltable.ContainsKey(id) == false)
@@ -113,8 +107,8 @@ namespace SexyBackPlayScene
 
         internal void ActiveSkill(string ElementalID)
         {
-            elementals[ElementalID].skillActive = true;
-            elementals[ElementalID].skillForceCount++;
+            elementals[ElementalID].SkillActive = true;
+            elementals[ElementalID].SkillForceCount++;
             // no post events
         }
 
@@ -123,23 +117,17 @@ namespace SexyBackPlayScene
             elementals[ownerID].LevelUp(value);
             Action_ElementalLevelUp(elementals[ownerID]);
         }
-        internal void SetStatAll(Dictionary<string, ElementalStat> statList)
+        public void onBaseStatChange(BaseStat newStat)
         {
-            foreach (string id in elementals.Keys)
-                elementals[id].SetStat(statList[id]);
+            foreach(Elemental elemental in elementals.Values)
+            {
+                elemental.onStatChange();
+            }
         }
-
-
         void onElementalStatChange(ElementalStat newStat, string elementalIndex)
         {
-            SetStat(newStat, elementalIndex);
+            if (elementals.ContainsKey(elementalIndex))
+                elementals[elementalIndex].onStatChange();
         }
-        internal void SetStat(ElementalStat stat, string ElementalID)
-        {
-            if (elementals.ContainsKey(ElementalID))
-                elementals[ElementalID].SetStat(stat);
-        }
-
-
     }
 }

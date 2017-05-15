@@ -21,11 +21,11 @@ public class HeroStat
     {
         BonusLevel = 0;
         DpcX = 1;
-        DpcIncreaseXH = 100; // Str과는 다르다.
-        AttackSpeedXH = 100; // Spd와는 다르다.
-        CriticalRateXH = 20;
-        CriticalDamageXH = 425;
-        MovespeedXH = 100;
+        DpcIncreaseXH = 0; // Str과는 다르다.
+        AttackSpeedXH = 0; // Spd와는 다르다.
+        CriticalRateXH = 0; // 20;
+        CriticalDamageXH = 0; // 425;
+        MovespeedXH = 0;
         AttackCapacity = 1;
     }
 

@@ -42,8 +42,11 @@ namespace SexyBackPlayScene
             CurrentFloor = 0;
 
             Stages = new List<Stage>();
-            Stages.Add(Factory.CreateStage(CurrentFloor, DistancePerFloor));
-            Stages.Add(Factory.CreateStage(CurrentFloor+1, DistancePerFloor * 2));
+            Stages.Add(Factory.CreateStage(CurrentFloor, 10));
+            Stages.Add(Factory.CreateStage(CurrentFloor + 1, 10 + DistancePerFloor));
+
+            //Stages.Add(Factory.CreateStage(CurrentFloor, DistancePerFloor));
+            //Stages.Add(Factory.CreateStage(CurrentFloor+1, DistancePerFloor * 2));
         }
 
         internal void Load(XmlDocument doc)

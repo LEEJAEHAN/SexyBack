@@ -88,13 +88,11 @@ internal class TableLoader
         equipmenttable = new Dictionary<string, EquipmentData>();
 
         List<BonusStat> skillstats = new List<BonusStat>();
-        skillstats.Add(new BonusStat("fireball", "DpsX", 10, null, "화염구의 데미지 증가 %d%"));
+        skillstats.Add(new BonusStat("hero", "DpcX", 10, null, "히어로 데미지 증가 $d배"));
+        skillstats.Add(new BonusStat("fireball", "DpsX", 10, null, "화염구의 데미지 증가 $d배"));
 
         EquipmentData e01 = new EquipmentData("E01", "Icon_11", "롱소드", Equipment.Type.Weapon, 0,
             new BaseStat(30, 0, 0, 0), "자와자와", skillstats);
-
-        skillstats.Clear();
-        skillstats.Add(new BonusStat("hero", "DpcX", 10, null, "히어로 데미지 증가 %d%"));
 
         EquipmentData e02 = new EquipmentData("E02", "Icon_10", "두번째아이템", Equipment.Type.Ring, 0,
             new BaseStat(0, 10, 10, 0), "술렁술렁", skillstats);

@@ -10,7 +10,7 @@ public class BaseStat : ICloneable
     public int Spd;
     public int Luck;
 
-    public BaseStat(int str = 0, int intel = 0, int spd = 0, int luc = 0)
+    public BaseStat(int str = 1, int intel = 1, int spd = 1, int luc = 1)
     {
         Str = str;
         Int = intel;
@@ -38,7 +38,10 @@ public class BaseStat : ICloneable
         if (Luck > 0)
             temp += ("운 " + Luck.ToString() + "\n");
 
-        return temp.Substring(0, temp.Length - 1);
+        if (temp.Length > 1)
+            return temp.Substring(0, temp.Length - 1);
+        else
+            return temp;
     }
     public object Clone()
     {

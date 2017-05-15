@@ -22,6 +22,7 @@ namespace SexyBackPlayScene
         [NonSerialized]
         public static int LimitGameTime;
 
+        bool RefreshStat = true;
         // exp
         BigInteger exp;
         public BigInteger EXP { get { return exp; } }
@@ -29,7 +30,9 @@ namespace SexyBackPlayScene
         [field: NonSerialized]
         public event ExpChange_Event Action_ExpChange;
         [NonSerialized]
-        public int expIncreaseXH;
+        public int ExpXH;
+
+        TopWindow topView;
 
         public string GetMapID
         {
@@ -56,16 +59,18 @@ namespace SexyBackPlayScene
             exp = null;
             lspend = null;
             rspend = null;
+            Singleton<PlayerStatus>.getInstance().Action_BaseStatChange -= onBaseStatchange;
             Singleton<PlayerStatus>.getInstance().Action_UtilStatChange -= onUtilStatChange;
         }
         internal void Init()
         {
             exp = new BigInteger();
-            Singleton<PlayerStatus>.getInstance().Action_UtilStatChange += this.onUtilStatChange;
+            topView = GameObject.Find("Top_Window").GetComponent<TopWindow>();
+            Singleton<PlayerStatus>.getInstance().Action_BaseStatChange += onBaseStatchange;
+            Singleton<PlayerStatus>.getInstance().Action_UtilStatChange += onUtilStatChange;
         }
         internal void Start() //new game
         {
-            SetStat(Singleton<PlayerStatus>.getInstance().GetUtilStat);
             MapID = GetMapID;   // 외부에서 setting 되어있으면 setting된값으로 아니면 더미값을출력
             // isBonused // 외부에서 이미 setting; 안되있으면 false;
             CurrentGameTime = 0;
@@ -74,8 +79,6 @@ namespace SexyBackPlayScene
         }
         internal void Load(XmlDocument doc)
         {
-            SetStat(Singleton<PlayerStatus>.getInstance().GetUtilStat);
-
             XmlNode mainNode = doc.SelectSingleNode("InstanceStatus");
             ExpGain(new BigInteger(mainNode.Attributes["Exp"].Value), false);
             MapID = mainNode.Attributes["MapID"].Value;
@@ -86,19 +89,34 @@ namespace SexyBackPlayScene
 
         public void Update()
         {
+            if (RefreshStat)
+            {
+                SetStat();
+                RefreshStat = false;
+            }
+
             CurrentGameTime += Time.deltaTime;
+            topView.PrintSlot1String(TimeSpan.FromSeconds((int)CurrentGameTime).ToString());
+
             sexybacklog.InGame("총시간 = " + (int)CurrentGameTime + " 초");
             sexybacklog.InGame("빨리감기 +" + Singleton<GameInput>.getInstance().fowardtimefordebug + " 초");
             sexybacklog.InGame("레벨업에쓴돈 " + lspend.To5String());
             sexybacklog.InGame("리서치에쓴돈 " + rspend.To5String());
         }
-        internal void SetStat(UtilStat uStat)
+
+        private void SetStat()
         {
-            expIncreaseXH = uStat.ExpIncreaseXH;
+            BaseStat baseStat = Singleton<PlayerStatus>.getInstance().GetBaseStat;
+            ExpXH = (200 + baseStat.Luck) / 2;
         }
-        public void onUtilStatChange(UtilStat newStat)
+
+        public void onUtilStatChange(UtilStat utilStat)
         {
-            SetStat(newStat);
+            RefreshStat = true;
+        }
+        public void onBaseStatchange(BaseStat baseStat)
+        {
+            RefreshStat = true;
         }
         internal void Upgrade(BonusStat bonus, GridItemIcon icon)
         {
@@ -136,7 +154,7 @@ namespace SexyBackPlayScene
         public void ExpGain(BigInteger e, bool isApplyStat)
         {
             if (isApplyStat)
-                exp += e * expIncreaseXH / 100;
+                exp += e * ExpXH / 100;
             else
                 exp += e;
             Action_ExpChange(exp);

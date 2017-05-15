@@ -40,9 +40,10 @@ namespace SexyBackPlayScene
             {
                 owner.monsterCount--;
             }
-            if(stateID == "Death")
+            if (stateID == "Death")
             {
                 mManager.GetMonster().StateMachine.Action_changeEvent -= onTargetStateChange;
+                mManager.EndBattle();
                 DuringBattle = false;
             }
         }

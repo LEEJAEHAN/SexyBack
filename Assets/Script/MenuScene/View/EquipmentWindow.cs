@@ -71,24 +71,24 @@ namespace SexyBackMenuScene
         }
         public void onRightButton()
         {
-            Singleton<EquipmentManager>.getInstance().ChangeEquipSet(true);
+            Singleton<EquipmentManager>.getInstance().SwapEquipSet(true);
             if (statemachine.Mode == EquipmentState.EquipSelected)
                 statemachine.ChangeMode(EquipmentState.None);
         }
         public void onLeftButton()
         {
-            Singleton<EquipmentManager>.getInstance().ChangeEquipSet(false);
+            Singleton<EquipmentManager>.getInstance().SwapEquipSet(false);
             if (statemachine.Mode == EquipmentState.EquipSelected)
                 statemachine.ChangeMode(EquipmentState.None);
         }
 
         public void onEquipButton()
         {
-            Singleton<EquipmentManager>.getInstance().Equip();
+            Singleton<EquipmentManager>.getInstance().EquipSelectedItem();
         }
         public void onUnEquipButton()
         {
-            Singleton<EquipmentManager>.getInstance().UnEquip();
+            Singleton<EquipmentManager>.getInstance().UnEquipSelectedItem();
         }
         public void onEnchantButton()
         {

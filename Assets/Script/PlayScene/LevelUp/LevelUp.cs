@@ -16,14 +16,13 @@ namespace SexyBackPlayScene
         LevelUpWindow Panel;
 
         protected BigInteger PRICE;
-        protected BigInteger originalPrice = new BigInteger(0); // original price
-        int priceXH; // stat
-
+        protected BigInteger OriginalPrice = new BigInteger(0); // original price
+        protected int LPriceReduceXH; // stat
         protected int PurchaseCount = 0; // 구매횟수 == level;
 
-        internal bool CanBuy = false;
         public bool Selected = false;
         bool Learn = false;
+        protected bool ViewRefreshFlag = true;
 
         protected string OwnerID;
         protected string OwnerName;
@@ -48,18 +47,6 @@ namespace SexyBackPlayScene
             Panel = LevelUpWindow.getInstance;
         }
 
-        internal void Purchase()
-        {
-            if (CanBuy)
-                PurchaseCount++;
-        }
-
-        public void onExpChange(BigInteger exp)
-        {
-            CanBuy = exp > PRICE;
-            Refresh();
-        }
-
         public void onSelect(string id)
         {
             if (id == null)
@@ -72,34 +59,29 @@ namespace SexyBackPlayScene
 
             Selected = true;
             Panel.Action_Confirm += this.onConfirm;
-            Refresh();
+            ViewRefresh();
         }
 
-        public void onConfirm()
+        public void onConfirm()     // purchase
         {   // 중복입력 막는다.
-            if(PurchaseCount == 0)
-                Purchase();
+            if(PurchaseCount == 0 && Singleton<InstanceStatus>.getInstance().EXP > PRICE)
+                PurchaseCount++;
         }
 
-        internal void SetStat(UtilStat stat)
+        public void onExpChange(BigInteger exp)
         {
-            priceXH = stat.LevelUpPriceXH;
-            CalPrice();
-            Refresh();
+            ViewRefreshFlag = true;
         }
-        protected void CalPrice()
+        internal void SetStat()
         {
-            PRICE = originalPrice * priceXH / 100;
-            CanBuy = Singleton<InstanceStatus>.getInstance().EXP > PRICE;
+            UtilStat utilStat = Singleton<PlayerStatus>.getInstance().GetUtilStat;
+            LPriceReduceXH = Mathf.Min(50, utilStat.LPriceReduceXH);// * (200 + baseStat.Luck) / 200;
+            PRICE = OriginalPrice * (100 - LPriceReduceXH) / 100;
+            ViewRefreshFlag = true;
         }
-
-        public void Refresh()
+        public void ViewRefresh()
         {
-            if (CanBuy)
-                Panel.SetButton1(Selected, true);
-            else
-                Panel.SetButton1(Selected, false);
-
+            bool CanBuy = Singleton<InstanceStatus>.getInstance().EXP > PRICE;
             if (CanBuy)
                 itemView.Enable();
             else
@@ -110,8 +92,15 @@ namespace SexyBackPlayScene
                 itemView.SetActive(true);
                 Learn = true;
             }
-            
-            Panel.Show(Selected, Icon, Name, StatName, StatValue, PriceName, PriceValue, Damage);
+
+            if (Selected)
+            {
+                if (CanBuy)
+                    Panel.SetButton1(Selected, true);
+                else
+                    Panel.SetButton1(Selected, false);
+                Panel.Show(Selected, Icon, Name, StatName, StatValue, PriceName, PriceValue, Damage);
+            }
         }
         // function
 

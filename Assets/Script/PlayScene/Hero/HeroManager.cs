@@ -18,6 +18,7 @@ namespace SexyBackPlayScene
             CurrentHero.Dispose();
             CurrentHero = null;
             Singleton<PlayerStatus>.getInstance().Action_HeroStatChange -= onHeroStatChange;
+            Singleton<PlayerStatus>.getInstance().Action_BaseStatChange -= onBaseStatChange;
         }
         Hero CurrentHero;
 
@@ -33,6 +34,8 @@ namespace SexyBackPlayScene
         public void Init()
         {
             Singleton<PlayerStatus>.getInstance().Action_HeroStatChange += onHeroStatChange;
+            Singleton<PlayerStatus>.getInstance().Action_BaseStatChange += onBaseStatChange;
+
             // this class is event listner
         }
         internal void Load(XmlDocument doc)
@@ -53,17 +56,20 @@ namespace SexyBackPlayScene
         {
             CurrentHero.Enchant(elementID);
         }
-
+        public void onBaseStatChange(BaseStat newStat)
+        {
+            CurrentHero.onStatChange();
+        }
         public void onHeroStatChange(HeroStat newStat)
         {
-            CurrentHero.SetStat(newStat);
+            CurrentHero.onStatChange();
         }
         public void CreateNewHero()
         {
             CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable);
             Action_HeroCreateEvent(CurrentHero);
             CurrentHero.ChangeState("Move"); //Init state is move
-            CurrentHero.SetStat(Singleton<PlayerStatus>.getInstance().GetHeroStat);
+            //CurrentHero.onHeroStatChange(Singleton<PlayerStatus>.getInstance().GetHeroStat);
         }
 
         internal void Update()

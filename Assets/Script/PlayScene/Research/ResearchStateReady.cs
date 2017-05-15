@@ -7,8 +7,8 @@ namespace SexyBackPlayScene
         InstanceStatus player = Singleton<InstanceStatus>.getInstance();
         ResearchManager manager = Singleton<ResearchManager>.getInstance();
         bool Instantbuy = false;
-        bool ThreadEmpty = false;
-        bool CanBuy { get { return player.EXP >= owner.StartPrice; } } 
+        //bool ThreadEmpty = false;
+        //bool CanBuy { get { return player.EXP >= owner.StartPrice; } } 
 
         public ResearchStateReady(Research owner, StateMachine<Research> statemachine) : base(owner, statemachine)
         {
@@ -19,14 +19,15 @@ namespace SexyBackPlayScene
             owner.Panel.SetButton2(owner.Selected, false, "");
             Instantbuy = false;
             manager.Action_ThreadChange += this.onThreadEmpty;
-            onThreadEmpty(manager.CanUseThread);
             player.Action_ExpChange += this.onExpChange;
-            onExpChange(player.EXP);
+            Refresh();
+            //onThreadEmpty(manager.CanUseThread);
+            //onExpChange(player.EXP);
         }
         internal void onThreadEmpty(bool value)
         {
-            ThreadEmpty = value;
-            Refresh();
+            //ThreadEmpty = value;
+            owner.ViewRefresh();
         }
 
         internal override void End()
@@ -41,28 +42,40 @@ namespace SexyBackPlayScene
         {
             if (owner.Purchase)
                 return;
-            Refresh();
+            owner.ViewRefresh();
+            //Refresh();
         }
 
         private void Refresh()
         {
+            bool ThreadEmpty = manager.CanUseThread;
+            bool CanBuy = player.EXP >= owner.StartPrice;
+
             InstantModeCheck();
 
             if (!Instantbuy)
+            {
                 owner.itemView.ShowRBar(0, (int)owner.ReducedTime, false);
+                if (CanBuy && ThreadEmpty)
+                    owner.itemView.Enable();
+                else
+                    owner.itemView.Disable();
+                owner.Panel.SetButton1(owner.Selected, CanBuy && ThreadEmpty, true);
+            }
             else
+            {
                 owner.itemView.HideRBar();
-
-            if (CanBuy && ThreadEmpty)
-                owner.itemView.Enable();
-            else
-                owner.itemView.Disable();
+                if (CanBuy)
+                    owner.itemView.Enable();
+                else
+                    owner.itemView.Disable();
+                owner.Panel.SetButton1(owner.Selected, CanBuy, true);
+            }
 
             if (!owner.Selected)
                 return;
 
             owner.FillInfoView(Instantbuy);
-            owner.Panel.SetButton1(owner.Selected, CanBuy && ThreadEmpty, true);
         }
 
         private void InstantModeCheck()

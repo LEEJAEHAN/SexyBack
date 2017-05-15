@@ -193,8 +193,8 @@ namespace SexyBackPlayScene
                 writer.WriteStartElement("Elemental");
                 writer.WriteAttributeString("id", data.GetID.ToString());
                 writer.WriteAttributeString("level", data.LEVEL.ToString());
-                writer.WriteAttributeString("skillactive", data.skillActive.ToString());
-                writer.WriteAttributeString("skillforcecount", data.skillForceCount.ToString());
+                writer.WriteAttributeString("skillactive", data.SkillActive.ToString());
+                writer.WriteAttributeString("skillforcecount", data.SkillForceCount.ToString());
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();

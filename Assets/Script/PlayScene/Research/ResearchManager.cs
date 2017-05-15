@@ -21,6 +21,7 @@ namespace SexyBackPlayScene
             ResearchWindow.Clear();
         }
 
+        bool RefreshStat = true;
         public int currentthread = 0;
         public int maxthread;
         public Dictionary<string, Research> researches = new Dictionary<string, Research>();
@@ -37,6 +38,7 @@ namespace SexyBackPlayScene
         ResearchFactory factory = new ResearchFactory();
 
         public bool CanUseThread { get { return currentthread < maxthread; } }
+        
 
         public void Init()
         {
@@ -55,7 +57,14 @@ namespace SexyBackPlayScene
 
         public void onUtilStatChange(UtilStat newStat)
         {
-            SetStatAll(newStat);
+            RefreshStat = true;
+        }
+        private void SetStat()
+        {
+            maxthread = Singleton<PlayerStatus>.getInstance().GetUtilStat.MaxResearchThread;
+            Action_ThreadChange(CanUseThread);
+            foreach (Research research in researches.Values)
+                research.SetStat();
         }
 
         int myResearchSort(Transform a, Transform b)
@@ -138,7 +147,13 @@ namespace SexyBackPlayScene
 
         public void Update()
         {
-            for(int i = 0; i < idQueue.Count; i++)
+            if(RefreshStat)
+            {
+                SetStat();
+                RefreshStat = false;
+            }
+
+            for (int i = 0; i < idQueue.Count; i++)
             {
                 string targetid = idQueue.Dequeue();
                 researches[targetid].Dispose();
@@ -157,7 +172,6 @@ namespace SexyBackPlayScene
             ViewLoader.Tab2Container.GetComponent<UIGrid>().Reposition();
         }
 
-
         public void UseThread(bool start)
         {
             if (start)
@@ -170,16 +184,6 @@ namespace SexyBackPlayScene
                 if (currentthread > 0)
                     currentthread--;
             }
-            Action_ThreadChange(CanUseThread);
-        }
-        
-
-        internal void SetStatAll(UtilStat utilStat)
-        {
-            foreach (Research research in researches.Values)
-                research.SetStat(utilStat);
-
-            maxthread = utilStat.MaxResearchThread;
             Action_ThreadChange(CanUseThread);
         }
 

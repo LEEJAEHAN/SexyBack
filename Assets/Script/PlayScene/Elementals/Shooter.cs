@@ -52,7 +52,6 @@ namespace SexyBackPlayScene
             return false;
         }
 
-
         internal void SetInterval(double castInterval)
         {
             CASTINTERVAL = castInterval;

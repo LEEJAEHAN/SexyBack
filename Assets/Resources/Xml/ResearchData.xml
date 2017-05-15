@@ -7,7 +7,7 @@
 		<Bonus target="fireball" attribute="Active" stringvalue="fireball"/>
 	</Research>
 	<Research id="R02" requireid="fireball" requirelevel="0">
-		<Info icon="Icon_09" name="각얼음 습득" description="각얼음을 배웁니다."/>
+		<Info icon="Icon_05" name="각얼음 습득" description="각얼음을 배웁니다."/>
 		<Price level="0" baselevel="15" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
 		<Bonus target="iceblock" attribute="Active" stringvalue="iceblock"/>
@@ -25,7 +25,7 @@
 		<Bonus target="electricball" attribute="Active" stringvalue="electricball"/>
 	</Research>
 	<Research id="R05" requireid="electricball" requirelevel="0">
-		<Info icon="Icon_08" name="물폭탄 습득" description="물폭탄을 배웁니다."/>
+		<Info icon="Icon_09" name="물폭탄 습득" description="물폭탄을 배웁니다."/>
 		<Price level="0" baselevel="90" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
 		<Bonus target="waterball" attribute="Active" stringvalue="waterball"/>
@@ -61,168 +61,198 @@
 		<Bonus target="waterball" attribute="ActiveSkill" stringvalue="waterball"/>
 	</Research>
 	<Research id="R11" requireid="iceblock" requirelevel="0">
-		<Info icon="Icon_11" subicon="Icon_09" name="인첸트1" description="원소를 부여해 검술을 강화합니다. \n기본공격력 1 &gt; 2.08"/>
-		<Price level="0" baselevel="15" baseprice="50"/>
+		<Info icon="Icon_11" subicon="Icon_05" name="인첸트1" description="원소를 부여해 검술을 강화합니다. \n기본공격력 1 &gt; 2.08"/>
+		<Price level="0" baselevel="15" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
 		<Bonus target="hero" attribute="Enchant" stringvalue="iceblock"/>
 	</Research>
 	<Research id="R12" requireid="rock" requirelevel="0">
-		<Info icon="Icon_11" subicon="Icon_07" name="인첸트2" description="원소를 부여해 검술을 강화합니다. \n기본공격력 2.08 &gt; 4.15"/>
-		<Price level="0" baselevel="35" baseprice="50"/>
+		<Info icon="Icon_11" subicon="Icon_07" name="인첸트2" description="원소를 부여해 검술을 강화합니다. \n기본공격력 2.08 &gt; 3.25"/>
+		<Price level="0" baselevel="35" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
 		<Bonus target="hero" attribute="Enchant" stringvalue="rock"/>
 	</Research>
 	<Research id="R13" requireid="electricball" requirelevel="0">
-		<Info icon="Icon_11" subicon="Icon_04" name="인첸트3" description="원소를 부여해 검술을 강화합니다. \n기본공격력 4.15 &gt; 6.5"/>
-		<Price level="0" baselevel="60" baseprice="50"/>
+		<Info icon="Icon_11" subicon="Icon_04" name="인첸트3" description="원소를 부여해 검술을 강화합니다. \n기본공격력 3.25 &gt; 4.55"/>
+		<Price level="0" baselevel="60" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
 		<Bonus target="hero" attribute="Enchant" stringvalue="electricball"/>
 	</Research>
 	<Research id="R14" requireid="waterball" requirelevel="0">
-		<Info icon="Icon_11" subicon="Icon_08" name="인첸트4" description="원소를 부여해 검술을 강화합니다. \n기본공격력 6.5 &gt; 9.1"/>
-		<Price level="0" baselevel="90" baseprice="50"/>
+		<Info icon="Icon_11" subicon="Icon_09" name="인첸트4" description="원소를 부여해 검술을 강화합니다. \n기본공격력 4.55 &gt; 6"/>
+		<Price level="0" baselevel="90" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
 		<Bonus target="hero" attribute="Enchant" stringvalue="waterball"/>
 	</Research>
-	<Research id="R15" requireid="hero" requirelevel="0">
-		<Info icon="Icon_11" icontext="x3" subicon="IconSmall_01" name="검술연마1" description="기본공격의 공격력이 3배 증가합니다."/>
-		<Price level="10" baselevel="0" baseprice="300"/>
+	<Research id="R15" requireid="hero" requirelevel="5">
+		<Info icon="Icon_11" icontext="x2" subicon="IconSmall_01" name="검술연마1" description="기본공격의 공격력이 2배 증가합니다."/>
+		<Price level="5" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="hero" attribute="DpcX" value="3"/>
+		<Bonus target="hero" attribute="DpcX" value="2"/>
 	</Research>
-	<Research id="R16" requireid="hero" requirelevel="10">
+	<Research id="R16" requireid="hero" requirelevel="15">
 		<Info icon="Icon_11" icontext="x2" subicon="IconSmall_01" name="검술연마2" description="기본공격의 공격력이 2배 증가합니다."/>
-		<Price level="25" baselevel="0" baseprice="300"/>
+		<Price level="15" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
 		<Bonus target="hero" attribute="DpcX" value="2"/>
 	</Research>
 	<Research id="R17" requireid="hero" requirelevel="25">
-		<Info icon="Icon_11" icontext="x6" subicon="IconSmall_01" name="검술연마3" description="기본공격의 공격력이 6배 증가합니다."/>
-		<Price level="45" baselevel="0" baseprice="300"/>
+		<Info icon="Icon_11" icontext="x2" subicon="IconSmall_01" name="검술연마3" description="기본공격의 공격력이 2배 증가합니다."/>
+		<Price level="25" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="hero" attribute="DpcX" value="6"/>
+		<Bonus target="hero" attribute="DpcX" value="2"/>
 	</Research>
-	<Research id="R18" requireid="hero" requirelevel="45">
-		<Info icon="Icon_11" icontext="x16" subicon="IconSmall_01" name="검술연마4" description="기본공격의 공격력이 16배 증가합니다."/>
-		<Price level="70" baselevel="0" baseprice="300"/>
+	<Research id="R18" requireid="hero" requirelevel="40">
+		<Info icon="Icon_11" icontext="x2" subicon="IconSmall_01" name="검술연마4" description="기본공격의 공격력이 2배 증가합니다."/>
+		<Price level="40" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="hero" attribute="DpcX" value="16"/>
+		<Bonus target="hero" attribute="DpcX" value="2"/>
 	</Research>
-	<Research id="R19" requireid="hero" requirelevel="70">
-		<Info icon="Icon_11" icontext="x23" subicon="IconSmall_01" name="검술연마5" description="기본공격의 공격력이 23배 증가합니다."/>
-		<Price level="95" baselevel="0" baseprice="300"/>
+	<Research id="R19" requireid="hero" requirelevel="60">
+		<Info icon="Icon_11" icontext="x5" subicon="IconSmall_01" name="검술연마5" description="기본공격의 공격력이 5배 증가합니다."/>
+		<Price level="60" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="hero" attribute="DpcX" value="23"/>
+		<Bonus target="hero" attribute="DpcX" value="5"/>
 	</Research>
-	<Research id="R20" requireid="fireball" requirelevel="0">
-		<Info icon="Icon_01" icontext="x3" subicon="IconSmall_01" name="비법 : 화염구1" description="화염구의 공격력이 3배 증가합니다."/>
-		<Price level="5" baselevel="0" baseprice="300"/>
+	<Research id="R20" requireid="hero" requirelevel="80">
+		<Info icon="Icon_11" icontext="x9" subicon="IconSmall_01" name="검술연마6" description="기본공격의 공격력이 9배 증가합니다."/>
+		<Price level="80" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="fireball" attribute="DpsX" value="3"/>
+		<Bonus target="hero" attribute="DpcX" value="9"/>
 	</Research>
-	<Research id="R21" requireid="fireball" requirelevel="5">
-		<Info icon="Icon_01" icontext="x2" subicon="IconSmall_01" name="비법 : 화염구2" description="화염구의 공격력이 2배 증가합니다."/>
-		<Price level="15" baselevel="0" baseprice="300"/>
+	<Research id="R21" requireid="hero" requirelevel="100">
+		<Info icon="Icon_11" icontext="x10" subicon="IconSmall_01" name="검술연마7" description="기본공격의 공격력이 10배 증가합니다."/>
+		<Price level="100" baselevel="0" baseprice="300"/>
+		<PriceOverTime rate="80" basetime="100"/>
+		<Bonus target="hero" attribute="DpcX" value="10"/>
+	</Research>
+	<Research id="R22" requireid="fireball" requirelevel="0">
+		<Info icon="Icon_01" icontext="x2" subicon="IconSmall_01" name="비법 : 화염구1" description="화염구의 공격력이 2배 증가합니다."/>
+		<Price level="0" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
 		<Bonus target="fireball" attribute="DpsX" value="2"/>
 	</Research>
-	<Research id="R22" requireid="fireball" requirelevel="15">
-		<Info icon="Icon_01" icontext="x3" subicon="IconSmall_01" name="비법 : 화염구3" description="화염구의 공격력이 3배 증가합니다."/>
-		<Price level="30" baselevel="0" baseprice="300"/>
+	<Research id="R23" requireid="fireball" requirelevel="10">
+		<Info icon="Icon_01" icontext="x2" subicon="IconSmall_01" name="비법 : 화염구2" description="화염구의 공격력이 2배 증가합니다."/>
+		<Price level="10" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="fireball" attribute="DpsX" value="3"/>
+		<Bonus target="fireball" attribute="DpsX" value="2"/>
 	</Research>
-	<Research id="R23" requireid="fireball" requirelevel="30">
-		<Info icon="Icon_01" icontext="x11" subicon="IconSmall_01" name="비법 : 화염구4" description="화염구의 공격력이 11배 증가합니다."/>
+	<Research id="R24" requireid="fireball" requirelevel="20">
+		<Info icon="Icon_01" icontext="x2" subicon="IconSmall_01" name="비법 : 화염구3" description="화염구의 공격력이 2배 증가합니다."/>
+		<Price level="20" baselevel="0" baseprice="300"/>
+		<PriceOverTime rate="80" basetime="100"/>
+		<Bonus target="fireball" attribute="DpsX" value="2"/>
+	</Research>
+	<Research id="R25" requireid="fireball" requirelevel="35">
+		<Info icon="Icon_01" icontext="x4" subicon="IconSmall_01" name="비법 : 화염구4" description="화염구의 공격력이 4배 증가합니다."/>
+		<Price level="35" baselevel="0" baseprice="300"/>
+		<PriceOverTime rate="80" basetime="100"/>
+		<Bonus target="fireball" attribute="DpsX" value="4"/>
+	</Research>
+	<Research id="R26" requireid="fireball" requirelevel="50">
+		<Info icon="Icon_01" icontext="x4" subicon="IconSmall_01" name="비법 : 화염구5" description="화염구의 공격력이 4배 증가합니다."/>
 		<Price level="50" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="fireball" attribute="DpsX" value="11"/>
+		<Bonus target="fireball" attribute="DpsX" value="4"/>
 	</Research>
-	<Research id="R24" requireid="fireball" requirelevel="50">
-		<Info icon="Icon_01" icontext="x24" subicon="IconSmall_01" name="비법 : 화염구5" description="화염구의 공격력이 24배 증가합니다."/>
-		<Price level="75" baselevel="0" baseprice="300"/>
+	<Research id="R27" requireid="fireball" requirelevel="70">
+		<Info icon="Icon_01" icontext="x8" subicon="IconSmall_01" name="비법 : 화염구6" description="화염구의 공격력이 8배 증가합니다."/>
+		<Price level="70" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="fireball" attribute="DpsX" value="24"/>
+		<Bonus target="fireball" attribute="DpsX" value="8"/>
 	</Research>
-	<Research id="R25" requireid="fireball" requirelevel="75">
-		<Info icon="Icon_02" icontext="x27" subicon="IconSmall_01" name="비법 : 화염구6" description="화염구의 공격력이 27배 증가합니다."/>
-		<Price level="100" baselevel="0" baseprice="300"/>
+	<Research id="R28" requireid="fireball" requirelevel="90">
+		<Info icon="Icon_01" icontext="x13" subicon="IconSmall_01" name="비법 : 화염구7" description="화염구의 공격력이 13배 증가합니다."/>
+		<Price level="90" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="fireball" attribute="DpsX" value="27"/>
+		<Bonus target="fireball" attribute="DpsX" value="13"/>
 	</Research>
-	<Research id="R26" requireid="iceblock" requirelevel="0">
-		<Info icon="Icon_05" icontext="x3" subicon="IconSmall_01" name="비법 : 각얼음1" description="각얼음의 공격력이 3배 증가합니다."/>
-		<Price level="5" baselevel="15" baseprice="300"/>
+	<Research id="R29" requireid="iceblock" requirelevel="0">
+		<Info icon="Icon_05" icontext="x2" subicon="IconSmall_01" name="비법 : 각얼음1" description="각얼음의 공격력이 2배 증가합니다."/>
+		<Price level="0" baselevel="15" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="iceblock" attribute="DpsX" value="3"/>
+		<Bonus target="iceblock" attribute="DpsX" value="2"/>
 	</Research>
-	<Research id="R27" requireid="iceblock" requirelevel="5">
-		<Info icon="Icon_05" icontext="x3" subicon="IconSmall_01" name="비법 : 각얼음2" description="각얼음의 공격력이 3배 증가합니다."/>
-		<Price level="20" baselevel="15" baseprice="300"/>
+	<Research id="R30" requireid="iceblock" requirelevel="15">
+		<Info icon="Icon_05" icontext="x2" subicon="IconSmall_01" name="비법 : 각얼음2" description="각얼음의 공격력이 2배 증가합니다."/>
+		<Price level="15" baselevel="15" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="iceblock" attribute="DpsX" value="3"/>
+		<Bonus target="iceblock" attribute="DpsX" value="2"/>
 	</Research>
-	<Research id="R28" requireid="iceblock" requirelevel="20">
-		<Info icon="Icon_05" icontext="x7" subicon="IconSmall_01" name="비법 : 각얼음3" description="각얼음의 공격력이 7배 증가합니다."/>
-		<Price level="40" baselevel="15" baseprice="300"/>
+	<Research id="R31" requireid="iceblock" requirelevel="30">
+		<Info icon="Icon_05" icontext="x4" subicon="IconSmall_01" name="비법 : 각얼음3" description="각얼음의 공격력이 4배 증가합니다."/>
+		<Price level="30" baselevel="15" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="iceblock" attribute="DpsX" value="7"/>
+		<Bonus target="iceblock" attribute="DpsX" value="4"/>
 	</Research>
-	<Research id="R29" requireid="iceblock" requirelevel="40">
-		<Info icon="Icon_05" icontext="x20" subicon="IconSmall_01" name="비법 : 각얼음4" description="각얼음의 공격력이 20배 증가합니다."/>
-		<Price level="65" baselevel="15" baseprice="300"/>
+	<Research id="R32" requireid="iceblock" requirelevel="50">
+		<Info icon="Icon_05" icontext="x6" subicon="IconSmall_01" name="비법 : 각얼음4" description="각얼음의 공격력이 6배 증가합니다."/>
+		<Price level="50" baselevel="15" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="iceblock" attribute="DpsX" value="20"/>
+		<Bonus target="iceblock" attribute="DpsX" value="6"/>
 	</Research>
-	<Research id="R30" requireid="rock" requirelevel="0">
-		<Info icon="Icon_07" icontext="x3" subicon="IconSmall_01" name="비법 : 짱돌1" description="짱돌의 공격력이 3배 증가합니다."/>
-		<Price level="5" baselevel="35" baseprice="300"/>
+	<Research id="R33" requireid="iceblock" requirelevel="70">
+		<Info icon="Icon_05" icontext="x8" subicon="IconSmall_01" name="비법 : 각얼음5" description="각얼음의 공격력이 8배 증가합니다."/>
+		<Price level="70" baselevel="15" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="rock" attribute="DpsX" value="3"/>
+		<Bonus target="iceblock" attribute="DpsX" value="8"/>
 	</Research>
-	<Research id="R31" requireid="rock" requirelevel="5">
-		<Info icon="Icon_07" icontext="x5" subicon="IconSmall_01" name="비법 : 짱돌2" description="짱돌의 공격력이 5배 증가합니다."/>
-		<Price level="25" baselevel="35" baseprice="300"/>
+	<Research id="R34" requireid="rock" requirelevel="0">
+		<Info icon="Icon_07" icontext="x2" subicon="IconSmall_01" name="비법 : 짱돌1" description="짱돌의 공격력이 2배 증가합니다."/>
+		<Price level="0" baselevel="35" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="rock" attribute="DpsX" value="5"/>
+		<Bonus target="rock" attribute="DpsX" value="2"/>
 	</Research>
-	<Research id="R32" requireid="rock" requirelevel="25">
-		<Info icon="Icon_07" icontext="x13" subicon="IconSmall_01" name="비법 : 짱돌3" description="짱돌의 공격력이 13배 증가합니다."/>
-		<Price level="50" baselevel="35" baseprice="300"/>
+	<Research id="R35" requireid="rock" requirelevel="20">
+		<Info icon="Icon_07" icontext="x2" subicon="IconSmall_01" name="비법 : 짱돌2" description="짱돌의 공격력이 2배 증가합니다."/>
+		<Price level="20" baselevel="35" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="rock" attribute="DpsX" value="13"/>
+		<Bonus target="rock" attribute="DpsX" value="2"/>
 	</Research>
-	<Research id="R33" requireid="electricball" requirelevel="0">
-		<Info icon="Icon_04" icontext="x3" subicon="IconSmall_01" name="비법 : 지지직1" description="지지직의 공격력이 3배 증가합니다."/>
+	<Research id="R36" requireid="rock" requirelevel="40">
+		<Info icon="Icon_07" icontext="x6" subicon="IconSmall_01" name="비법 : 짱돌3" description="짱돌의 공격력이 6배 증가합니다."/>
+		<Price level="40" baselevel="35" baseprice="300"/>
+		<PriceOverTime rate="80" basetime="100"/>
+		<Bonus target="rock" attribute="DpsX" value="6"/>
+	</Research>
+	<Research id="R37" requireid="rock" requirelevel="60">
+		<Info icon="Icon_07" icontext="x10" subicon="IconSmall_01" name="비법 : 짱돌3" description="짱돌의 공격력이 10배 증가합니다."/>
+		<Price level="60" baselevel="35" baseprice="300"/>
+		<PriceOverTime rate="80" basetime="100"/>
+		<Bonus target="rock" attribute="DpsX" value="10"/>
+	</Research>
+	<Research id="R38" requireid="electricball" requirelevel="5">
+		<Info icon="Icon_04" icontext="x2" subicon="IconSmall_01" name="비법 : 지지직1" description="지지직의 공격력이 2배 증가합니다."/>
 		<Price level="5" baselevel="60" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="electricball" attribute="DpsX" value="3"/>
+		<Bonus target="electricball" attribute="DpsX" value="2"/>
 	</Research>
-	<Research id="R34" requireid="electricball" requirelevel="5">
-		<Info icon="Icon_04" icontext="x8" subicon="IconSmall_01" name="비법 : 지지직2" description="지지직의 공격력이 8배 증가합니다."/>
-		<Price level="30" baselevel="60" baseprice="300"/>
+	<Research id="R39" requireid="electricball" requirelevel="25">
+		<Info icon="Icon_04" icontext="x2" subicon="IconSmall_01" name="비법 : 지지직2" description="지지직의 공격력이 2배 증가합니다."/>
+		<Price level="25" baselevel="60" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="electricball" attribute="DpsX" value="8"/>
+		<Bonus target="electricball" attribute="DpsX" value="2"/>
 	</Research>
-	<Research id="R35" requireid="waterball" requirelevel="0">
-		<Info icon="Icon_09" icontext="x3" subicon="IconSmall_01" name="비법 : 물폭탄1" description="물폭탄의 공격력이 3배 증가합니다."/>
-		<Price level="5" baselevel="90" baseprice="300"/>
+	<Research id="R40" requireid="waterball" requirelevel="0">
+		<Info icon="Icon_09" icontext="x2" subicon="IconSmall_01" name="비법 : 물폭탄1" description="물폭탄의 공격력이 2배 증가합니다."/>
+		<Price level="0" baselevel="90" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="100"/>
-		<Bonus target="waterball" attribute="DpsX" value="3"/>
+		<Bonus target="waterball" attribute="DpsX" value="2"/>
 	</Research>
-	<Research id="R36" requireid="hero" requirelevel="0">
+	<Research id="R41" requireid="hero" requirelevel="0">
 		<Info icon="Icon_19" icontext="x2" subicon="IconSmall_02" name="시간왜곡1" description="연구시간이 절반으로 줄어듭니다. 단 시간당 연구비용은 2배로 증가합니다."/>
 		<Price level="60" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
 		<Bonus target="player" attribute="ResearchTimeX" value="2"/>
 	</Research>
-	<Research id="R37" requireid="hero" requirelevel="0">
+	<Research id="R42" requireid="hero" requirelevel="0">
 		<Info icon="Icon_19" icontext="x2" subicon="IconSmall_02" name="시간왜곡2" description="연구시간이 절반으로 줄어듭니다. 단 시간당 연구비용은 2배로 증가합니다."/>
 		<Price level="80" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
 		<Bonus target="player" attribute="ResearchTimeX" value="2"/>
 	</Research>
-	<Research id="R38" requireid="hero" requirelevel="0">
+	<Research id="R43" requireid="hero" requirelevel="0">
 		<Info icon="Icon_19" icontext="x2" subicon="IconSmall_02" name="시간왜곡3" description="연구시간이 절반으로 줄어듭니다. 단 시간당 연구비용은 2배로 증가합니다."/>
 		<Price level="100" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>

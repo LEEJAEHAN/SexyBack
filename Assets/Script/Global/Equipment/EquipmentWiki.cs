@@ -22,7 +22,7 @@ public static class EquipmentWiki
         string temp = "";
         foreach (BonusStat a in skillStat)
         {
-            temp += (a.description.Replace("%d", a.value.ToString()) + "\n");
+            temp += (a.description.Replace("$d", a.value.ToString()) + "\n");
         }
         return temp.Substring(0, temp.Length - 1);
     }

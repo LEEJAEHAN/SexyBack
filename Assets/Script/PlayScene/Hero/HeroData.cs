@@ -12,6 +12,8 @@ namespace SexyBackPlayScene
         public readonly int BaseLevel;
         public readonly int BasePrice;
         public readonly double BaseDmg;
+        public readonly int BaseSkillRateXK;
+        public readonly int BaseSkillDamageXH;
 
         public HeroData()
         {
@@ -22,6 +24,8 @@ namespace SexyBackPlayScene
             BaseLevel = 0;
             BasePrice = 60;
             BaseDmg = 1f;
+            BaseSkillRateXK = 200;
+            BaseSkillDamageXH = 425;
         }
     }
 }

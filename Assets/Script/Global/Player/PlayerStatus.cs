@@ -24,13 +24,13 @@ internal class PlayerStatus
     internal ElementalStat GetElementalStat(string id) { return elementalStats[id]; }
 
     [field: NonSerialized]
-    public event Action<BaseStat> Action_BaseStatChange;
+    public event Action<BaseStat> Action_BaseStatChange = delegate { };
     [field: NonSerialized]
-    public event Action<UtilStat> Action_UtilStatChange;
+    public event Action<UtilStat> Action_UtilStatChange = delegate { };
     [field: NonSerialized]
-    public event Action<HeroStat> Action_HeroStatChange;
+    public event Action<HeroStat> Action_HeroStatChange = delegate { };
     [field: NonSerialized]
-    public event Action<ElementalStat, string> Action_ElementalStatChange;
+    public event Action<ElementalStat, string> Action_ElementalStatChange = delegate { };
 
     internal void Init()
     {
@@ -85,10 +85,11 @@ internal class PlayerStatus
     internal void ReCheckStat()
     {
         NewData();
+        Singleton<EquipmentManager>.getInstance().ReCheckStat();
         sexybacklog.Console("장비와 특성으로부터 스텟을 새로 계산합니다.");
     }
 
-    void ApplyBaseStat(BaseStat stat, bool signPositive)
+    public void ApplyBaseStat(BaseStat stat, bool signPositive)
     {
         if (signPositive)
         {
@@ -105,6 +106,7 @@ internal class PlayerStatus
             baseStat.Luck -= stat.Luck;
         }
 
+        sexybacklog.Console(baseStat.ToString());
         Action_BaseStatChange(baseStat);
     }
 

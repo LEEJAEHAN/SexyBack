@@ -19,7 +19,6 @@ internal class EquipmentManager
     EquipmentWindow view;
     TopWindow topView;
     
-
     internal void Init()
     {
         sexybacklog.Console("EquipmentManager 로드 및 초기화");
@@ -80,6 +79,10 @@ internal class EquipmentManager
         }
     }
 
+    public void ReCheckStat()
+    {
+        EquipSetchange(currentEquipSet, true);
+    }
     internal void NewData()    // 최초 게임 실행시 셋팅되는 장비.
     {
         // for test now
@@ -167,11 +170,10 @@ internal class EquipmentManager
         return Focused.isLock;
     }
 
-    internal void ChangeEquipSet(bool next)
+    internal void SwapEquipSet(bool next)
     {
         if (equipSets.Count <= 1)
             return;
-
         int toIndex;
         if(next)
         {
@@ -186,21 +188,28 @@ internal class EquipmentManager
                 toIndex = equipSets.Count - 1;
         }
 
+        EquipSetchange(currentEquipSet, false);
         currentEquipSet = equipSets[toIndex];
-        view.FillEquipments(currentEquipSet, toIndex);
+        EquipSetchange(currentEquipSet, true);
+
+        if(view != null)
+            view.FillEquipments(currentEquipSet, toIndex);
         topView.DrawEquipments(currentEquipSet);
     }
 
-    internal void Equip()
+
+    internal void EquipSelectedItem()
     {
         var part = Focused.type;
         if (currentEquipSet.ContainsKey(part))
         {
             Equipment old = currentEquipSet[part];
+            EquipChange(old, false);
             currentEquipSet.Remove(part);
             inventory.Add(old);
         }
 
+        EquipChange(Focused, true);
         currentEquipSet.Add(part, Focused);
         inventory.Remove(Focused);
         view.FillInventory(inventory);
@@ -209,16 +218,28 @@ internal class EquipmentManager
         view.ForceSelect(false, part.ToString());
     }
 
-    internal void UnEquip()
+    private void EquipChange(Equipment item, bool sign)
+    {
+        foreach(BonusStat specialStat in item.SkillStat)
+            Singleton<PlayerStatus>.getInstance().ApplySpecialStat(specialStat, sign);
+        Singleton<PlayerStatus>.getInstance().ApplyBaseStat(item.Stat, sign);
+    }
+    void EquipSetchange(Dictionary<Equipment.Type, Equipment> itemSet, bool sign)
+    {
+        foreach(Equipment item in itemSet.Values)
+            EquipChange(item, sign);
+    }
+
+    internal void UnEquipSelectedItem()
     {
         if (currentEquipSet.ContainsValue(Focused) == false)
             return;
 
         var part = Focused.type;
         Equipment target = currentEquipSet[part];
+        EquipChange(target, false);
         currentEquipSet.Remove(part);
         inventory.Add(target);
-
         view.FillInventory(inventory);
         view.FillEquipments(currentEquipSet, EquipSetIndex);
         topView.DrawEquipments(currentEquipSet);

@@ -121,7 +121,7 @@ namespace SexyBackPlayScene
             Selected = true;
             Panel.Action_Confirm += this.onConfirm;
             Panel.Action_Pause += this.onPause;
-            Refresh();
+            ViewRefresh();
         }
 
         public void FillInfoView(bool InstanceBuy)
@@ -163,12 +163,14 @@ namespace SexyBackPlayScene
                 StateMachine.ChangeState("Pause");
         }
 
-        internal void SetStat(UtilStat stat)
+        internal void SetStat()
         {
+            UtilStat utilStat = Singleton<PlayerStatus>.getInstance().GetUtilStat;
             double PrevTime = ReducedTime;
-            ReducedTime = ResearchTime / stat.ResearchTimeX - stat.ResearchTime;
-            ResearchPrice = researchprice * stat.ResearchPriceXH / 100;
-            StartPrice = startprice * stat.ResearchPriceXH / 100;
+            ReducedTime = ResearchTime / utilStat.ResearchTimeX - utilStat.ResearchTime;
+            int RPriceReduceXH = Mathf.Min(50, utilStat.RPriceReduceXH);
+            ResearchPrice = researchprice * (100 - RPriceReduceXH) / 100;
+            StartPrice = startprice * (100 - RPriceReduceXH) / 100;
 
             if (ReducedTime <= 0)
             {
@@ -180,7 +182,7 @@ namespace SexyBackPlayScene
             if (ReducedTime >= 1) // 최소 1초는 보장해야함.
                 PricePerSec = ResearchPrice / (int)ReducedTime;
 
-            Refresh();
+            ViewRefresh();
         }
         
         internal void Finish()
@@ -189,7 +191,7 @@ namespace SexyBackPlayScene
                 Action_InstantFinish();
         }
 
-        public void Refresh()
+        public void ViewRefresh()
         {
             RefreshFlag = true;
         }

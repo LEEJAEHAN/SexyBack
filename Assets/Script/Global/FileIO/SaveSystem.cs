@@ -84,8 +84,8 @@ internal class SaveSystem
             writer.WriteAttributeString("ResearchTime", utilStat.ResearchTime.ToString());
             writer.WriteAttributeString("MaxResearchThread", utilStat.MaxResearchThread.ToString());
             writer.WriteAttributeString("ExpIncreaseXH", utilStat.ExpIncreaseXH.ToString());
-            writer.WriteAttributeString("LevelUpPriceXH", utilStat.LevelUpPriceXH.ToString());
-            writer.WriteAttributeString("ResearchPriceXH", utilStat.ResearchPriceXH.ToString());
+            writer.WriteAttributeString("LPriceReduceXH", utilStat.LPriceReduceXH.ToString());
+            writer.WriteAttributeString("RPriceReduceXH", utilStat.RPriceReduceXH.ToString());
             writer.WriteAttributeString("InitExp", utilStat.InitExp.ToString());
             writer.WriteEndElement();
         }

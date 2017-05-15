@@ -55,6 +55,7 @@ namespace SexyBackPlayScene
             if (BattleMonster.GetID == sender.GetID)
                 HpBar.UpdateBar(sender);
         }
+        
         //internal string CreateRandomMonster(int floor)
         //{
         //    Monster newmonster = monsterFactory.CreateRandomMonster(floor);
@@ -78,6 +79,10 @@ namespace SexyBackPlayScene
             else
                 HpBarName = "[" + floor.ToString() + "층 " + sequence.ToString() + "단계] " + BattleMonster.Name;
             HpBar.FillNewBar(HpBarName, BattleMonster);
+        }
+        internal void EndBattle()
+        {
+            BattleMonster = null;
         }
 
         internal void FixedUpdate()
