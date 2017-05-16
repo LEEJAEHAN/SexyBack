@@ -65,40 +65,51 @@ namespace SexyBackPlayScene
     {
         // skilldata
         protected string ownerID;
+        public string targetID;
+
         protected bool ReLoaded = false;
-        protected double CASTINTERVAL;
+        protected double CastInterval;
         protected bool isTargetEnemy;
         protected string prefabname;
+        protected double AttackTimer = 0;
         public DamageType ability;
-        public int baseRatio; // base
         public Debuff.Type debuff;
         public int DAMAGERATIO;
         public BigInteger DAMAGE;
+        public bool Enable = false;
 
-        public Skill(string ownerID, string prefab, DamageType ability, int baseDamageRatio, Debuff.Type debuff)
+        public Skill(string ownerID, string prefab, DamageType ability, Debuff.Type debuff)
         {
             this.ownerID = ownerID;
             prefabname = prefab;
             isTargetEnemy = true;
             this.ability = ability;
             this.debuff = debuff;
-            baseRatio = baseDamageRatio;
         }
 
-        abstract internal void ReLoad(double timer);
-        abstract internal bool Shoot(double timer, string targetID);
-        virtual internal void Update()
+        abstract internal void ReLoad();
+        abstract internal void FirstShoot();
+        internal bool AutoAttack()
+        {
+            if (Enable)
+            {
+                AttackTimer += Time.deltaTime;
+                ReLoad();
+                FirstShoot();
+            }
+            return Enable;
+        }
+        virtual internal void PostUpdate()
         {
 
         }
-
         internal void SetRatio(int damageRatio)
         {
             DAMAGERATIO = damageRatio;
         }
         virtual internal void SetInterval(double interval)
         {
-            this.CASTINTERVAL = interval;
+            this.CastInterval = interval;
         }
         virtual internal void CalDamage(BigInteger elementaldmg)
         {

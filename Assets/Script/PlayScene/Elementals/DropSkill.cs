@@ -12,42 +12,41 @@ namespace SexyBackPlayScene
         // member of DropSkill
         internal int Unit;
         internal double Tick;
+        internal double PostTimer = 0;
 
-        public int remainCount = 0;
-        internal double timer = 0;
+        public int ShootCount = 0;
         Vector3 SpawnCenter;
         Vector3 SpawnSize;
 
-        public DropSkill(string ownerID, string prefab, DamageType ability, int damageRatio, Debuff.Type debuff, int Amount, double Tick )
-            : base(ownerID, prefab, ability, damageRatio, debuff)
+        public DropSkill(string ownerID, string prefab, DamageType ability,  Debuff.Type debuff, int Amount, double Tick )
+            : base(ownerID, prefab, ability, debuff)
         {
             Unit = Amount;
             this.Tick = Tick;
             isTargetEnemy = true;
         }
 
-        internal override void ReLoad(double timer)
+        internal override void ReLoad()
         {   // 리로드 없다.
             if (!ReLoaded)
-            {
                 ReLoaded = true;
-            }
         }
 
         // cast의 경우는 몬스터에게 바로 debuff를 건다.
-        internal override bool Shoot(double timer, string targetID)
+        internal override void FirstShoot()
         {
-            if (timer > CASTINTERVAL && ReLoaded)
+            if (AttackTimer > CastInterval && ReLoaded)
             {
                 if (targetID != null)
                 {
                     SetSpawnZone(targetID);
-                    remainCount += Unit;
-                    return true;
+                    ShootCount += Unit;
+                    AttackTimer = 0;
+                    ReLoaded = false;
+                    Enable = false;
                 }
                 else if (targetID == null) { } //타겟이생길떄까지 대기한다. 
             }
-            return false;
         }
 
         private void SetSpawnZone(string targetID)
@@ -68,17 +67,19 @@ namespace SexyBackPlayScene
             view.SetActive(true);
         }
 
-        internal override void Update()
+        internal override void PostUpdate()
         {
-            if (remainCount <= 0)
+            if (ShootCount <= 0)
                 return;
 
-            timer += Time.deltaTime;
-            while(timer > Tick)
+            PostTimer += Time.deltaTime;
+            while(PostTimer > Tick)
             {
                 LoadProjectile(prefabname);
-                remainCount--;
-                timer -= Tick;
+                ShootCount--;
+                PostTimer -= Tick;
+                if (ShootCount <= 0)
+                    return;
             }
         }
 
