@@ -92,14 +92,14 @@ internal class EquipmentManager
         for(int i = 0; i < equipSets.Capacity; i++)
             equipSets.Add(new Dictionary<Equipment.Type, Equipment>());
         currentEquipSet = equipSets[0];
-        inventory = new List<Equipment>(MaxInventory);
+        inventory = new List<Equipment>();
 
-        int loop = 100;
+        int loop = 3;
         while(loop>0)
         {
-            AddEquipment(EquipFactory.CraftEquipment("E01"));
-            AddEquipment(EquipFactory.CraftEquipment("E02"));
-            AddEquipment(EquipFactory.CraftEquipment("E03"));
+            AddEquipment(EquipFactory.CraftEquipment("E01", "SE01"));
+            AddEquipment(EquipFactory.CraftEquipment("E02", "SE02"));
+            AddEquipment(EquipFactory.CraftEquipment("E03", "SE03"));
             loop--;
         }
     }
@@ -138,31 +138,11 @@ internal class EquipmentManager
         Focused = null;
     }
 
-    internal bool AddEquipment(Equipment e)
+    internal void AddEquipment(Equipment e)
     {
-        if (inventory.Count + 1 > inventory.Capacity)
-            return false;
         inventory.Add(e);
-        return true;
     }
 
-    internal Equipment Craft(int level, RewardRank rank)
-    {
-        // random gen "Equip01" from level and rank;
-        // random gen Type;
-        // random 
-        //        return new Equipment("앨런블랙", "Equip01", Equipment.Type.Weapon, );
-
-        return null;
-    }
-
-    internal void GetReward(Reward currentReward)
-    {
-        //inventory.Add(Singleton<EquipmentManager>.getInstance().Items[currentReward.ItemID])
-        //currentReward.
-        //equipments.
-        // 
-    }
     internal bool Lock()
     {
         Focused.isLock = !Focused.isLock;
@@ -212,7 +192,7 @@ internal class EquipmentManager
         EquipChange(Focused, true);
         currentEquipSet.Add(part, Focused);
         inventory.Remove(Focused);
-        view.FillInventory(inventory);
+        view.FillInventory(inventory, MaxInventory);
         view.FillEquipments(currentEquipSet, EquipSetIndex);
         topView.DrawEquipments(currentEquipSet);
         view.ForceSelect(false, part.ToString());
@@ -240,7 +220,7 @@ internal class EquipmentManager
         EquipChange(target, false);
         currentEquipSet.Remove(part);
         inventory.Add(target);
-        view.FillInventory(inventory);
+        view.FillInventory(inventory, MaxInventory);
         view.FillEquipments(currentEquipSet, EquipSetIndex);
         topView.DrawEquipments(currentEquipSet);
         view.ForceSelect(true, (inventory.Count-1).ToString());

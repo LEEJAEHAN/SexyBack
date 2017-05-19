@@ -5,6 +5,7 @@ using System.Linq;
 public class Equipment
 {
     public string dataID;
+    internal string skillID;
     public Type type;
     public int grade; // N, R, SR ;;    // 저장변수
     public int exp; // 저장변수
@@ -60,6 +61,12 @@ public class Equipment
         return baseStat * (evolCoef * expCoef);
     }
 
+    public void DrawIconView(UISprite icon, UILabel name)
+    {
+        icon.spriteName = iconID;
+        name.text = this.name;
+        name.color = EquipmentWiki.CalNameColor(grade);
+    }
 
     public List<BonusStat> SkillStat
     {
@@ -76,9 +83,10 @@ public class Equipment
         }
     }
 
-    public Equipment(EquipmentData data)
+    public Equipment(EquipmentData data, EquipmentSkillData skilldata)
     {
         dataID = data.ID;
+        skillID = skilldata.ID;
         type = data.type;
         grade = data.grade;
         iconID = data.iconID;
@@ -89,9 +97,9 @@ public class Equipment
         isLock = false;
 
         baseStat = data.baseStat;
-        baseSkillStat = data.baseSkillStat;
+        baseSkillStat = skilldata.baseSkillStat;
 
-        skillName = data.baseSkillName;
+        skillName = skilldata.baseSkillName;
         name = data.baseName;
     }
 

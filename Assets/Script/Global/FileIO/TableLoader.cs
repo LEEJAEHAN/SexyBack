@@ -17,8 +17,9 @@ internal class TableLoader
     public Dictionary<string, ConsumableData> consumable;
     public List<PriceData> pricetable;
     public List<TalentData> talenttable;
-    public Dictionary<string, EquipmentData> equipmenttable;
 
+    public Dictionary<string, EquipmentData> equipmenttable;
+    public Dictionary<string, EquipmentSkillData> equipskilltable;
 
     bool FinishLoad = false;
 
@@ -83,29 +84,42 @@ internal class TableLoader
     }
 
 
+    private void LoadMapData()
+    {
+        mapTable = new Dictionary<string, MapData>();
+
+        MapData data1 = new MapData("Map01", "10층돌파", 10, 3600, null, new MapRewardData(67, 67, 1, 1));
+        MapData data2 = new MapData("Map02", "20층돌파", 20, 7200, "Map01", new MapRewardData(167, 67, 3, 1));
+
+        mapTable.Add(data1.ID, data1);
+        mapTable.Add(data2.ID, data2);
+    }
     private void LoadEquipmentData()
     {
+        // loadEquip table
         equipmenttable = new Dictionary<string, EquipmentData>();
+
+        EquipmentData e01 = new EquipmentData("E01", "Icon_11", "롱소드", Equipment.Type.Weapon, 67, 0, new BaseStat(30, 0, 0, 0));
+        EquipmentData e02 = new EquipmentData("E02", "Icon_10", "두번째아이템", Equipment.Type.Ring, 67, 1, new BaseStat(0, 10, 10, 0));
+        EquipmentData e03 = new EquipmentData("E03", "Icon_09", "세번째아이템", Equipment.Type.Staff, 67, 2, new BaseStat(0, 0, 0, 10));
+
+        equipmenttable.Add(e01.ID, e01);
+        equipmenttable.Add(e02.ID, e02);
+        equipmenttable.Add(e03.ID, e03);
+
+        // load EquipSkill table;
+        equipskilltable = new Dictionary<string, EquipmentSkillData>();
 
         List<BonusStat> skillstats = new List<BonusStat>();
         skillstats.Add(new BonusStat("hero", "DpcX", 10, null, "히어로 데미지 증가 $d배"));
         skillstats.Add(new BonusStat("fireball", "DpsX", 10, null, "화염구의 데미지 증가 $d배"));
 
-        EquipmentData e01 = new EquipmentData("E01", "Icon_11", "롱소드", Equipment.Type.Weapon, 0,
-            new BaseStat(30, 0, 0, 0), "자와자와", skillstats);
-
-        EquipmentData e02 = new EquipmentData("E02", "Icon_10", "두번째아이템", Equipment.Type.Ring, 0,
-            new BaseStat(0, 10, 10, 0), "술렁술렁", skillstats);
-
-        EquipmentData e03 = new EquipmentData("E03", "Icon_09", "세번째아이템", Equipment.Type.Staff, 2,
-            new BaseStat(0, 0, 0, 10), "술렁술렁", skillstats);
-
-
-        equipmenttable.Add("E01", e01);
-        equipmenttable.Add("E02", e02);
-        equipmenttable.Add("E03", e03);
-
-        //TODO : 채워넣어야함
+        EquipmentSkillData se01 = new EquipmentSkillData("SE01", "무기스킬", 67, Equipment.Type.Weapon, skillstats);
+        EquipmentSkillData se02 = new EquipmentSkillData("SE02", "링스킬", 67, Equipment.Type.Ring, skillstats);
+        EquipmentSkillData se03 = new EquipmentSkillData("SE03", "스탭스킬", 67, Equipment.Type.Staff, skillstats);
+        equipskilltable.Add(se01.ID, se01);
+        equipskilltable.Add(se02.ID, se02);
+        equipskilltable.Add(se03.ID, se03);
     }
 
     private void LoadConsumableData()
@@ -160,18 +174,6 @@ internal class TableLoader
         leveluptable.Add(item9.OwnerID, item9);
     }
 
-    private void LoadMapData()
-    {
-
-        mapTable = new Dictionary<string, MapData>();
-
-        MapData data1 = new MapData("Map01", 50, "10층돌파", 10, 3600, 150, 18);
-        MapData data2 = new MapData("Map02", 100, "20층돌파", 20, 7200, 400, 38);
-
-        mapTable.Add(data1.ID, data1);
-        mapTable.Add(data2.ID, data2);
-
-    }
 
 
     private void LoadElementData()
@@ -196,63 +198,6 @@ internal class TableLoader
             elemental.BaseSkillDamageXH = int.Parse(node.Attributes["baseskilldamagexh"].Value); ;
             elementaltable.Add(elemental.ID, elemental);
         }
-    }
-
-    //private Dictionary<string, List<Bonus>> LoadBonus()
-    //{
-    //    Dictionary<string, List<Bonus>> bonuses = new Dictionary<string, List<Bonus>>();
-    //    XmlDocument xmldoc = OpenXml("Xml/BonusData");
-    //    XmlNode rootNode = xmldoc.SelectSingleNode("BonusList");
-    //    XmlNodeList nodes = rootNode.SelectNodes("Bonus");
-
-    //    foreach (XmlNode node in nodes)
-    //    {
-    //        string groupid = node.Attributes["group"].Value;
-    //        string target = node.Attributes["target"].Value;
-    //        string attribute = node.Attributes["attribute"].Value;
-    //        int value = 0;
-    //        string stringvalue = "";
-    //        if (node.Attributes["value"] != null)
-    //        {
-    //            if (int.TryParse(node.Attributes["value"].Value, out value) == false)
-    //                value = 0;
-    //        }
-    //        else
-    //            stringvalue = node.Attributes["stringvalue"].Value;
-
-    //        Bonus bonus = new Bonus(target, attribute, value, stringvalue);
-    //        if (!bonuses.ContainsKey(groupid))
-    //        {
-    //            List<Bonus> grouplist = new List<Bonus>();
-    //            grouplist.Add(bonus);
-    //            bonuses.Add(groupid, grouplist);
-    //        }
-    //        else
-    //            bonuses[groupid].Add(bonus);
-    //    }
-    //    return bonuses;
-    //}
-
-    private void TestParsing()
-    {
-        //foreach (List<Bonus> list in bonuses.Values)
-        //{
-        //    foreach (Bonus b in list)
-        //    {
-        //        sexybacklog.Console(b.strvalue);
-        //    }
-        //    sexybacklog.Console("nextGroup");
-        //}
-        //foreach (ResearchData data in researchtable)
-        //{
-        //    sexybacklog.Console(data.ID);
-        //    sexybacklog.Console(data.IconName);
-        //    sexybacklog.Console(data.bonuses[0].strvalue);
-        //}
-
-        //foreach (ElementalData a in elementaltable.Values)
-        //    sexybacklog.Console(a.BaseDps);
-
     }
 
     private void LoadResearchData()
@@ -359,14 +304,6 @@ internal class TableLoader
             talenttable.Add(talentdata);
         }
 
-        //// test
-        //Bonus bonus = new Bonus("hero", "AttackSpeedXH", 5, null);
-        //Bonus bonus2 = new Bonus("fireball", "CastSpeedXH", 10, null);
-        //Bonus bonus3 = new Bonus("player", "ExpPerFloor", 400, null);
-
-        //talenttable.Add(new TalentData("T01", new GridItemIcon("Icon_10", "A.S"), "공격속도가 $s% 증가합니다.", bonus, TalentType.Attack, 1, true));
-        //talenttable.Add(new TalentData("T02", new GridItemIcon("Icon_01", "C.S"), "화염구의 시전속도가 $s% 증가합니다.", bonus2, TalentType.Element, 1, false));
-        //talenttable.Add(new TalentData("T03", new GridItemIcon("Icon_18", null), "$s의 경험치를 획득합니다.", bonus3, TalentType.Util, 1, false));
     }
 
 }

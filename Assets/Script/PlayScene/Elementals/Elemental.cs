@@ -99,9 +99,15 @@ namespace SexyBackPlayScene
             if (shooter.Enable == false && skill.Enable == false)
                 JudgeAutoAttack();
 
-            shooter.AutoAttack();
-            skill.AutoAttack();
+            shooter.Update();
+            skill.Update();
             skill.PostUpdate();
+
+            //강제시전
+            if(SkillForceCount > 0)
+            {
+                Skill instnaceskill = SkillFactory.Create(baseData.ID, baseData.SkillPrefabName);
+            }
 
             // 아직구현안함.
             //if (SkillForceCount > 0)

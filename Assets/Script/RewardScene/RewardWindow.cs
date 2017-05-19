@@ -4,175 +4,166 @@ using System.Collections.Generic;
 
 namespace SexyBackRewardScene
 {
-    internal class RewardWindow : IDisposable
+    enum RewardWindowState
     {
-        GameObject Window;
-        LinkedList<ShowObjects> showLists;
-        LinkedListNode<ShowObjects> current;
-        bool endShow = false;
-        public bool endTween = false;
-        double timer = 0;
-        const double Tick = 0.5f;
+        PrintScore,
+        PrintObject
+    }
+    internal class RewardWindow 
+    {
+        GameObject view;
+        ScoreBoardView ScoreBoard;
+        LinkedList<GameObject> RewardViews;
+        LinkedListNode<GameObject> Current;
+        ChestBoardView ChestBoard;
+        GameObject OkayButton;
 
-        public void Dispose()
+        int remainChestCount;
+        // state
+        public enum State
         {
-            GameObject.Destroy(Window);
-            showLists.Clear();
-            showLists = null;
-            current = null;
+            None,
+            Tween,
+            Show,
+            Open,
+            EndOpen,
+        }
+        public State currState;
+
+        // timer
+        double Timer;
+        const double Tick = 1f;
+
+
+        public RewardWindow()
+        {
+            view = GameObject.Find("RewardWindow");
+            ScoreBoard = new ScoreBoardView(view.transform.FindChild("ScoreBoard").gameObject);
+            ChestBoard = new ChestBoardView(view.transform.FindChild("ChestBoard/Chests/Table").gameObject);
+            OkayButton = view.transform.FindChild("OKButton").gameObject;
+            view.SetActive(false);
+            currState = State.None;
+            Timer = 0;
         }
 
-        internal void InitWindow()
+        internal void SetWindowView(ResultReward currentResult)
         {
-            Window = GameObject.Find("RewardWindow");
-            Window.transform.FindChild("Title").GetComponent<UILabel>().text = "" + "완료";
-            Window.SetActive(false);
-            endShow = false;
-            endTween = false;
-            timer = 0;
+            SetTitle(currentResult);
+            remainChestCount = currentResult.NormalEquipments.Count + currentResult.BonusEquipments.Count;
+            ScoreBoard.SetResultView(currentResult);
+            ChestBoard.SetResultView(currentResult);
+
+            RewardViews = new LinkedList<GameObject>();
+
+            RewardViews.AddLast(view.transform.FindChild("ScoreBoard/FirstClearReward").gameObject);
+
+            //Set Research View
+            RewardViews.AddLast(view.transform.FindChild("Box2/Research").gameObject);
+            //Set Reputation View
+            GameObject rView = view.transform.FindChild("Box3/Reputation").gameObject;
+            rView.GetComponent<UILabel>().text = currentResult.Reputation.ToString();
+            RewardViews.AddLast(rView);
+            //Set Chests View
+            RewardViews.AddLast(ChestBoard.view);
+
+            Current = RewardViews.First;
+            foreach (GameObject obj in RewardViews)
+                obj.SetActive(false);
         }
 
-        internal void SetResult(Result result) //             FillWindow();
+        internal void OpenNormalChest()
         {
-            if (Window == null)
-                InitWindow();
-
-            showLists = new LinkedList<ShowObjects>();
-
-            GameObject time = Window.transform.FindChild("Box1/Time").gameObject;
-            time.GetComponent<UILabel>().text = result.TimeText;
-            showLists.AddLast(new ShowObjects(time));
-
-            GameObject scores = Window.transform.FindChild("Box1/ScoreScrollView/Scores").gameObject;
-            showLists.AddLast(new ShowTextObject(result.ScoreText, scores));
-
-            GameObject totalScore = Window.transform.FindChild("Box1/TotalScore").gameObject;
-            totalScore.GetComponent<UILabel>().text = result.TotalScoreText;
-            showLists.AddLast(new ShowObjects(totalScore));
-
-            GameObject rank = Window.transform.FindChild("Box1/Rank").gameObject;
-            rank.GetComponent<UILabel>().text = result.RankText;
-            showLists.AddLast(new ShowObjects(rank));
-
-            GameObject rankIcon = Window.transform.FindChild("Box1/RankIcon").gameObject;
-            rankIcon.GetComponent<UISprite>().spriteName = result.RankIcon;
-            showLists.AddLast(new ShowObjects(rankIcon));
+            remainChestCount--;
         }
 
-        internal bool ShowAll()
+        private void SetTitle(ResultReward currentResult)
         {
-            if (Window == null || current == null)
-                return false;
+            string title;
+            if (currentResult.isClear)
+                title = currentResult.LastFloor.ToString() + "층돌파 완료!";
+            else
+                title = "인스턴스를 포기하셨습니다.";
 
-            while (true)
+            view.transform.FindChild("Title").GetComponent<UILabel>().text = title;
+        }
+
+        internal void ShowNextImmediatly()
+        {
+            if (currState != State.Show)
+                return;
+
+            if (ScoreBoard.isFinish == false)
+                ScoreBoard.FinishShow();
+            else
             {
-                if (current.Value.Show())
+                if(Current != null)
                 {
-                    if (current.Next == null)
-                    {
-                        endShow = true;
-                        break;
-                    }
-                    else
-                        current = current.Next;
+                    Current.Value.SetActive(true);
+                    Current = Current.Next;
                 }
             }
-            endShow = true;
-            endTween = true;
-
-            return true;
-        }
-
-        internal void SetReward(Reward currentReward)
-        {
-
         }
 
 
-        internal void SetShowSequence()
+        // set State fuction
+        public void StartTween()
         {
-            current = showLists.First;
+            if (currState != State.None)
+                return;
+            currState = State.Tween;
+            GameObject.Find("UICamera").GetComponent<UICamera>().eventReceiverMask = 0; // nothing
+            view.SetActive(true);
+            OkayButton.GetComponent<UIButton>().isEnabled = false;
+            OkayButton.transform.FindChild("Label").GetComponent<UILabel>().text = "상자를 터치해 확인해주세요";
+            view.GetComponent<UITweener>().PlayForward();
         }
-
-
-        internal void ActiveWindow()
+        internal void EndTweenStartShow()
         {
-            if (!Window.activeInHierarchy)
-            {
-                Window.SetActive(true);
-                endTween = false;
-                Window.GetComponent<UITweener>().PlayForward();
-            }
+            currState = State.Show;
+            GameObject.Find("UICamera").GetComponent<UICamera>().eventReceiverMask = -1; // everything
+            view.transform.FindChild("ColliderMask").gameObject.SetActive(true);
+        }
+        internal void EndShowStartOpen()
+        {
+            currState = State.Open;
+            view.transform.FindChild("ColliderMask").gameObject.SetActive(false);
+        }
+        internal void EndOpen()
+        {
+            if (currState != State.Open)
+                return;
+            currState = State.EndOpen;
+            OkayButton.GetComponent<UIButton>().isEnabled = true;
+            OkayButton.transform.FindChild("Label").GetComponent<UILabel>().text = "메뉴로 돌아가기";
         }
 
         internal void Update()
         {
-            if (endShow || !endTween)
-                return;
-
-            timer += Time.deltaTime;
-
-            if (timer > Tick)
+            if (currState == State.Show)
             {
-                timer -= Tick;
-                if (current.Value.Show())
+                if (ScoreBoard.isFinish == false)
+                    ScoreBoard.Update();
+                else
                 {
-                    if (current.Next == null)
+                    Timer += Time.deltaTime;
+                    if (Timer > Tick)
                     {
-                        endShow = true;
-                        return;
+                        Timer -= Tick;
+                        Current.Value.SetActive(true);
+                        Current = Current.Next;
                     }
-                    else
-                        current = current.Next;
                 }
+                if (Current == null)
+                    EndShowStartOpen();
+            }
+            else if (currState == State.Open)
+            {
+                if (remainChestCount <= 0)
+                    EndOpen();
             }
         }
 
     }
 
-    public class ShowObjects
-    {
-        protected GameObject view;
-
-        public ShowObjects ( GameObject view )
-        {
-            this.view = view;
-            view.SetActive(false);
-        }
-        public virtual bool Show()
-        {
-            if (view.activeInHierarchy == false)
-                view.SetActive(true);
-
-            return true;
-        }
-    }
-
-    public class ShowTextObject : ShowObjects
-    {
-        LinkedList<string> sequencelabel;
-        LinkedListNode<string> current;
-        bool end = false;
-        public ShowTextObject(LinkedList<string> text, GameObject view) : base(view)
-        {
-            sequencelabel = text;
-            current = sequencelabel.First;
-            end = false;
-        }
-        public override bool Show()
-        {
-            if(view.activeInHierarchy == false)
-                view.SetActive(true);
-
-            view.GetComponent<UILabel>().text += current.Value;
-
-            if (current.Next == null)
-                end = true;
-            else
-                current = current.Next;
-
-            return end;
-        }
-    }
 
 }

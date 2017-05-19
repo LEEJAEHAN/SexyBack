@@ -96,13 +96,24 @@ namespace SexyBackPlayScene
         }
         public void EndGame(bool clear) // 메뉴로 버튼을 눌렀을때,
         {
-            int lastStage = Singleton<StageManager>.getInstance().CurrentFloor -1;
-            string map = Singleton<InstanceStatus>.getInstance().GetMapID;
-            int timeRecord = (int)Singleton<InstanceStatus>.getInstance().CurrentGameTime;
+            GameClear(clear);
             InstanceSaveSystem.ClearInstance();
-            Singleton<SexyBackRewardScene.RewardManager>.getInstance().GiveReward(map, clear, lastStage, timeRecord, 0);
             SceneManager.LoadScene("RewardScene");
             //SaveInstance(); // TODO : 테스트용으로있다.
+        }
+
+        private void GameClear(bool clear)
+        {
+            string map = Singleton<InstanceStatus>.getInstance().GetMapID;
+            int lastStage = Singleton<StageManager>.getInstance().CurrentFloor - 1;
+            int timeRecord = (int)Singleton<InstanceStatus>.getInstance().CurrentGameTime;
+            int totalLevel = Singleton<HeroManager>.getInstance().GetHero().LEVEL + Singleton<ElementalManager>.getInstance().TotalLevel;
+            int finishResearchCount = Singleton<ResearchManager>.getInstance().FinishList.Count;
+
+
+            Singleton<SexyBackRewardScene.RewardManager>.getInstance().RecordResult
+                (map, clear, lastStage, timeRecord, totalLevel, finishResearchCount);
+
         }
 
         public void Dispose()

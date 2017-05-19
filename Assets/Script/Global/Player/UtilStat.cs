@@ -5,11 +5,12 @@ using System.Xml;
 [Serializable]
 internal class UtilStat
 {
-    internal int ResearchTime; 
+    internal int ResearchTime;
     internal int MaxResearchThread;
     internal int ExpIncreaseXH;
     internal int LPriceReduceXH;
     internal int RPriceReduceXH;
+    internal int RankBonus;
     internal BigInteger InitExp;
 
     // only use battleScene
@@ -23,6 +24,7 @@ internal class UtilStat
         ExpIncreaseXH = 0;
         LPriceReduceXH = 0;
         RPriceReduceXH = 0;
+        RankBonus = 0;
         InitExp = new BigInteger(0);
     }
 
@@ -34,6 +36,7 @@ internal class UtilStat
         ExpIncreaseXH = int.Parse(xmlNode.Attributes["ExpIncreaseXH"].Value);
         LPriceReduceXH = int.Parse(xmlNode.Attributes["LPriceReduceXH"].Value);
         RPriceReduceXH = int.Parse(xmlNode.Attributes["RPriceReduceXH"].Value);
+        RankBonus = int.Parse(xmlNode.Attributes["RankBonus"].Value);
         InitExp = new BigInteger(xmlNode.Attributes["InitExp"].Value);
     }
 
@@ -42,26 +45,29 @@ internal class UtilStat
         switch (bonus.attribute)
         {
             case "ExpIncreaseXH":
-                    ExpIncreaseXH += bonus.value;
-                    break;
+                ExpIncreaseXH += bonus.value;
+                break;
             case "ResearchTime":
-                    ResearchTime += bonus.value;
-                    break;
+                ResearchTime += bonus.value;
+                break;
             case "ResearchTimeX":
                 this.ResearchTimeX *= bonus.value;
                 break;
             case "MaxResearchThread":
-                    MaxResearchThread += bonus.value;
-                    break;
+                MaxResearchThread += bonus.value;
+                break;
             case "LPriceReduceXH":
-                    LPriceReduceXH -= bonus.value;
-                    break;
+                LPriceReduceXH -= bonus.value;
+                break;
             case "RPriceReduceXH":
-                    RPriceReduceXH -= bonus.value;
-                    break;
+                RPriceReduceXH -= bonus.value;
+                break;
             case "InitExp":
-                    InitExp += new BigInteger(bonus.strvalue);
-                    break;
+                InitExp += new BigInteger(bonus.strvalue);
+                break;
+            case "RankBonus":
+                RankBonus += bonus.value;
+                break;
             default:
                 {
                     sexybacklog.Error("noAttribute");
@@ -93,6 +99,9 @@ internal class UtilStat
                 break;
             case "InitExp":
                 InitExp -= new BigInteger(bonus.strvalue);
+                break;
+            case "RankBonus":
+                RankBonus -= bonus.value;
                 break;
             default:
                 {

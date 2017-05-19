@@ -21,6 +21,7 @@ namespace SexyBackPlayScene
 
         bool RefreshStat = true;
 
+
         internal void Init()
         {
             Panel = LevelUpWindow.getInstance;

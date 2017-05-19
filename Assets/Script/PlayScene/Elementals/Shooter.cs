@@ -24,7 +24,7 @@ namespace SexyBackPlayScene
             this.ownerID = ownerID;
             prefabname = normalprefab;
         }
-        internal void AutoAttack()
+        internal void Update()
         {
             if(Enable)
             {

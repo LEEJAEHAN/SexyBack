@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 public static class EquipmentWiki
 {
-
 
     internal static string EvToString(int evolution)
     {
@@ -63,5 +63,17 @@ public static class EquipmentWiki
             return "잠금해제";
         else
             return "잠금";
+    }
+
+    internal static Color CalNameColor(int grade)
+    {
+        if (grade == 1)
+            return new Color(0, 0.5f, 1);
+        else if (grade == 2)
+            return new Color(1, 1, 0);
+        else if (grade == 3)
+            return new Color(0.5f, 0, 1);
+        else
+            return Color.white;
     }
 }

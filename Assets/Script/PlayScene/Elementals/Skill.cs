@@ -89,7 +89,7 @@ namespace SexyBackPlayScene
 
         abstract internal void ReLoad();
         abstract internal void FirstShoot();
-        internal bool AutoAttack()
+        internal void Update()
         {
             if (Enable)
             {
@@ -97,7 +97,6 @@ namespace SexyBackPlayScene
                 ReLoad();
                 FirstShoot();
             }
-            return Enable;
         }
         virtual internal void PostUpdate()
         {
