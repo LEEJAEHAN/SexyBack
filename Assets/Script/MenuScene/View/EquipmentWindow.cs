@@ -20,7 +20,7 @@ namespace SexyBackMenuScene
         {
             SetPosition();
             ClearWindow();
-            FillInventory(Singleton<EquipmentManager>.getInstance().inventory);
+            FillInventory(Singleton<EquipmentManager>.getInstance().inventory, Singleton<EquipmentManager>.getInstance().MaxInventory);
             FillEquipments(Singleton<EquipmentManager>.getInstance().currentEquipSet, Singleton<EquipmentManager>.getInstance().EquipSetIndex);
             statemachine.ChangeMode(EquipmentState.None);
         }
@@ -116,7 +116,7 @@ namespace SexyBackMenuScene
         public void onFinishWork()
         {
             statemachine.SubMode(EquipmentState.Working, false);
-            FillInventory(Singleton<EquipmentManager>.getInstance().inventory); // 인첸트 후 드로잉
+            FillInventory(Singleton<EquipmentManager>.getInstance().inventory, Singleton<EquipmentManager>.getInstance().MaxInventory); // 인첸트 후 드로잉
             statemachine.UndoMode();
         }
         public void onCancel() // CancleMode
@@ -143,7 +143,7 @@ namespace SexyBackMenuScene
                 Weapon.transform.GetComponent<UIWidget>().width = Slot.transform.GetComponent<UIWidget>().width;
             }
         }
-        public void FillInventory(List<Equipment> items)
+        public void FillInventory(List<Equipment> items, int maxCount)
         {
             GameObject inventoryView = transform.FindChild("인벤토리/ScrollView/Grid").gameObject;
             inventoryView.transform.DestroyChildren();
@@ -155,9 +155,12 @@ namespace SexyBackMenuScene
             }
             inventoryView.GetComponent<UIGrid>().Reposition();
             UILabel capacity = transform.FindChild("인벤토리/ScrollView/Capacity").GetComponent<UILabel>();
-            capacity.text = "최대 소지 한도 수 " + items.Count + " / " + items.Capacity;
-            if (items.Count >= items.Capacity)
+            capacity.text = "최대 소지 한도 수 " + items.Count + " / " + maxCount;
+            if (items.Count >= maxCount)
+            {
                 capacity.color = Color.red;
+                // 경고메시지 출력
+            }
             else
                 capacity.color = Color.yellow;
 

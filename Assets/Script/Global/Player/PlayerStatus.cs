@@ -6,9 +6,11 @@ using System.Xml;
 [Serializable]
 internal class PlayerStatus
 {
-    // 진행중인 맵
+    // 언제 다른 매니져로옮겨갈지 모른다.
     public int Jewel = 0;
-    public int SkillPoint = 0;
+    public int Reputation = 0;
+    public List<string> ClearedMapID;
+    public bool PremiumUser = false;
 
     //base stat
     //special stat ( from passive, equipment enchant, in game research.. etc )
@@ -56,6 +58,17 @@ internal class PlayerStatus
         }
     }
 
+    internal bool CheckFirstClear(string mapID)
+    {
+        if (ClearedMapID.Contains(mapID))
+            return false;
+        else
+        {
+            ClearedMapID.Add(mapID);
+            return true;
+        }
+    }
+
     private void Load()
     {
         XmlDocument doc = SaveSystem.LoadXml(SaveSystem.SaveDataPath);
@@ -69,6 +82,9 @@ internal class PlayerStatus
             elementalStats.Add(elementalid, new ElementalStat());
         foreach ( XmlNode node in doc.SelectSingleNode("PlayerStatus/Stats/ElementalStats").ChildNodes)
             elementalStats[node.Attributes["id"].Value].LoadStat(node);
+        ClearedMapID = new List<string>();
+        foreach (XmlNode node in doc.SelectSingleNode("PlayerStatus/Progress").ChildNodes)
+            ClearedMapID.Add(node.Attributes["id"].Value);
     }
 
     public void NewData()
@@ -80,6 +96,7 @@ internal class PlayerStatus
         elementalStats = new Dictionary<string, ElementalStat>();
         foreach (string elementalid in Singleton<TableLoader>.getInstance().elementaltable.Keys)
             elementalStats.Add(elementalid, new ElementalStat());
+        ClearedMapID = new List<string>();
     }
 
     internal void ReCheckStat()

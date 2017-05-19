@@ -60,12 +60,12 @@ namespace SexyBackPlayScene
         internal static void ClearInstance()
         {
             DeleteFile(InstanceDataPath);
-            DeleteFile(Application.persistentDataPath + "/statmanager.dat");
-            DeleteFile(Application.persistentDataPath + "/stagemanager.dat");
-            DeleteFile(Application.persistentDataPath + "/monsterManager.dat");
-            DeleteFile(Application.persistentDataPath + "/heroManager.dat");
-            DeleteFile(Application.persistentDataPath + "/elementalManager.dat");
-            DeleteFile(Application.persistentDataPath + "/researchManager.dat");
+            //DeleteFile(Application.persistentDataPath + "/statmanager.dat");
+            //DeleteFile(Application.persistentDataPath + "/stagemanager.dat");
+            //DeleteFile(Application.persistentDataPath + "/monsterManager.dat");
+            //DeleteFile(Application.persistentDataPath + "/heroManager.dat");
+            //DeleteFile(Application.persistentDataPath + "/elementalManager.dat");
+            //DeleteFile(Application.persistentDataPath + "/researchManager.dat");
             //PlayerPrefs.DeleteKey("InstanceData");
             //PlayerPrefs.DeleteAll();
         }

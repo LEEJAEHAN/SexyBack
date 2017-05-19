@@ -58,6 +58,7 @@ internal class SaveSystem
         writer.WriteStartElement("PlayerStatus");
         SaveStat(writer);
         SaveEquipments(writer);
+        SaveProgress(writer);
         writer.WriteEndElement();
         writer.WriteEndDocument();
         writer.Close();
@@ -87,6 +88,7 @@ internal class SaveSystem
             writer.WriteAttributeString("LPriceReduceXH", utilStat.LPriceReduceXH.ToString());
             writer.WriteAttributeString("RPriceReduceXH", utilStat.RPriceReduceXH.ToString());
             writer.WriteAttributeString("InitExp", utilStat.InitExp.ToString());
+            writer.WriteAttributeString("RankBonus", utilStat.RankBonus.ToString());
             writer.WriteEndElement();
         }
         {
@@ -159,6 +161,7 @@ internal class SaveSystem
     {
         writer.WriteStartElement("Equipment");
         writer.WriteAttributeString("id", e.dataID);
+        writer.WriteAttributeString("skillid", e.skillID);
         writer.WriteAttributeString("grade", e.grade.ToString());
         writer.WriteAttributeString("evolution", e.evolution.ToString());
         writer.WriteAttributeString("exp", e.exp.ToString());
@@ -166,7 +169,19 @@ internal class SaveSystem
         writer.WriteAttributeString("isLock", e.isLock.ToString());
         writer.WriteEndElement();
     }
-
+    private static void SaveProgress(XmlWriter writer)
+    {
+        PlayerStatus playerStatus = Singleton<PlayerStatus>.getInstance();
+        writer.WriteStartElement("Progress");
+        List<string> mapIds = playerStatus.ClearedMapID;
+        foreach (string id in mapIds)
+        {
+            writer.WriteStartElement("Map");
+            writer.WriteAttributeString("id", id);
+            writer.WriteEndElement();
+        }
+        writer.WriteEndElement();
+    }
 
 
     //    foreach (XmlNode node in StatNodes)

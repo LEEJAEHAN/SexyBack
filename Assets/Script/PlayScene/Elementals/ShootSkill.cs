@@ -14,8 +14,7 @@ namespace SexyBackPlayScene
         internal double Tick;
 
         public Queue<GameObject> projectiles = new Queue<GameObject>(100);
-//        public int remainCount = 0;
-        internal double ticktimer = 0;
+        internal double PostTimer = 0;
         double ReLoadInterval;
 
         int ReloadCount = 0;
@@ -27,8 +26,8 @@ namespace SexyBackPlayScene
         Vector3 center;
         Vector3 extend; 
 
-        public ShootSkill(string ownerID, string prefab, DamageType ability, int damageRatio, Debuff.Type debuff, float Speed, int Amount, double Tick, bool randomgen, bool randomtarget)
-            : base(ownerID, prefab, ability, damageRatio, debuff)
+        public ShootSkill(string ownerID, string prefab, DamageType ability, Debuff.Type debuff, float Speed, int Amount, double Tick, bool randomgen, bool randomtarget)
+            : base(ownerID, prefab, ability, debuff)
         {
             this.Speed = Speed;
             this.Unit = Amount;
@@ -37,13 +36,22 @@ namespace SexyBackPlayScene
             RandomGen = randomgen;
             RandomTarget = randomtarget;
         }
+        internal override void SetInterval(double castInterval)
+        {
+            CastInterval = castInterval;
+            ReLoadInterval = UnityEngine.Mathf.Max((float)(castInterval - 1f - Tick * (Unit)), 0);
+        }
+        internal override void CalDamage(BigInteger elementaldmg)
+        {
+            DAMAGE = elementaldmg * DAMAGERATIO / (100 * this.Unit);
+        }
 
-        internal override void ReLoad(double timer)
+        internal override void ReLoad()
         {   
-            if (timer > ReLoadInterval && !ReLoaded)
+            if (AttackTimer > ReLoadInterval && !ReLoaded)
             {
-                ticktimer += Time.deltaTime;
-                while (ticktimer > Tick)
+                PostTimer += Time.deltaTime;
+                while (PostTimer > Tick)
                 {
                     Transform shootZone = ViewLoader.area_elemental.transform;
                     GameObject view;
@@ -58,7 +66,7 @@ namespace SexyBackPlayScene
                     view.tag = "SkillProjectile";
                     projectiles.Enqueue(view);
 
-                    ticktimer -= Tick;
+                    PostTimer -= Tick;
                     if(ReloadCount >= Unit)
                     {
                         ReloadCount = 0;
@@ -69,16 +77,10 @@ namespace SexyBackPlayScene
             }
         }
 
-        internal override void SetInterval(double castInterval)
-        {
-            CASTINTERVAL = castInterval;
-            ReLoadInterval = UnityEngine.Mathf.Max((float)(castInterval - 1f - Tick*(Unit)), 0);
-        }
-
         // cast의 경우는 몬스터에게 바로 debuff를 건다.
-        internal override bool Shoot(double timer, string targetID) // 큐에서 첫번쨰꺼날림
+        internal override void FirstShoot() // 큐에서 첫번쨰꺼날림
         {
-            if (timer > CASTINTERVAL && ReLoaded)
+            if (AttackTimer > CastInterval && ReLoaded)
             {
                 if (targetID != null)
                 {
@@ -90,23 +92,22 @@ namespace SexyBackPlayScene
                     else
                         Shooter.Shoot(center, Speed, projectiles.Dequeue());
                     ShootCount--;
+                    AttackTimer = 0;
                     ReLoaded = false;
-                    return true;
+                    Enable = false;
                 }
-                else if (targetID == null) { } //타겟이생길떄까지 대기한다. 
             }
-            return false;
         }
 
-        internal override void Update() // 큐에서 나머지남은것들 날림
+        internal override void PostUpdate() // 큐에서 나머지남은것들 날림
         {
             if (ShootCount <= 0)
                 return;
 
-            ticktimer += Time.deltaTime;
-            while(ticktimer > Tick)
+            PostTimer += Time.deltaTime;
+            while(PostTimer > Tick)
             {
-                ticktimer -= Tick;
+                PostTimer -= Tick;
                 if (RandomTarget)
                     Shooter.Shoot(Shooter.RandomRangeVector3(center, extend), Speed, projectiles.Dequeue());
                 else
@@ -117,10 +118,6 @@ namespace SexyBackPlayScene
             }
         }
 
-        internal override void CalDamage(BigInteger elementaldmg)
-        {
-            DAMAGE = elementaldmg * DAMAGERATIO / (100 * this.Unit);
-        }
     }
 
 }

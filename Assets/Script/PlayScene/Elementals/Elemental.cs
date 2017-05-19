@@ -9,8 +9,7 @@ namespace SexyBackPlayScene
     {
         ElementalData baseData;
         public string GetID { get { return baseData.ID; } }
-        public string targetID;
-
+        public string targetID { set { skill.targetID = value; shooter.targetID = value; } }
         // 변수
         BigInteger DpsX = new BigInteger();
         public int DpsXH;
@@ -23,36 +22,26 @@ namespace SexyBackPlayScene
         public BigInteger DAMAGE = new BigInteger();//  dps * attackinterval
         public BigInteger PRICE = new BigInteger();
         public BigInteger DPSTICK = new BigInteger();
-        public double CastInterval { get { return shooter.CASTINTERVAL; }  set { shooter.SetInterval(value); skill.SetInterval(value); } } // (attackinterval1k / 1000) * ( 100 / attackspeed1h ) 
+        public double CastInterval { get { return shooter.CastInterval; } set { shooter.SetInterval(value); skill.SetInterval(value); } } // (attackinterval1k / 1000) * ( 100 / attackspeed1h ) 
 
         // for projectile action;
         private Shooter shooter;
         public Skill skill;
         public bool SkillActive = false;
         public int SkillForceCount = 0;
-        private double AttackTimer = 0;
 
         // ICanLevelUp
         // event
         public delegate void ElementalChange_EventHandler(Elemental elemental);
         public event ElementalChange_EventHandler Action_Change = delegate { };
 
-        bool isSkillAttack = false; // 이번공격이 스킬인지 
         bool RefreshStat = true;
 
         public Elemental(ElementalData data)
         {
             baseData = data;
-            //ID = data.ID;
-            //BaseCastIntervalXK = data.BaseCastIntervalXK;
-            //BaseDmg = data.BaseDmg;
-            //BaseLevel = data.BaseLevel;
-            //BasePrice = data.BasePrice;
-            //BaseSkillRateXK = data.BaseSkillRateXK;
-            //BaseSkillRatio = data.BaseSkillDamageXH;
-
-            shooter = new Shooter(data.ID, data.PrefabName );
-            skill = SkillFactory.Create(data.ID, data.SkillPrefabName, data.BaseSkillDamageXH);
+            shooter = new Shooter(data.ID, data.PrefabName);
+            skill = SkillFactory.Create(data.ID, data.SkillPrefabName);
         }
 
         internal void LevelUp(int value)
@@ -60,9 +49,9 @@ namespace SexyBackPlayScene
             LEVEL += value;
             RefreshStat = true;
         }
-        internal void onStatChange() 
+        internal void onStatChange()
         {
-            RefreshStat= true;
+            RefreshStat = true;
         }
 
         private void CalStat()
@@ -85,7 +74,7 @@ namespace SexyBackPlayScene
             double doubleC = 1 * baseData.BaseDmg * growth * LEVEL * DpsXH * CastSpeedXH / 10000;
             BigInteger Coefficient = BigInteger.FromDouble(doubleC);
             DPS = DpsX * Coefficient;
-            if(LEVEL > 0)
+            if (LEVEL > 0)
                 DPSTICK = DPS / LEVEL;
             DAMAGE = DPS * baseData.BaseCastIntervalXK / (CastSpeedXH * 10); //  dps * CASTINTERVAL]
             skill.CalDamage(DAMAGE);
@@ -101,30 +90,31 @@ namespace SexyBackPlayScene
 
         internal void Update()
         {
-            if(RefreshStat)
+            if (RefreshStat)
             {
                 Refresh();
                 RefreshStat = false;
             }
-            //shooter 리로드
-            //shooter 발사.
-            if (!isSkillAttack)
+
+            if (shooter.Enable == false && skill.Enable == false)
+                JudgeAutoAttack();
+
+            shooter.Update();
+            skill.Update();
+            skill.PostUpdate();
+
+            //강제시전
+            if(SkillForceCount > 0)
             {
-                shooter.ReLoad(AttackTimer);
-                if (shooter.Shoot(AttackTimer, targetID))
-                    EndAttack();
-            }
-            if (isSkillAttack)
-            {
-                skill.ReLoad(AttackTimer);
-                if (skill.Shoot(AttackTimer, targetID))
-                {
-                    EndAttack();
-                }
+                Skill instnaceskill = SkillFactory.Create(baseData.ID, baseData.SkillPrefabName);
             }
 
-            skill.Update(); // cast 이후의 post업데이트.
-            AttackTimer += Time.deltaTime;
+            // 아직구현안함.
+            //if (SkillForceCount > 0)
+            //{
+            //    if (skill.AutoAttack())
+            //        SkillForceCount--;
+            //}
         }
 
         private void Refresh()
@@ -135,24 +125,17 @@ namespace SexyBackPlayScene
             Action_Change(this);
         }
 
-        private bool JudgeSkill {
-            get
-            {
-                if (SkillForceCount > 0)
-                {
-                    SkillForceCount--;
-                    return true;
-                }
-                if (!SkillActive)
-                    return false;
-                return SkillRateXH > UnityEngine.Random.Range(0, 1000);
-            }
-        }
-
-        void EndAttack()
+        private void JudgeAutoAttack()
         {
-            AttackTimer = 0; // 정상적으로 발사 완료 후 타이머리셋
-            isSkillAttack = JudgeSkill;
+            if (!SkillActive)
+                shooter.Enable = true;
+            else
+            {
+                if (SkillRateXH > UnityEngine.Random.Range(0, 1000))
+                    skill.Enable = true;
+                else
+                    shooter.Enable = true;
+            }
         }
 
         public void onTargetStateChange(string monsterID, string stateID)

@@ -6,28 +6,36 @@ namespace SexyBackPlayScene
 {
     internal class Shooter // TODO : 스킬까지포함하여, 슈터의 느낌으로 하자.
     {
-        public double CASTINTERVAL;
-
+        public double CastInterval;
         public string ownerID;
-        internal bool ReLoaded = false;
+        bool ReLoaded = false;
+        public bool Enable = false;
+        public string targetID;
 
         // base projectile info
         double ReLoadInterval;
         public GameObject projectile;
         string prefabname;
 
+        private double AttackTimer = 0;
+
         public Shooter(string ownerID, string normalprefab)
         {
             this.ownerID = ownerID;
             prefabname = normalprefab;
-
-
         }
-
-        //                sexybacklog.Console("SummonTime : " + ReLoadInterval + " Interval : " + CASTINTERVAL);
-        internal void ReLoad(double timer)
+        internal void Update()
         {
-            if (timer > ReLoadInterval && !ReLoaded)
+            if(Enable)
+            {
+                AttackTimer += Time.deltaTime;
+                ReLoad();
+                Shoot();
+            }
+        }
+        internal void ReLoad()
+        {
+            if (AttackTimer > ReLoadInterval && !ReLoaded)
             {
                 Transform shootZone = ViewLoader.area_elemental.transform;
                 Vector3 genPosition = RandomRangeVector3(shootZone.position, shootZone.localScale / 2);
@@ -35,26 +43,24 @@ namespace SexyBackPlayScene
                 ReLoaded = true;
             }
         }
-
-        internal bool Shoot(double timer, string targetID)
+        internal void Shoot()
         {
-            if (timer > CASTINTERVAL && ReLoaded)
+            if (AttackTimer > CastInterval && ReLoaded)
             {
                 if (targetID != null)
                 {
                     Monster target = Singleton<MonsterManager>.getInstance().GetMonster();
                     Shoot(RandomRangeVector3(target.CenterPosition, target.Size / 2), 1f, projectile);
                     ReLoaded = false;
-                    return true;
+                    AttackTimer = 0;
+                    Enable = false;
                 }
-                else if (targetID == null) { } //타겟이생길떄까지 대기한다. 
             }
-            return false;
         }
 
         internal void SetInterval(double castInterval)
         {
-            CASTINTERVAL = castInterval;
+            CastInterval = castInterval;
             ReLoadInterval = UnityEngine.Mathf.Max((float)(castInterval - 1f), (float)(castInterval * 0.5));
         }
 
@@ -114,6 +120,7 @@ namespace SexyBackPlayScene
 
             return true;
         }
+
 
 
         // 0.8초 제약 둔이유

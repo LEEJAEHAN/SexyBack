@@ -4,18 +4,17 @@ namespace SexyBackPlayScene
 {
     internal class EmptySkill : Skill
     {
-        public EmptySkill() : base("none", "none", DamageType.Hit, 0, Debuff.Type.None)
+        public EmptySkill() : base("none", "none", DamageType.Hit, Debuff.Type.None)
         {
 
         }
 
-        internal override void ReLoad(double timer)
+        internal override void ReLoad()
         {
         }
 
-        internal override bool Shoot(double timer, string targetID)
+        internal override void FirstShoot()
         {
-            return true;
         }
     }
 }

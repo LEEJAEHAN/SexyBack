@@ -6,37 +6,32 @@ namespace SexyBackRewardScene
     internal class MainScript : MonoBehaviour
     {
         RewardManager rManager;
-        bool pause = false;
-        bool firstTouch = false;
 
         private void Awake()
         {
+            Singleton<TableLoader>.getInstance().Init();
+            Singleton<PlayerStatus>.getInstance().Init();
+            Singleton<EquipmentManager>.getInstance().Init();
+
             rManager = Singleton<RewardManager>.getInstance();
             rManager.Init();
-            rManager.InitWindow();
         }
 
         private void Update()
         {
-            if(!pause)
-                rManager.Update();
+            rManager.Update();
         }
 
         public void onFinishTween()
         {
             rManager.TweenComplete();
         }
-
         public void onTouch()
         {
-            Debug.Log("클릭함");
-            if (rManager.ShowAll())
-                pause = true;
+            rManager.ShowNext();
         }
         public void onButtonClick()
         {
-            pause = true;
-            rManager.Dispose();
             Singleton<RewardManager>.Clear();
             SceneManager.LoadScene("MenuScene");
         }

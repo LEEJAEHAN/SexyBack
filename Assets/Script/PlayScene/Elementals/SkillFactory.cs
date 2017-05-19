@@ -5,45 +5,45 @@ namespace SexyBackPlayScene
 {
     internal class SkillFactory
     {
-        internal static Skill Create(string owner, string prefabname, int baseSkillRatio)
+        internal static Skill Create(string owner, string prefabname)
         {
             switch (owner)
             {
                 case "fireball":
                     {
-                        return new ShootSkill(owner, prefabname, DamageType.HitDebuff, baseSkillRatio, Debuff.Type.Burn, 0.75f, 1, 0, true, true);
+                        return new ShootSkill(owner, prefabname, DamageType.HitDebuff, Debuff.Type.Burn, 0.75f, 1, 0, true, true);
                     }
                 case "iceblock":
                     {
-                        return new ShootSkill(owner, prefabname, DamageType.Hit, baseSkillRatio, Debuff.Type.None, 5f, 10, 0.1f, true, true);
+                        return new ShootSkill(owner, prefabname, DamageType.Hit, Debuff.Type.None, 5f, 10, 0.1f, true, true);
                     }
                 case "rock":
                     {
-                        return new DropSkill(owner, prefabname, DamageType.Hit, baseSkillRatio, Debuff.Type.None, 31, 0.1f);
+                        return new DropSkill(owner, prefabname, DamageType.Hit, Debuff.Type.None, 31, 0.1f);
                     }
                 case "electricball":
                     {
-                        return new ShootSkill(owner, prefabname, DamageType.HitPerHPHigh, baseSkillRatio, Debuff.Type.None, 5f, 5, 0.2f, true, false);
+                        return new ShootSkill(owner, prefabname, DamageType.HitPerHPHigh, Debuff.Type.None, 5f, 5, 0.2f, true, false);
                     }
                 case "waterball":
                     {
-                        return new ShootSkill(owner, prefabname, DamageType.HitDebuff, baseSkillRatio, Debuff.Type.Poison, 0.75f, 1, 0, true, true);
+                        return new ShootSkill(owner, prefabname, DamageType.HitDebuff, Debuff.Type.Poison, 0.75f, 1, 0, true, true);
                     }
                 case "earthball":
                     {
-                        return new CrashSkill(owner, prefabname, DamageType.HitPerHPLow, baseSkillRatio, Debuff.Type.None, 1.3f, true);
+                        return new CrashSkill(owner, prefabname, DamageType.HitPerHPLow, Debuff.Type.None, 1.3f, true);
                     }
                 case "airball":
                     {
-                        return new ShootSkill(owner, prefabname, DamageType.Hit, baseSkillRatio, Debuff.Type.None, 5f, 5, 0.2f, false, false);
+                        return new ShootSkill(owner, prefabname, DamageType.Hit, Debuff.Type.None, 5f, 5, 0.2f, false, false);
                     }
                 case "snowball":
                     {
-                        return new DropSkill(owner, prefabname, DamageType.Hit, baseSkillRatio, Debuff.Type.None, 26, 0.1f);
+                        return new DropSkill(owner, prefabname, DamageType.Hit, Debuff.Type.None, 26, 0.1f);
                     }
                 case "magmaball":
                     {
-                        return new CrashSkill(owner, prefabname, DamageType.Hit, baseSkillRatio, Debuff.Type.None, 1.6f, false);
+                        return new CrashSkill(owner, prefabname, DamageType.Hit, Debuff.Type.None, 1.6f, false);
                     }
                 default:
                     return new EmptySkill();

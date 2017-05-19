@@ -27,6 +27,8 @@ namespace SexyBackPlayScene
         public Dictionary<string, Elemental> elementals = new Dictionary<string, Elemental>();
         [NonSerialized]
         public Queue<string> readyToCreate = new Queue<string>();
+
+
         public delegate void ElementalCreateEvent_Handler(Elemental sender);
 
         [field:NonSerialized]
@@ -108,8 +110,7 @@ namespace SexyBackPlayScene
         internal void ActiveSkill(string ElementalID)
         {
             elementals[ElementalID].SkillActive = true;
-            elementals[ElementalID].SkillForceCount++;
-            // no post events
+            elementals[ElementalID].skill.Enable = true;
         }
 
         internal void LevelUp(string ownerID, int value)
@@ -129,5 +130,15 @@ namespace SexyBackPlayScene
             if (elementals.ContainsKey(elementalIndex))
                 elementals[elementalIndex].onStatChange();
         }
+        public int TotalLevel { get
+            {
+                int sum = 0;
+                foreach (Elemental e in elementals.Values)
+                    sum += e.LEVEL;
+                return sum;
+            }
+        }
+
+
     }
 }
