@@ -109,7 +109,7 @@ namespace SexyBackRewardScene
         public void CalScore(int totalElementLevel, int FinishResearchCount)
         {
             MapData mapData = Singleton<TableLoader>.getInstance().mapTable[MapID];
-            int bonus = Singleton<PlayerStatus>.getInstance().GetUtilStat.RankBonus;
+            int bonus = Singleton<PlayerStatus>.getInstance().GetGlobalStat.RankBonus;
 
             if (isClear)
             {
@@ -150,7 +150,7 @@ namespace SexyBackRewardScene
                 {
                     RecommendResearch++;
 
-                    if (data.bonus.attribute == "ActiveElement")
+                    if (data.bonus.attribute == Attribute.Active)
                     {
                         if (ContentsLevel < MapLevel) // 이 element는 MapLevel-contentsLevel 레벨까지 배웠어야 정상이다.
                         {

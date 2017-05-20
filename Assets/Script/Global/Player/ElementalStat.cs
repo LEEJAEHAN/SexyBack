@@ -34,27 +34,34 @@ internal class ElementalStat// 누적배수
         SkillRateIncreaseXH = int.Parse(xmlNode.Attributes["SkillRateIncreaseXH"].Value);
         SkillDmgIncreaseXH = int.Parse(xmlNode.Attributes["SkillDmgIncreaseXH"].Value);
     }
+    internal void ApplyElementStat(BonusStat bonus, bool signPositive)
+    {
+        if (signPositive)
+            Add(bonus);
+        else
+            Remove(bonus);
+    }
 
     internal void Add(BonusStat bonus)
     {
         switch (bonus.attribute)
         {
-            case "BonusLevel":
+            case Attribute.BonusLevel:
                 BonusLevel += bonus.value;
                 break;
-            case "DpsX":
+            case Attribute.DpsX:
                 DpsX *= bonus.value;
                 break;
-            case "DpsIncreaseXH":
+            case Attribute.DpsIncreaseXH:
                 DpsIncreaseXH += bonus.value;
                 break;
-            case "CastSpeedXH":
+            case Attribute.CastSpeedXH:
                 CastSpeedXH += bonus.value;
                 break;
-            case "SkillRateIncreaseXH":
+            case Attribute.SkillRateIncreaseXH:
                 SkillRateIncreaseXH += bonus.value;
                 break;
-            case "SkillDmgIncreaseXH":
+            case Attribute.SkillDmgIncreaseXH:
                 SkillDmgIncreaseXH += bonus.value;
                 break;
             default:
@@ -66,22 +73,22 @@ internal class ElementalStat// 누적배수
     {
         switch (bonus.attribute)
         {
-            case "BonusLevel":
+            case Attribute.BonusLevel:
                 BonusLevel -= bonus.value;
                 break;
-            case "DpsX":
+            case Attribute.DpsX:
                 DpsX /= bonus.value;
                 break;
-            case "DpsIncreaseXH":
+            case Attribute.DpsIncreaseXH:
                 DpsIncreaseXH -= bonus.value;
                 break;
-            case "CastSpeedXH":
+            case Attribute.CastSpeedXH:
                 CastSpeedXH -= bonus.value;
                 break;
-            case "SkillRateIncreaseXH":
+            case Attribute.SkillRateIncreaseXH:
                 SkillRateIncreaseXH -= bonus.value;
                 break;
-            case "SkillDmgIncreaseXH":
+            case Attribute.SkillDmgIncreaseXH:
                 SkillDmgIncreaseXH -= bonus.value;
                 break;
             default:
@@ -90,5 +97,12 @@ internal class ElementalStat// 누적배수
         }
     }
 
+    internal void ApplyBonus(BonusStat bonus, bool signPositive)
+    {
+        if (signPositive)
+            Add(bonus);
+        else
+            Remove(bonus);
+    }
 }
 

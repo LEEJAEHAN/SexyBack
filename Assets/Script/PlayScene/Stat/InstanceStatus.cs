@@ -74,7 +74,7 @@ namespace SexyBackPlayScene
             MapID = GetMapID;   // 외부에서 setting 되어있으면 setting된값으로 아니면 더미값을출력
             // isBonused // 외부에서 이미 setting; 안되있으면 false;
             CurrentGameTime = 0;
-            ExpGain(Singleton<PlayerStatus>.getInstance().GetUtilStat.InitExp, false);
+            ExpGain(Singleton<PlayerStatus>.getInstance().GetGlobalStat.InitExp, false);
             LimitGameTime = Singleton<TableLoader>.getInstance().mapTable[MapID].LimitTime;
         }
         internal void Load(XmlDocument doc)
@@ -123,16 +123,16 @@ namespace SexyBackPlayScene
             // case skill, active, stat 분리
             switch (bonus.attribute)
             {
-                case "Active":
+                case Attribute.Active:
                     Singleton<ElementalManager>.getInstance().LearnNewElemental(bonus.strvalue);
                     break;
-                case "ActiveSkill":
+                case Attribute.ActiveSkill:
                     Singleton<ElementalManager>.getInstance().ActiveSkill(bonus.strvalue);
                     break;
-                case "Enchant":
+                case Attribute.Enchant:
                     Singleton<HeroManager>.getInstance().Enchant(bonus.strvalue);
                     break;
-                case "FinishResearch":
+                case Attribute.FinishResearch:
                     Singleton<ResearchManager>.getInstance().FinishFrontOne();
                     break;
                 default:

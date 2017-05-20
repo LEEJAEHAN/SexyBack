@@ -48,11 +48,80 @@ public class BaseStat : ICloneable
         return new BaseStat(this.Str, this.Int, this.Spd, this.Luck);
     }
 
+    internal void ApplyBonus(BonusStat bonus, bool signPositive)
+    {
+        if (signPositive)
+            Add(bonus);
+        else
+            Remove(bonus);
+    }
+
+    internal void Add(BonusStat bonus)
+    {
+        switch (bonus.attribute)
+        {
+            case Attribute.Str:
+                Str += bonus.value;
+                break;
+            case Attribute.Int:
+                Int += bonus.value;
+                break;
+            case Attribute.Luck:
+                Luck += bonus.value;
+                break;
+            case Attribute.Spd:
+                Spd += bonus.value;
+                break;
+            default:
+                {
+                    sexybacklog.Error("noAttribute");
+                    break;
+                }
+        }
+    }
+    internal void Remove(BonusStat bonus)
+    {
+        switch (bonus.attribute)
+        {
+            case Attribute.Str:
+                Str -= bonus.value;
+                break;
+            case Attribute.Int:
+                Int -= bonus.value;
+                break;
+            case Attribute.Luck:
+                Luck -= bonus.value;
+                break;
+            case Attribute.Spd:
+                Spd -= bonus.value;
+                break;
+            default:
+                {
+                    sexybacklog.Error("noAttribute");
+                    break;
+                }
+        }
+    }
+
     public static BaseStat operator *(BaseStat leftSide, double scalar)
     {
         return new BaseStat((int)(leftSide.Str * scalar),
             (int)(leftSide.Int * scalar),
             (int)(leftSide.Spd * scalar),
             (int)(leftSide.Luck * scalar));
+    }
+    public static BaseStat operator +(BaseStat leftSide, BaseStat rightSide)
+    {
+        return new BaseStat((int)(leftSide.Str + rightSide.Str),
+            (int)(leftSide.Int + rightSide.Int),
+            (int)(leftSide.Spd + rightSide.Spd),
+            (int)(leftSide.Luck + rightSide.Luck));
+    }
+    public static BaseStat operator -(BaseStat leftSide, BaseStat rightSide)
+    {
+        return new BaseStat((int)(leftSide.Str - rightSide.Str),
+            (int)(leftSide.Int - rightSide.Int),
+            (int)(leftSide.Spd - rightSide.Spd),
+            (int)(leftSide.Luck - rightSide.Luck));
     }
 }

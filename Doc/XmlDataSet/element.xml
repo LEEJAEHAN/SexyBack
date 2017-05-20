@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
 <Elementals>
-  <Elemental id="fireball" name="파이어볼" basecastintervalxk="5500" basedensity="1" baseprice="10" baselevel="10" prefab="prefabs/Projectile/fireball" skillprefab="prefabs/Projectile/fireball_skill" baseskillratexk="50" baseskilldamagexh="300"/>
-  <Elemental id="fireball" name="파이어볼" basecastintervalxk="5500" basedensity="1" baseprice="10" baselevel="10" prefab="prefabs/Projectile/fireball" skillprefab="prefabs/Projectile/fireball_skill" baseskillratexk="50" baseskilldamagexh="300"/>
+  <Elemental id="fireball" name="파이어볼" skillname="불폭탄" basecastintervalxk="5500" basedensity="1" baseprice="10" baselevel="10" prefab="prefabs/Projectile/fireball" skillprefab="prefabs/Projectile/fireball_skill" baseskillratexk="50" baseskilldamagexh="300"/>
+  <Elemental id="fireball" name="파이어볼" skillname="불폭탄" basecastintervalxk="5500" basedensity="1" baseprice="10" baselevel="10" prefab="prefabs/Projectile/fireball" skillprefab="prefabs/Projectile/fireball_skill" baseskillratexk="50" baseskilldamagexh="300"/>
 </Elementals>

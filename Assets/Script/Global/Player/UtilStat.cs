@@ -6,15 +6,11 @@ using System.Xml;
 internal class UtilStat
 {
     internal int ResearchTime;
+    internal int ResearchTimeX;
     internal int MaxResearchThread;
     internal int ExpIncreaseXH;
     internal int LPriceReduceXH;
     internal int RPriceReduceXH;
-    internal int RankBonus;
-    internal BigInteger InitExp;
-
-    // only use battleScene
-    internal int ResearchTimeX;
 
     public UtilStat()
     {
@@ -24,8 +20,6 @@ internal class UtilStat
         ExpIncreaseXH = 0;
         LPriceReduceXH = 0;
         RPriceReduceXH = 0;
-        RankBonus = 0;
-        InitExp = new BigInteger(0);
     }
 
     public UtilStat(XmlNode xmlNode)
@@ -36,37 +30,36 @@ internal class UtilStat
         ExpIncreaseXH = int.Parse(xmlNode.Attributes["ExpIncreaseXH"].Value);
         LPriceReduceXH = int.Parse(xmlNode.Attributes["LPriceReduceXH"].Value);
         RPriceReduceXH = int.Parse(xmlNode.Attributes["RPriceReduceXH"].Value);
-        RankBonus = int.Parse(xmlNode.Attributes["RankBonus"].Value);
-        InitExp = new BigInteger(xmlNode.Attributes["InitExp"].Value);
+    }
+    internal void ApplyBonus(BonusStat bonus, bool signPositive)
+    {
+        if (signPositive)
+            Add(bonus);
+        else
+            Remove(bonus);
     }
 
     internal void Add(BonusStat bonus)
     {
         switch (bonus.attribute)
         {
-            case "ExpIncreaseXH":
+            case Attribute.ExpIncreaseXH:
                 ExpIncreaseXH += bonus.value;
                 break;
-            case "ResearchTime":
+            case Attribute.ResearchTime:
                 ResearchTime += bonus.value;
                 break;
-            case "ResearchTimeX":
+            case Attribute.ResearchTimeX:
                 this.ResearchTimeX *= bonus.value;
                 break;
-            case "MaxResearchThread":
+            case Attribute.MaxResearchThread:
                 MaxResearchThread += bonus.value;
                 break;
-            case "LPriceReduceXH":
+            case Attribute.LPriceReduceXH:
                 LPriceReduceXH -= bonus.value;
                 break;
-            case "RPriceReduceXH":
+            case Attribute.RPriceReduceXH:
                 RPriceReduceXH -= bonus.value;
-                break;
-            case "InitExp":
-                InitExp += new BigInteger(bonus.strvalue);
-                break;
-            case "RankBonus":
-                RankBonus += bonus.value;
                 break;
             default:
                 {
@@ -79,29 +72,23 @@ internal class UtilStat
     {
         switch (bonus.attribute)
         {
-            case "ExpIncreaseXH":
+            case Attribute.ExpIncreaseXH:
                 ExpIncreaseXH -= bonus.value;
                 break;
-            case "ResearchTime":
+            case Attribute.ResearchTime:
                 ResearchTime -= bonus.value;
                 break;
-            case "ResearchTimeX":
+            case Attribute.ResearchTimeX:
                 this.ResearchTimeX /= bonus.value;
                 break;
-            case "MaxResearchThread":
+            case Attribute.MaxResearchThread:
                 MaxResearchThread -= bonus.value;
                 break;
-            case "LPriceReduceXH":
+            case Attribute.LPriceReduceXH:
                 LPriceReduceXH += bonus.value;
                 break;
-            case "RPriceReduceXH":
+            case Attribute.RPriceReduceXH:
                 RPriceReduceXH += bonus.value;
-                break;
-            case "InitExp":
-                InitExp -= new BigInteger(bonus.strvalue);
-                break;
-            case "RankBonus":
-                RankBonus -= bonus.value;
                 break;
             default:
                 {

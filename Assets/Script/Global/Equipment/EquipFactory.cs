@@ -27,8 +27,9 @@ internal static class EquipFactory
 
     internal static Equipment LotteryEquipment(MapRewardData rewardInfo, RewardRank rank)
     {
+        // rank랑 reward level이랑 
         string resultBaseItemID = "E01"; // = 로터리(맵드랍레벨, 랭크)
-        string resultSkillID = "SE01";// = 로터리
+        string resultSkillID = "ES01";// = 로터리
         int resultGrade = 2; // = 로터리;
 
         Equipment newOne = new Equipment(Singleton<TableLoader>.getInstance().equipmenttable[resultBaseItemID],

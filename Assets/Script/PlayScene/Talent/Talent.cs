@@ -42,9 +42,9 @@ namespace SexyBackPlayScene
 
         internal void SetFloor(int floor)
         {
-            if (bonus.attribute == "ExpPerFloor")
+            if (bonus.attribute == Attribute.ExpPerFloor)
             {
-//                bonus.bigvalue = BigInteger.PowerByGrowth(bonus.value, floor - 1, MonsterData.GrowthRate);
+                //bonus.bigvalue = BigInteger.PowerByGrowth(bonus.value, floor - 1, MonsterData.GrowthRate);
                 Icon.IconText = bonus.strvalue;
             }
         }
@@ -52,14 +52,15 @@ namespace SexyBackPlayScene
         {
             get
             {
-                if (bonus.attribute == "ExpPerFloor")
+                if (bonus.attribute == Attribute.ExpPerFloor)
                 {
-                    return StringParser.ReplaceString(description, bonus.strvalue);
+                    //return StringParser.ReplaceString(description, bonus.strvalue);
                 }
                 else
                 {
-                    return StringParser.ReplaceString(description, bonus.value.ToString());
+                    //return StringParser.ReplaceString(description, bonus.value.ToString());
                 }
+                return null;
             }
         }
 

@@ -42,16 +42,16 @@ internal class TableLoader
                 LoadLevelUpData();
                 LoadResearchData();
                 LoadMapData();
-                LoadTalentData();
+                //LoadTalentData();
                 LoadConsumableData();
                 LoadEquipmentData();
+                LoadEquipmentSkillData();
             }
             catch ( Exception e)
             {
                 sexybacklog.Error("게임 데이터 테이블 로드에 문제가 있었습니다. " + e.Message);
                 return false;
             }
-            return true;
         }
         FinishLoad = true;
         return true;
@@ -63,24 +63,6 @@ internal class TableLoader
         XmlDocument xmldoc = new XmlDocument();
         xmldoc.LoadXml(textasset.text);
         return xmldoc;
-    }
-
-    private void LoadPriceData()
-    {
-        pricetable = new List<PriceData>();
-
-        XmlDocument xmldoc = OpenXml("Xml/PriceData");
-        XmlNode rootNode = xmldoc.SelectSingleNode("Prices");
-        XmlNodeList nodes = rootNode.SelectNodes("Price");
-
-        foreach (XmlNode node in nodes)
-        {
-            PriceData temp = new PriceData();
-            temp.minLevel = int.Parse(node.Attributes["fromlevel"].Value);
-            temp.maxLevel = int.Parse(node.Attributes["tolevel"].Value);
-            temp.basePriceDensity = double.Parse(node.Attributes["base"].Value);
-            pricetable.Add(temp);
-        }
     }
 
 
@@ -98,28 +80,58 @@ internal class TableLoader
     {
         // loadEquip table
         equipmenttable = new Dictionary<string, EquipmentData>();
+        XmlDocument xmldoc = OpenXml("Xml/EquipmentData");
+        XmlNodeList nodes = xmldoc.SelectSingleNode("Equipments").SelectNodes("Equipment");
+        foreach (XmlNode node in nodes)
+        {
+            if (node.Attributes["name"] == null)
+                continue;
 
-        EquipmentData e01 = new EquipmentData("E01", "Icon_11", "롱소드", Equipment.Type.Weapon, 67, 0, new BaseStat(30, 0, 0, 0));
-        EquipmentData e02 = new EquipmentData("E02", "Icon_10", "두번째아이템", Equipment.Type.Ring, 67, 1, new BaseStat(0, 10, 10, 0));
-        EquipmentData e03 = new EquipmentData("E03", "Icon_09", "세번째아이템", Equipment.Type.Staff, 67, 2, new BaseStat(0, 0, 0, 10));
+            EquipmentData newOne = new EquipmentData();
+            newOne.ID = node.Attributes["id"].Value;
+            newOne.iconID = node.Attributes["icon"].Value;
+            newOne.baseName = node.Attributes["name"].Value;
+            newOne.droplevel = int.Parse(node.Attributes["droplevel"].Value);
+            if (node.Attributes["dropmap"] != null)
+                newOne.dropMapID = node.Attributes["dropmap"].Value;
+            if (node.Attributes["skill"] != null)
+                newOne.skillID= node.Attributes["skill"].Value;
+            newOne.grade = int.Parse(node.Attributes["grade"].Value);
+            newOne.type = (Equipment.Type)Enum.Parse(typeof(Equipment.Type), node.Attributes["type"].Value);
+            newOne.baseStat.Str = int.Parse(node.Attributes["str"].Value);
+            newOne.baseStat.Int = int.Parse(node.Attributes["int"].Value);
+            newOne.baseStat.Spd = int.Parse(node.Attributes["spd"].Value);
+            newOne.baseStat.Luck = int.Parse(node.Attributes["luck"].Value);
 
-        equipmenttable.Add(e01.ID, e01);
-        equipmenttable.Add(e02.ID, e02);
-        equipmenttable.Add(e03.ID, e03);
-
-        // load EquipSkill table;
+            equipmenttable.Add(newOne.ID, newOne);
+        }
+    }
+    public void LoadEquipmentSkillData()
+    {
         equipskilltable = new Dictionary<string, EquipmentSkillData>();
+        XmlDocument xmldoc = OpenXml("Xml/EquipmentSkillData");
+        XmlNodeList nodes = xmldoc.SelectSingleNode("EquipmentSkills").SelectNodes("Skill");
 
-        List<BonusStat> skillstats = new List<BonusStat>();
-        skillstats.Add(new BonusStat("hero", "DpcX", 10, null, "히어로 데미지 증가 $d배"));
-        skillstats.Add(new BonusStat("fireball", "DpsX", 10, null, "화염구의 데미지 증가 $d배"));
-
-        EquipmentSkillData se01 = new EquipmentSkillData("SE01", "무기스킬", 67, Equipment.Type.Weapon, skillstats);
-        EquipmentSkillData se02 = new EquipmentSkillData("SE02", "링스킬", 67, Equipment.Type.Ring, skillstats);
-        EquipmentSkillData se03 = new EquipmentSkillData("SE03", "스탭스킬", 67, Equipment.Type.Staff, skillstats);
-        equipskilltable.Add(se01.ID, se01);
-        equipskilltable.Add(se02.ID, se02);
-        equipskilltable.Add(se03.ID, se03);
+        foreach (XmlNode node in nodes)
+        {
+            if (node.Attributes["name"] == null)
+                continue;
+            EquipmentSkillData newOne = new EquipmentSkillData();
+            newOne.ID = node.Attributes["id"].Value;
+            newOne.baseSkillName = node.Attributes["name"].Value;
+            newOne.belong= bool.Parse(node.Attributes["belong"].Value);
+            newOne.dropLevel = int.Parse(node.Attributes["droplevel"].Value);
+            XmlNodeList statNodes = node.SelectNodes("Bonus");
+            foreach(XmlNode statNode in statNodes)
+            {
+                BonusStat temp = new BonusStat();
+                temp.targetID = statNode.Attributes["target"].Value;
+                temp.attribute = (Attribute)Enum.Parse(typeof(Attribute), statNode.Attributes["attribute"].Value);
+                temp.value = int.Parse(statNode.Attributes["value"].Value);
+                newOne.baseSkillStat.Add(temp);
+            }
+            equipskilltable.Add(newOne.ID, newOne);
+        }
     }
 
     private void LoadConsumableData()
@@ -174,7 +186,23 @@ internal class TableLoader
         leveluptable.Add(item9.OwnerID, item9);
     }
 
+    private void LoadPriceData()
+    {
+        pricetable = new List<PriceData>();
 
+        XmlDocument xmldoc = OpenXml("Xml/PriceData");
+        XmlNode rootNode = xmldoc.SelectSingleNode("Prices");
+        XmlNodeList nodes = rootNode.SelectNodes("Price");
+
+        foreach (XmlNode node in nodes)
+        {
+            PriceData temp = new PriceData();
+            temp.minLevel = int.Parse(node.Attributes["fromlevel"].Value);
+            temp.maxLevel = int.Parse(node.Attributes["tolevel"].Value);
+            temp.basePriceDensity = double.Parse(node.Attributes["base"].Value);
+            pricetable.Add(temp);
+        }
+    }
 
     private void LoadElementData()
     {
@@ -188,6 +216,7 @@ internal class TableLoader
             ElementalData elemental = new ElementalData();
             elemental.ID = node.Attributes["id"].Value;
             elemental.Name = node.Attributes["name"].Value;
+            elemental.SkillName = node.Attributes["skillname"].Value;
             elemental.BaseCastIntervalXK = int.Parse(node.Attributes["basecastintervalxk"].Value);
             elemental.BaseDmg = double.Parse(node.Attributes["basedensity"].Value);
             elemental.BasePrice = int.Parse(node.Attributes["baseprice"].Value);
@@ -235,7 +264,7 @@ internal class TableLoader
 
             XmlNode bonusnode = node.SelectSingleNode("Bonus");
             string target = bonusnode.Attributes["target"].Value;
-            string attribute = bonusnode.Attributes["attribute"].Value;
+            Attribute attribute = (Attribute)Enum.Parse(typeof(Attribute),bonusnode.Attributes["attribute"].Value);
             int value = 0;
             string stringvalue = null;
             if (bonusnode.Attributes["value"] != null)
@@ -293,7 +322,7 @@ internal class TableLoader
 
             XmlNode bonusnode = node.SelectSingleNode("Bonus");
             string target = bonusnode.Attributes["target"].Value;
-            string attribute = bonusnode.Attributes["attribute"].Value;
+            Attribute attribute = (Attribute)Enum.Parse(typeof(Attribute),bonusnode.Attributes["attribute"].Value);
             int value = 0;
             if (bonusnode.Attributes["value"] != null)
                 value = int.Parse(bonusnode.Attributes["value"].Value);

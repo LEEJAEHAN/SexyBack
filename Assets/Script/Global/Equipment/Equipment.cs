@@ -61,10 +61,10 @@ public class Equipment
         return baseStat * (evolCoef * expCoef);
     }
 
-    public void DrawIconView(UISprite icon, UILabel name)
+    public void DrawIconView(UISprite icon, UILabel name, int expectedEV)
     {
         icon.spriteName = iconID;
-        name.text = this.name;
+        name.text = this.name + EquipmentWiki.EvToString(expectedEV);
         name.color = EquipmentWiki.CalNameColor(grade);
     }
 

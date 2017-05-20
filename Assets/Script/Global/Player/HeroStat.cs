@@ -41,32 +41,39 @@ public class HeroStat
         AttackCapacity = int.Parse(xmlNode.Attributes["AttackCapacity"].Value);
     }
 
+    internal void ApplyBonus(BonusStat bonus, bool signPositive)
+    {
+        if (signPositive)
+            Add(bonus);
+        else
+            Remove(bonus);
+    }
     internal void Add(BonusStat bonus)
     {
         switch (bonus.attribute)
         {
-            case "BonusLevel":
+            case Attribute.BonusLevel:
                 BonusLevel += bonus.value;
                 break;
-            case "DpcX":
+            case Attribute.DpcX:
                 DpcX *= bonus.value;
                 break;
-            case "DpcIncreaseXH":
+            case Attribute.DpcIncreaseXH:
                 DpcIncreaseXH += bonus.value;
                 break;
-            case "AttackCapacity":
+            case Attribute.AttackCapacity:
                 AttackCapacity += bonus.value;
                 break;
-            case "AttackSpeedXH":
+            case Attribute.AttackSpeedXH:
                 AttackSpeedXH += bonus.value;
                 break;
-            case "CriticalRateXH":
+            case Attribute.CriticalRateXH:
                 CriticalRateXH += bonus.value;
                 break;
-            case "CriticalDamageXH":
+            case Attribute.CriticalDamageXH:
                 CriticalDamageXH += bonus.value;
                 break;
-            case "MovespeedXH":
+            case Attribute.MovespeedXH:
                 MovespeedXH += bonus.value;
                 break;
             default:
@@ -80,28 +87,28 @@ public class HeroStat
     {
         switch (bonus.attribute)
         {
-            case "BonusLevel":
+            case Attribute.BonusLevel:
                 BonusLevel -= bonus.value;
                 break;
-            case "DpcX":
+            case Attribute.DpcX:
                 DpcX /= bonus.value;
                 break;
-            case "DpcIncreaseXH":
+            case Attribute.DpcIncreaseXH:
                 DpcIncreaseXH -= bonus.value;
                 break;
-            case "AttackCapacity":
+            case Attribute.AttackCapacity:
                 AttackCapacity -= bonus.value;
                 break;
-            case "AttackSpeedXH":
+            case Attribute.AttackSpeedXH:
                 AttackSpeedXH -= bonus.value;
                 break;
-            case "CriticalRateXH":
+            case Attribute.CriticalRateXH:
                 CriticalRateXH -= bonus.value;
                 break;
-            case "CriticalDamageXH":
+            case Attribute.CriticalDamageXH:
                 CriticalDamageXH -= bonus.value;
                 break;
-            case "MovespeedXH":
+            case Attribute.MovespeedXH:
                 MovespeedXH -= bonus.value;
                 break;
             default:

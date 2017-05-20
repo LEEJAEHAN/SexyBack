@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<EquipmentSkills>
+  <Skill id="ES01" name="소드맨" belong="true" droplevel="67">
+    <Bonus1 target="hero" attribute="LearnSkill" value="1"/>
+    <Bonus2 target="hero" attribute="LearnSkill" value="1"/>
+    <Bonus3 target="hero" attribute="LearnSkill" value="1"/>
+    <Bonus4 target="hero" attribute="LearnSkill" value="1"/>
+  </Skill>
+  <Skill id="ES01" name="소드맨" belong="true" droplevel="67">
+    <Bonus1 target="hero" attribute="LearnSkill" value="1"/>
+    <Bonus2 target="hero" attribute="LearnSkill" value="1"/>
+    <Bonus3 target="hero" attribute="LearnSkill" value="1"/>
+    <Bonus4 target="hero" attribute="LearnSkill" value="1"/>
+  </Skill>
+</EquipmentSkills>

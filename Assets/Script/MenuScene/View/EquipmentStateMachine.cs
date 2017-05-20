@@ -149,7 +149,6 @@ namespace SexyBackMenuScene
         {
             if(enable)
             {
-                sexybacklog.Console("인챈팅시작");
                 script.FillSelected(manager.Focused);
                 transform.FindChild("아이템정보배경/Effect").gameObject.SetActive(true);
                 transform.FindChild("아이템정보배경/Effect").GetComponent<TweenAlpha>().PlayForward();
@@ -160,7 +159,6 @@ namespace SexyBackMenuScene
                 transform.FindChild("아이템정보배경/Effect").gameObject.SetActive(false);
                 transform.FindChild("아이템정보배경/Effect").GetComponent<TweenAlpha>().ResetToBeginning();
                 GameObject.Find("UICamera").GetComponent<UICamera>().eventReceiverMask = -1; // everything
-                sexybacklog.Console("인챈팅끝");
             }
         }
 

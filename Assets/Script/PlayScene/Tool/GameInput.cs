@@ -63,7 +63,7 @@ namespace SexyBackPlayScene
             }
             if (Input.GetKeyDown(KeyCode.U))
             {
-                Singleton<PlayerStatus>.getInstance().ApplySpecialStat(new BonusStat("player", "ResearchTimeX", 999, null, null), true);
+                Singleton<PlayerStatus>.getInstance().ApplySpecialStat(new BonusStat("util", Attribute.ResearchTimeX, 999, null, null), true);
                 EffectController.getInstance.AddBuffEffect(new GridItemIcon("Icon_19", "x999", "IconSmall_02"));
             }
             if(Input.GetKey(KeyCode.M))

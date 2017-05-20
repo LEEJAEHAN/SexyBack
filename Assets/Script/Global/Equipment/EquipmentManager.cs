@@ -97,9 +97,9 @@ internal class EquipmentManager
         int loop = 3;
         while(loop>0)
         {
-            AddEquipment(EquipFactory.CraftEquipment("E01", "SE01"));
-            AddEquipment(EquipFactory.CraftEquipment("E02", "SE02"));
-            AddEquipment(EquipFactory.CraftEquipment("E03", "SE03"));
+            AddEquipment(EquipFactory.CraftEquipment("E01", "ES01"));
+            AddEquipment(EquipFactory.CraftEquipment("E02", "ES02"));
+            AddEquipment(EquipFactory.CraftEquipment("E03", "ES03"));
             loop--;
         }
     }

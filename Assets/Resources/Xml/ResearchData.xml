@@ -244,18 +244,18 @@
 		<Info icon="Icon_19" icontext="x2" subicon="IconSmall_02" name="시간왜곡1" description="연구시간이 절반으로 줄어듭니다. 단 시간당 연구비용은 2배로 증가합니다."/>
 		<Price level="60" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
-		<Bonus target="player" attribute="ResearchTimeX" value="2"/>
+		<Bonus target="util" attribute="ResearchTimeX" value="2"/>
 	</Research>
 	<Research id="R42" requireid="hero" requirelevel="0">
 		<Info icon="Icon_19" icontext="x2" subicon="IconSmall_02" name="시간왜곡2" description="연구시간이 절반으로 줄어듭니다. 단 시간당 연구비용은 2배로 증가합니다."/>
 		<Price level="80" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
-		<Bonus target="player" attribute="ResearchTimeX" value="2"/>
+		<Bonus target="util" attribute="ResearchTimeX" value="2"/>
 	</Research>
 	<Research id="R43" requireid="hero" requirelevel="0">
 		<Info icon="Icon_19" icontext="x2" subicon="IconSmall_02" name="시간왜곡3" description="연구시간이 절반으로 줄어듭니다. 단 시간당 연구비용은 2배로 증가합니다."/>
 		<Price level="100" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
-		<Bonus target="player" attribute="ResearchTimeX" value="2"/>
+		<Bonus target="util" attribute="ResearchTimeX" value="2"/>
 	</Research>
 </Researches>

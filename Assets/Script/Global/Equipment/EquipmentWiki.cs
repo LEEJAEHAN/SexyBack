@@ -17,13 +17,11 @@ public static class EquipmentWiki
             return "";
     }
 
-    internal static string SkillStatToString(List<BonusStat> skillStat)
+    internal static string AttributeBox(List<BonusStat> skillStat)
     {
         string temp = "";
-        foreach (BonusStat a in skillStat)
-        {
-            temp += (a.description.Replace("$d", a.value.ToString()) + "\n");
-        }
+        foreach (BonusStat attr in skillStat)
+            temp += StringParser.GetAttributeString(attr) + "\n";
         return temp.Substring(0, temp.Length - 1);
     }
 

@@ -26,7 +26,7 @@
 	<Bonus group="BR04_001" target="electricball" attribute="DpsX" value="2"/>
 	<Bonus group="BR04_002" target="electricball" attribute="DpsX" value="6"/>
 	<Bonus group="BR05_001" target="waterball" attribute="DpsX" value="2"/>
-	<Bonus group="BR99" target="player" attribute="ResearchTimeX" value="2"/>
-	<Bonus group="BR98" target="player" attribute="ResearchTimeX" value="2"/>
-	<Bonus group="BR97" target="player" attribute="ResearchTimeX" value="2"/>
+	<Bonus group="BR99" target="util" attribute="ResearchTimeX" value="2"/>
+	<Bonus group="BR98" target="util" attribute="ResearchTimeX" value="2"/>
+	<Bonus group="BR97" target="util" attribute="ResearchTimeX" value="2"/>
 </BonusList>

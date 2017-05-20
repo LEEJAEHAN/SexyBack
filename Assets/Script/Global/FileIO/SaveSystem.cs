@@ -19,9 +19,7 @@ using System.Xml.Serialization;
 internal class SaveSystem
 {
     internal static readonly string SaveDataPath = "SaveData.xml";
-
-
-
+    
     //internal static void SaveInstacne()
     //{
     //    PlayerPrefs.SetString("InstanceData", "Yes");
@@ -70,6 +68,13 @@ internal class SaveSystem
         PlayerStatus playerStatus = Singleton<PlayerStatus>.getInstance();
         writer.WriteStartElement("Stats");
         {
+            writer.WriteStartElement("GlobalStat");
+            GlobalStat globalStat = playerStatus.GetGlobalStat;
+            writer.WriteAttributeString("InitExp", globalStat.InitExp.ToString());
+            writer.WriteAttributeString("RankBonus", globalStat.RankBonus.ToString());
+            writer.WriteEndElement();
+        }
+        {
             writer.WriteStartElement("BaseStat");
             BaseStat baseStat = playerStatus.GetBaseStat;
             writer.WriteAttributeString("Str", baseStat.Str.ToString());
@@ -87,8 +92,6 @@ internal class SaveSystem
             writer.WriteAttributeString("ExpIncreaseXH", utilStat.ExpIncreaseXH.ToString());
             writer.WriteAttributeString("LPriceReduceXH", utilStat.LPriceReduceXH.ToString());
             writer.WriteAttributeString("RPriceReduceXH", utilStat.RPriceReduceXH.ToString());
-            writer.WriteAttributeString("InitExp", utilStat.InitExp.ToString());
-            writer.WriteAttributeString("RankBonus", utilStat.RankBonus.ToString());
             writer.WriteEndElement();
         }
         {
@@ -183,25 +186,7 @@ internal class SaveSystem
         writer.WriteEndElement();
     }
 
-
-    //    foreach (XmlNode node in StatNodes)
-    //    {
-    //        ElementalData elemental = new ElementalData();
-    //        elemental.ID = node.Attributes["id"].Value;
-    //        elemental.Name = node.Attributes["name"].Value;
-    //        elemental.BaseCastIntervalXK = int.Parse(node.Attributes["basecastintervalxk"].Value);
-    //        elemental.BaseDmgDensity = double.Parse(node.Attributes["basedensity"].Value);
-    //        elemental.BasePrice = int.Parse(node.Attributes["baseprice"].Value);
-    //        elemental.BaseLevel = int.Parse(node.Attributes["baselevel"].Value);
-    //        elemental.PrefabName = node.Attributes["prefab"].Value;
-    //        elemental.SkillPrefabName = node.Attributes["skillprefab"].Value;
-    //        elemental.BaseSkillRateXK = int.Parse(node.Attributes["baseskillratexk"].Value);
-    //        elemental.BaseSkillDamageXH = int.Parse(node.Attributes["baseskilldamagexh"].Value); ;
-    //        elementaltable.Add(elemental.ID, elemental);
-    //    }
-
-
-
+        
     //public static void ToXMLFile(System.Object obj, string filePath)
     //{
     //    XmlSerializer serializer = new XmlSerializer(typeof(HeroStat));

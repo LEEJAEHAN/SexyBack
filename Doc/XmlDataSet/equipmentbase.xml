@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Equipments>
+  <Equipment id="E01" icon="Icon_11" name="노멀검" dropmap="EventMap01" droplevel="67" grade="0" type="Weapon" skill="ES01" str="1" int="1" spd="1" luck="1"/>
+  <Equipment id="E01" icon="Icon_11" name="노멀검" dropmap="EventMap01" droplevel="67" grade="0" type="Weapon" skill="ES01" str="1" int="1" spd="1" luck="1"/>
+</Equipments>

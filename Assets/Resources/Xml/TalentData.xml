@@ -60,29 +60,29 @@
 		<Rate absrate="10"/>
 		<Bonus target="elementals" attribute="Fever"/>
 	</Talent>
-	<Talent id="T12" requireid="player" type="Util" maxlevelper10="5">
+	<Talent id="T12" requireid="hero" type="Util" maxlevelper10="5">
 		<Info icon="Icon_18" subicon="-L" name="근면함" description="레벨업 경험치 요구량이 $1$% 줄어듭니다."/>
 		<Rate rate="100"/>
-		<Bonus target="player" attribute="LPriceReduceXH" value="2"/>
+		<Bonus target="util" attribute="LPriceReduceXH" value="2"/>
 	</Talent>
-	<Talent id="T13" requireid="player" type="Util" maxlevelper10="5">
+	<Talent id="T13" requireid="hero" type="Util" maxlevelper10="5">
 		<Info icon="Icon_18" subicon="-R" name="학자" description="연구의 경험치 요구량이 $1$% 줄어듭니다."/>
 		<Rate rate="100"/>
-		<Bonus target="player" attribute="RPriceReduceXH" value="2"/>
+		<Bonus target="util" attribute="RPriceReduceXH" value="2"/>
 	</Talent>
-	<Talent id="T14" requireid="player" type="Util">
+	<Talent id="T14" requireid="hero" type="Util">
 		<Info icon="Icon_19" name="발명" description="현재 진행중인 연구 중 가장 낮은 연구가 즉시 완료됩니다."/>
 		<Rate rate="100"/>
-		<Bonus target="player" attribute="FinishResearch" value="1"/>
+		<Bonus target="util" attribute="FinishResearch" value="1"/>
 	</Talent>
-	<Talent id="T15" requireid="player" type="Util">
+	<Talent id="T15" requireid="hero" type="Util">
 		<Info icon="Icon_18" name="경험치획득" description="$1$의 경험치를 획득합니다."/>
 		<Rate rate="100"/>
-		<Bonus target="player" attribute="ExpPerFloor" value="1000"/>
+		<Bonus target="util" attribute="ExpPerFloor" value="1000"/>
 	</Talent>
-	<Talent id="T16" requireid="player" type="Util">
+	<Talent id="T16" requireid="hero" type="Util">
 		<Info icon="Icon_18" name="다이아몬드" description="$1$ 다이아를 획득합니다."/>
 		<Rate absrate="10"/>
-		<Bonus target="player" attribute="Diamond" value="1"/>
+		<Bonus target="util" attribute="Diamond" value="1"/>
 	</Talent>
 </Talents>

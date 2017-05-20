@@ -65,7 +65,8 @@ namespace SexyBackRewardScene
         internal void SetEquip(Equipment value)
         {
             value.DrawIconView(transform.FindChild("Container/Item/Icon").GetComponent<UISprite>(),
-                transform.FindChild("Container/Item/Name").GetComponent<UILabel>());
+                transform.FindChild("Container/Item/Name").GetComponent<UILabel>()
+                , value.evolution);
         }
     }
 }

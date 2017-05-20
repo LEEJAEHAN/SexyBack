@@ -174,22 +174,21 @@ namespace SexyBackMenuScene
 
             Transform info = transform.FindChild("아이템정보");
             info.gameObject.SetActive(true);
-            info.FindChild("Icon").GetComponent<UISprite>().spriteName = e.iconID;
+            e.DrawIconView(info.FindChild("Icon").GetComponent<UISprite>(), info.FindChild("Name").GetComponent<UILabel>(), NextEvolution);
             info.FindChild("Lock").GetComponent<UISprite>().gameObject.SetActive(e.isLock);
-            info.FindChild("Name").GetComponent<UILabel>().text = e.name + EquipmentWiki.EvToString(NextEvolution);
             if (NextExp > e.exp || NextEvolution > e.evolution)
                 info.FindChild("Stat").GetComponent<UILabel>().color = Color.blue;
             else
                 info.FindChild("Stat").GetComponent<UILabel>().color = Color.black;
             if (NextEvolution > e.evolution) // 각성 예
             {
-                info.FindChild("Name").GetComponent<UILabel>().color = Color.blue;
+                //info.FindChild("Name").GetComponent<UILabel>().color = Color.blue;
                 NextExp = 0;
                 info.FindChild("EnchantBar").GetComponent<UIProgressBar>().value = 0;
             }
             else // 강화 예
             {
-                info.FindChild("Name").GetComponent<UILabel>().color = Color.black;
+                //info.FindChild("Name").GetComponent<UILabel>().color = Color.black;
                 info.FindChild("EnchantBar").GetComponent<UIProgressBar>().value = (float)e.exp / (float)MaxExp;
             }
             info.FindChild("Stat").GetComponent<UILabel>().text = e.ExpectStat(NextExp, NextEvolution).ToString();
@@ -197,7 +196,7 @@ namespace SexyBackMenuScene
             info.FindChild("EnchantBar/RBar_Text").GetComponent<UILabel>().text = EquipmentWiki.CalExpPercent(NextExp, MaxExp) + " 강화";
 
             info.FindChild("SkillName").GetComponent<UILabel>().text = e.skillName + " Lv." + e.skillLevel.ToString();
-            info.FindChild("SkillStat").GetComponent<UILabel>().text = EquipmentWiki.SkillStatToString(e.SkillStat);
+            info.FindChild("SkillStat").GetComponent<UILabel>().text = EquipmentWiki.AttributeBox(e.SkillStat);
         }
         public void FillSelected(Equipment selected)
         {

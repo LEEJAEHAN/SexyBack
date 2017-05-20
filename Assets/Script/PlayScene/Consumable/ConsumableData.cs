@@ -20,8 +20,8 @@ namespace SexyBackPlayScene
     internal class ConsumableData
     {
         internal string id;
-        ConsumableGroup group;
-        internal string requireID;
+        //ConsumableGroup group;
+        //internal string requireID;
         internal GridItemIcon icon;
         internal string description;
         internal BonusStat bonus;

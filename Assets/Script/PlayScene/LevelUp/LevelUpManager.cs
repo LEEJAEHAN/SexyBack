@@ -14,17 +14,13 @@ namespace SexyBackPlayScene
         {
             Singleton<PlayerStatus>.getInstance().Action_UtilStatChange -= this.onUtilStatChange;
             LevelUpWindow.Clear();
-            Panel = null;
         }
-        LevelUpWindow Panel;
         Dictionary<string, LevelUp> levelUpItems = new Dictionary<string, LevelUp>();
-
         bool RefreshStat = true;
-
 
         internal void Init()
         {
-            Panel = LevelUpWindow.getInstance;
+            LevelUpWindow Panel = LevelUpWindow.getInstance;
             Singleton<PlayerStatus>.getInstance().Action_UtilStatChange += this.onUtilStatChange;
 
             // this class is event listner

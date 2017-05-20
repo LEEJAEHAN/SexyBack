@@ -10,6 +10,7 @@ namespace SexyBackPlayScene
         // from Excel
         public string ID;
         public string Name;
+        public string SkillName;
         public int BaseLevel;
         public int BasePrice;
         public double BaseDmg;
