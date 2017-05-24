@@ -75,12 +75,12 @@ namespace SexyBackPlayScene
             Action_Pause();
         }
 
-        public void Show(bool selected, GridItemIcon Icon, string name, string description, string pricename, string pricevalue)
+        public void Show(bool selected, NestedIcon Icon, string name, string description, string pricename, string pricevalue)
         {   // infoview는 select상태에서만 갱신해야한다.
             if (!selected)
                 return;
             gameObject.SetActive(true);
-            GridItemIcon.Draw(Icon, this.Icon);
+            NestedIcon.Draw(Icon, this.Icon);
 
             Name.text = name;
             Description.text = description;

@@ -29,7 +29,7 @@ namespace SexyBackPlayScene
 
         private void Refresh()
         {
-            owner.itemView.ShowRBar((float)owner.RemainTime / (float)owner.ReducedTime, (int)owner.RemainTime, false);
+            owner.itemView.DrawRBar((float)owner.RemainTime / (float)owner.ReducedTime, (int)owner.RemainTime, false);
 
             if (!owner.Selected)
                 return;

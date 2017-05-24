@@ -27,7 +27,7 @@ namespace SexyBackPlayScene
 
         internal void onHeroChange(Hero hero)
         {
-            itemView.FillItemContents(hero.LEVEL.ToString());
+            itemView.DrawLevel(hero.LEVEL.ToString());
             OriginalPrice = hero.PRICE;
             PRICE = OriginalPrice * (100 - LPriceReduceXH) / 100;
 

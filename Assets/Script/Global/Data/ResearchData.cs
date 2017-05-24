@@ -14,7 +14,7 @@ public class ResearchData
     public string InfoName;
     public string InfoDescription;
 
-    public GridItemIcon icon;
+    public NestedIcon icon;
 
     public int level;
     public int baselevel;
@@ -22,7 +22,7 @@ public class ResearchData
     public int rate;
     public int basetime;
 
-    public ResearchData(string id, string requireid, int requirelevel, GridItemIcon icon, string name, string description, int level, int baselevel, int baseprice, int rate, int basetime, BonusStat bonus)
+    public ResearchData(string id, string requireid, int requirelevel, NestedIcon icon, string name, string description, int level, int baselevel, int baseprice, int rate, int basetime, BonusStat bonus)
     {
         ID = id;
         this.bonus = bonus;

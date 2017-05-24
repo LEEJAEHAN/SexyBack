@@ -11,7 +11,7 @@ namespace SexyBackPlayScene
         string ID;
 
         public GridItem itemView;
-        GridItemIcon icon;
+        NestedIcon icon;
         public ResearchWindow Panel = ResearchWindow.getInstance;
 
         string Name;
@@ -60,7 +60,7 @@ namespace SexyBackPlayScene
             RemainTime = (double)info.GetValue("RemainTime", typeof(double));
         }
         
-        public Research(ResearchData data, GridItem itemview, double time, BigInteger totalprice, double tick)
+        public Research(ResearchData data, double time, BigInteger totalprice, double tick)
         {
             ID = data.ID;
             bonus = data.bonus;
@@ -77,8 +77,8 @@ namespace SexyBackPlayScene
             researchprice = data.rate * totalprice / 100;
 
             icon = data.icon;
-            itemView = itemview;
-            itemview.AttachEventListner(this);
+            itemView = new GridItem(GridItem.Type.Research, data.ID, data.icon, this);
+            itemView.SetActive(true);
 
             StateMachine = new ResearchStateMachine(this);
         }

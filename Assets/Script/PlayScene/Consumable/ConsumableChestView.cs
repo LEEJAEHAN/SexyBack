@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace SexyBackPlayScene
 {
@@ -8,26 +9,16 @@ namespace SexyBackPlayScene
     {
         double TimeOutTime = 5f;
         double Timer = 0;
-        string id;
         bool Flash = false;
         bool Open = false;
+
+        public Action Action_Open;
+        public Action Action_Destroy;
 
         public void Awake()
         {
         }
 
-        //void BindItem(Consumable a)
-        //{
-        //    id = a.id;
-        //    a.icon.fillicon(this.child(0).gameobject);
-        //}
-
-        void TimeOut()
-        {
-            // manager.destroy(id);
-            gameObject.SetActive(false);
-            Destroy(this.gameObject);
-        }
         public void Start()
         {
             //transform.OverlayPosition(ViewLoader.monsterbucket.transform.position, GameCameras.HeroCamera, GameCameras.UICamera);
@@ -61,21 +52,24 @@ namespace SexyBackPlayScene
         {
             //TimeOutTime = 5f;
             Timer = TimeOutTime;
-            GetComponent<BoxCollider>().enabled = true;
+            //GetComponent<BoxCollider>().enabled = true;
         }
         public void onEquipTweenComplete()
         {
-            TimeOut();
+            gameObject.SetActive(false);
+            Action_Destroy();
         }
         public void onOpen()
         {
+            if (Open)
+                return;
             GetComponent<UISprite>().spriteName = "Icon_30";
-            // manager.pick(id) get item code;
             Open = true;
             GetComponent<TweenAlpha>().ResetToBeginning();
             GetComponent<TweenAlpha>().enabled = false;
             transform.GetChild(0).gameObject.SetActive(true);
             GetComponent<TweenPosition>().PlayForward();
+            Action_Open();
         }
 
         // Update is called once per frame
@@ -92,7 +86,8 @@ namespace SexyBackPlayScene
             }
             if (Timer <= 0 && !Open)
             {
-                TimeOut();
+                gameObject.SetActive(false);
+                Action_Destroy();
             }
         }
     }

@@ -290,7 +290,7 @@ internal class TableLoader
                 stringvalue = bonusnode.Attributes["stringvalue"].Value;
 
             BonusStat bonus = new BonusStat(target, attribute, value, stringvalue, null);
-            GridItemIcon iconinfo = new GridItemIcon(icon, icontext, subicon);
+            NestedIcon iconinfo = new NestedIcon(icon, icontext, subicon);
             ResearchData research = new ResearchData(id, requireid, requirelevel, iconinfo, name, description, level, baselevel, baseprice,
                 rate, basetime, bonus);
             researchtable.Add(id, research);

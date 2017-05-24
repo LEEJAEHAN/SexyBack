@@ -124,7 +124,7 @@ namespace SexyBackPlayScene
         {
             RefreshStat = true;
         }
-        internal void Upgrade(BonusStat bonus, GridItemIcon icon)
+        internal void Upgrade(BonusStat bonus, NestedIcon icon)
         {
             // case skill, active, stat 분리
             switch (bonus.attribute)
@@ -147,13 +147,13 @@ namespace SexyBackPlayScene
             }
             EffectController.getInstance.AddBuffEffect(icon);
         }
-        internal void DownGrade(BonusStat bonus, GridItemIcon icon)
+        internal void DownGrade(BonusStat bonus, NestedIcon icon)
         {
             Singleton<PlayerStatus>.getInstance().ApplySpecialStat(bonus, false);
             EffectController.getInstance.AddBuffEffect(icon);
         }
 
-        internal void Buff(BonusStat bonus, GridItemIcon icon, int duration)
+        internal void Buff(BonusStat bonus, NestedIcon icon, int duration)
         {
         }
 

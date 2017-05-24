@@ -25,6 +25,7 @@ namespace SexyBackPlayScene
 
         public void onChangeTap(bool value)
         {
+
             if (value == true)
             {
                 transform.FindChild("New").gameObject.SetActive(false);
@@ -32,7 +33,6 @@ namespace SexyBackPlayScene
             }
             if (value == false)
             {
-                ViewLoader.BottomScrollView.GetComponent<UIScrollView>().ResetPosition();
                 Action_HideList();
             }
         }

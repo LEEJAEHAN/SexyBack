@@ -37,6 +37,10 @@ namespace SexyBackPlayScene
         [NonSerialized]
         ResearchFactory factory = new ResearchFactory();
 
+        public GameObject TabButton2;
+        public GameObject Tab2Container;
+
+
         public bool CanUseThread { get { return currentthread < maxthread; } }
         
 
@@ -45,9 +49,13 @@ namespace SexyBackPlayScene
             Singleton<PlayerStatus>.getInstance().Action_UtilStatChange += this.onUtilStatChange;
             Singleton<HeroManager>.getInstance().Action_HeroLevelUp += onHeroLevelUp;
             Singleton<ElementalManager>.getInstance().Action_ElementalLevelUp += onElementalLevelUp;
-            ViewLoader.TabButton2.GetComponent<TabView>().Action_ShowList += onShowList;
-            ViewLoader.TabButton2.GetComponent<TabView>().Action_HideList += onHideList;
-            ViewLoader.Tab2Container.GetComponent<UIGrid>().onCustomSort = myResearchSort;
+
+            TabButton2 = GameObject.Find("TabButton2");
+            Tab2Container = GameObject.Find("Tab2Container");
+
+            TabButton2.GetComponent<TabView>().Action_ShowList += onShowList;
+            TabButton2.GetComponent<TabView>().Action_HideList += onHideList;
+            Tab2Container.GetComponent<UIGrid>().onCustomSort = myResearchSort;
         }
         public void Start()
         {
@@ -74,18 +82,19 @@ namespace SexyBackPlayScene
 
         public void DrawNewMark()
         {
-            ViewLoader.TabButton2.transform.FindChild("New").gameObject.SetActive(true);
+            TabButton2.transform.FindChild("New").gameObject.SetActive(true);
         }
 
         private void onHideList()
         {
-            ViewLoader.Tab2Container.SetActive(false);
+            Tab2Container.SetActive(false);
             // ViewLoader.Info_Context.SetActive(false);
         }
 
         private void onShowList()
         {
-            ViewLoader.Tab2Container.SetActive(true);
+            Tab2Container.SetActive(true);
+            Tab2Container.GetComponentInParent<UIScrollView>().ResetPosition();
         }
 
         private void onHeroLevelUp(Hero hero)
@@ -169,7 +178,7 @@ namespace SexyBackPlayScene
             Singleton<GameInfoView>.getInstance().PrintMinusDps(minusExp);
             minusExp = 0;
 
-            ViewLoader.Tab2Container.GetComponent<UIGrid>().Reposition();
+            Tab2Container.GetComponent<UIGrid>().Reposition();
         }
 
         public void UseThread(bool start)

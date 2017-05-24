@@ -9,7 +9,7 @@ namespace SexyBackPlayScene
     {
         internal string id;
         internal Consumable.Type type;
-        internal GridItemIcon icon;
+        internal NestedIcon icon;
         internal int value;
         internal string strValue;
         internal int stackPerChest;
@@ -17,6 +17,7 @@ namespace SexyBackPlayScene
         internal string description;
         internal int AbsRate;
         internal int Density;
+        internal double CoolTime;
 
         public ConsumableData(int num = 1)
         {
@@ -24,13 +25,14 @@ namespace SexyBackPlayScene
             { // 공격스택지급
                 id = "C01";
                 type = Consumable.Type.AttackCount;
-                icon = new GridItemIcon("Icon_11", "x5", null);
+                icon = new NestedIcon("Icon_11", null, null);
                 value = 5;
                 stackPerChest = 6;
                 strValue = null;
                 description = "검술의 공격횟수를 5회 즉시 충전합니다.";
                 AbsRate = 0;
                 Density = 1;
+                CoolTime = 1f;
             }
         }
     }

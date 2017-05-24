@@ -55,7 +55,7 @@ namespace SexyBackPlayScene
 
             if (!Instantbuy)
             {
-                owner.itemView.ShowRBar(0, (int)owner.ReducedTime, false);
+                owner.itemView.DrawRBar(0, (int)owner.ReducedTime, false);
                 if (CanBuy && ThreadEmpty)
                     owner.itemView.Enable();
                 else

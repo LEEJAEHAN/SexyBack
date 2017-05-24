@@ -6,6 +6,11 @@ namespace SexyBackPlayScene
 {
     internal class LevelUpManager : IDisposable
     {
+        Dictionary<string, LevelUp> levelUpItems = new Dictionary<string, LevelUp>();
+        bool RefreshStat = true;
+        public GameObject TabButton1;
+        public GameObject Tab1Container;
+
         ~LevelUpManager()
         {
             sexybacklog.Console("LevelUpManager 소멸");
@@ -15,8 +20,6 @@ namespace SexyBackPlayScene
             Singleton<PlayerStatus>.getInstance().Action_UtilStatChange -= this.onUtilStatChange;
             LevelUpWindow.Clear();
         }
-        Dictionary<string, LevelUp> levelUpItems = new Dictionary<string, LevelUp>();
-        bool RefreshStat = true;
 
         internal void Init()
         {
@@ -26,26 +29,32 @@ namespace SexyBackPlayScene
             // this class is event listner
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += SummonElemetalLevelUpItem;
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += SummonHeroLevelUpItem;
-            ViewLoader.TabButton1.GetComponent<TabView>().Action_ShowList += onShowList;
-            ViewLoader.TabButton1.GetComponent<TabView>().Action_HideList += onHideList;
+
+            TabButton1 = GameObject.Find("TabButton1");
+            TabButton1.GetComponent<TabView>().Action_ShowList += onShowList;
+            TabButton1.GetComponent<TabView>().Action_HideList += onHideList;
+
+            Tab1Container = GameObject.Find("Tab1Container");
+            Tab1Container.transform.DestroyChildren();
         }
         public void DrawNewMark()
         {
-            ViewLoader.TabButton1.transform.FindChild("New").gameObject.SetActive(true);
+            TabButton1.transform.FindChild("New").gameObject.SetActive(true);
         }
-
+        private void onShowList()
+        {
+            Tab1Container.SetActive(true);
+            Tab1Container.GetComponentInParent<UIScrollView>().ResetPosition();
+        }
         private void onHideList()
         {
-            ViewLoader.Tab1Container.SetActive(false);
+            Tab1Container.SetActive(false);
         }
         public void onUtilStatChange(UtilStat newStat)
         {
             RefreshStat = true;
         }
-        private void onShowList()
-        {
-            ViewLoader.Tab1Container.SetActive(true);
-        }
+
         internal void Update()
         {
             if (RefreshStat)
@@ -57,7 +66,7 @@ namespace SexyBackPlayScene
 
             foreach (LevelUp item in levelUpItems.Values)
                 item.Update();
-            ViewLoader.Tab1Container.GetComponent<UIGrid>().Reposition();
+            Tab1Container.GetComponent<UIGrid>().Reposition();
         }
 
         void SummonHeroLevelUpItem(Hero hero) // create and bind heroitem

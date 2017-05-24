@@ -23,17 +23,12 @@ namespace SexyBackPlayScene
         public static GameObject PopUpPanel;
         public static GameObject OptionPanel;
 
-        public static GameObject BottomScrollView;
+        //public static GameObject BottomScrollView;
 
-        public static GameObject TabButton1;
-        public static GameObject TabButton2;
-        public static GameObject TabButton3;
-        public static GameObject TabButton4;
-
-        public static GameObject Tab1Container;
-        public static GameObject Tab2Container;
-        public static GameObject Tab3Container;
-        public static GameObject Tab4Container;
+        //public static GameObject TabButton3;
+        //public static GameObject TabButton4;
+        //public static GameObject Tab3Container;
+        //public static GameObject Tab4Container;
 
         public ViewLoader()
         {
@@ -46,15 +41,12 @@ namespace SexyBackPlayScene
             projectiles = GameObject.Find("projectiles");
             stagepanel = GameObject.Find("StagePanel");
 
-            BottomScrollView = GameObject.Find("BottomScrollView");
-            TabButton1 = GameObject.Find("TabButton1");
-            TabButton2 = GameObject.Find("TabButton2");
-            TabButton3 = GameObject.Find("TabButton3");
-            TabButton4 = GameObject.Find("TabButton4");
-            Tab1Container = GameObject.Find("Tab1Container");
-            Tab2Container = GameObject.Find("Tab2Container");
-            Tab3Container = GameObject.Find("Tab3Container");
-            Tab4Container = GameObject.Find("Tab4Container");
+            //BottomScrollView = GameObject.Find("BottomScrollView");
+
+            //TabButton3 = GameObject.Find("TabButton3");
+            //TabButton4 = GameObject.Find("TabButton4");
+            //Tab3Container = GameObject.Find("Tab3Container");
+            //Tab4Container = GameObject.Find("Tab4Container");
 
             InitUISetting();
         }
@@ -63,7 +55,7 @@ namespace SexyBackPlayScene
         {
             ViewLoader.shooter.transform.DestroyChildren();
             ViewLoader.monsterbucket.transform.DestroyChildren();
-            ViewLoader.Tab1Container.transform.DestroyChildren();
+            
             ViewLoader.stagepanel.transform.DestroyChildren();
             ViewLoader.objectarea.transform.DestroyChildren();
 

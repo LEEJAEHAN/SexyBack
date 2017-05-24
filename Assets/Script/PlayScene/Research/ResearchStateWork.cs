@@ -22,7 +22,7 @@ namespace SexyBackPlayScene
 
         private void Refresh()
         {
-            owner.itemView.ShowRBar((float)owner.RemainTime / (float)owner.ReducedTime, (int)owner.RemainTime, Result);
+            owner.itemView.DrawRBar((float)owner.RemainTime / (float)owner.ReducedTime, (int)owner.RemainTime, Result);
 
             if (!owner.Selected)
                 return;
@@ -64,7 +64,7 @@ namespace SexyBackPlayScene
                 {
                     if (Result = Singleton<InstanceStatus>.getInstance().ExpUse((owner.PricePerSec * (int)(mintick * 100)) / 100, false)) //if (Singleton<StageManager>.getInstance().ExpUse(PricePerSec * (int)(tick * 10000) / 10000))
                         owner.RemainTime -= TickTimer;
-                    owner.itemView.ShowRBar((float)owner.RemainTime / (float)owner.ReducedTime, (int)owner.RemainTime, Result);
+                    owner.itemView.DrawRBar((float)owner.RemainTime / (float)owner.ReducedTime, (int)owner.RemainTime, Result);
                     TickTimer -= owner.ResearchTick;                    
                 }
             }

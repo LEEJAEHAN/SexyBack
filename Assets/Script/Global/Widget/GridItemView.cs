@@ -7,9 +7,6 @@ public class GridItemView : MonoBehaviour
     public delegate void GridItemSelect_Event(string name);
     public event GridItemSelect_Event Action_SelectGridItem;
 
-    public delegate void GridItemConfirm_Event(string name);
-    public event GridItemConfirm_Event Action_ConfirmGridItem;
-
     public delegate void GridItemPause_Event(string name);
     public event GridItemPause_Event Action_PauseGridItem;
 
@@ -27,11 +24,6 @@ public class GridItemView : MonoBehaviour
             Action_SelectGridItem(this.name);
         }
     }
-
-    public void onConfirm()
-    {
-        Action_ConfirmGridItem(this.name);
-    }
     public void onPause()
     {
         Action_PauseGridItem(this.name);
@@ -39,7 +31,6 @@ public class GridItemView : MonoBehaviour
     private void OnDestroy()
     {
         Action_SelectGridItem = null;
-        Action_ConfirmGridItem = null;
         Action_PauseGridItem = null;
         sexybacklog.Console("아이템게임오브젝트소멸");
     }

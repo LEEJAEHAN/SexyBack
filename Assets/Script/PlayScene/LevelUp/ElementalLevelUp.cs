@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace SexyBackPlayScene
 {
     internal class ElementalLevelUp : LevelUp
     {
-
         public ElementalLevelUp(LevelUpData data, Elemental elemental) : base(data)
         {
             OwnerID = elemental.GetID;
@@ -23,7 +23,7 @@ namespace SexyBackPlayScene
 
         internal void onElementalChange(Elemental elemental)
         {
-            itemView.FillItemContents(elemental.LEVEL.ToString());
+            itemView.DrawLevel(elemental.LEVEL.ToString());
             OriginalPrice = elemental.PRICE;
             PRICE = OriginalPrice * (100 - LPriceReduceXH) / 100;
 

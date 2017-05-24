@@ -15,7 +15,7 @@ namespace SexyBackPlayScene
         GameObject Effect_Sword;
         GameObject Effect_Buff;
 
-        Queue<GridItemIcon> BuffEffectsQueue = new Queue<GridItemIcon>();
+        Queue<NestedIcon> BuffEffectsQueue = new Queue<NestedIcon>();
 
         private static EffectController instance;
         public static EffectController getInstance
@@ -108,7 +108,7 @@ namespace SexyBackPlayScene
             if (BuffEffectsQueue.Count > 0)
                 PlayBuffEffect(BuffEffectsQueue.Dequeue());
         }
-        internal void AddBuffEffect(GridItemIcon icon)
+        internal void AddBuffEffect(NestedIcon icon)
         {
             BuffEffectsQueue.Enqueue(icon);
             if (Effect_Buff.GetComponent<UITweener>().isActiveAndEnabled)
@@ -116,10 +116,10 @@ namespace SexyBackPlayScene
             else
                 PlayBuffEffect(BuffEffectsQueue.Dequeue());
         }
-        void PlayBuffEffect(GridItemIcon icon)
+        void PlayBuffEffect(NestedIcon icon)
         {
             Effect_Buff.SetActive(true);
-            GridItemIcon.Draw(icon, Effect_Buff);
+            NestedIcon.Draw(icon, Effect_Buff);
             Effect_Buff.GetComponent<UITweener>().PlayForward();
         }
 

@@ -1,20 +1,20 @@
 ﻿using System;
 using UnityEngine;
 
-    public struct GridItemIcon : IDisposable
+    public struct NestedIcon : IDisposable
     {
         public string IconName;
         public string IconText;
         public string SubIconName;
 
-        public GridItemIcon(string iconname, string icontext, string subicon)
+        public NestedIcon(string iconname, string icontext, string subicon)
         {
             IconName = iconname;
             IconText = icontext;
             SubIconName = subicon;
         }
 
-        public GridItemIcon(string iconName) : this()
+        public NestedIcon(string iconName) : this()
         {
             IconName = iconName;
         }
@@ -26,7 +26,7 @@ using UnityEngine;
             IconText = null;
         }
 
-        internal static void Draw(GridItemIcon icondata, GameObject canvas)
+        internal static void Draw(NestedIcon icondata, GameObject canvas)
         {
             canvas.GetComponent<UISprite>().atlas = Resources.Load("Atlas/IconImage", typeof(UIAtlas)) as UIAtlas;
             canvas.GetComponent<UISprite>().spriteName = icondata.IconName;
