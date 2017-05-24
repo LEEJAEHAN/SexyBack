@@ -33,6 +33,7 @@ namespace SexyBackRewardScene
         public void onButtonClick()
         {
             Singleton<RewardManager>.Clear();
+            SexyBackPlayScene.InstanceSaveSystem.ClearInstance();
             SceneManager.LoadScene("MenuScene");
         }
     }

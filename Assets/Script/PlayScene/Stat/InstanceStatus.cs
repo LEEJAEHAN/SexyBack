@@ -16,7 +16,8 @@ namespace SexyBackPlayScene
             sexybacklog.Console("InstanceStat 소멸");
         }
         // map and 진행 info
-        public string MapID = null;
+        MapData MapInfo;
+        //public string MapID = null;
         public bool IsBonused = false;
         public double CurrentGameTime;
         [NonSerialized]
@@ -34,16 +35,20 @@ namespace SexyBackPlayScene
 
         TopWindow topView;
 
-        public string GetMapID
+        public MapData InstanceMap
         {
             get
             {
-                if (MapID == null)
+                if (MapInfo == null)
                 {
                     sexybacklog.Console("플레이씬에서 새 게임을 시작합니다. 더미맵을 출력합니다.");
-                    MapID = "Map01";
+                    MapInfo = Singleton<TableLoader>.getInstance().mapTable["Map01"];
                 }
-                return MapID;
+                return MapInfo;
+            }
+            set
+            {
+                MapInfo = value;
             }
         }
 
@@ -71,19 +76,20 @@ namespace SexyBackPlayScene
         }
         internal void Start() //new game
         {
-            MapID = GetMapID;   // 외부에서 setting 되어있으면 setting된값으로 아니면 더미값을출력
+            MapInfo = InstanceMap; // 외부에서 setting 되어있으면 setting된값으로 아니면 더미값을출력
             // isBonused // 외부에서 이미 setting; 안되있으면 false;
             CurrentGameTime = 0;
             ExpGain(Singleton<PlayerStatus>.getInstance().GetGlobalStat.InitExp, false);
-            LimitGameTime = Singleton<TableLoader>.getInstance().mapTable[MapID].LimitTime;
+            LimitGameTime = MapInfo.LimitTime;
         }
         internal void Load(XmlDocument doc)
         {
             XmlNode mainNode = doc.SelectSingleNode("InstanceStatus");
             ExpGain(new BigInteger(mainNode.Attributes["Exp"].Value), false);
-            MapID = mainNode.Attributes["MapID"].Value;
+            string mapid = mainNode.Attributes["MapID"].Value;
+            MapInfo = Singleton<TableLoader>.getInstance().mapTable[mapid];
             IsBonused = bool.Parse(mainNode.Attributes["IsBonused"].Value);
-            LimitGameTime = Singleton<TableLoader>.getInstance().mapTable[MapID].LimitTime;
+            LimitGameTime = MapInfo.LimitTime;
             CurrentGameTime = double.Parse(mainNode.Attributes["CurrentGameTime"].Value);
         }
 

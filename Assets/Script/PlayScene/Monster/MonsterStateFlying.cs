@@ -6,9 +6,15 @@ namespace SexyBackPlayScene
     internal class MonsterStateFlying: BaseState<Monster>
     {
         float flyingTime = 3.75f;
+        float DropTickTime = 0.5f;
+        int DropCount = 0;
 
         public MonsterStateFlying(Monster owner, MonsterStateMachine statemachine) : base(owner, statemachine)
         {
+            if(owner.isBoss)
+                DropCount = Singleton<InstanceStatus>.getInstance().InstanceMap.ChestPerBossMonster;
+            else
+                DropCount = Singleton<InstanceStatus>.getInstance().InstanceMap.ChestPerMonster;
         }
 
         internal override void Begin()
@@ -18,13 +24,22 @@ namespace SexyBackPlayScene
 
         internal override void End()
         {
-
         }
 
         internal override void Update()
         {
             flyingTime -= Time.deltaTime;
-            if(flyingTime <= 0)
+            DropTickTime -= Time.deltaTime;
+
+            if(DropTickTime <= 0 && DropCount > 0)
+            {
+                sexybacklog.Console(owner.avatar.transform.position);
+                Singleton<ConsumableManager>.getInstance().MakeChest(1, 0, owner.avatar.transform.position);
+                DropCount--;
+                DropTickTime = 0.5f;
+            }
+
+            if (flyingTime <= 0)
                 stateMachine.ChangeState("Death");
         }
     }

@@ -5,36 +5,33 @@ using UnityEngine;
 
 namespace SexyBackPlayScene
 {
-    enum ConsumableGroup
-    {
-        Diamond,
-        Exp,
-        YellowFever,
-        RedFever,
-        BlueFever,
-        AttackStack,
-        LevelUp,
-        ResearchTime,
-        FinishResearch
-    }
     internal class ConsumableData
     {
         internal string id;
-        //ConsumableGroup group;
-        //internal string requireID;
+        internal Consumable.Type type;
         internal GridItemIcon icon;
+        internal int value;
+        internal string strValue;
+        internal int stackPerChest;
+        internal int dropLevel;
         internal string description;
-        internal BonusStat bonus;
-        internal int rate;
+        internal int AbsRate;
+        internal int Density;
 
-        public ConsumableData(string id, ConsumableGroup group, GridItemIcon icon, string description, BonusStat bonus, string requireID, int rate)
+        public ConsumableData(int num = 1)
         {
-            this.id = id;
-            this.icon = icon;
-            this.description = description;
-            this.bonus = bonus;
-            this.rate = rate;
+            if (num == 1)
+            { // 공격스택지급
+                id = "C01";
+                type = Consumable.Type.AttackCount;
+                icon = new GridItemIcon("Icon_11", "x5", null);
+                value = 5;
+                stackPerChest = 6;
+                strValue = null;
+                description = "검술의 공격횟수를 5회 즉시 충전합니다.";
+                AbsRate = 0;
+                Density = 1;
+            }
         }
-
     }
 }

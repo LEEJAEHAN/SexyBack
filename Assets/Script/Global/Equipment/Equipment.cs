@@ -49,16 +49,18 @@ public class Equipment
     {
         get
         {
+            double gradeCoef = EquipmentWiki.CalgradeCoef(grade);
             double evolCoef = EquipmentWiki.CalEvolCoef(evolution);
             double expCoef = EquipmentWiki.CalExpCoef(exp, MaxExp);
-            return baseStat * (evolCoef * expCoef);
+            return baseStat * (gradeCoef * evolCoef * expCoef);
         }
     }
     public BaseStat ExpectStat(int ExpectedExp, int ExpectedEvolution)
     {
+        double gradeCoef = EquipmentWiki.CalgradeCoef(grade);
         double evolCoef = EquipmentWiki.CalEvolCoef(ExpectedEvolution);
         double expCoef = EquipmentWiki.CalExpCoef(ExpectedExp, EquipmentWiki.CalMaxExp(grade, ExpectedEvolution));
-        return baseStat * (evolCoef * expCoef);
+        return baseStat * (gradeCoef * evolCoef * expCoef);
     }
 
     public void DrawIconView(UISprite icon, UILabel name, int expectedEV)

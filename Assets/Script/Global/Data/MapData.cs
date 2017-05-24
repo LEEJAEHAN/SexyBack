@@ -1,24 +1,24 @@
 ﻿
-internal class MapData
+public class MapData
 {
     public string ID;
     public string Name;
     public string RequireClearMap;
     public int LimitTime;
-    public int MaxFloor;
     public MapRewardData RewardData;
+    public int MaxFloor;
+    public float GrowthRate;
+    public int MonsterPerStage;
+    public int BaseMonsterHP;
+    public int BossHPX;
+    public int ChestPerMonster;
+    public int ChestPerBossMonster;
 
-    public MapData(string stageid, string name, int maxfloor, int limitTime, string requireClearID, MapRewardData rewardData)
+    public MapData()
     {
-        ID = stageid;
-        this.Name = name;
-        LimitTime = limitTime;
-        MaxFloor = maxfloor;
-        RequireClearMap = requireClearID;
-        RewardData = rewardData;
     }
 }
-internal class MapRewardData
+public class MapRewardData
 {
     public int RewardLevel;      // 보상의 질 레벨, 10층당 50레벨, 아이템과 리서치보상에서 참고한다.
     public int PrevRewardLevel;  // F랭크시 보상의 질 레벨.

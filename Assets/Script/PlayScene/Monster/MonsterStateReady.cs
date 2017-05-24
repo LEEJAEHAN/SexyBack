@@ -35,6 +35,7 @@ namespace SexyBackPlayScene
             owner.avatar.GetComponent<MonsterView>().Action_HitEvent += onHitByProjectile;
             BackCollision.Action_HitEvent += onHitByProjectile;
             debuffposition = owner.CenterPosition + new Vector3(0, 0.2f, 0);
+
         }
 
         internal override void End()

@@ -22,7 +22,11 @@ public static class EquipmentWiki
         string temp = "";
         foreach (BonusStat attr in skillStat)
             temp += StringParser.GetAttributeString(attr) + "\n";
-        return temp.Substring(0, temp.Length - 1);
+
+        if (temp.Length > 1)
+            return temp.Substring(0, temp.Length - 1);
+        else
+            return temp;
     }
 
     internal static double CalEvolCoef(int evolution)
@@ -30,11 +34,20 @@ public static class EquipmentWiki
         if (evolution >= 2)
             return 2f;
         else if (evolution == 1)
-            return 1.5f;
+            return 1.414213562f;
         else
             return 1f;
     }
 
+    internal static double CalgradeCoef(int grade)
+    {
+        if (grade == 2)
+            return 2.25f;
+        else if (grade == 1)
+            return 1.5f;
+        else
+            return 1f;
+    }
     internal static double CalExpCoef(int exp, int maxExp)
     {
         return 1 + (double)exp / (double)maxExp;
@@ -54,6 +67,7 @@ public static class EquipmentWiki
         else
             return (nextExp * 100 / maxExp).ToString() + "%";
     }
+
 
     internal static string LockToString(bool isLock)
     {

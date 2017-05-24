@@ -22,13 +22,13 @@ namespace SexyBackPlayScene
         {
 
             Singleton<HeroManager>.getInstance().GetHero().Action_DistanceChange += onHeroMove;
-            Singleton<ConsumableManager>.getInstance().Action_ConfirmTalent += onTalentConfirm;
+            //Singleton<ConsumableManager>.getInstance().Action_ConfirmTalent += onTalentConfirm;
         }
 
         internal override void End()
         {
             Singleton<HeroManager>.getInstance().GetHero().Action_DistanceChange -= onHeroMove;
-            Singleton<ConsumableManager>.getInstance().Action_ConfirmTalent -= onTalentConfirm;
+            //Singleton<ConsumableManager>.getInstance().Action_ConfirmTalent -= onTalentConfirm;
         }
 
         public void onHeroMove(double delta_z)

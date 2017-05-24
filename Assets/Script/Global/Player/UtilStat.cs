@@ -56,10 +56,10 @@ internal class UtilStat
                 MaxResearchThread += bonus.value;
                 break;
             case Attribute.LPriceReduceXH:
-                LPriceReduceXH -= bonus.value;
+                LPriceReduceXH += bonus.value;
                 break;
             case Attribute.RPriceReduceXH:
-                RPriceReduceXH -= bonus.value;
+                RPriceReduceXH += bonus.value;
                 break;
             default:
                 {
@@ -85,10 +85,10 @@ internal class UtilStat
                 MaxResearchThread -= bonus.value;
                 break;
             case Attribute.LPriceReduceXH:
-                LPriceReduceXH += bonus.value;
+                LPriceReduceXH -= bonus.value;
                 break;
             case Attribute.RPriceReduceXH:
-                RPriceReduceXH += bonus.value;
+                RPriceReduceXH -= bonus.value;
                 break;
             default:
                 {

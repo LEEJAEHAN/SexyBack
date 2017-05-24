@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Equipments>
+	<Equipment id="E00" icon="IconSmall_04" name="더미" droplevel="0" grade="0" type="Weapon" str="0" int="0" spd="0" luck="0"/>
 	<Equipment id="E01" icon="Icon_11" name="숏소드" droplevel="67" grade="0" type="Weapon" str="5" int="0" spd="0" luck="0"/>
 	<Equipment id="E03" icon="Icon_11" name="완드" droplevel="67" grade="0" type="Staff" str="0" int="5" spd="0" luck="0"/>
 	<Equipment id="E05" icon="Icon_11" name="쿠퍼링" droplevel="67" grade="0" type="Ring" str="0" int="0" spd="5" luck="0"/>
+	<Equipment id="E02" icon="Icon_11" name="그라디우스" droplevel="67" grade="3" type="Weapon" skill="ES01" str="18" int="0" spd="0" luck="0"/>
+	<Equipment id="E04" icon="Icon_11" name="스컬완드" droplevel="67" grade="3" type="Staff" str="0" int="18" spd="0" luck="0"/>
+	<Equipment id="E06" icon="Icon_11" name="클로버링" droplevel="67" grade="3" type="Ring" str="0" int="0" spd="18" luck="0"/>
 	<Equipment id="E07" icon="Icon_11" name="롱소드" droplevel="167" grade="0" type="Weapon" str="13" int="0" spd="0" luck="0"/>
 	<Equipment id="E08" icon="Icon_11" name="시미터" droplevel="167" grade="0" type="Weapon" str="8" int="0" spd="0" luck="5"/>
 	<Equipment id="E11" icon="Icon_11" name="롱스태프" droplevel="167" grade="0" type="Staff" str="0" int="13" spd="0" luck="0"/>
 	<Equipment id="E12" icon="Icon_11" name="샙터" droplevel="167" grade="0" type="Staff" str="0" int="7" spd="6" luck="0"/>
 	<Equipment id="E15" icon="Icon_11" name="아이언링" droplevel="167" grade="0" type="Ring" str="0" int="0" spd="13" luck="0"/>
 	<Equipment id="E16" icon="Icon_11" name="제이드링" droplevel="167" grade="0" type="Ring" str="5" int="0" spd="8" luck="0"/>
+	<Equipment id="E09" icon="Icon_11" name="디스트로이어" droplevel="167" grade="3" type="Weapon" str="44" int="0" spd="0" luck="0"/>
+	<Equipment id="E10" icon="Icon_11" name="샤프소드" droplevel="167" grade="3" type="Weapon" str="24" int="0" spd="0" luck="20"/>
+	<Equipment id="E13" icon="Icon_11" name="위자드리" droplevel="167" grade="3" type="Staff" str="7" int="30" spd="0" luck="7"/>
+	<Equipment id="E14" icon="Icon_11" name="샐래맨더" droplevel="167" grade="3" type="Staff" str="7" int="24" spd="13" luck="0"/>
+	<Equipment id="E17" icon="Icon_11" name="다크링" droplevel="167" grade="3" type="Ring" str="0" int="18" spd="18" luck="8"/>
+	<Equipment id="E18" icon="Icon_11" name="뼈이빨" droplevel="167" grade="3" type="Ring" str="8" int="0" spd="36" luck="0"/>
 	<Equipment id="E19" icon="Icon_11" name="브로드소드" droplevel="312" grade="0" type="Weapon" str="24" int="0" spd="0" luck="0"/>
 	<Equipment id="E20" icon="Icon_11" name="크리스탈소드" droplevel="312" grade="0" type="Weapon" str="14" int="10" spd="0" luck="0"/>
 	<Equipment id="E23" icon="Icon_11" name="로드" droplevel="312" grade="0" type="Staff" str="0" int="24" spd="0" luck="0"/>
 	<Equipment id="E24" icon="Icon_11" name="아이언로드" droplevel="312" grade="0" type="Staff" str="10" int="14" spd="0" luck="0"/>
 	<Equipment id="E27" icon="Icon_11" name="골드링" droplevel="312" grade="0" type="Ring" str="0" int="0" spd="24" luck="0"/>
 	<Equipment id="E28" icon="Icon_11" name="아머링" droplevel="312" grade="0" type="Ring" str="5" int="0" spd="14" luck="5"/>
-	<Equipment id="E02" icon="Icon_11" name="그라디우스" droplevel="67" grade="3" type="Weapon" skill="US01" str="14" int="0" spd="0" luck="0"/>
-	<Equipment id="E04" icon="Icon_11" name="스컬완드" droplevel="67" grade="3" type="Staff" str="0" int="14" spd="0" luck="0"/>
-	<Equipment id="E06" icon="Icon_11" name="클로버링" droplevel="67" grade="3" type="Ring" str="0" int="0" spd="14" luck="0"/>
-	<Equipment id="E09" icon="Icon_11" name="디스트로이어" droplevel="167" grade="3" type="Weapon" str="36" int="0" spd="0" luck="0"/>
-	<Equipment id="E10" icon="Icon_11" name="샤프소드" droplevel="167" grade="3" type="Weapon" str="20" int="0" spd="0" luck="16"/>
-	<Equipment id="E13" icon="Icon_11" name="위자드리" droplevel="167" grade="3" type="Staff" str="5" int="26" spd="0" luck="5"/>
-	<Equipment id="E14" icon="Icon_11" name="샐래맨더" droplevel="167" grade="3" type="Staff" str="5" int="20" spd="11" luck="0"/>
-	<Equipment id="E17" icon="Icon_11" name="다크링" droplevel="167" grade="3" type="Ring" str="0" int="13" spd="15" luck="8"/>
-	<Equipment id="E18" icon="Icon_11" name="뼈이빨" droplevel="167" grade="3" type="Ring" str="6" int="0" spd="30" luck="0"/>
-	<Equipment id="E21" icon="Icon_11" name="슬레이어" droplevel="312" grade="3" type="Weapon" str="37" int="10" spd="10" luck="10"/>
-	<Equipment id="E22" icon="Icon_11" name="카오스소드" droplevel="312" grade="3" type="Weapon" str="42" int="15" spd="10" luck="0"/>
-	<Equipment id="E25" icon="Icon_11" name="크리스탈로드" droplevel="312" grade="3" type="Staff" str="0" int="40" spd="20" luck="7"/>
-	<Equipment id="E26" icon="Icon_11" name="배틀스태프" droplevel="312" grade="3" type="Staff" str="27" int="25" spd="0" luck="15"/>
-	<Equipment id="E29" icon="Icon_11" name="다크스톤" droplevel="312" grade="3" type="Ring" str="0" int="0" spd="44" luck="0"/>
-	<Equipment id="E30" icon="Icon_11" name="엔젤링" droplevel="312" grade="3" type="Ring" str="15" int="15" spd="22" luck="15"/>
+	<Equipment id="E21" icon="Icon_11" name="슬레이어" droplevel="312" grade="3" type="Weapon" str="43" int="13" spd="13" luck="13"/>
+	<Equipment id="E22" icon="Icon_11" name="카오스소드" droplevel="312" grade="3" type="Weapon" str="50" int="18" spd="14" luck="0"/>
+	<Equipment id="E25" icon="Icon_11" name="크리스탈로드" droplevel="312" grade="3" type="Staff" str="0" int="45" spd="25" luck="12"/>
+	<Equipment id="E26" icon="Icon_11" name="배틀스태프" droplevel="312" grade="3" type="Staff" str="32" int="35" spd="0" luck="15"/>
+	<Equipment id="E29" icon="Icon_11" name="다크스톤" droplevel="312" grade="3" type="Ring" str="20" int="20" spd="22" luck="20"/>
+	<Equipment id="E30" icon="Icon_11" name="엔젤링" droplevel="312" grade="3" type="Ring" str="0" int="0" spd="82" luck="0"/>
 </Equipments>

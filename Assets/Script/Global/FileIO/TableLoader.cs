@@ -14,9 +14,9 @@ internal class TableLoader
     public Dictionary<string, MapData> mapTable;
     public Dictionary<string, LevelUpData> leveluptable;
     public Dictionary<string, ResearchData> researchtable;
-    public Dictionary<string, ConsumableData> consumable;
+    public List<ConsumableData> consumable;
     public List<PriceData> pricetable;
-    public List<TalentData> talenttable;
+    //public List<ConsumableData> talenttable;
 
     public Dictionary<string, EquipmentData> equipmenttable;
     public Dictionary<string, EquipmentSkillData> equipskilltable;
@@ -70,10 +70,34 @@ internal class TableLoader
     {
         mapTable = new Dictionary<string, MapData>();
 
-        MapData data1 = new MapData("Map01", "10층돌파", 10, 3600, null, new MapRewardData(67, 67, 1, 1));
-        MapData data2 = new MapData("Map02", "20층돌파", 20, 7200, "Map01", new MapRewardData(167, 67, 3, 1));
-
+        MapData data1 = new MapData();
+        data1.ID = "Map01";
+        data1.Name = "10층돌파";
+        data1.RequireClearMap = null;
+        data1.LimitTime = 3600;
+        data1.RewardData = new MapRewardData(67, 67, 1, 8);
+        data1.MaxFloor = 10;
+        data1.GrowthRate = 2f;
+        data1.MonsterPerStage = 3;
+        data1.ChestPerMonster = 1;
+        data1.BossHPX = 10;
+        data1.ChestPerBossMonster = 3;
+        data1.BaseMonsterHP = 5;
         mapTable.Add(data1.ID, data1);
+
+        MapData data2 = new MapData();
+        data2.ID = "Map02";
+        data2.Name = "20층돌파";
+        data2.RequireClearMap = "Map01";
+        data2.LimitTime = 7200;
+        data2.RewardData = new MapRewardData(167, 67, 3, 8);
+        data2.MaxFloor = 20;
+        data2.GrowthRate = 2f;
+        data2.MonsterPerStage = 3;
+        data2.ChestPerMonster = 1;
+        data2.BossHPX = 10;
+        data2.ChestPerBossMonster = 3;
+        data2.BaseMonsterHP = 5;
         mapTable.Add(data2.ID, data2);
     }
     private void LoadEquipmentData()
@@ -132,13 +156,6 @@ internal class TableLoader
             }
             equipskilltable.Add(newOne.ID, newOne);
         }
-    }
-
-    private void LoadConsumableData()
-    {
-        consumable = new Dictionary<string, ConsumableData>();
-
-        //TODO : 채워넣어야함
     }
 
     private void LoadMonsterData()
@@ -281,58 +298,58 @@ internal class TableLoader
 
     }
 
-    private void LoadTalentData()
+    private void LoadConsumableData()
     {
-        talenttable = new List<TalentData>();
+        consumable = new List<ConsumableData>();
 
-        XmlDocument xmldoc = OpenXml("Xml/TalentData");
-        XmlNode rootNode = xmldoc.SelectSingleNode("Talents");
-        XmlNodeList nodes = rootNode.SelectNodes("Talent");
+        consumable.Add(new ConsumableData(1));
 
-        foreach (XmlNode node in nodes)
-        {
-            string id = node.Attributes["id"].Value;
-            string requireid = node.Attributes["requireid"].Value;
-            TalentType type = (TalentType)Enum.Parse(typeof(TalentType), node.Attributes["type"].Value);
-            int maxlevelper10;
-            if (node.Attributes["maxlevelper10"] != null)
-                maxlevelper10 = int.Parse(node.Attributes["maxlevelper10"].Value);
+        //XmlDocument xmldoc = OpenXml("Xml/TalentData");
+        //XmlNode rootNode = xmldoc.SelectSingleNode("Talents");
+        //XmlNodeList nodes = rootNode.SelectNodes("Talent");
 
-            XmlNode infonode = node.SelectSingleNode("Info");
-            string icon = infonode.Attributes["icon"].Value;
-            string subicon = null;
-            if (infonode.Attributes["subicon"] != null)
-                subicon = infonode.Attributes["subicon"].Value;
-            string name = infonode.Attributes["name"].Value;
-            string description = infonode.Attributes["description"].Value;
+        //foreach (XmlNode node in nodes)
+        //{
+        //    string id = node.Attributes["id"].Value;
+        //    string requireid = node.Attributes["requireid"].Value;
+        //    ConsumableType type = (ConsumableType)Enum.Parse(typeof(ConsumableType), node.Attributes["type"].Value);
+        //    int maxlevelper10;
+        //    if (node.Attributes["maxlevelper10"] != null)
+        //        maxlevelper10 = int.Parse(node.Attributes["maxlevelper10"].Value);
 
-            XmlNode ratenode = node.SelectSingleNode("Rate");
-            int rate;
-            bool abs;
-            if (ratenode.Attributes["absrate"] != null)
-            {
-                abs = true;
-                rate = int.Parse(ratenode.Attributes["absrate"].Value);
-            }
-            else
-            {
-                abs = false;
-                rate = int.Parse(ratenode.Attributes["rate"].Value);
-            }
+        //    XmlNode infonode = node.SelectSingleNode("Info");
+        //    string icon = infonode.Attributes["icon"].Value;
+        //    string subicon = null;
+        //    if (infonode.Attributes["subicon"] != null)
+        //        subicon = infonode.Attributes["subicon"].Value;
+        //    string name = infonode.Attributes["name"].Value;
+        //    string description = infonode.Attributes["description"].Value;
 
-            XmlNode bonusnode = node.SelectSingleNode("Bonus");
-            string target = bonusnode.Attributes["target"].Value;
-            Attribute attribute = (Attribute)Enum.Parse(typeof(Attribute),bonusnode.Attributes["attribute"].Value);
-            int value = 0;
-            if (bonusnode.Attributes["value"] != null)
-                value = int.Parse(bonusnode.Attributes["value"].Value);
-            BonusStat bonus = new BonusStat(target, attribute, value, null, null);
+        //    XmlNode ratenode = node.SelectSingleNode("Rate");
+        //    int rate;
+        //    bool abs;
+        //    if (ratenode.Attributes["absrate"] != null)
+        //    {
+        //        abs = true;
+        //        rate = int.Parse(ratenode.Attributes["absrate"].Value);
+        //    }
+        //    else
+        //    {
+        //        abs = false;
+        //        rate = int.Parse(ratenode.Attributes["rate"].Value);
+        //    }
 
-            GridItemIcon iconinfo = new GridItemIcon(icon, "",  subicon);
-            TalentData talentdata = new TalentData(id, iconinfo, description, bonus, type, rate, abs);
-            talenttable.Add(talentdata);
+        //    XmlNode bonusnode = node.SelectSingleNode("Bonus");
+        //    string target = bonusnode.Attributes["target"].Value;
+        //    Attribute attribute = (Attribute)Enum.Parse(typeof(Attribute),bonusnode.Attributes["attribute"].Value);
+        //    int value = 0;
+        //    if (bonusnode.Attributes["value"] != null)
+        //        value = int.Parse(bonusnode.Attributes["value"].Value);
+        //    BonusStat bonus = new BonusStat(target, attribute, value, null, null);
+
+        //    GridItemIcon iconinfo = new GridItemIcon(icon, "",  subicon);
+        //    ConsumableData talentdata = new ConsumableData(id, iconinfo, description, bonus, type, rate, abs);
+        //    talenttable.Add(talentdata);
         }
 
     }
-
-}

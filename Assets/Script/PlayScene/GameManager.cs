@@ -28,8 +28,8 @@ namespace SexyBackPlayScene
         HeroManager heroManager;
         [NonSerialized]
         LevelUpManager levelUpManager;
-        [NonSerialized]
-        ConsumableManager consumableManager;
+        //[NonSerialized]
+        //ConsumableManager consumableManager;
         [NonSerialized]
         InstanceStatus instanceStat;
 
@@ -54,7 +54,7 @@ namespace SexyBackPlayScene
             elementalManager = Singleton<ElementalManager>.getInstance();
             levelUpManager = Singleton<LevelUpManager>.getInstance();
             researchManager = Singleton<ResearchManager>.getInstance();
-            consumableManager = Singleton<ConsumableManager>.getInstance();
+            //consumableManager = Singleton<ConsumableManager>.getInstance();
             infoView = Singleton<GameInfoView>.getInstance();
             saveTool = new InstanceSaveSystem();
 
@@ -62,7 +62,7 @@ namespace SexyBackPlayScene
             monsterManager.Init();
             levelUpManager.Init();
             researchManager.Init(); // new PlayerStat.ResearchThread
-            consumableManager.Init();
+            //consumableManager.Init();
             heroManager.Init();
             elementalManager.Init();
             instanceStat.Init();
@@ -74,7 +74,7 @@ namespace SexyBackPlayScene
             researchManager.Start();
             heroManager.CreateNewHero(); // no level and stat
             heroManager.LevelUp(1);
-            stageManager.Start(instanceStat.GetMapID);
+            stageManager.Start(instanceStat.InstanceMap);
             LoadComplete = true;
         }
 
@@ -104,7 +104,7 @@ namespace SexyBackPlayScene
 
         private void GameClear(bool clear)
         {
-            string map = Singleton<InstanceStatus>.getInstance().GetMapID;
+            MapData mapinfo = Singleton<InstanceStatus>.getInstance().InstanceMap;
             int lastStage = Singleton<StageManager>.getInstance().CurrentFloor - 1;
             int timeRecord = (int)Singleton<InstanceStatus>.getInstance().CurrentGameTime;
             int totalLevel = Singleton<HeroManager>.getInstance().GetHero().LEVEL + Singleton<ElementalManager>.getInstance().TotalLevel;
@@ -112,7 +112,7 @@ namespace SexyBackPlayScene
 
 
             Singleton<SexyBackRewardScene.RewardManager>.getInstance().RecordResult
-                (map, clear, lastStage, timeRecord, totalLevel, finishResearchCount);
+                (mapinfo, clear, lastStage, timeRecord, totalLevel, finishResearchCount);
 
         }
 
@@ -125,7 +125,7 @@ namespace SexyBackPlayScene
             monsterManager.Dispose();
             levelUpManager.Dispose();
             researchManager.Dispose();
-            consumableManager.Dispose();
+            //consumableManager.Dispose();
             elementalManager.Dispose();
             heroManager.Dispose();
             instanceStat.Dispose();
@@ -136,7 +136,7 @@ namespace SexyBackPlayScene
             Singleton<ElementalManager>.Clear();
             Singleton<LevelUpManager>.Clear();
             Singleton<ResearchManager>.Clear();
-            Singleton<ConsumableManager>.Clear();
+            //Singleton<ConsumableManager>.Clear();
             Singleton<StageManager>.Clear();
             Singleton<GameInfoView>.Clear();
             
@@ -146,7 +146,7 @@ namespace SexyBackPlayScene
             elementalManager = null;
             levelUpManager = null;
             researchManager = null;
-            consumableManager = null;
+            //consumableManager = null;
             stageManager = null;
             infoView = null;
         }
@@ -175,7 +175,7 @@ namespace SexyBackPlayScene
             elementalManager.Update();
             levelUpManager.Update();
             researchManager.Update();
-            consumableManager.Update();
+            //consumableManager.Update();
             stageManager.Update();
             instanceStat.Update();
         }

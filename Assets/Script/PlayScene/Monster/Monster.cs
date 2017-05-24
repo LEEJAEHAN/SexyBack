@@ -13,8 +13,8 @@ namespace SexyBackPlayScene
         public readonly string DataID;
         public int level;
         public BigInteger HP;
-
         public string Name;
+        public bool isBoss;
         public BigInteger MAXHP;
         // view
         public GameObject avatar;

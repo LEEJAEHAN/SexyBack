@@ -35,10 +35,10 @@ namespace SexyBackPlayScene
         {
         }
 
-        internal void Start(string MapID) // start, no Load
+        internal void Start(MapData mapData) // start, no Load
         {
             // playscene 에서 시작할때를 위한 Test
-            MaxFloor = Singleton<TableLoader>.getInstance().mapTable[MapID].MaxFloor;
+            MaxFloor = mapData.MaxFloor;
             CurrentFloor = 0;
 
             Stages = new List<Stage>();

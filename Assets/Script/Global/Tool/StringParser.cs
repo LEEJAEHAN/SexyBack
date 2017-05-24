@@ -77,7 +77,7 @@ public static class StringParser
             case Attribute.AttackSpeedXH:
                 return string.Format("{0} 공격속도 {1}%증가", AttackName, bonus.value);
             case Attribute.CriticalRateXH:
-                return string.Format("{0} 확률 {1:N1}%증가", SkillName, (double)(SkillRateXK * bonus.value / 1000f));
+                return string.Format("{0} 확률 {1:N1}%증가", SkillName, (double)(SkillRateXK * bonus.value / 1000f) - 0.05f); // 버림
             case Attribute.CriticalDamageXH:
                 return string.Format("{0} 데미지 {1}%증가", SkillName, bonus.value);
             case Attribute.MovespeedXH:
@@ -89,7 +89,7 @@ public static class StringParser
             case Attribute.CastSpeedXH:
                 return string.Format("{0} 시전속도 {1}%증가", AttackName, bonus.value);
             case Attribute.SkillRateIncreaseXH:
-                return string.Format("{0} 발동확률 {1:N1}%증가", SkillName, (double)(SkillRateXK * bonus.value / 1000f));
+                return string.Format("{0} 발동확률 {1:N1}%증가", SkillName, (double)(SkillRateXK * bonus.value / 1000f) - 0.05f); // 버림
             case Attribute.SkillDmgIncreaseXH:
                 return string.Format("{0} 데미지 {0}%증가", SkillName, bonus.value);
             case Attribute.ExpIncreaseXH:

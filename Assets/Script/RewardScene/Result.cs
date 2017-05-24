@@ -31,7 +31,7 @@ namespace SexyBackRewardScene
         // result
         public Dictionary<string, int> Score;
         public RewardRank Rank;
-        public string MapID;
+        public MapData MapInfo;
         public int LastFloor;
         public int ClearTime;
         public bool isClear;
@@ -47,10 +47,10 @@ namespace SexyBackRewardScene
         // 젬으로 추가구매 해야하는 상자.
         internal Equipment GemEquipment;
 
-        internal ResultReward(string mapID, bool clear, bool isfirstclear, int floor, int clearTime, int totalElementLevel, int FinishResearchCount)
+        internal ResultReward(MapData mapInfo, bool clear, bool isfirstclear, int floor, int clearTime, int totalElementLevel, int FinishResearchCount)
         {
             Score = new Dictionary<string, int>();
-            MapID = mapID;
+            MapInfo = mapInfo;
             isFirstClear = isfirstclear;
             isClear = clear;
             LastFloor = floor;
@@ -62,9 +62,8 @@ namespace SexyBackRewardScene
 
         internal void MakeReward()
         {
-            MapData mapData = Singleton<TableLoader>.getInstance().mapTable[MapID];
-            MakeAndGiveReputation(mapData.RewardData);
-            MakeAndGiveEquipments(mapData.RewardData);
+            MakeAndGiveReputation(MapInfo.RewardData);
+            MakeAndGiveEquipments(MapInfo.ID, MapInfo.RewardData);
         }
 
         private void MakeAndGiveReputation(MapRewardData rewardInfo)
@@ -77,13 +76,18 @@ namespace SexyBackRewardScene
             Singleton<PlayerStatus>.getInstance().Reputation += Reputation;
         }
 
-        private void MakeAndGiveEquipments(MapRewardData rewardInfo)
+        private void MakeAndGiveEquipments(string mapid, MapRewardData rewardInfo)
         {
             EquipmentManager eManager = Singleton<EquipmentManager>.getInstance();
             NormalEquipments = new List<Equipment>();
+            BonusEquipments = new Dictionary<ChestSource, Equipment>();
+
+            if (Rank == RewardRank.F)   // no장비보상
+                return;
+
             for (int i = 0; i < rewardInfo.ItemCount; i++)
             {
-                Equipment newOne = EquipFactory.LotteryEquipment(rewardInfo, Rank);
+                Equipment newOne = EquipFactory.LotteryEquipment(mapid, rewardInfo, Rank);
                 NormalEquipments.Add(newOne);
                 eManager.AddEquipment(newOne);
             }
@@ -92,23 +96,21 @@ namespace SexyBackRewardScene
             //if (iseventnow == true)
             //            Equipments.Add(ChestSource.Event, EquipFactory.LotteryEquipment(rewardInfo, Rank));
 
-            BonusEquipments = new Dictionary<ChestSource, Equipment>();
             if (Singleton<PlayerStatus>.getInstance().PremiumUser) //
             {
-                Equipment newOne = EquipFactory.LotteryEquipment(rewardInfo, Rank);
+                Equipment newOne = EquipFactory.LotteryEquipment(mapid, rewardInfo, Rank);
                 BonusEquipments.Add(ChestSource.Premium, newOne);
                 eManager.AddEquipment(newOne);
             }
             else
             {
-                GemEquipment = EquipFactory.LotteryEquipment(rewardInfo, Rank);
+                GemEquipment = EquipFactory.LotteryEquipment(mapid, rewardInfo, Rank);
                 // 아직 지급하지는 않는다.
             }
         }
 
         public void CalScore(int totalElementLevel, int FinishResearchCount)
         {
-            MapData mapData = Singleton<TableLoader>.getInstance().mapTable[MapID];
             int bonus = Singleton<PlayerStatus>.getInstance().GetGlobalStat.RankBonus;
 
             if (isClear)
@@ -116,7 +118,7 @@ namespace SexyBackRewardScene
                 Score.Add("clearScore", 50);                                // 만점 50
                 Score.Add("floorScore", 50);     // 만점 50
                 // 클리어시 위의 100점은 안고감.
-                Score.Add("timeScore", CalTimeScore(mapData.LimitTime, ClearTime));      // 0~100점
+                Score.Add("timeScore", CalTimeScore(MapInfo.LimitTime, ClearTime));      // 0~100점
                 int levelScore;
                 int researchScore;
                 CalLRScore(LastFloor, out levelScore, out researchScore, totalElementLevel, FinishResearchCount);
@@ -127,8 +129,12 @@ namespace SexyBackRewardScene
             }
             else
             {
-                foreach (KeyValuePair<string, int> entry in Score)
-                    Score[entry.Key] = 0;
+                Score.Add("clearScore", 0);
+                Score.Add("floorScore", 0);
+                Score.Add("timeScore", 0);
+                Score.Add("levelScore", 0);
+                Score.Add("researchScore", 0);
+                Score.Add("bonusScore", 0);
                 Rank = RewardRank.F;
             }
         }

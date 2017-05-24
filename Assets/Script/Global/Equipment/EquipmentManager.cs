@@ -94,14 +94,12 @@ internal class EquipmentManager
         currentEquipSet = equipSets[0];
         inventory = new List<Equipment>();
 
-        int loop = 3;
-        while(loop>0)
-        {
-            AddEquipment(EquipFactory.CraftEquipment("E01", "ES01"));
-            AddEquipment(EquipFactory.CraftEquipment("E02", "ES02"));
-            AddEquipment(EquipFactory.CraftEquipment("E03", "ES03"));
-            loop--;
-        }
+        //int loop = 20;
+        //while(loop>0)
+        //{
+        //    AddEquipment(EquipFactory.LotteryEquipment());
+        //    loop--;
+        //}
     }
 
     internal void BindTopView(TopWindow view)

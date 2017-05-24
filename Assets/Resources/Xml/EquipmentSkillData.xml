@@ -1,55 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EquipmentSkills>
-  <Skill id="ES01" name="소드맨" belong="false" droplevel="67">
-    <Bonus target="hero" attribute="DpcIncreaseXH" value="10" />
-    <Bonus target="hero" attribute="AttackSpeedXH" value="10" />
-    <Bonus target="hero" attribute="CriticalRateXH" value="10" />
-    <Bonus target="hero" attribute="CriticalDamageXH" value="10" />
+  <Skill id="ES00" name="더미" belong="false" droplevel="0" />
+  <Skill id="ES01" name="신속함" belong="false" droplevel="67">
+    <Bonus target="base" attribute="Spd" value="5" />
   </Skill>
-  <Skill id="ES02" name="서릿발" belong="false" droplevel="67">
-    <Bonus target="hero" attribute="AttackSpeedXH" value="10" />
-    <Bonus target="hero" attribute="CriticalRateXH" value="10" />
-    <Bonus target="hero" attribute="CriticalDamageXH" value="10" />
+  <Skill id="ES02" name="절약" belong="false" droplevel="67">
+    <Bonus target="util" attribute="RPriceReduceXH" value="5" />
   </Skill>
-  <Skill id="ES03" name="쾌속" belong="false" droplevel="67">
-    <Bonus target="hero" attribute="DpcIncreaseXH" value="10" />
-    <Bonus target="hero" attribute="AttackSpeedXH" value="10" />
-    <Bonus target="hero" attribute="CriticalRateXH" value="10" />
+  <Skill id="ES03" name="분노" belong="false" droplevel="67">
+    <Bonus target="hero" attribute="DpcIncreaseXH" value="15" />
   </Skill>
-  <Skill id="ES04" name="발화" belong="false" droplevel="67">
-    <Bonus target="hero" attribute="DpcIncreaseXH" value="10" />
-    <Bonus target="hero" attribute="AttackSpeedXH" value="10" />
-    <Bonus target="hero" attribute="CriticalRateXH" value="10" />
-    <Bonus target="hero" attribute="CriticalDamageXH" value="10" />
+  <Skill id="ES04" name="광전사" belong="false" droplevel="67">
+    <Bonus target="hero" attribute="AttackSpeedXH" value="15" />
   </Skill>
-  <Skill id="ES05" name="동결" belong="false" droplevel="67">
-    <Bonus target="hero" attribute="DpcIncreaseXH" value="10" />
-    <Bonus target="hero" attribute="AttackSpeedXH" value="10" />
-    <Bonus target="hero" attribute="CriticalRateXH" value="10" />
-    <Bonus target="hero" attribute="CriticalDamageXH" value="10" />
+  <Skill id="ES05" name="작열" belong="false" droplevel="67">
+    <Bonus target="fireball" attribute="DpsIncreaseXH" value="15" />
   </Skill>
-  <Skill id="ES06" name="현자" belong="false" droplevel="67">
-    <Bonus target="hero" attribute="DpcIncreaseXH" value="10" />
-    <Bonus target="hero" attribute="AttackSpeedXH" value="10" />
-    <Bonus target="hero" attribute="CriticalRateXH" value="10" />
-    <Bonus target="hero" attribute="CriticalDamageXH" value="10" />
+  <Skill id="ES06" name="냉기" belong="false" droplevel="67">
+    <Bonus target="iceblock" attribute="CastSpeedXH" value="15" />
   </Skill>
-  <Skill id="ES16" name="상급소드맨" belong="false" droplevel="167">
-    <Bonus target="hero" attribute="DpcIncreaseXH" value="10" />
-    <Bonus target="hero" attribute="AttackSpeedXH" value="10" />
-    <Bonus target="hero" attribute="CriticalRateXH" value="10" />
-    <Bonus target="hero" attribute="CriticalDamageXH" value="10" />
-  </Skill>
-  <Skill id="ES17" name="상급서릿발" belong="false" droplevel="167">
-    <Bonus target="hero" attribute="DpcIncreaseXH" value="10" />
-    <Bonus target="hero" attribute="AttackSpeedXH" value="10" />
-    <Bonus target="hero" attribute="CriticalRateXH" value="10" />
-    <Bonus target="hero" attribute="CriticalDamageXH" value="10" />
-  </Skill>
-  <Skill id="ES18" name="상급현자" belong="false" droplevel="167">
-    <Bonus target="hero" attribute="DpcIncreaseXH" value="10" />
-    <Bonus target="hero" attribute="AttackSpeedXH" value="10" />
-    <Bonus target="hero" attribute="CriticalRateXH" value="10" />
-    <Bonus target="hero" attribute="CriticalDamageXH" value="10" />
+  <Skill id="ES07" name="낙석" belong="false" droplevel="67">
+    <Bonus target="rock" attribute="SkillRateIncreaseXH" value="30" />
   </Skill>
 </EquipmentSkills>

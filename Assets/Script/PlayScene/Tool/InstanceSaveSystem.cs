@@ -99,7 +99,7 @@ namespace SexyBackPlayScene
                 InstanceStatus stat = Singleton<InstanceStatus>.getInstance();
                 writer.WriteStartElement("InstanceStatus");
                 writer.WriteAttributeString("Exp", stat.EXP.ToString());
-                writer.WriteAttributeString("MapID", stat.MapID.ToString());
+                writer.WriteAttributeString("MapID", stat.InstanceMap.ID.ToString());
                 writer.WriteAttributeString("IsBonused", stat.IsBonused.ToString());
                 writer.WriteAttributeString("CurrentGameTime", stat.CurrentGameTime.ToString());
                 {
@@ -124,6 +124,7 @@ namespace SexyBackPlayScene
                 writer.WriteAttributeString("id", data.GetID.ToString());
                 writer.WriteAttributeString("dataid", data.DataID.ToString());
                 writer.WriteAttributeString("level", data.level.ToString());
+                writer.WriteAttributeString("isboss", data.isBoss.ToString());
                 writer.WriteAttributeString("hp", data.HP.ToString());
                 writer.WriteEndElement();
             }

@@ -55,7 +55,11 @@ namespace SexyBackRewardScene
 
             RewardViews = new LinkedList<GameObject>();
 
-            RewardViews.AddLast(view.transform.FindChild("ScoreBoard/FirstClearReward").gameObject);
+            // set FirstClear View
+            GameObject firstClear = view.transform.FindChild("ScoreBoard/FirstClearReward").gameObject;
+            firstClear.SetActive(false);
+            if (currentResult.isFirstClear)
+                RewardViews.AddLast(firstClear);
 
             //Set Research View
             RewardViews.AddLast(view.transform.FindChild("Box2/Research").gameObject);
@@ -66,7 +70,9 @@ namespace SexyBackRewardScene
             //Set Chests View
             RewardViews.AddLast(ChestBoard.view);
 
+            // set index
             Current = RewardViews.First;
+            // off all
             foreach (GameObject obj in RewardViews)
                 obj.SetActive(false);
         }
@@ -108,11 +114,11 @@ namespace SexyBackRewardScene
         // set State fuction
         public void StartTween()
         {
+            view.SetActive(true);
             if (currState != State.None)
                 return;
             currState = State.Tween;
             GameObject.Find("UICamera").GetComponent<UICamera>().eventReceiverMask = 0; // nothing
-            view.SetActive(true);
             OkayButton.GetComponent<UIButton>().isEnabled = false;
             OkayButton.transform.FindChild("Label").GetComponent<UILabel>().text = "상자를 터치해 확인해주세요";
             view.GetComponent<UITweener>().PlayForward();

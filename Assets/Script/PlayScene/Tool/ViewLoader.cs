@@ -11,6 +11,7 @@ namespace SexyBackPlayScene
         public static GameObject stagepanel;
         public static GameObject area_elemental;
         public static GameObject monsterbucket;
+        public static GameObject objectarea;
 
         // 고정 포지션을 가진 인스턴스화 되어있는 뷰를 로드해놓는다.
         // 주로 프리펩이 생길 곳들.
@@ -38,7 +39,7 @@ namespace SexyBackPlayScene
         {
             PopUpPanel = GameObject.Find("UI PopUp");
             OptionPanel = GameObject.Find("OptionWindow");
-
+            objectarea = GameObject.Find("Objects");
             area_elemental = GameObject.Find("elementals");
             monsterbucket = GameObject.Find("monsters");
             shooter = GameObject.Find("shooter");
@@ -64,6 +65,7 @@ namespace SexyBackPlayScene
             ViewLoader.monsterbucket.transform.DestroyChildren();
             ViewLoader.Tab1Container.transform.DestroyChildren();
             ViewLoader.stagepanel.transform.DestroyChildren();
+            ViewLoader.objectarea.transform.DestroyChildren();
 
             PopUpPanel.transform.position = GameObject.Find("UI Root").transform.position;
             PopUpPanel.SetActive(false);
