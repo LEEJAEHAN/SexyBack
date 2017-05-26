@@ -14,11 +14,6 @@ namespace SexyBackPlayScene
             sexybacklog.Console("LevelUpWindow 소멸");
         }
 
-        public static void Clear()
-        {
-            Destroy(instance);
-            instance = null;
-        }
         GameObject Icon;
 
         UILabel Name;
@@ -33,20 +28,6 @@ namespace SexyBackPlayScene
         public delegate void Confirm_Event();
         public event Confirm_Event Action_Confirm;
 
-        private static LevelUpWindow instance;
-        public static LevelUpWindow getInstance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    GameObject owner = ViewLoader.InstantiatePrefab(GameObject.Find("Bottom_Window").transform, "LevelUpWindow", "Prefabs/UI/LevelUpWindow");
-                    instance = owner.AddComponent<LevelUpWindow>();
-                }
-
-                return instance;
-            }
-        }
         private void Awake()
         {
             Icon = gameObject.transform.FindChild("Icon").gameObject;

@@ -32,6 +32,7 @@ namespace SexyBackPlayScene
         public double MoveSpeed;
         public int CriRateXK;
         public int CriDamageXH;
+        int BuffCoef = 1;
 
         // 계산되는값.
         public BigInteger PRICE = new BigInteger();
@@ -114,11 +115,21 @@ namespace SexyBackPlayScene
         void CalDpc()
         {
             double growth = InstanceStatus.CalGrowthPower(HeroData.GrowthRate, baseData.BaseLevel); // 
-            double doubleC = 5 * BaseDmg * growth * LEVEL * DpcXH / 100;
+            double doubleC = 5 * BaseDmg * growth * LEVEL * DpcXH * BuffCoef/ 100;
             BigInteger Coefficient = BigInteger.FromDouble(doubleC);
             DPC = DpcX * Coefficient;
             if (LEVEL > 0)
                 DPCTick = DPC / LEVEL;
+        }
+
+        internal void Buff(bool on, int xtimes)
+        {
+            if (on)
+                BuffCoef = xtimes;
+            else
+                BuffCoef = 1;
+            CalDpc();
+            Action_Change(this);
         }
 
         private void CalPrice()

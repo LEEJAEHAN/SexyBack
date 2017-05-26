@@ -7,7 +7,6 @@ namespace SexyBackPlayScene
     {
         double TickTimer = 0;
         bool Result = true;
-        bool InstantFinish = false;
 
         public ResearchStateWork(Research owner, StateMachine<Research> statemachine) : base(owner, statemachine)
         {
@@ -15,14 +14,13 @@ namespace SexyBackPlayScene
 
         internal override void Begin()
         {
-            owner.itemView.Enable();
-            owner.Action_InstantFinish += onInstantFinish;
+            owner.View.Enable();
             Refresh();
         }
 
         private void Refresh()
         {
-            owner.itemView.DrawRBar((float)owner.RemainTime / (float)owner.ReducedTime, (int)owner.RemainTime, Result);
+            owner.View.DrawRBar((float)owner.RemainTime / (float)owner.ReducedTime, (int)owner.RemainTime, Result);
 
             if (!owner.Selected)
                 return;
@@ -34,14 +32,8 @@ namespace SexyBackPlayScene
 
         internal override void End()
         {
-            owner.Action_InstantFinish -= onInstantFinish;
         }
-
-        void onInstantFinish()
-        {
-            InstantFinish = true;
-        }
-
+        
         internal override void Update()
         {
             if (owner.RefreshFlag)
@@ -50,12 +42,13 @@ namespace SexyBackPlayScene
                 owner.RefreshFlag = false;
             }
 
-            if (owner.RemainTime <= 0 || InstantFinish)
+            if (owner.RemainTime <= 0)
             {
                 owner.DoUpgrade();
                 Singleton<ResearchManager>.getInstance().UseThread(false);
                 stateMachine.ChangeState("Destroy");
             }
+
             else
             {
                 TickTimer += Time.deltaTime;
@@ -64,7 +57,7 @@ namespace SexyBackPlayScene
                 {
                     if (Result = Singleton<InstanceStatus>.getInstance().ExpUse((owner.PricePerSec * (int)(mintick * 100)) / 100, false)) //if (Singleton<StageManager>.getInstance().ExpUse(PricePerSec * (int)(tick * 10000) / 10000))
                         owner.RemainTime -= TickTimer;
-                    owner.itemView.DrawRBar((float)owner.RemainTime / (float)owner.ReducedTime, (int)owner.RemainTime, Result);
+                    owner.View.DrawRBar((float)owner.RemainTime / (float)owner.ReducedTime, (int)owner.RemainTime, Result);
                     TickTimer -= owner.ResearchTick;                    
                 }
             }

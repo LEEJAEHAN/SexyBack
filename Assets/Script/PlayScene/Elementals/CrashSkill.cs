@@ -26,6 +26,15 @@ namespace SexyBackPlayScene
             CastInterval = castInterval;
             ReLoadInterval = UnityEngine.Mathf.Max((float)(castInterval - 1f), (float)(castInterval * 0.5));
         }
+        internal override void Start(bool NoReloadTime)
+        {
+            Enable = true;
+            ReLoaded = false;
+            if (NoReloadTime)
+                AttackTimer = ReLoadInterval;
+            else
+                AttackTimer = 0;
+        }
         internal override void ReLoad()
         {
             if (AttackTimer > ReLoadInterval && !ReLoaded)
@@ -54,6 +63,13 @@ namespace SexyBackPlayScene
                 else if (targetID == null) { } //타겟이생길떄까지 대기한다. 
             }
         }
+
+        internal override bool CheckFinish()
+        {
+            return !Enable;
+        }
+
+       
     }
 
 }

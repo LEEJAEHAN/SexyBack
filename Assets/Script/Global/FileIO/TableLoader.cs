@@ -14,7 +14,7 @@ internal class TableLoader
     public Dictionary<string, MapData> mapTable;
     public Dictionary<string, LevelUpData> leveluptable;
     public Dictionary<string, ResearchData> researchtable;
-    public List<ConsumableData> consumable;
+    public Dictionary<string, ConsumableData> consumable;
     public List<PriceData> pricetable;
     //public List<ConsumableData> talenttable;
 
@@ -75,14 +75,14 @@ internal class TableLoader
         data1.Name = "10층돌파";
         data1.RequireClearMap = null;
         data1.LimitTime = 3600;
-        data1.RewardData = new MapRewardData(67, 67, 1, 8);
+        data1.RewardData = new MapRewardData(67, 67, 1, 1);
         data1.MaxFloor = 10;
-        data1.GrowthRate = 2f;
-        data1.MonsterPerStage = 3;
+        data1.LevelPerFloor = 5;
+        data1.MonsterPerStage = 1;
         data1.ChestPerMonster = 1;
         data1.BossHPX = 10;
         data1.ChestPerBossMonster = 3;
-        data1.BaseMonsterHP = 5;
+        data1.BaseMonsterHP = 5;    // 1000;
         mapTable.Add(data1.ID, data1);
 
         MapData data2 = new MapData();
@@ -90,10 +90,10 @@ internal class TableLoader
         data2.Name = "20층돌파";
         data2.RequireClearMap = "Map01";
         data2.LimitTime = 7200;
-        data2.RewardData = new MapRewardData(167, 67, 3, 8);
+        data2.RewardData = new MapRewardData(167, 67, 3, 1);
         data2.MaxFloor = 20;
-        data2.GrowthRate = 2f;
-        data2.MonsterPerStage = 3;
+        data2.LevelPerFloor = 5;
+        data2.MonsterPerStage = 1;
         data2.ChestPerMonster = 1;
         data2.BossHPX = 10;
         data2.ChestPerBossMonster = 3;
@@ -300,9 +300,29 @@ internal class TableLoader
 
     private void LoadConsumableData()
     {
-        consumable = new List<ConsumableData>();
+        consumable = new Dictionary<string, ConsumableData>();
+        ConsumableData cData1 = new ConsumableData(1);
+        consumable.Add(cData1.id, cData1);
+        ConsumableData cData2 = new ConsumableData(2);
+        consumable.Add(cData2.id, cData2);
+        ConsumableData cData3 = new ConsumableData(3);
+        consumable.Add(cData3.id, cData3);
+        ConsumableData cData4 = new ConsumableData(4);
+        consumable.Add(cData4.id, cData4);
+        ConsumableData cData5 = new ConsumableData(5);
+        consumable.Add(cData5.id, cData5);
+        ConsumableData cData6 = new ConsumableData(6);
+        consumable.Add(cData6.id, cData6);
+        ConsumableData cData7 = new ConsumableData(7);
+        consumable.Add(cData7.id, cData7);
+        ConsumableData cData8 = new ConsumableData(8);
+        consumable.Add(cData8.id, cData8);
+        ConsumableData cData9 = new ConsumableData(9);
+        consumable.Add(cData9.id, cData9);
+        ConsumableData cData10 = new ConsumableData(10);
+        consumable.Add(cData10.id, cData10);
 
-        consumable.Add(new ConsumableData(1));
+        //consumable.Add(new ConsumableData(8));
 
         //XmlDocument xmldoc = OpenXml("Xml/TalentData");
         //XmlNode rootNode = xmldoc.SelectSingleNode("Talents");
@@ -350,6 +370,6 @@ internal class TableLoader
         //    GridItemIcon iconinfo = new GridItemIcon(icon, "",  subicon);
         //    ConsumableData talentdata = new ConsumableData(id, iconinfo, description, bonus, type, rate, abs);
         //    talenttable.Add(talentdata);
-        }
-
     }
+
+}

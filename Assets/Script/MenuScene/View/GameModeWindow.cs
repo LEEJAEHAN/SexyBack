@@ -53,7 +53,6 @@ namespace SexyBackMenuScene
         void onStartButton(GameObject selectedObject)
         {
             string mapID = selectedObject.name;
-            GameObject.Find("Bottom_Window").transform.DestroyChildren();
             GameObject.Find("Top_Buttons").transform.DestroyChildren();
             transform.DestroyChildren();
 

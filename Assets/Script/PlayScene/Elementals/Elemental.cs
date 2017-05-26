@@ -9,13 +9,14 @@ namespace SexyBackPlayScene
     {
         ElementalData baseData;
         public string GetID { get { return baseData.ID; } }
-        public string targetID { set { skill.targetID = value; shooter.targetID = value; } }
+        public string targetID { get { return shooter.targetID; } set { skill.targetID = value; shooter.targetID = value; } }
         // 변수
         BigInteger DpsX = new BigInteger();
         public int DpsXH;
         public int CastSpeedXH;
         public int SkillRatioXH { get { return skill.DAMAGERATIO; } set { skill.SetRatio(value); } }
         public int SkillRateXH;
+        int BuffCoef = 1;
 
         public int LEVEL;
         public BigInteger DPS = new BigInteger();
@@ -27,8 +28,8 @@ namespace SexyBackPlayScene
         // for projectile action;
         private Shooter shooter;
         public Skill skill;
+        public List<Skill> instanceSkill;
         public bool SkillActive = false;
-        public int SkillForceCount = 0;
 
         // ICanLevelUp
         // event
@@ -42,6 +43,7 @@ namespace SexyBackPlayScene
             baseData = data;
             shooter = new Shooter(data.ID, data.PrefabName);
             skill = SkillFactory.Create(data.ID, data.SkillPrefabName);
+            instanceSkill = new List<Skill>();
         }
 
         internal void LevelUp(int value)
@@ -71,7 +73,7 @@ namespace SexyBackPlayScene
         void CalDps()
         {
             double growth = InstanceStatus.CalGrowthPower(ElementalData.GrowthRate, baseData.BaseLevel); // 
-            double doubleC = 1 * baseData.BaseDmg * growth * LEVEL * DpsXH * CastSpeedXH / 10000;
+            double doubleC = 1 * baseData.BaseDmg * growth * LEVEL * DpsXH * CastSpeedXH * BuffCoef/ 10000;
             BigInteger Coefficient = BigInteger.FromDouble(doubleC);
             DPS = DpsX * Coefficient;
             if (LEVEL > 0)
@@ -88,6 +90,16 @@ namespace SexyBackPlayScene
             PRICE = BigInteger.FromDouble(doubleC); // 60(랩업비기본) * 2.08(비중) * power수
         }
 
+        internal void Buff(bool on, int xtimes)
+        {
+            if (on)
+                BuffCoef = xtimes;
+            else
+                BuffCoef = 1;
+            CalDps();
+            Action_Change(this);
+        }
+
         internal void Update()
         {
             if (RefreshStat)
@@ -96,18 +108,31 @@ namespace SexyBackPlayScene
                 RefreshStat = false;
             }
 
-            if (shooter.Enable == false && skill.Enable == false)
+            if (shooter.Enable == false && skill.isEnd)
                 JudgeAutoAttack();
 
             shooter.Update();
             skill.Update();
             skill.PostUpdate();
 
-            //강제시전
-            if(SkillForceCount > 0)
+            //foreach(var s in instanceSkill)
+            //{
+            //    s.Update();
+            //    s.PostUpdate();
+            //}
+
+            for (int i = instanceSkill.Count - 1; i >= 0; i--)
             {
-                Skill instnaceskill = SkillFactory.Create(baseData.ID, baseData.SkillPrefabName);
+                instanceSkill[i].Update();
+                instanceSkill[i].PostUpdate();
+                if(instanceSkill[i].CheckFinish())
+                    instanceSkill.RemoveAt(i);
             }
+
+            sexybacklog.Console("현재 instanceskill Count " + instanceSkill.Count);
+
+            //instanceSkill.RemoveAll(i => i.Finish == true);
+            //강제시전
 
             // 아직구현안함.
             //if (SkillForceCount > 0)
@@ -117,6 +142,16 @@ namespace SexyBackPlayScene
             //}
         }
 
+        public void CastSkillItem()     // 스킬로 사용되는 아이템은 사용 시점의 stat을 계속가지고간다. (중간에 강해지거나 약해지지 않는다.)
+        {
+            Skill itemskill = SkillFactory.Create(baseData.ID, baseData.SkillPrefabName);
+            itemskill.CalDamage(DAMAGE);
+            itemskill.SetRatio(SkillRatioXH);
+            itemskill.SetInterval(CastInterval);
+            itemskill.Start(true);
+            itemskill.targetID = this.targetID;
+            instanceSkill.Add(itemskill);
+        }
         private void Refresh()
         {
             CalStat();
@@ -132,7 +167,7 @@ namespace SexyBackPlayScene
             else
             {
                 if (SkillRateXH > UnityEngine.Random.Range(0, 1000))
-                    skill.Enable = true;
+                    skill.Start(false);
                 else
                     shooter.Enable = true;
             }
@@ -141,18 +176,24 @@ namespace SexyBackPlayScene
         public void onTargetStateChange(string monsterID, string stateID)
         {
             if (stateID == "Ready")
+            {
                 this.targetID = monsterID;
+                instanceSkill.ForEach(i => i.targetID = monsterID);
+            }
             else
+            {
                 targetID = null;
+                instanceSkill.ForEach(i => i.targetID = null);
+            }
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {   // 소모성 변수는 저장한다. 영구 스텟은 스텟에서저장한다.
-            info.AddValue("skillForceCount", SkillForceCount);
+            //info.AddValue("skillForceCount", SkillForceCount);
         }
         public Elemental(SerializationInfo info, StreamingContext context)
         {
-            SkillForceCount = (int)info.GetValue("skillForceCount", typeof(int));
+            //SkillForceCount = (int)info.GetValue("skillForceCount", typeof(int));
         }
     }
 }

@@ -5,6 +5,7 @@ namespace SexyBackPlayScene
     internal class HeroData
     {
         public static double GrowthRate = 1.148698f;
+
         public readonly string ID;
         public readonly string Name;
         public readonly double AttackInterval;

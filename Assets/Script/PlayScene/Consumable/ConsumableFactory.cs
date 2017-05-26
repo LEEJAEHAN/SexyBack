@@ -8,8 +8,9 @@ namespace SexyBackPlayScene
         internal static Consumable CreateConsumable(ConsumableData data, int level)
         {
             if(data.type == Consumable.Type.ResearchTime)
-                return new Consumable(data, Mathf.Min((level / 10), 4));
- 
+                return new Consumable(data, Mathf.Min(Mathf.Max((level / 10), 1), 4)); // 1~4;
+            if (data.type == Consumable.Type.Exp)
+                data.icon.IconText = Consumable.CalExp(level, data.value).To5String();
             return new Consumable(data);
         }
         internal static Consumable PickRandomConsumable(int level)
@@ -23,7 +24,7 @@ namespace SexyBackPlayScene
         {
             var list = Singleton<TableLoader>.getInstance().consumable;
             int rand = UnityEngine.Random.Range(0, 100);
-            foreach (ConsumableData one in list)
+            foreach (ConsumableData one in list.Values)
             {
                 if (one.AbsRate > 0 && level >= one.dropLevel)
                 {
@@ -40,7 +41,7 @@ namespace SexyBackPlayScene
             int sumDensity = GetTotalDensity(level, list);
             int rand = UnityEngine.Random.Range(0, sumDensity);
 
-            foreach (ConsumableData one in list)
+            foreach (ConsumableData one in list.Values)
             {
                 if (one.AbsRate == 0 && level >= one.dropLevel)
                 {
@@ -51,10 +52,10 @@ namespace SexyBackPlayScene
             }
             return null;
         }
-        private static int GetTotalDensity(int level, List<ConsumableData> list)
+        private static int GetTotalDensity(int level, Dictionary<string, ConsumableData> list)
         {
             int result = 0;
-            foreach (var one in list)
+            foreach (var one in list.Values)
             {
                 if (one.AbsRate == 0 && level >= one.dropLevel)
                     result += one.Density;

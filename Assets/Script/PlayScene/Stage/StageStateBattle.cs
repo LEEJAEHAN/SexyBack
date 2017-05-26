@@ -23,8 +23,8 @@ namespace SexyBackPlayScene
         public void BattleStart() // 사거리내에 들어옴. battle 시작. 
         {
             DuringBattle = true;
-            int sequence = StageManager.MonsterCountPerFloor - owner.monsterCount + 1;
-            bool isBoss = StageManager.MonsterCountPerFloor == sequence;
+            int sequence = StageManager.MonsterPerStage - owner.monsterCount + 1;
+            bool isBoss = StageManager.MonsterPerStage == sequence;
 
             mManager.JoinBattle(owner.floor, sequence, isBoss, owner.avatar.transform.FindChild("monster"));
 

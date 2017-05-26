@@ -145,20 +145,20 @@ namespace SexyBackRewardScene
 
         public void CalLRScore(int clearFloor, out int l, out int r, int totalLevelCount, int totalResearchCount)
         {
-            int MapLevel = (clearFloor + 1) * 5;
-            int RecommendLevel = 0;
+            int MapLevel = clearFloor * MapInfo.LevelPerFloor;
+            int RecommendLevel = MapLevel;  // 초기값은 hero의 검술레벨. ( 뒤에 계산으로 element level합을 계속더한다)
             int RecommendResearch = 0;
 
             foreach (ResearchData data in Singleton<TableLoader>.getInstance().researchtable.Values)
             {
                 int ContentsLevel = data.baselevel + data.level;
-                if (ContentsLevel < MapLevel)   // 이 리서치는 배웠어야 정상이다.
+                if (ContentsLevel <= MapLevel)   // 이 리서치는 배웠어야 정상이다.
                 {
                     RecommendResearch++;
 
                     if (data.bonus.attribute == Attribute.Active)
                     {
-                        if (ContentsLevel < MapLevel) // 이 element는 MapLevel-contentsLevel 레벨까지 배웠어야 정상이다.
+                        if (ContentsLevel <= MapLevel) // 이 element는 MapLevel-contentsLevel 레벨까지 배웠어야 정상이다.
                         {
                             RecommendLevel += (MapLevel - ContentsLevel);
                         }
@@ -166,8 +166,8 @@ namespace SexyBackRewardScene
                 }
 
             }
-            l = Mathf.Max(0, (RecommendLevel - totalLevelCount) / 20);     // 평균 20레벨마다 1리서치니까
-            r = Mathf.Max(0, RecommendResearch - totalResearchCount);
+            l = Mathf.Max(0, (RecommendLevel - totalLevelCount) / 20);     // 평균 20레벨마다 1리서치니까 1레벨업당 1/20점
+            r = Mathf.Max(0, RecommendResearch - totalResearchCount);       // 1리서치당 1점
         }
         private RewardRank CalRank(int score)
         {

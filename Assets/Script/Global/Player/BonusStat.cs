@@ -33,7 +33,6 @@ public enum Attribute
     Active,
     ActiveSkill,
     Enchant,
-    FinishResearch,
     ExpPerFloor,
 }
 public class BonusStat : ICloneable

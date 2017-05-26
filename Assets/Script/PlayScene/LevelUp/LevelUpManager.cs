@@ -10,6 +10,7 @@ namespace SexyBackPlayScene
         bool RefreshStat = true;
         public GameObject TabButton1;
         public GameObject Tab1Container;
+        public LevelUpWindow Panel;
 
         ~LevelUpManager()
         {
@@ -18,15 +19,13 @@ namespace SexyBackPlayScene
         public void Dispose()
         {
             Singleton<PlayerStatus>.getInstance().Action_UtilStatChange -= this.onUtilStatChange;
-            LevelUpWindow.Clear();
+            //LevelUpWindow.Clear();
         }
 
         internal void Init()
         {
-            LevelUpWindow Panel = LevelUpWindow.getInstance;
-            Singleton<PlayerStatus>.getInstance().Action_UtilStatChange += this.onUtilStatChange;
-
             // this class is event listner
+            Singleton<PlayerStatus>.getInstance().Action_UtilStatChange += this.onUtilStatChange;
             Singleton<ElementalManager>.getInstance().Action_ElementalCreateEvent += SummonElemetalLevelUpItem;
             Singleton<HeroManager>.getInstance().Action_HeroCreateEvent += SummonHeroLevelUpItem;
 
@@ -36,6 +35,11 @@ namespace SexyBackPlayScene
 
             Tab1Container = GameObject.Find("Tab1Container");
             Tab1Container.transform.DestroyChildren();
+
+            //LevelUpWindow Panel = LevelUpWindow.getInstance;
+            GameObject panelObject = GameObject.Find("Bottom_Window").transform.FindChild("LevelUpWindow").gameObject;
+            panelObject.SetActive(true);
+            Panel = panelObject.GetComponent<LevelUpWindow>();
         }
         public void DrawNewMark()
         {

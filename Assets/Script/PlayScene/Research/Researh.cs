@@ -10,9 +10,9 @@ namespace SexyBackPlayScene
         //public WeakReference owner;
         string ID;
 
-        public GridItem itemView;
+        public GridItem View;
         NestedIcon icon;
-        public ResearchWindow Panel = ResearchWindow.getInstance;
+        public ResearchWindow Panel;
 
         string Name;
         string Description;
@@ -44,10 +44,6 @@ namespace SexyBackPlayScene
         public string GetID { get { return ID; } }
         public string CurrentState { get { return StateMachine.currStateID; } }
 
-        public delegate void InstantFinish_Event();
-        public event InstantFinish_Event Action_InstantFinish = delegate { };
-
-
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("SavedState", CurrentState);
@@ -77,17 +73,17 @@ namespace SexyBackPlayScene
             researchprice = data.rate * totalprice / 100;
 
             icon = data.icon;
-            itemView = new GridItem(GridItem.Type.Research, data.ID, data.icon, this);
-            itemView.SetActive(true);
+            View = new GridItem(GridItem.Type.Research, data.ID, data.icon, this);
+            Panel = Singleton<ResearchManager>.getInstance().Panel;
 
+            View.SetActive(true);
             StateMachine = new ResearchStateMachine(this);
         }
         public void Dispose()
         { // 완전히 해제할때
-            itemView.Dispose();
-            itemView = null;
+            View.Dispose();
+            View = null;
             StateMachine = null;
-            Action_InstantFinish = null;
             Panel = null;
         }
 
@@ -184,13 +180,11 @@ namespace SexyBackPlayScene
 
             ViewRefresh();
         }
-        
-        internal void Finish()
+        internal void ReduceTime(int value) // SetStat에 의한 FastFoward개념과는 다르다. 시간만깎고, PricePerSec는 변하지 않는다.
         {
-            if (CurrentState == "Work")
-                Action_InstantFinish();
+            RemainTime -= value;
+            ViewRefresh();
         }
-
         public void ViewRefresh()
         {
             RefreshFlag = true;

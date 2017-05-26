@@ -38,18 +38,14 @@ namespace SexyBackPlayScene
             owner = hero;
             CoolTimeBar.transform.DestroyChildren();
         }
-        public void SetAttackCount(int count)
-        {
-            atkCount = count;
-            DrawIcon(atkCount);
-        }
-        void DrawIcon(int count)
+
+        void DrawIcon(int from, int count)
         {
             for (int i = 1; i <= count; i++)
             {
                 if (i > iconangle.Length)
                     return;
-                AddSwordIcon(i);
+                AddSwordIcon(from + i);
             }
         }
         internal void Update()
@@ -69,7 +65,17 @@ namespace SexyBackPlayScene
             return AttackPlan.Dequeue();
         }
 
-
+        public void AddAttackCount(int count)
+        {
+            int prev = atkCount;
+            atkCount += count;
+            if (atkCount >= owner.MaxAttackCount)
+            {
+                atkCount = owner.MaxAttackCount;
+                attackTimer = 0;
+            }
+            DrawIcon(prev, atkCount - prev);
+        }
         private void AddAttackCount()
         {
             atkCount++;

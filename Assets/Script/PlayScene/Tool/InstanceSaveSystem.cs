@@ -108,6 +108,7 @@ namespace SexyBackPlayScene
                     SaveResearchs(writer);
                     SaveStage(writer);
                     SaveMonster(writer);
+                    SaveConsumable(writer);
                 }
                 writer.WriteEndElement();
             }
@@ -195,10 +196,28 @@ namespace SexyBackPlayScene
                 writer.WriteAttributeString("id", data.GetID.ToString());
                 writer.WriteAttributeString("level", data.LEVEL.ToString());
                 writer.WriteAttributeString("skillactive", data.SkillActive.ToString());
-                writer.WriteAttributeString("skillforcecount", data.SkillForceCount.ToString());
+                //writer.WriteAttributeString("skillforcecount", data.SkillForceCount.ToString());
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();
         }
+
+        private void SaveConsumable(XmlWriter writer)
+        {
+            ConsumableManager manager = Singleton<ConsumableManager>.getInstance();
+            writer.WriteStartElement("Consumables");
+            {
+                foreach (var data in manager.inventory.Values)
+                {
+                    writer.WriteStartElement("Consumable");
+                    writer.WriteAttributeString("id", data.GetID);
+                    writer.WriteAttributeString("remaintime", data.RemainTime.ToString());
+                    writer.WriteAttributeString("stack", data.Stack.ToString());
+                    writer.WriteEndElement();
+                }
+            }
+            writer.WriteEndElement();
+        }
+
     }
 }

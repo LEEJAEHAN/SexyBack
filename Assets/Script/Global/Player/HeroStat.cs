@@ -26,7 +26,7 @@ public class HeroStat
         CriticalRateXH = 0; // 20;
         CriticalDamageXH = 0; // 425;
         MovespeedXH = 0;
-        AttackCapacity = 1;
+        AttackCapacity = 5;
     }
 
     public HeroStat(XmlNode xmlNode)

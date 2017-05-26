@@ -25,7 +25,6 @@ namespace SexyBackPlayScene
 
         public void onChangeTap(bool value)
         {
-
             if (value == true)
             {
                 transform.FindChild("New").gameObject.SetActive(false);

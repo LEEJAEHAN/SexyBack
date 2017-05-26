@@ -7,7 +7,7 @@ public class MapData
     public int LimitTime;
     public MapRewardData RewardData;
     public int MaxFloor;
-    public float GrowthRate;
+    public int LevelPerFloor;// float GrowthRate;
     public int MonsterPerStage;
     public int BaseMonsterHP;
     public int BossHPX;

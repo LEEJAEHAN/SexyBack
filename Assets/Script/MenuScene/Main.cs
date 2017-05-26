@@ -22,12 +22,12 @@ namespace SexyBackMenuScene
             // set scene state
             if (SexyBackPlayScene.InstanceSaveSystem.InstanceXmlDataExist) // case PlayScene
             {
-                Debug.Log("인스턴스 데이터를 불러옵니다.");
+                sexybacklog.Console("인스턴스 데이터를 불러옵니다.");
                 SceneManager.LoadScene("PlayScene");
             }
             else // case MenuScene
             {
-                Debug.Log("진행중인 인스턴스 저장데이터가 없습니다.");
+                sexybacklog.Console("진행중인 인스턴스 저장데이터가 없습니다.");
                 Singleton<PlayerStatus>.getInstance().ReCheckStat(); // 메뉴진입시. 장비와 특성으로부터 새로이 스텟 계산
                 Singleton<ViewLoader>.getInstance().InitUISetting();
             }
@@ -60,7 +60,7 @@ namespace SexyBackMenuScene
         private void OnDestroy()
         {
             Singleton<ViewLoader>.Clear();
-            Debug.Log("메뉴신 소멸");
+            sexybacklog.Console("메뉴신 소멸");
         }
     }
 

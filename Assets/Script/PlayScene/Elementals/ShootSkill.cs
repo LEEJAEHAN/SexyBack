@@ -15,6 +15,7 @@ namespace SexyBackPlayScene
 
         public Queue<GameObject> projectiles = new Queue<GameObject>(100);
         internal double PostTimer = 0;
+        internal double ReloadTimer = 0;
         double ReLoadInterval;
 
         int ReloadCount = 0;
@@ -45,13 +46,22 @@ namespace SexyBackPlayScene
         {
             DAMAGE = elementaldmg * DAMAGERATIO / (100 * this.Unit);
         }
-
+        internal override void Start(bool NoReloadTime)
+        {
+            Enable = true;
+            ReLoaded = false;
+            ReloadTimer = 0;
+            if (NoReloadTime)
+                AttackTimer = ReLoadInterval;
+            else
+                AttackTimer = 0;
+        }
         internal override void ReLoad()
         {   
             if (AttackTimer > ReLoadInterval && !ReLoaded)
             {
-                PostTimer += Time.deltaTime;
-                while (PostTimer > Tick)
+                ReloadTimer += Time.deltaTime;
+                while (ReloadTimer > Tick)
                 {
                     Transform shootZone = ViewLoader.area_elemental.transform;
                     GameObject view;
@@ -66,7 +76,7 @@ namespace SexyBackPlayScene
                     view.tag = "SkillProjectile";
                     projectiles.Enqueue(view);
 
-                    PostTimer -= Tick;
+                    ReloadTimer -= Tick;
                     if(ReloadCount >= Unit)
                     {
                         ReloadCount = 0;
@@ -118,6 +128,10 @@ namespace SexyBackPlayScene
             }
         }
 
+        internal override bool CheckFinish()
+        {
+            return (!Enable && ShootCount <= 0);
+        }
     }
 
 }

@@ -7,25 +7,38 @@ namespace SexyBackPlayScene
     {
         private Consumable consumable;
         GameObject view;
+        int Level;
 
-        internal ConsumableChest(Consumable item, Vector3 dropPosition)
+        internal ConsumableChest(Consumable c, Vector3 dropWorldPosition, bool randmove, int level)
         {
-            this.consumable = item;
-
+            consumable = c;
+            Level = level;
             view = ViewLoader.InstantiatePrefab(ViewLoader.objectarea.transform, "chest", "Prefabs/UI/ConsumableChest");
-            //ViewLoader.monsterbucket.transform.position
-            view.transform.transform.OverlayPosition(dropPosition, GameCameras.HeroCamera, GameCameras.UICamera);
-            view.transform.position = new Vector3(view.transform.position.x, view.transform.position.y, 0f );
-
-            NestedIcon.Draw(item.baseData.icon, view.transform.FindChild("Icon").gameObject);
-            view.transform.FindChild("Icon/Stack").gameObject.GetComponent<UILabel>().text = "x" + consumable.Stack.ToString();
+            view.transform.transform.OverlayPosition(dropWorldPosition, GameCameras.HeroCamera, GameCameras.UICamera);
+            view.transform.position = new Vector3(view.transform.position.x, view.transform.position.y, 0f);
+            NestedIcon.Draw(c.baseData.icon, view.transform.FindChild("Icon").gameObject);
+            view.transform.FindChild("Icon/Stack").gameObject.GetComponent<UILabel>().text = StringParser.GetStackText(consumable.Stack);
+            view.GetComponent<ConsumableChestView>().RandomMove = randmove;
             view.GetComponent<ConsumableChestView>().Action_Open += Add;
             view.GetComponent<ConsumableChestView>().Action_Destroy += Destory;
         }
 
         internal void Add()
         {
-            Singleton<ConsumableManager>.getInstance().Stack(consumable);
+            switch(consumable.baseData.type)
+            {
+                case Consumable.Type.Exp:
+                    BigInteger exp =  Consumable.CalExp(Level, consumable.baseData.value);
+                    Singleton<InstanceStatus>.getInstance().ExpGain(exp, false);
+                    break;
+                case Consumable.Type.Gem:
+                    //TODO: 젬획득
+                    //Singleton<PlayerStatus>.getInstance().
+                    break;
+                default:
+                    Singleton<ConsumableManager>.getInstance().Stack(consumable);
+                    break;
+            }
         }
 
         internal void Destory()

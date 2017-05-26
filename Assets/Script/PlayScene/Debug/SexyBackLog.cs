@@ -4,17 +4,22 @@ using System;
 
 public static class sexybacklog
 {
+    public static bool DebugMode = false;
+
     public static void Console(object msg)
     {
-        Debug.Log(msg);
+        if(DebugMode)
+            Debug.Log(msg);
     }
     public static void InGame(object msg)
     {
-        SexyBackPlayScene.DebugText.getInstance.Append(msg.ToString() + "\n");
+        if (DebugMode)
+            SexyBackPlayScene.DebugText.getInstance.Append(msg.ToString() + "\n");
     }
 
     internal static void Error(object msg)
     {
-        Debug.LogError(msg);
+        if (DebugMode)
+            Debug.LogError(msg);
     }
 }

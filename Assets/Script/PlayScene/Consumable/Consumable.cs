@@ -6,74 +6,70 @@ namespace SexyBackPlayScene
 {
     internal class Consumable : IDisposable, IHasGridItem   // stack 항목.
     {
+        
+        ~Consumable()
+        {
+            sexybacklog.Console("Consumable 소멸");
+        }
         internal enum Type
         {
             AttackCount,        // int value
             Skill,              // string ID
-            Buff,               // buff id or 버프능력세부
+            HeroBuff,               // buff id or 버프능력세부
+            ElementalBuff,
+            ExpBuff,
             ResearchTime,       // int value
-            LevelUp,            // int value
-            Exp                 // 아예 획득시부터 루틴이다름.
+            ElementalLevelUp,            // int value
+            HeroLevelUp,
+            Exp,                 // 아예 획득시부터 루틴이다름.
+            Gem
         }
 
         public string GetID { get { return baseData.id; } }
         public readonly ConsumableData baseData;
         public int Stack;
-        public double RemainCoolTime;
+        public double RemainTime;
+        bool Selected;
 
-        bool Confirm = false;
         protected GridItem itemView;
+        ConsumableWindow Panel;
 
-        public Consumable(ConsumableData data, int s = 0)
+        public Consumable(ConsumableData data, int s = -1)
         {
+            sexybacklog.Console("Consumable 생성");
             baseData = data;
             Stack = s;
-            if (s == 0)
+            if (s == -1)
                 Stack = baseData.stackPerChest;
         }
-       
-        public string Description
-        {
-            get
-            {
-                //return StringParser.ReplaceString(description, bonus.strvalue);
-                //return StringParser.ReplaceString(description, bonus.value.ToString());
-                return null;
-            }
-        }
+
 
         public void Update()
         {   // state machine
-            if(RemainCoolTime > 0 )
+            if(RemainTime > 0 )
             {
-                RemainCoolTime -= Time.deltaTime;
-                itemView.DrawCoolMask((float)(RemainCoolTime / baseData.CoolTime));
+                RemainTime -= Time.deltaTime;
+                itemView.DrawCoolMask((float)(RemainTime / baseData.CoolTime));
+                if (RemainTime <= 0)
+                {
+                    RemainTime = 0;
+                    EndUse();
+                }
             }
 
-            if (Confirm)
-                Use();
-
-            if( Stack <= 0 && RemainCoolTime <= 0 )     // 스택만 0이고 쿨은 남아있을때는 객체는 남아있다. 단 view는 off상태다.
+            if( Stack <= 0 && RemainTime <= 0 )     // 스택만 0이고 쿨은 남아있을때는 객체는 남아있다. 단 view는 off상태다.
             {
-                // Destroy();
+                Singleton<ConsumableManager>.getInstance().Destory(GetID);
             }
         }
-        internal void onConfirm()       // Window로부터 받는 이벤트
-        {
-            if (RemainCoolTime > 0)
-                return;
-            Stack--;
-            RemainCoolTime = baseData.CoolTime;
-
-            ViewRefresh();
-            Confirm = true;
-        }
-
+        
         internal void ActiveView()
         {
             itemView = new GridItem(GridItem.Type.Consumable, GetID, baseData.icon, this);
+            Panel = Singleton<ConsumableManager>.getInstance().Panel;
             ViewRefresh();
         }
+
 
         internal void Merge(Consumable consumable)
         {
@@ -84,32 +80,108 @@ namespace SexyBackPlayScene
             ViewRefresh();
         }
 
-        public void Use()
+        internal void onConfirm()       // Window로부터 받는 이벤트
         {
-            //Singleton<InstanceStatus>.getInstance().ApplyBonusWithIcon(bonus, Icon);
-            Confirm = false;
+            if (RemainTime > 0)
+                return;
+
+            if(Use())
+            {
+                Stack--;    
+                RemainTime = baseData.CoolTime;
+                EffectController.getInstance.AddBuffEffect(baseData.icon);
+                ViewRefresh();
+            }
         }
+        public bool Use()
+        {
+            switch (baseData.type)
+            {
+                case Type.AttackCount:
+                    Singleton<HeroManager>.getInstance().GetHero().AttackManager.AddAttackCount(baseData.value);
+                    return true;
+                case Type.Skill:
+                    if (Singleton<ElementalManager>.getInstance().elementals.ContainsKey(baseData.strValue))
+                    {
+                        Singleton<ElementalManager>.getInstance().elementals[baseData.strValue].CastSkillItem();
+                        return true;
+                    }
+                    break;
+                case Type.ElementalBuff:
+                case Type.HeroBuff:
+                case Type.ExpBuff:
+                    return ConsumableManager.Buff(true, baseData.type, baseData.strValue, baseData.value);
+                case Type.ResearchTime:
+                    return Singleton<ResearchManager>.getInstance().ShiftFrontOne(baseData.value);
+                case Type.HeroLevelUp:
+                    Singleton<HeroManager>.getInstance().LevelUp(baseData.value);
+                    return true;
+                case Type.ElementalLevelUp:
+                    return Singleton<ElementalManager>.getInstance().LevelUp(baseData.strValue, baseData.value);
+            }
+            return false;
+        }
+        private void EndUse()
+        {
+            ConsumableManager.Buff(false, baseData.type, baseData.strValue, baseData.value);
+            ViewRefresh();          // 쿨다찼을때 1회 작동.
+        }
+
+        internal void LoadUseState(double remainTime)
+        {
+            RemainTime = remainTime;
+            if (RemainTime > 0)
+                ConsumableManager.Buff(true, baseData.type, baseData.strValue, baseData.value);
+        }
+
 
         // function
         public void Dispose()
         {
+            itemView.Dispose();
+        }
 
+        public static BigInteger CalExp(int level, int Coef)
+        {
+            double exp = InstanceStatus.CalGrowthPower(MonsterData.GrowthRate, level) * Coef; // 
+            return BigInteger.FromDouble(exp);
         }
 
         public void onSelect(string id)
         {
             sexybacklog.Console("소모품" + id + " 고름");
+
+            if (id == null)
+            {
+                Selected = false;
+                Panel.Action_Confirm -= this.onConfirm;
+                Panel.Hide();
+                return;
+            }
+
+            Selected = true;
+            Panel.Action_Confirm += this.onConfirm;
+            ViewRefresh();
         }
 
         // update view state
         public void ViewRefresh()
         {
             itemView.DrawStack(Stack);
-            itemView.DrawCoolMask((float)(RemainCoolTime / baseData.CoolTime));
-            if (this.Stack > 0)
-                itemView.SetActive(true);
-            else
+            itemView.DrawCoolMask((float)(RemainTime / baseData.CoolTime));
+            if (Stack <= 0 && RemainTime <= 0)
                 itemView.SetActive(false);
+            else
+                itemView.SetActive(true);
+
+            if (Selected)
+            {
+                if (RemainTime <= 0)
+                    Panel.SetButton1(Selected, true);
+                else
+                    Panel.SetButton1(Selected, false);
+                Panel.Show(Selected, baseData.icon, baseData.name, baseData.description);
+            }
         }
     }
 }

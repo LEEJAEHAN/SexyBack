@@ -55,20 +55,20 @@ namespace SexyBackPlayScene
 
             if (!Instantbuy)
             {
-                owner.itemView.DrawRBar(0, (int)owner.ReducedTime, false);
+                owner.View.DrawRBar(0, (int)owner.ReducedTime, false);
                 if (CanBuy && ThreadEmpty)
-                    owner.itemView.Enable();
+                    owner.View.Enable();
                 else
-                    owner.itemView.Disable();
+                    owner.View.Disable();
                 owner.Panel.SetButton1(owner.Selected, CanBuy && ThreadEmpty, true);
             }
             else
             {
-                owner.itemView.HideRBar();
+                owner.View.HideRBar();
                 if (CanBuy)
-                    owner.itemView.Enable();
+                    owner.View.Enable();
                 else
-                    owner.itemView.Disable();
+                    owner.View.Disable();
                 owner.Panel.SetButton1(owner.Selected, CanBuy, true);
             }
 

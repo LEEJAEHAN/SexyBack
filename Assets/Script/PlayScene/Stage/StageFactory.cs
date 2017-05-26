@@ -17,7 +17,7 @@ namespace SexyBackPlayScene
             {
                 // 상태값.
                 baseStage.rewardComplete = false;
-                baseStage.MakeMonsters(StageManager.MonsterCountPerFloor);
+                baseStage.MakeMonsters(StageManager.MonsterPerStage);
                 baseStage.ChangeState("Move");
             }
             else if (baseStage.type == StageType.FirstPortal)
@@ -60,17 +60,17 @@ namespace SexyBackPlayScene
             result.avatar = ViewLoader.InstantiatePrefab(ViewLoader.stagepanel.transform, "Stage" + floor, "Prefabs/stage");
             result.avatar.transform.localPosition = GameCameras.EyeLine * (zPosition / 10);
 
-            if (floor >= 1 && floor <= StageManager.MaxFloor)
+            if (floor >= 1 && floor <= StageManager.MaxFloor) // 1~ 10
             {
                 result.type = StageType.Normal;
                 result.avatar.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Stage_Castle");
             }
-            else if (floor < 1)
+            else if (floor < 1) // 0
             {
                 result.type = StageType.FirstPortal;
                 result.avatar.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Stage_Portal");
             }
-            else if (floor > StageManager.MaxFloor)
+            else if (floor > StageManager.MaxFloor) // 11
             {
                 result.type = StageType.LastPortal;
                 result.avatar.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Stage_Portal");

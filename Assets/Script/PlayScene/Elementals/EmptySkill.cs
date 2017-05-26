@@ -16,5 +16,14 @@ namespace SexyBackPlayScene
         internal override void FirstShoot()
         {
         }
+
+        internal override bool CheckFinish()
+        {
+            return true;
+        }
+
+        internal override void Start(bool NoReloadTime)
+        {
+        }
     }
 }

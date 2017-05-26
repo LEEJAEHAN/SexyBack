@@ -149,7 +149,7 @@ namespace SexyBackPlayScene
         {
             if (type != Type.Consumable)
                 return;
-            StackText.text = "x"+stack.ToString(); // 최초에 그리기용
+            StackText.text = StringParser.GetStackText(stack); // 최초에 그리기용
         }
         public void DrawCoolMask(float progress)
         {

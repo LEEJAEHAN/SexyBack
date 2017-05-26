@@ -33,8 +33,8 @@ namespace SexyBackPlayScene
 
             if(DropTickTime <= 0 && DropCount > 0)
             {
-                sexybacklog.Console(owner.avatar.transform.position);
-                Singleton<ConsumableManager>.getInstance().MakeChest(1, 0, owner.avatar.transform.position);
+                //sexybacklog.Console(owner.avatar.transform.position);
+                Singleton<ConsumableManager>.getInstance().MakeChest(1, owner.level, owner.avatar.transform.position);
                 DropCount--;
                 DropTickTime = 0.5f;
             }

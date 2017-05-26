@@ -18,7 +18,7 @@ namespace SexyBackPlayScene
         public void Dispose()
         {
             Singleton<PlayerStatus>.getInstance().Action_UtilStatChange -= this.onUtilStatChange;
-            ResearchWindow.Clear();
+            //ResearchWindow.Clear();
         }
 
         bool RefreshStat = true;
@@ -39,7 +39,7 @@ namespace SexyBackPlayScene
 
         public GameObject TabButton2;
         public GameObject Tab2Container;
-
+        public ResearchWindow Panel;
 
         public bool CanUseThread { get { return currentthread < maxthread; } }
         
@@ -52,6 +52,10 @@ namespace SexyBackPlayScene
 
             TabButton2 = GameObject.Find("TabButton2");
             Tab2Container = GameObject.Find("Tab2Container");
+
+            GameObject panelObject = GameObject.Find("Bottom_Window").transform.FindChild("ResearchWindow").gameObject;
+            panelObject.SetActive(true);
+            Panel = panelObject.GetComponent<ResearchWindow>();
 
             TabButton2.GetComponent<TabView>().Action_ShowList += onShowList;
             TabButton2.GetComponent<TabView>().Action_HideList += onHideList;
@@ -148,7 +152,7 @@ namespace SexyBackPlayScene
                     researches.Add(id, research);
 
                     research.StateMachine.ChangeState(rNode.Attributes["state"].Value);
-                    research.itemView.SetActive(true);
+                    research.View.SetActive(true);
                     research.RemainTime = double.Parse(rNode.Attributes["remaintime"].Value);
                 }
             }
@@ -196,24 +200,42 @@ namespace SexyBackPlayScene
             Action_ThreadChange(CanUseThread);
         }
 
-        internal void FinishFrontOne()
+        internal bool ShiftFrontOne(int value)
         {
             int min = int.MaxValue;
-            Research Front = null;
+            Research ShortestOne = null;
             foreach (Research research in researches.Values)
             {
-                if (research.CurrentState == "Work")
-                {
-                    if (research.SortOrder < min)
-                    {
-                        min = research.SortOrder;
-                        Front = research;
-                    }
-                }
+                if (research.RemainTime > 0 && research.RemainTime < min)
+                    ShortestOne = research;
             }
-            if (Front != null)
-                Front.Finish();
+
+            if (ShortestOne == null)
+                return false;
+            else
+                ShortestOne.ReduceTime(value);
+            return true;
         }
+
+        //internal void FinishFrontOne()
+        //{
+        //    int min = int.MaxValue;
+        //    Research Front = null;
+        //    foreach (Research research in researches.Values)
+        //    {
+        //        if (research.CurrentState == "Work")
+        //        {
+        //            if (research.SortOrder < min)
+        //            {
+        //                min = research.SortOrder;
+        //                Front = research;
+        //            }
+        //        }
+        //    }
+        //    if (Front != null)
+        //        Front.Finish();
+        //}
+
 
         internal void Destory(string id)
         {

@@ -7,13 +7,15 @@ namespace SexyBackPlayScene
 {
     internal class MonsterFactory
     {
-        float GrowthRate;
+        //double GrowthRatePerFloor;
         public int BaseMonsterHP;
+        public int LevelPerFloor;
 
         public MonsterFactory()
         {
             MapData mapinfo = Singleton<InstanceStatus>.getInstance().InstanceMap;
-            GrowthRate = mapinfo.GrowthRate;
+
+            LevelPerFloor = mapinfo.LevelPerFloor;
             BaseMonsterHP = mapinfo.BaseMonsterHP;
         }
         public Monster CreateRandomMonster(string ID, int floor, bool boss)
@@ -43,13 +45,14 @@ namespace SexyBackPlayScene
         public Monster CreateMonster(string instanceID, string dataID, int floor, bool boss)
         {
             //TODO : 보스따로구분해야함.
+            // floor - 1; // 1층이면 1레벨 몬스터, 10층이면 10레벨(2의10승) 몬스터, 
             MonsterData data = Singleton<TableLoader>.getInstance().monstertable[dataID];
             Monster monster = new Monster(instanceID, dataID);
-            monster.level = floor - 1; // 1층이면 0레벨 몬스터, 2층이면 5레벨(2의1승) 몬스터, 
+            monster.level = floor * LevelPerFloor;
             monster.Name = data.Name;
             monster.isBoss = boss;
-
-            double growth = InstanceStatus.CalGrowthPower(GrowthRate, monster.level); // 
+            
+            double growth = InstanceStatus.CalGrowthPower(MonsterData.GrowthRate, monster.level); // 2, level
             monster.MAXHP = BigInteger.FromDouble(growth);
             monster.MAXHP *= BaseMonsterHP;
             monster.HP = BigInteger.FromDouble(growth);
@@ -93,7 +96,7 @@ namespace SexyBackPlayScene
             Monster monster = new Monster(instanceID, dataID);
             monster.level = level;
             monster.Name = data.Name;
-            double growth = InstanceStatus.CalGrowthPower(GrowthRate, monster.level);
+            double growth = InstanceStatus.CalGrowthPower(MonsterData.GrowthRate, monster.level);
             monster.MAXHP = BigInteger.FromDouble(growth);
             monster.MAXHP *= BaseMonsterHP;
             monster.HP = hp;

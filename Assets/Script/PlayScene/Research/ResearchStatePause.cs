@@ -20,7 +20,14 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
-            if(owner.RefreshFlag)
+            if (owner.RemainTime <= 0)
+            {
+                owner.DoUpgrade();
+                Singleton<ResearchManager>.getInstance().UseThread(false);
+                stateMachine.ChangeState("Destroy");
+            }
+
+            if (owner.RefreshFlag)
             {
                 Refresh();
                 owner.RefreshFlag = false;
@@ -29,7 +36,7 @@ namespace SexyBackPlayScene
 
         private void Refresh()
         {
-            owner.itemView.DrawRBar((float)owner.RemainTime / (float)owner.ReducedTime, (int)owner.RemainTime, false);
+            owner.View.DrawRBar((float)owner.RemainTime / (float)owner.ReducedTime, (int)owner.RemainTime, false);
 
             if (!owner.Selected)
                 return;

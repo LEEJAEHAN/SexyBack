@@ -25,7 +25,12 @@ namespace SexyBackPlayScene
             this.Tick = Tick;
             isTargetEnemy = true;
         }
-
+        internal override void Start(bool NoReloadTime)
+        {
+            Enable = true;
+            ReLoaded = false;
+            AttackTimer = 0;
+        }
         internal override void ReLoad()
         {   // 리로드 없다.
             if (!ReLoaded)
@@ -86,6 +91,12 @@ namespace SexyBackPlayScene
         internal override void CalDamage(BigInteger elementaldmg)
         {
             DAMAGE = elementaldmg * DAMAGERATIO / (100 * this.Unit);
+        }
+
+
+        internal override bool CheckFinish()
+        {
+            return (!Enable && ShootCount <= 0 );
         }
     }
 

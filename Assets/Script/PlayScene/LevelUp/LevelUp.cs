@@ -43,7 +43,7 @@ namespace SexyBackPlayScene
 
             Singleton<InstanceStatus>.getInstance().Action_ExpChange += onExpChange;
             itemView = new GridItem(GridItem.Type.LevelUp, ID, Icon, this);
-            Panel = LevelUpWindow.getInstance;
+            Panel = Singleton<LevelUpManager>.getInstance().Panel;
         }
 
         public void onSelect(string id)

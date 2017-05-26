@@ -18,17 +18,25 @@ public static class StringParser
         return String.Format("{0}시간 {1}분 {2}초", h, m, s);
     }
 
-        internal static string ReplaceString(string text, string arg1)
-        {
-            string temp = text.Replace("$1$", arg1);
-            return temp;
-        }
-        internal static string ReplaceString(string text, string arg1, string arg2)
-        {
-            string temp = text.Replace("$1$", arg1);
-            temp = temp.Replace("$2$", arg2);
-            return temp;
-        }
+    public static string GetStackText(int stack)
+    {
+        if (stack <= 0)
+            return "";
+        else
+            return "x" + stack.ToString();
+    }
+
+    internal static string ReplaceString(string text, string arg1)
+    {
+        string temp = text.Replace("$1$", arg1);
+        return temp;
+    }
+    internal static string ReplaceString(string text, string arg1, string arg2)
+    {
+        string temp = text.Replace("$1$", arg1);
+        temp = temp.Replace("$2$", arg2);
+        return temp;
+    }
 
 
     internal static string GetAttributeString(BonusStat bonus)
@@ -39,7 +47,7 @@ public static class StringParser
         //int SkillRatio = 0;
 
         var eTable = Singleton<TableLoader>.getInstance().elementaltable;
-        if(eTable.ContainsKey(bonus.targetID))
+        if (eTable.ContainsKey(bonus.targetID))
         {
             var elemental = eTable[bonus.targetID];
             AttackName = elemental.Name;

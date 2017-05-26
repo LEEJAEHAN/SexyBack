@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public class ResearchData
 {
-    public static double GrowthRate = 1.148698f; // / 100
-    public static double TimeGrothRate = 1.035264924;
+    public static double GrowthRate = 1.148698f;            // / 100 // 2의 5분의1승( 5층마다 2배 )
+    public static double TimeGrothRate = 1.035264924;       // 2의 의 20분의 1승 ( 20층마다 2배 )
 
     public string ID; // 리서치아이디
     public BonusStat bonus;

@@ -76,7 +76,7 @@ namespace SexyBackPlayScene
         public Debuff.Type debuff;
         public int DAMAGERATIO;
         public BigInteger DAMAGE;
-        public bool Enable = false;
+        protected bool Enable = false;
 
         public Skill(string ownerID, string prefab, DamageType ability, Debuff.Type debuff)
         {
@@ -86,9 +86,13 @@ namespace SexyBackPlayScene
             this.ability = ability;
             this.debuff = debuff;
         }
-
+        abstract internal bool CheckFinish();
         abstract internal void ReLoad();
         abstract internal void FirstShoot();
+        virtual internal void PostUpdate()
+        {
+        }
+        abstract internal void Start(bool NoReloadTime);
         internal void Update()
         {
             if (Enable)
@@ -98,9 +102,9 @@ namespace SexyBackPlayScene
                 FirstShoot();
             }
         }
-        virtual internal void PostUpdate()
+        internal bool isEnd
         {
-
+            get { return !Enable; }            
         }
         internal void SetRatio(int damageRatio)
         {
@@ -114,6 +118,8 @@ namespace SexyBackPlayScene
         {
             DAMAGE = elementaldmg * DAMAGERATIO / 100;
         }
+
+
     }
 
 }

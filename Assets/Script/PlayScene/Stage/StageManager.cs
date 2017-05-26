@@ -18,12 +18,13 @@ namespace SexyBackPlayScene
         public int CurrentFloor;
         [NonSerialized]
         public static int MaxFloor;
+        [NonSerialized]
+        public static int MonsterPerStage;
+
         public List<Stage> Stages; // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
 
         [NonSerialized]
         public static readonly int DistancePerFloor = 30;
-        [NonSerialized]
-        public static readonly int MonsterCountPerFloor= 3;
         [NonSerialized]
         public List<Stage> beToDispose = new List<Stage>(); // 풀링하지말자. 잦은이동이있는것도아닌데
         [NonSerialized]
@@ -39,11 +40,12 @@ namespace SexyBackPlayScene
         {
             // playscene 에서 시작할때를 위한 Test
             MaxFloor = mapData.MaxFloor;
-            CurrentFloor = 0;
+            MonsterPerStage = mapData.MonsterPerStage;
+            CurrentFloor = 1;       // 1층부터 세기시작.
 
             Stages = new List<Stage>();
-            Stages.Add(Factory.CreateStage(CurrentFloor, 10));
-            Stages.Add(Factory.CreateStage(CurrentFloor + 1, 10 + DistancePerFloor));
+            Stages.Add(Factory.CreateStage(0, 10));     // portal;
+            Stages.Add(Factory.CreateStage(CurrentFloor, 10 + DistancePerFloor));   // firststage
 
             //Stages.Add(Factory.CreateStage(CurrentFloor, DistancePerFloor));
             //Stages.Add(Factory.CreateStage(CurrentFloor+1, DistancePerFloor * 2));
@@ -52,10 +54,14 @@ namespace SexyBackPlayScene
         internal void Load(XmlDocument doc)
         {
             string mapID = doc.SelectSingleNode("InstanceStatus").Attributes["MapID"].Value;
+            MapData mapData = Singleton<TableLoader>.getInstance().mapTable[mapID];
+            
             XmlNode stagesNode = doc.SelectSingleNode("InstanceStatus/Stages");
 
-            MaxFloor = Singleton<TableLoader>.getInstance().mapTable[mapID].MaxFloor;
+            MaxFloor = mapData.MaxFloor;
+            MonsterPerStage = mapData.MonsterPerStage;
             CurrentFloor = int.Parse(stagesNode.Attributes["currentfloor"].Value);
+
             Stages = new List<Stage>();
             foreach (XmlNode stageNode in stagesNode.ChildNodes)
             {
@@ -65,7 +71,10 @@ namespace SexyBackPlayScene
 
         public void onStagePass(Stage stage)
         {
-            CurrentFloor = stage.floor + 1;
+            if (stage.type == StageType.FirstPortal)
+                Singleton<ConsumableManager>.getInstance().MakeInitialChest();
+            if (stage.type == StageType.Normal)
+                CurrentFloor = stage.floor + 1;
             if (stage.type == StageType.LastPortal)
             {
                 Singleton<GameManager>.getInstance().EndGame(true);

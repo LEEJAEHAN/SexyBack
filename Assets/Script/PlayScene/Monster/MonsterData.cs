@@ -4,6 +4,8 @@ namespace SexyBackPlayScene
 {
     internal class MonsterData
     {
+        public static double GrowthRate = 1.148698f; // / 100
+
         public readonly string ID;
         public readonly string Name;
         public readonly int MinFloor = 0;

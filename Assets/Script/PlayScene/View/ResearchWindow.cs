@@ -9,12 +9,24 @@ namespace SexyBackPlayScene
         {
             sexybacklog.Console("ResearchWindow 소멸");
         }
-
-        internal static void Clear()
-        {
-            Destroy(instance);
-            instance = null;
-        }
+        //private static ResearchWindow instance;
+        //public static ResearchWindow getInstance
+        //{
+        //    get
+        //    {
+        //        if (instance == null)
+        //        {
+        //            GameObject owner = ViewLoader.InstantiatePrefab(GameObject.Find("Bottom_Window").transform, "ResearchWindow", "Prefabs/UI/ResearchWindow");
+        //            instance = owner.AddComponent<ResearchWindow>();
+        //        }
+        //        return instance;
+        //    }
+        //}
+        //internal static void Clear()
+        //{
+        //    Destroy(instance);
+        //    instance = null;
+        //}
 
         GameObject Icon;
 
@@ -27,25 +39,10 @@ namespace SexyBackPlayScene
         UIButton Button2;
 
         public delegate void Confirm_Event();
-        public event Confirm_Event Action_Confirm;
+        public event Confirm_Event Action_Confirm = delegate { };
 
         public delegate void Pause_Event();
-        public event Pause_Event Action_Pause;
-
-
-        private static ResearchWindow instance;
-        public static ResearchWindow getInstance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    GameObject owner = ViewLoader.InstantiatePrefab(GameObject.Find("Bottom_Window").transform, "ResearchWindow", "Prefabs/UI/ResearchWindow");
-                    instance = owner.AddComponent<ResearchWindow>();
-                }
-                return instance;
-            }
-        }
+        public event Pause_Event Action_Pause = delegate { };
 
         private void Awake()
         {

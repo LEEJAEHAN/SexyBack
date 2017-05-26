@@ -60,7 +60,7 @@ namespace SexyBackPlayScene
                 string id = eNode.Attributes["id"].Value;
                 Elemental newElemental= SummonNewElemental(id);
                 LevelUp(id, int.Parse(eNode.Attributes["level"].Value));
-                newElemental.SkillForceCount = int.Parse(eNode.Attributes["skillforcecount"].Value);
+                //newElemental.SkillForceCount = int.Parse(eNode.Attributes["skillforcecount"].Value);
                 newElemental.SkillActive = bool.Parse(eNode.Attributes["skillactive"].Value);
                 ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
             }
@@ -110,13 +110,18 @@ namespace SexyBackPlayScene
         internal void ActiveSkill(string ElementalID)
         {
             elementals[ElementalID].SkillActive = true;
-            elementals[ElementalID].skill.Enable = true;
+            elementals[ElementalID].skill.Start(true);
         }
 
-        internal void LevelUp(string ownerID, int value)
+        internal bool LevelUp(string ownerID, int value)
         {
-            elementals[ownerID].LevelUp(value);
-            Action_ElementalLevelUp(elementals[ownerID]);
+            if (elementals.ContainsKey(ownerID))
+            {
+                elementals[ownerID].LevelUp(value);
+                Action_ElementalLevelUp(elementals[ownerID]);
+                return true;
+            }
+            return false;
         }
         public void onBaseStatChange(BaseStat newStat)
         {

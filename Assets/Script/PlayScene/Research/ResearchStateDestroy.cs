@@ -10,7 +10,7 @@ namespace SexyBackPlayScene
 
         internal override void Begin()
         {
-            owner.itemView.SetActive(false);
+            owner.View.SetActive(false);
             Singleton<ResearchManager>.getInstance().Destory(owner.GetID);
 
         }

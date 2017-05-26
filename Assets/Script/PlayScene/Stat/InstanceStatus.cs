@@ -32,6 +32,7 @@ namespace SexyBackPlayScene
         public event ExpChange_Event Action_ExpChange;
         [NonSerialized]
         public int ExpXH;
+        public int BuffCoef = 1;
 
         TopWindow topView;
 
@@ -138,9 +139,6 @@ namespace SexyBackPlayScene
                 case Attribute.Enchant:
                     Singleton<HeroManager>.getInstance().Enchant(bonus.strvalue);
                     break;
-                case Attribute.FinishResearch:
-                    Singleton<ResearchManager>.getInstance().FinishFrontOne();
-                    break;
                 default:
                     Singleton<PlayerStatus>.getInstance().ApplySpecialStat(bonus, true);
                     break;
@@ -153,14 +151,18 @@ namespace SexyBackPlayScene
             EffectController.getInstance.AddBuffEffect(icon);
         }
 
-        internal void Buff(BonusStat bonus, NestedIcon icon, int duration)
+        internal void BuffExp(bool on, int xtimes)
         {
+            if (on)
+                BuffCoef = xtimes;
+            else
+                BuffCoef = 1;
         }
 
         public void ExpGain(BigInteger e, bool isApplyStat)
         {
             if (isApplyStat)
-                exp += e * ExpXH / 100;
+                exp += e * ExpXH * BuffCoef / 100;
             else
                 exp += e;
             Action_ExpChange(exp);

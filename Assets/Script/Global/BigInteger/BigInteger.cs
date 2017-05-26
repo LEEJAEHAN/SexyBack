@@ -437,6 +437,7 @@ public class BigInteger : ISerializable
 
     public static BigInteger FromDouble(double value)
     {
+        value += 0.5f; // ¹Ý¿Ã¸²
         if (value > int.MaxValue)
         {
             return new BigInteger(value.ToString("F0"));

@@ -11,6 +11,7 @@ namespace SexyBackPlayScene
         double Timer = 0;
         bool Flash = false;
         bool Open = false;
+        public bool RandomMove = true;
 
         public Action Action_Open;
         public Action Action_Destroy;
@@ -23,30 +24,31 @@ namespace SexyBackPlayScene
         {
             //transform.OverlayPosition(ViewLoader.monsterbucket.transform.position, GameCameras.HeroCamera, GameCameras.UICamera);
             //transform.position = new Vector3(transform.position.x, transform.position.y, 0f );
-            
+
             GetComponent<TweenPosition>().from = transform.localPosition;
-            //GetComponent<TweenPosition>().ResetToBeginning();
-            UIWidget screen = transform.parent.gameObject.GetComponent<UIWidget>();
-            int Top = screen.height / 2;
-            int Bottom = - screen.height / 2;
-            int Left = - screen.width / 2;
-            int Right = screen.width / 2;
+            if (RandomMove)
+            {
+                UIWidget screen = transform.parent.gameObject.GetComponent<UIWidget>();
+                int Top = screen.height / 2;
+                int Bottom = -screen.height / 2;
+                int Left = -screen.width / 2;
+                int Right = screen.width / 2;
 
-            int xExpend = GetComponent<UIWidget>().width / 2;
-            int TopExpend = GetComponent<UIWidget>().height * 3 / 2;
-            int BottomExpend = GetComponent<UIWidget>().height / 2;
+                int xExpend = GetComponent<UIWidget>().width / 2;
+                int TopExpend = GetComponent<UIWidget>().height * 3 / 2;
+                int BottomExpend = GetComponent<UIWidget>().height / 2;
 
-            int x = UnityEngine.Random.Range(Left + xExpend, Right - xExpend);
-            int y = UnityEngine.Random.Range(Top - TopExpend, Bottom + BottomExpend);
-            GetComponent<TweenPosition>().to = new Vector3(x, y, 0);
-            //GetComponent<TweenPosition>().to = new Vector3(Right - xExpend, Bottom + BottomExpend, 0);
-            //GetComponent<TweenPosition>().to = new Vector3(Left + xExpend, Top - TopExpend, 0);
+                int x = UnityEngine.Random.Range(Left + xExpend, Right - xExpend);
+                int y = UnityEngine.Random.Range(Top - TopExpend, Bottom + BottomExpend);
+                GetComponent<TweenPosition>().to = new Vector3(x, y, 0);
+            }
+            else
+            {
+                GetComponent<TweenPosition>().to = new Vector3(transform.localPosition.x, transform.localPosition.y + 60, 0);
+            }
 
             GetComponent<TweenPosition>().PlayForward();
-
-
             transform.GetChild(0).gameObject.SetActive(false);
-
         }
         public void onTweenComplete()
         {

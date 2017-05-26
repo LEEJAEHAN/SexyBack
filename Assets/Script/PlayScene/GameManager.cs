@@ -87,6 +87,7 @@ namespace SexyBackPlayScene
             stageManager.Load(doc); // 상관관계 x //일단 수정하고난담에.
             monsterManager.Load(doc); // 상관관계 x
             elementalManager.Load(doc);
+            consumableManager.Load(doc);
             LoadComplete = true;
         }
         internal void SaveInstance()
@@ -110,10 +111,8 @@ namespace SexyBackPlayScene
             int totalLevel = Singleton<HeroManager>.getInstance().GetHero().LEVEL + Singleton<ElementalManager>.getInstance().TotalLevel;
             int finishResearchCount = Singleton<ResearchManager>.getInstance().FinishList.Count;
 
-
             Singleton<SexyBackRewardScene.RewardManager>.getInstance().RecordResult
                 (mapinfo, clear, lastStage, timeRecord, totalLevel, finishResearchCount);
-
         }
 
         public void Dispose()
