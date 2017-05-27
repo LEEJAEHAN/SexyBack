@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+
+<Consumables>
+
+  <Consumable id ="" name="" description="">
+    <NestedIcon icon="" subicon="" icontext =""/>
+    <Usage type="40" value="15" strvalue="50" cooltime=""/>
+    <DropInfo stackperchest="" droplevel="8" absrate="30" density=""/>
+  </Consumable>
+
+  <Consumable id ="" name="" description="">
+    <NestedIcon icon="" subicon="" icontext =""/>
+    <Usage type="40" value="15" strvalue="50" cooltime=""/>
+    <DropInfo stackperchest="" droplevel="8" absrate="30" density=""/>
+  </Consumable>
+
+  </Consumables>

@@ -79,6 +79,14 @@ namespace SexyBackPlayScene
             Chests.Add(new ConsumableChest(item3, new Vector3(1, 1.5f, 0), false, 0));
         }
 
+        internal static string MakeConstrantText(string target)
+        {
+            if (Singleton<TableLoader>.getInstance().elementaltable.ContainsKey(target))
+                return Singleton<TableLoader>.getInstance().elementaltable[target].Name + " 소환 후에 사용할 수 있습니다.";
+            else
+                return "";
+        }
+
         public void MakeChest(int ChestCount, int level, Vector3 monsterPosition)
         {
             for(int i = 0; i < ChestCount; i ++ )
@@ -129,6 +137,11 @@ namespace SexyBackPlayScene
             Chests.Remove(chest);
         }
 
+        public static BigInteger CalChestExp(int level, int Coef)
+        {
+            double exp = InstanceStatus.CalGrowthPower(MonsterData.GrowthRate, level) * Coef; // 
+            return BigInteger.FromDouble(exp);
+        }
         public static bool Buff(bool on, Consumable.Type bufftype, string target, int value)
         {
             switch (bufftype)

@@ -6,7 +6,7 @@ namespace SexyBackPlayScene
 {
     internal class Consumable : IDisposable, IHasGridItem   // stack 항목.
     {
-        
+
         ~Consumable()
         {
             sexybacklog.Console("Consumable 소멸");
@@ -29,10 +29,19 @@ namespace SexyBackPlayScene
         public readonly ConsumableData baseData;
         public int Stack;
         public double RemainTime;
-        bool Selected;
-
         protected GridItem itemView;
         ConsumableWindow Panel;
+
+        bool Selected;
+        bool isBuffItem
+        {
+            get
+            {
+                return baseData.type == Type.ElementalBuff ||
+                    baseData.type == Type.HeroBuff ||
+                    baseData.type == Type.ExpBuff;
+            }
+        }
 
         public Consumable(ConsumableData data, int s = -1)
         {
@@ -46,7 +55,7 @@ namespace SexyBackPlayScene
 
         public void Update()
         {   // state machine
-            if(RemainTime > 0 )
+            if (RemainTime > 0)
             {
                 RemainTime -= Time.deltaTime;
                 itemView.DrawCoolMask((float)(RemainTime / baseData.CoolTime));
@@ -57,12 +66,12 @@ namespace SexyBackPlayScene
                 }
             }
 
-            if( Stack <= 0 && RemainTime <= 0 )     // 스택만 0이고 쿨은 남아있을때는 객체는 남아있다. 단 view는 off상태다.
+            if (Stack <= 0 && RemainTime <= 0)     // 스택만 0이고 쿨은 남아있을때는 객체는 남아있다. 단 view는 off상태다.
             {
                 Singleton<ConsumableManager>.getInstance().Destory(GetID);
             }
         }
-        
+
         internal void ActiveView()
         {
             itemView = new GridItem(GridItem.Type.Consumable, GetID, baseData.icon, this);
@@ -85,13 +94,15 @@ namespace SexyBackPlayScene
             if (RemainTime > 0)
                 return;
 
-            if(Use())
+            if (Use())
             {
-                Stack--;    
+                Stack--;
                 RemainTime = baseData.CoolTime;
                 EffectController.getInstance.AddBuffEffect(baseData.icon);
                 ViewRefresh();
             }
+            else
+                Panel.PrintConstraint(ConsumableManager.MakeConstrantText(baseData.strValue));
         }
         public bool Use()
         {
@@ -134,17 +145,10 @@ namespace SexyBackPlayScene
                 ConsumableManager.Buff(true, baseData.type, baseData.strValue, baseData.value);
         }
 
-
         // function
         public void Dispose()
         {
             itemView.Dispose();
-        }
-
-        public static BigInteger CalExp(int level, int Coef)
-        {
-            double exp = InstanceStatus.CalGrowthPower(MonsterData.GrowthRate, level) * Coef; // 
-            return BigInteger.FromDouble(exp);
         }
 
         public void onSelect(string id)
@@ -180,8 +184,10 @@ namespace SexyBackPlayScene
                     Panel.SetButton1(Selected, true);
                 else
                     Panel.SetButton1(Selected, false);
-                Panel.Show(Selected, baseData.icon, baseData.name, baseData.description);
+
+                Panel.Show(Selected, baseData, isBuffItem);
             }
         }
+
     }
 }

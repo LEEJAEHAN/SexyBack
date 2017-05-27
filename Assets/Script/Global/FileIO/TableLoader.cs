@@ -181,16 +181,16 @@ internal class TableLoader
     private void LoadLevelUpData()
     {
         leveluptable = new Dictionary<string, LevelUpData>();
-        LevelUpData heroAttack = new LevelUpData("L001", "hero", "일반공격", "Icon_11");
-        LevelUpData item1 = new LevelUpData("L002", "fireball", "파이어볼", "Icon_01");
-        LevelUpData item2 = new LevelUpData("L003", "iceblock", "각얼음", "Icon_05");
-        LevelUpData item3 = new LevelUpData("L004", "rock", "짱돌", "Icon_07");
-        LevelUpData item4 = new LevelUpData("L005", "electricball", "지지직", "Icon_04");
-        LevelUpData item5 = new LevelUpData("L006", "waterball", "물폭탄", "Icon_09");
-        LevelUpData item6 = new LevelUpData("L007", "earthball", "똥", "Icon_03");
-        LevelUpData item7 = new LevelUpData("L008", "airball", "바람바람", "Icon_02");
-        LevelUpData item8 = new LevelUpData("L009", "snowball", "눈덩이", "Icon_08");
-        LevelUpData item9 = new LevelUpData("L010", "magmaball", "메테오", "Icon_06");
+        LevelUpData heroAttack = new LevelUpData("L001", "hero", "검술", "Icon_11");
+        LevelUpData item1 = new LevelUpData("L002", "fireball", "불원소", "Icon_01");
+        LevelUpData item2 = new LevelUpData("L003", "iceblock", "얼음원소", "Icon_05");
+        LevelUpData item3 = new LevelUpData("L004", "rock", "바위원소", "Icon_07");
+        LevelUpData item4 = new LevelUpData("L005", "electricball", "전기원소", "Icon_04");
+        LevelUpData item5 = new LevelUpData("L006", "waterball", "물원소", "Icon_09");
+        LevelUpData item6 = new LevelUpData("L007", "earthball", "대지원소", "Icon_03");
+        LevelUpData item7 = new LevelUpData("L008", "airball", "바람원소", "Icon_02");
+        LevelUpData item8 = new LevelUpData("L009", "snowball", "눈원소", "Icon_08");
+        LevelUpData item9 = new LevelUpData("L010", "magmaball", "마그마원소", "Icon_06");
         leveluptable.Add(heroAttack.OwnerID, heroAttack);
         leveluptable.Add(item1.OwnerID, item1);
         leveluptable.Add(item2.OwnerID, item2);
@@ -301,75 +301,40 @@ internal class TableLoader
     private void LoadConsumableData()
     {
         consumable = new Dictionary<string, ConsumableData>();
-        ConsumableData cData1 = new ConsumableData(1);
-        consumable.Add(cData1.id, cData1);
-        ConsumableData cData2 = new ConsumableData(2);
-        consumable.Add(cData2.id, cData2);
-        ConsumableData cData3 = new ConsumableData(3);
-        consumable.Add(cData3.id, cData3);
-        ConsumableData cData4 = new ConsumableData(4);
-        consumable.Add(cData4.id, cData4);
-        ConsumableData cData5 = new ConsumableData(5);
-        consumable.Add(cData5.id, cData5);
-        ConsumableData cData6 = new ConsumableData(6);
-        consumable.Add(cData6.id, cData6);
-        ConsumableData cData7 = new ConsumableData(7);
-        consumable.Add(cData7.id, cData7);
-        ConsumableData cData8 = new ConsumableData(8);
-        consumable.Add(cData8.id, cData8);
-        ConsumableData cData9 = new ConsumableData(9);
-        consumable.Add(cData9.id, cData9);
-        ConsumableData cData10 = new ConsumableData(10);
-        consumable.Add(cData10.id, cData10);
+        XmlDocument xmldoc = OpenXml("Xml/ConsumableData");
+        XmlNode rootNode = xmldoc.SelectSingleNode("Consumables");
+        XmlNodeList nodes = rootNode.SelectNodes("Consumable");
 
-        //consumable.Add(new ConsumableData(8));
+        foreach (XmlNode node in nodes)
+        {
+            ConsumableData data = new ConsumableData();
 
-        //XmlDocument xmldoc = OpenXml("Xml/TalentData");
-        //XmlNode rootNode = xmldoc.SelectSingleNode("Talents");
-        //XmlNodeList nodes = rootNode.SelectNodes("Talent");
-
-        //foreach (XmlNode node in nodes)
-        //{
-        //    string id = node.Attributes["id"].Value;
-        //    string requireid = node.Attributes["requireid"].Value;
-        //    ConsumableType type = (ConsumableType)Enum.Parse(typeof(ConsumableType), node.Attributes["type"].Value);
-        //    int maxlevelper10;
-        //    if (node.Attributes["maxlevelper10"] != null)
-        //        maxlevelper10 = int.Parse(node.Attributes["maxlevelper10"].Value);
-
-        //    XmlNode infonode = node.SelectSingleNode("Info");
-        //    string icon = infonode.Attributes["icon"].Value;
-        //    string subicon = null;
-        //    if (infonode.Attributes["subicon"] != null)
-        //        subicon = infonode.Attributes["subicon"].Value;
-        //    string name = infonode.Attributes["name"].Value;
-        //    string description = infonode.Attributes["description"].Value;
-
-        //    XmlNode ratenode = node.SelectSingleNode("Rate");
-        //    int rate;
-        //    bool abs;
-        //    if (ratenode.Attributes["absrate"] != null)
-        //    {
-        //        abs = true;
-        //        rate = int.Parse(ratenode.Attributes["absrate"].Value);
-        //    }
-        //    else
-        //    {
-        //        abs = false;
-        //        rate = int.Parse(ratenode.Attributes["rate"].Value);
-        //    }
-
-        //    XmlNode bonusnode = node.SelectSingleNode("Bonus");
-        //    string target = bonusnode.Attributes["target"].Value;
-        //    Attribute attribute = (Attribute)Enum.Parse(typeof(Attribute),bonusnode.Attributes["attribute"].Value);
-        //    int value = 0;
-        //    if (bonusnode.Attributes["value"] != null)
-        //        value = int.Parse(bonusnode.Attributes["value"].Value);
-        //    BonusStat bonus = new BonusStat(target, attribute, value, null, null);
-
-        //    GridItemIcon iconinfo = new GridItemIcon(icon, "",  subicon);
-        //    ConsumableData talentdata = new ConsumableData(id, iconinfo, description, bonus, type, rate, abs);
-        //    talenttable.Add(talentdata);
+            data.id = node.Attributes["id"].Value;
+            data.name = node.Attributes["name"] != null ? node.Attributes["name"].Value : null;
+            data.description = node.Attributes["description"] != null ? node.Attributes["description"].Value : null;
+            {
+                XmlNode iconNode = node.SelectSingleNode("NestedIcon");
+                data.icon = new NestedIcon();
+                data.icon.IconName = iconNode.Attributes["icon"].Value;
+                data.icon.SubIconName = iconNode.Attributes["subicon"] != null ? iconNode.Attributes["subicon"].Value : null;
+                data.icon.IconText = iconNode.Attributes["icontext"] != null ? iconNode.Attributes["icontext"].Value : null;
+            }
+            {
+                XmlNode usageNode = node.SelectSingleNode("Usage");
+                data.type = (Consumable.Type)Enum.Parse(typeof(Consumable.Type), usageNode.Attributes["type"].Value);
+                data.value = usageNode.Attributes["value"] != null ? int.Parse(usageNode.Attributes["value"].Value) : 0;
+                data.strValue = usageNode.Attributes["strvalue"] != null ? usageNode.Attributes["strvalue"].Value : null;
+                data.CoolTime = usageNode.Attributes["cooltime"] != null ? double.Parse(usageNode.Attributes["cooltime"].Value) : 0;
+            }
+            {
+                XmlNode dropNode = node.SelectSingleNode("DropInfo");
+                data.stackPerChest = dropNode.Attributes["stackperchest"] != null ? int.Parse(dropNode.Attributes["stackperchest"].Value) : 0;
+                data.dropLevel = dropNode.Attributes["droplevel"] != null ? int.Parse(dropNode.Attributes["droplevel"].Value) : 0;
+                data.AbsRate = dropNode.Attributes["absrate"] != null ? int.Parse(dropNode.Attributes["absrate"].Value) : 0;
+                data.Density = dropNode.Attributes["density"] != null ? int.Parse(dropNode.Attributes["density"].Value) : 0;
+            }
+            consumable.Add(data.id, data);
+        }
     }
 
 }

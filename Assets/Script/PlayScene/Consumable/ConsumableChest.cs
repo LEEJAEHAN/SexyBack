@@ -28,7 +28,7 @@ namespace SexyBackPlayScene
             switch(consumable.baseData.type)
             {
                 case Consumable.Type.Exp:
-                    BigInteger exp =  Consumable.CalExp(Level, consumable.baseData.value);
+                    BigInteger exp =  ConsumableManager.CalChestExp(Level, consumable.baseData.value);
                     Singleton<InstanceStatus>.getInstance().ExpGain(exp, false);
                     break;
                 case Consumable.Type.Gem:
