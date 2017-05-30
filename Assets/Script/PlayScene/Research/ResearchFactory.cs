@@ -14,8 +14,8 @@ namespace SexyBackPlayScene
 
         internal Research SummonNewResearch(ResearchData data)
         {
-            BigInteger totalPrice = CalPrice(data.level, data.baselevel, data.baseprice);
-            double temptime = CalTime(data.level + data.baselevel, data.baseprice, data.rate, data.basetime);
+            BigInteger totalPrice = CalPrice(data.Level, data.baselevel, data.baseprice);
+            double temptime = CalTime(data.Level + data.baselevel, data.baseprice, data.rate, data.basetime);
             double researchTick;
 
             // avatar생성

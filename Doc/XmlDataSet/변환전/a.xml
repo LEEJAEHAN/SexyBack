@@ -6,26 +6,26 @@
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES01" name="신속함" belong="false" droplevel="67">
-		<Bonus1 target="base" attribute="Spd" value="5"/>
+	<Skill id="ES01" belong="false" droplevel="67">
+		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES02" name="절약" belong="false" droplevel="67">
-		<Bonus1 target="util" attribute="RPriceReduceXH" value="5"/>
+	<Skill id="ES02" name="크리테스트" belong="false" droplevel="67">
+		<Bonus1 target="hero" attribute="CriticalRateXH" value="10"/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
 	<Skill id="ES03" name="분노" belong="false" droplevel="67">
-		<Bonus1 target="hero" attribute="DpcIncreaseXH" value="15"/>
+		<Bonus1 target="hero" attribute="DpcIncreaseXH" value="5"/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
 	<Skill id="ES04" name="광전사" belong="false" droplevel="67">
-		<Bonus1 target="hero" attribute="AttackSpeedXH" value="15"/>
+		<Bonus1 target="hero" attribute="AttackSpeedXH" value="5"/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
@@ -43,7 +43,7 @@
 		<Bonus4/>
 	</Skill>
 	<Skill id="ES07" name="낙석" belong="false" droplevel="67">
-		<Bonus1 target="rock" attribute="SkillRateIncreaseXH" value="15"/>
+		<Bonus1 target="rock" attribute="SkillRateIncreaseXH" value="30"/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>

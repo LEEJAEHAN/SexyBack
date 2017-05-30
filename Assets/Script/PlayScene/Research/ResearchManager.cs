@@ -120,7 +120,7 @@ namespace SexyBackPlayScene
                 if (FinishList.ContainsKey(item.ID))
                     continue;
 
-                if (item.requireID == id && item.requeireLevel <= levelcondition)
+                if (item.requireID == id && item.showlevel <= levelcondition)
                 {
                     DrawNewMark();
                     Research research = factory.SummonNewResearch(item);

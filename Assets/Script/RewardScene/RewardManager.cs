@@ -12,7 +12,7 @@ namespace SexyBackRewardScene
         internal void Init()
         {
             if (CurrentResult == null)
-                RecordResult(Singleton<TableLoader>.getInstance().mapTable["Map01"], true, 10, 0, 200, 6);
+                RecordResult(Singleton<TableLoader>.getInstance().mapTable["Map01"], true, 10, 1680, 150, 21);
             WaitingTime = 1.0f;
             Window = new RewardWindow();
             Window.SetWindowView(CurrentResult);

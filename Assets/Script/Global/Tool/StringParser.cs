@@ -85,7 +85,7 @@ public static class StringParser
             case Attribute.AttackSpeedXH:
                 return string.Format("{0} 공격속도 {1}%증가", AttackName, bonus.value);
             case Attribute.CriticalRateXH:
-                return string.Format("{0} 확률 {1:N1}%증가", SkillName, (double)(SkillRateXK * bonus.value / 1000f) - 0.05f); // 버림
+                return string.Format("{0} 확률 {1:N1}%증가", SkillName, (double)(SkillRateXK * bonus.value / 1000f)); // 버림
             case Attribute.CriticalDamageXH:
                 return string.Format("{0} 데미지 {1}%증가", SkillName, bonus.value);
             case Attribute.MovespeedXH:
@@ -97,7 +97,7 @@ public static class StringParser
             case Attribute.CastSpeedXH:
                 return string.Format("{0} 시전속도 {1}%증가", AttackName, bonus.value);
             case Attribute.SkillRateIncreaseXH:
-                return string.Format("{0} 발동확률 {1:N1}%증가", SkillName, (double)(SkillRateXK * bonus.value / 1000f) - 0.05f); // 버림
+                return string.Format("{0} 발동확률 {1:N1}%증가", SkillName, (double)(SkillRateXK * bonus.value / 1000f)); // 버림
             case Attribute.SkillDmgIncreaseXH:
                 return string.Format("{0} 데미지 {0}%증가", SkillName, bonus.value);
             case Attribute.ExpIncreaseXH:
@@ -118,5 +118,20 @@ public static class StringParser
                 return string.Format("랭크보너스 +{0}", bonus.value);
         }
         return "Can't Parse Attribute";
+    }
+
+    internal static string GetRequireText(string targetID, int requireLevel)
+    {
+        string targetName = null;
+
+        if (targetID == "hero")
+            targetName = "검술레벨";
+        else if(Singleton<TableLoader>.getInstance().elementaltable.ContainsKey(targetID))
+            targetName = Singleton<TableLoader>.getInstance().elementaltable[targetID].Name;
+
+        if (targetName == null)
+            return "";
+        
+        return string.Format("{0} {1} 레벨부터 연구가능합니다.", targetName, requireLevel);
     }
 }

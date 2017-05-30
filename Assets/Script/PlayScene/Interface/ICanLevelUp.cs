@@ -1,6 +1,7 @@
 ﻿namespace SexyBackPlayScene
 {
-    internal interface ISingleton
+    internal interface ICanLevelUp
     {
+        int GetLevel { get; }
     }
 }

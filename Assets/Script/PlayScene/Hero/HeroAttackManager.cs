@@ -67,13 +67,17 @@ namespace SexyBackPlayScene
 
         public void AddAttackCount(int count)
         {
+            int limit = iconangle.Length;//owner.MaxAttackCount; 
+
+
             int prev = atkCount;
             atkCount += count;
-            if (atkCount >= owner.MaxAttackCount)
-            {
-                atkCount = owner.MaxAttackCount;
+            if (atkCount >= limit)
+                atkCount = limit;
+
+            if(atkCount >= owner.MaxAttackCount)
                 attackTimer = 0;
-            }
+
             DrawIcon(prev, atkCount - prev);
         }
         private void AddAttackCount()

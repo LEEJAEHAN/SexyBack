@@ -75,14 +75,14 @@ internal class TableLoader
         data1.Name = "10층돌파";
         data1.RequireClearMap = null;
         data1.LimitTime = 3600;
-        data1.RewardData = new MapRewardData(67, 67, 1, 1);
-        data1.MaxFloor = 10;
-        data1.LevelPerFloor = 5;
+        data1.RewardData = new MapRewardData(67, 67, 1, 8);
+        data1.MaxFloor = 50;        // 10
+        data1.LevelPerFloor = 1;    // 5
         data1.MonsterPerStage = 1;
         data1.ChestPerMonster = 1;
         data1.BossHPX = 10;
-        data1.ChestPerBossMonster = 3;
-        data1.BaseMonsterHP = 5;    // 1000;
+        data1.ChestPerBossMonster = 1;
+        data1.BaseMonsterHP = 200;    // 1000;
         mapTable.Add(data1.ID, data1);
 
         MapData data2 = new MapData();
@@ -90,7 +90,7 @@ internal class TableLoader
         data2.Name = "20층돌파";
         data2.RequireClearMap = "Map01";
         data2.LimitTime = 7200;
-        data2.RewardData = new MapRewardData(167, 67, 3, 1);
+        data2.RewardData = new MapRewardData(167, 67, 3, 3);
         data2.MaxFloor = 20;
         data2.LevelPerFloor = 5;
         data2.MonsterPerStage = 1;
@@ -257,7 +257,7 @@ internal class TableLoader
         {
             string id = node.Attributes["id"].Value;
             string requireid = node.Attributes["requireid"].Value;
-            int requirelevel = int.Parse(node.Attributes["requirelevel"].Value);
+            int showlevel = int.Parse(node.Attributes["showlevel"].Value);
 
             XmlNode infonode = node.SelectSingleNode("Info");
             string icon = infonode.Attributes["icon"].Value;
@@ -291,7 +291,7 @@ internal class TableLoader
 
             BonusStat bonus = new BonusStat(target, attribute, value, stringvalue, null);
             NestedIcon iconinfo = new NestedIcon(icon, icontext, subicon);
-            ResearchData research = new ResearchData(id, requireid, requirelevel, iconinfo, name, description, level, baselevel, baseprice,
+            ResearchData research = new ResearchData(id, requireid, showlevel, iconinfo, name, description, level, baselevel, baseprice,
                 rate, basetime, bonus);
             researchtable.Add(id, research);
         }

@@ -34,6 +34,7 @@ namespace SexyBackPlayScene
         UILabel Description;
         UILabel PriceName;
         UILabel PriceValue;
+        UILabel Require;
 
         UIButton Button1;
         UIButton Button2;
@@ -53,7 +54,7 @@ namespace SexyBackPlayScene
 
             PriceName = gameObject.transform.FindChild("Right/PriceName").GetComponent<UILabel>();
             PriceValue = gameObject.transform.FindChild("Right/PriceValue").GetComponent<UILabel>();
-
+            Require = gameObject.transform.FindChild("Right/Requirement").GetComponent<UILabel>();
             Name = gameObject.transform.FindChild("Middle/Name").GetComponent<UILabel>();
             Description = gameObject.transform.FindChild("Middle/Description").GetComponent<UILabel>();
 
@@ -62,6 +63,7 @@ namespace SexyBackPlayScene
             Button1.onClick.Add(new EventDelegate(this, "onButton1"));
             Button2.onClick.Add(new EventDelegate(this, "onButton2"));
         }
+
 
         public void onButton1()
         {
@@ -72,17 +74,18 @@ namespace SexyBackPlayScene
             Action_Pause();
         }
 
-        public void Show(bool selected, NestedIcon Icon, string name, string description, string pricename, string pricevalue)
+        public void Show(bool selected, ResearchData data, string pricename, string pricevalue)
         {   // infoview는 select상태에서만 갱신해야한다.
             if (!selected)
                 return;
-            gameObject.SetActive(true);
-            NestedIcon.Draw(Icon, this.Icon);
 
-            Name.text = name;
-            Description.text = description;
+            gameObject.SetActive(true);
+            NestedIcon.Draw(data.icon, this.Icon);
+            Name.text = data.Name;
+            Description.text = data.Description;
             PriceName.text = pricename;
             PriceValue.text = pricevalue;
+            Require.text = StringParser.GetRequireText(data.requireID, data.Level);
         }
 
         public void Hide()
@@ -103,18 +106,18 @@ namespace SexyBackPlayScene
 
         public void SetButton1(bool selected, bool enable, bool active)
         {
-            if (!selected || Button1.enabled == enable)
+
+            if (!selected)
                 return;
 
+            Button1.gameObject.SetActive(active);
             Button1.enabled = enable;
             if (enable)
                 Button1.SetState(UIButtonColor.State.Normal, true);
             else
                 Button1.SetState(UIButtonColor.State.Disabled, true);
 
-            Button1.gameObject.SetActive(active);
         }
-
 
     }
 }

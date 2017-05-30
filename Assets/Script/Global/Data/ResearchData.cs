@@ -9,30 +9,30 @@ public class ResearchData
     public string ID; // 리서치아이디
     public BonusStat bonus;
     public string requireID;
-    public int requeireLevel;
 
-    public string InfoName;
-    public string InfoDescription;
+    public string Name;
+    public string Description;
 
     public NestedIcon icon;
 
-    public int level;
-    public int baselevel;
+    public int Level;// currentlevel of target 
+    public int showlevel; //
+    public int baselevel; // baselevel of target
     public int baseprice;
     public int rate;
     public int basetime;
 
-    public ResearchData(string id, string requireid, int requirelevel, NestedIcon icon, string name, string description, int level, int baselevel, int baseprice, int rate, int basetime, BonusStat bonus)
+    public ResearchData(string id, string requireid, int showlevel, NestedIcon icon, string name, string description, int level, int baselevel, int baseprice, int rate, int basetime, BonusStat bonus)
     {
         ID = id;
         this.bonus = bonus;
         requireID = requireid;
-        requeireLevel = requirelevel;
-        InfoName = name;
+        this.showlevel = showlevel;
+        Name = name;
         this.icon = icon;
 
-        InfoDescription = description;
-        this.level = level;
+        Description = description;
+        this.Level = level;
         this.baselevel = baselevel;
         this.baseprice = baseprice;
         this.rate = rate;

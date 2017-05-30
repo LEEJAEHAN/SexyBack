@@ -24,7 +24,7 @@ namespace SexyBackPlayScene
             MoveSpeed = 3f;
             BaseLevel = 0;
             BasePrice = 60;
-            BaseDmg = 1f;
+            BaseDmg = 1.025f;       // fireball's dmg
             BaseSkillRateXK = 200;
             BaseSkillDamageXH = 425;
         }

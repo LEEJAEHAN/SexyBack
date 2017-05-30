@@ -6,9 +6,10 @@ using System.Runtime.Serialization;
 namespace SexyBackPlayScene
 {
     [Serializable]
-    internal class Hero : IStateOwner, IDisposable, ISerializable
+    internal class Hero : ICanLevelUp, IStateOwner, IDisposable, ISerializable
     {
         public string GetID { get { return baseData.ID; } }
+        public int GetLevel { get { return LEVEL; } }
         public readonly HeroData baseData;
         public HeroStateMachine StateMachine;
         public Animator Animator;
@@ -41,6 +42,7 @@ namespace SexyBackPlayScene
 
         public string CurrentState { get { return StateMachine.currStateID; } }
         private bool JudgeCritical { get { return CriRateXK > UnityEngine.Random.Range(0, 1000); } }
+
 
         public delegate void HeroChange_Event(Hero hero);
         public event HeroChange_Event Action_Change = delegate { };
@@ -128,8 +130,7 @@ namespace SexyBackPlayScene
                 BuffCoef = xtimes;
             else
                 BuffCoef = 1;
-            CalDpc();
-            Action_Change(this);
+            RefreshStat = true;
         }
 
         private void CalPrice()

@@ -7,17 +7,16 @@ namespace SexyBackPlayScene
     [Serializable]
     internal class Research : IDisposable, IHasGridItem, IStateOwner, ISerializable
     {
-        //public WeakReference owner;
-        string ID;
+        //ID = data.ID;
+        //bonus = data.bonus;
+        //RequireLevel = data.Level;
+        //Name = data.Name;
+        //Description = data.Description;
+        //icon = data.icon;
 
+        public readonly ResearchData baseData;
         public GridItem View;
-        NestedIcon icon;
         public ResearchWindow Panel;
-
-        string Name;
-        string Description;
-        public int RequireLevel;
-        BonusStat bonus;
 
         // 오리지널 값.
         public BigInteger researchprice = new BigInteger(1);
@@ -29,8 +28,7 @@ namespace SexyBackPlayScene
         public BigInteger PricePerSec;
         public readonly double ResearchTime;
         public double ReducedTime;
-
-        public int SortOrder;
+        public int SortOrder { get { return baseData.Level + baseData.baselevel; } }
         public double RemainTime;
         public double ResearchTick;
 
@@ -41,7 +39,7 @@ namespace SexyBackPlayScene
         public ResearchStateMachine StateMachine;
 
         public string SavedState;
-        public string GetID { get { return ID; } }
+        public string GetID { get { return baseData.ID; } }
         public string CurrentState { get { return StateMachine.currStateID; } }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -58,12 +56,13 @@ namespace SexyBackPlayScene
         
         public Research(ResearchData data, double time, BigInteger totalprice, double tick)
         {
-            ID = data.ID;
-            bonus = data.bonus;
-            RequireLevel = data.requeireLevel;
-            Name = data.InfoName;
-            Description = data.InfoDescription;
-            SortOrder = data.level + data.baselevel;
+            //ID = data.ID;
+            //bonus = data.bonus;
+            //RequireLevel = data.Level;
+            //Name = data.Name;
+            //Description = data.Description;
+            //icon = data.icon;
+            baseData = data;
 
             ResearchTime = time;
             ReducedTime = ResearchTime;
@@ -72,7 +71,6 @@ namespace SexyBackPlayScene
             startprice = ((100 - data.rate) * totalprice) / 100;
             researchprice = data.rate * totalprice / 100;
 
-            icon = data.icon;
             View = new GridItem(GridItem.Type.Research, data.ID, data.icon, this);
             Panel = Singleton<ResearchManager>.getInstance().Panel;
 
@@ -95,7 +93,7 @@ namespace SexyBackPlayScene
         }
         public void DoUpgrade()
         {
-            Singleton<InstanceStatus>.getInstance().Upgrade(bonus, icon);
+            Singleton<InstanceStatus>.getInstance().Upgrade(baseData.bonus, baseData.icon);
         }
 
         public void onSelect(string id)
@@ -127,7 +125,7 @@ namespace SexyBackPlayScene
 
             string pricename = "";
             string pricevalue = "";
-
+            
             if (!InstanceBuy)
             {
                 pricename = "비용\n\n시간";
@@ -139,7 +137,7 @@ namespace SexyBackPlayScene
                 pricevalue = StartPrice.To5String() + " 경험치";
             }
 
-            Panel.Show(Selected, icon, Name, Description, pricename, pricevalue);
+            Panel.Show(Selected, baseData, pricename, pricevalue);
         }
 
         public void onConfirm()

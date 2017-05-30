@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Prices>
-	<Price fromlevel="0" tolevel="14" base="2"/>
-	<Price fromlevel="15" tolevel="34" base="4.15"/>
-	<Price fromlevel="35" tolevel="59" base="6.5"/>
-	<Price fromlevel="60" tolevel="89" base="9.1"/>
-	<Price fromlevel="90" tolevel="129" base="12"/>
-	<Price fromlevel="130" tolevel="179" base="15.3"/>
-	<Price fromlevel="180" tolevel="229" base="19.1"/>
-	<Price fromlevel="230" tolevel="279" base="23.4"/>
-	<Price fromlevel="280" tolevel="329" base="28.2"/>
-	<Price fromlevel="330" tolevel="379" base="33.5"/>
-	<Price fromlevel="380" tolevel="399" base="39.3"/>
-	<Price fromlevel="400" tolevel="9999" base="99999999"/>
+	<Price fromlevel="0" tolevel="4" base="1.025"/>
+	<Price fromlevel="5" tolevel="14" base="2.05"/>
+	<Price fromlevel="15" tolevel="29" base="4.2"/>
+	<Price fromlevel="30" tolevel="59" base="6.5"/>
+	<Price fromlevel="60" tolevel="104" base="9.1"/>
+	<Price fromlevel="105" tolevel="154" base="12.15"/>
+	<Price fromlevel="155" tolevel="209" base="15.7"/>
+	<Price fromlevel="210" tolevel="259" base="19.8"/>
+	<Price fromlevel="260" tolevel="324" base="24.4"/>
+	<Price fromlevel="325" tolevel="394" base="29.65"/>
+	<Price fromlevel="395" tolevel="469" base="35.6"/>
+	<Price fromlevel="470" tolevel="999" base="42.3"/>
 </Prices>

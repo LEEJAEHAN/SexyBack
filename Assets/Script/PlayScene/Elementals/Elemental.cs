@@ -5,10 +5,11 @@ using System.Runtime.Serialization;
 namespace SexyBackPlayScene
 {
     [Serializable]
-    internal class Elemental : ISerializable// base class of Elementals
+    internal class Elemental : ICanLevelUp, ISerializable// base class of Elementals
     {
         ElementalData baseData;
         public string GetID { get { return baseData.ID; } }
+        public int GetLevel { get { return LEVEL; } }
         public string targetID { get { return shooter.targetID; } set { skill.targetID = value; shooter.targetID = value; } }
         // 변수
         BigInteger DpsX = new BigInteger();
@@ -96,8 +97,7 @@ namespace SexyBackPlayScene
                 BuffCoef = xtimes;
             else
                 BuffCoef = 1;
-            CalDps();
-            Action_Change(this);
+            RefreshStat = true;
         }
 
         internal void Update()

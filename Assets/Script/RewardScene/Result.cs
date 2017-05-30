@@ -151,7 +151,7 @@ namespace SexyBackRewardScene
 
             foreach (ResearchData data in Singleton<TableLoader>.getInstance().researchtable.Values)
             {
-                int ContentsLevel = data.baselevel + data.level;
+                int ContentsLevel = data.baselevel + data.Level;
                 if (ContentsLevel <= MapLevel)   // 이 리서치는 배웠어야 정상이다.
                 {
                     RecommendResearch++;

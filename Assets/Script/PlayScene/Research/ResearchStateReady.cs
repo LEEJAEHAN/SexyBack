@@ -6,6 +6,7 @@ namespace SexyBackPlayScene
     {
         InstanceStatus player = Singleton<InstanceStatus>.getInstance();
         ResearchManager manager = Singleton<ResearchManager>.getInstance();
+        ICanLevelUp target;
         bool Instantbuy = false;
         //bool ThreadEmpty = false;
         //bool CanBuy { get { return player.EXP >= owner.StartPrice; } } 
@@ -20,6 +21,12 @@ namespace SexyBackPlayScene
             Instantbuy = false;
             manager.Action_ThreadChange += this.onThreadEmpty;
             player.Action_ExpChange += this.onExpChange;
+
+            if (owner.baseData.requireID == "hero")
+                target = Singleton<HeroManager>.getInstance().GetHero();
+            else if (Singleton<ElementalManager>.getInstance().elementals.ContainsKey(owner.baseData.requireID))
+                target = Singleton<ElementalManager>.getInstance().elementals[owner.baseData.requireID];
+
             Refresh();
             //onThreadEmpty(manager.CanUseThread);
             //onExpChange(player.EXP);
@@ -50,31 +57,35 @@ namespace SexyBackPlayScene
         {
             bool ThreadEmpty = manager.CanUseThread;
             bool CanBuy = player.EXP >= owner.StartPrice;
+            bool CanStart = (target == null ? true : target.GetLevel >= owner.baseData.Level);
 
             InstantModeCheck();
 
             if (!Instantbuy)
             {
                 owner.View.DrawRBar(0, (int)owner.ReducedTime, false);
-                if (CanBuy && ThreadEmpty)
+                if (CanBuy && CanStart && ThreadEmpty)
                     owner.View.Enable();
                 else
                     owner.View.Disable();
-                owner.Panel.SetButton1(owner.Selected, CanBuy && ThreadEmpty, true);
             }
             else
             {
                 owner.View.HideRBar();
-                if (CanBuy)
+                if (CanBuy && CanStart)
                     owner.View.Enable();
                 else
                     owner.View.Disable();
-                owner.Panel.SetButton1(owner.Selected, CanBuy, true);
             }
 
+
+            // 여기서부터는 하단뷰. ( 선택한것만 )
             if (!owner.Selected)
                 return;
-
+            if (!Instantbuy)
+                owner.Panel.SetButton1(owner.Selected, CanBuy && ThreadEmpty, CanStart);
+            else
+                owner.Panel.SetButton1(owner.Selected, CanBuy, CanStart);
             owner.FillInfoView(Instantbuy);
         }
 

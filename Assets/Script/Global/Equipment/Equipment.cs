@@ -42,7 +42,7 @@ public class Equipment
     {
         get
         {
-            return 10 * (grade + 1) * (evolution + 1);
+            return 20 * (grade + 1) * (evolution + 1);
         }
     }
     public BaseStat Stat
