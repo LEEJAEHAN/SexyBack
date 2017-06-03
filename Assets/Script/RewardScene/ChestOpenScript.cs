@@ -48,8 +48,8 @@ namespace SexyBackRewardScene
                 label.text = "프리미엄보상";
             else if (mode == ChestSource.Event)
                 label.text = "이벤트보상";
-            else if (mode == ChestSource.TreasureHunter)
-                label.text = "트레져헌터 주머니";
+            else if (mode == ChestSource.Bonus)
+                label.text = "추가보상";
             else if (mode == ChestSource.GemOpen)
             {
                 transform.FindChild("Container/Source/Normal").gameObject.SetActive(false);

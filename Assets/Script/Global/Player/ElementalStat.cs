@@ -5,6 +5,7 @@ using System.Xml;
 [Serializable]
 internal class ElementalStat// 누적배수
 {
+    // dynamic stat
     internal int BonusLevel;
     internal BigInteger DpsX;
     internal int DpsIncreaseXH; // 
@@ -12,9 +13,8 @@ internal class ElementalStat// 누적배수
     internal int SkillRateIncreaseXH;
     internal int SkillDmgIncreaseXH;
 
-    // only use battleScene
-    //internal int Level;
-    //internal bool SkillLaunch;
+    // static stat
+    internal int InitLevel;
 
     internal ElementalStat()
     {
@@ -24,6 +24,7 @@ internal class ElementalStat// 누적배수
         CastSpeedXH = 0;
         SkillRateIncreaseXH = 0;
         SkillDmgIncreaseXH = 0;
+        InitLevel = 0;
     }
     internal void LoadStat(XmlNode xmlNode)
     {
@@ -48,6 +49,9 @@ internal class ElementalStat// 누적배수
         {
             case Attribute.BonusLevel:
                 BonusLevel += bonus.value;
+                break;
+            case Attribute.InitLevel:
+                InitLevel += bonus.value;
                 break;
             case Attribute.DpsX:
                 DpsX *= bonus.value;
@@ -75,6 +79,9 @@ internal class ElementalStat// 누적배수
         {
             case Attribute.BonusLevel:
                 BonusLevel -= bonus.value;
+                break;
+            case Attribute.InitLevel:
+                InitLevel -= bonus.value;
                 break;
             case Attribute.DpsX:
                 DpsX /= bonus.value;

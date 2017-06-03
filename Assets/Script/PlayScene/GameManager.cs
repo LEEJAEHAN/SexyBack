@@ -105,14 +105,14 @@ namespace SexyBackPlayScene
 
         private void GameClear(bool clear)
         {
-            MapData mapinfo = Singleton<InstanceStatus>.getInstance().InstanceMap;
+            Map currentmap = Singleton<InstanceStatus>.getInstance().InstanceMap;
             int lastStage = Singleton<StageManager>.getInstance().CurrentFloor - 1;
             int timeRecord = (int)Singleton<InstanceStatus>.getInstance().CurrentGameTime;
             int totalLevel = Singleton<HeroManager>.getInstance().GetHero().LEVEL + Singleton<ElementalManager>.getInstance().TotalLevel;
             int finishResearchCount = Singleton<ResearchManager>.getInstance().FinishList.Count;
 
             Singleton<SexyBackRewardScene.RewardManager>.getInstance().RecordResult
-                (mapinfo, clear, lastStage, timeRecord, totalLevel, finishResearchCount);
+                (currentmap, clear, lastStage, timeRecord, totalLevel, finishResearchCount);
         }
 
         public void Dispose()

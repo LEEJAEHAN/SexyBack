@@ -38,6 +38,20 @@ internal class EquipmentManager
             NewData();
         }
     }
+
+    internal string GetTotalBonus()
+    {
+        string temp = "";
+        foreach(var a in currentEquipSet.Values)
+        {
+            foreach(var b in a.SkillStat)
+            {
+                temp +=  StringParser.GetAttributeString(b) + "\n";
+            }
+        }
+        return temp;
+    }
+
     private void Load()
     {
         XmlDocument doc = SaveSystem.LoadXml(SaveSystem.SaveDataPath);

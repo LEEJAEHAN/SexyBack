@@ -7,7 +7,7 @@ namespace SexyBackRewardScene
     public enum ChestSource
     {
         Event = 0,
-        TreasureHunter = 1,
+        Bonus = 1,
         Premium = 2,
         GemOpen = 3,
         Normal
@@ -31,11 +31,12 @@ namespace SexyBackRewardScene
         // result
         public Dictionary<string, int> Score;
         public RewardRank Rank;
-        public MapData MapInfo;
+        public Map MapInfo;
         public int LastFloor;
         public int ClearTime;
         public bool isClear;
-        public bool isFirstClear;
+        public bool wasFirstClear = false;
+        public bool wasNewRecord = false;
 
         // reward
         // 명성
@@ -47,11 +48,10 @@ namespace SexyBackRewardScene
         // 젬으로 추가구매 해야하는 상자.
         internal Equipment GemEquipment;
 
-        internal ResultReward(MapData mapInfo, bool clear, bool isfirstclear, int floor, int clearTime, int totalElementLevel, int FinishResearchCount)
+        internal ResultReward(Map mapInfo, bool clear, int floor, int clearTime, int totalElementLevel, int FinishResearchCount)
         {
             Score = new Dictionary<string, int>();
             MapInfo = mapInfo;
-            isFirstClear = isfirstclear;
             isClear = clear;
             LastFloor = floor;
             ClearTime = clearTime;
@@ -60,10 +60,26 @@ namespace SexyBackRewardScene
             CalScore(totalElementLevel, FinishResearchCount);
         }
 
+        internal void Record()
+        {
+            if (isClear)
+            {
+                MapInfo.ClearCount++;
+                if (MapInfo.ClearCount == 1)
+                    wasFirstClear = true;
+                if (MapInfo.BestTime > ClearTime || MapInfo.BestTime == 0)
+                {
+                    MapInfo.BestTime = ClearTime;
+                    wasNewRecord = true;
+                }
+            }
+        }
+
         internal void MakeReward()
         {
-            MakeAndGiveReputation(MapInfo.RewardData);
-            MakeAndGiveEquipments(MapInfo.ID, MapInfo.RewardData);
+            MakeAndGiveReputation(MapInfo.baseData.RewardData);
+            MakeAndGiveEquipments(MapInfo.ID, MapInfo.baseData.RewardData);
+            // TODO: record clear data;
         }
 
         private void MakeAndGiveReputation(MapRewardData rewardInfo)
@@ -73,7 +89,7 @@ namespace SexyBackRewardScene
             double coef = Mathf.Pow(1.2f, difficulty); // 추가계수 ( 3노멀보다 1하드가 1.2배 효율적)
             Reputation = (int)((double)TotalScore * (double)difficulty * coef);
             // give
-            Singleton<PlayerStatus>.getInstance().Reputation += Reputation;
+            Singleton<TalentManager>.getInstance().Reputation += Reputation;
         }
 
         private void MakeAndGiveEquipments(string mapid, MapRewardData rewardInfo)
@@ -91,12 +107,16 @@ namespace SexyBackRewardScene
                 NormalEquipments.Add(newOne);
                 eManager.AddEquipment(newOne);
             }
-            //if(tresurehunter == true)
-            //          Equipments.Add(ChestSource.TreasureHunter, EquipFactory.LotteryEquipment(rewardInfo, Rank));
-            //if (iseventnow == true)
-            //            Equipments.Add(ChestSource.Event, EquipFactory.LotteryEquipment(rewardInfo, Rank));
 
-            if (Singleton<PlayerStatus>.getInstance().PremiumUser) //
+            int bonus = Singleton<PlayerStatus>.getInstance().GetGlobalStat.BonusEquipment;
+            for ( int i = 0; i < bonus; i++)
+            {
+                BonusEquipments.Add(ChestSource.Bonus, EquipFactory.LotteryEquipment(mapid, rewardInfo, Rank));
+            }
+            //if (iseventnow == true)
+            //    Equipments.Add(ChestSource.Event, EquipFactory.LotteryEquipment(rewardInfo, Rank));
+
+            if (Singleton<PremiumManager>.getInstance().PremiumUser) //
             {
                 Equipment newOne = EquipFactory.LotteryEquipment(mapid, rewardInfo, Rank);
                 BonusEquipments.Add(ChestSource.Premium, newOne);
@@ -118,7 +138,7 @@ namespace SexyBackRewardScene
                 Score.Add("clearScore", 50);                                // 만점 50
                 Score.Add("floorScore", 50);     // 만점 50
                 // 클리어시 위의 100점은 안고감.
-                Score.Add("timeScore", CalTimeScore(MapInfo.LimitTime, ClearTime));      // 0~100점
+                Score.Add("timeScore", CalTimeScore(MapInfo.baseData.LimitTime, ClearTime));      // 0~100점
                 int levelScore;
                 int researchScore;
                 CalLRScore(LastFloor, out levelScore, out researchScore, totalElementLevel, FinishResearchCount);
@@ -145,11 +165,11 @@ namespace SexyBackRewardScene
 
         public void CalLRScore(int clearFloor, out int l, out int r, int totalLevelCount, int totalResearchCount)
         {
-            int MapLevel = clearFloor * MapInfo.LevelPerFloor;
+            int MapLevel = clearFloor * MapInfo.baseData.LevelPerFloor;
             int RecommendLevel = MapLevel;  // 초기값은 hero의 검술레벨. ( 뒤에 계산으로 element level합을 계속더한다)
             int RecommendResearch = 0;
 
-            foreach (ResearchData data in Singleton<TableLoader>.getInstance().researchtable.Values)
+            foreach (SexyBackPlayScene.ResearchData data in Singleton<TableLoader>.getInstance().researchtable.Values)
             {
                 int ContentsLevel = data.baselevel + data.Level;
                 if (ContentsLevel <= MapLevel)   // 이 리서치는 배웠어야 정상이다.

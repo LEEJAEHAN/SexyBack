@@ -81,8 +81,9 @@ namespace SexyBackPlayScene
 
             while (readyToCreate.Count > 0)
             {
-                SummonNewElemental(readyToCreate.Peek());
-                LevelUp(readyToCreate.Dequeue(), 1);
+                string eID = readyToCreate.Dequeue();
+                SummonNewElemental(eID);
+                LevelUp(eID, Singleton<PlayerStatus>.getInstance().GetElementalStat(eID).InitLevel);
             }
         }
 

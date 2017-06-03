@@ -10,6 +10,10 @@ namespace SexyBackRewardScene
         private void Awake()
         {
             Singleton<TableLoader>.getInstance().Init();
+
+            Singleton<MapManager>.getInstance().Init();
+            Singleton<TalentManager>.getInstance().Init();
+            Singleton<PremiumManager>.getInstance().Init();
             Singleton<PlayerStatus>.getInstance().Init();
             Singleton<EquipmentManager>.getInstance().Init();
 

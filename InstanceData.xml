@@ -1,39 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<InstanceStatus Exp="399999999999999999999999999999999999999999999999999999999999999999999999999999998742216" MapID="Map01" IsBonused="False" CurrentGameTime="139.919042768888">
-  <Hero level="24" basedmg="1" />
-  <Elementals>
-    <Elemental id="fireball" level="18" skillactive="True" skillforcecount="0" />
-    <Elemental id="iceblock" level="30" skillactive="False" skillforcecount="0" />
-  </Elementals>
+<InstanceStatus Exp="0" MapID="Map01" IsBonused="False" CurrentGameTime="1.90777481906116">
+  <Hero level="1" basedmg="1.02499997615814" />
+  <Elementals />
   <Researchs currentthread="0">
-    <FinishResearchs>
-      <Research id="R01" />
-      <Research id="R22" />
-      <Research id="R06" />
-      <Research id="R02" />
-    </FinishResearchs>
+    <FinishResearchs />
     <RemainResearchs>
-      <Research id="R11" state="Ready" remaintime="0" />
-      <Research id="R41" state="Ready" remaintime="0" />
-      <Research id="R42" state="Ready" remaintime="0" />
-      <Research id="R43" state="Ready" remaintime="0" />
-      <Research id="R15" state="Ready" remaintime="0" />
-      <Research id="R03" state="Ready" remaintime="0" />
-      <Research id="R07" state="Ready" remaintime="0" />
-      <Research id="R29" state="Ready" remaintime="0" />
-      <Research id="R16" state="Ready" remaintime="0" />
-      <Research id="R30" state="Ready" remaintime="0" />
-      <Research id="R31" state="Ready" remaintime="0" />
-      <Research id="R23" state="Ready" remaintime="0" />
+      <Research id="R01" state="Ready" remaintime="0" />
+      <Research id="R27" state="Ready" remaintime="0" />
     </RemainResearchs>
   </Researchs>
-  <Stages currentfloor="5">
-    <Stage floor="4" zPosition="-11.11613" rewardcomplete="True" state="Destroy" monstercount="0" />
-    <Stage floor="5" zPosition="18.8311" rewardcomplete="False" state="Move" monstercount="3" />
+  <Stages currentfloor="1">
+    <Stage floor="0" zPosition="4.580509" rewardcomplete="False" state="Move" monstercount="0" />
+    <Stage floor="1" zPosition="34.58052" rewardcomplete="False" state="Move" monstercount="1" />
   </Stages>
   <Monsters>
-    <Monster id="F5M0" dataid="m07" level="4" isboss="False" hp="80" />
-    <Monster id="F5M1" dataid="m07" level="4" isboss="False" hp="80" />
-    <Monster id="F5M2" dataid="m01" level="4" isboss="True" hp="800" />
+    <Monster id="F1M0" dataid="m06" level="1" isboss="True" hp="2000" />
   </Monsters>
+  <Consumables />
 </InstanceStatus>

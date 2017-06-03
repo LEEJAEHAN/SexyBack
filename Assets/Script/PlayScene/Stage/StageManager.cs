@@ -36,11 +36,11 @@ namespace SexyBackPlayScene
         {
         }
 
-        internal void Start(MapData mapData) // start, no Load
+        internal void Start(Map map) // start, no Load
         {
             // playscene 에서 시작할때를 위한 Test
-            MaxFloor = mapData.MaxFloor;
-            MonsterPerStage = mapData.MonsterPerStage;
+            MaxFloor = map.baseData.MaxFloor;
+            MonsterPerStage = map.baseData.MonsterPerStage;
             CurrentFloor = 1;       // 1층부터 세기시작.
 
             Stages = new List<Stage>();
@@ -54,12 +54,12 @@ namespace SexyBackPlayScene
         internal void Load(XmlDocument doc)
         {
             string mapID = doc.SelectSingleNode("InstanceStatus").Attributes["MapID"].Value;
-            MapData mapData = Singleton<TableLoader>.getInstance().mapTable[mapID];
+            Map map = Singleton<MapManager>.getInstance().Maps[mapID];
             
             XmlNode stagesNode = doc.SelectSingleNode("InstanceStatus/Stages");
 
-            MaxFloor = mapData.MaxFloor;
-            MonsterPerStage = mapData.MonsterPerStage;
+            MaxFloor = map.baseData.MaxFloor;
+            MonsterPerStage = map.baseData.MonsterPerStage;
             CurrentFloor = int.Parse(stagesNode.Attributes["currentfloor"].Value);
 
             Stages = new List<Stage>();

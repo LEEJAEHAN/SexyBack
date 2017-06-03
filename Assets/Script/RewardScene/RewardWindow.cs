@@ -58,7 +58,7 @@ namespace SexyBackRewardScene
             // set FirstClear View
             GameObject firstClear = view.transform.FindChild("ScoreBoard/FirstClearReward").gameObject;
             firstClear.SetActive(false);
-            if (currentResult.isFirstClear)
+            if (currentResult.wasFirstClear)
                 RewardViews.AddLast(firstClear);
 
             //Set Research View

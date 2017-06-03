@@ -54,80 +54,14 @@ internal class SaveSystem
         XmlWriter writer = XmlWriter.Create(SaveDataPath, setting);
         writer.WriteStartDocument();
         writer.WriteStartElement("PlayerStatus");
-        SaveStat(writer);
         SaveEquipments(writer);
-        SaveProgress(writer);
+        SaveMapInfo(writer);
         writer.WriteEndElement();
         writer.WriteEndDocument();
         writer.Close();
     }
 
-
-    private static void SaveStat(XmlWriter writer)
-    {
-        PlayerStatus playerStatus = Singleton<PlayerStatus>.getInstance();
-        writer.WriteStartElement("Stats");
-        {
-            writer.WriteStartElement("GlobalStat");
-            GlobalStat globalStat = playerStatus.GetGlobalStat;
-            writer.WriteAttributeString("InitExp", globalStat.InitExp.ToString());
-            writer.WriteAttributeString("RankBonus", globalStat.RankBonus.ToString());
-            writer.WriteEndElement();
-        }
-        {
-            writer.WriteStartElement("BaseStat");
-            BaseStat baseStat = playerStatus.GetBaseStat;
-            writer.WriteAttributeString("Str", baseStat.Str.ToString());
-            writer.WriteAttributeString("Int", baseStat.Int.ToString());
-            writer.WriteAttributeString("Spd", baseStat.Spd.ToString());
-            writer.WriteAttributeString("Luck", baseStat.Luck.ToString());
-            writer.WriteEndElement();
-        }
-        {
-            writer.WriteStartElement("UtilStat");
-            UtilStat utilStat = playerStatus.GetUtilStat;
-            writer.WriteAttributeString("ResearchTimeX", utilStat.ResearchTimeX.ToString());
-            writer.WriteAttributeString("ResearchTime", utilStat.ResearchTime.ToString());
-            writer.WriteAttributeString("MaxResearchThread", utilStat.MaxResearchThread.ToString());
-            writer.WriteAttributeString("ExpIncreaseXH", utilStat.ExpIncreaseXH.ToString());
-            writer.WriteAttributeString("LPriceReduceXH", utilStat.LPriceReduceXH.ToString());
-            writer.WriteAttributeString("RPriceReduceXH", utilStat.RPriceReduceXH.ToString());
-            writer.WriteEndElement();
-        }
-        {
-            writer.WriteStartElement("HeroStat");
-            HeroStat heroStat = playerStatus.GetHeroStat;
-            writer.WriteAttributeString("BonusLevel", heroStat.BonusLevel.ToString());
-            writer.WriteAttributeString("DpcX", heroStat.DpcX.ToString());
-            writer.WriteAttributeString("AttackCapacity", heroStat.AttackCapacity.ToString());
-            writer.WriteAttributeString("DpcIncreaseXH", heroStat.DpcIncreaseXH.ToString());
-            writer.WriteAttributeString("AttackSpeedXH", heroStat.AttackSpeedXH.ToString());
-            writer.WriteAttributeString("CriticalRateXH", heroStat.CriticalRateXH.ToString());
-            writer.WriteAttributeString("CriticalDamageXH", heroStat.CriticalDamageXH.ToString());
-            writer.WriteAttributeString("MovespeedXH", heroStat.MovespeedXH.ToString());
-            writer.WriteEndElement();
-        }
-        {
-            writer.WriteStartElement("ElementalStats");
-            Dictionary<string, ElementalStat> stats = playerStatus.GetElementalStats;
-            foreach (string id in stats.Keys)
-            {
-                writer.WriteStartElement("ElementalStat");
-                ElementalStat eStat = playerStatus.GetElementalStat(id);
-                writer.WriteAttributeString("id", id);
-                writer.WriteAttributeString("BonusLevel", eStat.BonusLevel.ToString());
-                writer.WriteAttributeString("DpsX", eStat.DpsX.ToString());
-                writer.WriteAttributeString("DpsIncreaseXH", eStat.DpsIncreaseXH.ToString());
-                writer.WriteAttributeString("CastSpeedXH", eStat.CastSpeedXH.ToString());
-                writer.WriteAttributeString("SkillRateIncreaseXH", eStat.SkillRateIncreaseXH.ToString());
-                writer.WriteAttributeString("SkillDmgIncreaseXH", eStat.SkillDmgIncreaseXH.ToString());
-                writer.WriteEndElement();
-            }
-            writer.WriteEndElement();
-        }
-        writer.WriteEndElement();
-    }
-
+        
 
     private static void SaveEquipments(XmlWriter writer)
     {
@@ -172,15 +106,20 @@ internal class SaveSystem
         writer.WriteAttributeString("isLock", e.isLock.ToString());
         writer.WriteEndElement();
     }
-    private static void SaveProgress(XmlWriter writer)
+    private static void SaveMapInfo(XmlWriter writer)
     {
-        PlayerStatus playerStatus = Singleton<PlayerStatus>.getInstance();
+        MapManager manager = Singleton<MapManager>.getInstance();
         writer.WriteStartElement("Progress");
-        List<string> mapIds = playerStatus.ClearedMapID;
-        foreach (string id in mapIds)
+        var dictonary = manager.Maps;
+        foreach (string id in dictonary.Keys)
         {
+            var record = dictonary[id];
+            if (record.ClearCount <= 0)
+                continue;
             writer.WriteStartElement("Map");
             writer.WriteAttributeString("id", id);
+            writer.WriteAttributeString("clearcount", record.ClearCount.ToString());
+            writer.WriteAttributeString("besttime", record.BestTime.ToString());
             writer.WriteEndElement();
         }
         writer.WriteEndElement();

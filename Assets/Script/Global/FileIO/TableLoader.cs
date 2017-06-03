@@ -11,10 +11,12 @@ internal class TableLoader
     public HeroData herotable;
     public Dictionary<string, MonsterData> monstertable;
     public Dictionary<string, ElementalData> elementaltable;
-    public Dictionary<string, MapData> mapTable;
+    public List<MapData> mapTable;
     public Dictionary<string, LevelUpData> leveluptable;
     public Dictionary<string, ResearchData> researchtable;
     public Dictionary<string, ConsumableData> consumable;
+    public Dictionary<string, TalentData> talenttable;
+
     public List<PriceData> pricetable;
     //public List<ConsumableData> talenttable;
 
@@ -42,7 +44,7 @@ internal class TableLoader
                 LoadLevelUpData();
                 LoadResearchData();
                 LoadMapData();
-                //LoadTalentData();
+                LoadTalentData();
                 LoadConsumableData();
                 LoadEquipmentData();
                 LoadEquipmentSkillData();
@@ -57,6 +59,7 @@ internal class TableLoader
         return true;
     }
 
+
     public XmlDocument OpenXml(string path)
     {
         TextAsset textasset = Resources.Load(path) as TextAsset;
@@ -68,7 +71,7 @@ internal class TableLoader
 
     private void LoadMapData()
     {
-        mapTable = new Dictionary<string, MapData>();
+        mapTable = new List<MapData>();
 
         MapData data1 = new MapData();
         data1.ID = "Map01";
@@ -83,7 +86,7 @@ internal class TableLoader
         data1.BossHPX = 10;
         data1.ChestPerBossMonster = 1;
         data1.BaseMonsterHP = 200;    // 1000;
-        mapTable.Add(data1.ID, data1);
+        mapTable.Add(data1);
 
         MapData data2 = new MapData();
         data2.ID = "Map02";
@@ -98,7 +101,7 @@ internal class TableLoader
         data2.BossHPX = 10;
         data2.ChestPerBossMonster = 3;
         data2.BaseMonsterHP = 5;
-        mapTable.Add(data2.ID, data2);
+        mapTable.Add(data2);
     }
     private void LoadEquipmentData()
     {
@@ -289,7 +292,7 @@ internal class TableLoader
             else
                 stringvalue = bonusnode.Attributes["stringvalue"].Value;
 
-            BonusStat bonus = new BonusStat(target, attribute, value, stringvalue, null);
+            BonusStat bonus = new BonusStat(target, attribute, value, stringvalue);
             NestedIcon iconinfo = new NestedIcon(icon, icontext, subicon);
             ResearchData research = new ResearchData(id, requireid, showlevel, iconinfo, name, description, level, baselevel, baseprice,
                 rate, basetime, bonus);
@@ -297,6 +300,18 @@ internal class TableLoader
         }
 
     }
+
+    private void LoadTalentData()
+    {
+        talenttable = new Dictionary<string, TalentData>();
+        TalentData t1 = new TalentData(1);
+        TalentData t2 = new TalentData(2);
+
+        talenttable.Add(t1.ID, t1);
+        talenttable.Add(t2.ID, t2);
+
+    }
+
 
     private void LoadConsumableData()
     {

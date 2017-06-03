@@ -9,6 +9,8 @@ public class TopWindow : MonoBehaviour {
     public void Awake()
     {
         Singleton<EquipmentManager>.getInstance().BindTopView(this);
+        Singleton<TalentManager>.getInstance().BindTopView(this);
+
         if (SceneManager.GetActiveScene().name == "MenuScene")
         {
             transform.FindChild("Slot1/Title").GetComponent<UILabel>().text = "명성";

@@ -13,10 +13,10 @@ namespace SexyBackPlayScene
 
         public MonsterFactory()
         {
-            MapData mapinfo = Singleton<InstanceStatus>.getInstance().InstanceMap;
+            Map mapinfo = Singleton<InstanceStatus>.getInstance().InstanceMap;
 
-            LevelPerFloor = mapinfo.LevelPerFloor;
-            BaseMonsterHP = mapinfo.BaseMonsterHP;
+            LevelPerFloor = mapinfo.baseData.LevelPerFloor;
+            BaseMonsterHP = mapinfo.baseData.BaseMonsterHP;
         }
         public Monster CreateRandomMonster(string ID, int floor, bool boss)
         {

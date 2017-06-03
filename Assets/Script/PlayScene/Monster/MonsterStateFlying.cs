@@ -12,9 +12,9 @@ namespace SexyBackPlayScene
         public MonsterStateFlying(Monster owner, MonsterStateMachine statemachine) : base(owner, statemachine)
         {
             if(owner.isBoss)
-                DropCount = Singleton<InstanceStatus>.getInstance().InstanceMap.ChestPerBossMonster;
+                DropCount = Singleton<InstanceStatus>.getInstance().InstanceMap.baseData.ChestPerBossMonster;
             else
-                DropCount = Singleton<InstanceStatus>.getInstance().InstanceMap.ChestPerMonster;
+                DropCount = Singleton<InstanceStatus>.getInstance().InstanceMap.baseData.ChestPerMonster;
         }
 
         internal override void Begin()

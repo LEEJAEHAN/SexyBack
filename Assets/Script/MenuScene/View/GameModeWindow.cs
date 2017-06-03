@@ -12,32 +12,28 @@ namespace SexyBackMenuScene
 
         private void Awake()
         {
-            Clear();
-        }
-        internal void Clear()
-        {
             transform.FindChild("ContentTable").transform.DestroyChildren();
         }
         
-        public void OnEnable()
+        public void Start()
         {
             if(!Load)
             {
-                FillWindow(Singleton<TableLoader>.getInstance().mapTable);
+                FillWindow(Singleton<MapManager>.getInstance().Maps);
                 Load = true;
             }
         }
 
-        private void FillWindow(Dictionary<string, MapData> gamemodetable)
+        private void FillWindow(Dictionary<string, Map> gamemodetable)
         {
-            foreach(MapData data in Singleton<TableLoader>.getInstance().mapTable.Values)
+            foreach(Map map in gamemodetable.Values)
             {
-                GameObject Widget = ViewLoader.InstantiatePrefab(transform.GetChild(1), data.ID, "Prefabs/UI/StageWidget");
-                TimeSpan ts =  TimeSpan.FromSeconds(data.LimitTime);
+                GameObject Widget = ViewLoader.InstantiatePrefab(transform.GetChild(1), map.ID, "Prefabs/UI/StageWidget");
+                TimeSpan ts =  TimeSpan.FromSeconds(map.baseData.LimitTime);
                 string expresson = ts.Hours + ":" + ts.Minutes.ToString("D2") + ":" + ts.Seconds.ToString("D2");
                 Widget.transform.FindChild("BestTime").gameObject.GetComponent<UILabel>().text = "";
                 Widget.transform.FindChild("TimeLimit").gameObject.GetComponent<UILabel>().text = expresson;
-                Widget.transform.FindChild("StartButton/StageName").gameObject.GetComponent<UILabel>().text = data.Name;
+                Widget.transform.FindChild("StartButton/StageName").gameObject.GetComponent<UILabel>().text = map.baseData.Name;
 
                 EventDelegate ed = new EventDelegate(this, "onStartButton");
                 EventDelegate.Parameter param = new EventDelegate.Parameter();

@@ -16,7 +16,7 @@ namespace SexyBackPlayScene
             sexybacklog.Console("InstanceStat 소멸");
         }
         // map and 진행 info
-        MapData MapInfo;
+        Map MapInfo;
         //public string MapID = null;
         public bool IsBonused = false;
         public double CurrentGameTime;
@@ -36,14 +36,14 @@ namespace SexyBackPlayScene
 
         TopWindow topView;
 
-        public MapData InstanceMap
+        public Map InstanceMap
         {
             get
             {
                 if (MapInfo == null)
                 {
-                    sexybacklog.Console("플레이씬에서 새 게임을 시작합니다. 더미맵을 출력합니다.");
-                    MapInfo = Singleton<TableLoader>.getInstance().mapTable["Map01"];
+                    sexybacklog.Console("플레이씬에서 새 게임을 시작합니다. Map01을 시작합니다.");
+                    MapInfo = Singleton<MapManager>.getInstance().Maps["Map01"];
                 }
                 return MapInfo;
             }
@@ -81,16 +81,16 @@ namespace SexyBackPlayScene
             // isBonused // 외부에서 이미 setting; 안되있으면 false;
             CurrentGameTime = 0;
             ExpGain(Singleton<PlayerStatus>.getInstance().GetGlobalStat.InitExp, false);
-            LimitGameTime = MapInfo.LimitTime;
+            LimitGameTime = MapInfo.baseData.LimitTime;
         }
         internal void Load(XmlDocument doc)
         {
             XmlNode mainNode = doc.SelectSingleNode("InstanceStatus");
             ExpGain(new BigInteger(mainNode.Attributes["Exp"].Value), false);
             string mapid = mainNode.Attributes["MapID"].Value;
-            MapInfo = Singleton<TableLoader>.getInstance().mapTable[mapid];
+            MapInfo = Singleton<MapManager>.getInstance().Maps[mapid];
             IsBonused = bool.Parse(mainNode.Attributes["IsBonused"].Value);
-            LimitGameTime = MapInfo.LimitTime;
+            LimitGameTime = MapInfo.baseData.LimitTime;
             CurrentGameTime = double.Parse(mainNode.Attributes["CurrentGameTime"].Value);
         }
 

@@ -5,9 +5,11 @@ internal class GlobalStat
 {
     internal int RankBonus;
     internal BigInteger InitExp;
+    internal int BonusEquipment;
 
     public GlobalStat()
     {
+        // 게임 전후, recal을 하므로 저장할 필요가 없다.
         RankBonus = 0;
         InitExp = new BigInteger(0);
     }
@@ -36,6 +38,9 @@ internal class GlobalStat
             case Attribute.RankBonus:
                 RankBonus += bonus.value;
                 break;
+            case Attribute.BonusEquipment:
+                BonusEquipment += bonus.value;
+                break;
             default:
                 {
                     sexybacklog.Error("noAttribute");
@@ -52,6 +57,9 @@ internal class GlobalStat
                 break;
             case Attribute.RankBonus:
                 RankBonus -= bonus.value;
+                break;
+            case Attribute.BonusEquipment:
+                BonusEquipment -= bonus.value;
                 break;
             default:
                 {

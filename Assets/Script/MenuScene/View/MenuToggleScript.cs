@@ -6,16 +6,21 @@ namespace SexyBackMenuScene
     {
         GameObject GameModeWindow;
         GameObject EquipmentWindow;
+        GameObject JobWindow;
 
         private void Awake()
         {
             GameModeWindow = transform.FindChild("GameModeWindow").gameObject;
-            GameModeWindow.transform.localPosition = Vector3.zero;
+            //GameModeWindow.transform.localPosition = Vector3.zero;
             GameModeWindow.SetActive(false);
 
             EquipmentWindow = transform.FindChild("EquipmentWindow").gameObject;
-            EquipmentWindow.transform.localPosition = Vector3.zero;
+            //EquipmentWindow.transform.localPosition = Vector3.zero;
             EquipmentWindow.SetActive(false);
+
+            JobWindow = transform.FindChild("JobWindow").gameObject;
+            //JobWindow.transform.localPosition = Vector3.zero;
+            JobWindow.SetActive(false);
 
         }
 
@@ -29,7 +34,10 @@ namespace SexyBackMenuScene
             {
                 EquipmentWindow.SetActive(togglevalue);
             }
-
+            if (ButtonName == "직업전문화")
+            {
+                JobWindow.SetActive(togglevalue);
+            }
 
         }
 

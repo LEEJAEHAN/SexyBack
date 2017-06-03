@@ -26,6 +26,10 @@ public class BaseStat : ICloneable
         Luck = int.Parse(xmlNode.Attributes["Luck"].Value);
     }
 
+    public string ToStringBox()
+    {
+        return string.Format("{0}\n{1}\n{2}\n{3}", Str, Int, Spd, Luck);
+    }
     public override string ToString()
     {
         string temp = "";

@@ -11,7 +11,7 @@ internal class UtilStat
     internal int ExpIncreaseXH;
     internal int LPriceReduceXH;
     internal int RPriceReduceXH;
-
+    internal int BonusConsumable;
     public UtilStat()
     {
         ResearchTimeX = 1;
@@ -20,6 +20,7 @@ internal class UtilStat
         ExpIncreaseXH = 0;
         LPriceReduceXH = 0;
         RPriceReduceXH = 0;
+        BonusConsumable = 0;
     }
 
     public UtilStat(XmlNode xmlNode)
