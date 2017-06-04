@@ -82,12 +82,12 @@ namespace SexyBackPlayScene
         {
             XmlDocument doc = SaveSystem.LoadXml(InstanceSaveSystem.InstanceDataPath);
             instanceStat.Load(doc);
-            researchManager.Load(doc);
             heroManager.Load(doc);
             stageManager.Load(doc); // 상관관계 x //일단 수정하고난담에.
             monsterManager.Load(doc); // 상관관계 x
             elementalManager.Load(doc);
             consumableManager.Load(doc);
+            researchManager.Load(doc);
             LoadComplete = true;
         }
         internal void SaveInstance()
@@ -108,7 +108,7 @@ namespace SexyBackPlayScene
             Map currentmap = Singleton<InstanceStatus>.getInstance().InstanceMap;
             int lastStage = Singleton<StageManager>.getInstance().CurrentFloor - 1;
             int timeRecord = (int)Singleton<InstanceStatus>.getInstance().CurrentGameTime;
-            int totalLevel = Singleton<HeroManager>.getInstance().GetHero().LEVEL + Singleton<ElementalManager>.getInstance().TotalLevel;
+            int totalLevel = Singleton<HeroManager>.getInstance().GetHero().OriginalLevel + Singleton<ElementalManager>.getInstance().TotalLevel;
             int finishResearchCount = Singleton<ResearchManager>.getInstance().FinishList.Count;
 
             Singleton<SexyBackRewardScene.RewardManager>.getInstance().RecordResult

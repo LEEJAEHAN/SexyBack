@@ -18,7 +18,7 @@ namespace SexyBackPlayScene
             elementals = null;
             readyToCreate = null;
             Action_ElementalCreateEvent = null;// = delegate (object sender) { };
-            Action_ElementalLevelUp = null;
+            Action_LevelUp = null;
             Singleton<PlayerStatus>.getInstance().Action_ElementalStatChange -= this.onElementalStatChange;
             Singleton<PlayerStatus>.getInstance().Action_BaseStatChange -= onBaseStatChange;
 
@@ -33,9 +33,9 @@ namespace SexyBackPlayScene
 
         [field:NonSerialized]
         public event ElementalCreateEvent_Handler Action_ElementalCreateEvent;// = delegate (object sender) { };
-        public delegate void ElementalLevelUp_Event(Elemental elemental);
+        public delegate void LevelUp_Event(ICanLevelUp elemental);
         [field: NonSerialized]
-        public event ElementalLevelUp_Event Action_ElementalLevelUp;
+        public event LevelUp_Event Action_LevelUp;
 
         private Elemental SummonNewElemental(string id) // Create == 생성만, Summon ==  스텟과 레벨업설정까지
         {
@@ -58,9 +58,8 @@ namespace SexyBackPlayScene
             foreach(XmlNode eNode in eNodes.ChildNodes)
             {
                 string id = eNode.Attributes["id"].Value;
-                Elemental newElemental= SummonNewElemental(id);
-                LevelUp(id, int.Parse(eNode.Attributes["level"].Value));
-                //newElemental.SkillForceCount = int.Parse(eNode.Attributes["skillforcecount"].Value);
+                Elemental newElemental = SummonNewElemental(id);
+                newElemental.LevelUp(int.Parse(eNode.Attributes["level"].Value)); // no send event
                 newElemental.SkillActive = bool.Parse(eNode.Attributes["skillactive"].Value);
                 ElementalData data = Singleton<TableLoader>.getInstance().elementaltable[id];
             }
@@ -119,7 +118,7 @@ namespace SexyBackPlayScene
             if (elementals.ContainsKey(ownerID))
             {
                 elementals[ownerID].LevelUp(value);
-                Action_ElementalLevelUp(elementals[ownerID]);
+                Action_LevelUp(elementals[ownerID]);
                 return true;
             }
             return false;
@@ -140,7 +139,7 @@ namespace SexyBackPlayScene
             {
                 int sum = 0;
                 foreach (Elemental e in elementals.Values)
-                    sum += e.LEVEL;
+                    sum += e.OriginalLevel;
                 return sum;
             }
         }

@@ -102,6 +102,21 @@ internal class TableLoader
         data2.ChestPerBossMonster = 3;
         data2.BaseMonsterHP = 5;
         mapTable.Add(data2);
+
+        MapData data3= new MapData();
+        data3.ID = "Map03";
+        data3.Name = "테스트맵";
+        data3.RequireClearMap = "Map01";
+        data3.LimitTime = 7200;
+        data3.RewardData = new MapRewardData(167, 67, 3, 3);
+        data3.MaxFloor = 1;
+        data3.LevelPerFloor = 5;
+        data3.MonsterPerStage = 1;
+        data3.ChestPerMonster = 1;
+        data3.BossHPX = 10;
+        data3.ChestPerBossMonster = 3;
+        data3.BaseMonsterHP = 5;
+        mapTable.Add(data3);
     }
     private void LoadEquipmentData()
     {
@@ -285,14 +300,18 @@ internal class TableLoader
             XmlNode bonusnode = node.SelectSingleNode("Bonus");
             string target = bonusnode.Attributes["target"].Value;
             Attribute attribute = (Attribute)Enum.Parse(typeof(Attribute),bonusnode.Attributes["attribute"].Value);
-            int value = 0;
-            string stringvalue = null;
+            BonusStat bonus;
             if (bonusnode.Attributes["value"] != null)
-                value = int.Parse(bonusnode.Attributes["value"].Value);
+            {
+                int value = int.Parse(bonusnode.Attributes["value"].Value);
+                bonus = new BonusStat(target, attribute, value);
+            }
             else
-                stringvalue = bonusnode.Attributes["stringvalue"].Value;
+            {
+                var stringvalue = bonusnode.Attributes["stringvalue"].Value;
+                bonus = new BonusStat(target, attribute, stringvalue);
+            }
 
-            BonusStat bonus = new BonusStat(target, attribute, value, stringvalue);
             NestedIcon iconinfo = new NestedIcon(icon, icontext, subicon);
             ResearchData research = new ResearchData(id, requireid, showlevel, iconinfo, name, description, level, baselevel, baseprice,
                 rate, basetime, bonus);
@@ -304,12 +323,12 @@ internal class TableLoader
     private void LoadTalentData()
     {
         talenttable = new Dictionary<string, TalentData>();
-        TalentData t1 = new TalentData(1);
-        TalentData t2 = new TalentData(2);
 
-        talenttable.Add(t1.ID, t1);
-        talenttable.Add(t2.ID, t2);
-
+        for(int i = 1; i <= 8; i ++)
+        {
+            TalentData t1 = new TalentData(i);
+            talenttable.Add(t1.ID, t1);
+        }
     }
 
 

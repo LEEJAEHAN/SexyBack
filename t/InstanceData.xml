@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<InstanceStatus Exp="499999999999999999999999999999999999999999999999999999999999999999999999999999999980020" MapID="Map01" IsBonused="False" CurrentGameTime="19.9441732224077">
+  <Hero level="12" basedmg="1.02499997615814" />
+  <Elementals>
+    <Elemental id="fireball" level="7" skillactive="True" />
+    <Elemental id="iceblock" level="0" skillactive="False" />
+  </Elementals>
+  <Researchs currentthread="0">
+    <FinishResearchs>
+      <Research id="R01" />
+      <Research id="R10" />
+      <Research id="R27" />
+      <Research id="R36" />
+      <Research id="R02" />
+    </FinishResearchs>
+    <RemainResearchs>
+      <Research id="R37" state="Ready" remaintime="0" />
+      <Research id="R11" state="Ready" remaintime="0" />
+      <Research id="R28" state="Ready" remaintime="0" />
+      <Research id="R03" state="Ready" remaintime="0" />
+      <Research id="R19" state="Ready" remaintime="0" />
+      <Research id="R45" state="Ready" remaintime="0" />
+    </RemainResearchs>
+  </Researchs>
+  <Stages currentfloor="1">
+    <Stage floor="1" zPosition="0" rewardcomplete="False" state="Battle" monstercount="1" />
+    <Stage floor="2" zPosition="30" rewardcomplete="False" state="Move" monstercount="1" />
+  </Stages>
+  <Monsters>
+    <Monster id="F1M0" dataid="m03" level="1" isboss="True" hp="584" />
+    <Monster id="F2M0" dataid="m05" level="2" isboss="True" hp="2000" />
+  </Monsters>
+  <Consumables>
+    <Consumable id="C21" remaintime="0" stack="1" />
+  </Consumables>
+</InstanceStatus>

@@ -23,11 +23,13 @@ namespace SexyBackPlayScene
 
         internal void onElementalChange(Elemental elemental)
         {
-            itemView.DrawLevel(elemental.LEVEL.ToString());
+            itemView.DrawLevel(elemental.GetLevel.ToString(), elemental.BonusLevel > 0);
             OriginalPrice = elemental.PRICE;
             PRICE = OriginalPrice * (100 - LPriceReduceXH) / 100;
 
-            Name = OwnerName + " LV." + elemental.LEVEL.ToString();
+            Name = OwnerName + " LV." + elemental.OriginalLevel;
+            if (elemental.BonusLevel > 0)
+                Name += "+" + elemental.BonusLevel;
             StatName = "피해량\n공격속도\n스킬확률\n스킬데미지";
             StatValue = elemental.DpsXH.ToString() + "%\n"
                 + elemental.CastSpeedXH.ToString() + "%\n"

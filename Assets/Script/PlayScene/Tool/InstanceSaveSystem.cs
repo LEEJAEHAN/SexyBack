@@ -103,7 +103,6 @@ namespace SexyBackPlayScene
                 writer.WriteAttributeString("IsBonused", stat.IsBonused.ToString());
                 writer.WriteAttributeString("CurrentGameTime", stat.CurrentGameTime.ToString());
                 {
-                    SaveStat(writer);
                     SaveHero(writer);
                     SaveElements(writer);
                     SaveResearchs(writer);
@@ -117,64 +116,6 @@ namespace SexyBackPlayScene
             writer.Close();
         }
 
-
-        private static void SaveStat(XmlWriter writer)
-        {
-            PlayerStatus playerStatus = Singleton<PlayerStatus>.getInstance();
-            writer.WriteStartElement("Stats");
-            {
-                writer.WriteStartElement("BaseStat");
-                BaseStat baseStat = playerStatus.GetBaseStat;
-                writer.WriteAttributeString("Str", baseStat.Str.ToString());
-                writer.WriteAttributeString("Int", baseStat.Int.ToString());
-                writer.WriteAttributeString("Spd", baseStat.Spd.ToString());
-                writer.WriteAttributeString("Luck", baseStat.Luck.ToString());
-                writer.WriteEndElement();
-            }
-            {
-                writer.WriteStartElement("UtilStat");
-                UtilStat utilStat = playerStatus.GetUtilStat;
-                writer.WriteAttributeString("ResearchTimeX", utilStat.ResearchTimeX.ToString());
-                writer.WriteAttributeString("ResearchTime", utilStat.ResearchTime.ToString());
-                writer.WriteAttributeString("MaxResearchThread", utilStat.MaxResearchThread.ToString());
-                writer.WriteAttributeString("ExpIncreaseXH", utilStat.ExpIncreaseXH.ToString());
-                writer.WriteAttributeString("LPriceReduceXH", utilStat.LPriceReduceXH.ToString());
-                writer.WriteAttributeString("RPriceReduceXH", utilStat.RPriceReduceXH.ToString());
-                writer.WriteEndElement();
-            }
-            {
-                writer.WriteStartElement("HeroStat");
-                HeroStat heroStat = playerStatus.GetHeroStat;
-                writer.WriteAttributeString("BonusLevel", heroStat.BonusLevel.ToString());
-                writer.WriteAttributeString("DpcX", heroStat.DpcX.ToString());
-                writer.WriteAttributeString("AttackCapacity", heroStat.AttackCapacity.ToString());
-                writer.WriteAttributeString("DpcIncreaseXH", heroStat.DpcIncreaseXH.ToString());
-                writer.WriteAttributeString("AttackSpeedXH", heroStat.AttackSpeedXH.ToString());
-                writer.WriteAttributeString("CriticalRateXH", heroStat.CriticalRateXH.ToString());
-                writer.WriteAttributeString("CriticalDamageXH", heroStat.CriticalDamageXH.ToString());
-                writer.WriteAttributeString("MovespeedXH", heroStat.MovespeedXH.ToString());
-                writer.WriteEndElement();
-            }
-            {
-                writer.WriteStartElement("ElementalStats");
-                Dictionary<string, ElementalStat> stats = playerStatus.GetElementalStats;
-                foreach (string id in stats.Keys)
-                {
-                    writer.WriteStartElement("ElementalStat");
-                    ElementalStat eStat = playerStatus.GetElementalStat(id);
-                    writer.WriteAttributeString("id", id);
-                    writer.WriteAttributeString("BonusLevel", eStat.BonusLevel.ToString());
-                    writer.WriteAttributeString("DpsX", eStat.DpsX.ToString());
-                    writer.WriteAttributeString("DpsIncreaseXH", eStat.DpsIncreaseXH.ToString());
-                    writer.WriteAttributeString("CastSpeedXH", eStat.CastSpeedXH.ToString());
-                    writer.WriteAttributeString("SkillRateIncreaseXH", eStat.SkillRateIncreaseXH.ToString());
-                    writer.WriteAttributeString("SkillDmgIncreaseXH", eStat.SkillDmgIncreaseXH.ToString());
-                    writer.WriteEndElement();
-                }
-                writer.WriteEndElement();
-            }
-            writer.WriteEndElement();
-        }
 
 
         private void SaveMonster(XmlWriter writer)
@@ -243,7 +184,7 @@ namespace SexyBackPlayScene
         {
             Hero data = Singleton<HeroManager>.getInstance().GetHero();
             writer.WriteStartElement("Hero");
-            writer.WriteAttributeString("level", data.LEVEL.ToString());
+            writer.WriteAttributeString("level", data.OriginalLevel.ToString());
             writer.WriteAttributeString("basedmg", data.BaseDmg.ToString());
             writer.WriteEndElement();
         }
@@ -255,7 +196,7 @@ namespace SexyBackPlayScene
             {
                 writer.WriteStartElement("Elemental");
                 writer.WriteAttributeString("id", data.GetID.ToString());
-                writer.WriteAttributeString("level", data.LEVEL.ToString());
+                writer.WriteAttributeString("level", data.OriginalLevel.ToString());
                 writer.WriteAttributeString("skillactive", data.SkillActive.ToString());
                 //writer.WriteAttributeString("skillforcecount", data.SkillForceCount.ToString());
                 writer.WriteEndElement();

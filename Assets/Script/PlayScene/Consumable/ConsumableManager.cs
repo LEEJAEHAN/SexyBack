@@ -38,6 +38,7 @@ namespace SexyBackPlayScene
             panelObject.SetActive(true);
             Panel = panelObject.GetComponent<ConsumableWindow>();
         }
+
         internal void Load(XmlDocument doc)
         {
             XmlNode rootNode = doc.SelectSingleNode("InstanceStatus/Consumables");

@@ -14,7 +14,7 @@ public class TopWindow : MonoBehaviour {
         if (SceneManager.GetActiveScene().name == "MenuScene")
         {
             transform.FindChild("Slot1/Title").GetComponent<UILabel>().text = "명성";
-            transform.FindChild("Slot1/Value").GetComponent<UILabel>().text = "0";
+            transform.FindChild("Slot1/Value").GetComponent<UILabel>().text = Singleton<TalentManager>.getInstance().Reputation.ToString();
             transform.FindChild("Slot2/Title/LeftArrow").gameObject.SetActive(false);
             transform.FindChild("Slot2/Title/RightArrow").gameObject.SetActive(false);
         }

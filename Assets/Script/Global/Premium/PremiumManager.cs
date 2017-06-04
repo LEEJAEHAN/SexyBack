@@ -9,7 +9,7 @@ internal class PremiumManager
     public bool PremiumUser = false;
     public List<string> PurchasedList;
 
-    internal void Init()
+    internal void InitOrLoad()
     {
         // 어디서든 이닛될수 있으니 이미 이닛되있으면 리턴한다.
     }

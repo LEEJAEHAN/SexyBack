@@ -137,11 +137,14 @@ namespace SexyBackPlayScene
         }
 
         // only for level up
-        public void DrawLevel(string buttontext)
+        public void DrawLevel(string buttontext, bool bonuses)
         {
             if (type != Type.LevelUp)
                 return;
-            LevelText.text = buttontext; // 최초에 그리기용
+            if (bonuses)
+                LevelText.text = "[F9DB11FF]" + buttontext + "[-]";
+            else
+                LevelText.text = buttontext; // 최초에 그리기용
         }
 
         // only for Consumable

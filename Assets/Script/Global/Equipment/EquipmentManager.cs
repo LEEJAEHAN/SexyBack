@@ -19,7 +19,7 @@ internal class EquipmentManager
     EquipmentWindow view;
     TopWindow topView;
     
-    internal void Init()
+    internal void InitOrLoad()
     {
         sexybacklog.Console("EquipmentManager 로드 및 초기화");
         if (equipSets != null)

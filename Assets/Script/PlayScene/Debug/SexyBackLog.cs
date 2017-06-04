@@ -4,7 +4,7 @@ using System;
 
 public static class sexybacklog
 {
-    public static bool DebugMode = false;
+    public static bool DebugMode = true;
 
     public static void Console(object msg)
     {

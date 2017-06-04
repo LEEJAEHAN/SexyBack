@@ -24,17 +24,9 @@ internal class ElementalStat// 누적배수
         CastSpeedXH = 0;
         SkillRateIncreaseXH = 0;
         SkillDmgIncreaseXH = 0;
-        InitLevel = 0;
+        InitLevel = 1;
     }
-    internal void LoadStat(XmlNode xmlNode)
-    {
-        BonusLevel = int.Parse(xmlNode.Attributes["BonusLevel"].Value);
-        DpsX = new BigInteger(xmlNode.Attributes["DpsX"].Value);
-        DpsIncreaseXH = int.Parse(xmlNode.Attributes["DpsIncreaseXH"].Value);
-        CastSpeedXH = int.Parse(xmlNode.Attributes["CastSpeedXH"].Value);
-        SkillRateIncreaseXH = int.Parse(xmlNode.Attributes["SkillRateIncreaseXH"].Value);
-        SkillDmgIncreaseXH = int.Parse(xmlNode.Attributes["SkillDmgIncreaseXH"].Value);
-    }
+
     internal void ApplyElementStat(BonusStat bonus, bool signPositive)
     {
         if (signPositive)

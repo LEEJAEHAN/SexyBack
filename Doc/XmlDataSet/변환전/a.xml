@@ -12,8 +12,8 @@
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES02" name="크리테스트" belong="false" droplevel="67">
-		<Bonus1 target="hero" attribute="CriticalRateXH" value="10"/>
+	<Skill id="ES02" belong="false" droplevel="67">
+		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
@@ -31,19 +31,19 @@
 		<Bonus4/>
 	</Skill>
 	<Skill id="ES05" name="작열" belong="false" droplevel="67">
-		<Bonus1 target="fireball" attribute="DpsIncreaseXH" value="15"/>
+		<Bonus1 target="fireball" attribute="DpsIncreaseXH" value="5"/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
 	<Skill id="ES06" name="냉기" belong="false" droplevel="67">
-		<Bonus1 target="iceblock" attribute="CastSpeedXH" value="15"/>
+		<Bonus1 target="iceblock" attribute="CastSpeedXH" value="5"/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
 	<Skill id="ES07" name="낙석" belong="false" droplevel="67">
-		<Bonus1 target="rock" attribute="SkillRateIncreaseXH" value="30"/>
+		<Bonus1 target="rock" attribute="SkillRateIncreaseXH" value="15"/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>

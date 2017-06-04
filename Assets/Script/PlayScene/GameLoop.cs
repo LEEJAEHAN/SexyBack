@@ -20,13 +20,18 @@ namespace SexyBackPlayScene
             gameInput = Singleton<GameInput>.getInstance();
             gameManager = Singleton<GameManager>.getInstance();
 
+            Singleton<TableLoader>.getInstance().Init();
+
+
+            // menu단계에서 이미 load되있어도, 스텟은 초기화후 다시계산한다.
+            // 다른 global manager는 로드되지 않았을경우에만 로드하고, 로드할 파일이 없으면, 더미데이터를만든다.
+            Singleton<MapManager>.getInstance().InitOrLoad();
+            Singleton<TalentManager>.getInstance().InitOrLoad();
+            Singleton<PremiumManager>.getInstance().InitOrLoad();
+            Singleton<EquipmentManager>.getInstance().InitOrLoad();
             Singleton<PlayerStatus>.getInstance().Init();
-            Singleton<MapManager>.getInstance().Init();
-            Singleton<TalentManager>.getInstance().Init();
-            Singleton<PremiumManager>.getInstance().Init();
-            Singleton<EquipmentManager>.getInstance().Init();
-            // menu단계에서 이미 load되있으면 init을안할테고, 만약 playscene실행이면 init을함.
-            // 파일이없을시에만 이닛. 있으면 무조건 로드시도, 실패시 메시지처리
+            Singleton<PlayerStatus>.getInstance().ReCheckStat();
+
             gameManager.Init();
         }
         //GameModeData args;

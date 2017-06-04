@@ -4,157 +4,157 @@
 		<Info icon="Icon_01" name="불원소 소환" description="불원소를 소환하여 공격합니다."/>
 		<Price level="0" baselevel="5" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
-		<Bonus target="fireball" attribute="Active" stringvalue="fireball"/>
+		<Bonus target="ingame" attribute="Active" stringvalue="fireball"/>
 	</Research>
 	<Research id="R02" requireid="fireball" showlevel="0">
 		<Info icon="Icon_05" name="얼음원소 소환" description="얼음원소를 소환하여 공격합니다."/>
 		<Price level="0" baselevel="15" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
-		<Bonus target="iceblock" attribute="Active" stringvalue="iceblock"/>
+		<Bonus target="ingame" attribute="Active" stringvalue="iceblock"/>
 	</Research>
 	<Research id="R03" requireid="iceblock" showlevel="0">
 		<Info icon="Icon_07" name="바위원소 소환" description="바위원소를 소환하여 공격합니다."/>
 		<Price level="0" baselevel="30" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
-		<Bonus target="rock" attribute="Active" stringvalue="rock"/>
+		<Bonus target="ingame" attribute="Active" stringvalue="rock"/>
 	</Research>
 	<Research id="R04" requireid="rock" showlevel="0">
 		<Info icon="Icon_04" name="전기원소 소환" description="전기원소를 소환하여 공격합니다."/>
 		<Price level="0" baselevel="60" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
-		<Bonus target="electricball" attribute="Active" stringvalue="electricball"/>
+		<Bonus target="ingame" attribute="Active" stringvalue="electricball"/>
 	</Research>
 	<Research id="R05" requireid="electricball" showlevel="0">
 		<Info icon="Icon_09" name="물원소 소환" description="물원소를 소환하여 공격합니다."/>
 		<Price level="0" baselevel="105" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
-		<Bonus target="waterball" attribute="Active" stringvalue="waterball"/>
+		<Bonus target="ingame" attribute="Active" stringvalue="waterball"/>
 	</Research>
 	<Research id="R06" requireid="waterball" showlevel="0">
 		<Info icon="Icon_03" name="대지원소 소환" description="대지원소를 소환하여 공격합니다."/>
 		<Price level="0" baselevel="155" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
-		<Bonus target="earthball" attribute="Active" stringvalue="earthball"/>
+		<Bonus target="ingame" attribute="Active" stringvalue="earthball"/>
 	</Research>
 	<Research id="R07" requireid="earthball" showlevel="0">
 		<Info icon="Icon_02" name="바람원소 소환" description="바람원소를 소환하여 공격합니다."/>
 		<Price level="0" baselevel="210" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
-		<Bonus target="airball" attribute="Active" stringvalue="airball"/>
+		<Bonus target="ingame" attribute="Active" stringvalue="airball"/>
 	</Research>
 	<Research id="R08" requireid="airball" showlevel="0">
 		<Info icon="Icon_08" name="눈원소 소환" description="눈원소를 소환하여 공격합니다."/>
 		<Price level="0" baselevel="260" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
-		<Bonus target="snowball" attribute="Active" stringvalue="snowball"/>
+		<Bonus target="ingame" attribute="Active" stringvalue="snowball"/>
 	</Research>
 	<Research id="R09" requireid="snowball" showlevel="0">
 		<Info icon="Icon_06" name="용암원소 소환" description="용암원소를 소환하여 공격합니다."/>
 		<Price level="0" baselevel="325" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="150"/>
-		<Bonus target="magmaball" attribute="Active" stringvalue="magmaball"/>
+		<Bonus target="ingame" attribute="Active" stringvalue="magmaball"/>
 	</Research>
 	<Research id="R10" requireid="fireball" showlevel="0">
 		<Info icon="Icon_20" name="화염구 습득" description="불원소가 일정확률로 화염구를 시전합니다."/>
 		<Price level="0" baselevel="5" baseprice="200"/>
 		<PriceOverTime rate="80" basetime="75"/>
-		<Bonus target="fireball" attribute="ActiveSkill" stringvalue="fireball"/>
+		<Bonus target="ingame" attribute="ActiveSkill" stringvalue="fireball"/>
 	</Research>
 	<Research id="R11" requireid="iceblock" showlevel="0">
 		<Info icon="Icon_21" name="얼음폭격 습득" description="얼음원소가 일정확률로 얼음폭격을 시전합니다."/>
 		<Price level="0" baselevel="15" baseprice="200"/>
 		<PriceOverTime rate="80" basetime="75"/>
-		<Bonus target="iceblock" attribute="ActiveSkill" stringvalue="iceblock"/>
+		<Bonus target="ingame" attribute="ActiveSkill" stringvalue="iceblock"/>
 	</Research>
 	<Research id="R12" requireid="rock" showlevel="0">
 		<Info icon="Icon_22" name="산사태 습득" description="바위원소가 일정확률로 산사태를 시전합니다."/>
 		<Price level="0" baselevel="30" baseprice="200"/>
 		<PriceOverTime rate="80" basetime="75"/>
-		<Bonus target="rock" attribute="ActiveSkill" stringvalue="rock"/>
+		<Bonus target="ingame" attribute="ActiveSkill" stringvalue="rock"/>
 	</Research>
 	<Research id="R13" requireid="electricball" showlevel="0">
 		<Info icon="Icon_23" name="공허구체 습득" description="전기원소가 일정확률로 공허구체를 시전합니다."/>
 		<Price level="0" baselevel="60" baseprice="200"/>
 		<PriceOverTime rate="80" basetime="75"/>
-		<Bonus target="electricball" attribute="ActiveSkill" stringvalue="electricball"/>
+		<Bonus target="ingame" attribute="ActiveSkill" stringvalue="electricball"/>
 	</Research>
 	<Research id="R14" requireid="waterball" showlevel="0">
 		<Info icon="Icon_24" name="독극물 습득" description="물원소가 일정확률로 독극물을 시전합니다."/>
 		<Price level="0" baselevel="105" baseprice="200"/>
 		<PriceOverTime rate="80" basetime="75"/>
-		<Bonus target="waterball" attribute="ActiveSkill" stringvalue="waterball"/>
+		<Bonus target="ingame" attribute="ActiveSkill" stringvalue="waterball"/>
 	</Research>
 	<Research id="R15" requireid="earthball" showlevel="0">
 		<Info icon="Icon_25" name="운석충돌 습득" description="대지원소가 일정확률로 운석충돌을 시전합니다."/>
 		<Price level="0" baselevel="155" baseprice="200"/>
 		<PriceOverTime rate="80" basetime="75"/>
-		<Bonus target="earthball" attribute="ActiveSkill" stringvalue="earthball"/>
+		<Bonus target="ingame" attribute="ActiveSkill" stringvalue="earthball"/>
 	</Research>
 	<Research id="R16" requireid="airball" showlevel="0">
 		<Info icon="Icon_26" name="기공포 습득" description="바람원소가 일정확률로 기공포를 시전합니다."/>
 		<Price level="0" baselevel="210" baseprice="200"/>
 		<PriceOverTime rate="80" basetime="75"/>
-		<Bonus target="airball" attribute="ActiveSkill" stringvalue="airball"/>
+		<Bonus target="ingame" attribute="ActiveSkill" stringvalue="airball"/>
 	</Research>
 	<Research id="R17" requireid="snowball" showlevel="0">
 		<Info icon="Icon_27" name="폭설 습득" description="눈원소가 일정확률로 폭설을 시전합니다."/>
 		<Price level="0" baselevel="260" baseprice="200"/>
 		<PriceOverTime rate="80" basetime="75"/>
-		<Bonus target="snowball" attribute="ActiveSkill" stringvalue="snowball"/>
+		<Bonus target="ingame" attribute="ActiveSkill" stringvalue="snowball"/>
 	</Research>
 	<Research id="R18" requireid="magmaball" showlevel="0">
 		<Info icon="Icon_28" name="혜성충돌 습득" description="용암원소가 일정확률로 혜성충돌을 시전합니다."/>
 		<Price level="0" baselevel="325" baseprice="200"/>
 		<PriceOverTime rate="80" basetime="75"/>
-		<Bonus target="magmaball" attribute="ActiveSkill" stringvalue="magmaball"/>
+		<Bonus target="ingame" attribute="ActiveSkill" stringvalue="magmaball"/>
 	</Research>
 	<Research id="R19" requireid="iceblock" showlevel="0">
 		<Info icon="Icon_11" subicon="Icon_05" name="인첸트1" description="얼음원소를 부여해 검술을 강화합니다. 기본 검술 피해량 증가"/>
 		<Price level="0" baselevel="15" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
-		<Bonus target="hero" attribute="Enchant" stringvalue="iceblock"/>
+		<Bonus target="ingame" attribute="Enchant" stringvalue="iceblock"/>
 	</Research>
 	<Research id="R20" requireid="rock" showlevel="0">
 		<Info icon="Icon_11" subicon="Icon_07" name="인첸트2" description="바위원소를 부여해 검술을 강화합니다. 기본 검술 피해량 증가"/>
 		<Price level="0" baselevel="30" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
-		<Bonus target="hero" attribute="Enchant" stringvalue="rock"/>
+		<Bonus target="ingame" attribute="Enchant" stringvalue="rock"/>
 	</Research>
 	<Research id="R21" requireid="electricball" showlevel="0">
 		<Info icon="Icon_11" subicon="Icon_04" name="인첸트3" description="전기원소를 부여해 검술을 강화합니다. 기본 검술 피해량 증가"/>
 		<Price level="0" baselevel="60" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
-		<Bonus target="hero" attribute="Enchant" stringvalue="electricball"/>
+		<Bonus target="ingame" attribute="Enchant" stringvalue="electricball"/>
 	</Research>
 	<Research id="R22" requireid="waterball" showlevel="0">
 		<Info icon="Icon_11" subicon="Icon_09" name="인첸트4" description="물원소를 부여해 검술을 강화합니다. 기본 검술 피해량 증가"/>
 		<Price level="0" baselevel="105" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
-		<Bonus target="hero" attribute="Enchant" stringvalue="waterball"/>
+		<Bonus target="ingame" attribute="Enchant" stringvalue="waterball"/>
 	</Research>
 	<Research id="R23" requireid="earthball" showlevel="0">
 		<Info icon="Icon_11" subicon="Icon_03" name="인첸트5" description="바위원소를 부여해 검술을 강화합니다. 기본 검술 피해량 증가"/>
 		<Price level="0" baselevel="155" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
-		<Bonus target="hero" attribute="Enchant" stringvalue="earthball"/>
+		<Bonus target="ingame" attribute="Enchant" stringvalue="earthball"/>
 	</Research>
 	<Research id="R24" requireid="airball" showlevel="0">
 		<Info icon="Icon_11" subicon="Icon_02" name="인첸트6" description="바위원소를 부여해 검술을 강화합니다. 기본 검술 피해량 증가"/>
 		<Price level="0" baselevel="210" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
-		<Bonus target="hero" attribute="Enchant" stringvalue="airball"/>
+		<Bonus target="ingame" attribute="Enchant" stringvalue="airball"/>
 	</Research>
 	<Research id="R25" requireid="snowball" showlevel="0">
 		<Info icon="Icon_11" subicon="Icon_08" name="인첸트7" description="바위원소를 부여해 검술을 강화합니다. 기본 검술 피해량 증가"/>
 		<Price level="0" baselevel="260" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
-		<Bonus target="hero" attribute="Enchant" stringvalue="snowball"/>
+		<Bonus target="ingame" attribute="Enchant" stringvalue="snowball"/>
 	</Research>
 	<Research id="R26" requireid="magmaball" showlevel="0">
 		<Info icon="Icon_11" subicon="Icon_06" name="인첸트8" description="바위원소를 부여해 검술을 강화합니다. 기본 검술 피해량 증가"/>
 		<Price level="0" baselevel="325" baseprice="300"/>
 		<PriceOverTime rate="0" basetime="0"/>
-		<Bonus target="hero" attribute="Enchant" stringvalue="magmaball"/>
+		<Bonus target="ingame" attribute="Enchant" stringvalue="magmaball"/>
 	</Research>
 	<Research id="R27" requireid="hero" showlevel="0">
 		<Info icon="Icon_11" icontext="x2" subicon="IconSmall_01" name="검연마1" description="검술의 피해량이 2배 증가합니다."/>

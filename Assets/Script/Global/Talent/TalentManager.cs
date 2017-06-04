@@ -6,20 +6,22 @@ using SexyBackMenuScene;
 
 internal class TalentManager
 {
-    internal static int ReputationUnit = 1000;
+    internal static int ReputationUnit = 50;
 
 
     public int Reputation;
+    public int SpendReputation;
     public SortedDictionary<string, Talent> Talents;
     public Talent CurrentTalent;
     internal int TotalLevel { get { return Talents.Sum(item => item.Value.Level); } }
+    
 
     TalentWindow talentView;
     InfoViewScript infoView;
     TopWindow topView;
     
 
-    internal void Init()
+    internal void InitOrLoad()
     {
         sexybacklog.Console("TalentManager 로드 및 초기화");
         if (CurrentTalent != null)
@@ -43,7 +45,7 @@ internal class TalentManager
         var data = Singleton<TableLoader>.getInstance().talenttable["T01"];
         Talents.Add(data.ID, new Talent(data, 1));
         CurrentTalent = Talents["T01"];
-        Reputation = 100000;
+        Reputation = 10000000;
     }
     private void Load()
     {
@@ -86,6 +88,15 @@ internal class TalentManager
         //    }
         //}
     }
+
+    internal bool IsMaxLevel(string selectedID)
+    {
+        if (Talents.ContainsKey(selectedID))
+            return Talents[selectedID].IsMaxLevel;
+        else
+            return false;
+    }
+
     internal string GetTotalBonus()
     {
         string temp = "";
@@ -100,7 +111,11 @@ internal class TalentManager
 
     internal void Reset()
     {
-        // 차후구현.
+        Reputation += SpendReputation;
+        NewData();
+        Singleton<PlayerStatus>.getInstance().Init();
+        Singleton<PlayerStatus>.getInstance().ReCheckStat();
+        Notice();
     }
 
     internal bool CanBuy(string selectedID)
@@ -149,8 +164,10 @@ internal class TalentManager
             Talent newOne = new Talent(Singleton<TableLoader>.getInstance().talenttable[selectedID], 0);
             Talents.Add(newOne.ID, newOne);
         }
+        int price = GetNextPrice(Talents[selectedID].PriceCoef);
+        Reputation -= price;
+        SpendReputation += price;
 
-        Reputation -= GetNextPrice(Talents[selectedID].PriceCoef);
         Talents[selectedID].Level++;
         Singleton<PlayerStatus>.getInstance().ApplySpecialStat(Talents[selectedID].BonusPerLevel, true);
         Notice();

@@ -22,16 +22,7 @@ internal class UtilStat
         RPriceReduceXH = 0;
         BonusConsumable = 0;
     }
-
-    public UtilStat(XmlNode xmlNode)
-    {
-        ResearchTimeX = int.Parse(xmlNode.Attributes["ResearchTimeX"].Value);
-        ResearchTime = int.Parse(xmlNode.Attributes["ResearchTime"].Value);
-        MaxResearchThread = int.Parse(xmlNode.Attributes["MaxResearchThread"].Value);
-        ExpIncreaseXH = int.Parse(xmlNode.Attributes["ExpIncreaseXH"].Value);
-        LPriceReduceXH = int.Parse(xmlNode.Attributes["LPriceReduceXH"].Value);
-        RPriceReduceXH = int.Parse(xmlNode.Attributes["RPriceReduceXH"].Value);
-    }
+    
     internal void ApplyBonus(BonusStat bonus, bool signPositive)
     {
         if (signPositive)
@@ -62,6 +53,9 @@ internal class UtilStat
             case Attribute.RPriceReduceXH:
                 RPriceReduceXH += bonus.value;
                 break;
+            case Attribute.BonusConsumable:
+                BonusConsumable += bonus.value;
+                break;
             default:
                 {
                     sexybacklog.Error("noAttribute");
@@ -90,6 +84,9 @@ internal class UtilStat
                 break;
             case Attribute.RPriceReduceXH:
                 RPriceReduceXH -= bonus.value;
+                break;
+            case Attribute.BonusConsumable:
+                BonusConsumable -= bonus.value;
                 break;
             default:
                 {

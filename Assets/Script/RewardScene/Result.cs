@@ -87,7 +87,8 @@ namespace SexyBackRewardScene
             // make
             int difficulty = rewardInfo.ReputationLevel;       // 스텐다드 difficult 계수
             double coef = Mathf.Pow(1.2f, difficulty); // 추가계수 ( 3노멀보다 1하드가 1.2배 효율적)
-            Reputation = (int)((double)TotalScore * (double)difficulty * coef);
+            double bonus = (100 + Singleton<PlayerStatus>.getInstance().GetGlobalStat.ReputationXH) / 100;
+            Reputation = (int)((double)TotalScore * (double)difficulty * coef * bonus);
             // give
             Singleton<TalentManager>.getInstance().Reputation += Reputation;
         }

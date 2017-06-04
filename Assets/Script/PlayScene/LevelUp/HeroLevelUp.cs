@@ -27,11 +27,13 @@ namespace SexyBackPlayScene
 
         internal void onHeroChange(Hero hero)
         {
-            itemView.DrawLevel(hero.LEVEL.ToString());
+            itemView.DrawLevel(hero.GetLevel.ToString(), hero.BonusLevel > 0);
             OriginalPrice = hero.PRICE;
             PRICE = OriginalPrice * (100 - LPriceReduceXH) / 100;
 
-            Name = OwnerName + " LV." + hero.LEVEL.ToString();
+            Name = OwnerName + " LV." + hero.OriginalLevel;
+            if (hero.BonusLevel > 0)
+                Name += "+" + hero.BonusLevel;
             StatName = "피해량\n공격속도\n강타확률\n강타데미지";
             StatValue = hero.DpcXH.ToString() + "%\n"
                 + hero.AttackSpeedXH.ToString() + "%\n"

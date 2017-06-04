@@ -11,11 +11,13 @@ namespace SexyBackRewardScene
         {
             Singleton<TableLoader>.getInstance().Init();
 
-            Singleton<MapManager>.getInstance().Init();
-            Singleton<TalentManager>.getInstance().Init();
-            Singleton<PremiumManager>.getInstance().Init();
+            Singleton<MapManager>.getInstance().InitOrLoad();
+            Singleton<TalentManager>.getInstance().InitOrLoad();
+            Singleton<PremiumManager>.getInstance().InitOrLoad();
+            Singleton<EquipmentManager>.getInstance().InitOrLoad();
             Singleton<PlayerStatus>.getInstance().Init();
-            Singleton<EquipmentManager>.getInstance().Init();
+            Singleton<PlayerStatus>.getInstance().ReCheckStat();
+
 
             rManager = Singleton<RewardManager>.getInstance();
             rManager.Init();

@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EquipmentSkills>
   <Skill id="ES00" name="더미" belong="false" droplevel="0" />
-  <Skill id="ES02" name="크리테스트" belong="false" droplevel="67">
-    <Bonus target="hero" attribute="CriticalRateXH" value="10" />
-  </Skill>
   <Skill id="ES03" name="분노" belong="false" droplevel="67">
     <Bonus target="hero" attribute="DpcIncreaseXH" value="5" />
   </Skill>
@@ -11,12 +8,12 @@
     <Bonus target="hero" attribute="AttackSpeedXH" value="5" />
   </Skill>
   <Skill id="ES05" name="작열" belong="false" droplevel="67">
-    <Bonus target="fireball" attribute="DpsIncreaseXH" value="15" />
+    <Bonus target="fireball" attribute="DpsIncreaseXH" value="5" />
   </Skill>
   <Skill id="ES06" name="냉기" belong="false" droplevel="67">
-    <Bonus target="iceblock" attribute="CastSpeedXH" value="15" />
+    <Bonus target="iceblock" attribute="CastSpeedXH" value="5" />
   </Skill>
   <Skill id="ES07" name="낙석" belong="false" droplevel="67">
-    <Bonus target="rock" attribute="SkillRateIncreaseXH" value="30" />
+    <Bonus target="rock" attribute="SkillRateIncreaseXH" value="15" />
   </Skill>
 </EquipmentSkills>

@@ -9,7 +9,7 @@ namespace SexyBackPlayScene
     internal class Hero : ICanLevelUp, IStateOwner, IDisposable, ISerializable
     {
         public string GetID { get { return baseData.ID; } }
-        public int GetLevel { get { return LEVEL; } }
+        public int GetLevel { get { return OriginalLevel + BonusLevel; } }
         public readonly HeroData baseData;
         public HeroStateMachine StateMachine;
         public Animator Animator;
@@ -22,7 +22,8 @@ namespace SexyBackPlayScene
         // public int buffduration
 
         // 최종 스텟
-        public int LEVEL;
+        public int OriginalLevel;
+        public int BonusLevel;
         public double BaseDmg;
         BigInteger DpcX = new BigInteger();
         public int DpcXH;
@@ -73,7 +74,7 @@ namespace SexyBackPlayScene
         }
         internal void LevelUp(int value)
         {
-            LEVEL += value;
+            OriginalLevel += value;
             RefreshStat = true;
         }
         internal void Move(Vector3 step)
@@ -107,7 +108,7 @@ namespace SexyBackPlayScene
             AttackSpeedXH = (100 + herostat.AttackSpeedXH) * (200 + basestat.Spd) / 200;
             CriRateXK = baseData.BaseSkillRateXK * (100 + herostat.CriticalRateXH) / 100;
             CriDamageXH = baseData.BaseSkillDamageXH * (100 + herostat.CriticalDamageXH) / 100;
-
+            BonusLevel = herostat.BonusLevel;
             AttackSpeed = (double)AttackSpeedXH / 100;
             AttackInterval = baseData.AttackInterval * 100 / AttackSpeedXH;
             MoveSpeed = baseData.MoveSpeed * (100 + herostat.MovespeedXH) / 100;
@@ -117,11 +118,11 @@ namespace SexyBackPlayScene
         void CalDpc()
         {
             double growth = InstanceStatus.CalGrowthPower(HeroData.GrowthRate, baseData.BaseLevel); // 
-            double doubleC = 5 * BaseDmg * growth * LEVEL * DpcXH * BuffCoef/ 100;
+            double doubleC = 5 * BaseDmg * growth * GetLevel * DpcXH * BuffCoef/ 100;
             BigInteger Coefficient = BigInteger.FromDouble(doubleC);
             DPC = DpcX * Coefficient;
-            if (LEVEL > 0)
-                DPCTick = DPC / LEVEL;
+            if (GetLevel > 0)
+                DPCTick = DPC / GetLevel;
         }
 
         internal void Buff(bool on, int xtimes)
@@ -135,9 +136,9 @@ namespace SexyBackPlayScene
 
         private void CalPrice()
         {
-            double BasePriceDensity = InstanceStatus.GetTotalDensityPerLevel(baseData.BaseLevel + LEVEL);
+            double BasePriceDensity = InstanceStatus.GetTotalDensityPerLevel(baseData.BaseLevel + OriginalLevel);
             // cal price
-            double growth = InstanceStatus.CalGrowthPower(ElementalData.GrowthRate, baseData.BaseLevel + LEVEL);
+            double growth = InstanceStatus.CalGrowthPower(ElementalData.GrowthRate, baseData.BaseLevel + OriginalLevel);
             double doubleC = baseData.BasePrice * BasePriceDensity * growth;
             PRICE = BigInteger.FromDouble(doubleC);
         }

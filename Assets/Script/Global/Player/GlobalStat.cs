@@ -4,21 +4,34 @@ using System.Xml;
 internal class GlobalStat
 {
     internal int RankBonus;
-    internal BigInteger InitExp;
+    internal int InitExpCoef;
     internal int BonusEquipment;
-
+    internal int ReputationXH;
     public GlobalStat()
     {
-        // 게임 전후, recal을 하므로 저장할 필요가 없다.
         RankBonus = 0;
-        InitExp = new BigInteger(0);
+        InitExpCoef = 0;
+        BonusEquipment = 0;
+        ReputationXH = 0;
     }
 
-    public GlobalStat(XmlNode xmlNode)
-    {
-        RankBonus = int.Parse(xmlNode.Attributes["RankBonus"].Value);
-        InitExp = new BigInteger(xmlNode.Attributes["InitExp"].Value);
-    }
+    //public int GetInitExp(int temp)
+    //{
+    //    return (int)Math.Pow(500, temp);
+    //    if (temp < 1)
+    //        return 0;
+    //    else if (temp == 1)
+    //        return 500;
+    //    else if (temp == 2)
+    //        return 1000;
+    //    else if (temp == 3)
+    //        return 2000;
+    //    else if (temp == 4)
+    //        return 4000;
+    //    else
+    //        return 10000;
+    //}
+
 
     internal void ApplyBonus(BonusStat bonus, bool signPositive)
     {
@@ -32,14 +45,17 @@ internal class GlobalStat
     {
         switch (bonus.attribute)
         {
-            case Attribute.InitExp:
-                InitExp += new BigInteger(bonus.strvalue);
+            case Attribute.InitExpCoef:
+                InitExpCoef += bonus.value;
                 break;
             case Attribute.RankBonus:
                 RankBonus += bonus.value;
                 break;
             case Attribute.BonusEquipment:
                 BonusEquipment += bonus.value;
+                break;
+            case Attribute.ReputationXH:
+                ReputationXH += bonus.value;
                 break;
             default:
                 {
@@ -52,14 +68,17 @@ internal class GlobalStat
     {
         switch (bonus.attribute)
         {
-            case Attribute.InitExp:
-                InitExp -= new BigInteger(bonus.strvalue);
+            case Attribute.InitExpCoef:
+                InitExpCoef -= bonus.value;
                 break;
             case Attribute.RankBonus:
                 RankBonus -= bonus.value;
                 break;
             case Attribute.BonusEquipment:
                 BonusEquipment -= bonus.value;
+                break;
+            case Attribute.ReputationXH:
+                ReputationXH -= bonus.value;
                 break;
             default:
                 {

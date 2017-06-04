@@ -36,6 +36,31 @@ namespace SexyBackPlayScene
 
         TopWindow topView;
 
+        //public void Load()
+        //{
+        //    XmlDocument doc = SaveSystem.LoadXml(SaveSystem.SaveDataPath);
+        //    globalStat = new GlobalStat(doc.SelectSingleNode("PlayerStatus/Stats/GlobalStat"));
+        //    baseStat = new BaseStat(doc.SelectSingleNode("PlayerStatus/Stats/BaseStat"));
+        //    utilStat = new UtilStat(doc.SelectSingleNode("PlayerStatus/Stats/UtilStat"));
+        //    heroStat = new HeroStat(doc.SelectSingleNode("PlayerStatus/Stats/HeroStat"));
+
+        //    elementalStats = new Dictionary<string, ElementalStat>();
+        //    foreach (string elementalid in Singleton<TableLoader>.getInstance().elementaltable.Keys)
+        //        elementalStats.Add(elementalid, new ElementalStat());
+        //    foreach (XmlNode node in doc.SelectSingleNode("PlayerStatus/Stats/ElementalStats").ChildNodes)
+        //        elementalStats[node.Attributes["id"].Value].LoadStat(node);
+        //}
+        internal void Load(XmlDocument doc)
+        {
+            XmlNode mainNode = doc.SelectSingleNode("InstanceStatus");
+            ExpGain(new BigInteger(mainNode.Attributes["Exp"].Value), false);
+            string mapid = mainNode.Attributes["MapID"].Value;
+            MapInfo = Singleton<MapManager>.getInstance().Maps[mapid];
+            IsBonused = bool.Parse(mainNode.Attributes["IsBonused"].Value);
+            LimitGameTime = MapInfo.baseData.LimitTime;
+            CurrentGameTime = double.Parse(mainNode.Attributes["CurrentGameTime"].Value);
+        }
+
         public Map InstanceMap
         {
             get
@@ -80,18 +105,10 @@ namespace SexyBackPlayScene
             MapInfo = InstanceMap; // 외부에서 setting 되어있으면 setting된값으로 아니면 더미값을출력
             // isBonused // 외부에서 이미 setting; 안되있으면 false;
             CurrentGameTime = 0;
-            ExpGain(Singleton<PlayerStatus>.getInstance().GetGlobalStat.InitExp, false);
+
+            int initexp = (int)Math.Pow(2, Singleton<PlayerStatus>.getInstance().GetGlobalStat.InitExpCoef) * 100;
+            ExpGain(new BigInteger(initexp), false);
             LimitGameTime = MapInfo.baseData.LimitTime;
-        }
-        internal void Load(XmlDocument doc)
-        {
-            XmlNode mainNode = doc.SelectSingleNode("InstanceStatus");
-            ExpGain(new BigInteger(mainNode.Attributes["Exp"].Value), false);
-            string mapid = mainNode.Attributes["MapID"].Value;
-            MapInfo = Singleton<MapManager>.getInstance().Maps[mapid];
-            IsBonused = bool.Parse(mainNode.Attributes["IsBonused"].Value);
-            LimitGameTime = MapInfo.baseData.LimitTime;
-            CurrentGameTime = double.Parse(mainNode.Attributes["CurrentGameTime"].Value);
         }
 
         public void Update()
@@ -128,26 +145,24 @@ namespace SexyBackPlayScene
         internal void Upgrade(BonusStat bonus, NestedIcon icon)
         {
             // case skill, active, stat 분리
-            switch (bonus.attribute)
+            if(bonus.targetID == "ingame")
             {
-                case Attribute.Active:
-                    Singleton<ElementalManager>.getInstance().LearnNewElemental(bonus.strvalue);
-                    break;
-                case Attribute.ActiveSkill:
-                    Singleton<ElementalManager>.getInstance().ActiveSkill(bonus.strvalue);
-                    break;
-                case Attribute.Enchant:
-                    Singleton<HeroManager>.getInstance().Enchant(bonus.strvalue);
-                    break;
-                default:
-                    Singleton<PlayerStatus>.getInstance().ApplySpecialStat(bonus, true);
-                    break;
+                switch (bonus.attribute)
+                {
+                    case Attribute.Active:
+                        Singleton<ElementalManager>.getInstance().LearnNewElemental(bonus.strvalue);
+                        break;
+                    case Attribute.ActiveSkill:
+                        Singleton<ElementalManager>.getInstance().ActiveSkill(bonus.strvalue);
+                        break;
+                    case Attribute.Enchant:
+                        Singleton<HeroManager>.getInstance().Enchant(bonus.strvalue);
+                        break;
+                }
             }
-            EffectController.getInstance.AddBuffEffect(icon);
-        }
-        internal void DownGrade(BonusStat bonus, NestedIcon icon)
-        {
-            Singleton<PlayerStatus>.getInstance().ApplySpecialStat(bonus, false);
+            else
+                Singleton<PlayerStatus>.getInstance().ApplySpecialStat(bonus, true);
+
             EffectController.getInstance.AddBuffEffect(icon);
         }
 

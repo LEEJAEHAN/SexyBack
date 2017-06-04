@@ -28,19 +28,7 @@ public class HeroStat
         MovespeedXH = 0;
         AttackCapacity = 1;
     }
-
-    public HeroStat(XmlNode xmlNode)
-    {
-        BonusLevel = int.Parse(xmlNode.Attributes["BonusLevel"].Value);
-        DpcX = new BigInteger(xmlNode.Attributes["DpcX"].Value);
-        DpcIncreaseXH = int.Parse(xmlNode.Attributes["DpcIncreaseXH"].Value);
-        AttackSpeedXH = int.Parse(xmlNode.Attributes["AttackSpeedXH"].Value);
-        CriticalRateXH = int.Parse(xmlNode.Attributes["CriticalRateXH"].Value);
-        CriticalDamageXH = int.Parse(xmlNode.Attributes["CriticalDamageXH"].Value);
-        MovespeedXH = int.Parse(xmlNode.Attributes["MovespeedXH"].Value);
-        AttackCapacity = int.Parse(xmlNode.Attributes["AttackCapacity"].Value);
-    }
-
+    
     internal void ApplyBonus(BonusStat bonus, bool signPositive)
     {
         if (signPositive)

@@ -8,7 +8,7 @@ internal class MapManager
     // 언제 다른 매니져로옮겨갈지 모른다.
     public Dictionary<string, Map> Maps;
 
-    internal void Init()
+    internal void InitOrLoad()
     {
         if (Maps != null)
             return;

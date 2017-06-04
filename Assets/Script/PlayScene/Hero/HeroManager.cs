@@ -14,7 +14,7 @@ namespace SexyBackPlayScene
         public void Dispose()
         {
             Action_HeroCreateEvent = null;
-            Action_HeroLevelUp = null;
+            Action_LevelUp = null;
             CurrentHero.Dispose();
             CurrentHero = null;
             Singleton<PlayerStatus>.getInstance().Action_HeroStatChange -= onHeroStatChange;
@@ -27,9 +27,9 @@ namespace SexyBackPlayScene
         [field: NonSerialized]
         public event HeroCreate_Event Action_HeroCreateEvent;
 
-        public delegate void HeroLevelUp_Event(Hero hero);
+        public delegate void LevelUp_Event(ICanLevelUp hero);
         [field: NonSerialized]
-        public event HeroLevelUp_Event Action_HeroLevelUp;
+        public event LevelUp_Event Action_LevelUp;
                 
         public void Init()
         {
@@ -44,13 +44,13 @@ namespace SexyBackPlayScene
             CreateNewHero();
             CurrentHero.BaseDmg = double.Parse(rootNode.Attributes["basedmg"].Value);
             // 레벨업 이벤트를 안줘서 research를 생성하지 않는다.
-            LevelUp(int.Parse(rootNode.Attributes["level"].Value));
+            CurrentHero.LevelUp(int.Parse(rootNode.Attributes["level"].Value));
         }
 
         internal void LevelUp(int value)
         {
             CurrentHero.LevelUp(value);
-            Action_HeroLevelUp(CurrentHero);
+            Action_LevelUp(CurrentHero);
         }
         internal void Enchant(string elementID)
         {

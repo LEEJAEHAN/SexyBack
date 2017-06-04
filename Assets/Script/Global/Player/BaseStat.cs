@@ -18,14 +18,6 @@ public class BaseStat : ICloneable
         Luck = luc;
     }
 
-    public BaseStat(XmlNode xmlNode)
-    {
-        Str = int.Parse(xmlNode.Attributes["Str"].Value);
-        Int = int.Parse(xmlNode.Attributes["Int"].Value);
-        Spd = int.Parse(xmlNode.Attributes["Spd"].Value);
-        Luck = int.Parse(xmlNode.Attributes["Luck"].Value);
-    }
-
     public string ToStringBox()
     {
         return string.Format("{0}\n{1}\n{2}\n{3}", Str, Int, Spd, Luck);

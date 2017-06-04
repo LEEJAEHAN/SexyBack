@@ -11,7 +11,7 @@ namespace SexyBackMenuScene
         Transform Slot;
         GameObject LearnButton;
         GameObject JobChangeButton;
-        
+
         string selectedID;
 
         public void Awake()
@@ -38,19 +38,27 @@ namespace SexyBackMenuScene
             if (toggle)
             {
                 selectedID = id;
+                LearnButton.SetActive(!Singleton<TalentManager>.getInstance().IsMaxLevel(selectedID));
                 LearnButton.GetComponent<UIButton>().isEnabled = Singleton<TalentManager>.getInstance().CanBuy(selectedID);
                 JobChangeButton.SetActive(Singleton<TalentManager>.getInstance().CanChangeJob(selectedID));
             }
         }
-        
+
         public void onLearnButton()
         {
-            Singleton<TalentManager>.getInstance().Learn(selectedID);
+            ViewLoader.PopUps.SetActive(true);
+            ViewLoader.MakePopUp("전문화획득", "정말살래?", LearnConfirm, null);
+
         }
         public void onJobChange()
         {
             Singleton<TalentManager>.getInstance().JobChange(selectedID);
         }
+        private void LearnConfirm()
+        {
+            Singleton<TalentManager>.getInstance().Learn(selectedID);
+        }
+
         public void onResetButton()
         {
             Singleton<TalentManager>.getInstance().Reset();
@@ -80,11 +88,21 @@ namespace SexyBackMenuScene
         private void FillTalent(Talent talent)
         {
             GameObject EquipView = ViewLoader.InstantiatePrefab(Slot, talent.ID, "Prefabs/UI/TalentGridITem");
-            EquipView.transform.FindChild("Class").GetComponent<UILabel>().text = talent.Name + " LV." + (talent.Level+1).ToString();
+            EquipView.transform.FindChild("Class").GetComponent<UILabel>().text =
+                talent.Level > 0 ? string.Format("{0} Lv.{1}", talent.Name, talent.Level) : talent.Name;
             EquipView.transform.FindChild("Bonus").GetComponent<UILabel>().text = StringParser.GetAttributeString(talent.BonusPerLevel);
             EquipView.transform.FindChild("JobBonus").GetComponent<UILabel>().text = StringParser.GetAttributeString(talent.JobBonus);
-            EquipView.transform.FindChild("Price").GetComponent<UILabel>().text = 
-                Singleton<TalentManager>.getInstance().GetNextPrice(talent.PriceCoef).ToString();
+
+            if(talent.IsMaxLevel)
+            {
+                EquipView.transform.FindChild("Price").GetComponent<UILabel>().text = "최대레벨";
+                EquipView.transform.FindChild("Price/Icon").gameObject.SetActive(false);
+            }
+            else
+            {
+                EquipView.transform.FindChild("Price").GetComponent<UILabel>().text =
+                    Singleton<TalentManager>.getInstance().GetNextPrice(talent.PriceCoef).ToString();
+            }
             SetToggleEvent(EquipView, "onToggle");
         }
 

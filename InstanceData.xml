@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<InstanceStatus Exp="0" MapID="Map01" IsBonused="False" CurrentGameTime="1.90777481906116">
+<InstanceStatus Exp="200" MapID="Map02" IsBonused="False" CurrentGameTime="7.84158122912049">
   <Hero level="1" basedmg="1.02499997615814" />
   <Elementals />
   <Researchs currentthread="0">
@@ -10,11 +10,11 @@
     </RemainResearchs>
   </Researchs>
   <Stages currentfloor="1">
-    <Stage floor="0" zPosition="4.580509" rewardcomplete="False" state="Move" monstercount="0" />
-    <Stage floor="1" zPosition="34.58052" rewardcomplete="False" state="Move" monstercount="1" />
+    <Stage floor="0" zPosition="-13.03065" rewardcomplete="True" state="Destroy" monstercount="0" />
+    <Stage floor="1" zPosition="16.96937" rewardcomplete="False" state="Move" monstercount="1" />
   </Stages>
   <Monsters>
-    <Monster id="F1M0" dataid="m06" level="1" isboss="True" hp="2000" />
+    <Monster id="F1M0" dataid="m09" level="5" isboss="True" hp="100" />
   </Monsters>
   <Consumables />
 </InstanceStatus>

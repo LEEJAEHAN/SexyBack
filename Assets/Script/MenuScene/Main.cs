@@ -16,12 +16,6 @@ namespace SexyBackMenuScene
             // TODO :  ResourceLoader 제작, 캐싱;
 
             // 파일이없을시에만 이닛. 있으면 무조건 로드시도, 실패시 메시지처리
-            Singleton<PlayerStatus>.getInstance().Init();
-            Singleton<EquipmentManager>.getInstance().Init();
-            Singleton<TalentManager>.getInstance().Init();
-            Singleton<PremiumManager>.getInstance().Init();
-            Singleton<MapManager>.getInstance().Init();
-
             // set scene state
             if (SexyBackPlayScene.InstanceSaveSystem.InstanceXmlDataExist) // case PlayScene
             {
@@ -31,10 +25,16 @@ namespace SexyBackMenuScene
             else // case MenuScene
             {
                 sexybacklog.Console("진행중인 인스턴스 저장데이터가 없습니다.");
-                sexybacklog.Console("장비와 특성으로부터 스텟을 새로 계산합니다.");
-                Singleton<PlayerStatus>.getInstance().ReCheckStat(); // 메뉴진입시. 장비와 특성으로부터 새로이 스텟 계산
-                Singleton<EquipmentManager>.getInstance().ReCheckStat();
-                Singleton<TalentManager>.getInstance().ReCheckStat();
+
+                // init or load
+                Singleton<EquipmentManager>.getInstance().InitOrLoad();
+                Singleton<TalentManager>.getInstance().InitOrLoad();
+                Singleton<PremiumManager>.getInstance().InitOrLoad();
+                Singleton<MapManager>.getInstance().InitOrLoad();
+
+                Singleton<PlayerStatus>.getInstance().Init();
+                Singleton<PlayerStatus>.getInstance().ReCheckStat();
+
                 Singleton<ViewLoader>.getInstance().InitUISetting();
             }
 

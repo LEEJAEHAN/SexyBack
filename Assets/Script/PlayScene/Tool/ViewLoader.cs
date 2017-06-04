@@ -22,13 +22,7 @@ namespace SexyBackPlayScene
         //NGUI STATIC OBJECT
         public static GameObject PopUpPanel;
         public static GameObject OptionPanel;
-
-        //public static GameObject BottomScrollView;
-
-        //public static GameObject TabButton3;
-        //public static GameObject TabButton4;
-        //public static GameObject Tab3Container;
-        //public static GameObject Tab4Container;
+        
 
         public ViewLoader()
         {
@@ -40,13 +34,7 @@ namespace SexyBackPlayScene
             shooter = GameObject.Find("shooter");
             projectiles = GameObject.Find("projectiles");
             stagepanel = GameObject.Find("StagePanel");
-
-            //BottomScrollView = GameObject.Find("BottomScrollView");
-
-            //TabButton3 = GameObject.Find("TabButton3");
-            //TabButton4 = GameObject.Find("TabButton4");
-            //Tab3Container = GameObject.Find("Tab3Container");
-            //Tab4Container = GameObject.Find("Tab4Container");
+            
 
             InitUISetting();
         }

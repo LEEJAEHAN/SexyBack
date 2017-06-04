@@ -6,7 +6,7 @@ using System;
 public class StandardPopUpView : MonoBehaviour
 {
     public Action Action_Yes; // Action == delegat void
-    public Action Action_No;
+    public Action Action_No = delegate { };
 
     public void OnYes()
     {

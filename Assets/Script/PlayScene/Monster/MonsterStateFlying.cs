@@ -15,6 +15,8 @@ namespace SexyBackPlayScene
                 DropCount = Singleton<InstanceStatus>.getInstance().InstanceMap.baseData.ChestPerBossMonster;
             else
                 DropCount = Singleton<InstanceStatus>.getInstance().InstanceMap.baseData.ChestPerMonster;
+
+            DropCount += Singleton<PlayerStatus>.getInstance().GetUtilStat.BonusConsumable;
         }
 
         internal override void Begin()

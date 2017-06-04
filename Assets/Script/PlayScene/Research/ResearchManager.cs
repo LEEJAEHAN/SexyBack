@@ -47,8 +47,8 @@ namespace SexyBackPlayScene
         public void Init()
         {
             Singleton<PlayerStatus>.getInstance().Action_UtilStatChange += this.onUtilStatChange;
-            Singleton<HeroManager>.getInstance().Action_HeroLevelUp += onHeroLevelUp;
-            Singleton<ElementalManager>.getInstance().Action_ElementalLevelUp += onElementalLevelUp;
+            Singleton<HeroManager>.getInstance().Action_LevelUp += onLevelUp;
+            Singleton<ElementalManager>.getInstance().Action_LevelUp += onLevelUp;
 
             TabButton2 = GameObject.Find("TabButton2");
             Tab2Container = GameObject.Find("Tab2Container");
@@ -101,14 +101,9 @@ namespace SexyBackPlayScene
             Tab2Container.GetComponentInParent<UIScrollView>().ResetPosition();
         }
 
-        private void onHeroLevelUp(Hero hero)
+        private void onLevelUp(ICanLevelUp hero)
         {
-            SummonResearch(hero.GetID, hero.LEVEL);
-        }
-
-        private void onElementalLevelUp(Elemental elemental)
-        {
-            SummonResearch(elemental.GetID, elemental.LEVEL); // TODO : 바로만들지말고 업데이트에서 만들어야한다.
+            SummonResearch(hero.GetID, hero.GetLevel);
         }
 
         private void SummonResearch(string id, int levelcondition)
@@ -139,6 +134,7 @@ namespace SexyBackPlayScene
                 foreach (XmlNode rNode in FinishNode.ChildNodes)
                 {
                     string id = rNode.Attributes["id"].Value;
+                    ApplyResearchStat(id);
                     FinishList.Add(id, id);
                 }
             }
@@ -150,12 +146,18 @@ namespace SexyBackPlayScene
                     ResearchData baseData = Singleton<TableLoader>.getInstance().researchtable[id];
                     Research research = factory.SummonNewResearch(baseData);
                     researches.Add(id, research);
-
                     research.StateMachine.ChangeState(rNode.Attributes["state"].Value);
                     research.View.SetActive(true);
                     research.RemainTime = double.Parse(rNode.Attributes["remaintime"].Value);
                 }
             }
+        }
+
+        private void ApplyResearchStat(string id)
+        {
+            var bonus = Singleton<TableLoader>.getInstance().researchtable[id].bonus;
+            if(bonus.targetID != "ingame")
+                Singleton<PlayerStatus>.getInstance().ApplySpecialStat(bonus, true);
         }
 
         public void Update()

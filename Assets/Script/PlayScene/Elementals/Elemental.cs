@@ -9,7 +9,7 @@ namespace SexyBackPlayScene
     {
         ElementalData baseData;
         public string GetID { get { return baseData.ID; } }
-        public int GetLevel { get { return LEVEL; } }
+        public int GetLevel { get { return OriginalLevel + BonusLevel; } }
         public string targetID { get { return shooter.targetID; } set { skill.targetID = value; shooter.targetID = value; } }
         // 변수
         BigInteger DpsX = new BigInteger();
@@ -19,7 +19,10 @@ namespace SexyBackPlayScene
         public int SkillRateXH;
         int BuffCoef = 1;
 
-        public int LEVEL;
+        //public int LEVEL;
+        public int OriginalLevel;
+        public int BonusLevel;
+
         public BigInteger DPS = new BigInteger();
         public BigInteger DAMAGE = new BigInteger();//  dps * attackinterval
         public BigInteger PRICE = new BigInteger();
@@ -49,7 +52,7 @@ namespace SexyBackPlayScene
 
         internal void LevelUp(int value)
         {
-            LEVEL += value;
+            OriginalLevel += value;
             RefreshStat = true;
         }
         internal void onStatChange()
@@ -67,6 +70,7 @@ namespace SexyBackPlayScene
             CastSpeedXH = (100 + elementalstat.CastSpeedXH) * (200 + basestat.Spd) / 200;
             SkillRateXH = baseData.BaseSkillRateXK * (100 + elementalstat.SkillRateIncreaseXH) / 100;
             SkillRatioXH = baseData.BaseSkillDamageXH * (100 + elementalstat.SkillDmgIncreaseXH) / 100;
+            BonusLevel = elementalstat.BonusLevel;
             // CASTINTERVAL이 0.5보다 낮아져선 안된다. ( 실제는 0.8 )
             CastInterval = UnityEngine.Mathf.Max(0.8f, ((float)baseData.BaseCastIntervalXK / (float)(CastSpeedXH * 10)));
         }
@@ -74,19 +78,19 @@ namespace SexyBackPlayScene
         void CalDps()
         {
             double growth = InstanceStatus.CalGrowthPower(ElementalData.GrowthRate, baseData.BaseLevel); // 
-            double doubleC = 1 * baseData.BaseDmg * growth * LEVEL * DpsXH * CastSpeedXH * BuffCoef/ 10000;
+            double doubleC = 1 * baseData.BaseDmg * growth * GetLevel * DpsXH * CastSpeedXH * BuffCoef/ 10000;
             BigInteger Coefficient = BigInteger.FromDouble(doubleC);
             DPS = DpsX * Coefficient;
-            if (LEVEL > 0)
-                DPSTICK = DPS / LEVEL;
+            if (GetLevel > 0)
+                DPSTICK = DPS / GetLevel;
             DAMAGE = DPS * baseData.BaseCastIntervalXK / (CastSpeedXH * 10); //  dps * CASTINTERVAL]
             skill.CalDamage(DAMAGE);
         }
         private void CalPrice()
         {
-            double BasePriceDensity = InstanceStatus.GetTotalDensityPerLevel(baseData.BaseLevel + LEVEL);
+            double BasePriceDensity = InstanceStatus.GetTotalDensityPerLevel(baseData.BaseLevel + OriginalLevel);
             // cal price
-            double growth = InstanceStatus.CalGrowthPower(ElementalData.GrowthRate, baseData.BaseLevel + LEVEL);
+            double growth = InstanceStatus.CalGrowthPower(ElementalData.GrowthRate, baseData.BaseLevel + OriginalLevel);
             double doubleC = baseData.BasePrice * BasePriceDensity * growth;
             PRICE = BigInteger.FromDouble(doubleC); // 60(랩업비기본) * 2.08(비중) * power수
         }
@@ -129,7 +133,6 @@ namespace SexyBackPlayScene
                     instanceSkill.RemoveAt(i);
             }
 
-            sexybacklog.Console("현재 instanceskill Count " + instanceSkill.Count);
 
             //instanceSkill.RemoveAll(i => i.Finish == true);
             //강제시전

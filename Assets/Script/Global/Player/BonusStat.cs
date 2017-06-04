@@ -26,16 +26,16 @@ public enum Attribute
     MaxResearchThread,
     LPriceReduceXH,
     RPriceReduceXH,
-    InitExp,
+    InitExpCoef,
     RankBonus,
     BonusEquipment,
     BonusConsumable,
+    ReputationXH,
 
-    // only in instancegame
+    // only in instancegame "ingame"
     Active,
     ActiveSkill,
     Enchant,
-    ExpPerFloor,
 }
 public class BonusStat : ICloneable
 {
@@ -44,11 +44,16 @@ public class BonusStat : ICloneable
     public int value;
     public string strvalue;
 
-    public BonusStat(string targetID, Attribute attribute, int value, string strvalue)
+    public BonusStat(string targetID, Attribute attribute, int value)
     {
         this.targetID = targetID;
         this.attribute = attribute;
         this.value = value;
+    }
+    public BonusStat(string targetID, Attribute attribute, string strvalue)
+    {
+        this.targetID = targetID;
+        this.attribute = attribute;
         this.strvalue = strvalue;
     }
 
@@ -58,12 +63,14 @@ public class BonusStat : ICloneable
 
     public static BonusStat operator *(BonusStat origin, int scalar)
     {
-        return new BonusStat(origin.targetID, origin.attribute, origin.value * scalar, origin.strvalue);
+        return new BonusStat(origin.targetID, origin.attribute, origin.value * scalar);
     }
 
     public object Clone()
     {
-        return new BonusStat(this.targetID, this.attribute, this.value, this.strvalue);
+        var clone = new BonusStat(this.targetID, this.attribute, this.value);
+        clone.strvalue = this.strvalue;
+        return clone;
     }
 
 

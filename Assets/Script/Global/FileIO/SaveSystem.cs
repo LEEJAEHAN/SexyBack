@@ -56,12 +56,79 @@ internal class SaveSystem
         writer.WriteStartElement("PlayerStatus");
         SaveEquipments(writer);
         SaveMapInfo(writer);
+        SaveStat(writer);       // for test, 로드는 하지 않는다.
         writer.WriteEndElement();
         writer.WriteEndDocument();
         writer.Close();
     }
 
-        
+
+    private static void SaveStat(XmlWriter writer)
+    {
+        PlayerStatus playerStatus = Singleton<PlayerStatus>.getInstance();
+        writer.WriteStartElement("Stats");
+        {
+            writer.WriteStartElement("GlobalStat");
+            GlobalStat globalStat = playerStatus.GetGlobalStat;
+            writer.WriteAttributeString("InitExp", globalStat.InitExpCoef.ToString());
+            writer.WriteAttributeString("RankBonus", globalStat.RankBonus.ToString());
+            writer.WriteEndElement();
+        }
+        {
+            writer.WriteStartElement("BaseStat");
+            BaseStat baseStat = playerStatus.GetBaseStat;
+            writer.WriteAttributeString("Str", baseStat.Str.ToString());
+            writer.WriteAttributeString("Int", baseStat.Int.ToString());
+            writer.WriteAttributeString("Spd", baseStat.Spd.ToString());
+            writer.WriteAttributeString("Luck", baseStat.Luck.ToString());
+            writer.WriteEndElement();
+        }
+        {
+            writer.WriteStartElement("UtilStat");
+            UtilStat utilStat = playerStatus.GetUtilStat;
+            writer.WriteAttributeString("ResearchTimeX", utilStat.ResearchTimeX.ToString());
+            writer.WriteAttributeString("ResearchTime", utilStat.ResearchTime.ToString());
+            writer.WriteAttributeString("MaxResearchThread", utilStat.MaxResearchThread.ToString());
+            writer.WriteAttributeString("ExpIncreaseXH", utilStat.ExpIncreaseXH.ToString());
+            writer.WriteAttributeString("LPriceReduceXH", utilStat.LPriceReduceXH.ToString());
+            writer.WriteAttributeString("RPriceReduceXH", utilStat.RPriceReduceXH.ToString());
+            writer.WriteEndElement();
+        }
+        {
+            writer.WriteStartElement("HeroStat");
+            HeroStat heroStat = playerStatus.GetHeroStat;
+            writer.WriteAttributeString("BonusLevel", heroStat.BonusLevel.ToString());
+            writer.WriteAttributeString("DpcX", heroStat.DpcX.ToString());
+            writer.WriteAttributeString("AttackCapacity", heroStat.AttackCapacity.ToString());
+            writer.WriteAttributeString("DpcIncreaseXH", heroStat.DpcIncreaseXH.ToString());
+            writer.WriteAttributeString("AttackSpeedXH", heroStat.AttackSpeedXH.ToString());
+            writer.WriteAttributeString("CriticalRateXH", heroStat.CriticalRateXH.ToString());
+            writer.WriteAttributeString("CriticalDamageXH", heroStat.CriticalDamageXH.ToString());
+            writer.WriteAttributeString("MovespeedXH", heroStat.MovespeedXH.ToString());
+            writer.WriteEndElement();
+        }
+        {
+            writer.WriteStartElement("ElementalStats");
+            Dictionary<string, ElementalStat> stats = playerStatus.GetElementalStats;
+            foreach (string id in stats.Keys)
+            {
+                writer.WriteStartElement("ElementalStat");
+                ElementalStat eStat = playerStatus.GetElementalStat(id);
+                writer.WriteAttributeString("id", id);
+                writer.WriteAttributeString("BonusLevel", eStat.BonusLevel.ToString());
+                writer.WriteAttributeString("DpsX", eStat.DpsX.ToString());
+                writer.WriteAttributeString("DpsIncreaseXH", eStat.DpsIncreaseXH.ToString());
+                writer.WriteAttributeString("CastSpeedXH", eStat.CastSpeedXH.ToString());
+                writer.WriteAttributeString("SkillRateIncreaseXH", eStat.SkillRateIncreaseXH.ToString());
+                writer.WriteAttributeString("SkillDmgIncreaseXH", eStat.SkillDmgIncreaseXH.ToString());
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+        }
+        writer.WriteEndElement();
+    }
+
+
 
     private static void SaveEquipments(XmlWriter writer)
     {

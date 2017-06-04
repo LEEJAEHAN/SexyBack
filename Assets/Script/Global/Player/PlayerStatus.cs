@@ -34,42 +34,17 @@ internal class PlayerStatus
     [field: NonSerialized]
     public event Action<ElementalStat, string> Action_ElementalStatChange = delegate { };
 
-    internal void Init()
-    {
-        sexybacklog.Console("PlayerStatus 로드 및 초기화");
-        if (baseStat != null)
-            return;
 
-        if (SaveSystem.GlobalDataExist)
-        {
-            //NewData(); for test
-            Load();
-        }
-        else
-        {
-            sexybacklog.Console("PlayerStatus 시작초기 데이터로 생성.");
-            NewData();
-        }
+    internal void ReCheckStat()
+    {
+        sexybacklog.Console("장비와 특성으로부터 스텟을 새로 계산합니다.");
+        Singleton<EquipmentManager>.getInstance().ReCheckStat();
+        Singleton<TalentManager>.getInstance().ReCheckStat();
     }
 
-    public void Load()
+    public void Init()
     {
-        XmlDocument doc = SaveSystem.LoadXml(SaveSystem.SaveDataPath);
-        globalStat = new GlobalStat(doc.SelectSingleNode("PlayerStatus/Stats/GlobalStat"));
-        baseStat = new BaseStat(doc.SelectSingleNode("PlayerStatus/Stats/BaseStat"));
-        utilStat = new UtilStat(doc.SelectSingleNode("PlayerStatus/Stats/UtilStat"));
-        heroStat = new HeroStat(doc.SelectSingleNode("PlayerStatus/Stats/HeroStat"));
-
-        elementalStats = new Dictionary<string, ElementalStat>();
-        foreach (string elementalid in Singleton<TableLoader>.getInstance().elementaltable.Keys)
-            elementalStats.Add(elementalid, new ElementalStat());
-        foreach (XmlNode node in doc.SelectSingleNode("PlayerStatus/Stats/ElementalStats").ChildNodes)
-            elementalStats[node.Attributes["id"].Value].LoadStat(node);
-    }
-
-    public void NewData()
-    {
-        sexybacklog.Console("플레이씬에서 새 게임을 시작합니다. 더미스텟으로 시작합니다.");
+        sexybacklog.Console("스텟 초기화");
         globalStat = new GlobalStat();
         baseStat = new BaseStat();
         utilStat = new UtilStat();
@@ -79,10 +54,6 @@ internal class PlayerStatus
             elementalStats.Add(elementalid, new ElementalStat());
     }
 
-    internal void ReCheckStat()
-    {
-        NewData();
-    }
 
     internal void ApplySpecialStat(BonusStat bonus, bool signPositive)
     {
