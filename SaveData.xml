@@ -2,9 +2,7 @@
 <PlayerStatus>
   <Equipments MaxEquipSet="2" MaxInventory="20" CurrentSet="0">
     <EquipmentSet>
-      <Weapon>
-        <Equipment id="E07" skillid="ES00" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      </Weapon>
+      <Weapon />
       <Staff />
       <Ring />
     </EquipmentSet>
@@ -13,44 +11,14 @@
       <Staff />
       <Ring />
     </EquipmentSet>
-    <Inventory>
-      <Equipment id="E07" skillid="ES00" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E11" skillid="ES00" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E05" skillid="ES06" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E03" skillid="ES07" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E03" skillid="ES03" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E05" skillid="ES05" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E01" skillid="ES03" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E01" skillid="ES07" grade="2" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E05" skillid="ES05" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E01" skillid="ES03" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E03" skillid="ES03" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E05" skillid="ES03" grade="2" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E03" skillid="ES07" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E03" skillid="ES06" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E01" skillid="ES06" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E01" skillid="ES07" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E03" skillid="ES04" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E05" skillid="ES03" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E03" skillid="ES07" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E01" skillid="ES04" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E01" skillid="ES07" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E05" skillid="ES04" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E03" skillid="ES04" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E05" skillid="ES04" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E03" skillid="ES05" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-      <Equipment id="E05" skillid="ES07" grade="1" evolution="0" exp="0" skillLevel="1" isLock="False" />
-    </Inventory>
+    <Inventory />
   </Equipments>
-  <Progress>
-    <Map id="Map01" clearcount="3" besttime="1680" />
-    <Map id="Map03" clearcount="1" besttime="32" />
-  </Progress>
+  <Progress />
   <Stats>
-    <GlobalStat InitExp="1" RankBonus="0" />
-    <BaseStat Str="20" Int="1" Spd="1" Luck="1" />
+    <GlobalStat InitExp="1" RankBonus="3" />
+    <BaseStat Str="1" Int="1" Spd="1" Luck="1" />
     <UtilStat ResearchTimeX="1" ResearchTime="0" MaxResearchThread="1" ExpIncreaseXH="0" LPriceReduceXH="0" RPriceReduceXH="0" />
-    <HeroStat BonusLevel="0" DpcX="1" AttackCapacity="1" DpcIncreaseXH="0" AttackSpeedXH="0" CriticalRateXH="0" CriticalDamageXH="0" MovespeedXH="0" />
+    <HeroStat BonusLevel="0" DpcX="1" AttackCapacity="2" DpcIncreaseXH="0" AttackSpeedXH="0" CriticalRateXH="0" CriticalDamageXH="0" MovespeedXH="20" />
     <ElementalStats>
       <ElementalStat id="fireball" BonusLevel="0" DpsX="1" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />
       <ElementalStat id="iceblock" BonusLevel="0" DpsX="1" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />

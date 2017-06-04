@@ -4,15 +4,15 @@ namespace SexyBackMenuScene
 {
     class MenuToggleScript : MonoBehaviour
     {
-        GameObject GameModeWindow;
+        GameObject MapWindow;
         GameObject EquipmentWindow;
         GameObject JobWindow;
 
         private void Awake()
         {
-            GameModeWindow = transform.FindChild("GameModeWindow").gameObject;
-            //GameModeWindow.transform.localPosition = Vector3.zero;
-            GameModeWindow.SetActive(false);
+            MapWindow = transform.FindChild("MapWindow").gameObject;
+            //MapWindow.transform.localPosition = Vector3.zero;
+            MapWindow.SetActive(false);
 
             EquipmentWindow = transform.FindChild("EquipmentWindow").gameObject;
             //EquipmentWindow.transform.localPosition = Vector3.zero;
@@ -28,7 +28,7 @@ namespace SexyBackMenuScene
         {
             if(ButtonName =="게임시작")
             {
-                GameModeWindow.SetActive(togglevalue);
+                MapWindow.SetActive(togglevalue);
             }
             if (ButtonName == "장비교체")
             {

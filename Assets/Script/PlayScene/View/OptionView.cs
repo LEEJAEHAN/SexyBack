@@ -26,7 +26,7 @@ namespace SexyBackPlayScene
         {
             this.gameObject.SetActive(false);
 
-            string context = "클리어 보상의 일부만 받을 수 있습니다.\n\n게임을 그만두고\n메인화면으로 이동하시겠습니까";
+            string context = "[000000]클리어 보상의 일부만 받을 수 있습니다.\n\n게임을 그만두고\n메인화면으로 이동하시겠습니까[-]";
 
             ViewLoader.MakePopUp("던전포기", context, GiveUpYes, GiveUpNo);
         }

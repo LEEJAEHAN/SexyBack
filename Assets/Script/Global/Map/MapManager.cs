@@ -3,9 +3,10 @@ using SexyBackRewardScene;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 using System.Xml;
+using UnityEngine.SceneManagement;
+
 internal class MapManager
 {
-    // 언제 다른 매니져로옮겨갈지 모른다.
     public Dictionary<string, Map> Maps;
 
     internal void InitOrLoad()
@@ -54,5 +55,10 @@ internal class MapManager
         }
     }
 
+    internal void StartMap(string id)
+    {
+        Singleton<SexyBackPlayScene.InstanceStatus>.getInstance().InstanceMap = Maps[id];
+        SceneManager.LoadScene("PlayScene");
+    }
 }
 

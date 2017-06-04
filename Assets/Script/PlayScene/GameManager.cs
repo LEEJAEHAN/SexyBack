@@ -75,6 +75,10 @@ namespace SexyBackPlayScene
             heroManager.CreateNewHero(); // no level and stat
             heroManager.LevelUp(1);
             stageManager.Start(instanceStat.InstanceMap);
+
+            GameObject.Find("Middle_Window").GetComponent<TweenAlpha>().ResetToBeginning();
+
+
             LoadComplete = true;
         }
 

@@ -44,8 +44,8 @@ namespace SexyBackPlayScene
             CurrentFloor = 1;       // 1층부터 세기시작.
 
             Stages = new List<Stage>();
-            Stages.Add(Factory.CreateStage(0, 10));     // portal;
-            Stages.Add(Factory.CreateStage(CurrentFloor, 10 + DistancePerFloor));   // firststage
+            Stages.Add(Factory.CreateStage(0, 0));     // portal;
+            Stages.Add(Factory.CreateStage(CurrentFloor, 0 + DistancePerFloor));   // firststage
 
             //Stages.Add(Factory.CreateStage(CurrentFloor, DistancePerFloor));
             //Stages.Add(Factory.CreateStage(CurrentFloor+1, DistancePerFloor * 2));

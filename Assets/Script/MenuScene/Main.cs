@@ -45,12 +45,7 @@ namespace SexyBackMenuScene
         {
         }
 
-        internal void GoPlayScene(string selectedMapID, bool selectedBonus)
-        {
-            Singleton<SexyBackPlayScene.InstanceStatus>.getInstance().InstanceMap = Singleton<MapManager>.getInstance().Maps[selectedMapID];
-            Singleton<SexyBackPlayScene.InstanceStatus>.getInstance().IsBonused = selectedBonus;
-            SceneManager.LoadScene("PlayScene");
-        }
+
 
         public void QuitGame()
         {

@@ -46,9 +46,13 @@ namespace SexyBackMenuScene
 
         public void onLearnButton()
         {
-            ViewLoader.PopUps.SetActive(true);
-            ViewLoader.MakePopUp("전문화획득", "정말살래?", LearnConfirm, null);
+            ViewLoader.PopUpPanel.SetActive(true);
+            ViewLoader.MakePopUp("주의", "[000000]선택항목을 구매하시겠습니까?\n(명성이 소모됩니다)[-]", LearnConfirm, onCancel);
 
+        }
+        private void onCancel()
+        {
+            ViewLoader.PopUpPanel.SetActive(false);
         }
         public void onJobChange()
         {
@@ -57,6 +61,7 @@ namespace SexyBackMenuScene
         private void LearnConfirm()
         {
             Singleton<TalentManager>.getInstance().Learn(selectedID);
+            ViewLoader.PopUpPanel.SetActive(false);
         }
 
         public void onResetButton()
