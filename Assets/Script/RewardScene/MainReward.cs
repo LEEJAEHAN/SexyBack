@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace SexyBackRewardScene
 {
-    internal class MainScript : MonoBehaviour
+    internal class MainReward : MonoBehaviour
     {
         RewardManager rManager;
 

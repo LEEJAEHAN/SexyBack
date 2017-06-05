@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace SexyBackMenuScene
 {
-    public class Main : MonoBehaviour
+    public class MainMenu : MonoBehaviour
     {
         private void Awake()
         {

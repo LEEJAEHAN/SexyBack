@@ -46,8 +46,9 @@ namespace SexyBackMenuScene
         {
             SelectedMapID  = selectedObject.name;
             GetComponent<TweenAlpha>().enabled = true;
-            //GetComponent<TweenAlpha>().ResetToBeginning();
+            GameObject.Find("UICamera").GetComponent<UICamera>().eventReceiverMask = 0; // nothing
 
+            //GetComponent<TweenAlpha>().ResetToBeginning();
             //GameObject.Find("Top_Buttons").transform.DestroyChildren();
             //transform.DestroyChildren();
             //GameObject boosting = ViewLoader.InstantiatePrefab(transform, "BoostingPopUp", "Prefabs/UI/BoostingPopUp");

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace SexyBackPlayScene
 {
-    public class GameLoop : MonoBehaviour
+    public class MainPlay : MonoBehaviour
     {
         ViewLoader viewLoader;
         InstanceGameManager instanceGameManager;
