@@ -87,7 +87,7 @@ namespace SexyBackPlayScene
         //}
 
         // 로드가 완료되지 않은 시점에서 save가 뜨면 안된다.
-        internal void SaveInstacne()
+        internal static void SaveInstacne()
         {
             XmlWriterSettings setting = new XmlWriterSettings();
             setting.Indent = true;
@@ -118,7 +118,7 @@ namespace SexyBackPlayScene
 
 
 
-        private void SaveMonster(XmlWriter writer)
+        private static void SaveMonster(XmlWriter writer)
         {
             writer.WriteStartElement("Monsters");
             foreach (Monster data in Singleton<MonsterManager>.getInstance().monsters.ToArray())
@@ -134,7 +134,7 @@ namespace SexyBackPlayScene
             writer.WriteEndElement();
         }
 
-        private void SaveStage(XmlWriter writer)
+        private static void SaveStage(XmlWriter writer)
         {
             StageManager manager = Singleton<StageManager>.getInstance();
             writer.WriteStartElement("Stages");
@@ -152,7 +152,7 @@ namespace SexyBackPlayScene
             writer.WriteEndElement();
         }
 
-        private void SaveResearchs(XmlWriter writer)
+        private static void SaveResearchs(XmlWriter writer)
         {
             ResearchManager manager = Singleton<ResearchManager>.getInstance();
             writer.WriteStartElement("Researchs");
@@ -180,7 +180,7 @@ namespace SexyBackPlayScene
             writer.WriteEndElement();
         }
 
-        private void SaveHero(XmlWriter writer)
+        private static void SaveHero(XmlWriter writer)
         {
             Hero data = Singleton<HeroManager>.getInstance().GetHero();
             writer.WriteStartElement("Hero");
@@ -189,7 +189,7 @@ namespace SexyBackPlayScene
             writer.WriteEndElement();
         }
 
-        private void SaveElements(XmlWriter writer)
+        private static void SaveElements(XmlWriter writer)
         {
             writer.WriteStartElement("Elementals");
             foreach(Elemental data in Singleton<ElementalManager>.getInstance().elementals.Values)
@@ -204,7 +204,7 @@ namespace SexyBackPlayScene
             writer.WriteEndElement();
         }
 
-        private void SaveConsumable(XmlWriter writer)
+        private static void SaveConsumable(XmlWriter writer)
         {
             ConsumableManager manager = Singleton<ConsumableManager>.getInstance();
             writer.WriteStartElement("Consumables");

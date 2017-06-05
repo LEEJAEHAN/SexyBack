@@ -35,7 +35,6 @@ namespace SexyBackPlayScene
                 float yVec = GetComponent<Rigidbody>().velocity.y;
                 
                 float rot = UnityEngine.Mathf.Atan2(yVec, xVec) * UnityEngine.Mathf.Rad2Deg;
-                //GameManager.SexyBackDebug(rot + " " + xVec + " " + yVec);
 
                 transform.eulerAngles = new Vector3(0, 0, rot + 180);
 

@@ -56,6 +56,7 @@ internal class SaveSystem
         writer.WriteStartElement("PlayerStatus");
         SaveEquipments(writer);
         SaveMapInfo(writer);
+        SaveTalents(writer);
         SaveStat(writer);       // for test, 로드는 하지 않는다.
         writer.WriteEndElement();
         writer.WriteEndDocument();
@@ -191,8 +192,25 @@ internal class SaveSystem
         }
         writer.WriteEndElement();
     }
+    private static void SaveTalents(XmlWriter writer)
+    {
+        TalentManager manager = Singleton<TalentManager>.getInstance();
+        writer.WriteStartElement("Talents");
+        writer.WriteAttributeString("Reputation", manager.Reputation.ToString());
+        writer.WriteAttributeString("SpendReputation", manager.SpendReputation.ToString());
+        writer.WriteAttributeString("CurrentTalent", manager.CurrentTalent.ID);
+        var dictonary = manager.Talents;
+        foreach (KeyValuePair<string, Talent> data  in dictonary)
+        {
+            writer.WriteStartElement("Talent");
+            writer.WriteAttributeString("id", data.Key);
+            writer.WriteAttributeString("level", data.Value.Level.ToString());
+            writer.WriteEndElement();
+        }
+        writer.WriteEndElement();
+    }
 
-        
+
     //public static void ToXMLFile(System.Object obj, string filePath)
     //{
     //    XmlSerializer serializer = new XmlSerializer(typeof(HeroStat));

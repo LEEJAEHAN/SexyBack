@@ -34,7 +34,6 @@ namespace SexyBackPlayScene
             projectiles = GameObject.Find("projectiles");
             stagepanel = GameObject.Find("StagePanel");
             
-
             InitUISetting();
         }
 

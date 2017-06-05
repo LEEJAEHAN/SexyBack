@@ -23,7 +23,7 @@ internal class TableLoader
     public Dictionary<string, EquipmentData> equipmenttable;
     public Dictionary<string, EquipmentSkillData> equipskilltable;
 
-    bool FinishLoad = false;
+    public bool FinishLoad = false;
 
     ~TableLoader()
     {

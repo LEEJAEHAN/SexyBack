@@ -52,7 +52,7 @@ internal class EquipmentManager
         return temp;
     }
 
-    private void Load()
+    public void Load()
     {
         XmlDocument doc = SaveSystem.LoadXml(SaveSystem.SaveDataPath);
         XmlNode statNodes = doc.SelectSingleNode("PlayerStatus/Equipments");

@@ -14,11 +14,18 @@
     <Inventory />
   </Equipments>
   <Progress />
+  <Talents Reputation="9897700" SpendReputation="102300" CurrentTalent="T02">
+    <Talent id="T01" level="3" />
+    <Talent id="T02" level="3" />
+    <Talent id="T03" level="1" />
+    <Talent id="T04" level="3" />
+    <Talent id="T05" level="1" />
+  </Talents>
   <Stats>
-    <GlobalStat InitExp="1" RankBonus="3" />
+    <GlobalStat InitExp="3" RankBonus="0" />
     <BaseStat Str="1" Int="1" Spd="1" Luck="1" />
     <UtilStat ResearchTimeX="1" ResearchTime="0" MaxResearchThread="1" ExpIncreaseXH="0" LPriceReduceXH="0" RPriceReduceXH="0" />
-    <HeroStat BonusLevel="0" DpcX="1" AttackCapacity="2" DpcIncreaseXH="0" AttackSpeedXH="0" CriticalRateXH="0" CriticalDamageXH="0" MovespeedXH="20" />
+    <HeroStat BonusLevel="1" DpcX="1" AttackCapacity="4" DpcIncreaseXH="0" AttackSpeedXH="0" CriticalRateXH="0" CriticalDamageXH="0" MovespeedXH="0" />
     <ElementalStats>
       <ElementalStat id="fireball" BonusLevel="0" DpsX="1" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />
       <ElementalStat id="iceblock" BonusLevel="0" DpsX="1" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />

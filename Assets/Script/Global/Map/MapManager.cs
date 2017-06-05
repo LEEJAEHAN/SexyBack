@@ -26,7 +26,7 @@ internal class MapManager
         }
     }
 
-    private void Load()
+    public void Load()
     {
         XmlDocument doc = SaveSystem.LoadXml(SaveSystem.SaveDataPath);
         Maps = new Dictionary<string, Map>();

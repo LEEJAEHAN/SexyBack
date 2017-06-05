@@ -77,7 +77,7 @@ namespace SexyBackPlayScene
                 CurrentFloor = stage.floor + 1;
             if (stage.type == StageType.LastPortal)
             {
-                Singleton<GameManager>.getInstance().EndGame(true);
+                Singleton<InstanceGameManager>.getInstance().EndGame(true);
             }
 
         }

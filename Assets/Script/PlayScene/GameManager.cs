@@ -10,11 +10,11 @@ using System.Xml;
 namespace SexyBackPlayScene
 {
     [Serializable]
-    public class GameManager : IDisposable
+    public class InstanceGameManager : IDisposable
     {
-        ~GameManager()
+        ~InstanceGameManager()
         {
-            sexybacklog.Console("GameManager 소멸");
+            sexybacklog.Console("InstanceGameManager 소멸");
         }
         bool LoadComplete = false;
 
@@ -32,8 +32,6 @@ namespace SexyBackPlayScene
         ConsumableManager consumableManager;
         [NonSerialized]
         InstanceStatus instanceStat;
-
-        InstanceSaveSystem saveTool;
         // singleton - player
 
         // View
@@ -56,7 +54,6 @@ namespace SexyBackPlayScene
             researchManager = Singleton<ResearchManager>.getInstance();
             consumableManager = Singleton<ConsumableManager>.getInstance();
             infoView = Singleton<GameInfoView>.getInstance();
-            saveTool = new InstanceSaveSystem();
 
             // event listner가 없으면 딱히 init은 필요없다.
             monsterManager.Init();
@@ -77,27 +74,37 @@ namespace SexyBackPlayScene
             stageManager.Start(instanceStat.InstanceMap);
 
             GameObject.Find("Middle_Window").GetComponent<TweenAlpha>().ResetToBeginning();
-
-
             LoadComplete = true;
         }
 
-        internal void LoadInstance()
+        internal bool LoadInstanceData()
         {
-            XmlDocument doc = SaveSystem.LoadXml(InstanceSaveSystem.InstanceDataPath);
-            instanceStat.Load(doc);
-            heroManager.Load(doc);
-            stageManager.Load(doc); // 상관관계 x //일단 수정하고난담에.
-            monsterManager.Load(doc); // 상관관계 x
-            elementalManager.Load(doc);
-            consumableManager.Load(doc);
-            researchManager.Load(doc);
+            try
+            {
+                XmlDocument doc = SaveSystem.LoadXml(InstanceSaveSystem.InstanceDataPath);
+                instanceStat.Load(doc);
+                heroManager.Load(doc);
+                stageManager.Load(doc); // 상관관계 x //일단 수정하고난담에.
+                monsterManager.Load(doc); // 상관관계 x
+                elementalManager.Load(doc);
+                consumableManager.Load(doc);
+                researchManager.Load(doc);
+            }
+            catch (Exception e)
+            {
+                sexybacklog.Console("인스턴스 데이터 로드에 이상이 있었습니다." + e.Message);
+                //InstanceSaveSystem.ClearInstance();
+                LoadComplete = false;
+                return LoadComplete;
+            }
             LoadComplete = true;
+            return LoadComplete;
         }
         internal void SaveInstance()
         {
             if(LoadComplete)
-                saveTool.SaveInstacne();
+                InstanceSaveSystem.SaveInstacne();
+            SaveSystem.SaveGlobalData();
         }
         public void EndGame(bool clear) // 메뉴로 버튼을 눌렀을때,
         {

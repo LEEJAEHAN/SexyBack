@@ -52,7 +52,6 @@ namespace SexyBackPlayScene
             {
                 TouchGameScreen(Input.mousePosition);
             }
-
             if (Input.GetKey(KeyCode.UpArrow))
             {
                 Singleton<LevelUpManager>.getInstance().BuySelected();
@@ -68,16 +67,17 @@ namespace SexyBackPlayScene
             }
             if(Input.GetKey(KeyCode.M))
             {
-                Singleton<InstanceStatus>.getInstance().ExpGain(new BigInteger(new BigIntExpression(100, "Z")), false);
+                Singleton<InstanceStatus>.getInstance().ExpGain(new BigInteger(new BigIntExpression(100, "F")), false);
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                Singleton<InstanceGameManager>.getInstance().SaveInstance(); // 인스턴스세이브
             }
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 bool result = false;
                 result = Singleton<MonsterManager>.getInstance().TestDeal(Singleton<HeroManager>.getInstance().GetHero().DPC);
                 result = Singleton<MonsterManager>.getInstance().TestDeal(Singleton<ElementalManager>.getInstance().GetTotalDps() * 5);
-
-                //Singleton<InstanceStat>.getInstance().ExpGain(Singleton<HeroManager>.getInstance().GetHero().DPC);
-                //Singleton<InstanceStat>.getInstance().ExpGain(Singleton<ElementalManager>.getInstance().GetTotalDps() * 5);
                 if (result)
                     fowardtimefordebug +=5;
             }

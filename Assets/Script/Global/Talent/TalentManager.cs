@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using SexyBackMenuScene;
+using System.Xml;
 
 internal class TalentManager
 {
     internal static int ReputationUnit = 50;
-
 
     public int Reputation;
     public int SpendReputation;
@@ -15,12 +15,10 @@ internal class TalentManager
     public Talent CurrentTalent;
     internal int TotalLevel { get { return Talents.Sum(item => item.Value.Level); } }
     
-
     TalentWindow talentView;
     InfoViewScript infoView;
     TopWindow topView;
     
-
     internal void InitOrLoad()
     {
         sexybacklog.Console("TalentManager 로드 및 초기화");
@@ -46,47 +44,28 @@ internal class TalentManager
         Talents.Add(data.ID, new Talent(data, 1));
         CurrentTalent = Talents["T01"];
         Reputation = 10000000;
+        NoticeReputation();
     }
-    private void Load()
+    public void Load()
     {
-        NewData();
-        //XmlDocument doc = SaveSystem.LoadXml(SaveSystem.SaveDataPath);
-        //XmlNode statNodes = doc.SelectSingleNode("PlayerStatus/Equipments");
+        XmlDocument doc = SaveSystem.LoadXml(SaveSystem.SaveDataPath);
+        XmlNode mainNode = doc.SelectSingleNode("PlayerStatus/Talents");
 
-        //MaxInventory = int.Parse(statNodes.Attributes["MaxInventory"].Value);
-        //MaxEquipSet = int.Parse(statNodes.Attributes["MaxEquipSet"].Value);
-        //int CurrentSet = int.Parse(statNodes.Attributes["CurrentSet"].Value);
+        Reputation = int.Parse(mainNode.Attributes["Reputation"].Value);
+        SpendReputation = int.Parse(mainNode.Attributes["SpendReputation"].Value);
+        string currentID = mainNode.Attributes["CurrentTalent"].Value;
 
-        //equipSets = new List<Dictionary<Equipment.Type, Equipment>>(MaxEquipSet);
-        //for (int i = 0; i < equipSets.Capacity; i++)
-        //    equipSets.Add(new Dictionary<Equipment.Type, Equipment>());
-        //currentEquipSet = equipSets[CurrentSet];
-        //{
-        //    XmlNodeList eSetNodes = statNodes.SelectNodes("EquipmentSet");
-        //    int index = 0;
-        //    foreach (XmlNode eSetNode in eSetNodes)
-        //    {
-        //        foreach (Equipment.Type type in Enum.GetValues(typeof(Equipment.Type)))
-        //        {
-        //            XmlNode partNode = eSetNode.SelectSingleNode(type.ToString());
-        //            if (partNode.HasChildNodes)
-        //            {
-        //                Equipment e = EquipFactory.LoadEquipment(partNode.FirstChild);
-        //                equipSets[index].Add(type, e);
-        //            }
-        //        }
-        //        index++;
-        //    }
-        //}
-        //inventory = new List<Equipment>(MaxInventory);
-        //{
-        //    XmlNode inventoryNode = statNodes.SelectSingleNode("Inventory");
-        //    foreach (XmlNode eNode in inventoryNode.ChildNodes)
-        //    {
-        //        Equipment e = EquipFactory.LoadEquipment(eNode);
-        //        inventory.Add(e);
-        //    }
-        //}
+        Talents = new SortedDictionary<string, Talent>();
+        var datas = Singleton<TableLoader>.getInstance().talenttable;
+        foreach (XmlNode childNode in mainNode.ChildNodes)
+        {
+            string id = childNode.Attributes["id"].Value;
+            int level = int.Parse(childNode.Attributes["level"].Value);
+            Talents.Add(id, new Talent(datas[id], level));
+        }
+
+        CurrentTalent = Talents[currentID];
+        NoticeReputation();
     }
 
     internal bool IsMaxLevel(string selectedID)
@@ -152,9 +131,14 @@ internal class TalentManager
 
     private void Notice()
     {
-        topView.PrintSlot1String(Reputation.ToString());
+        NoticeReputation();
         talentView.RefreshList(Talents, TotalLevel);
         infoView.RefreshTalent(TotalLevel, CurrentTalent.Name, GetTotalBonus());
+    }
+
+    private void NoticeReputation()
+    {
+        topView.PrintSlot1String(Reputation.ToString());
     }
 
     internal void Learn(string selectedID) // redrow
