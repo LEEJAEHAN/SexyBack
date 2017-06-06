@@ -1,19 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EquipmentSkills>
-  <Skill id="ES00" name="더미" belong="false" droplevel="0" />
-  <Skill id="ES03" name="분노" belong="false" droplevel="67">
+  <Skill id="ES00" name="더미" belong="false" dropstart="0" dropend="0" />
+  <Skill id="ES01" name="유니크스킬" belong="false" dropstart="0" dropend="50">
+    <Bonus target="fireball" attribute="DpsIncreaseXH" value="5" />
+    <Bonus target="iceblock" attribute="DpsIncreaseXH" value="5" />
+    <Bonus target="rock" attribute="DpsIncreaseXH" value="5" />
+  </Skill>
+  <Skill id="ES03" name="분노" belong="false" dropstart="0" dropend="50">
     <Bonus target="hero" attribute="DpcIncreaseXH" value="5" />
   </Skill>
-  <Skill id="ES04" name="광전사" belong="false" droplevel="67">
+  <Skill id="ES04" name="광전사" belong="false" dropstart="0" dropend="50">
     <Bonus target="hero" attribute="AttackSpeedXH" value="5" />
   </Skill>
-  <Skill id="ES05" name="작열" belong="false" droplevel="67">
+  <Skill id="ES05" name="작열" belong="false" dropstart="0" dropend="50">
     <Bonus target="fireball" attribute="DpsIncreaseXH" value="5" />
   </Skill>
-  <Skill id="ES06" name="냉기" belong="false" droplevel="67">
+  <Skill id="ES06" name="냉기" belong="false" dropstart="0" dropend="50">
     <Bonus target="iceblock" attribute="CastSpeedXH" value="5" />
   </Skill>
-  <Skill id="ES07" name="낙석" belong="false" droplevel="67">
-    <Bonus target="rock" attribute="SkillRateIncreaseXH" value="15" />
+  <Skill id="ES07" name="낙석" belong="false" dropstart="0" dropend="50">
+    <Bonus target="rock" attribute="SkillRateIncreaseXH" value="8" />
+    <Bonus target="rock" attribute="SkillDmgIncreaseXH" value="7" />
   </Skill>
 </EquipmentSkills>

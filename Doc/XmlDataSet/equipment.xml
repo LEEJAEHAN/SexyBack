@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Equipments>
+  <Equipment id="E00" icon="IconSmall_04" name="더미" belong="" dropstart="0" dropend="" grade="0" type="Weapon" skill="">
+    <Stats target1="0" target2="0" target3="0" target4="0"/>
+  </Equipment>
+  <Equipment id="E00" icon="IconSmall_04" name="더미" belong="" dropstart="0" dropend="" grade="0" type="Weapon" skill="">
+    <Stats target1="0" target2="0" target3="0" target4="0"/>
+  </Equipment>
+</Equipments>

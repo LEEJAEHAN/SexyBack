@@ -65,11 +65,16 @@ namespace SexyBackPlayScene
             }
         }
 
-        public BigInteger GetTotalDps()
+        public BigInteger GetTotalDps(out bool isbuffed)
         {
+            isbuffed = false;
             BigInteger result = new BigInteger(0);
             foreach (Elemental elemental in elementals.Values)
+            {
                 result += elemental.DPS;
+                if (elemental.BuffCoef > 1)
+                    isbuffed = true;
+            }
             return result;
         }
 

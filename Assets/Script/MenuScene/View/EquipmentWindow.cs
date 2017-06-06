@@ -191,7 +191,7 @@ namespace SexyBackMenuScene
                 //info.FindChild("Name").GetComponent<UILabel>().color = Color.black;
                 info.FindChild("EnchantBar").GetComponent<UIProgressBar>().value = (float)e.exp / (float)MaxExp;
             }
-            info.FindChild("Stat").GetComponent<UILabel>().text = e.ExpectStat(NextExp, NextEvolution).ToString();
+            info.FindChild("Stat").GetComponent<UILabel>().text = EquipmentWiki.AttributeBox(e.ExpectStat(NextExp, NextEvolution));
             info.FindChild("EnchantBar/RBar_Fill2").GetComponent<UISprite>().fillAmount = (float)NextExp / (float)EquipmentWiki.CalMaxExp(e.grade, NextEvolution);
             info.FindChild("EnchantBar/RBar_Text").GetComponent<UILabel>().text = EquipmentWiki.CalExpPercent(NextExp, MaxExp) + " 강화";
 

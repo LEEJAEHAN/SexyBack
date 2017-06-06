@@ -41,6 +41,8 @@ namespace SexyBackPlayScene
         {
             CastInterval = castInterval;
             ReLoadInterval = UnityEngine.Mathf.Max((float)(castInterval - 1f - Tick * (Unit)), 0);
+            // 0.1초틱 10발일시 -1  -1 =>  2초전부터 소환. 만약 공속이 2초보다짧으면 0초부터바로소환.
+            // 단 소환하는데는 0.1초 * 10 = 1초가 걸린다.
         }
         internal override void CalDamage(BigInteger elementaldmg)
         {

@@ -44,6 +44,7 @@ public static class StringParser
         string AttackName = null;
         string SkillName = null;
         int SkillRateXK = 0;
+        double BaseDmg = 0;
         //int SkillRatio = 0;
 
         var eTable = Singleton<TableLoader>.getInstance().elementaltable;
@@ -53,14 +54,16 @@ public static class StringParser
             AttackName = elemental.Name;
             SkillName = elemental.SkillName;
             SkillRateXK = elemental.BaseSkillRateXK;
+            BaseDmg = elemental.BaseDmg;
             //SkillRatio = elemental.BaseSkillDamageXH;
         }
         else if (bonus.targetID == "hero")
         {
             var hero = Singleton<TableLoader>.getInstance().herotable;
-            AttackName = "검술";
-            SkillName = "강타";
+            AttackName = hero.Name;
+            SkillName = hero.SkillName;
             SkillRateXK = hero.BaseSkillRateXK;
+            BaseDmg = hero.BaseDmg;
             //SkillRatio = hero.BaseSkillDamageXH;
         }
 
@@ -77,9 +80,9 @@ public static class StringParser
             case Attribute.BonusLevel:
                 return string.Format("{0} 레벨 +{1}", AttackName, bonus.value);
             case Attribute.DpcX:
-                return string.Format("{0} 데미지 {1}배", AttackName, bonus.value);
+                return string.Format("{0} 피해량 {1}배", AttackName, bonus.value);
             case Attribute.DpcIncreaseXH:
-                return string.Format("{0} 데미지 +{1}%", AttackName, bonus.value);
+                return string.Format("{0} 피해량 +{1}%", AttackName, bonus.value);
             case Attribute.AttackCapacity:
                 return string.Format("최대공격 스택 +{0}", bonus.value);
             case Attribute.AttackSpeedXH:
@@ -87,19 +90,19 @@ public static class StringParser
             case Attribute.CriticalRateXH:
                 return string.Format("{0} 확률 +{1:N1}%", SkillName, (double)(SkillRateXK * bonus.value / 1000f)); // 버림
             case Attribute.CriticalDamageXH:
-                return string.Format("{0} 데미지 +{1}%", SkillName, bonus.value);
+                return string.Format("{0} 피해량 +{1}%", SkillName, bonus.value);
             case Attribute.MovespeedXH:
                 return string.Format("이동속도 +{0}%", bonus.value);
             case Attribute.DpsX:
-                return string.Format("{0} 데미지 {1}배", AttackName, bonus.value);
+                return string.Format("{0} 피해량 {1}배", AttackName, bonus.value);
             case Attribute.DpsIncreaseXH:
-                return string.Format("{0} 데미지 +{1}%", AttackName, bonus.value);
+                return string.Format("{0} 피해량 +{1}%", AttackName, bonus.value);
             case Attribute.CastSpeedXH:
                 return string.Format("{0} 시전속도 +{1}%", AttackName, bonus.value);
             case Attribute.SkillRateIncreaseXH:
                 return string.Format("{0} 발동확률 +{1:N1}%", SkillName, (double)(SkillRateXK * bonus.value / 1000f)); // 버림
             case Attribute.SkillDmgIncreaseXH:
-                return string.Format("{0} 데미지 +{0}%", SkillName, bonus.value);
+                return string.Format("{0} 피해량 +{0}%", SkillName, bonus.value);
             case Attribute.ExpIncreaseXH:
                 return string.Format("경험치 획득량 +{0}%", bonus.value);
             case Attribute.ResearchTime:
@@ -124,6 +127,8 @@ public static class StringParser
                 return string.Format("{0} 초기레벨 +{1}", AttackName, bonus.value);
             case Attribute.ReputationXH:
                 return string.Format("명성획득 +{0}%", bonus.value);
+            case Attribute.BaseDmgXH:
+                return string.Format("{0} 공격력 +{1:N2}", AttackName, (double)(BaseDmg * bonus.value / 100));
         }
         return "Can't Parse Attribute";
     }
@@ -132,14 +137,12 @@ public static class StringParser
     {
         string targetName = null;
 
-        if (targetID == "hero")
-            targetName = "검술레벨";
-        else if(Singleton<TableLoader>.getInstance().elementaltable.ContainsKey(targetID))
-            targetName = Singleton<TableLoader>.getInstance().elementaltable[targetID].Name;
+        if (Singleton<TableLoader>.getInstance().leveluptable.ContainsKey(targetID))
+            targetName = Singleton<TableLoader>.getInstance().leveluptable[targetID].OwnerName;
 
         if (targetName == null)
             return "";
-        
-        return string.Format("{0} {1} 레벨부터 연구가능합니다.", targetName, requireLevel);
+
+        return string.Format("{0} {1}레벨부터 연구가능합니다.", targetName, requireLevel);
     }
 }

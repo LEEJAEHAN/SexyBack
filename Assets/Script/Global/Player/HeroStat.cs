@@ -5,6 +5,7 @@ using System.Xml;
 [Serializable]
 public class HeroStat
 {
+    internal int BaseDmgXH;
     public int BonusLevel;
     public BigInteger DpcX; // 곱계수는 X를붙인다.
     public int AttackCapacity; // 공격스택횟수
@@ -19,6 +20,7 @@ public class HeroStat
 
     internal HeroStat()
     {
+        BaseDmgXH = 0;
         BonusLevel = 0;
         DpcX = 1;
         DpcIncreaseXH = 0; // Str과는 다르다.
@@ -40,6 +42,9 @@ public class HeroStat
     {
         switch (bonus.attribute)
         {
+            case Attribute.BaseDmgXH:
+                BaseDmgXH += bonus.value;
+                break;
             case Attribute.BonusLevel:
                 BonusLevel += bonus.value;
                 break;
@@ -75,6 +80,9 @@ public class HeroStat
     {
         switch (bonus.attribute)
         {
+            case Attribute.BaseDmgXH:
+                BaseDmgXH -= bonus.value;
+                break;
             case Attribute.BonusLevel:
                 BonusLevel -= bonus.value;
                 break;

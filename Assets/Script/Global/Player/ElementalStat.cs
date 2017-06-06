@@ -6,6 +6,7 @@ using System.Xml;
 internal class ElementalStat// 누적배수
 {
     // dynamic stat
+    internal int BaseDmgXH;
     internal int BonusLevel;
     internal BigInteger DpsX;
     internal int DpsIncreaseXH; // 
@@ -18,6 +19,7 @@ internal class ElementalStat// 누적배수
 
     internal ElementalStat()
     {
+        BaseDmgXH = 0;
         BonusLevel = 0;
         DpsX = new BigInteger(1);
         DpsIncreaseXH = 0;
@@ -39,6 +41,9 @@ internal class ElementalStat// 누적배수
     {
         switch (bonus.attribute)
         {
+            case Attribute.BaseDmgXH:
+                BaseDmgXH += bonus.value;
+                break;
             case Attribute.BonusLevel:
                 BonusLevel += bonus.value;
                 break;
@@ -69,6 +74,9 @@ internal class ElementalStat// 누적배수
     {
         switch (bonus.attribute)
         {
+            case Attribute.BaseDmgXH:
+                BaseDmgXH -= bonus.value;
+                break;
             case Attribute.BonusLevel:
                 BonusLevel -= bonus.value;
                 break;

@@ -31,12 +31,14 @@ public enum Attribute
     BonusEquipment,
     BonusConsumable,
     ReputationXH,
+    BaseDmgXH,
 
     // only in instancegame "ingame"
     Active,
     ActiveSkill,
     Enchant,
 }
+
 public class BonusStat : ICloneable
 {
     public string targetID;  // both hero and elemental
@@ -61,9 +63,9 @@ public class BonusStat : ICloneable
     {
     }
 
-    public static BonusStat operator *(BonusStat origin, int scalar)
+    public static BonusStat operator *(BonusStat origin, double scalar)
     {
-        return new BonusStat(origin.targetID, origin.attribute, origin.value * scalar);
+        return new BonusStat(origin.targetID, origin.attribute, (int)(origin.value * scalar));
     }
 
     public object Clone()
@@ -72,7 +74,6 @@ public class BonusStat : ICloneable
         clone.strvalue = this.strvalue;
         return clone;
     }
-
 
 
 }

@@ -10,7 +10,6 @@ namespace SexyBackPlayScene
         {
             sexybacklog.Console("LevelUp 소멸");
         }
-        internal string ID;// 해당객체view의 name
         internal NestedIcon Icon;
         protected GridItem itemView;
         LevelUpWindow Panel;
@@ -36,13 +35,12 @@ namespace SexyBackPlayScene
 
         public LevelUp(LevelUpData data)
         {
-            ID = data.ID;
             OwnerID = data.OwnerID;
             OwnerName = data.OwnerName;
             Icon = new NestedIcon(data.IconName);
 
             Singleton<InstanceStatus>.getInstance().Action_ExpChange += onExpChange;
-            itemView = new GridItem(GridItem.Type.LevelUp, ID, Icon, this);
+            itemView = new GridItem(GridItem.Type.LevelUp, data.Order, Icon, this);
             Panel = Singleton<LevelUpManager>.getInstance().Panel;
         }
 

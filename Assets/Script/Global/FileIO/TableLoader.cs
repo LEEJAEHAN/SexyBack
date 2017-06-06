@@ -18,6 +18,7 @@ internal class TableLoader
     public Dictionary<string, TalentData> talenttable;
 
     public List<PriceData> pricetable;
+    public Dictionary<int, int> powertable;
     //public List<ConsumableData> talenttable;
 
     public Dictionary<string, EquipmentData> equipmenttable;
@@ -75,10 +76,10 @@ internal class TableLoader
 
         MapData data1 = new MapData();
         data1.ID = "Map01";
-        data1.Name = "10층돌파";
+        data1.Name = "50층돌파";
         data1.RequireClearMap = null;
         data1.LimitTime = 3600;
-        data1.RewardData = new MapRewardData(67, 67, 1, 8);
+        data1.RewardData = new MapRewardData(50, 50, 1, 8);
         data1.MaxFloor = 50;        // 10
         data1.LevelPerFloor = 1;    // 5
         data1.MonsterPerStage = 1;
@@ -90,10 +91,10 @@ internal class TableLoader
 
         MapData data2 = new MapData();
         data2.ID = "Map02";
-        data2.Name = "20층돌파";
+        data2.Name = "100층돌파";
         data2.RequireClearMap = "Map01";
         data2.LimitTime = 7200;
-        data2.RewardData = new MapRewardData(167, 67, 3, 3);
+        data2.RewardData = new MapRewardData(100, 100, 2, 8);
         data2.MaxFloor = 20;
         data2.LevelPerFloor = 5;
         data2.MonsterPerStage = 1;
@@ -154,16 +155,16 @@ internal class TableLoader
     private void LoadLevelUpData()
     {
         leveluptable = new Dictionary<string, LevelUpData>();
-        LevelUpData heroAttack = new LevelUpData("L001", "hero", "검술", "Icon_11");
-        LevelUpData item1 = new LevelUpData("L002", "fireball", "불원소", "Icon_01");
-        LevelUpData item2 = new LevelUpData("L003", "iceblock", "얼음원소", "Icon_05");
-        LevelUpData item3 = new LevelUpData("L004", "rock", "바위원소", "Icon_07");
-        LevelUpData item4 = new LevelUpData("L005", "electricball", "전기원소", "Icon_04");
-        LevelUpData item5 = new LevelUpData("L006", "waterball", "물원소", "Icon_09");
-        LevelUpData item6 = new LevelUpData("L007", "earthball", "대지원소", "Icon_03");
-        LevelUpData item7 = new LevelUpData("L008", "airball", "바람원소", "Icon_02");
-        LevelUpData item8 = new LevelUpData("L009", "snowball", "눈원소", "Icon_08");
-        LevelUpData item9 = new LevelUpData("L010", "magmaball", "마그마원소", "Icon_06");
+        LevelUpData heroAttack = new LevelUpData("hero", "검술", "Icon_11","L01");
+        LevelUpData item1 = new LevelUpData("fireball", "불", "Icon_01", "L02");
+        LevelUpData item2 = new LevelUpData("iceblock", "얼음", "Icon_05", "L03");
+        LevelUpData item3 = new LevelUpData("rock", "바위", "Icon_07", "L04");
+        LevelUpData item4 = new LevelUpData("electricball", "전기", "Icon_04", "L05");
+        LevelUpData item5 = new LevelUpData("waterball", "물", "Icon_09", "L06");
+        LevelUpData item6 = new LevelUpData("earthball", "대지", "Icon_03", "L07");
+        LevelUpData item7 = new LevelUpData("airball", "바람", "Icon_02", "L08");
+        LevelUpData item8 = new LevelUpData("snowball", "눈", "Icon_08", "L09");
+        LevelUpData item9 = new LevelUpData("magmaball", "용암", "Icon_06", "L10");
         leveluptable.Add(heroAttack.OwnerID, heroAttack);
         leveluptable.Add(item1.OwnerID, item1);
         leveluptable.Add(item2.OwnerID, item2);
@@ -253,19 +254,7 @@ internal class TableLoader
             int basetime = int.Parse(potnode.Attributes["basetime"].Value);
 
             XmlNode bonusnode = node.SelectSingleNode("Bonus");
-            string target = bonusnode.Attributes["target"].Value;
-            Attribute attribute = (Attribute)Enum.Parse(typeof(Attribute),bonusnode.Attributes["attribute"].Value);
-            BonusStat bonus;
-            if (bonusnode.Attributes["value"] != null)
-            {
-                int value = int.Parse(bonusnode.Attributes["value"].Value);
-                bonus = new BonusStat(target, attribute, value);
-            }
-            else
-            {
-                var stringvalue = bonusnode.Attributes["stringvalue"].Value;
-                bonus = new BonusStat(target, attribute, stringvalue);
-            }
+            BonusStat bonus = LoadBonus(bonusnode);
 
             NestedIcon iconinfo = new NestedIcon(icon, icontext, subicon);
             ResearchData research = new ResearchData(id, requireid, showlevel, iconinfo, name, description, level, baselevel, baseprice,
@@ -277,6 +266,7 @@ internal class TableLoader
 
     private void LoadEquipmentData()
     {
+        LoadPowerData();
         // loadEquip table
         equipmenttable = new Dictionary<string, EquipmentData>();
         XmlDocument xmldoc = OpenXml("Xml/EquipmentData");
@@ -290,20 +280,33 @@ internal class TableLoader
             newOne.ID = node.Attributes["id"].Value;
             newOne.iconID = node.Attributes["icon"].Value;
             newOne.baseName = node.Attributes["name"].Value;
-            newOne.droplevel = int.Parse(node.Attributes["droplevel"].Value);
-            if (node.Attributes["dropmap"] != null)
-                newOne.dropMapID = node.Attributes["dropmap"].Value;
+            newOne.belong = bool.Parse(node.Attributes["belong"].Value);
+            newOne.dropStart = int.Parse(node.Attributes["dropstart"].Value);
+            newOne.dropEnd = int.Parse(node.Attributes["dropend"].Value);
             if (node.Attributes["skill"] != null)
                 newOne.skillID = node.Attributes["skill"].Value;
             newOne.grade = int.Parse(node.Attributes["grade"].Value);
             newOne.type = (Equipment.Type)Enum.Parse(typeof(Equipment.Type), node.Attributes["type"].Value);
-            newOne.baseStat.Str = int.Parse(node.Attributes["str"].Value);
-            newOne.baseStat.Int = int.Parse(node.Attributes["int"].Value);
-            newOne.baseStat.Spd = int.Parse(node.Attributes["spd"].Value);
-            newOne.baseStat.Luck = int.Parse(node.Attributes["luck"].Value);
+
+            XmlNode statnodes = node.SelectSingleNode("Stats");
+            int count = statnodes.Attributes.Count;
+            for(int i = 0; i < count; i++)
+                newOne.stats.Add(new BonusStat(statnodes.Attributes[i].Value, Attribute.BaseDmgXH, 1));
 
             equipmenttable.Add(newOne.ID, newOne);
         }
+    }
+
+    private void LoadPowerData()
+    {
+        powertable = new Dictionary<int, int>();
+
+        XmlDocument xmldoc = OpenXml("Xml/PowerData");
+        XmlNode rootNode = xmldoc.SelectSingleNode("Powers");
+        XmlNodeList nodes = rootNode.SelectNodes("Power");
+
+        foreach (XmlNode node in nodes)
+            powertable.Add(int.Parse(node.Attributes["level"].Value), int.Parse(node.Attributes["dmgX"].Value));
     }
 
     private void LoadEquipmentSkillData()
@@ -320,20 +323,31 @@ internal class TableLoader
             newOne.ID = node.Attributes["id"].Value;
             newOne.baseSkillName = node.Attributes["name"].Value;
             newOne.belong = bool.Parse(node.Attributes["belong"].Value);
-            newOne.dropLevel = int.Parse(node.Attributes["droplevel"].Value);
+            newOne.dropStart = int.Parse(node.Attributes["dropstart"].Value);
+            newOne.dropEnd = int.Parse(node.Attributes["dropend"].Value);
             XmlNodeList statNodes = node.SelectNodes("Bonus");
+
             foreach (XmlNode statNode in statNodes)
             {
-                BonusStat temp = new BonusStat();
-                temp.targetID = statNode.Attributes["target"].Value;
-                temp.attribute = (Attribute)Enum.Parse(typeof(Attribute), statNode.Attributes["attribute"].Value);
-                temp.value = int.Parse(statNode.Attributes["value"].Value);
+                BonusStat temp = LoadBonus(statNode);
                 newOne.baseSkillStat.Add(temp);
             }
             equipskilltable.Add(newOne.ID, newOne);
         }
     }
-    
+
+    private BonusStat LoadBonus(XmlNode statNode)
+    {
+        BonusStat bonus = new BonusStat();
+        bonus.targetID = statNode.Attributes["target"].Value;
+        bonus.attribute = (Attribute)Enum.Parse(typeof(Attribute), statNode.Attributes["attribute"].Value);
+        if (statNode.Attributes["value"] != null)
+            bonus.value = int.Parse(statNode.Attributes["value"].Value);
+        else
+            bonus.strvalue = statNode.Attributes["stringvalue"].Value;
+        return bonus;
+    }
+
     private void LoadConsumableData()
     {
         consumable = new Dictionary<string, ConsumableData>();

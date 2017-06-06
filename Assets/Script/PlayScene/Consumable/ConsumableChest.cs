@@ -13,7 +13,7 @@ namespace SexyBackPlayScene
         {
             consumable = c;
             Level = level;
-            view = ViewLoader.InstantiatePrefab(ViewLoader.objectarea.transform, "chest", "Prefabs/UI/ConsumableChest");
+            view = ViewLoader.InstantiatePrefab(ViewLoader.battlearea.transform, "chest", "Prefabs/UI/ConsumableChest");
             view.transform.transform.OverlayPosition(dropWorldPosition, GameCameras.HeroCamera, GameCameras.UICamera);
             view.transform.position = new Vector3(view.transform.position.x, view.transform.position.y, 0f);
             NestedIcon.Draw(c.baseData.icon, view.transform.FindChild("Icon").gameObject);

@@ -214,7 +214,8 @@ internal class EquipmentManager
     {
         foreach(BonusStat specialStat in item.SkillStat)
             Singleton<PlayerStatus>.getInstance().ApplySpecialStat(specialStat, sign);
-        Singleton<PlayerStatus>.getInstance().ApplyBaseStat(item.Stat, sign);
+        foreach (BonusStat baseStat in item.Stat)
+            Singleton<PlayerStatus>.getInstance().ApplySpecialStat(baseStat, sign);
     }
     void EquipSetchange(Dictionary<Equipment.Type, Equipment> itemSet, bool sign)
     {

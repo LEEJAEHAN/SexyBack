@@ -153,8 +153,6 @@ namespace SexyBackPlayScene
 
         public void onSelect(string id)
         {
-            sexybacklog.Console("소모품" + id + " 고름");
-
             if (id == null)
             {
                 Selected = false;

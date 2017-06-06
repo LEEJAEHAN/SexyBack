@@ -2,23 +2,23 @@
 <Consumables>
 	<Consumable id="C00" name="스크롤 : 분신술" description="검술의 공격횟수를 5회 즉시 충전합니다.">
 		<NestedIcon icon="Icon_11"/>
-		<Usage type="AttackCount" value="5" cooltime="15"/>
-		<DropInfo stackperchest="3" droplevel="0" density="1"/>
+		<Usage type="AttackCount" value="5" cooltime="25"/>
+		<DropInfo stackperchest="2" droplevel="0" density="1"/>
 	</Consumable>
 	<Consumable id="C01" name="스크롤 : 화염구" description="화염구를 시전합니다.">
 		<NestedIcon icon="Icon_20"/>
 		<Usage type="Skill" value="1" strvalue="fireball" cooltime="15"/>
-		<DropInfo stackperchest="4" droplevel="5" density="1"/>
+		<DropInfo stackperchest="3" droplevel="5" density="1"/>
 	</Consumable>
 	<Consumable id="C02" name="스크롤 : 얼음폭격" description="얼음폭격을 시전합니다.">
 		<NestedIcon icon="Icon_21"/>
-		<Usage type="Skill" value="1" strvalue="iceblock" cooltime="15"/>
-		<DropInfo stackperchest="3" droplevel="15" density="1"/>
+		<Usage type="Skill" value="1" strvalue="iceblock" cooltime="25"/>
+		<DropInfo stackperchest="2" droplevel="15" density="1"/>
 	</Consumable>
 	<Consumable id="C03" name="스크롤 : 산사태" description="산사태를 시전합니다.">
 		<NestedIcon icon="Icon_22"/>
-		<Usage type="Skill" value="1" strvalue="rock" cooltime="25"/>
-		<DropInfo stackperchest="2" droplevel="30" density="1"/>
+		<Usage type="Skill" value="1" strvalue="rock" cooltime="45"/>
+		<DropInfo stackperchest="1" droplevel="30" density="1"/>
 	</Consumable>
 	<Consumable id="C04" name="스크롤 : 공허구체" description="공허구체를 시전합니다.">
 		<NestedIcon icon="Icon_23"/>
@@ -27,18 +27,18 @@
 	</Consumable>
 	<Consumable id="C05" name="스크롤 : 독극물" description="독극물을 시전합니다.">
 		<NestedIcon icon="Icon_24"/>
-		<Usage type="Skill" value="1" strvalue="waterball" cooltime="10"/>
-		<DropInfo stackperchest="5" droplevel="105" density="1"/>
+		<Usage type="Skill" value="1" strvalue="waterball" cooltime="20"/>
+		<DropInfo stackperchest="2" droplevel="105" density="1"/>
 	</Consumable>
 	<Consumable id="C06" name="스크롤 : 운석충돌" description="운석충돌을 시전합니다.">
 		<NestedIcon icon="Icon_25"/>
-		<Usage type="Skill" value="1" strvalue="earthball" cooltime="50"/>
+		<Usage type="Skill" value="1" strvalue="earthball" cooltime="45"/>
 		<DropInfo stackperchest="1" droplevel="155" density="1"/>
 	</Consumable>
 	<Consumable id="C07" name="스크롤 : 기공포" description="기공포를 시전합니다.">
 		<NestedIcon icon="Icon_26"/>
-		<Usage type="Skill" value="1" strvalue="airball" cooltime="25"/>
-		<DropInfo stackperchest="2" droplevel="210" density="1"/>
+		<Usage type="Skill" value="1" strvalue="airball" cooltime="15"/>
+		<DropInfo stackperchest="3" droplevel="210" density="1"/>
 	</Consumable>
 	<Consumable id="C08" name="스크롤 : 폭설" description="폭설을 시전합니다.">
 		<NestedIcon icon="Icon_27"/>
@@ -47,57 +47,57 @@
 	</Consumable>
 	<Consumable id="C09" name="스크롤 : 혜성충돌" description="혜성충돌을 시전합니다.">
 		<NestedIcon icon="Icon_28"/>
-		<Usage type="Skill" value="1" strvalue="magmaball" cooltime="50"/>
+		<Usage type="Skill" value="1" strvalue="magmaball" cooltime="45"/>
 		<DropInfo stackperchest="1" droplevel="325" density="1"/>
 	</Consumable>
-	<Consumable id="C10" name="힘의 정수" description="검술의 피해량이 3배로 상승합니다.">
+	<Consumable id="C10" name="힘의 정수" description="검술의 피해량이 2배로 상승합니다.">
 		<NestedIcon icon="Icon_14" subicon="Icon_11"/>
-		<Usage type="HeroBuff" value="3" cooltime="30"/>
+		<Usage type="HeroBuff" value="2" cooltime="30"/>
 		<DropInfo stackperchest="1" droplevel="0" density="1"/>
 	</Consumable>
-	<Consumable id="C11" name="마력의 정수(불)" description="불원소의 피해량이 3배로 상승합니다.">
+	<Consumable id="C11" name="마력의 정수(불)" description="불의 피해량이 2배로 상승합니다.">
 		<NestedIcon icon="Icon_15" subicon="Icon_01"/>
-		<Usage type="ElementalBuff" value="3" strvalue="fireball" cooltime="30"/>
+		<Usage type="ElementalBuff" value="2" strvalue="fireball" cooltime="30"/>
 		<DropInfo stackperchest="1" droplevel="5" density="1"/>
 	</Consumable>
-	<Consumable id="C12" name="마력의 정수(얼음)" description="얼음원소의 피해량이 3배로 상승합니다.">
+	<Consumable id="C12" name="마력의 정수(얼음)" description="얼음의 피해량이 2배로 상승합니다.">
 		<NestedIcon icon="Icon_15" subicon="Icon_05"/>
-		<Usage type="ElementalBuff" value="3" strvalue="iceblock" cooltime="30"/>
+		<Usage type="ElementalBuff" value="2" strvalue="iceblock" cooltime="30"/>
 		<DropInfo stackperchest="1" droplevel="15" density="1"/>
 	</Consumable>
-	<Consumable id="C13" name="마력의 정수(바위)" description="바위원소의 피해량이 3배로 상승합니다.">
+	<Consumable id="C13" name="마력의 정수(바위)" description="바위의 피해량이 2배로 상승합니다.">
 		<NestedIcon icon="Icon_15" subicon="Icon_07"/>
-		<Usage type="ElementalBuff" value="3" strvalue="rock" cooltime="30"/>
+		<Usage type="ElementalBuff" value="2" strvalue="rock" cooltime="30"/>
 		<DropInfo stackperchest="1" droplevel="30" density="1"/>
 	</Consumable>
-	<Consumable id="C14" name="마력의 정수(전기)" description="전기원소의 피해량이 3배로 상승합니다.">
+	<Consumable id="C14" name="마력의 정수(전기)" description="전기의 피해량이 2배로 상승합니다.">
 		<NestedIcon icon="Icon_15" subicon="Icon_04"/>
-		<Usage type="ElementalBuff" value="3" strvalue="electricball" cooltime="30"/>
+		<Usage type="ElementalBuff" value="2" strvalue="electricball" cooltime="30"/>
 		<DropInfo stackperchest="1" droplevel="60" density="1"/>
 	</Consumable>
-	<Consumable id="C15" name="마력의 정수(물)" description="물원소의 피해량이 3배로 상승합니다.">
+	<Consumable id="C15" name="마력의 정수(물)" description="물의 피해량이 2배로 상승합니다.">
 		<NestedIcon icon="Icon_15" subicon="Icon_09"/>
-		<Usage type="ElementalBuff" value="3" strvalue="waterball" cooltime="30"/>
+		<Usage type="ElementalBuff" value="2" strvalue="waterball" cooltime="30"/>
 		<DropInfo stackperchest="1" droplevel="105" density="1"/>
 	</Consumable>
-	<Consumable id="C16" name="마력의 정수(대지)" description="대지원소의 피해량이 3배로 상승합니다.">
+	<Consumable id="C16" name="마력의 정수(대지)" description="대지의 피해량이 2배로 상승합니다.">
 		<NestedIcon icon="Icon_15" subicon="Icon_03"/>
-		<Usage type="ElementalBuff" value="3" strvalue="earthball" cooltime="30"/>
+		<Usage type="ElementalBuff" value="2" strvalue="earthball" cooltime="30"/>
 		<DropInfo stackperchest="1" droplevel="155" density="1"/>
 	</Consumable>
-	<Consumable id="C17" name="마력의 정수(바람)" description="바람원소의 피해량이 3배로 상승합니다.">
+	<Consumable id="C17" name="마력의 정수(바람)" description="바람의 피해량이 2배로 상승합니다.">
 		<NestedIcon icon="Icon_15" subicon="Icon_02"/>
-		<Usage type="ElementalBuff" value="3" strvalue="airball" cooltime="30"/>
+		<Usage type="ElementalBuff" value="2" strvalue="airball" cooltime="30"/>
 		<DropInfo stackperchest="1" droplevel="210" density="1"/>
 	</Consumable>
-	<Consumable id="C18" name="마력의 정수(눈)" description="눈원소의 피해량이 3배로 상승합니다.">
+	<Consumable id="C18" name="마력의 정수(눈)" description="눈의 피해량이 2배로 상승합니다.">
 		<NestedIcon icon="Icon_15" subicon="Icon_08"/>
-		<Usage type="ElementalBuff" value="3" strvalue="snowball" cooltime="30"/>
+		<Usage type="ElementalBuff" value="2" strvalue="snowball" cooltime="30"/>
 		<DropInfo stackperchest="1" droplevel="260" density="1"/>
 	</Consumable>
-	<Consumable id="C19" name="마력의 정수(용암)" description="용암원소의 피해량이 3배로 상승합니다.">
+	<Consumable id="C19" name="마력의 정수(용암)" description="용암의 피해량이 2배로 상승합니다.">
 		<NestedIcon icon="Icon_15" subicon="Icon_06"/>
-		<Usage type="ElementalBuff" value="3" strvalue="magmaball" cooltime="30"/>
+		<Usage type="ElementalBuff" value="2" strvalue="magmaball" cooltime="30"/>
 		<DropInfo stackperchest="1" droplevel="325" density="1"/>
 	</Consumable>
 	<Consumable id="C20" name="깨닳음의 정수" description="경험치 획득량이 2배로 상승합니다.">
@@ -115,47 +115,47 @@
 		<Usage type="HeroLevelUp" value="1" cooltime="1"/>
 		<DropInfo stackperchest="1" droplevel="0" density="1"/>
 	</Consumable>
-	<Consumable id="C23" name="비전서(불)" description="불원소의 레벨이 1 증가합니다.">
+	<Consumable id="C23" name="비전서(불)" description="불의 레벨이 1 증가합니다.">
 		<NestedIcon icon="Icon_01" subicon="IconSmall_01"/>
 		<Usage type="ElementalLevelUp" value="1" strvalue="fireball" cooltime="1"/>
 		<DropInfo stackperchest="1" droplevel="5" density="1"/>
 	</Consumable>
-	<Consumable id="C24" name="비전서(얼음)" description="얼음원소의 레벨이 1 증가합니다.">
+	<Consumable id="C24" name="비전서(얼음)" description="얼음의 레벨이 1 증가합니다.">
 		<NestedIcon icon="Icon_05" subicon="IconSmall_01"/>
 		<Usage type="ElementalLevelUp" value="1" strvalue="iceblock" cooltime="1"/>
 		<DropInfo stackperchest="1" droplevel="15" density="1"/>
 	</Consumable>
-	<Consumable id="C25" name="비전서(바위)" description="바위원소의 레벨이 1 증가합니다.">
+	<Consumable id="C25" name="비전서(바위)" description="바위의 레벨이 1 증가합니다.">
 		<NestedIcon icon="Icon_07" subicon="IconSmall_01"/>
 		<Usage type="ElementalLevelUp" value="1" strvalue="rock" cooltime="1"/>
 		<DropInfo stackperchest="1" droplevel="30" density="1"/>
 	</Consumable>
-	<Consumable id="C26" name="비전서(전기)" description="전기원소의 레벨이 1 증가합니다.">
+	<Consumable id="C26" name="비전서(전기)" description="전기의 레벨이 1 증가합니다.">
 		<NestedIcon icon="Icon_04" subicon="IconSmall_01"/>
 		<Usage type="ElementalLevelUp" value="1" strvalue="electricball" cooltime="1"/>
 		<DropInfo stackperchest="1" droplevel="60" density="1"/>
 	</Consumable>
-	<Consumable id="C27" name="비전서(물)" description="물원소의 레벨이 1 증가합니다.">
+	<Consumable id="C27" name="비전서(물)" description="물의 레벨이 1 증가합니다.">
 		<NestedIcon icon="Icon_09" subicon="IconSmall_01"/>
 		<Usage type="ElementalLevelUp" value="1" strvalue="waterball" cooltime="1"/>
 		<DropInfo stackperchest="1" droplevel="105" density="1"/>
 	</Consumable>
-	<Consumable id="C28" name="비전서(대지)" description="대지원소의 레벨이 1 증가합니다.">
+	<Consumable id="C28" name="비전서(대지)" description="대지의 레벨이 1 증가합니다.">
 		<NestedIcon icon="Icon_03" subicon="IconSmall_01"/>
 		<Usage type="ElementalLevelUp" value="1" strvalue="earthball" cooltime="1"/>
 		<DropInfo stackperchest="1" droplevel="155" density="1"/>
 	</Consumable>
-	<Consumable id="C29" name="비전서(바람)" description="바람원소의 레벨이 1 증가합니다.">
+	<Consumable id="C29" name="비전서(바람)" description="바람의 레벨이 1 증가합니다.">
 		<NestedIcon icon="Icon_02" subicon="IconSmall_01"/>
 		<Usage type="ElementalLevelUp" value="1" strvalue="airball" cooltime="1"/>
 		<DropInfo stackperchest="1" droplevel="210" density="1"/>
 	</Consumable>
-	<Consumable id="C30" name="비전서(눈)" description="눈원소의 레벨이 1 증가합니다.">
+	<Consumable id="C30" name="비전서(눈)" description="눈의 레벨이 1 증가합니다.">
 		<NestedIcon icon="Icon_08" subicon="IconSmall_01"/>
 		<Usage type="ElementalLevelUp" value="1" strvalue="snowball" cooltime="1"/>
 		<DropInfo stackperchest="1" droplevel="260" density="1"/>
 	</Consumable>
-	<Consumable id="C31" name="비전서(용암)" description="용암원소의 레벨이 1 증가합니다.">
+	<Consumable id="C31" name="비전서(용암)" description="용암의 레벨이 1 증가합니다.">
 		<NestedIcon icon="Icon_06" subicon="IconSmall_01"/>
 		<Usage type="ElementalLevelUp" value="1" strvalue="magmaball" cooltime="1"/>
 		<DropInfo stackperchest="1" droplevel="325" density="1"/>

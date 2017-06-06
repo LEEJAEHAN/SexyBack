@@ -14,20 +14,20 @@
     <Inventory />
   </Equipments>
   <Progress />
-  <Talents Reputation="10000000" SpendReputation="102300" CurrentTalent="T01">
+  <Talents Reputation="10000000" SpendReputation="0" CurrentTalent="T01">
     <Talent id="T01" level="1" />
   </Talents>
   <Stats>
     <GlobalStat InitExp="1" RankBonus="0" />
-    <BaseStat Str="1" Int="1" Spd="1" Luck="1" />
-    <UtilStat ResearchTimeX="1" ResearchTime="0" MaxResearchThread="1" ExpIncreaseXH="0" LPriceReduceXH="0" RPriceReduceXH="0" />
-    <HeroStat BonusLevel="0" DpcX="1" AttackCapacity="1" DpcIncreaseXH="0" AttackSpeedXH="0" CriticalRateXH="0" CriticalDamageXH="0" MovespeedXH="0" />
+    <BaseStat Str="0" Int="0" Spd="0" Luck="0" />
+    <UtilStat ResearchTimeX="15968016" ResearchTime="0" MaxResearchThread="1" ExpIncreaseXH="0" LPriceReduceXH="0" RPriceReduceXH="0" />
+    <HeroStat BonusLevel="0" DpcX="1108800" AttackCapacity="1" DpcIncreaseXH="0" AttackSpeedXH="0" CriticalRateXH="0" CriticalDamageXH="0" MovespeedXH="0" />
     <ElementalStats>
-      <ElementalStat id="fireball" BonusLevel="0" DpsX="1" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />
-      <ElementalStat id="iceblock" BonusLevel="0" DpsX="1" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />
-      <ElementalStat id="rock" BonusLevel="0" DpsX="1" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />
-      <ElementalStat id="electricball" BonusLevel="0" DpsX="1" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />
-      <ElementalStat id="waterball" BonusLevel="0" DpsX="1" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />
+      <ElementalStat id="fireball" BonusLevel="0" DpsX="6177600" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />
+      <ElementalStat id="iceblock" BonusLevel="0" DpsX="468000" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />
+      <ElementalStat id="rock" BonusLevel="0" DpsX="387200" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />
+      <ElementalStat id="electricball" BonusLevel="0" DpsX="2160" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />
+      <ElementalStat id="waterball" BonusLevel="0" DpsX="15" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />
       <ElementalStat id="earthball" BonusLevel="0" DpsX="1" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />
       <ElementalStat id="airball" BonusLevel="0" DpsX="1" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />
       <ElementalStat id="snowball" BonusLevel="0" DpsX="1" DpsIncreaseXH="0" CastSpeedXH="0" SkillRateIncreaseXH="0" SkillDmgIncreaseXH="0" />

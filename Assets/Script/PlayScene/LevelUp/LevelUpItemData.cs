@@ -2,17 +2,17 @@
 {
     public class LevelUpData
     {
-        public string ID;
+        public string Order;
         public string OwnerID; // == levelup item 의 id
         public string IconName;
         public string OwnerName;
 
-        public LevelUpData(string id, string ownerID, string infoName, string iconName)
+        public LevelUpData(string ownerID, string infoName, string iconName, string order)
         {
-            ID = id;
             OwnerID = ownerID;
             OwnerName = infoName;
             IconName = iconName;
+            Order = order;
         }
     }
 }

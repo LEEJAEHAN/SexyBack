@@ -25,6 +25,7 @@ namespace SexyBackPlayScene
         public int OriginalLevel;
         public int BonusLevel;
         public double BaseDmg;
+        public double EnchantBaseDmg;
         BigInteger DpcX = new BigInteger();
         public int DpcXH;
         public int MaxAttackCount;
@@ -34,7 +35,7 @@ namespace SexyBackPlayScene
         public double MoveSpeed;
         public int CriRateXK;
         public int CriDamageXH;
-        int BuffCoef = 1;
+        public int BuffCoef = 1;
 
         // 계산되는값.
         public BigInteger PRICE = new BigInteger();
@@ -56,8 +57,6 @@ namespace SexyBackPlayScene
         public Hero(HeroData data)
         {
             baseData = data;
-            BaseDmg = data.BaseDmg;
-
             avatar = GameObject.Find("HeroPanel"); // 동적으로 생성하지 않는다.
             Animator = GameObject.Find("hero_sprite").GetComponent<Animator>();
             AttackManager = new HeroAttackManager(this);
@@ -69,7 +68,7 @@ namespace SexyBackPlayScene
         }
         internal void Enchant(string elementID)
         {
-            BaseDmg += Singleton<TableLoader>.getInstance().elementaltable[elementID].BaseDmg;
+            EnchantBaseDmg += Singleton<TableLoader>.getInstance().elementaltable[elementID].BaseDmg;
             RefreshStat = true;
         }
         internal void LevelUp(int value)
@@ -104,11 +103,14 @@ namespace SexyBackPlayScene
             BaseStat basestat = Singleton<PlayerStatus>.getInstance().GetBaseStat;
 
             DpcX = herostat.DpcX;
+            // 레벨업패널에 출력되는정보
+            BaseDmg = baseData.BaseDmg * (100 + herostat.BaseDmgXH) / 100 + EnchantBaseDmg;
             DpcXH = (100 + herostat.DpcIncreaseXH) * (100 + basestat.Str) / 100; // 곱하기 힘
             AttackSpeedXH = (100 + herostat.AttackSpeedXH) * (200 + basestat.Spd) / 200;
             CriRateXK = baseData.BaseSkillRateXK * (100 + herostat.CriticalRateXH) / 100;
             CriDamageXH = baseData.BaseSkillDamageXH * (100 + herostat.CriticalDamageXH) / 100;
             BonusLevel = herostat.BonusLevel;
+            // 아닌정보
             AttackSpeed = (double)AttackSpeedXH / 100;
             AttackInterval = baseData.AttackInterval * 100 / AttackSpeedXH;
             MoveSpeed = baseData.MoveSpeed * (100 + herostat.MovespeedXH) / 100;

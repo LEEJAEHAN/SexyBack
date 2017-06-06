@@ -8,6 +8,7 @@ namespace SexyBackPlayScene
 
         public readonly string ID;
         public readonly string Name;
+        public readonly string SkillName;
         public readonly double AttackInterval;
         public readonly float MoveSpeed;
         public readonly int BaseLevel;
@@ -16,17 +17,19 @@ namespace SexyBackPlayScene
         public readonly int BaseSkillRateXK;
         public readonly int BaseSkillDamageXH;
 
+
         public HeroData()
         {
             ID = "hero";
-            Name = "이재한";
+            Name = "검술";
+            SkillName = "강타";
             AttackInterval = 5;
             MoveSpeed = 3f;
             BaseLevel = 0;
             BasePrice = 60;
             BaseDmg = 1.025f;       // fireball's dmg
-            BaseSkillRateXK = 200;
-            BaseSkillDamageXH = 425;
+            BaseSkillRateXK = 80;
+            BaseSkillDamageXH = 200;
         }
     }
 }

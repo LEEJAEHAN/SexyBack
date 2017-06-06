@@ -181,7 +181,7 @@ namespace SexyBackPlayScene
                 if (research.CurrentState == "Work")
                     minusExp += research.PricePerSec;
             }
-            Singleton<GameInfoView>.getInstance().PrintMinusDps(minusExp);
+            Singleton<GameInfoView>.getInstance().PrintMinusEps(minusExp);
             minusExp = 0;
 
             Tab2Container.GetComponent<UIGrid>().Reposition();

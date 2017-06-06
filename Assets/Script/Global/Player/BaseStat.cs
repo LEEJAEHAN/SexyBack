@@ -5,12 +5,12 @@ using System.Xml;
 [Serializable]
 public class BaseStat : ICloneable
 {
-    public int Str;
-    public int Int;
-    public int Spd;
-    public int Luck;
+    internal int Str;
+    internal int Int;
+    internal int Spd;
+    internal int Luck;
 
-    public BaseStat(int str = 1, int intel = 1, int spd = 1, int luc = 1)
+    public BaseStat(int str = 0, int intel = 0, int spd = 0, int luc = 0)
     {
         Str = str;
         Int = intel;

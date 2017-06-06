@@ -12,7 +12,7 @@ internal class PlayerStatus
     GlobalStat globalStat;
     
     // 글로벌이면서, 인스턴스 게임 진행도중에도 영향을 미치는 스텟들. ( 변경 후 playscene에 notice가 필요하다. )
-    BaseStat baseStat;      //
+    BaseStat baseStat;
     UtilStat utilStat;      // 인스턴스 업그레이드의 자원획득, 가격, 시간 관련
     HeroStat heroStat;      // 인스턴스 히어로에 관한 모든것.
     Dictionary<string, ElementalStat> elementalStats; // 인스턴스 element에 관한 모든 것.
@@ -25,7 +25,7 @@ internal class PlayerStatus
 
     internal ElementalStat GetElementalStat(string id) { return elementalStats[id]; }
 
-    [field: NonSerialized]
+    //[field: NonSerialized]
     public event Action<BaseStat> Action_BaseStatChange = delegate { };
     [field: NonSerialized]
     public event Action<UtilStat> Action_UtilStatChange = delegate { };

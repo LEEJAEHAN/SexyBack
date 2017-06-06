@@ -1,276 +1,276 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <EquipmentSkills>
-	<Skill id="ES00" name="더미" belong="false" droplevel="0">
+	<Skill id="ES00" name="더미" belong="false" dropstart="0" dropend="0">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES01" belong="false" droplevel="67">
+	<Skill id="ES01" name="유니크스킬" belong="false" dropstart="0" dropend="50">
+		<Bonus1 target="fireball" attribute="DpcIncreaseXH" value="5"/>
+		<Bonus2 target="iceblock" attribute="DpcIncreaseXH" value="5"/>
+		<Bonus3 target="rock" attribute="DpcIncreaseXH" value="5"/>
+		<Bonus4/>
+	</Skill>
+	<Skill id="ES02" belong="false" dropstart="0" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES02" belong="false" droplevel="67">
-		<Bonus1/>
-		<Bonus2/>
-		<Bonus3/>
-		<Bonus4/>
-	</Skill>
-	<Skill id="ES03" name="분노" belong="false" droplevel="67">
+	<Skill id="ES03" name="분노" belong="false" dropstart="0" dropend="50">
 		<Bonus1 target="hero" attribute="DpcIncreaseXH" value="5"/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES04" name="광전사" belong="false" droplevel="67">
+	<Skill id="ES04" name="광전사" belong="false" dropstart="0" dropend="50">
 		<Bonus1 target="hero" attribute="AttackSpeedXH" value="5"/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES05" name="작열" belong="false" droplevel="67">
+	<Skill id="ES05" name="작열" belong="false" dropstart="0" dropend="50">
 		<Bonus1 target="fireball" attribute="DpsIncreaseXH" value="5"/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES06" name="냉기" belong="false" droplevel="67">
+	<Skill id="ES06" name="냉기" belong="false" dropstart="0" dropend="50">
 		<Bonus1 target="iceblock" attribute="CastSpeedXH" value="5"/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES07" name="낙석" belong="false" droplevel="67">
-		<Bonus1 target="rock" attribute="SkillRateIncreaseXH" value="15"/>
-		<Bonus2/>
+	<Skill id="ES07" name="낙석" belong="false" dropstart="0" dropend="50">
+		<Bonus1 target="rock" attribute="SkillRateIncreaseXH" value="8"/>
+		<Bonus2 target="rock" attribute="SkillDmgIncreaseXH" value="7"/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES08" belong="false" droplevel="67">
+	<Skill id="ES08" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES09" belong="false" droplevel="67">
+	<Skill id="ES09" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES10" belong="true" droplevel="67">
+	<Skill id="ES10" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES11" belong="true" droplevel="67">
+	<Skill id="ES11" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES12" belong="true" droplevel="67">
+	<Skill id="ES12" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES13" belong="true" droplevel="67">
+	<Skill id="ES13" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES14" belong="true" droplevel="67">
+	<Skill id="ES14" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES15" belong="true" droplevel="67">
+	<Skill id="ES15" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES16" belong="false" droplevel="167">
+	<Skill id="ES16" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES17" belong="false" droplevel="167">
+	<Skill id="ES17" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES18" belong="false" droplevel="167">
+	<Skill id="ES18" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES19" belong="false" droplevel="167">
+	<Skill id="ES19" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES20" belong="false" droplevel="167">
+	<Skill id="ES20" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES21" belong="false" droplevel="167">
+	<Skill id="ES21" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES22" belong="false" droplevel="167">
+	<Skill id="ES22" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES23" belong="false" droplevel="167">
+	<Skill id="ES23" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES24" belong="false" droplevel="167">
+	<Skill id="ES24" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES25" belong="true" droplevel="167">
+	<Skill id="ES25" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES26" belong="true" droplevel="167">
+	<Skill id="ES26" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES27" belong="true" droplevel="167">
+	<Skill id="ES27" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES28" belong="true" droplevel="167">
+	<Skill id="ES28" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES29" belong="true" droplevel="167">
+	<Skill id="ES29" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES30" belong="true" droplevel="167">
+	<Skill id="ES30" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES31" belong="false" droplevel="312">
+	<Skill id="ES31" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES32" belong="false" droplevel="312">
+	<Skill id="ES32" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES33" belong="false" droplevel="312">
+	<Skill id="ES33" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES34" belong="false" droplevel="312">
+	<Skill id="ES34" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES35" belong="false" droplevel="312">
+	<Skill id="ES35" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES36" belong="false" droplevel="312">
+	<Skill id="ES36" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES37" belong="false" droplevel="312">
+	<Skill id="ES37" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES38" belong="false" droplevel="312">
+	<Skill id="ES38" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES39" belong="false" droplevel="312">
+	<Skill id="ES39" belong="false" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES40" belong="true" droplevel="312">
+	<Skill id="ES40" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES41" belong="true" droplevel="312">
+	<Skill id="ES41" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES42" belong="true" droplevel="312">
+	<Skill id="ES42" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES43" belong="true" droplevel="312">
+	<Skill id="ES43" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES44" belong="true" droplevel="312">
+	<Skill id="ES44" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>
 		<Bonus4/>
 	</Skill>
-	<Skill id="ES45" belong="true" droplevel="312">
+	<Skill id="ES45" belong="true" dropend="50">
 		<Bonus1/>
 		<Bonus2/>
 		<Bonus3/>

@@ -28,10 +28,11 @@ namespace SexyBackPlayScene
         BigInteger exp;
         public BigInteger EXP { get { return exp; } }
         public delegate void ExpChange_Event(BigInteger exp);
+        public Action<int> Action_Buff;
+
         [field: NonSerialized]
         public event ExpChange_Event Action_ExpChange;
         [NonSerialized]
-        public int ExpXH;
         public int BuffCoef = 1;
 
         TopWindow topView;
@@ -130,18 +131,22 @@ namespace SexyBackPlayScene
 
         private void SetStat()
         {
-            BaseStat baseStat = Singleton<PlayerStatus>.getInstance().GetBaseStat;
-            ExpXH = (200 + baseStat.Luck) / 2;
+            //BaseStat baseStat = Singleton<PlayerStatus>.getInstance().GetBaseStat;
+            //ExpXH = (200 + baseStat.Luck) / 2;
+
+            Action_Buff(BuffCoef);
         }
 
         public void onUtilStatChange(UtilStat utilStat)
         {
+            //utilStat.ExpIncreaseXH
             RefreshStat = true;
         }
         public void onBaseStatchange(BaseStat baseStat)
         {
             RefreshStat = true;
         }
+
         internal void Upgrade(BonusStat bonus, NestedIcon icon)
         {
             // case skill, active, stat 분리
@@ -172,12 +177,14 @@ namespace SexyBackPlayScene
                 BuffCoef = xtimes;
             else
                 BuffCoef = 1;
+
+            RefreshStat = true;
         }
 
         public void ExpGain(BigInteger e, bool isApplyStat)
         {
             if (isApplyStat)
-                exp += e * ExpXH * BuffCoef / 100;
+                exp += e * BuffCoef; // * expXh / 100
             else
                 exp += e;
             Action_ExpChange(exp);

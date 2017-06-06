@@ -13,7 +13,7 @@ namespace SexyBackPlayScene
         public static GameObject stagepanel;
         public static GameObject area_elemental;
         public static GameObject monsterbucket;
-        public static GameObject objectarea;
+        public static GameObject battlearea;
 
 
         // NGUI
@@ -27,7 +27,7 @@ namespace SexyBackPlayScene
         {
             PopUpPanel = GameObject.Find("UI PopUp");
             OptionPanel = GameObject.Find("OptionWindow");
-            objectarea = GameObject.Find("Objects");
+            battlearea = GameObject.Find("Battle_Area");
             area_elemental = GameObject.Find("elementals");
             monsterbucket = GameObject.Find("monsters");
             shooter = GameObject.Find("shooter");
@@ -43,7 +43,6 @@ namespace SexyBackPlayScene
             ViewLoader.monsterbucket.transform.DestroyChildren();
             
             ViewLoader.stagepanel.transform.DestroyChildren();
-            ViewLoader.objectarea.transform.DestroyChildren();
 
             PopUpPanel.transform.position = GameObject.Find("UI Root").transform.position;
             PopUpPanel.SetActive(false);

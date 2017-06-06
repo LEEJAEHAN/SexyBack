@@ -13,11 +13,12 @@ namespace SexyBackPlayScene
         public string targetID { get { return shooter.targetID; } set { skill.targetID = value; shooter.targetID = value; } }
         // 변수
         BigInteger DpsX = new BigInteger();
+        public double BaseDmg;
         public int DpsXH;
         public int CastSpeedXH;
         public int SkillRatioXH { get { return skill.DAMAGERATIO; } set { skill.SetRatio(value); } }
         public int SkillRateXH;
-        int BuffCoef = 1;
+        public int BuffCoef = 1;
 
         //public int LEVEL;
         public int OriginalLevel;
@@ -66,13 +67,15 @@ namespace SexyBackPlayScene
             BaseStat basestat = Singleton<PlayerStatus>.getInstance().GetBaseStat;
 
             DpsX = elementalstat.DpsX;
+            // 다음항목들은 levelup 패널에 표시된다.
+            BaseDmg = baseData.BaseDmg * (100 + elementalstat.BaseDmgXH) / 100;
             DpsXH = (100 + elementalstat.DpsIncreaseXH) * (100 + basestat.Int) / 100;
             CastSpeedXH = (100 + elementalstat.CastSpeedXH) * (200 + basestat.Spd) / 200;
             SkillRateXH = baseData.BaseSkillRateXK * (100 + elementalstat.SkillRateIncreaseXH) / 100;
             SkillRatioXH = baseData.BaseSkillDamageXH * (100 + elementalstat.SkillDmgIncreaseXH) / 100;
             BonusLevel = elementalstat.BonusLevel;
-            // CASTINTERVAL이 0.5보다 낮아져선 안된다. ( 실제는 0.8 )
-            CastInterval = UnityEngine.Mathf.Max(0.8f, ((float)baseData.BaseCastIntervalXK / (float)(CastSpeedXH * 10)));
+            // CASTINTERVAL이 0.5보다 낮아져선 안된다. 왜? ( 실제는 0.8 )
+            CastInterval = UnityEngine.Mathf.Max(0.5f, ((float)baseData.BaseCastIntervalXK / (float)(CastSpeedXH * 10)));
         }
 
         void CalDps()

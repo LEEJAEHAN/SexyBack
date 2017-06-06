@@ -76,8 +76,9 @@ namespace SexyBackPlayScene
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 bool result = false;
+                bool temp;
                 result = Singleton<MonsterManager>.getInstance().TestDeal(Singleton<HeroManager>.getInstance().GetHero().DPC);
-                result = Singleton<MonsterManager>.getInstance().TestDeal(Singleton<ElementalManager>.getInstance().GetTotalDps() * 5);
+                result = Singleton<MonsterManager>.getInstance().TestDeal(Singleton<ElementalManager>.getInstance().GetTotalDps(out temp) * 5);
                 if (result)
                     fowardtimefordebug +=5;
             }

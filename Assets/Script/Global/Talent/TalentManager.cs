@@ -138,7 +138,8 @@ internal class TalentManager
 
     private void NoticeReputation()
     {
-        topView.PrintSlot1String(Reputation.ToString());
+        if(topView!=null)
+            topView.PrintSlot1String(Reputation.ToString());
     }
 
     internal void Learn(string selectedID) // redrow

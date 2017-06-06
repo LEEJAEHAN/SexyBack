@@ -34,11 +34,12 @@ namespace SexyBackPlayScene
             Name = OwnerName + " LV." + hero.OriginalLevel;
             if (hero.BonusLevel > 0)
                 Name += "+" + hero.BonusLevel;
-            StatName = "피해량\n공격속도\n강타확률\n강타데미지";
-            StatValue = hero.DpcXH.ToString() + "%\n"
-                + hero.AttackSpeedXH.ToString() + "%\n"
+            StatName = "기본공격력\n공격주기\n강타확률\n강타데미지";
+            StatValue = hero.BaseDmg.ToString("N3") + "\n"
+                + hero.AttackInterval.ToString("N1") + "초\n"
                 + ((double)hero.CriRateXK / 10f).ToString("N1") + "%\n"
                 + hero.CriDamageXH.ToString() + "%";
+            //+ hero.DpcXH.ToString() + "%\n"
             Damage = hero.DPC.To5String() + " 피해 / 탭";
             PriceName = "다음\n요구";
             PriceValue = hero.DPCTick.To5String() + " 피해 / 탭\n" + PRICE.To5String() + " 경험치";

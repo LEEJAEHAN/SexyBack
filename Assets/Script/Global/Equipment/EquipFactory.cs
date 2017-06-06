@@ -5,20 +5,22 @@ using System.Collections.Generic;
 
 internal static class EquipFactory
 {
-    public static Equipment CraftEquipment(string equipID, string skillID)
-    {
-        Equipment newOne = new Equipment(Singleton<TableLoader>.getInstance().equipmenttable[equipID],
-            Singleton<TableLoader>.getInstance().equipskilltable[skillID]);
-        return newOne;
-    }
+
+    //public static Equipment CraftEquipment(string equipID, string skillID)
+    //{
+    //    Equipment newOne = new Equipment(Singleton<TableLoader>.getInstance().equipmenttable[equipID],
+    //        Singleton<TableLoader>.getInstance().equipskilltable[skillID]);
+    //    return newOne;
+    //}
+
     public static Equipment LoadEquipment(XmlNode equipNode)
     {
         string tableID = equipNode.Attributes["id"].Value;
         string skillID = equipNode.Attributes["skillid"].Value;
+        int level = int.Parse(equipNode.Attributes["level"].Value);
+        int grade = int.Parse(equipNode.Attributes["grade"].Value);
         Equipment e = new Equipment(Singleton<TableLoader>.getInstance().equipmenttable[tableID],
-            Singleton<TableLoader>.getInstance().equipskilltable[skillID]);
-
-        e.grade = int.Parse(equipNode.Attributes["grade"].Value);
+            Singleton<TableLoader>.getInstance().equipskilltable[skillID], level, grade);
         e.exp = int.Parse(equipNode.Attributes["exp"].Value);
         e.evolution = int.Parse(equipNode.Attributes["evolution"].Value);
         e.skillLevel = int.Parse(equipNode.Attributes["skillLevel"].Value);
@@ -29,8 +31,12 @@ internal static class EquipFactory
     internal static Equipment LotteryEquipment(string mapid, MapRewardData rewardInfo, RewardRank rank)
     {
         int resultGrade = LotteryGrade(rank); // = 로터리;
+        if (resultGrade <= 2)
+            resultGrade = 0; //resultGrade; // = 로터리
+
+        int resultLevel = rewardInfo.RewardLevel; // TODO : 랭크에따라 변화를줘야한다.
         // rank랑 reward level이랑 
-        string resultEquipID = PopRandomEquipment(mapid, rewardInfo.RewardLevel, resultGrade);//"E01"; // = 로터리(맵드랍레벨, 랭크)
+        string resultEquipID = PopRandomEquipment(mapid, rewardInfo, resultGrade);//"E01"; // = 로터리(맵드랍레벨, 랭크)
 
         sexybacklog.Console(resultEquipID);
 
@@ -40,11 +46,7 @@ internal static class EquipFactory
         sexybacklog.Console(resultSkillID);
 
         var skill = Singleton<TableLoader>.getInstance().equipskilltable[resultSkillID];
-        Equipment newOne = new Equipment(equipment, skill);
-        
-        if (resultGrade <= 2)
-            newOne.grade = resultGrade; // = 로터리
-
+        Equipment newOne = new Equipment(equipment, skill, rewardInfo.RewardLevel, resultGrade);
         return newOne;
     }
 
@@ -57,10 +59,8 @@ internal static class EquipFactory
         var sTable = Singleton<TableLoader>.getInstance().equipskilltable;
         foreach (var sData in sTable.Values)
         {
-            if (sData.belong == false && sData.dropLevel == rewardLevel)
-            {
+            if (sData.belong == false && (sData.dropStart <= rewardLevel && rewardLevel <= sData.dropEnd))
                 Candidates.Add(sData.ID);
-            }
         }
 
         if (Candidates.Count <= 0)
@@ -70,25 +70,27 @@ internal static class EquipFactory
     }
 
 
-    private static string PopRandomEquipment(string mapid, int rewardLevel, int resultGrade)
+    private static string PopRandomEquipment(string mapid, MapRewardData rewardData, int resultGrade)
     {
         List<string> Candidates = new List<string>();
 
         var eTable = Singleton<TableLoader>.getInstance().equipmenttable;
         foreach (var eData in eTable.Values)
         {
-            if ((eData.dropMapID == null || eData.dropMapID == mapid ) && eData.droplevel == rewardLevel)
+            if (resultGrade >= 3)
             {
-                if( resultGrade >= 3 )
+                if (eData.belong)   // 특정던젼 귀속템
                 {
-                    if (eData.grade == resultGrade)
+                    if (rewardData.FixCandidates.Contains(eData.ID))
                         Candidates.Add(eData.ID);
                 }
-                else // grade is 0~2
-                {
-                    if(eData.grade == 0)
-                        Candidates.Add(eData.ID);
-                }
+                else if (eData.dropStart <= rewardData.RewardLevel && rewardData.RewardLevel <= eData.dropEnd)
+                    Candidates.Add(eData.ID);
+            }
+            else // grade is 0~2
+            {
+                if ((eData.dropStart <= rewardData.RewardLevel && rewardData.RewardLevel <= eData.dropEnd))
+                    Candidates.Add(eData.ID);
             }
         }
         if (Candidates.Count <= 0)
@@ -136,4 +138,7 @@ internal static class EquipFactory
         }
         return 0;
     }
+
+
+
 }
