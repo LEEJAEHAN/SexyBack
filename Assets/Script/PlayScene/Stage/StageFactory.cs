@@ -63,17 +63,17 @@ namespace SexyBackPlayScene
             if (floor >= 1 && floor <= StageManager.MaxFloor) // 1~ 10
             {
                 result.type = StageType.Normal;
-                result.avatar.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Stage_Castle");
+                result.avatar.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Stage/Stage_Castle");
             }
             else if (floor < 1) // 0
             {
                 result.type = StageType.FirstPortal;
-                result.avatar.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Stage_Portal");
+                result.avatar.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Stage/Stage_Entrance");
             }
             else if (floor > StageManager.MaxFloor) // 11
             {
                 result.type = StageType.LastPortal;
-                result.avatar.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Stage_Portal");
+                result.avatar.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Stage/Stage_Portal");
             }
 
             return result;

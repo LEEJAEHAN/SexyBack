@@ -118,63 +118,18 @@ internal class TableLoader
         data3.BaseMonsterHP = 5;
         mapTable.Add(data3);
     }
-    private void LoadEquipmentData()
+
+    private void LoadTalentData()
     {
-        // loadEquip table
-        equipmenttable = new Dictionary<string, EquipmentData>();
-        XmlDocument xmldoc = OpenXml("Xml/EquipmentData");
-        XmlNodeList nodes = xmldoc.SelectSingleNode("Equipments").SelectNodes("Equipment");
-        foreach (XmlNode node in nodes)
+        talenttable = new Dictionary<string, TalentData>();
+
+        for (int i = 1; i <= 8; i++)
         {
-            if (node.Attributes["name"] == null)
-                continue;
-
-            EquipmentData newOne = new EquipmentData();
-            newOne.ID = node.Attributes["id"].Value;
-            newOne.iconID = node.Attributes["icon"].Value;
-            newOne.baseName = node.Attributes["name"].Value;
-            newOne.droplevel = int.Parse(node.Attributes["droplevel"].Value);
-            if (node.Attributes["dropmap"] != null)
-                newOne.dropMapID = node.Attributes["dropmap"].Value;
-            if (node.Attributes["skill"] != null)
-                newOne.skillID= node.Attributes["skill"].Value;
-            newOne.grade = int.Parse(node.Attributes["grade"].Value);
-            newOne.type = (Equipment.Type)Enum.Parse(typeof(Equipment.Type), node.Attributes["type"].Value);
-            newOne.baseStat.Str = int.Parse(node.Attributes["str"].Value);
-            newOne.baseStat.Int = int.Parse(node.Attributes["int"].Value);
-            newOne.baseStat.Spd = int.Parse(node.Attributes["spd"].Value);
-            newOne.baseStat.Luck = int.Parse(node.Attributes["luck"].Value);
-
-            equipmenttable.Add(newOne.ID, newOne);
+            TalentData t1 = new TalentData(i);
+            talenttable.Add(t1.ID, t1);
         }
     }
-    public void LoadEquipmentSkillData()
-    {
-        equipskilltable = new Dictionary<string, EquipmentSkillData>();
-        XmlDocument xmldoc = OpenXml("Xml/EquipmentSkillData");
-        XmlNodeList nodes = xmldoc.SelectSingleNode("EquipmentSkills").SelectNodes("Skill");
 
-        foreach (XmlNode node in nodes)
-        {
-            if (node.Attributes["name"] == null)
-                continue;
-            EquipmentSkillData newOne = new EquipmentSkillData();
-            newOne.ID = node.Attributes["id"].Value;
-            newOne.baseSkillName = node.Attributes["name"].Value;
-            newOne.belong= bool.Parse(node.Attributes["belong"].Value);
-            newOne.dropLevel = int.Parse(node.Attributes["droplevel"].Value);
-            XmlNodeList statNodes = node.SelectNodes("Bonus");
-            foreach(XmlNode statNode in statNodes)
-            {
-                BonusStat temp = new BonusStat();
-                temp.targetID = statNode.Attributes["target"].Value;
-                temp.attribute = (Attribute)Enum.Parse(typeof(Attribute), statNode.Attributes["attribute"].Value);
-                temp.value = int.Parse(statNode.Attributes["value"].Value);
-                newOne.baseSkillStat.Add(temp);
-            }
-            equipskilltable.Add(newOne.ID, newOne);
-        }
-    }
 
     private void LoadMonsterData()
     {
@@ -320,18 +275,65 @@ internal class TableLoader
 
     }
 
-    private void LoadTalentData()
+    private void LoadEquipmentData()
     {
-        talenttable = new Dictionary<string, TalentData>();
-
-        for(int i = 1; i <= 8; i ++)
+        // loadEquip table
+        equipmenttable = new Dictionary<string, EquipmentData>();
+        XmlDocument xmldoc = OpenXml("Xml/EquipmentData");
+        XmlNodeList nodes = xmldoc.SelectSingleNode("Equipments").SelectNodes("Equipment");
+        foreach (XmlNode node in nodes)
         {
-            TalentData t1 = new TalentData(i);
-            talenttable.Add(t1.ID, t1);
+            if (node.Attributes["name"] == null)
+                continue;
+
+            EquipmentData newOne = new EquipmentData();
+            newOne.ID = node.Attributes["id"].Value;
+            newOne.iconID = node.Attributes["icon"].Value;
+            newOne.baseName = node.Attributes["name"].Value;
+            newOne.droplevel = int.Parse(node.Attributes["droplevel"].Value);
+            if (node.Attributes["dropmap"] != null)
+                newOne.dropMapID = node.Attributes["dropmap"].Value;
+            if (node.Attributes["skill"] != null)
+                newOne.skillID = node.Attributes["skill"].Value;
+            newOne.grade = int.Parse(node.Attributes["grade"].Value);
+            newOne.type = (Equipment.Type)Enum.Parse(typeof(Equipment.Type), node.Attributes["type"].Value);
+            newOne.baseStat.Str = int.Parse(node.Attributes["str"].Value);
+            newOne.baseStat.Int = int.Parse(node.Attributes["int"].Value);
+            newOne.baseStat.Spd = int.Parse(node.Attributes["spd"].Value);
+            newOne.baseStat.Luck = int.Parse(node.Attributes["luck"].Value);
+
+            equipmenttable.Add(newOne.ID, newOne);
         }
     }
 
+    private void LoadEquipmentSkillData()
+    {
+        equipskilltable = new Dictionary<string, EquipmentSkillData>();
+        XmlDocument xmldoc = OpenXml("Xml/EquipmentSkillData");
+        XmlNodeList nodes = xmldoc.SelectSingleNode("EquipmentSkills").SelectNodes("Skill");
 
+        foreach (XmlNode node in nodes)
+        {
+            if (node.Attributes["name"] == null)
+                continue;
+            EquipmentSkillData newOne = new EquipmentSkillData();
+            newOne.ID = node.Attributes["id"].Value;
+            newOne.baseSkillName = node.Attributes["name"].Value;
+            newOne.belong = bool.Parse(node.Attributes["belong"].Value);
+            newOne.dropLevel = int.Parse(node.Attributes["droplevel"].Value);
+            XmlNodeList statNodes = node.SelectNodes("Bonus");
+            foreach (XmlNode statNode in statNodes)
+            {
+                BonusStat temp = new BonusStat();
+                temp.targetID = statNode.Attributes["target"].Value;
+                temp.attribute = (Attribute)Enum.Parse(typeof(Attribute), statNode.Attributes["attribute"].Value);
+                temp.value = int.Parse(statNode.Attributes["value"].Value);
+                newOne.baseSkillStat.Add(temp);
+            }
+            equipskilltable.Add(newOne.ID, newOne);
+        }
+    }
+    
     private void LoadConsumableData()
     {
         consumable = new Dictionary<string, ConsumableData>();
