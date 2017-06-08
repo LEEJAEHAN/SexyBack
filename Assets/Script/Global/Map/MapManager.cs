@@ -41,6 +41,7 @@ internal class MapManager
             string id = node.Attributes["id"].Value;
             Maps[id].ClearCount = int.Parse(node.Attributes["clearcount"].Value);
             Maps[id].BestTime = int.Parse(node.Attributes["besttime"].Value);
+            Maps[id].BestRank= (RewardRank)Enum.Parse(typeof(RewardRank), node.Attributes["bestrank"].Value);
         }
     }
 

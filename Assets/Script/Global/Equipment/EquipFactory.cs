@@ -18,9 +18,9 @@ internal static class EquipFactory
         string tableID = equipNode.Attributes["id"].Value;
         string skillID = equipNode.Attributes["skillid"].Value;
         int level = int.Parse(equipNode.Attributes["level"].Value);
-        int grade = int.Parse(equipNode.Attributes["grade"].Value);
+        //int grade = int.Parse(equipNode.Attributes["grade"].Value);
         Equipment e = new Equipment(Singleton<TableLoader>.getInstance().equipmenttable[tableID],
-            Singleton<TableLoader>.getInstance().equipskilltable[skillID], level, grade);
+            Singleton<TableLoader>.getInstance().equipskilltable[skillID], level);
         e.exp = int.Parse(equipNode.Attributes["exp"].Value);
         e.evolution = int.Parse(equipNode.Attributes["evolution"].Value);
         e.skillLevel = int.Parse(equipNode.Attributes["skillLevel"].Value);
@@ -31,22 +31,21 @@ internal static class EquipFactory
     internal static Equipment LotteryEquipment(string mapid, MapRewardData rewardInfo, RewardRank rank)
     {
         int resultGrade = LotteryGrade(rank); // = 로터리;
-        if (resultGrade <= 2)
-            resultGrade = 0; //resultGrade; // = 로터리
 
-        int resultLevel = rewardInfo.RewardLevel; // TODO : 랭크에따라 변화를줘야한다.
-        // rank랑 reward level이랑 
+        // TODO : 랭크에따라 리워드레벨이나 grade변화를 줘야한다.
+        //int resultLevel = rewardInfo.level; 
         string resultEquipID = PopRandomEquipment(mapid, rewardInfo, resultGrade);//"E01"; // = 로터리(맵드랍레벨, 랭크)
 
-        sexybacklog.Console(resultEquipID);
+        EquipmentData equipment = Singleton<TableLoader>.getInstance().equipmenttable[resultEquipID];
+        string resultSkillID = PopRandomSkill(equipment, rewardInfo.Level); //"ES01";// = 로터리
 
-        var equipment = Singleton<TableLoader>.getInstance().equipmenttable[resultEquipID];
-        string resultSkillID = PopRandomSkill(equipment, rewardInfo.RewardLevel); //"ES01";// = 로터리
-
-        sexybacklog.Console(resultSkillID);
+        sexybacklog.Console("정해진 등급 : " + resultGrade);
+        sexybacklog.Console("정해진 아이템아이디 : " + resultEquipID);
 
         var skill = Singleton<TableLoader>.getInstance().equipskilltable[resultSkillID];
-        Equipment newOne = new Equipment(equipment, skill, rewardInfo.RewardLevel, resultGrade);
+
+        int itemlevel = Math.Max(50, rewardInfo.Level); // 튜토리얼 스테이지는 40이하의 드랍레벨이기때문에 40으로상향.
+        Equipment newOne = new Equipment(equipment, skill, itemlevel);
         return newOne;
     }
 
@@ -77,24 +76,28 @@ internal static class EquipFactory
         var eTable = Singleton<TableLoader>.getInstance().equipmenttable;
         foreach (var eData in eTable.Values)
         {
-            if (resultGrade >= 3)
+            if (resultGrade != eData.grade)
+                continue;
+
+            if (eData.belong)   // 특정던젼 귀속템
             {
-                if (eData.belong)   // 특정던젼 귀속템
-                {
-                    if (rewardData.FixCandidates.Contains(eData.ID))
-                        Candidates.Add(eData.ID);
-                }
-                else if (eData.dropStart <= rewardData.RewardLevel && rewardData.RewardLevel <= eData.dropEnd)
+                if (rewardData.FixCandidates.Contains(eData.ID))
                     Candidates.Add(eData.ID);
             }
-            else // grade is 0~2
-            {
-                if ((eData.dropStart <= rewardData.RewardLevel && rewardData.RewardLevel <= eData.dropEnd))
-                    Candidates.Add(eData.ID);
-            }
+            else if (eData.dropStart <= rewardData.Level && rewardData.Level <= eData.dropEnd)
+                Candidates.Add(eData.ID);
         }
-        if (Candidates.Count <= 0)
-            return "E00";
+
+        if (Candidates.Count <= 0)      // 해당등급의 아이템이 후보목록에 아예없을땐 등급을 낮춰 재귀뽑기를한다.
+        {
+            if (resultGrade >= 0)
+            {
+                sexybacklog.Console("재귀뽑기를합니다.");
+                return PopRandomEquipment(mapid, rewardData, resultGrade-1);
+            }
+            else
+                return "E00";           // 정말아무것도없을땐 더미.
+        }
 
         return Candidates[UnityEngine.Random.Range(0, Candidates.Count)];
     }
@@ -105,40 +108,67 @@ internal static class EquipFactory
         switch (rank)
         {
             case RewardRank.SSS:
-                if (rand < 4) return 3;
-                if (rand < 4 + 28) return 2;
-                return 1;
+                if (rand < 4) return 2;
+                if (rand < 4 + 28) return 1;
+                break;
             case RewardRank.SS:
-                if (rand < 3) return 3;
-                if (rand < 3 + 21) return 2;
-                return 1;
+                if (rand < 3) return 2;
+                if (rand < 3 + 21) return 1;
+                break;
             case RewardRank.S:
-                if (rand < 2) return 3;
-                if (rand < 2 + 14) return 2;
-                return 1;
+                if (rand < 2) return 2;
+                if (rand < 2 + 14) return 1;
+                break;
             case RewardRank.A:
-                if (rand < 1) return 3;
-                if (rand < 1 + 7) return 2;
-                if (rand < 1 + 7 + 84) return 1;
-                return 0;
-            case RewardRank.B:
-                if (rand < 70) return 1;
-                return 0;
-            case RewardRank.C:
-                if (rand < 56) return 1;
-                return 0;
-            case RewardRank.D:
-                if (rand < 42) return 1;
-                return 0;
-            case RewardRank.E:
-                if (rand < 28) return 1;
-                return 0;
-            case RewardRank.F:
-                return 0;
+                if (rand < 1) return 2;
+                if (rand < 1 + 7) return 1;
+                break;
+            default:
+                break;
         }
         return 0;
     }
 
+
+    //private static int LotteryGrade(RewardRank rank)
+    //{
+    //    int rand = UnityEngine.Random.Range(0, 100); // 0~99
+    //    switch (rank)
+    //    {
+    //        case RewardRank.SSS:
+    //            if (rand < 4) return 3;
+    //            if (rand < 4 + 28) return 2;
+    //            return 1;
+    //        case RewardRank.SS:
+    //            if (rand < 3) return 3;
+    //            if (rand < 3 + 21) return 2;
+    //            return 1;
+    //        case RewardRank.S:
+    //            if (rand < 2) return 3;
+    //            if (rand < 2 + 14) return 2;
+    //            return 1;
+    //        case RewardRank.A:
+    //            if (rand < 1) return 3;
+    //            if (rand < 1 + 7) return 2;
+    //            if (rand < 1 + 7 + 84) return 1;
+    //            return 0;
+    //        case RewardRank.B:
+    //            if (rand < 70) return 1;
+    //            return 0;
+    //        case RewardRank.C:
+    //            if (rand < 56) return 1;
+    //            return 0;
+    //        case RewardRank.D:
+    //            if (rand < 42) return 1;
+    //            return 0;
+    //        case RewardRank.E:
+    //            if (rand < 28) return 1;
+    //            return 0;
+    //        case RewardRank.F:
+    //            return 0;
+    //    }
+    //    return 0;
+    //}
 
 
 }

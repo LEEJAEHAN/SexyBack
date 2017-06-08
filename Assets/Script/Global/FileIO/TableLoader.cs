@@ -73,52 +73,88 @@ internal class TableLoader
     private void LoadMapData()
     {
         mapTable = new List<MapData>();
+        XmlDocument xmldoc = OpenXml("Xml/MapData");
+        XmlNode rootNode = xmldoc.SelectSingleNode("Maps");
+        XmlNodeList nodes = rootNode.SelectNodes("Map");
 
-        MapData data1 = new MapData();
-        data1.ID = "Map01";
-        data1.Name = "50층돌파";
-        data1.RequireClearMap = null;
-        data1.LimitTime = 3600;
-        data1.RewardData = new MapRewardData(50, 50, 1, 8);
-        data1.MaxFloor = 50;        // 10
-        data1.LevelPerFloor = 1;    // 5
-        data1.MonsterPerStage = 1;
-        data1.ChestPerMonster = 1;
-        data1.BossHPX = 10;
-        data1.ChestPerBossMonster = 1;
-        data1.BaseMonsterHP = 200;    // 1000;
-        mapTable.Add(data1);
+        foreach (XmlNode node in nodes)
+        {
+            MapData newOne = new MapData();
+            newOne.ID = node.Attributes["id"].Value;
+            newOne.RequireMap = node.Attributes["requireclearmap"] == null ? null : node.Attributes["requireclearmap"].Value;
+            newOne.Name = node.Attributes["name"].Value;
+            newOne.Difficulty = int.Parse(node.Attributes["difficulty"].Value);
+            newOne.LimitTime = int.Parse(node.Attributes["limittime"].Value);
+            newOne.MaxFloor = int.Parse(node.Attributes["maxfloor"].Value);
 
-        MapData data2 = new MapData();
-        data2.ID = "Map02";
-        data2.Name = "100층돌파";
-        data2.RequireClearMap = "Map01";
-        data2.LimitTime = 7200;
-        data2.RewardData = new MapRewardData(100, 100, 2, 8);
-        data2.MaxFloor = 20;
-        data2.LevelPerFloor = 5;
-        data2.MonsterPerStage = 1;
-        data2.ChestPerMonster = 1;
-        data2.BossHPX = 10;
-        data2.ChestPerBossMonster = 3;
-        data2.BaseMonsterHP = 5;
-        mapTable.Add(data2);
+            {
+                XmlNode rNode = node.SelectSingleNode("MapReward");
+                newOne.MapReward.Level = int.Parse(rNode.Attributes["rewardlevel"].Value);
+                newOne.MapReward.PrevLevel = int.Parse(rNode.Attributes["prevrewardlevel"].Value);
+                newOne.MapReward.ItemCount = int.Parse(rNode.Attributes["itemcount"].Value);
+            }
+            {
+                XmlNode mNode = node.SelectSingleNode("MapMonster");
+                newOne.MapMonster.LevelPerFloor = int.Parse(mNode.Attributes["levelperfloor"].Value);
+                newOne.MapMonster.MonsterPerStage = int.Parse(mNode.Attributes["monsterperstage"].Value);
+                newOne.MapMonster.MonsterHP = int.Parse(mNode.Attributes["monsterhp"].Value);
+                newOne.MapMonster.BossHp = int.Parse(mNode.Attributes["bosshp"].Value);
+                newOne.MapMonster.ChestPerMonster = int.Parse(mNode.Attributes["chestpermonster"].Value);
+                newOne.MapMonster.ChestPerBoss = int.Parse(mNode.Attributes["chestperboss"].Value);
+                newOne.MapMonster.BossTerm= int.Parse(mNode.Attributes["bossterm"].Value);
 
-        MapData data3= new MapData();
-        data3.ID = "Map03";
-        data3.Name = "테스트맵";
-        data3.RequireClearMap = "Map01";
-        data3.LimitTime = 7200;
-        data3.RewardData = new MapRewardData(167, 67, 3, 3);
-        data3.MaxFloor = 1;
-        data3.LevelPerFloor = 5;
-        data3.MonsterPerStage = 1;
-        data3.ChestPerMonster = 1;
-        data3.BossHPX = 10;
-        data3.ChestPerBossMonster = 3;
-        data3.BaseMonsterHP = 5;
-        mapTable.Add(data3);
+            }
+            mapTable.Add(newOne);
+        }
+
+
+
+        //MapData data1 = new MapData();
+        //data1.ID = "Map01";
+        //data1.Name = "50층돌파";
+        //data1.RequireMap = null;
+        //data1.LimitTime = 3600;
+        //data1.RewardData = new MapRewardData(50, 50, 1, 8);
+        //data1.MaxFloor = 50;        // 10
+        //data1.LevelPerFloor = 1;    // 5
+        //data1.MonsterPerStage = 1;
+        //data1.ChestPerMonster = 1;
+        //data1.BossHp = 2000;
+        //data1.ChestPerBoss = 1;
+        //data1.MonsterHP = 200;    // 1000;
+        //mapTable.Add(data1);
+
+        //MapData data2 = new MapData();
+        //data2.ID = "Map02";
+        //data2.Name = "100층돌파";
+        //data2.RequireMap = "Map01";
+        //data2.LimitTime = 7200;
+        //data2.RewardData = new MapRewardData(100, 100, 2, 8);
+        //data2.MaxFloor = 20;
+        //data2.LevelPerFloor = 5;
+        //data2.MonsterPerStage = 1;
+        //data2.ChestPerMonster = 1;
+        //data2.BossHp = 10;
+        //data2.ChestPerBoss = 3;
+        //data2.MonsterHP = 5;
+        //mapTable.Add(data2);
+
+        //MapData data3= new MapData();
+        //data3.ID = "Map03";
+        //data3.Name = "테스트맵";
+        //data3.RequireClearMap = "Map01";
+        //data3.LimitTime = 7200;
+        //data3.RewardData = new MapRewardData(167, 67, 3, 3);
+        //data3.MaxFloor = 1;
+        //data3.LevelPerFloor = 5;
+        //data3.MonsterPerStage = 1;
+        //data3.ChestPerMonster = 1;
+        //data3.BossMonsterHP = 10;
+        //data3.ChestPerBossMonster = 3;
+        //data3.MonsterHP = 5;
+        //mapTable.Add(data3);
     }
+
 
     private void LoadTalentData()
     {
@@ -291,7 +327,7 @@ internal class TableLoader
             XmlNode statnodes = node.SelectSingleNode("Stats");
             int count = statnodes.Attributes.Count;
             for(int i = 0; i < count; i++)
-                newOne.stats.Add(new BonusStat(statnodes.Attributes[i].Value, Attribute.BaseDmgXH, 1));
+                newOne.stats.Add(new BonusStat(statnodes.Attributes[i].Value, Attribute.BaseDmgAdd, 1));
 
             equipmenttable.Add(newOne.ID, newOne);
         }

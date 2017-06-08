@@ -9,8 +9,8 @@ internal class EquipmentManager
 {
     public int MaxInventory;
     public int MaxEquipSet;
-    public List<Dictionary<Equipment.Type, Equipment>> equipSets;
-    public Dictionary<Equipment.Type, Equipment> currentEquipSet;
+    public List<Dictionary<Equipment.Slot, Equipment>> equipSets;
+    public Dictionary<Equipment.Slot, Equipment> currentEquipSet;
     public List<Equipment> inventory;
     public Equipment Focused;
     public int EquipSetIndex { get { return equipSets.IndexOf(currentEquipSet); } }
@@ -18,7 +18,10 @@ internal class EquipmentManager
 
     EquipmentWindow view;
     TopWindow topView;
-    
+
+    public static int LevelUnit = 100;
+    public static int CoefPerLevelUnit = 8;
+
     internal void InitOrLoad()
     {
         sexybacklog.Console("EquipmentManager 로드 및 초기화");
@@ -61,16 +64,16 @@ internal class EquipmentManager
         MaxEquipSet = int.Parse(statNodes.Attributes["MaxEquipSet"].Value);
         int CurrentSet = int.Parse(statNodes.Attributes["CurrentSet"].Value);
 
-        equipSets = new List<Dictionary<Equipment.Type, Equipment>>(MaxEquipSet);
+        equipSets = new List<Dictionary<Equipment.Slot, Equipment>>(MaxEquipSet);
         for (int i = 0; i < equipSets.Capacity; i++)
-            equipSets.Add(new Dictionary<Equipment.Type, Equipment>());
+            equipSets.Add(new Dictionary<Equipment.Slot, Equipment>());
         currentEquipSet = equipSets[CurrentSet];
         {
             XmlNodeList eSetNodes = statNodes.SelectNodes("EquipmentSet");
             int index = 0;
             foreach(XmlNode eSetNode in eSetNodes)
             {
-                foreach (Equipment.Type type in Enum.GetValues(typeof(Equipment.Type)))
+                foreach (Equipment.Slot type in Enum.GetValues(typeof(Equipment.Slot)))
                 {
                     XmlNode partNode = eSetNode.SelectSingleNode(type.ToString());
                     if(partNode.HasChildNodes)
@@ -102,9 +105,9 @@ internal class EquipmentManager
         // for test now
         MaxInventory = 20;
         MaxEquipSet = 2;
-        equipSets = new List<Dictionary<Equipment.Type, Equipment>>(MaxEquipSet);
+        equipSets = new List<Dictionary<Equipment.Slot, Equipment>>(MaxEquipSet);
         for(int i = 0; i < equipSets.Capacity; i++)
-            equipSets.Add(new Dictionary<Equipment.Type, Equipment>());
+            equipSets.Add(new Dictionary<Equipment.Slot, Equipment>());
         currentEquipSet = equipSets[0];
         inventory = new List<Equipment>();
 
@@ -137,7 +140,7 @@ internal class EquipmentManager
     }
     internal bool SelectEquipment(string part)
     {
-        Equipment.Type t = (Equipment.Type)Enum.Parse(typeof(Equipment.Type), part);
+        Equipment.Slot t = (Equipment.Slot)Enum.Parse(typeof(Equipment.Slot), part);
         if (currentEquipSet.ContainsKey(t) == false)
             return false;
 
@@ -192,22 +195,35 @@ internal class EquipmentManager
 
     internal void EquipSelectedItem()
     {
-        var part = Focused.type;
-        if (currentEquipSet.ContainsKey(part))
+        Equipment.Slot slot;
+        if (Focused.type == Equipment.Type.Ring)
         {
-            Equipment old = currentEquipSet[part];
+            if (currentEquipSet.ContainsKey(Equipment.Slot.Ring))   // 1에 껴져있으면 2에 있건말건 2를바꾼다.
+                slot = Equipment.Slot.Ring2;
+            else // 1에 안껴져있단소리니까 1에 낀다.
+                slot = Equipment.Slot.Ring;
+        }
+        else
+        {
+            string slotstr = Focused.type.ToString();
+            slot = (Equipment.Slot)Enum.Parse(typeof(Equipment.Slot), slotstr);
+        }
+
+        if (currentEquipSet.ContainsKey(slot))
+        {
+            Equipment old = currentEquipSet[slot];
             EquipChange(old, false);
-            currentEquipSet.Remove(part);
+            currentEquipSet.Remove(slot);
             inventory.Add(old);
         }
 
         EquipChange(Focused, true);
-        currentEquipSet.Add(part, Focused);
+        currentEquipSet.Add(slot, Focused);
         inventory.Remove(Focused);
         view.FillInventory(inventory, MaxInventory);
         view.FillEquipments(currentEquipSet, EquipSetIndex);
         topView.DrawEquipments(currentEquipSet);
-        view.ForceSelect(false, part.ToString());
+        view.ForceSelect(false, slot.ToString());
     }
 
     private void EquipChange(Equipment item, bool sign)
@@ -217,7 +233,7 @@ internal class EquipmentManager
         foreach (BonusStat baseStat in item.Stat)
             Singleton<PlayerStatus>.getInstance().ApplySpecialStat(baseStat, sign);
     }
-    void EquipSetchange(Dictionary<Equipment.Type, Equipment> itemSet, bool sign)
+    void EquipSetchange(Dictionary<Equipment.Slot, Equipment> itemSet, bool sign)
     {
         foreach(Equipment item in itemSet.Values)
             EquipChange(item, sign);
@@ -228,7 +244,8 @@ internal class EquipmentManager
         if (currentEquipSet.ContainsValue(Focused) == false)
             return;
 
-        var part = Focused.type;
+        //var part = Focused.type;
+        var part = TryGetKey(currentEquipSet, Focused);
         Equipment target = currentEquipSet[part];
         EquipChange(target, false);
         currentEquipSet.Remove(part);
@@ -238,6 +255,16 @@ internal class EquipmentManager
         topView.DrawEquipments(currentEquipSet);
         view.ForceSelect(true, (inventory.Count-1).ToString());
     }
+
+    public static Equipment.Slot TryGetKey(Dictionary<Equipment.Slot, Equipment> dictionary, Equipment Value)
+    {
+        List<Equipment.Slot> KeyList = new List<Equipment.Slot>(dictionary.Keys);
+        foreach (var key in KeyList)
+            if (dictionary[key].Equals(Value))
+                return key;
+        throw new KeyNotFoundException();
+    }
+
 
 
     internal EquipmentState GetPrevMode()
@@ -254,13 +281,13 @@ internal class EquipmentManager
     {
         checkList.Sort((x, y) => y.CompareTo(x));
 
-        int sum = 0;
+        double sum = 0;
         foreach(int i in checkList)
         {
-            sum += inventory[i].MaterialExp;
+            sum += inventory[i].GetMaterialExp(Focused.level);
             if (inventory[i].skillName.Equals(Focused.skillName))
                 if (Focused.skillLevel < 10)
-                    if (UnityEngine.Random.Range(0, 10) >= 8)
+                    //if (UnityEngine.Random.Range(0, 10) >= 8) 
                         Focused.skillLevel++;
             inventory.RemoveAt(i);
         }
@@ -284,9 +311,9 @@ internal class EquipmentManager
             return;
         }
 
-        int expSum = Focused.exp; 
+        double expSum = Focused.exp; 
         foreach( int index in checkList)
-            expSum += inventory[index].MaterialExp;
+            expSum += inventory[index].GetMaterialExp(Focused.level);
 
         if (mode == EquipmentState.EnchantMode)
             view.FillExpectedSelect(Focused, expSum, Focused.evolution);
@@ -302,7 +329,7 @@ internal class EquipmentManager
     {
         if (Focused.Compare(inventory[meterialIndex]) == false)
             return false;
-        if (inventory[meterialIndex].isMaxExp == false)
+        if (inventory[meterialIndex].exp < 100 )
             return false;
 
         return true;

@@ -9,7 +9,7 @@ public class Equipment
     internal string skillID;
     public Type type;
     public int grade; // N, R, SR ;;    // 글자색깔; 저장변수
-    public int exp; // 저장변수
+    public double exp; // 저장변수
     public int evolution; // n, +, ++;  // 저장변수
     public string iconID;
     public bool isLock;   // 저장변수
@@ -25,27 +25,15 @@ public class Equipment
         BaseStat ExpectedStat = (BaseStat)stat.Clone();
         return ExpectedStat.ToString();
     }
-    public bool isMaxExp
+
+    public double GetMaterialExp(int targetlevel)   // 대상이 100
     {
-        get
-        {
-            return exp == MaxExp;
-        }
+        int levelDiff = targetlevel - level;
+        double levelDiffCoef = Math.Pow(EquipmentManager.CoefPerLevelUnit, levelDiff / EquipmentManager.LevelUnit);
+
+        return (50f * levelDiffCoef * (grade + 1) * (evolution + 1));
     }
-    public int MaxExp
-    {
-        get
-        {
-            return EquipmentWiki.CalMaxExp(grade, evolution);
-        }
-    }
-    public int MaterialExp
-    {
-        get
-        {
-            return 20 * (grade + 1) * (evolution + 1);
-        }
-    }
+    //            double 레벨계수 = Math.Pow( powerPerDifficulty, level / 100);
 
     public List<BonusStat> Stat
     {
@@ -55,7 +43,7 @@ public class Equipment
             int PowerCoef = Singleton<TableLoader>.getInstance().powertable[level];
             double gradeCoef = EquipmentWiki.CalgradeCoef(grade);
             double evolCoef = EquipmentWiki.CalEvolCoef(evolution);
-            double expCoef = EquipmentWiki.CalExpCoef(exp, MaxExp);
+            double expCoef = EquipmentWiki.CalExpCoef(exp);
 
             List<BonusStat> result = new List<BonusStat>();
             foreach (BonusStat one in baseStat)
@@ -68,13 +56,13 @@ public class Equipment
         }
     }
 
-    public List<BonusStat> ExpectStat(int ExpectedExp, int ExpectedEvolution)
+    public List<BonusStat> ExpectStat(double ExpectedExp, int ExpectedEvolution)
     {
         int statCount = baseStat.Count;
         int PowerCoef = Singleton<TableLoader>.getInstance().powertable[level];
         double gradeCoef = EquipmentWiki.CalgradeCoef(grade);
         double evolCoef = EquipmentWiki.CalEvolCoef(ExpectedEvolution);
-        double expCoef = EquipmentWiki.CalExpCoef(ExpectedExp, EquipmentWiki.CalMaxExp(grade, ExpectedEvolution));
+        double expCoef = EquipmentWiki.CalExpCoef(ExpectedExp);
 
         List<BonusStat> result = new List<BonusStat>();
         foreach (BonusStat one in baseStat)
@@ -101,14 +89,14 @@ public class Equipment
             foreach (BonusStat b in baseSkillStat)
             {
                 BonusStat temp = (BonusStat)b.Clone();
-                temp.value = (int)(b.value + b.value * ((skillLevel - 1) * 0.3334f));
+                temp.value = (int)(b.value * (skillLevel + 2) / 3); // 1x ~ 4x
                 result.Add(temp);
             }
             return result;
         }
     }
 
-    public Equipment(EquipmentData data, EquipmentSkillData skilldata, int level, int grade)
+    public Equipment(EquipmentData data, EquipmentSkillData skilldata, int level)
     {
         dataID = data.ID;
         skillID = skilldata.ID;
@@ -117,7 +105,7 @@ public class Equipment
 
         exp = 0;
         evolution = 0;
-        this.grade = grade;
+        grade = data.grade;
         this.level = level;
         skillLevel = 1;
         isLock = false;
@@ -135,17 +123,24 @@ public class Equipment
         Staff,
         Ring
     }
+    public enum Slot
+    {
+        Weapon = 0,
+        Staff,
+        Ring,
+        Ring2
+    }
 
     internal bool Compare(Equipment equipment)
     {
         return (this.grade == equipment.grade && this.evolution == equipment.evolution && this.dataID.Equals(equipment.dataID));
     }
 
-    internal void AddExp(int amount)
+    internal void AddExp(double amount)
     {
         exp += amount;
-        if (exp > MaxExp)
-            exp = MaxExp;
+        if (exp > 100f)
+            exp = 100f;
     }
 
 
@@ -159,7 +154,7 @@ public class Equipment
     {
         get
         {
-            return isMaxExp && evolution < 2;
+            return exp == 100 && evolution < 2;
         }
 
     }

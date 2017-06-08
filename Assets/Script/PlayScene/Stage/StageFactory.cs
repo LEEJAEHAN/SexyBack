@@ -17,7 +17,7 @@ namespace SexyBackPlayScene
             {
                 // 상태값.
                 baseStage.rewardComplete = false;
-                baseStage.MakeMonsters(StageManager.MonsterPerStage);
+                baseStage.MakeMonsters();
                 baseStage.ChangeState("Move");
             }
             else if (baseStage.type == StageType.FirstPortal)

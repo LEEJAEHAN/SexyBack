@@ -163,11 +163,11 @@
 	<Consumable id="C32" name="경험치">
 		<NestedIcon icon="Icon_18"/>
 		<Usage type="Exp" value="100" cooltime="1"/>
-		<DropInfo droplevel="0" absrate="49"/>
+		<DropInfo droplevel="1" absrate="49"/>
 	</Consumable>
 	<Consumable id="C33" name="보석">
 		<NestedIcon icon="Icon_34"/>
 		<Usage type="Gem" value="1" cooltime="1"/>
-		<DropInfo droplevel="0" absrate="1"/>
+		<DropInfo droplevel="1" absrate="1"/>
 	</Consumable>
 </Consumables>

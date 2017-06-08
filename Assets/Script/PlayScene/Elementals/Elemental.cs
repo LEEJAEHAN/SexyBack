@@ -81,7 +81,7 @@ namespace SexyBackPlayScene
         void CalDps()
         {
             double growth = InstanceStatus.CalGrowthPower(ElementalData.GrowthRate, baseData.BaseLevel); // 
-            double doubleC = 1 * baseData.BaseDmg * growth * GetLevel * DpsXH * CastSpeedXH * BuffCoef/ 10000;
+            double doubleC = 1 * BaseDmg * growth * GetLevel * DpsXH * CastSpeedXH * BuffCoef/ 10000;
             BigInteger Coefficient = BigInteger.FromDouble(doubleC);
             DPS = DpsX * Coefficient;
             if (GetLevel > 0)

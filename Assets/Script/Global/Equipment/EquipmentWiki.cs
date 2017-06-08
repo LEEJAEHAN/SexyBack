@@ -17,6 +17,7 @@ public static class EquipmentWiki
             return "";
     }
 
+
     internal static string AttributeBox(List<BonusStat> skillStat)
     {
         string temp = "";
@@ -42,31 +43,34 @@ public static class EquipmentWiki
     internal static double CalgradeCoef(int grade)
     {
         if (grade == 2)
-            return 2.25f;
+            return 3f;
         else if (grade == 1)
-            return 1.5f;
+            return 2f;
         else
             return 1f;
+
+        //if (grade == 2)
+        //    return 2.25f;
+        //else if (grade == 1)
+        //    return 1.5f;
+        //else
+        //    return 1f;
     }
-    internal static double CalExpCoef(int exp, int maxExp)
+    internal static double CalExpCoef(double exp)
     {
-        return 1 + (double)exp / (double)maxExp;
+        return 1 + 2*(exp / 100); // x1~x3
+        // 원래는 x2까지였음.
     }
 
-    public static int CalMaxExp(int grade, int evolution)
-    {
-        return 100 * (grade + 1) * (evolution + 1);
-    }
-
-    internal static string CalExpPercent(int nextExp, int maxExp)
-    {
-        if (nextExp == 0)
-            return "0%";
-        if (nextExp == maxExp)
-            return "Max";
-        else
-            return (nextExp * 100 / maxExp).ToString() + "%";
-    }
+    //internal static string CalExpPercent(double nextExp)
+    //{
+    //    if (nextExp == 0)
+    //        return "0%";
+    //    if (nextExp >= 100)
+    //        return "Max";
+    //    else
+    //        return (nextExp * 100 / maxExp).ToString() + "%";
+    //}
 
 
     internal static string LockToString(bool isLock)

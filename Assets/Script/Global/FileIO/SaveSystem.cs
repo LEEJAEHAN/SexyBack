@@ -145,7 +145,7 @@ internal class SaveSystem
         for (int i = 0; i < equipSets.Count; i++)
         {
             writer.WriteStartElement("EquipmentSet");
-            foreach (Equipment.Type type in Enum.GetValues(typeof(Equipment.Type)))
+            foreach (Equipment.Slot type in Enum.GetValues(typeof(Equipment.Slot)))
             {
                 writer.WriteStartElement(type.ToString());
                 if (equipSets[i].ContainsKey(type))
@@ -168,7 +168,7 @@ internal class SaveSystem
         writer.WriteAttributeString("id", e.dataID);
         writer.WriteAttributeString("skillid", e.skillID);
         writer.WriteAttributeString("level", e.level.ToString());
-        writer.WriteAttributeString("grade", e.grade.ToString());
+        //writer.WriteAttributeString("grade", e.grade.ToString());
         writer.WriteAttributeString("evolution", e.evolution.ToString());
         writer.WriteAttributeString("exp", e.exp.ToString());
         writer.WriteAttributeString("skillLevel", e.skillLevel.ToString());
@@ -189,6 +189,7 @@ internal class SaveSystem
             writer.WriteAttributeString("id", id);
             writer.WriteAttributeString("clearcount", record.ClearCount.ToString());
             writer.WriteAttributeString("besttime", record.BestTime.ToString());
+            writer.WriteAttributeString("bestrank", record.BestRank.ToString());
             writer.WriteEndElement();
         }
         writer.WriteEndElement();

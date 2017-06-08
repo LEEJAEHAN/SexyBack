@@ -89,5 +89,6 @@ namespace SexyBackPlayScene
                 Button1.SetState(UIButtonColor.State.Disabled, true);
         }
 
-    }
+
+}
 }

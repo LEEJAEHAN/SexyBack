@@ -31,7 +31,7 @@ public enum Attribute
     BonusEquipment,
     BonusConsumable,
     ReputationXH,
-    BaseDmgXH,
+    BaseDmgAdd,
 
     // only in instancegame "ingame"
     Active,

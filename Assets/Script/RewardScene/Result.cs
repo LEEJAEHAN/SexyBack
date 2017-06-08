@@ -67,9 +67,10 @@ namespace SexyBackRewardScene
                 MapInfo.ClearCount++;
                 if (MapInfo.ClearCount == 1)
                     wasFirstClear = true;
-                if (MapInfo.BestTime > ClearTime || MapInfo.BestTime == 0)
+                if (MapInfo.BestTime > ClearTime || MapInfo.BestTime <= 0)
                 {
                     MapInfo.BestTime = ClearTime;
+                    MapInfo.BestRank = Rank;
                     wasNewRecord = true;
                 }
             }
@@ -77,18 +78,16 @@ namespace SexyBackRewardScene
 
         internal void MakeReward()
         {
-            MakeAndGiveReputation(MapInfo.baseData.RewardData);
-            MakeAndGiveEquipments(MapInfo.ID, MapInfo.baseData.RewardData);
+            MakeAndGiveReputation(MapInfo.baseData.Difficulty);
+            MakeAndGiveEquipments(MapInfo.ID, MapInfo.baseData.MapReward);
             // TODO: record clear data;
         }
 
-        private void MakeAndGiveReputation(MapRewardData rewardInfo)
+        private void MakeAndGiveReputation(int difficulty)
         {
             // make
-            int difficulty = rewardInfo.ReputationLevel;       // 스텐다드 difficult 계수
-            double coef = Mathf.Pow(1.2f, difficulty); // 추가계수 ( 3노멀보다 1하드가 1.2배 효율적)
             double bonus = (100 + Singleton<PlayerStatus>.getInstance().GetGlobalStat.ReputationXH) / 100;
-            Reputation = (int)((double)TotalScore * (double)difficulty * coef * bonus);
+            Reputation = (int)((double)TotalScore * (double)difficulty * bonus);
             // give
             Singleton<TalentManager>.getInstance().Reputation += Reputation;
         }
@@ -166,7 +165,7 @@ namespace SexyBackRewardScene
 
         public void CalLRScore(int clearFloor, out int l, out int r, int totalLevelCount, int totalResearchCount)
         {
-            int MapLevel = clearFloor * MapInfo.baseData.LevelPerFloor;
+            int MapLevel = clearFloor * MapInfo.baseData.MapMonster.LevelPerFloor;
             int RecommendLevel = MapLevel;  // 초기값은 hero의 검술레벨. ( 뒤에 계산으로 element level합을 계속더한다)
             int RecommendResearch = 0;
 
@@ -192,24 +191,24 @@ namespace SexyBackRewardScene
         }
         private RewardRank CalRank(int score)
         {
-            if (score >= 190)
+            if (score >= 160)
                 return RewardRank.SSS;
-            if (score >= 175)
-                return RewardRank.SS;
             if (score >= 150)
-                return RewardRank.S;
+                return RewardRank.SS;
             if (score >= 140)
-                return RewardRank.A;
+                return RewardRank.S;
             if (score >= 130)
-                return RewardRank.B;
+                return RewardRank.A;
             if (score >= 120)
-                return RewardRank.C;
+                return RewardRank.B;
             if (score >= 110)
+                return RewardRank.C;
+            if (score > 100)        // 시간 안으로깸
                 return RewardRank.D;
-            if (score >= 100)
+            if (score == 100)       // 시간밖으로깸
                 return RewardRank.E;
             else
-                return RewardRank.F;
+                return RewardRank.F;// 못깸
         }
 
         public int TotalScore

@@ -19,7 +19,7 @@ namespace SexyBackPlayScene
                     }
                 case "rock":
                     {
-                        return new DropSkill(owner, prefabname, DamageType.Hit, Debuff.Type.None, 31, 0.1f);
+                        return new DropSkill(owner, prefabname, DamageType.Hit, Debuff.Type.None, 25, 0.1f);
                     }
                 case "electricball":
                     {
@@ -39,7 +39,7 @@ namespace SexyBackPlayScene
                     }
                 case "snowball":
                     {
-                        return new DropSkill(owner, prefabname, DamageType.Hit, Debuff.Type.None, 26, 0.1f);
+                        return new DropSkill(owner, prefabname, DamageType.Hit, Debuff.Type.None, 28, 0.1f);
                     }
                 case "magmaball":
                     {

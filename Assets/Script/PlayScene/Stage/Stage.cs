@@ -44,19 +44,10 @@ namespace SexyBackPlayScene
             StateMachine.ChangeState(stateid);
         }
 
-        public void MakeMonsters(int count)
+        public void MakeMonsters()
         {
-            MonsterManager mManager = Singleton<MonsterManager>.getInstance();
-            monsterCount = count;
-            for (int i = 0; i < count; i++)
-            {
-                if (i == count - 1)// case boss
-                    mManager.CreateRandomMonster("F" + floor + "M" + i, floor, true);
-                else
-                    mManager.CreateRandomMonster("F" + floor + "M" + i, floor, false);
-            }
+            monsterCount = Singleton<MonsterManager>.getInstance().CreateStageMonster(floor);
         }
-
 
         ~Stage() { sexybacklog.Console("스테이지소멸!"); }
     }

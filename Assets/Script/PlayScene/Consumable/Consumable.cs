@@ -102,7 +102,10 @@ namespace SexyBackPlayScene
                 ViewRefresh();
             }
             else
-                Panel.PrintConstraint(ConsumableManager.MakeConstrantText(baseData.strValue));
+            {
+                if(baseData.strValue != null)
+                    Panel.PrintConstraint(ConsumableManager.MakeConstrantText(baseData.strValue));
+            }
         }
         public bool Use()
         {

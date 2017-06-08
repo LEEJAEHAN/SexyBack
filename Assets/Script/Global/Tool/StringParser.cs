@@ -102,7 +102,7 @@ public static class StringParser
             case Attribute.SkillRateIncreaseXH:
                 return string.Format("{0} 발동확률 +{1:N1}%", SkillName, (double)(SkillRateXK * bonus.value / 1000f)); // 버림
             case Attribute.SkillDmgIncreaseXH:
-                return string.Format("{0} 피해량 +{0}%", SkillName, bonus.value);
+                return string.Format("{0} 피해량 +{1}%", SkillName, bonus.value);
             case Attribute.ExpIncreaseXH:
                 return string.Format("경험치 획득량 +{0}%", bonus.value);
             case Attribute.ResearchTime:
@@ -127,7 +127,7 @@ public static class StringParser
                 return string.Format("{0} 초기레벨 +{1}", AttackName, bonus.value);
             case Attribute.ReputationXH:
                 return string.Format("명성획득 +{0}%", bonus.value);
-            case Attribute.BaseDmgXH:
+            case Attribute.BaseDmgAdd:
                 return string.Format("{0} 공격력 +{1:N2}", AttackName, (double)(BaseDmg * bonus.value / 100));
         }
         return "Can't Parse Attribute";

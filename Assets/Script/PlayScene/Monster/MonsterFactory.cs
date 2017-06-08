@@ -8,15 +8,20 @@ namespace SexyBackPlayScene
     internal class MonsterFactory
     {
         //double GrowthRatePerFloor;
-        public int BaseMonsterHP;
-        public int LevelPerFloor;
+        readonly int MonsterHP;
+        readonly int BossMonsterHP;
+        readonly int LevelPerFloor;
+        public readonly int MonsterPerStage;
+        public readonly int BossTerm;
 
         public MonsterFactory()
         {
-            Map mapinfo = Singleton<InstanceStatus>.getInstance().InstanceMap;
-
-            LevelPerFloor = mapinfo.baseData.LevelPerFloor;
-            BaseMonsterHP = mapinfo.baseData.BaseMonsterHP;
+            var mapmonsterinfo = Singleton<InstanceStatus>.getInstance().InstanceMap.baseData.MapMonster;
+            LevelPerFloor = mapmonsterinfo.LevelPerFloor;
+            MonsterHP = mapmonsterinfo.MonsterHP;
+            BossMonsterHP = mapmonsterinfo.BossHp;
+            MonsterPerStage = mapmonsterinfo.MonsterPerStage;
+            BossTerm = mapmonsterinfo.BossTerm;
         }
         public Monster CreateRandomMonster(string ID, int floor, bool boss)
         {
@@ -54,20 +59,13 @@ namespace SexyBackPlayScene
             
             double growth = InstanceStatus.CalGrowthPower(MonsterData.GrowthRate, monster.level); // 2, level
             monster.MAXHP = BigInteger.FromDouble(growth);
-            monster.MAXHP *= BaseMonsterHP;
             monster.HP = BigInteger.FromDouble(growth);
-            monster.HP *= BaseMonsterHP;
-            
+            monster.MAXHP *= boss? BossMonsterHP : MonsterHP;
+            monster.HP *= boss ? BossMonsterHP : MonsterHP;
 
             monster.avatar = InitAvatar(monster.GetID, ViewLoader.monsterbucket.transform, data.LocalPosition, out monster.CenterPosition); //data.PivotPosition
             monster.sprite = InitSprite(monster.avatar, data.SpritePath, out monster.Size);
-
-            if (boss)
-            {
-                monster.MAXHP *= 10;
-                monster.HP *= 10;
-            }
-
+            
             SetCollider(monster.avatar, monster.Size, Vector3.zero);
             monster.StateMachine = new MonsterStateMachine(monster);
 
@@ -98,7 +96,7 @@ namespace SexyBackPlayScene
             monster.Name = data.Name;
             double growth = InstanceStatus.CalGrowthPower(MonsterData.GrowthRate, monster.level);
             monster.MAXHP = BigInteger.FromDouble(growth);
-            monster.MAXHP *= BaseMonsterHP;
+            monster.MAXHP *= MonsterHP;
             monster.HP = hp;
             monster.isBoss = boss;
 

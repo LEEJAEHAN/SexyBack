@@ -45,13 +45,13 @@ public class TopWindow : MonoBehaviour {
         DrawEquipments(Singleton<EquipmentManager>.getInstance().currentEquipSet);
     }
 
-    public void DrawEquipments(Dictionary<Equipment.Type, Equipment> equipments)
+    public void DrawEquipments(Dictionary<Equipment.Slot, Equipment> equipments)
     {
         Transform equipIcons = transform.FindChild("Slot2/Table");       
         for (int i = 0; i < equipIcons.childCount; i++)
         {
             Transform part = equipIcons.GetChild(i);
-            Equipment.Type t = (Equipment.Type)Enum.Parse(typeof(Equipment.Type), part.name);
+            Equipment.Slot t = (Equipment.Slot)Enum.Parse(typeof(Equipment.Slot), part.name);
             if (equipments.ContainsKey(t))
             {
                 part.gameObject.SetActive(true);

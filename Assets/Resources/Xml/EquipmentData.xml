@@ -3,31 +3,43 @@
 	<Equipment id="E00" icon="IconSmall_04" name="더미" belong="false" dropstart="0" dropend="0" grade="0" type="Weapon">
 		<Stats/>
 	</Equipment>
-	<Equipment id="E01" icon="Icon_11" name="소드" belong="false" dropstart="0" dropend="500" grade="1" type="Weapon">
+	<Equipment id="E01" icon="Icon_11" name="견습검" belong="false" dropstart="10" dropend="10" grade="0" type="Weapon">
 		<Stats target1="hero"/>
 	</Equipment>
-	<Equipment id="E02" icon="Icon_11" name="파이어스탭" belong="false" dropstart="10" dropend="500" grade="1" type="Staff">
-		<Stats target1="fireball"/>
+	<Equipment id="E02" icon="Icon_11" name="견습지팡이" belong="false" dropstart="20" dropend="20" grade="0" type="Staff">
+		<Stats target1="elements"/>
 	</Equipment>
-	<Equipment id="E03" icon="Icon_11" name="프리즈링" belong="false" dropstart="20" dropend="500" grade="1" type="Ring">
+	<Equipment id="E03" icon="Icon_11" name="견습링" belong="false" dropstart="30" dropend="30" grade="0" type="Ring">
 		<Stats target1="iceblock"/>
 	</Equipment>
-	<Equipment id="E04" icon="Icon_11" name="파이어링" belong="false" dropstart="30" dropend="500" grade="1" type="Ring">
+	<Equipment id="E04" icon="Icon_11" name="견습링2" belong="false" dropstart="40" dropend="40" grade="0" type="Ring">
 		<Stats target1="fireball"/>
 	</Equipment>
-	<Equipment id="E05" icon="Icon_11" name="파이어소드" belong="false" dropstart="40" dropend="500" grade="1" type="Weapon">
-		<Stats target1="hero" target2="fireball"/>
-	</Equipment>
-	<Equipment id="E06" icon="Icon_11" name="우박완드" belong="false" dropstart="50" dropend="500" grade="1" type="Staff">
-		<Stats target1="iceblock" target2="rock"/>
-	</Equipment>
-	<Equipment id="E07" icon="Icon_11" name="어태커링" belong="false" dropstart="50" dropend="500" grade="1" type="Ring">
+	<Equipment id="E05" icon="Icon_11" name="소드" belong="false" dropstart="100" dropend="199" grade="0" type="Weapon">
 		<Stats target1="hero"/>
 	</Equipment>
-	<Equipment id="E08" icon="Icon_11" name="스톤링" belong="false" dropstart="50" dropend="500" grade="1" type="Ring">
+	<Equipment id="E06" icon="Icon_11" name="로드" belong="false" dropstart="100" dropend="199" grade="0" type="Staff">
+		<Stats target1="elements"/>
+	</Equipment>
+	<Equipment id="E07" icon="Icon_11" name="파이어링" belong="false" dropstart="100" dropend="199" grade="0" type="Ring">
+		<Stats target1="fireball"/>
+	</Equipment>
+	<Equipment id="E08" icon="Icon_11" name="프리즈링" belong="false" dropstart="100" dropend="199" grade="0" type="Ring">
+		<Stats target1="iceblock"/>
+	</Equipment>
+	<Equipment id="E09" icon="Icon_11" name="더블소드" belong="false" dropstart="100" dropend="199" grade="1" type="Weapon">
+		<Stats target1="hero"/>
+	</Equipment>
+	<Equipment id="E10" icon="Icon_11" name="우박완드" belong="false" dropstart="100" dropend="199" grade="1" type="Staff">
+		<Stats target1="elements"/>
+	</Equipment>
+	<Equipment id="E11" icon="Icon_11" name="어태커링" belong="false" dropstart="100" dropend="199" grade="1" type="Ring">
+		<Stats target1="hero"/>
+	</Equipment>
+	<Equipment id="E12" icon="Icon_11" name="스톤링" belong="false" dropstart="100" dropend="199" grade="1" type="Ring">
 		<Stats target1="rock"/>
 	</Equipment>
-	<Equipment id="E09" icon="Icon_12" name="엘레멘탈링" belong="false" dropstart="50" dropend="70" grade="3" type="Ring" skill="ES01">
+	<Equipment id="E13" icon="Icon_12" name="엘레멘탈링" belong="false" dropstart="100" dropend="199" grade="2" type="Ring" skill="ES01">
 		<Stats target1="fireball" target2="iceblock" target3="rock"/>
 	</Equipment>
 </Equipments>

@@ -25,6 +25,7 @@ namespace SexyBackPlayScene
         [NonSerialized]
         MonsterFactory monsterFactory;
 
+
         internal void Init()
         {
             HpBar = new MonsterHpBar();
@@ -38,9 +39,23 @@ namespace SexyBackPlayScene
             foreach (XmlNode node in rootNode.ChildNodes)
             {
                 Monster monster = monsterFactory.LoadMonster(node);
-                if(monster != null)
+                if (monster != null)
                     monsters.Enqueue(monster);
             }
+        }
+
+        internal int CreateStageMonster(int floor)
+        {
+            int count = 0;
+            for (int i = 0; i < monsterFactory.MonsterPerStage; i++)
+            {
+                string id = string.Format("F{0}M{1}", floor, i);
+                bool isBoss = (floor % monsterFactory.BossTerm  == 0);
+                Monster newmonster = monsterFactory.CreateRandomMonster(id, floor, isBoss);
+                monsters.Enqueue(newmonster);
+                count++;
+            }
+            return count;
         }
         public void Dispose()
         {
@@ -55,29 +70,27 @@ namespace SexyBackPlayScene
             if (BattleMonster.GetID == sender.GetID)
                 HpBar.UpdateBar(sender);
         }
-        
+
         //internal string CreateRandomMonster(int floor)
         //{
         //    Monster newmonster = monsterFactory.CreateRandomMonster(floor);
         //    monsters.Add(newmonster.GetID, newmonster);
         //    return newmonster.GetID;
         //}
-        internal string CreateRandomMonster(string monsterID, int floor, bool isBoss)
-        {
-            Monster newmonster = monsterFactory.CreateRandomMonster(monsterID, floor, isBoss);
-            monsters.Enqueue(newmonster);
-            return newmonster.GetID;
-        }
 
-        public void JoinBattle(int floor, int sequence, bool isboss, Transform genTransform) // 사거리내에 들어옴. battle 시작. 
-        {   // TODO : 몬스터매니져가 왜 배틀을 주관하는지? 다른곳으로빠져야할듯. 마찬가지로 몬스터 죽음을 이용하여 너무 많은 컨트롤을 함.
+
+        public void JoinBattle(int floor, int remainMonsterCount, Transform genTransform) // 사거리내에 들어옴. battle 시작. 
+        {
             BattleMonster = monsters.Peek();
             BattleMonster.Spawn(genTransform);            // 여기가 실제 monstermanager의 기능.
             string HpBarName;
-            if (isboss)
-                HpBarName = "[" + floor.ToString() + "층 보스]" + BattleMonster.Name;
+
+            int sequence = monsterFactory.MonsterPerStage - remainMonsterCount + 1;
+            
+            if (BattleMonster.isBoss)
+                HpBarName = string.Format("[{0}층 보스] {1}", floor, BattleMonster.Name);
             else
-                HpBarName = "[" + floor.ToString() + "층 " + sequence.ToString() + "단계] " + BattleMonster.Name;
+                HpBarName = string.Format("[{0}층 {1}단계] {2}", floor, sequence, BattleMonster.Name);
             HpBar.FillNewBar(HpBarName, BattleMonster);
         }
         internal void EndBattle()
@@ -92,7 +105,7 @@ namespace SexyBackPlayScene
 
         internal void Update()
         {
-            foreach( Monster m in monsters)
+            foreach (Monster m in monsters)
                 m.Update();
 
             while (DeadCount > 0)

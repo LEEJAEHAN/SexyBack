@@ -127,14 +127,15 @@ namespace SexyBackMenuScene
         /// <summary>
         /// 드로잉 메서드
         /// </summary>
-        internal void FillEquipments(Dictionary<Equipment.Type, Equipment> equipments, int setIndex)
+        internal void FillEquipments(Dictionary<Equipment.Slot, Equipment> equipments, int setIndex)
         {
             transform.FindChild("장비슬롯/Slot_Name").GetComponent<UILabel>().text = "장비편성 " + (setIndex + 1).ToString();
-            FillEquipment(transform.FindChild("장비슬롯/Slot_Weapon").gameObject, Equipment.Type.Weapon, equipments);
-            FillEquipment(transform.FindChild("장비슬롯/Slot_Staff").gameObject, Equipment.Type.Staff, equipments);
-            FillEquipment(transform.FindChild("장비슬롯/Slot_Ring").gameObject, Equipment.Type.Ring, equipments);
+            FillEquipment(transform.FindChild("장비슬롯/Slot_Weapon").gameObject, Equipment.Slot.Weapon, equipments);
+            FillEquipment(transform.FindChild("장비슬롯/Slot_Staff").gameObject, Equipment.Slot.Staff, equipments);
+            FillEquipment(transform.FindChild("장비슬롯/Slot_Ring").gameObject, Equipment.Slot.Ring, equipments);
+            FillEquipment(transform.FindChild("장비슬롯/Slot_Ring2").gameObject, Equipment.Slot.Ring2, equipments);
         }
-        private void FillEquipment(GameObject Slot, Equipment.Type part, Dictionary<Equipment.Type, Equipment> equipments)
+        private void FillEquipment(GameObject Slot, Equipment.Slot part, Dictionary<Equipment.Slot, Equipment> equipments)
         {
             Slot.transform.DestroyChildren();
             if (equipments.ContainsKey(part))
@@ -166,11 +167,10 @@ namespace SexyBackMenuScene
 
             transform.FindChild("인벤토리/ScrollView").GetComponent<UIScrollView>().ResetPosition();
         }
-        public void FillExpectedSelect(Equipment e, int NextExp, int NextEvolution) // 강화나 각성시 사전정보 들어오기.
+        public void FillExpectedSelect(Equipment e, double NextExp, int NextEvolution) // 강화나 각성시 사전정보 들어오기.
         {
-            if (NextExp > e.MaxExp)
-                NextExp = e.MaxExp;
-            int MaxExp = EquipmentWiki.CalMaxExp(e.grade, NextEvolution);
+            if (NextExp > 100)
+                NextExp = 100;
 
             Transform info = transform.FindChild("아이템정보");
             info.gameObject.SetActive(true);
@@ -189,11 +189,12 @@ namespace SexyBackMenuScene
             else // 강화 예
             {
                 //info.FindChild("Name").GetComponent<UILabel>().color = Color.black;
-                info.FindChild("EnchantBar").GetComponent<UIProgressBar>().value = (float)e.exp / (float)MaxExp;
+                info.FindChild("EnchantBar").GetComponent<UIProgressBar>().value = (float)e.exp / 100f;
             }
             info.FindChild("Stat").GetComponent<UILabel>().text = EquipmentWiki.AttributeBox(e.ExpectStat(NextExp, NextEvolution));
-            info.FindChild("EnchantBar/RBar_Fill2").GetComponent<UISprite>().fillAmount = (float)NextExp / (float)EquipmentWiki.CalMaxExp(e.grade, NextEvolution);
-            info.FindChild("EnchantBar/RBar_Text").GetComponent<UILabel>().text = EquipmentWiki.CalExpPercent(NextExp, MaxExp) + " 강화";
+            info.FindChild("EnchantBar/RBar_Fill2").GetComponent<UISprite>().fillAmount = (float)NextExp / 100f;
+            info.FindChild("EnchantBar/RBar_Text").GetComponent<UILabel>().text = string.Format("{0}% 강화", NextExp);
+
 
             info.FindChild("SkillName").GetComponent<UILabel>().text = e.skillName + " Lv." + e.skillLevel.ToString();
             info.FindChild("SkillStat").GetComponent<UILabel>().text = EquipmentWiki.AttributeBox(e.SkillStat);

@@ -18,8 +18,6 @@ namespace SexyBackPlayScene
         public int CurrentFloor;
         [NonSerialized]
         public static int MaxFloor;
-        [NonSerialized]
-        public static int MonsterPerStage;
 
         public List<Stage> Stages; // 보이는 Stage, 몬스터와 배경만 바꿔가며 polling을 한다.        
 
@@ -40,7 +38,7 @@ namespace SexyBackPlayScene
         {
             // playscene 에서 시작할때를 위한 Test
             MaxFloor = map.baseData.MaxFloor;
-            MonsterPerStage = map.baseData.MonsterPerStage;
+
             CurrentFloor = 1;       // 1층부터 세기시작.
 
             Stages = new List<Stage>();
@@ -59,7 +57,6 @@ namespace SexyBackPlayScene
             XmlNode stagesNode = doc.SelectSingleNode("InstanceStatus/Stages");
 
             MaxFloor = map.baseData.MaxFloor;
-            MonsterPerStage = map.baseData.MonsterPerStage;
             CurrentFloor = int.Parse(stagesNode.Attributes["currentfloor"].Value);
 
             Stages = new List<Stage>();

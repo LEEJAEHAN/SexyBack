@@ -85,7 +85,7 @@ namespace SexyBackPlayScene
             if (Singleton<TableLoader>.getInstance().elementaltable.ContainsKey(target))
                 return Singleton<TableLoader>.getInstance().elementaltable[target].Name + " 소환 후에 사용할 수 있습니다.";
             else
-                return "";
+                return "아직 사용할 수 없습니다.";
         }
 
         public void MakeChest(int ChestCount, int level, Vector3 monsterPosition)

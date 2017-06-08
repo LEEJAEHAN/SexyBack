@@ -41,7 +41,7 @@ internal class ElementalStat// 누적배수
     {
         switch (bonus.attribute)
         {
-            case Attribute.BaseDmgXH:
+            case Attribute.BaseDmgAdd:
                 BaseDmgXH += bonus.value;
                 break;
             case Attribute.BonusLevel:
@@ -74,7 +74,7 @@ internal class ElementalStat// 누적배수
     {
         switch (bonus.attribute)
         {
-            case Attribute.BaseDmgXH:
+            case Attribute.BaseDmgAdd:
                 BaseDmgXH -= bonus.value;
                 break;
             case Attribute.BonusLevel:

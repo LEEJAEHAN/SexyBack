@@ -42,7 +42,7 @@ public class HeroStat
     {
         switch (bonus.attribute)
         {
-            case Attribute.BaseDmgXH:
+            case Attribute.BaseDmgAdd:
                 BaseDmgXH += bonus.value;
                 break;
             case Attribute.BonusLevel:
@@ -80,7 +80,7 @@ public class HeroStat
     {
         switch (bonus.attribute)
         {
-            case Attribute.BaseDmgXH:
+            case Attribute.BaseDmgAdd:
                 BaseDmgXH -= bonus.value;
                 break;
             case Attribute.BonusLevel:
