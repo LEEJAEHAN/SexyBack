@@ -18,7 +18,7 @@ internal class TableLoader
     public Dictionary<string, TalentData> talenttable;
 
     public List<PriceData> pricetable;
-    public Dictionary<int, int> powertable;
+    public Dictionary<int, double> powertable;
     //public List<ConsumableData> talenttable;
 
     public Dictionary<string, EquipmentData> equipmenttable;
@@ -245,7 +245,8 @@ internal class TableLoader
             elemental.Name = node.Attributes["name"].Value;
             elemental.SkillName = node.Attributes["skillname"].Value;
             elemental.BaseCastIntervalXK = int.Parse(node.Attributes["basecastintervalxk"].Value);
-            elemental.BaseDmg = double.Parse(node.Attributes["basedensity"].Value);
+            elemental.BaseDmgDensity = double.Parse(node.Attributes["basedmgdensity"].Value);
+            elemental.BaseDamage= int.Parse(node.Attributes["basedamage"].Value);
             elemental.BasePrice = int.Parse(node.Attributes["baseprice"].Value);
             elemental.BaseLevel = int.Parse(node.Attributes["baselevel"].Value);
             elemental.PrefabName = node.Attributes["prefab"].Value;
@@ -265,6 +266,9 @@ internal class TableLoader
 
         foreach (XmlNode node in nodes)
         {
+            if (node.Attributes["id"] == null)
+                continue;
+
             string id = node.Attributes["id"].Value;
             string requireid = node.Attributes["requireid"].Value;
             int showlevel = int.Parse(node.Attributes["showlevel"].Value);
@@ -327,7 +331,13 @@ internal class TableLoader
             XmlNode statnodes = node.SelectSingleNode("Stats");
             int count = statnodes.Attributes.Count;
             for(int i = 0; i < count; i++)
-                newOne.stats.Add(new BonusStat(statnodes.Attributes[i].Value, Attribute.BaseDmgAdd, 1));
+            {
+                if (newOne.ID == "E10")
+                {
+                    sexybacklog.Console("지금!");
+                }
+                newOne.stats.Add(new BonusStat(statnodes.Attributes[i].Value, Attribute.BaseDensityAdd, 1f / count));
+            }
 
             equipmenttable.Add(newOne.ID, newOne);
         }
@@ -335,14 +345,14 @@ internal class TableLoader
 
     private void LoadPowerData()
     {
-        powertable = new Dictionary<int, int>();
+        powertable = new Dictionary<int, double>();
 
         XmlDocument xmldoc = OpenXml("Xml/PowerData");
         XmlNode rootNode = xmldoc.SelectSingleNode("Powers");
         XmlNodeList nodes = rootNode.SelectNodes("Power");
 
         foreach (XmlNode node in nodes)
-            powertable.Add(int.Parse(node.Attributes["level"].Value), int.Parse(node.Attributes["dmgX"].Value));
+            powertable.Add(int.Parse(node.Attributes["level"].Value), double.Parse(node.Attributes["basedmg"].Value));
     }
 
     private void LoadEquipmentSkillData()
@@ -398,6 +408,7 @@ internal class TableLoader
             data.id = node.Attributes["id"].Value;
             data.name = node.Attributes["name"] != null ? node.Attributes["name"].Value : null;
             data.description = node.Attributes["description"] != null ? node.Attributes["description"].Value : null;
+            data.order = node.Attributes["order"] != null ? int.Parse(node.Attributes["order"].Value) : 0;
             {
                 XmlNode iconNode = node.SelectSingleNode("NestedIcon");
                 data.icon = new NestedIcon();

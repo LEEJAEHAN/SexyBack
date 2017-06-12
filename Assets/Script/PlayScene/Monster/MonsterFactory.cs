@@ -57,7 +57,7 @@ namespace SexyBackPlayScene
             monster.Name = data.Name;
             monster.isBoss = boss;
             
-            double growth = InstanceStatus.CalGrowthPower(MonsterData.GrowthRate, monster.level); // 2, level
+            double growth = InstanceStatus.CalInstanceGrowth(monster.level); // 2, level
             monster.MAXHP = BigInteger.FromDouble(growth);
             monster.HP = BigInteger.FromDouble(growth);
             monster.MAXHP *= boss? BossMonsterHP : MonsterHP;
@@ -94,7 +94,7 @@ namespace SexyBackPlayScene
             Monster monster = new Monster(instanceID, dataID);
             monster.level = level;
             monster.Name = data.Name;
-            double growth = InstanceStatus.CalGrowthPower(MonsterData.GrowthRate, monster.level);
+            double growth = InstanceStatus.CalInstanceGrowth(monster.level);
             monster.MAXHP = BigInteger.FromDouble(growth);
             monster.MAXHP *= MonsterHP;
             monster.HP = hp;

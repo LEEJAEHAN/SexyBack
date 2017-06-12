@@ -13,7 +13,7 @@ namespace SexyBackPlayScene
         public string targetID { get { return shooter.targetID; } set { skill.targetID = value; shooter.targetID = value; } }
         // 변수
         BigInteger DpsX = new BigInteger();
-        public double BaseDmg;
+        public double DamageDensity;
         public int DpsXH;
         public int CastSpeedXH;
         public int SkillRatioXH { get { return skill.DAMAGERATIO; } set { skill.SetRatio(value); } }
@@ -68,7 +68,7 @@ namespace SexyBackPlayScene
 
             DpsX = elementalstat.DpsX;
             // 다음항목들은 levelup 패널에 표시된다.
-            BaseDmg = baseData.BaseDmg * (100 + elementalstat.BaseDmgXH) / 100;
+            DamageDensity = baseData.BaseDmgDensity + elementalstat.BaseDensityAdd;
             DpsXH = (100 + elementalstat.DpsIncreaseXH) * (100 + basestat.Int) / 100;
             CastSpeedXH = (100 + elementalstat.CastSpeedXH) * (200 + basestat.Spd) / 200;
             SkillRateXH = baseData.BaseSkillRateXK * (100 + elementalstat.SkillRateIncreaseXH) / 100;
@@ -80,10 +80,15 @@ namespace SexyBackPlayScene
 
         void CalDps()
         {
-            double growth = InstanceStatus.CalGrowthPower(ElementalData.GrowthRate, baseData.BaseLevel); // 
-            double doubleC = 1 * BaseDmg * growth * GetLevel * DpsXH * CastSpeedXH * BuffCoef/ 10000;
-            BigInteger Coefficient = BigInteger.FromDouble(doubleC);
-            DPS = DpsX * Coefficient;
+            //double lv1dmg = BaseDmg * growth / globalGrowth;
+
+            double growth = InstanceStatus.CalInstanceGrowth(baseData.BaseLevel); //  엄청 큰수일것.
+            double globalGrowth = PlayerStatus.CalGlobalGrowth(baseData.BaseLevel); // double선에서해결.
+            double EtcCoef = DpsXH * CastSpeedXH * BuffCoef/ 10000;     // 매우작은수.
+            double DmgWithoutResearch = baseData.BaseDamage * DamageDensity * GetLevel * EtcCoef * growth / globalGrowth;
+
+            BigInteger IntDmg = BigInteger.FromDouble(DmgWithoutResearch);
+            DPS = DpsX * IntDmg;
             if (GetLevel > 0)
                 DPSTICK = DPS / GetLevel;
             DAMAGE = DPS * baseData.BaseCastIntervalXK / (CastSpeedXH * 10); //  dps * CASTINTERVAL]
@@ -91,9 +96,9 @@ namespace SexyBackPlayScene
         }
         private void CalPrice()
         {
-            double BasePriceDensity = InstanceStatus.GetTotalDensityPerLevel(baseData.BaseLevel + OriginalLevel);
+            double BasePriceDensity = InstanceStatus.GetTotalDensityPerLevel(baseData.BaseLevel + OriginalLevel); //baseData.BaseDmgDensity;
             // cal price
-            double growth = InstanceStatus.CalGrowthPower(ElementalData.GrowthRate, baseData.BaseLevel + OriginalLevel);
+            double growth = InstanceStatus.CalInstanceGrowth(baseData.BaseLevel + OriginalLevel);
             double doubleC = baseData.BasePrice * BasePriceDensity * growth;
             PRICE = BigInteger.FromDouble(doubleC); // 60(랩업비기본) * 2.08(비중) * power수
         }

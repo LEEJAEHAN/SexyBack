@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
 <Powers>
-  <Power level="50" dmgX="2"/>
-  <Power level="100" dmgX="9"/>
+  <Power level="50" basedmg="2"/>
+  <Power level="100" basedmg="9"/>
 </Powers>

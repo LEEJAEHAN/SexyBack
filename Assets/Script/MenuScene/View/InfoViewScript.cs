@@ -9,7 +9,7 @@ namespace SexyBackMenuScene
         {
             Singleton<TalentManager>.getInstance().BindInfoView(this);
         }
-        private void Start()
+        private void OnEnable()
         {
             transform.FindChild("Name").GetComponent<UILabel>().text = "내닉네임";
             transform.FindChild("Name/BaseStat").GetComponent<UILabel>().text =

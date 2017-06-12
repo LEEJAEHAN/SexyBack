@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Maps>
-	<Map id="Test" name="테스트맵" difficulty="1" limittime="60" maxfloor="50">
+	<Map id="Test" name="50층 테스트맵" difficulty="1" limittime="28800" maxfloor="50">
 		<MapReward rewardlevel="50" prevrewardlevel="0" itemcount="1"/>
-		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="10" bosshp="100" chestpermonster="1" chestperboss="1" bossterm="1"/>
+		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="10" bosshp="100" chestpermonster="1" chestperboss="3" bossterm="1"/>
 	</Map>
-	<Map id="Tutorial01" name="10층돌파" difficulty="1" limittime="324" maxfloor="10">
+	<Map id="Tutorial01" name="10층돌파" difficulty="1" limittime="28800" maxfloor="10">
 		<MapReward rewardlevel="10" prevrewardlevel="50" itemcount="1"/>
-		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="1" bossterm="10"/>
+		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="3" bossterm="10"/>
 	</Map>
-	<Map id="Tutorial02" requireclearmap="Tutorial01" name="20층돌파" difficulty="1" limittime="696" maxfloor="20">
+	<Map id="Tutorial02" requireclearmap="Tutorial01" name="20층돌파" difficulty="1" limittime="28800" maxfloor="20">
 		<MapReward rewardlevel="20" prevrewardlevel="50" itemcount="1"/>
-		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="1" bossterm="10"/>
+		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="3" bossterm="10"/>
 	</Map>
-	<Map id="Tutorial03" requireclearmap="Tutorial02" name="30층돌파" difficulty="1" limittime="1124" maxfloor="30">
+	<Map id="Tutorial03" requireclearmap="Tutorial02" name="30층돌파" difficulty="1" limittime="28800" maxfloor="30">
 		<MapReward rewardlevel="30" prevrewardlevel="50" itemcount="1"/>
-		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="1" bossterm="10"/>
+		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="3" bossterm="10"/>
 	</Map>
-	<Map id="Tutorial04" requireclearmap="Tutorial03" name="40층돌파" difficulty="1" limittime="1615" maxfloor="40">
+	<Map id="Tutorial04" requireclearmap="Tutorial03" name="40층돌파" difficulty="1" limittime="28800" maxfloor="40">
 		<MapReward rewardlevel="40" prevrewardlevel="50" itemcount="1"/>
-		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="1" bossterm="10"/>
+		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="3" bossterm="10"/>
 	</Map>
-	<Map id="Map01" name="50층돌파" difficulty="8" limittime="2179" maxfloor="100">
+	<Map id="Map01" name="100층돌파" difficulty="8" limittime="28800" maxfloor="100">
 		<MapReward rewardlevel="100" prevrewardlevel="50" itemcount="1"/>
-		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="1" bossterm="10"/>
+		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="3" bossterm="10"/>
 	</Map>
-	<Map id="Map02" requireclearmap="Map01" name="100층돌파" difficulty="64" limittime="3269" maxfloor="200">
+	<Map id="Map02" requireclearmap="Map01" name="200층돌파" difficulty="64" limittime="28800" maxfloor="200">
 		<MapReward rewardlevel="200" prevrewardlevel="100" itemcount="1"/>
-		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="1" bossterm="10"/>
+		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="3" bossterm="10"/>
 	</Map>
-	<Map id="Map03" requireclearmap="Map02" name="150층돌파" difficulty="512" limittime="3813" maxfloor="300">
+	<Map id="Map03" requireclearmap="Map02" name="300층돌파" difficulty="512" limittime="28800" maxfloor="300">
 		<MapReward rewardlevel="300" prevrewardlevel="200" itemcount="1"/>
-		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="1" bossterm="10"/>
+		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="3" bossterm="10"/>
 	</Map>
-	<Map id="Map04" requireclearmap="Map03" name="200층돌파" difficulty="4096" limittime="4086" maxfloor="400">
+	<Map id="Map04" requireclearmap="Map03" name="400층돌파" difficulty="4096" limittime="28800" maxfloor="400">
 		<MapReward rewardlevel="400" prevrewardlevel="300" itemcount="1"/>
-		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="1" bossterm="10"/>
+		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="3" bossterm="10"/>
 	</Map>
-	<Map id="Map05" requireclearmap="Map04" name="250층돌파" difficulty="32768" limittime="4222" maxfloor="500">
+	<Map id="Map05" requireclearmap="Map04" name="500층돌파" difficulty="32768" limittime="28800" maxfloor="500">
 		<MapReward rewardlevel="500" prevrewardlevel="400" itemcount="1"/>
-		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="1" bossterm="10"/>
+		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="3" bossterm="10"/>
 	</Map>
-	<Map id="Map06" requireclearmap="Map05" name="300층돌파" difficulty="262144" limittime="4290" maxfloor="600">
+	<Map id="Map06" requireclearmap="Map05" name="600층돌파" difficulty="262144" limittime="28800" maxfloor="600">
 		<MapReward rewardlevel="600" prevrewardlevel="500" itemcount="1"/>
-		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="1" bossterm="10"/>
+		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" chestpermonster="1" chestperboss="3" bossterm="10"/>
 	</Map>
 </Maps>

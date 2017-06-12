@@ -6,8 +6,4 @@
         public int maxLevel;
         public double basePriceDensity;
     }
-
-    public class Price
-    {
-    }
 }

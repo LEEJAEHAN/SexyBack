@@ -35,6 +35,14 @@ internal class PlayerStatus
     public event Action<ElementalStat, string> Action_ElementalStatChange = delegate { };
 
 
+    public static int LevelUnit = 100;
+    public static int GrowthPerLevelUnit = 8;
+
+    internal static double CalGlobalGrowth(int level)
+    {
+        return Math.Pow(GrowthPerLevelUnit, (double)level / LevelUnit);
+    }
+
     internal void ReCheckStat()
     {
         sexybacklog.Console("장비와 특성으로부터 스텟을 새로 계산합니다.");
@@ -75,6 +83,13 @@ internal class PlayerStatus
                 utilStat.ApplyBonus(bonus, signPositive);
                 Action_UtilStatChange(utilStat);
                 break;
+            case "elementals":
+                foreach( ElementalStat e in elementalStats.Values)
+                {
+                    e.ApplyBonus(bonus, signPositive);
+                    Action_ElementalStatChange(e, bonus.targetID);
+                }
+                break;
             default:
                 ElementalStat elementalStat = elementalStats[bonus.targetID];
                 elementalStat.ApplyBonus(bonus, signPositive);
@@ -103,6 +118,7 @@ internal class PlayerStatus
         sexybacklog.Console(baseStat.ToString());
         Action_BaseStatChange(baseStat);
     }
-    
+
+
 }
 

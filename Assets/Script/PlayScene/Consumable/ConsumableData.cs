@@ -19,6 +19,7 @@ namespace SexyBackPlayScene
         internal int AbsRate;
         internal int Density;
         internal double CoolTime;
+        internal int order;
 
         public ConsumableData()
         {

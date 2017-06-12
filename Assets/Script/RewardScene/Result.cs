@@ -135,8 +135,8 @@ namespace SexyBackRewardScene
 
             if (isClear)
             {
-                Score.Add("clearScore", 50);                                // 만점 50
-                Score.Add("floorScore", 50);     // 만점 50
+                Score.Add("clearScore", 0);                                // 만점 50
+                Score.Add("floorScore", 0);     // 만점 50
                 // 클리어시 위의 100점은 안고감.
                 Score.Add("timeScore", CalTimeScore(MapInfo.baseData.LimitTime, ClearTime));      // 0~100점
                 int levelScore;
@@ -160,7 +160,7 @@ namespace SexyBackRewardScene
         }
         private int CalTimeScore(int limitTime, int clearTime)
         {
-            return Mathf.Max(0, 100 - 100 * clearTime / limitTime);
+            return Mathf.Max(0, 480 - 480 * clearTime / limitTime);
         }
 
         public void CalLRScore(int clearFloor, out int l, out int r, int totalLevelCount, int totalResearchCount)
@@ -191,21 +191,21 @@ namespace SexyBackRewardScene
         }
         private RewardRank CalRank(int score)
         {
-            if (score >= 160)
+            if (score >= 460)
                 return RewardRank.SSS;
-            if (score >= 150)
+            if (score >= 440)
                 return RewardRank.SS;
-            if (score >= 140)
+            if (score >= 420)
                 return RewardRank.S;
-            if (score >= 130)
+            if (score >= 400)
                 return RewardRank.A;
-            if (score >= 120)
+            if (score >= 360)
                 return RewardRank.B;
-            if (score >= 110)
+            if (score >= 320)
                 return RewardRank.C;
-            if (score > 100)        // 시간 안으로깸
+            if (score > 240)        // 시간 안으로깸
                 return RewardRank.D;
-            if (score == 100)       // 시간밖으로깸
+            if (score == 0)       // 시간밖으로깸
                 return RewardRank.E;
             else
                 return RewardRank.F;// 못깸

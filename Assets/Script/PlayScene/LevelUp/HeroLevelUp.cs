@@ -35,7 +35,7 @@ namespace SexyBackPlayScene
             if (hero.BonusLevel > 0)
                 Name += "+" + hero.BonusLevel;
             StatName = "기본공격력\n공격주기\n강타확률\n강타데미지";
-            StatValue = hero.BaseDmg.ToString("N3") + "\n"
+            StatValue = hero.DamageDensity.ToString("N3") + "\n"
                 + hero.AttackInterval.ToString("N1") + "초\n"
                 + ((double)hero.CriRateXK / 10f).ToString("N1") + "%\n"
                 + hero.CriDamageXH.ToString() + "%";

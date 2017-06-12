@@ -3,13 +3,13 @@
 
 <Consumables>
 
-  <Consumable id ="" name="" description="">
+  <Consumable id ="" name="" description="" order="0">
     <NestedIcon icon="" subicon="" icontext =""/>
     <Usage type="40" value="15" strvalue="50" cooltime=""/>
     <DropInfo stackperchest="" droplevel="8" absrate="30" density=""/>
   </Consumable>
 
-  <Consumable id ="" name="" description="">
+  <Consumable id ="" name="" description="" order="1">
     <NestedIcon icon="" subicon="" icontext =""/>
     <Usage type="40" value="15" strvalue="50" cooltime=""/>
     <DropInfo stackperchest="" droplevel="8" absrate="30" density=""/>

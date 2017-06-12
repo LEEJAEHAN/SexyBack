@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Xml;
+using System.Linq;
 
 namespace SexyBackPlayScene
 {
@@ -16,6 +17,7 @@ namespace SexyBackPlayScene
         // 저장되야할 데이터.
         //public string MapID;
         public int CurrentFloor;
+        public int lastClearedFloor;
         [NonSerialized]
         public static int MaxFloor;
 
@@ -27,6 +29,7 @@ namespace SexyBackPlayScene
         public List<Stage> beToDispose = new List<Stage>(); // 풀링하지말자. 잦은이동이있는것도아닌데
         [NonSerialized]
         private bool needNextStage = false;
+
         [NonSerialized]
         StageFactory Factory = new StageFactory();
 
@@ -58,6 +61,7 @@ namespace SexyBackPlayScene
 
             MaxFloor = map.baseData.MaxFloor;
             CurrentFloor = int.Parse(stagesNode.Attributes["currentfloor"].Value);
+            lastClearedFloor = int.Parse(stagesNode.Attributes["lastclearedfloor"].Value);
 
             Stages = new List<Stage>();
             foreach (XmlNode stageNode in stagesNode.ChildNodes)
@@ -81,6 +85,7 @@ namespace SexyBackPlayScene
         public void onStageClear(Stage stage)
         {
             beToDispose.Add(stage);
+            lastClearedFloor = stage.floor;
             needNextStage = true;
         }
 
@@ -88,8 +93,8 @@ namespace SexyBackPlayScene
         {
             if (needNextStage)
             {
-                if(CurrentFloor <= MaxFloor)
-                    Stages.Add(Factory.CreateStage(CurrentFloor + 1 , DistancePerFloor));
+                if (CurrentFloor <= MaxFloor)
+                    Stages.Add(Factory.CreateStage(lastClearedFloor + 2, Stages.Max(x => x.zPosition) + DistancePerFloor));
                 needNextStage = false;
             }
 

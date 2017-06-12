@@ -44,7 +44,6 @@ public static class StringParser
         string AttackName = null;
         string SkillName = null;
         int SkillRateXK = 0;
-        double BaseDmg = 0;
         //int SkillRatio = 0;
 
         var eTable = Singleton<TableLoader>.getInstance().elementaltable;
@@ -54,7 +53,6 @@ public static class StringParser
             AttackName = elemental.Name;
             SkillName = elemental.SkillName;
             SkillRateXK = elemental.BaseSkillRateXK;
-            BaseDmg = elemental.BaseDmg;
             //SkillRatio = elemental.BaseSkillDamageXH;
         }
         else if (bonus.targetID == "hero")
@@ -63,9 +61,10 @@ public static class StringParser
             AttackName = hero.Name;
             SkillName = hero.SkillName;
             SkillRateXK = hero.BaseSkillRateXK;
-            BaseDmg = hero.BaseDmg;
             //SkillRatio = hero.BaseSkillDamageXH;
         }
+        else if ( bonus.targetID == "elementals")
+            AttackName = "모든마법";
 
         switch (bonus.attribute)
         {
@@ -127,8 +126,10 @@ public static class StringParser
                 return string.Format("{0} 초기레벨 +{1}", AttackName, bonus.value);
             case Attribute.ReputationXH:
                 return string.Format("명성획득 +{0}%", bonus.value);
-            case Attribute.BaseDmgAdd:
-                return string.Format("{0} 공격력 +{1:N2}", AttackName, (double)(BaseDmg * bonus.value / 100));
+            case Attribute.BaseDensityAdd:
+                {
+                    return string.Format((bonus.dvalue >= 10)? "{0} 공격력 +{1:N0}" : "{0} 공격력 +{1:N2}", AttackName, bonus.dvalue);
+                }
         }
         return "Can't Parse Attribute";
     }

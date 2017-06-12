@@ -37,6 +37,10 @@ namespace SexyBackPlayScene
 
         TopWindow topView;
 
+        public static int LevelUnit = 5;
+        public static int GrowthPerLevelUnit = 2;
+
+
         //public void Load()
         //{
         //    XmlDocument doc = SaveSystem.LoadXml(SaveSystem.SaveDataPath);
@@ -107,7 +111,7 @@ namespace SexyBackPlayScene
             // isBonused // 외부에서 이미 setting; 안되있으면 false;
             CurrentGameTime = 0;
 
-            int initexp = (int)Math.Pow(2, Singleton<PlayerStatus>.getInstance().GetGlobalStat.InitExpCoef) * 100;
+            int initexp = (int)Math.Pow(2, Singleton<PlayerStatus>.getInstance().GetGlobalStat.InitExpCoef) * 50;
             ExpGain(new BigInteger(initexp), false);
             LimitGameTime = MapInfo.baseData.LimitTime;
         }
@@ -213,23 +217,32 @@ namespace SexyBackPlayScene
             return result;
         }
 
-
-        public static double CalGrowthPower(double growthRate, int power)
+        public static double CalInstanceGrowth(int level)   // BigInteger로 언젠가 바꿀수도있다.
         {
-            //TODO : 더블에걸림.
-            return Math.Pow(growthRate, power);
+            return Math.Pow(GrowthPerLevelUnit, (double)level / LevelUnit);
         }
+
+        //internal static double GetTotalDensityPerLevel(int level)
+        //{
+        //    foreach (PriceData pData in Singleton<TableLoader>.getInstance().pricetable)
+        //    {
+        //        if (level >= pData.minLevel && level <= pData.maxLevel)
+        //            return pData.basePriceDensity;
+        //    }
+
+        //    sexybacklog.Error("no PriceInfo Level " + level);
+        //    return double.MaxValue;
+        //}
 
         internal static double GetTotalDensityPerLevel(int level)
         {
-            foreach (PriceData pData in Singleton<TableLoader>.getInstance().pricetable)
+            double density = Singleton<TableLoader>.getInstance().herotable.BaseDmgDensity;
+            foreach (var e in Singleton<TableLoader>.getInstance().elementaltable.Values)
             {
-                if (level >= pData.minLevel && level <= pData.maxLevel)
-                    return pData.basePriceDensity;
+                if (level >= e.BaseLevel)
+                    density += e.BaseDmgDensity;
             }
-
-            sexybacklog.Error("no PriceInfo Level " + level);
-            return double.MaxValue;
+            return density;
         }
 
     }

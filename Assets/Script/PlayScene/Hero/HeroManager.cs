@@ -42,7 +42,7 @@ namespace SexyBackPlayScene
         {
             XmlNode rootNode = doc.SelectSingleNode("InstanceStatus/Hero");
             CreateNewHero();
-            CurrentHero.BaseDmg = double.Parse(rootNode.Attributes["basedmg"].Value);
+            CurrentHero.DamageDensity = double.Parse(rootNode.Attributes["basedmg"].Value);
             // 레벨업 이벤트를 안줘서 research를 생성하지 않는다.
             CurrentHero.LevelUp(int.Parse(rootNode.Attributes["level"].Value));
         }

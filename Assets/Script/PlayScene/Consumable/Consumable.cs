@@ -26,6 +26,7 @@ namespace SexyBackPlayScene
         }
 
         public string GetID { get { return baseData.id; } }
+        internal int SortOrder { get { return baseData.order; } }
         public readonly ConsumableData baseData;
         public int Stack;
         public double RemainTime;
@@ -33,6 +34,7 @@ namespace SexyBackPlayScene
         ConsumableWindow Panel;
 
         bool Selected;
+
         bool isBuffItem
         {
             get

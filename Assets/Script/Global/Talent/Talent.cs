@@ -10,7 +10,9 @@ internal class Talent
     internal BonusStat TotalBonus {
         get
         {
-            return baseData.BonusPerLevel * Level;
+            BonusStat temp = (BonusStat)BonusPerLevel.Clone();
+            temp.value *= Level;
+            return temp;
         }
     }
     internal BonusStat JobBonus { get { return baseData.JobBonus; } }

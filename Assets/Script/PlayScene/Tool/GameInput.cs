@@ -62,8 +62,8 @@ namespace SexyBackPlayScene
             }
             if (Input.GetKeyDown(KeyCode.U))
             {
-                Singleton<PlayerStatus>.getInstance().ApplySpecialStat(new BonusStat("util", Attribute.ResearchTimeX, 999), true);
-                EffectController.getInstance.AddBuffEffect(new NestedIcon("Icon_19", "x999", "IconSmall_02"));
+                Singleton<PlayerStatus>.getInstance().ApplySpecialStat(new BonusStat("util", Attribute.ResearchTimeX, 2), true);
+                EffectController.getInstance.AddBuffEffect(new NestedIcon("Icon_19", "치트속도2배", "IconSmall_02"));
             }
             if(Input.GetKey(KeyCode.M))
             {

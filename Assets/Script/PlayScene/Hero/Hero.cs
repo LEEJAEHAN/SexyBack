@@ -24,8 +24,8 @@ namespace SexyBackPlayScene
         // 최종 스텟
         public int OriginalLevel;
         public int BonusLevel;
-        public double BaseDmg;
-        public double EnchantBaseDmg;
+        public double DamageDensity;
+        public double EnchantDmgDensity;
         BigInteger DpcX = new BigInteger();
         public int DpcXH;
         public int MaxAttackCount;
@@ -68,7 +68,7 @@ namespace SexyBackPlayScene
         }
         internal void Enchant(string elementID)
         {
-            EnchantBaseDmg += Singleton<TableLoader>.getInstance().elementaltable[elementID].BaseDmg;
+            EnchantDmgDensity += Singleton<TableLoader>.getInstance().elementaltable[elementID].BaseDmgDensity;
             RefreshStat = true;
         }
         internal void LevelUp(int value)
@@ -104,7 +104,7 @@ namespace SexyBackPlayScene
 
             DpcX = herostat.DpcX;
             // 레벨업패널에 출력되는정보
-            BaseDmg = baseData.BaseDmg * (100 + herostat.BaseDmgXH) / 100 + EnchantBaseDmg;
+            DamageDensity = baseData.BaseDmgDensity + herostat.BaseDensityAdd + EnchantDmgDensity;
             DpcXH = (100 + herostat.DpcIncreaseXH) * (100 + basestat.Str) / 100; // 곱하기 힘
             AttackSpeedXH = (100 + herostat.AttackSpeedXH) * (200 + basestat.Spd) / 200;
             CriRateXK = baseData.BaseSkillRateXK * (100 + herostat.CriticalRateXH) / 100;
@@ -119,10 +119,12 @@ namespace SexyBackPlayScene
 
         void CalDpc()
         {
-            double growth = InstanceStatus.CalGrowthPower(HeroData.GrowthRate, baseData.BaseLevel); // 
-            double doubleC = 5 * BaseDmg * growth * GetLevel * DpcXH * BuffCoef/ 100;
-            BigInteger Coefficient = BigInteger.FromDouble(doubleC);
-            DPC = DpcX * Coefficient;
+            // growth == 1 이고 globalgrowth 역시 1이므로 생략한다.
+            double EtcCoef = DpcXH * BuffCoef / 100; // 매우작은수.
+            double DmgWithoutResearch = (baseData.BaseDamage * baseData.AttackInterval) * DamageDensity * GetLevel * EtcCoef;
+
+            BigInteger IntDmg = BigInteger.FromDouble(DmgWithoutResearch);
+            DPC = DpcX * IntDmg;
             if (GetLevel > 0)
                 DPCTick = DPC / GetLevel;
         }
@@ -138,9 +140,9 @@ namespace SexyBackPlayScene
 
         private void CalPrice()
         {
-            double BasePriceDensity = InstanceStatus.GetTotalDensityPerLevel(baseData.BaseLevel + OriginalLevel);
+            double BasePriceDensity = InstanceStatus.GetTotalDensityPerLevel(baseData.BaseLevel + OriginalLevel); //baseData.BaseDmgDensity;
             // cal price
-            double growth = InstanceStatus.CalGrowthPower(ElementalData.GrowthRate, baseData.BaseLevel + OriginalLevel);
+            double growth = InstanceStatus.CalInstanceGrowth(baseData.BaseLevel + OriginalLevel);
             double doubleC = baseData.BasePrice * BasePriceDensity * growth;
             PRICE = BigInteger.FromDouble(doubleC);
         }

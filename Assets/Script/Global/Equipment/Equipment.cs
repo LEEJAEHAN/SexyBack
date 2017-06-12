@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Linq;
-
 public class Equipment
 {
     public int level;
@@ -15,7 +14,7 @@ public class Equipment
     public bool isLock;   // 저장변수
 
     public string name;
-    readonly List<BonusStat> baseStat;   // data로부터
+    readonly List<BonusStat> damageStat;   // data로부터
     readonly List<BonusStat> baseSkillStat; // data로부터
     public int skillLevel;  // 저장변수
     public string skillName;    // data로부터
@@ -26,49 +25,46 @@ public class Equipment
         return ExpectedStat.ToString();
     }
 
-    public double GetMaterialExp(int targetlevel)   // 대상이 100
+    public double GetMaterialExp(int targetlevel, int targetgrade)   // 대상이 100
     {
-        int levelDiff = targetlevel - level;
-        double levelDiffCoef = Math.Pow(EquipmentManager.CoefPerLevelUnit, levelDiff / EquipmentManager.LevelUnit);
-
-        return (50f * levelDiffCoef * (grade + 1) * (evolution + 1));
+        int levelDiff = level - targetlevel;
+        // 0 이면 나누기 1 , 1이면 나누기
+        double levelDiffCoef = PlayerStatus.CalGlobalGrowth(levelDiff);
+        return (50f * levelDiffCoef * (grade + 1) * (evolution + 1) / (targetgrade + 1));
     }
-    //            double 레벨계수 = Math.Pow( powerPerDifficulty, level / 100);
 
-    public List<BonusStat> Stat
+    public List<BonusStat> DmgStat
     {
         get
         {
-            int statCount = baseStat.Count;
-            int PowerCoef = Singleton<TableLoader>.getInstance().powertable[level];
-            double gradeCoef = EquipmentWiki.CalgradeCoef(grade);
-            double evolCoef = EquipmentWiki.CalEvolCoef(evolution);
-            double expCoef = EquipmentWiki.CalExpCoef(exp);
-
-            List<BonusStat> result = new List<BonusStat>();
-            foreach (BonusStat one in baseStat)
-            {
-                BonusStat temp = (BonusStat)one.Clone();
-                temp.value = (int)(one.value * PowerCoef * gradeCoef * evolCoef * expCoef / statCount);
-                result.Add(temp);
-            }
-            return result;
+            return ExpectDmgStat(this.exp, this.evolution);
         }
     }
 
-    public List<BonusStat> ExpectStat(double ExpectedExp, int ExpectedEvolution)
+    public List<BonusStat> ExpectDmgStat(double ExpectedExp, int ExpectedEvolution)
     {
-        int statCount = baseStat.Count;
-        int PowerCoef = Singleton<TableLoader>.getInstance().powertable[level];
+        double BaseDmg = PlayerStatus.CalGlobalGrowth(level) / 4;//Singleton<TableLoader>.getInstance().powertable[level];
+
         double gradeCoef = EquipmentWiki.CalgradeCoef(grade);
         double evolCoef = EquipmentWiki.CalEvolCoef(ExpectedEvolution);
         double expCoef = EquipmentWiki.CalExpCoef(ExpectedExp);
 
         List<BonusStat> result = new List<BonusStat>();
-        foreach (BonusStat one in baseStat)
+        foreach (BonusStat one in damageStat)
         {
             BonusStat temp = (BonusStat)one.Clone();
-            temp.value = (int)(one.value * PowerCoef * gradeCoef * evolCoef * expCoef / statCount);
+            temp.dvalue = one.dvalue * BaseDmg * gradeCoef * evolCoef * expCoef;
+
+            if (one.targetID == "elementals")
+            {
+                int ElementalCount = 0;
+                foreach (var e in Singleton<TableLoader>.getInstance().elementaltable.Values)
+                {
+                    if (level > e.BaseLevel)
+                        ElementalCount++;
+                }
+                temp.dvalue /= ElementalCount;
+            }
             result.Add(temp);
         }
         return result;
@@ -110,7 +106,7 @@ public class Equipment
         skillLevel = 1;
         isLock = false;
 
-        baseStat = data.stats;
+        damageStat = data.stats;
         baseSkillStat = skilldata.baseSkillStat;
 
         skillName = skilldata.baseSkillName;

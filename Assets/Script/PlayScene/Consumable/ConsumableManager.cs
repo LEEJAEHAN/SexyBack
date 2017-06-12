@@ -33,6 +33,7 @@ namespace SexyBackPlayScene
 
             Tab3Container = GameObject.Find("Tab3Container");
             Tab3Container.transform.DestroyChildren();
+            Tab3Container.GetComponent<UIGrid>().onCustomSort = mySort;
 
             GameObject panelObject = GameObject.Find("Bottom_Window").transform.FindChild("ConsumableWindow").gameObject;
             panelObject.SetActive(true);
@@ -54,6 +55,12 @@ namespace SexyBackPlayScene
                     inventory.Add(id, loadOne);
                 }
             }
+        }
+
+
+        int mySort(Transform a, Transform b)
+        {
+            return inventory[a.gameObject.name].SortOrder - inventory[b.gameObject.name].SortOrder;
         }
 
         public void DrawNewMark()
@@ -140,7 +147,7 @@ namespace SexyBackPlayScene
 
         public static BigInteger CalChestExp(int level, int Coef)
         {
-            double exp = InstanceStatus.CalGrowthPower(MonsterData.GrowthRate, level) * Coef; // 
+            double exp = InstanceStatus.CalInstanceGrowth(level) * Coef; // 
             return BigInteger.FromDouble(exp);
         }
         public static bool Buff(bool on, Consumable.Type bufftype, string target, int value)

@@ -171,31 +171,20 @@ namespace SexyBackMenuScene
         {
             if (NextExp > 100)
                 NextExp = 100;
+            if (NextEvolution > e.evolution) // 각성 예
+                NextExp = 0;
 
             Transform info = transform.FindChild("아이템정보");
             info.gameObject.SetActive(true);
             e.DrawIconView(info.FindChild("Icon").GetComponent<UISprite>(), info.FindChild("Name").GetComponent<UILabel>(), NextEvolution);
             info.FindChild("Lock").GetComponent<UISprite>().gameObject.SetActive(e.isLock);
-            if (NextExp > e.exp || NextEvolution > e.evolution)
-                info.FindChild("Stat").GetComponent<UILabel>().color = Color.blue;
-            else
-                info.FindChild("Stat").GetComponent<UILabel>().color = Color.black;
-            if (NextEvolution > e.evolution) // 각성 예
-            {
-                //info.FindChild("Name").GetComponent<UILabel>().color = Color.blue;
-                NextExp = 0;
-                info.FindChild("EnchantBar").GetComponent<UIProgressBar>().value = 0;
-            }
-            else // 강화 예
-            {
-                //info.FindChild("Name").GetComponent<UILabel>().color = Color.black;
-                info.FindChild("EnchantBar").GetComponent<UIProgressBar>().value = (float)e.exp / 100f;
-            }
-            info.FindChild("Stat").GetComponent<UILabel>().text = EquipmentWiki.AttributeBox(e.ExpectStat(NextExp, NextEvolution));
+            info.FindChild("Stat").GetComponent<UILabel>().color =
+                (NextExp > e.exp || NextEvolution > e.evolution)? Color.blue : Color.black;
+            info.FindChild("EnchantBar").GetComponent<UIProgressBar>().value =
+                NextEvolution > e.evolution ? 0 : (float)e.exp / 100f;
+            info.FindChild("Stat").GetComponent<UILabel>().text = EquipmentWiki.AttributeBox(e.ExpectDmgStat(NextExp, NextEvolution));
             info.FindChild("EnchantBar/RBar_Fill2").GetComponent<UISprite>().fillAmount = (float)NextExp / 100f;
-            info.FindChild("EnchantBar/RBar_Text").GetComponent<UILabel>().text = string.Format("{0}% 강화", NextExp);
-
-
+            info.FindChild("EnchantBar/RBar_Text").GetComponent<UILabel>().text = string.Format("{0:N0}% 강화", NextExp);
             info.FindChild("SkillName").GetComponent<UILabel>().text = e.skillName + " Lv." + e.skillLevel.ToString();
             info.FindChild("SkillStat").GetComponent<UILabel>().text = EquipmentWiki.AttributeBox(e.SkillStat);
         }

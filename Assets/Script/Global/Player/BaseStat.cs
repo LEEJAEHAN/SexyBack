@@ -9,7 +9,7 @@ public class BaseStat : ICloneable
     internal int Int;
     internal int Spd;
     internal int Luck;
-
+    
     public BaseStat(int str = 0, int intel = 0, int spd = 0, int luc = 0)
     {
         Str = str;

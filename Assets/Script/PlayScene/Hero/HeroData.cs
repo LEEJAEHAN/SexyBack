@@ -4,7 +4,7 @@ namespace SexyBackPlayScene
 {
     internal class HeroData
     {
-        public static double GrowthRate = 1.148698f;
+        //public static double GrowthRate = 1.148698f;
 
         public readonly string ID;
         public readonly string Name;
@@ -12,11 +12,11 @@ namespace SexyBackPlayScene
         public readonly double AttackInterval;
         public readonly float MoveSpeed;
         public readonly int BaseLevel;
+        public int BaseDamage;
         public readonly int BasePrice;
-        public readonly double BaseDmg;
+        public readonly double BaseDmgDensity;
         public readonly int BaseSkillRateXK;
         public readonly int BaseSkillDamageXH;
-
 
         public HeroData()
         {
@@ -26,8 +26,9 @@ namespace SexyBackPlayScene
             AttackInterval = 5;
             MoveSpeed = 3f;
             BaseLevel = 0;
+            BaseDamage = 4;
             BasePrice = 60;
-            BaseDmg = 1.025f;       // fireball's dmg
+            BaseDmgDensity = 1f;       // fireball's dmg
             BaseSkillRateXK = 80;
             BaseSkillDamageXH = 200;
         }

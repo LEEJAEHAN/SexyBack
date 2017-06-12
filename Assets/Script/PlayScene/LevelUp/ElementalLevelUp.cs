@@ -31,7 +31,7 @@ namespace SexyBackPlayScene
             if (elemental.BonusLevel > 0)
                 Name += "+" + elemental.BonusLevel;
             StatName = "기본공격력\n공격주기\n스킬확률\n스킬데미지";
-            StatValue = elemental.BaseDmg.ToString("N3") + "\n"
+            StatValue = elemental.DamageDensity.ToString("N3") + "\n"
                 + elemental.CastInterval.ToString("N1") + "초\n"
                 + ((double)elemental.SkillRateXH / 10f).ToString("N1") + "%\n"
                 + elemental.SkillRatioXH.ToString() + "%";

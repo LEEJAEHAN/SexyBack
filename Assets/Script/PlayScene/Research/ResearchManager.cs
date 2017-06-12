@@ -61,6 +61,14 @@ namespace SexyBackPlayScene
             TabButton2.GetComponent<TabView>().Action_HideList += onHideList;
             Tab2Container.GetComponent<UIGrid>().onCustomSort = myResearchSort;
         }
+
+        public static double CalTimeGrowth(int level)
+        {
+            double Unit = Math.Min(((double)level/20), 13f);
+            return Math.Pow(2, Unit);
+        }
+
+
         public void Start()
         {
             currentthread = 0;

@@ -19,9 +19,6 @@ internal class EquipmentManager
     EquipmentWindow view;
     TopWindow topView;
 
-    public static int LevelUnit = 100;
-    public static int CoefPerLevelUnit = 8;
-
     internal void InitOrLoad()
     {
         sexybacklog.Console("EquipmentManager 로드 및 초기화");
@@ -230,7 +227,7 @@ internal class EquipmentManager
     {
         foreach(BonusStat specialStat in item.SkillStat)
             Singleton<PlayerStatus>.getInstance().ApplySpecialStat(specialStat, sign);
-        foreach (BonusStat baseStat in item.Stat)
+        foreach (BonusStat baseStat in item.DmgStat)
             Singleton<PlayerStatus>.getInstance().ApplySpecialStat(baseStat, sign);
     }
     void EquipSetchange(Dictionary<Equipment.Slot, Equipment> itemSet, bool sign)
@@ -284,7 +281,7 @@ internal class EquipmentManager
         double sum = 0;
         foreach(int i in checkList)
         {
-            sum += inventory[i].GetMaterialExp(Focused.level);
+            sum += inventory[i].GetMaterialExp(Focused.level, Focused.grade);
             if (inventory[i].skillName.Equals(Focused.skillName))
                 if (Focused.skillLevel < 10)
                     //if (UnityEngine.Random.Range(0, 10) >= 8) 
@@ -313,7 +310,7 @@ internal class EquipmentManager
 
         double expSum = Focused.exp; 
         foreach( int index in checkList)
-            expSum += inventory[index].GetMaterialExp(Focused.level);
+            expSum += inventory[index].GetMaterialExp(Focused.level, Focused.grade);
 
         if (mode == EquipmentState.EnchantMode)
             view.FillExpectedSelect(Focused, expSum, Focused.evolution);

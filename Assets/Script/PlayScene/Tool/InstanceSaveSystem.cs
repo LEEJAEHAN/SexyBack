@@ -139,6 +139,7 @@ namespace SexyBackPlayScene
             StageManager manager = Singleton<StageManager>.getInstance();
             writer.WriteStartElement("Stages");
             writer.WriteAttributeString("currentfloor", manager.CurrentFloor.ToString());
+            writer.WriteAttributeString("lastclearedfloor", manager.lastClearedFloor.ToString());
             foreach (Stage data in manager.Stages)
             {
                 writer.WriteStartElement("Stage");
@@ -185,7 +186,7 @@ namespace SexyBackPlayScene
             Hero data = Singleton<HeroManager>.getInstance().GetHero();
             writer.WriteStartElement("Hero");
             writer.WriteAttributeString("level", data.OriginalLevel.ToString());
-            writer.WriteAttributeString("basedmg", data.BaseDmg.ToString());
+            writer.WriteAttributeString("basedmg", data.DamageDensity.ToString());
             writer.WriteEndElement();
         }
 

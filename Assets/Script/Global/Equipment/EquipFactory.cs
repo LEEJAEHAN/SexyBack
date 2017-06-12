@@ -104,24 +104,37 @@ internal static class EquipFactory
 
     private static int LotteryGrade(RewardRank rank)
     {
-        int rand = UnityEngine.Random.Range(0, 100); // 0~99
+        int rand = UnityEngine.Random.Range(0, 144); // 0~99 0~7
         switch (rank)
         {
             case RewardRank.SSS:
-                if (rand < 4) return 2;
-                if (rand < 4 + 28) return 1;
+                if (rand < 48) return 2;
+                if (rand < 48 + 72) return 1;
                 break;
             case RewardRank.SS:
-                if (rand < 3) return 2;
-                if (rand < 3 + 21) return 1;
+                if (rand < 24) return 2;
+                if (rand < 24 + 36) return 1;
                 break;
             case RewardRank.S:
-                if (rand < 2) return 2;
-                if (rand < 2 + 14) return 1;
+                if (rand < 16) return 2;
+                if (rand < 16 + 24) return 1;
                 break;
             case RewardRank.A:
-                if (rand < 1) return 2;
-                if (rand < 1 + 7) return 1;
+                if (rand < 12 + 18) return 1;
+                break;
+            case RewardRank.B:
+                if (rand < 8 + 12) return 1;
+                break;
+            case RewardRank.C:
+                if (rand < 6 + 9) return 1;
+                break;
+            case RewardRank.D:
+                if (rand < 4 + 6) return 1;
+                break;
+            case RewardRank.E:
+                if (rand < 2 + 3) return 1;
+                break;
+            case RewardRank.F:
                 break;
             default:
                 break;
