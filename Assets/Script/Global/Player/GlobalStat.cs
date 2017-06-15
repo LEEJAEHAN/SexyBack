@@ -7,12 +7,14 @@ internal class GlobalStat
     internal int InitExpCoef;
     internal int BonusEquipment;
     internal int ReputationXH;
+    internal int FastStage;
     public GlobalStat()
     {
         RankBonus = 0;
         InitExpCoef = 0;
         BonusEquipment = 0;
         ReputationXH = 0;
+        FastStage = 0;
     }
 
     //public int GetInitExp(int temp)
@@ -45,6 +47,9 @@ internal class GlobalStat
     {
         switch (bonus.attribute)
         {
+            case Attribute.FastStage:
+                FastStage += bonus.value;
+                break;
             case Attribute.InitExpCoef:
                 InitExpCoef += bonus.value;
                 break;
@@ -68,6 +73,9 @@ internal class GlobalStat
     {
         switch (bonus.attribute)
         {
+            case Attribute.FastStage:
+                FastStage -= bonus.value;
+                break;
             case Attribute.InitExpCoef:
                 InitExpCoef -= bonus.value;
                 break;

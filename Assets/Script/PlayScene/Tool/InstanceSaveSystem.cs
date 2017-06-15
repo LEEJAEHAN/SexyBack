@@ -127,7 +127,7 @@ namespace SexyBackPlayScene
                 writer.WriteAttributeString("id", data.GetID.ToString());
                 writer.WriteAttributeString("dataid", data.DataID.ToString());
                 writer.WriteAttributeString("level", data.level.ToString());
-                writer.WriteAttributeString("isboss", data.isBoss.ToString());
+                writer.WriteAttributeString("type", data.type.ToString());
                 writer.WriteAttributeString("hp", data.HP.ToString());
                 writer.WriteEndElement();
             }

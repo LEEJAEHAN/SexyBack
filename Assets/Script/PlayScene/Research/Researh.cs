@@ -28,7 +28,6 @@ namespace SexyBackPlayScene
         public BigInteger PricePerSec;
         public readonly double ResearchTime;
         public double ReducedTime;
-        public int SortOrder { get { return baseData.Level + baseData.baselevel; } }
         public double RemainTime;
         public double ResearchTick;
 

@@ -7,7 +7,7 @@ using System.Xml;
 
 internal class TalentManager
 {
-    internal static int ReputationUnit = 50;
+    internal static double ReputationUnit = 1;
 
     public int Reputation;
     public int SpendReputation;
@@ -43,7 +43,7 @@ internal class TalentManager
         var data = Singleton<TableLoader>.getInstance().talenttable["T01"];
         Talents.Add(data.ID, new Talent(data, 1));
         CurrentTalent = Talents["T01"];
-        Reputation = 0;//10000000;
+        Reputation = 10000000;//10000000;
         NoticeReputation();
     }
     public void Load()
@@ -80,10 +80,15 @@ internal class TalentManager
     {
         string temp = "";
 
-        temp += "[FF0000FF]" + StringParser.GetAttributeString(CurrentTalent.JobBonus) + "[-]\n";
+        if(CurrentTalent.JobBonus != null)
+            temp += "[FF0000FF]" + StringParser.GetAttributeString(CurrentTalent.JobBonus) + "[-]\n";
+
         temp += "[0080FFFF]";
         foreach (var a in Talents.Values)
-            temp += StringParser.GetAttributeString(a.TotalBonus) + "\n";
+        {
+            if(a.TotalBonus != null)
+                temp += StringParser.GetAttributeString(a.TotalBonus) + "\n";
+        }
         temp += "[-]";
         return temp;
     }
@@ -99,18 +104,29 @@ internal class TalentManager
 
     internal bool CanBuy(string selectedID)
     {
-        return Reputation > GetNextPrice(selectedID);
+        if (Talents.ContainsKey(selectedID))
+            return Reputation >= Talents[selectedID].NextPrice;
+        else
+        {
+            return Reputation >= CalInitPrice(Singleton<TableLoader>.getInstance().talenttable[selectedID]);
+        }
     }
 
-    public int GetNextPrice(string target)
+    public int CalInitPrice(TalentData initData)
     {
-        return GetNextPrice(Singleton<TableLoader>.getInstance().talenttable[target].PriceCoef);
+        return (int)Math.Round(ReputationUnit * PlayerStatus.CalGlobalGrowth(initData.BaseLevel), 0);
     }
-    public int GetNextPrice(int priceCoef)
-    {
-        int LevelCoef = (int)Mathf.Pow(2, TotalLevel);
-        return ReputationUnit * LevelCoef * priceCoef;
-    }
+
+
+    //public int GetNextPrice(string target)
+    //{
+    //    return GetNextPrice(Singleton<TableLoader>.getInstance().talenttable[target].PriceCoef);
+    //}
+    //public int GetNextPrice(int priceCoef)
+    //{
+    //    int LevelCoef = (int)Mathf.Pow(2, TotalLevel);
+    //    return ReputationUnit * LevelCoef * priceCoef;
+    //}
     internal bool CanChangeJob(string selectedID)
     {
         if (CurrentTalent.ID == selectedID)
@@ -149,7 +165,7 @@ internal class TalentManager
             Talent newOne = new Talent(Singleton<TableLoader>.getInstance().talenttable[selectedID], 0);
             Talents.Add(newOne.ID, newOne);
         }
-        int price = GetNextPrice(Talents[selectedID].PriceCoef);
+        int price = Talents[selectedID].NextPrice;
         Reputation -= price;
         SpendReputation += price;
 

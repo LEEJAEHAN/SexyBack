@@ -7,7 +7,7 @@ public class MapData
     public string RequireMap;
     public int LimitTime;
     public int MaxFloor;
-    public int Difficulty;  // 시간효율 레벨, 가장쉬움1, 중간3, 하드9 순이며, 명성보상의 계수가된다.
+    //public int Difficulty;  // 시간효율 레벨, 가장쉬움1, 중간3, 하드9 순이며, 명성보상의 계수가된다.
     public MapRewardData MapReward;
     public MapMonsterData MapMonster;
 
@@ -33,9 +33,11 @@ public class MapMonsterData
 {
     public int LevelPerFloor;// float GrowthRate;
     public int MonsterPerStage;
-    public int MonsterHP;
-    public int BossHp;
-    public int ChestPerMonster;
-    public int ChestPerBoss;
+
+    public int[] HP = new int[3];
+    public int[] Chest = new int[3];
+
+    //public int ChestPerMonster;
+    //public int ChestPerBoss;
     public int BossTerm;
 }

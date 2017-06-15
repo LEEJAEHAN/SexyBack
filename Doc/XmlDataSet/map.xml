@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Maps>
-  <Map id="E00" requireclearmap="더미" name="IconSmall_04" difficulty="0" limittime="" maxfloor="" >
+  <Map id="E00" requireclearmap="더미" name="IconSmall_04" limittime="" maxfloor="" >
     <MapReward rewardlevel="0" prevrewardlevel="" itemcount="Weapon"/>
-    <MapMonster levelperfloor="0" monsterperstage="" monsterhp="0" bosshp="Weapon" chestpermonster="" chestperboss="" bossterm=""/>
+    <MapMonster levelperfloor="0" monsterperstage="" monsterhp="0" bosshp="Weapon" fastbosshp="0" chestpermonster="" chestperboss="" bossterm=""/>
   </Map>
-  <Map id="E00" requireclearmap="더미" name="IconSmall_04" difficulty="0" limittime="" maxfloor="" >
+  <Map id="E00" requireclearmap="더미" name="IconSmall_04" limittime="" maxfloor="" >
     <MapReward rewardlevel="0" prevrewardlevel="" itemcount="Weapon"/>
-    <MapMonster levelperfloor="0" monsterperstage="" monsterhp="0" bosshp="Weapon" chestpermonster="" chestperboss="" bossterm=""/>
+    <MapMonster levelperfloor="0" monsterperstage="" monsterhp="0" bosshp="Weapon" fastbosshp="0" chestpermonster="" chestperboss="" bossterm=""/>
   </Map>
 </Maps>

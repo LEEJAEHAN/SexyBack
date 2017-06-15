@@ -21,7 +21,7 @@ internal static class EquipFactory
         //int grade = int.Parse(equipNode.Attributes["grade"].Value);
         Equipment e = new Equipment(Singleton<TableLoader>.getInstance().equipmenttable[tableID],
             Singleton<TableLoader>.getInstance().equipskilltable[skillID], level);
-        e.exp = int.Parse(equipNode.Attributes["exp"].Value);
+        e.exp = double.Parse(equipNode.Attributes["exp"].Value);
         e.evolution = int.Parse(equipNode.Attributes["evolution"].Value);
         e.skillLevel = int.Parse(equipNode.Attributes["skillLevel"].Value);
         e.isLock = bool.Parse(equipNode.Attributes["isLock"].Value);

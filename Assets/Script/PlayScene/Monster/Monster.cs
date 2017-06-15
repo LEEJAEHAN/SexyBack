@@ -14,7 +14,8 @@ namespace SexyBackPlayScene
         public int level;
         public BigInteger HP;
         public string Name;
-        public bool isBoss;
+        public int type;
+        public int chestCount;
         public BigInteger MAXHP;
         // view
         public GameObject avatar;

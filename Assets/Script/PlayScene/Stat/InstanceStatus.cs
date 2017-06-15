@@ -217,9 +217,9 @@ namespace SexyBackPlayScene
             return result;
         }
 
-        public static double CalInstanceGrowth(int level)   // BigInteger로 언젠가 바꿀수도있다.
+        public static double CalInstanceGrowth(double level)   // BigInteger로 언젠가 바꿀수도있다.
         {
-            return Math.Pow(GrowthPerLevelUnit, (double)level / LevelUnit);
+            return Math.Pow(GrowthPerLevelUnit, level / LevelUnit);
         }
 
         //internal static double GetTotalDensityPerLevel(int level)

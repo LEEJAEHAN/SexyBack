@@ -29,7 +29,6 @@ namespace SexyBackPlayScene
         protected string Name;
         protected string StatName; // 아이템버튼 인포창 텍스트
         protected string StatValue; // 아이템버튼 인포창 텍스트최하단
-        protected string PriceName; // 아이템버튼 인포창 텍스트최하단
         protected string PriceValue; // 아이템버튼 인포창 텍스트최하단
         protected string Damage; // 아이템버튼 인포창 텍스트최하단
 
@@ -96,7 +95,7 @@ namespace SexyBackPlayScene
                     Panel.SetButton1(Selected, true);
                 else
                     Panel.SetButton1(Selected, false);
-                Panel.Show(Selected, Icon, Name, StatName, StatValue, PriceName, PriceValue, Damage);
+                Panel.Show(Selected, Icon, Name, StatName, StatValue, PriceValue, Damage);
             }
         }
         // function

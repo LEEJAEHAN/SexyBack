@@ -57,7 +57,7 @@ namespace SexyBackPlayScene
         {
             bool ThreadEmpty = manager.CanUseThread;
             bool CanBuy = player.EXP >= owner.StartPrice;
-            bool CanStart = (target == null ? true : target.GetLevel >= owner.baseData.Level);
+            bool CanStart = (target == null ? true : target.GetLevel >= owner.baseData.requireLevel);
 
             InstantModeCheck();
 

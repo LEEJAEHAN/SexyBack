@@ -83,7 +83,7 @@ internal class TableLoader
             newOne.ID = node.Attributes["id"].Value;
             newOne.RequireMap = node.Attributes["requireclearmap"] == null ? null : node.Attributes["requireclearmap"].Value;
             newOne.Name = node.Attributes["name"].Value;
-            newOne.Difficulty = int.Parse(node.Attributes["difficulty"].Value);
+            //newOne.Difficulty = int.Parse(node.Attributes["difficulty"].Value);
             newOne.LimitTime = int.Parse(node.Attributes["limittime"].Value);
             newOne.MaxFloor = int.Parse(node.Attributes["maxfloor"].Value);
 
@@ -97,12 +97,14 @@ internal class TableLoader
                 XmlNode mNode = node.SelectSingleNode("MapMonster");
                 newOne.MapMonster.LevelPerFloor = int.Parse(mNode.Attributes["levelperfloor"].Value);
                 newOne.MapMonster.MonsterPerStage = int.Parse(mNode.Attributes["monsterperstage"].Value);
-                newOne.MapMonster.MonsterHP = int.Parse(mNode.Attributes["monsterhp"].Value);
-                newOne.MapMonster.BossHp = int.Parse(mNode.Attributes["bosshp"].Value);
-                newOne.MapMonster.ChestPerMonster = int.Parse(mNode.Attributes["chestpermonster"].Value);
-                newOne.MapMonster.ChestPerBoss = int.Parse(mNode.Attributes["chestperboss"].Value);
+                newOne.MapMonster.HP[0] = int.Parse(mNode.Attributes["monsterhp"].Value);
+                newOne.MapMonster.HP[1] = int.Parse(mNode.Attributes["bosshp"].Value);
+                newOne.MapMonster.HP[2] = int.Parse(mNode.Attributes["fastbosshp"].Value);
+                
+                newOne.MapMonster.Chest[0]= int.Parse(mNode.Attributes["chestpermonster"].Value);
+                newOne.MapMonster.Chest[1] = int.Parse(mNode.Attributes["chestperboss"].Value);
+                newOne.MapMonster.Chest[2] = 0;
                 newOne.MapMonster.BossTerm= int.Parse(mNode.Attributes["bossterm"].Value);
-
             }
             mapTable.Add(newOne);
         }
@@ -160,10 +162,31 @@ internal class TableLoader
     {
         talenttable = new Dictionary<string, TalentData>();
 
-        for (int i = 1; i <= 8; i++)
+        XmlDocument xmldoc = OpenXml("Xml/TalentData");
+        XmlNode rootNode = xmldoc.SelectSingleNode("Talents");
+        XmlNodeList nodes = rootNode.SelectNodes("Talent");
+
+        foreach (XmlNode node in nodes)
         {
-            TalentData t1 = new TalentData(i);
-            talenttable.Add(t1.ID, t1);
+            TalentData newOne = new TalentData();
+            newOne.ID= node.Attributes["id"].Value;
+            newOne.Name = node.Attributes["name"].Value;
+            newOne.MaxLevel= int.Parse(node.Attributes["maxlevel"].Value);
+
+            XmlNode priceNode = node.SelectSingleNode("Price");
+            newOne.BaseLevel = int.Parse(priceNode.Attributes["baselevel"].Value);
+            newOne.BaseLevelPerLevel = double.Parse(priceNode.Attributes["baselevelperlevel"].Value);
+
+            XmlNode jobbonusNode = node.SelectSingleNode("JobBonus");
+            if(jobbonusNode.Attributes.Count>0)
+                newOne.JobBonus= LoadBonus(jobbonusNode);
+
+
+            XmlNode levelbonusNode = node.SelectSingleNode("LevelBonus");
+            if(levelbonusNode.Attributes.Count>0)
+                newOne.BonusPerLevel= LoadBonus(levelbonusNode);
+
+            talenttable.Add(newOne.ID, newOne);
         }
     }
 
@@ -268,40 +291,42 @@ internal class TableLoader
         {
             if (node.Attributes["id"] == null)
                 continue;
+            ResearchData newOne = new ResearchData();
 
-            string id = node.Attributes["id"].Value;
-            string requireid = node.Attributes["requireid"].Value;
-            int showlevel = int.Parse(node.Attributes["showlevel"].Value);
+            newOne.ID = node.Attributes["id"].Value;
+            newOne.requireID = node.Attributes["requireid"].Value;
+            newOne.showLevel= int.Parse(node.Attributes["showlevel"].Value);
+            newOne.requireLevel= int.Parse(node.Attributes["requirelevel"].Value);
 
             XmlNode infonode = node.SelectSingleNode("Info");
-            string icon = infonode.Attributes["icon"].Value;
-            string icontext = null;
-            string subicon = null;
-            if (infonode.Attributes["icontext"] != null)
-                icontext = infonode.Attributes["icontext"].Value;
-            if (infonode.Attributes["subicon"] != null)
-                subicon = infonode.Attributes["subicon"].Value;
-            string name = infonode.Attributes["name"].Value;
-            string description = infonode.Attributes["description"].Value;
+            newOne.icon = LoadIcon(infonode);
+            newOne.Name = infonode.Attributes["name"].Value;
+            newOne.Description = infonode.Attributes["description"].Value;
 
             XmlNode pricenode = node.SelectSingleNode("Price");
-            int level = int.Parse(pricenode.Attributes["level"].Value);
-            int baselevel = int.Parse(pricenode.Attributes["baselevel"].Value);
-            int baseprice = int.Parse(pricenode.Attributes["baseprice"].Value);
+            newOne.baselevel = int.Parse(pricenode.Attributes["level"].Value) + int.Parse(pricenode.Attributes["baselevel"].Value);
+            newOne.baseprice = int.Parse(pricenode.Attributes["baseprice"].Value);
 
             XmlNode potnode = node.SelectSingleNode("PriceOverTime");
-            int rate = int.Parse(potnode.Attributes["rate"].Value);
-            int basetime = int.Parse(potnode.Attributes["basetime"].Value);
+            newOne.rate = int.Parse(potnode.Attributes["rate"].Value);
+            newOne.basetime = int.Parse(potnode.Attributes["basetime"].Value);
 
-            XmlNode bonusnode = node.SelectSingleNode("Bonus");
-            BonusStat bonus = LoadBonus(bonusnode);
+            newOne.bonus = LoadBonus(node.SelectSingleNode("Bonus"));
+            researchtable.Add(newOne.ID, newOne);
 
-            NestedIcon iconinfo = new NestedIcon(icon, icontext, subicon);
-            ResearchData research = new ResearchData(id, requireid, showlevel, iconinfo, name, description, level, baselevel, baseprice,
-                rate, basetime, bonus);
-            researchtable.Add(id, research);
+            //ResearchData research = new ResearchData(id, requireid, showlevel, iconinfo, name, description, level, baselevel, baseprice,
+            //    rate, basetime, bonus);
         }
 
+    }
+
+    private NestedIcon LoadIcon(XmlNode xmlNode)
+    {
+        string IconName = xmlNode.Attributes["icon"].Value;
+        string IconText = xmlNode.Attributes["icontext"] != null ? xmlNode.Attributes["icontext"].Value : null;
+        string SubIconName= xmlNode.Attributes["subicon"] != null ? xmlNode.Attributes["subicon"].Value : null;
+        NestedIcon icon = new NestedIcon(IconName, IconText, SubIconName);
+        return icon;
     }
 
     private void LoadEquipmentData()
@@ -409,13 +434,7 @@ internal class TableLoader
             data.name = node.Attributes["name"] != null ? node.Attributes["name"].Value : null;
             data.description = node.Attributes["description"] != null ? node.Attributes["description"].Value : null;
             data.order = node.Attributes["order"] != null ? int.Parse(node.Attributes["order"].Value) : 0;
-            {
-                XmlNode iconNode = node.SelectSingleNode("NestedIcon");
-                data.icon = new NestedIcon();
-                data.icon.IconName = iconNode.Attributes["icon"].Value;
-                data.icon.SubIconName = iconNode.Attributes["subicon"] != null ? iconNode.Attributes["subicon"].Value : null;
-                data.icon.IconText = iconNode.Attributes["icontext"] != null ? iconNode.Attributes["icontext"].Value : null;
-            }
+            data.icon = this.LoadIcon(node.SelectSingleNode("NestedIcon"));
             {
                 XmlNode usageNode = node.SelectSingleNode("Usage");
                 data.type = (Consumable.Type)Enum.Parse(typeof(Consumable.Type), usageNode.Attributes["type"].Value);

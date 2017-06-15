@@ -70,7 +70,11 @@ namespace SexyBackPlayScene
                 sexybacklog.Console("마지막층도달!");
             }
 
-            Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
+            if (Singleton<PlayerStatus>.getInstance().GetGlobalStat.FastStage > owner.floor)
+                Singleton<HeroManager>.getInstance().GetHero().ChangeState("FastMove");
+            else
+                Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
+
             owner.ChangeState("PostMove");
         }
 

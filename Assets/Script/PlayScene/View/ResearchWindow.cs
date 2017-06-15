@@ -85,7 +85,7 @@ namespace SexyBackPlayScene
             Description.text = data.Description;
             PriceName.text = pricename;
             PriceValue.text = pricevalue;
-            Require.text = StringParser.GetRequireText(data.requireID, data.Level);
+            Require.text = StringParser.GetRequireText(data.requireID, data.requireLevel);
         }
 
         public void Hide()

@@ -8,24 +8,20 @@ namespace SexyBackPlayScene
     internal class MonsterFactory
     {
         //double GrowthRatePerFloor;
-        readonly int MonsterHP;
-        readonly int BossMonsterHP;
-        readonly int LevelPerFloor;
-        public readonly int MonsterPerStage;
-        public readonly int BossTerm;
+
+        //readonly int[] HpType;
+        //readonly int LevelPerFloor;
+        //public readonly int MonsterPerStage;
+        //public readonly int BossTerm;
+        public MapMonsterData info;
 
         public MonsterFactory()
         {
-            var mapmonsterinfo = Singleton<InstanceStatus>.getInstance().InstanceMap.baseData.MapMonster;
-            LevelPerFloor = mapmonsterinfo.LevelPerFloor;
-            MonsterHP = mapmonsterinfo.MonsterHP;
-            BossMonsterHP = mapmonsterinfo.BossHp;
-            MonsterPerStage = mapmonsterinfo.MonsterPerStage;
-            BossTerm = mapmonsterinfo.BossTerm;
+            info = Singleton<InstanceStatus>.getInstance().InstanceMap.baseData.MapMonster;
         }
-        public Monster CreateRandomMonster(string ID, int floor, bool boss)
+        public Monster CreateRandomMonster(string ID, int floor, int type)
         {
-            return CreateMonster(ID, FindRandomMonsterDataID(floor), floor, boss);
+            return CreateMonster(ID, FindRandomMonsterDataID(floor), floor, type);
         }
 
         public string FindRandomMonsterDataID(int level)
@@ -47,25 +43,73 @@ namespace SexyBackPlayScene
             return monsterListInLevel[randIndex].ID;
         }
 
-        public Monster CreateMonster(string instanceID, string dataID, int floor, bool boss)
+        internal int CreateMonsters(int floor, Queue<Monster> queue)
+        {
+            int count = 0;
+            bool isbossStage = floor % info.BossTerm == 0;
+            if (Singleton<PlayerStatus>.getInstance().GetGlobalStat.FastStage >= floor)
+            {
+                if (isbossStage)
+                {
+                    string id = string.Format("F{0}M{1}", floor, count);
+                    Monster newmonster = CreateRandomMonster(id, floor, 2);
+                    queue.Enqueue(newmonster);
+                    count++;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < info.MonsterPerStage; i++)
+                {
+                    string id = string.Format("F{0}M{1}", floor, i);
+                    Monster newmonster = CreateRandomMonster(id, floor, isbossStage ? 1 : 0);
+                    queue.Enqueue(newmonster);
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public Monster CreateMonster(string instanceID, string dataID, int floor, int type)
         {
             //TODO : 보스따로구분해야함.
             // floor - 1; // 1층이면 1레벨 몬스터, 10층이면 10레벨(2의10승) 몬스터, 
             MonsterData data = Singleton<TableLoader>.getInstance().monstertable[dataID];
             Monster monster = new Monster(instanceID, dataID);
-            monster.level = floor * LevelPerFloor;
+            monster.level = floor * info.LevelPerFloor;
             monster.Name = data.Name;
-            monster.isBoss = boss;
+            monster.type = type;
             
             double growth = InstanceStatus.CalInstanceGrowth(monster.level); // 2, level
-            monster.MAXHP = BigInteger.FromDouble(growth);
-            monster.HP = BigInteger.FromDouble(growth);
-            monster.MAXHP *= boss? BossMonsterHP : MonsterHP;
-            monster.HP *= boss ? BossMonsterHP : MonsterHP;
-
+            monster.MAXHP = BigInteger.FromDouble(growth * info.HP[type]);
+            monster.HP = BigInteger.FromDouble(growth * info.HP[type]);
+            monster.chestCount = info.Chest[type] * Singleton<PlayerStatus>.getInstance().GetUtilStat.ConsumableX;
             monster.avatar = InitAvatar(monster.GetID, ViewLoader.monsterbucket.transform, data.LocalPosition, out monster.CenterPosition); //data.PivotPosition
             monster.sprite = InitSprite(monster.avatar, data.SpritePath, out monster.Size);
             
+            SetCollider(monster.avatar, monster.Size, Vector3.zero);
+            monster.StateMachine = new MonsterStateMachine(monster);
+
+            //Action_MonsterChangeEvent(this);
+            monster.avatar.SetActive(false);
+            return monster;
+        }
+
+
+        private Monster LoadMonster(string instanceID, string dataID, int level, BigInteger hp, int type)
+        {
+            MonsterData data = Singleton<TableLoader>.getInstance().monstertable[dataID];
+            Monster monster = new Monster(instanceID, dataID);
+            monster.level = level;
+            monster.Name = data.Name;
+            double growth = InstanceStatus.CalInstanceGrowth(monster.level);
+            monster.type = type;
+            monster.MAXHP = BigInteger.FromDouble(growth * info.HP[type]);
+            monster.HP = hp;
+            monster.chestCount = info.Chest[type] * Singleton<PlayerStatus>.getInstance().GetUtilStat.ConsumableX;
+
+            monster.avatar = InitAvatar(monster.GetID, ViewLoader.monsterbucket.transform, data.LocalPosition, out monster.CenterPosition); //data.PivotPosition
+            monster.sprite = InitSprite(monster.avatar, data.SpritePath, out monster.Size);
             SetCollider(monster.avatar, monster.Size, Vector3.zero);
             monster.StateMachine = new MonsterStateMachine(monster);
 
@@ -79,37 +123,14 @@ namespace SexyBackPlayScene
             string dataID = node.Attributes["dataid"].Value;
             string id = node.Attributes["id"].Value;
             int level = int.Parse(node.Attributes["level"].Value);
-            bool boss = bool.Parse(node.Attributes["isboss"].Value);
+            int type = int.Parse(node.Attributes["type"].Value);
             BigInteger hp = new BigInteger(node.Attributes["hp"].Value);
 
             if (hp <= 0)
                 return null;
             else
-                return LoadMonster(id, dataID, level, hp, boss);
+                return LoadMonster(id, dataID, level, hp, type);
         }
-
-        private Monster LoadMonster(string instanceID, string dataID, int level, BigInteger hp, bool boss)
-        {
-            MonsterData data = Singleton<TableLoader>.getInstance().monstertable[dataID];
-            Monster monster = new Monster(instanceID, dataID);
-            monster.level = level;
-            monster.Name = data.Name;
-            double growth = InstanceStatus.CalInstanceGrowth(monster.level);
-            monster.MAXHP = BigInteger.FromDouble(growth);
-            monster.MAXHP *= MonsterHP;
-            monster.HP = hp;
-            monster.isBoss = boss;
-
-            monster.avatar = InitAvatar(monster.GetID, ViewLoader.monsterbucket.transform, data.LocalPosition, out monster.CenterPosition); //data.PivotPosition
-            monster.sprite = InitSprite(monster.avatar, data.SpritePath, out monster.Size);
-            SetCollider(monster.avatar, monster.Size, Vector3.zero);
-            monster.StateMachine = new MonsterStateMachine(monster);
-
-            //Action_MonsterChangeEvent(this);
-            monster.avatar.SetActive(false);
-            return monster;
-        }
-
 
         private GameObject InitAvatar(string name, Transform parent, Vector3 localposition, out Vector3 realposition)
         {

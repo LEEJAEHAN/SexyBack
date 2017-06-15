@@ -63,7 +63,11 @@ namespace SexyBackPlayScene
                 owner.rewardComplete = true;
                 if (owner.rewardComplete == true)
                 {
-                    Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
+                    if (Singleton<PlayerStatus>.getInstance().GetGlobalStat.FastStage > owner.floor)
+                        Singleton<HeroManager>.getInstance().GetHero().ChangeState("FastMove");
+                    else
+                        Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
+
                     owner.ChangeState("Destroy");
                     waiting = false;
                 }

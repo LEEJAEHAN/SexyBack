@@ -78,17 +78,17 @@ namespace SexyBackRewardScene
 
         internal void MakeReward()
         {
-            MakeAndGiveReputation(MapInfo.baseData.Difficulty);
+            MakeAndGiveReputation(LastFloor);
             MakeAndGiveEquipments(MapInfo.ID, MapInfo.baseData.MapReward);
             // TODO: record clear data;
         }
 
-        private void MakeAndGiveReputation(int difficulty)
+        private void MakeAndGiveReputation(int clearFloor)
         {
-            // make
+            int MapLevel = clearFloor * MapInfo.baseData.MapMonster.LevelPerFloor;
             double bonus = (100 + Singleton<PlayerStatus>.getInstance().GetGlobalStat.ReputationXH) / 100;
-            Reputation = (int)((double)TotalScore * (double)difficulty * bonus);
-            // give
+            Reputation = (int)(PlayerStatus.CalGlobalGrowth(MapLevel) * bonus);
+            //give
             Singleton<TalentManager>.getInstance().Reputation += Reputation;
         }
 
@@ -135,10 +135,10 @@ namespace SexyBackRewardScene
 
             if (isClear)
             {
-                Score.Add("clearScore", 0);                                // 만점 50
-                Score.Add("floorScore", 0);     // 만점 50
+                //Score.Add("clearScore", 0);                                // 만점 50
+                //Score.Add("floorScore", 0);     // 만점 50
                 // 클리어시 위의 100점은 안고감.
-                Score.Add("timeScore", CalTimeScore(MapInfo.baseData.LimitTime, ClearTime));      // 0~100점
+                Score.Add("timeScore", CalTimeScore(MapInfo.baseData.LimitTime, ClearTime, LastFloor));      // 0~100점
                 int levelScore;
                 int researchScore;
                 CalLRScore(LastFloor, out levelScore, out researchScore, totalElementLevel, FinishResearchCount);
@@ -149,8 +149,8 @@ namespace SexyBackRewardScene
             }
             else
             {
-                Score.Add("clearScore", 0);
-                Score.Add("floorScore", 0);
+                //Score.Add("clearScore", 0);
+                //Score.Add("floorScore", 0);
                 Score.Add("timeScore", 0);
                 Score.Add("levelScore", 0);
                 Score.Add("researchScore", 0);
@@ -158,9 +158,10 @@ namespace SexyBackRewardScene
                 Rank = RewardRank.F;
             }
         }
-        private int CalTimeScore(int limitTime, int clearTime)
+        private int CalTimeScore(int limitTime, int clearTime, int floor)
         {
-            return Mathf.Max(0, 480 - 480 * clearTime / limitTime);
+            int floorsub = (int)(((floor - 100) / 50f) * 10);
+            return Mathf.Max(0, 480 - (480*clearTime/limitTime) - floorsub);
         }
 
         public void CalLRScore(int clearFloor, out int l, out int r, int totalLevelCount, int totalResearchCount)
@@ -171,7 +172,7 @@ namespace SexyBackRewardScene
 
             foreach (SexyBackPlayScene.ResearchData data in Singleton<TableLoader>.getInstance().researchtable.Values)
             {
-                int ContentsLevel = data.baselevel + data.Level;
+                int ContentsLevel = data.baselevel;
                 if (ContentsLevel <= MapLevel)   // 이 리서치는 배웠어야 정상이다.
                 {
                     RecommendResearch++;
@@ -191,21 +192,21 @@ namespace SexyBackRewardScene
         }
         private RewardRank CalRank(int score)
         {
-            if (score >= 460)
+            if (score >= 460 )
                 return RewardRank.SSS;
-            if (score >= 440)
+            if (score >= 440 )
                 return RewardRank.SS;
-            if (score >= 420)
+            if (score >= 420 )
                 return RewardRank.S;
-            if (score >= 400)
+            if (score >= 400 )
                 return RewardRank.A;
-            if (score >= 360)
+            if (score >= 360 )
                 return RewardRank.B;
-            if (score >= 320)
+            if (score >= 320 )
                 return RewardRank.C;
-            if (score > 240)        // 시간 안으로깸
+            if (score > 240 )        // 시간 안으로깸
                 return RewardRank.D;
-            if (score == 0)       // 시간밖으로깸
+            if (score == 0 )       // 시간밖으로깸
                 return RewardRank.E;
             else
                 return RewardRank.F;// 못깸

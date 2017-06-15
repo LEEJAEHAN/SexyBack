@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Talents>
-	<Talent id="R01" requireid="hero" type ="hero" maxlevelper10="10">
-		<Info icon="Icon_01" subicon="x3" name="파이어볼 습득" description="짱쎈 파이어볼을 배웁니다."/>
-		<Rate rate="0" absrate="0"/>
-    <Bonus target="hero" attribute="AttackSpeedXH" value="5"/>
-	</Talent>
-  <Talent id="R01" requireid="hero" type ="hero" maxlevelper10="10">
-    <Info icon="Icon_01" subicon="x3" name="파이어볼 습득" description="짱쎈 파이어볼을 배웁니다."/>
-    <Rate rate="0" absrate="0"/>
-    <Bonus target="hero" attribute="AttackSpeedXH" value="5"/>
+  <Talent id="R01" name="일반인" maxlevel="1">
+    <Price baselevel="100" baselevelperlevel="33.33"/>
+    <JobBonus target="hero" attribute="AttackSpeedXH" value="5"/>
+    <LevelBonus target="hero" attribute="AttackSpeedXH" value="5"/>
   </Talent>
+  <Talent id="R01" name="일반인" maxlevel="1">
+    <Price baselevel="100" baselevelperlevel="33.33"/>
+    <JobBonus target="hero" attribute="AttackSpeedXH" value="5"/>
+    <LevelBonus target="hero" attribute="AttackSpeedXH" value="5"/>
+  </Talent>
+
 </Talents>

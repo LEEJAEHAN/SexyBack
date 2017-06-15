@@ -30,12 +30,12 @@ namespace SexyBackRewardScene
         public ShowTextObject(ResultReward result, GameObject view) : base(view)
         {
             sequencelabel = new LinkedList<string>();
-            sequencelabel.AddLast("클리어 점수 +" + result.Score["clearScore"].ToString() + "\n");
-            sequencelabel.AddLast("돌파 점수 +" + result.Score["floorScore"].ToString() + "\n");
+            //sequencelabel.AddLast("돌파 점수 +" + result.Score["floorScore"].ToString() + "\n");
+            //sequencelabel.AddLast("클리어 점수 +" + result.Score["clearScore"].ToString() + "\n");
             sequencelabel.AddLast("시간 점수 +" + result.Score["timeScore"].ToString() + "\n");
             sequencelabel.AddLast("레벨업 정도에 따라 +" + result.Score["levelScore"].ToString() + "\n");
             sequencelabel.AddLast("연구 정도에 따라 +" + result.Score["researchScore"].ToString() + "\n");
-            sequencelabel.AddLast("랭크점수 보너스 +" + result.Score["bonusScore"].ToString());
+            sequencelabel.AddLast("랭크보너스 +" + result.Score["bonusScore"].ToString());
             current = sequencelabel.First;
             end = false;
         }

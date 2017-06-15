@@ -64,8 +64,7 @@ namespace SexyBackPlayScene
 
         public static double CalTimeGrowth(int level)
         {
-            double Unit = Math.Min(((double)level/20), 13f);
-            return Math.Pow(2, Unit);
+            return Math.Pow(2, (double)level / 30);
         }
 
 
@@ -89,7 +88,7 @@ namespace SexyBackPlayScene
 
         int myResearchSort(Transform a, Transform b)
         {
-            return researches[a.gameObject.name].SortOrder - researches[b.gameObject.name].SortOrder;
+            return researches[a.gameObject.name].baseData.baselevel - researches[b.gameObject.name].baseData.baselevel;
         }
 
         public void DrawNewMark()
@@ -123,7 +122,7 @@ namespace SexyBackPlayScene
                 if (FinishList.ContainsKey(item.ID))
                     continue;
 
-                if (item.requireID == id && item.showlevel <= levelcondition)
+                if (item.requireID == id && item.showLevel <= levelcondition)
                 {
                     DrawNewMark();
                     Research research = factory.SummonNewResearch(item);

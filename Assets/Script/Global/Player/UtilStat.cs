@@ -11,7 +11,7 @@ internal class UtilStat
     internal int ExpIncreaseXH;
     internal int LPriceReduceXH;
     internal int RPriceReduceXH;
-    internal int BonusConsumable;
+    internal int ConsumableX;
     public UtilStat()
     {
         ResearchTimeX = 1;
@@ -20,7 +20,7 @@ internal class UtilStat
         ExpIncreaseXH = 0;
         LPriceReduceXH = 0;
         RPriceReduceXH = 0;
-        BonusConsumable = 0;
+        ConsumableX = 1;
     }
     
     internal void ApplyBonus(BonusStat bonus, bool signPositive)
@@ -53,8 +53,8 @@ internal class UtilStat
             case Attribute.RPriceReduceXH:
                 RPriceReduceXH += bonus.value;
                 break;
-            case Attribute.BonusConsumable:
-                BonusConsumable += bonus.value;
+            case Attribute.ConsumableX:
+                ConsumableX *= bonus.value;
                 break;
             default:
                 {
@@ -85,8 +85,8 @@ internal class UtilStat
             case Attribute.RPriceReduceXH:
                 RPriceReduceXH -= bonus.value;
                 break;
-            case Attribute.BonusConsumable:
-                BonusConsumable -= bonus.value;
+            case Attribute.ConsumableX:
+                ConsumableX /= bonus.value;
                 break;
             default:
                 {

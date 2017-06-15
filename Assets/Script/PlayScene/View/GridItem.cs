@@ -122,7 +122,7 @@ namespace SexyBackPlayScene
             if (type != Type.Research)
                 return;
             ResearchBar.value = progress;
-            RBar_Time.text = time.ToString() + " sec";
+            RBar_Time.text = time.ToString() + " 초";
             if (colorflag)
                 RBar_Fill1.color = new Color(1, 0, 0, 1);
             else

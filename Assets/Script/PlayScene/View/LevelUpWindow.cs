@@ -19,7 +19,6 @@ namespace SexyBackPlayScene
         UILabel Name;
         UILabel StatName;
         UILabel StatValue;
-        UILabel PriceName;
         UILabel PriceValue;
         UILabel Damage;
 
@@ -33,7 +32,6 @@ namespace SexyBackPlayScene
             Icon = gameObject.transform.FindChild("Icon").gameObject;
             Button1 = gameObject.transform.FindChild("Right/Button").GetComponent<UIButton>();
             Damage = gameObject.transform.FindChild("Right/Damage").GetComponent<UILabel>();
-            PriceName = gameObject.transform.FindChild("Right/PriceName").GetComponent<UILabel>();
             PriceValue = gameObject.transform.FindChild("Right/PriceValue").GetComponent<UILabel>();
             Name = gameObject.transform.FindChild("Middle/Name").GetComponent<UILabel>();
             StatName = gameObject.transform.FindChild("Middle/StatName").GetComponent<UILabel>();
@@ -49,7 +47,7 @@ namespace SexyBackPlayScene
         }
 
         public void Show(bool selected, NestedIcon Icon, string name, string statname, string statvalue,
-            string pricename, string pricevalue, string damage)
+            string pricevalue, string damage)
         {   // infoview는 select상태에서만 갱신해야한다.
             if (!selected)
                 return;
@@ -59,7 +57,6 @@ namespace SexyBackPlayScene
             Name.text = name;
             StatName.text = statname;
             StatValue.text = statvalue;
-            PriceName.text = pricename;
             PriceValue.text = pricevalue;
             Damage.text = damage;
         }

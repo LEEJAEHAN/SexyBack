@@ -69,6 +69,7 @@ namespace SexyBackPlayScene
             CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable);
             Action_HeroCreateEvent(CurrentHero);
             CurrentHero.ChangeState("Move"); //Init state is move
+
             //CurrentHero.onHeroStatChange(Singleton<PlayerStatus>.getInstance().GetHeroStat);
         }
 

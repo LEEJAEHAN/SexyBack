@@ -105,8 +105,7 @@ namespace SexyBackMenuScene
             }
             else
             {
-                EquipView.transform.FindChild("Price").GetComponent<UILabel>().text =
-                    Singleton<TalentManager>.getInstance().GetNextPrice(talent.PriceCoef).ToString();
+                EquipView.transform.FindChild("Price").GetComponent<UILabel>().text = talent.NextPrice.ToString();
             }
             SetToggleEvent(EquipView, "onToggle");
         }

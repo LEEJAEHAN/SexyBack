@@ -30,15 +30,17 @@ namespace SexyBackPlayScene
             Name = OwnerName + " LV." + elemental.OriginalLevel;
             if (elemental.BonusLevel > 0)
                 Name += "+" + elemental.BonusLevel;
-            StatName = "기본공격력\n공격주기\n스킬확률\n스킬데미지";
-            StatValue = elemental.DamageDensity.ToString("N3") + "\n"
-                + elemental.CastInterval.ToString("N1") + "초\n"
-                + ((double)elemental.SkillRateXH / 10f).ToString("N1") + "%\n"
-                + elemental.SkillRatioXH.ToString() + "%";
+            StatName = "공격배수\n공격주기\n스킬확률\n스킬데미지";
+            StatValue = string.Format("{0:N1}\n{1:N1}초\n{2:N1}%\n{3}%",
+                elemental.DamageDensity,
+                elemental.CastInterval,
+                (double)elemental.SkillRateXH / 10f,
+                elemental.SkillRatioXH);
             //+ elemental.DpsXH.ToString() + "%\n"
-            Damage = elemental.DPS.To5String() + " 피해 / 초";
-            PriceName = "다음\n요구";
-            PriceValue = elemental.DPSTICK.To5String() + " 피해 / 초\n" + PRICE.To5String() + " 경험치";
+            Damage = elemental.DPS.To5String() + " / 초";
+            PriceValue = string.Format("{0} / 초\n[F9DB11]{1} 경험치[-]",
+                elemental.DPSTICK.To5String(),
+                PRICE.To5String());
 
             ViewRefresh();
         }

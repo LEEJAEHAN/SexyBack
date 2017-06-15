@@ -1,88 +1,78 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Talents>
-	<Talent id="T00" requireid="hero" type="Attack" maxlevelper10="5">
-		<Info icon="Icon_10" subicon="Dmg" name="증가된힘" description="피해량이 $1$% 증가합니다."/>
-		<Rate rate="100"/>
-		<Bonus target="hero" attribute="DpcIncreaseXH" value="6"/>
+	<Talent id="T01" name="일반인" maxlevel="1">
+		<Price baselevel="100" baselevelperlevel="100"/>
+		<JobBonus/>
+		<LevelBonus/>
 	</Talent>
-	<Talent id="T01" requireid="hero" type="Attack" maxlevelper10="5">
-		<Info icon="Icon_10" subicon="A.S" name="빠른검술" description="공격속도가 $1$% 증가합니다."/>
-		<Rate rate="100"/>
-		<Bonus target="hero" attribute="AttackSpeedXH" value="6"/>
+	<Talent id="T02" name="선구자" maxlevel="15">
+		<Price baselevel="100" baselevelperlevel="33.3333333333333"/>
+		<JobBonus target="util" attribute="MaxResearchThread" value="1"/>
+		<LevelBonus target="util" attribute="ResearchTimeX" value="2"/>
 	</Talent>
-	<Talent id="T02" requireid="hero" type="Attack" maxlevelper10="5">
-		<Info icon="Icon_10" subicon="C.R" name="약점포착" description="크리티컬 확률이 $1$% 증가합니다."/>
-		<Rate rate="100"/>
-		<Bonus target="hero" attribute="CriticalRateXH" value="3"/>
+	<Talent id="T03" name="모험가" maxlevel="10">
+		<Price baselevel="100" baselevelperlevel="50"/>
+		<JobBonus target="util" attribute="ConsumableX" value="2"/>
+		<LevelBonus target="global" attribute="FastStage" value="50"/>
 	</Talent>
-	<Talent id="T03" requireid="hero" type="Attack" maxlevelper10="5">
-		<Info icon="Icon_10" subicon="C.D" name="예리한검술" description="크리티컬 공격의 피해량이 $1$% 증가합니다."/>
-		<Rate rate="100"/>
-		<Bonus target="hero" attribute="CriticalDamageXH" value="30"/>
+	<Talent id="T04" name="귀족/상인" maxlevel="1">
+		<Price baselevel="100" baselevelperlevel="100"/>
+		<JobBonus target="global" attribute="ReputationXH" value="100"/>
+		<LevelBonus/>
 	</Talent>
-	<Talent id="T04" requireid="hero" type="Attack">
-		<Info icon="Icon_14" name="광전사의물약" description="다음 스테이지동안 광전사가 되어 강력한 공격이 가능합니다."/>
-		<Rate absrate="10"/>
-		<Bonus target="hero" attribute="Fever"/>
+	<Talent id="T05" name="헌터" maxlevel="10">
+		<Price baselevel="150" baselevelperlevel="50"/>
+		<JobBonus target="global" attribute="BonusEquipment" value="1"/>
+		<LevelBonus target="global" attribute="RankBonus" value="10"/>
 	</Talent>
-	<Talent id="T05" requireid="hero" type="Elemental" maxlevelper10="5">
-		<Info icon="Icon_13" subicon="C.S" name="시전속도" description="모든 마법의 시전속도가 $1$% 증가합니다."/>
-		<Rate rate="100"/>
-		<Bonus target="elementals" attribute="CastSpeedXH" value="6"/>
+	<Talent id="T06" name="검사" maxlevel="10">
+		<Price baselevel="100" baselevelperlevel="50"/>
+		<JobBonus target="hero" attribute="BonusLevel" value="3"/>
+		<LevelBonus target="hero" attribute="BonusLevel" value="1"/>
 	</Talent>
-	<Talent id="T06" requireid="fireball" type="Elemental" maxlevelper10="5">
-		<Info icon="Icon_01" subicon="Dmg" name="속성강화" description="화염구의 피해량이 $1$% 증가합니다."/>
-		<Rate rate="100"/>
-		<Bonus target="fireball" attribute="DpsIncreaseXH" value="20"/>
+	<Talent id="T07" name="불마법사" maxlevel="10">
+		<Price baselevel="105" baselevelperlevel="50"/>
+		<JobBonus target="fireball" attribute="BonusLevel" value="3"/>
+		<LevelBonus target="fireball" attribute="BonusLevel" value="1"/>
 	</Talent>
-	<Talent id="T07" requireid="waterball" type="Elemental" maxlevelper10="5">
-		<Info icon="Icon_09" subicon="Dmg" name="속성강화" description="물폭탄의 피해량이 $1$% 증가합니다."/>
-		<Rate rate="100"/>
-		<Bonus target="waterball" attribute="DpsIncreaseXH" value="20"/>
+	<Talent id="T08" name="얼음마법사" maxlevel="10">
+		<Price baselevel="115" baselevelperlevel="50"/>
+		<JobBonus target="iceblock" attribute="BonusLevel" value="3"/>
+		<LevelBonus target="iceblock" attribute="BonusLevel" value="1"/>
 	</Talent>
-	<Talent id="T08" requireid="rock" type="Elemental" maxlevelper10="5">
-		<Info icon="Icon_07" subicon="Dmg" name="속성강화" description="짱돌의 피해량이 $1$% 증가합니다."/>
-		<Rate rate="100"/>
-		<Bonus target="rock" attribute="DpsIncreaseXH" value="20"/>
+	<Talent id="T09" name="바위마법사" maxlevel="10">
+		<Price baselevel="130" baselevelperlevel="50"/>
+		<JobBonus target="rock" attribute="BonusLevel" value="3"/>
+		<LevelBonus target="rock" attribute="BonusLevel" value="1"/>
 	</Talent>
-	<Talent id="T09" requireid="electricball" type="Elemental" maxlevelper10="5">
-		<Info icon="Icon_04" subicon="Dmg" name="속성강화" description="지지직의 피해량이 $1$% 증가합니다."/>
-		<Rate rate="100"/>
-		<Bonus target="electricball" attribute="DpsIncreaseXH" value="20"/>
+	<Talent id="T10" name="전기마법사" maxlevel="10">
+		<Price baselevel="160" baselevelperlevel="50"/>
+		<JobBonus target="electricball" attribute="BonusLevel" value="3"/>
+		<LevelBonus target="electricball" attribute="BonusLevel" value="1"/>
 	</Talent>
-	<Talent id="T10" requireid="snowball" type="Elemental" maxlevelper10="5">
-		<Info icon="Icon_08" subicon="Dmg" name="속성강화" description="눈덩이의 피해량이 $1$% 증가합니다."/>
-		<Rate rate="100"/>
-		<Bonus target="snowball" attribute="DpsIncreaseXH" value="20"/>
+	<Talent id="T11" name="물마법사" maxlevel="10">
+		<Price baselevel="205" baselevelperlevel="50"/>
+		<JobBonus target="waterball" attribute="BonusLevel" value="3"/>
+		<LevelBonus target="waterball" attribute="BonusLevel" value="1"/>
 	</Talent>
-	<Talent id="T11" requireid="hero" type="Elemental">
-		<Info icon="Icon_15" name="집중의물약" description="다음 스테이지동안 마력집중 상태가 되어 매우 강력한 마법을 시전합니다."/>
-		<Rate absrate="10"/>
-		<Bonus target="elementals" attribute="Fever"/>
+	<Talent id="T12" name="대지마법사" maxlevel="10">
+		<Price baselevel="255" baselevelperlevel="50"/>
+		<JobBonus target="earthball" attribute="BonusLevel" value="3"/>
+		<LevelBonus target="earthball" attribute="BonusLevel" value="1"/>
 	</Talent>
-	<Talent id="T12" requireid="hero" type="Util" maxlevelper10="5">
-		<Info icon="Icon_18" subicon="-L" name="근면함" description="레벨업 경험치 요구량이 $1$% 줄어듭니다."/>
-		<Rate rate="100"/>
-		<Bonus target="util" attribute="LPriceReduceXH" value="2"/>
+	<Talent id="T13" name="바람마법사" maxlevel="10">
+		<Price baselevel="310" baselevelperlevel="50"/>
+		<JobBonus target="airball" attribute="BonusLevel" value="3"/>
+		<LevelBonus target="airball" attribute="BonusLevel" value="1"/>
 	</Talent>
-	<Talent id="T13" requireid="hero" type="Util" maxlevelper10="5">
-		<Info icon="Icon_18" subicon="-R" name="학자" description="연구의 경험치 요구량이 $1$% 줄어듭니다."/>
-		<Rate rate="100"/>
-		<Bonus target="util" attribute="RPriceReduceXH" value="2"/>
+	<Talent id="T14" name="눈마법사" maxlevel="10">
+		<Price baselevel="360" baselevelperlevel="50"/>
+		<JobBonus target="snowball" attribute="BonusLevel" value="3"/>
+		<LevelBonus target="snowball" attribute="BonusLevel" value="1"/>
 	</Talent>
-	<Talent id="T14" requireid="hero" type="Util">
-		<Info icon="Icon_19" name="발명" description="현재 진행중인 연구 중 가장 낮은 연구가 즉시 완료됩니다."/>
-		<Rate rate="100"/>
-		<Bonus target="util" attribute="FinishResearch" value="1"/>
-	</Talent>
-	<Talent id="T15" requireid="hero" type="Util">
-		<Info icon="Icon_18" name="경험치획득" description="$1$의 경험치를 획득합니다."/>
-		<Rate rate="100"/>
-		<Bonus target="util" attribute="ExpPerFloor" value="1000"/>
-	</Talent>
-	<Talent id="T16" requireid="hero" type="Util">
-		<Info icon="Icon_18" name="다이아몬드" description="$1$ 다이아를 획득합니다."/>
-		<Rate absrate="10"/>
-		<Bonus target="util" attribute="Diamond" value="1"/>
+	<Talent id="T15" name="용암마법사" maxlevel="10">
+		<Price baselevel="425" baselevelperlevel="50"/>
+		<JobBonus target="magmaball" attribute="BonusLevel" value="3"/>
+		<LevelBonus target="magmaball" attribute="BonusLevel" value="1"/>
 	</Talent>
 </Talents>

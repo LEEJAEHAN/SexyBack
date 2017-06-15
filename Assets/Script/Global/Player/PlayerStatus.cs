@@ -35,12 +35,13 @@ internal class PlayerStatus
     public event Action<ElementalStat, string> Action_ElementalStatChange = delegate { };
 
 
-    public static int LevelUnit = 100;
-    public static int GrowthPerLevelUnit = 8;
+    static int LevelUnit = 100;
+    static int GrowthPerLevelUnit = 8;
 
-    internal static double CalGlobalGrowth(int level)
+    public static double CalGlobalGrowth(double level)
     {
-        return Math.Pow(GrowthPerLevelUnit, (double)level / LevelUnit);
+        return Math.Pow(GrowthPerLevelUnit, level / LevelUnit);
+        //return Math.Pow(GrowthPerLevelUnit, Math.Min(((double)level / LevelUnit), 10f));
     }
 
     internal void ReCheckStat()
@@ -65,6 +66,9 @@ internal class PlayerStatus
 
     internal void ApplySpecialStat(BonusStat bonus, bool signPositive)
     {
+        if (bonus == null)
+            return;
+
         switch (bonus.targetID)
         {
             case "global":

@@ -7,19 +7,20 @@ using UnityEngine;
         public string IconText;
         public string SubIconName;
 
-        public NestedIcon(string iconname, string icontext, string subicon)
-        {
-            IconName = iconname;
-            IconText = icontext;
-            SubIconName = subicon;
-        }
+    public NestedIcon(string iconName) : this()
+    {
+        IconName = iconName;
+    }
 
-        public NestedIcon(string iconName) : this()
-        {
-            IconName = iconName;
-        }
+    public NestedIcon(string iconname, string icontext, string subicon)
+    {
+        IconName = iconname;
+        IconText = icontext;
+        SubIconName = subicon;
+    }
 
-        public void Dispose()
+
+    public void Dispose()
         {
             IconName = null;
             SubIconName = null;

@@ -10,14 +10,26 @@ internal class Talent
     internal BonusStat TotalBonus {
         get
         {
+            if (BonusPerLevel == null)
+                return null;
             BonusStat temp = (BonusStat)BonusPerLevel.Clone();
-            temp.value *= Level;
+            if(temp.attribute == Attribute.ResearchTimeX)
+                temp.value = (int)Math.Pow(temp.value, Level);
+            else
+                temp.value *= Level;
             return temp;
         }
     }
     internal BonusStat JobBonus { get { return baseData.JobBonus; } }
     public string Name { get { return baseData.Name; } }
-    public int PriceCoef { get { return baseData.PriceCoef; } }
+    public int NextPrice
+    {
+        get
+        {
+            int talentlevel = baseData.BaseLevel + (int)Math.Round(baseData.BaseLevelPerLevel * Level, 0);
+            return (int)Math.Round(TalentManager.ReputationUnit * PlayerStatus.CalGlobalGrowth(talentlevel), 0);
+        }
+    }
     public bool IsMaxLevel { get { return Level >= baseData.MaxLevel; } }
     internal Talent(TalentData data, int level)
     {

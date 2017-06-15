@@ -25,7 +25,6 @@ namespace SexyBackPlayScene
         [NonSerialized]
         MonsterFactory monsterFactory;
 
-
         internal void Init()
         {
             HpBar = new MonsterHpBar();
@@ -46,15 +45,7 @@ namespace SexyBackPlayScene
 
         internal int CreateStageMonster(int floor)
         {
-            int count = 0;
-            for (int i = 0; i < monsterFactory.MonsterPerStage; i++)
-            {
-                string id = string.Format("F{0}M{1}", floor, i);
-                bool isBoss = (floor % monsterFactory.BossTerm  == 0);
-                Monster newmonster = monsterFactory.CreateRandomMonster(id, floor, isBoss);
-                monsters.Enqueue(newmonster);
-                count++;
-            }
+            int count = monsterFactory.CreateMonsters(floor, monsters);
             return count;
         }
         public void Dispose()
@@ -78,16 +69,15 @@ namespace SexyBackPlayScene
         //    return newmonster.GetID;
         //}
 
-
         public void JoinBattle(int floor, int remainMonsterCount, Transform genTransform) // 사거리내에 들어옴. battle 시작. 
         {
             BattleMonster = monsters.Peek();
             BattleMonster.Spawn(genTransform);            // 여기가 실제 monstermanager의 기능.
             string HpBarName;
 
-            int sequence = monsterFactory.MonsterPerStage - remainMonsterCount + 1;
+            int sequence = monsterFactory.info.MonsterPerStage - remainMonsterCount + 1;
             
-            if (BattleMonster.isBoss)
+            if (BattleMonster.type > 0)
                 HpBarName = string.Format("[{0}층 보스] {1}", floor, BattleMonster.Name);
             else
                 HpBarName = string.Format("[{0}층 {1}단계] {2}", floor, sequence, BattleMonster.Name);

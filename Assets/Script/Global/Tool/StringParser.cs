@@ -41,6 +41,9 @@ public static class StringParser
 
     internal static string GetAttributeString(BonusStat bonus)
     {
+        if (bonus == null)
+            return "";
+
         string AttackName = null;
         string SkillName = null;
         int SkillRateXK = 0;
@@ -107,7 +110,7 @@ public static class StringParser
             case Attribute.ResearchTime:
                 return string.Format("연구시간 -{0}초", bonus.value);
             case Attribute.ResearchTimeX:
-                return string.Format("연구시간 {0}배 단축", bonus.value);
+                return string.Format("연구속도 {0}배", bonus.value);
             case Attribute.MaxResearchThread:
                 return string.Format("동시연구개수 +{0}", bonus.value);
             case Attribute.LPriceReduceXH:
@@ -120,16 +123,16 @@ public static class StringParser
                 return string.Format("랭크보너스 +{0}", bonus.value);
             case Attribute.BonusEquipment:
                 return string.Format("장비보상 +{0}", bonus.value);
-            case Attribute.BonusConsumable:
-                return string.Format("추가소모품 +{0}", bonus.value);
+            case Attribute.ConsumableX:
+                return string.Format("소모품드랍 {0}배", bonus.value);
             case Attribute.InitLevel:
                 return string.Format("{0} 초기레벨 +{1}", AttackName, bonus.value);
             case Attribute.ReputationXH:
                 return string.Format("명성획득 +{0}%", bonus.value);
             case Attribute.BaseDensityAdd:
-                {
                     return string.Format((bonus.dvalue >= 10)? "{0} 공격력 +{1:N0}" : "{0} 공격력 +{1:N2}", AttackName, bonus.dvalue);
-                }
+            case Attribute.FastStage:
+                return string.Format("{0}층 빠른진행", bonus.value);
         }
         return "Can't Parse Attribute";
     }

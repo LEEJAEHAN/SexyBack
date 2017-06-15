@@ -24,7 +24,7 @@ namespace SexyBackPlayScene
             Name = "검술";
             SkillName = "강타";
             AttackInterval = 5;
-            MoveSpeed = 3f;
+            MoveSpeed = 6f;
             BaseLevel = 0;
             BaseDamage = 4;
             BasePrice = 60;

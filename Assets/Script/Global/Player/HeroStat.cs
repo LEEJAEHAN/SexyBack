@@ -27,7 +27,7 @@ public class HeroStat
         AttackSpeedXH = 0; // Spd와는 다르다.
         CriticalRateXH = 0; // 20;
         CriticalDamageXH = 0; // 425;
-        MovespeedXH = 2000;
+        MovespeedXH = 0;
         AttackCapacity = 1;
     }
     

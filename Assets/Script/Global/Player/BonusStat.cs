@@ -29,9 +29,10 @@ public enum Attribute
     InitExpCoef,
     RankBonus,
     BonusEquipment,
-    BonusConsumable,
+    ConsumableX,
     ReputationXH,
     BaseDensityAdd,
+    FastStage,
 
     // only in instancegame "ingame"
     Active,
@@ -74,6 +75,7 @@ public class BonusStat : ICloneable
     {
         var clone = new BonusStat(this.targetID, this.attribute, this.value);
         clone.strvalue = this.strvalue;
+        clone.dvalue = this.dvalue;
         return clone;
     }
 

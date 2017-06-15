@@ -72,10 +72,16 @@ namespace SexyBackPlayScene
 
         public void onStagePass(Stage stage)
         {
+
+
             if (stage.type == StageType.FirstPortal)
-                Singleton<ConsumableManager>.getInstance().MakeInitialChest();
+            {
+                //Singleton<ConsumableManager>.getInstance().MakeInitialChest();
+            }
             if (stage.type == StageType.Normal)
+            {
                 CurrentFloor = stage.floor + 1;
+            }
             if (stage.type == StageType.LastPortal)
             {
                 Singleton<InstanceGameManager>.getInstance().EndGame(true);

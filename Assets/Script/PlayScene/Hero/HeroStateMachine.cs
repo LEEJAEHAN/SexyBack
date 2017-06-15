@@ -18,6 +18,8 @@ namespace SexyBackPlayScene
                     return new HeroStateAttack(owner, this);
                 case "Move":
                     return new HeroStateMove(owner, this);
+                case "FastMove":
+                    return new HeroStateFastMove(owner, this);
                 default:
                     {
                         UnityEngine.Debug.LogError("");
