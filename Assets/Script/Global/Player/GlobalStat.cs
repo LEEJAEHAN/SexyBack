@@ -7,7 +7,7 @@ internal class GlobalStat
     internal int InitExpCoef;
     internal int BonusEquipment;
     internal int ReputationXH;
-    internal int FastStage;
+    //internal int FastStage;
     public GlobalStat()
     {
         RankBonus = 0;

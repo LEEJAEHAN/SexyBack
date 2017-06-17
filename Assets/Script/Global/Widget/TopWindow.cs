@@ -10,6 +10,7 @@ public class TopWindow : MonoBehaviour {
     {
         Singleton<EquipmentManager>.getInstance().BindTopView(this);
         Singleton<TalentManager>.getInstance().BindTopView(this);
+        Singleton<PremiumManager>.getInstance().BindTopView(this);
 
         if (SceneManager.GetActiveScene().name == "MenuScene")
         {
@@ -17,6 +18,8 @@ public class TopWindow : MonoBehaviour {
             transform.FindChild("Slot1/Value").GetComponent<UILabel>().text = Singleton<TalentManager>.getInstance().Reputation.ToString();
             transform.FindChild("Slot2/Title/LeftArrow").gameObject.SetActive(false);
             transform.FindChild("Slot2/Title/RightArrow").gameObject.SetActive(false);
+            transform.FindChild("Slot3/Title").GetComponent<UILabel>().text = "보석";
+            transform.FindChild("Slot3/Value").GetComponent<UILabel>().text = Singleton<PremiumManager>.getInstance().Gem.ToString();
         }
         else if (SceneManager.GetActiveScene().name == "PlayScene")
         {
@@ -24,11 +27,18 @@ public class TopWindow : MonoBehaviour {
             transform.FindChild("Slot1/Value").GetComponent<UILabel>().text = "1:00:00";
             transform.FindChild("Slot2/Title/LeftArrow").gameObject.SetActive(true);
             transform.FindChild("Slot2/Title/RightArrow").gameObject.SetActive(true);
+            transform.FindChild("Slot3/Title").GetComponent<UILabel>().text = "보석";
+            transform.FindChild("Slot3/Value").GetComponent<UILabel>().text = Singleton<PremiumManager>.getInstance().Gem.ToString();
         }
     }
     internal void PrintSlot1String(string value)
     {
         transform.FindChild("Slot1/Value").GetComponent<UILabel>().text = value;
+    }
+    internal void PrintSlot3String(string value)
+    {
+        transform.FindChild("Slot3/Value").GetComponent<UILabel>().text = value;
+
     }
 
     public void onRightButton()
