@@ -169,7 +169,7 @@ internal class SaveSystem
         writer.WriteAttributeString("skillid", e.skillID);
         writer.WriteAttributeString("level", e.level.ToString());
         //writer.WriteAttributeString("grade", e.grade.ToString());
-        writer.WriteAttributeString("evolution", e.evolution.ToString());
+        writer.WriteAttributeString("limit", e.limit.ToString());
         writer.WriteAttributeString("exp", e.exp.ToString());
         writer.WriteAttributeString("skillLevel", e.skillLevel.ToString());
         writer.WriteAttributeString("isLock", e.isLock.ToString());

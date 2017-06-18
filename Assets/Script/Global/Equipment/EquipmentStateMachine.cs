@@ -12,7 +12,7 @@ namespace SexyBackMenuScene
         EquipSelected,
         InvenSelected,
         EnchantMode,
-        EvolutionMode,
+        UnLimitMode,
 
         Working = 10,
     }
@@ -50,7 +50,7 @@ namespace SexyBackMenuScene
                 transform.FindChild("ButtonSet/Set1").gameObject.SetActive(true);
                 transform.FindChild("ButtonSet/Set1/Table/Button1/Label").GetComponent<UILabel>().text = "장착";
                 transform.FindChild("ButtonSet/Set1/Table/Button1").GetComponent<UIButton>().onClick.Add(new EventDelegate(script, "onEquipButton"));
-                transform.FindChild("ButtonSet/Set1/Table/Button2").GetComponent<UIButton>().isEnabled = manager.Focused.CanEvolution;
+                transform.FindChild("ButtonSet/Set1/Table/Button2").GetComponent<UIButton>().isEnabled = manager.Focused.CanUnLimit;
                 transform.FindChild("ButtonSet/Set1/Table/Button4/Label").GetComponent<UILabel>().text = EquipmentWiki.LockToString(manager.Focused.isLock);
             }
             else if (state == EquipmentState.EquipSelected)
@@ -59,7 +59,7 @@ namespace SexyBackMenuScene
                 transform.FindChild("ButtonSet/Set1").gameObject.SetActive(true);
                 transform.FindChild("ButtonSet/Set1/Table/Button1/Label").GetComponent<UILabel>().text = "해제";
                 transform.FindChild("ButtonSet/Set1/Table/Button1").GetComponent<UIButton>().onClick.Add(new EventDelegate(script, "onUnEquipButton"));
-                transform.FindChild("ButtonSet/Set1/Table/Button2").GetComponent<UIButton>().isEnabled = manager.Focused.CanEvolution;
+                transform.FindChild("ButtonSet/Set1/Table/Button2").GetComponent<UIButton>().isEnabled = manager.Focused.CanUnLimit;
                 transform.FindChild("ButtonSet/Set1/Table/Button4/Label").GetComponent<UILabel>().text = EquipmentWiki.LockToString(manager.Focused.isLock);
             }
             else if (state == EquipmentState.EnchantMode)
@@ -100,12 +100,12 @@ namespace SexyBackMenuScene
                     }
                 }
             }
-            else if (state == EquipmentState.EvolutionMode)
+            else if (state == EquipmentState.UnLimitMode)
             {
                 script.FillSelected(manager.Focused);
                 transform.FindChild("Text").GetComponent<UILabel>().text = "MAX 강화된 동일장비 1개를 재료로 선택해주세요.\n<주의> 재료로 사용되는 장비는 사라지며 복구되지 않습니다.";
                 transform.FindChild("ButtonSet/Set2").gameObject.SetActive(true);
-                transform.FindChild("ButtonSet/Set2/Button1").GetComponent<UIButton>().onClick.Add(new EventDelegate(script, "onEvolutionConfirm"));
+                transform.FindChild("ButtonSet/Set2/Button1").GetComponent<UIButton>().onClick.Add(new EventDelegate(script, "onUnLimitConfirm"));
                 transform.FindChild("ButtonSet/Set2/Button1").GetComponent<UIButton>().isEnabled = false;
                 transform.FindChild("ButtonSet/Set2/Button2").GetComponent<UIButton>().onClick.Add(new EventDelegate(script, "onCancel"));
                 transform.FindChild("장비슬롯/Mask").gameObject.SetActive(true);
@@ -126,7 +126,7 @@ namespace SexyBackMenuScene
                         view.FindChild("Mask").gameObject.SetActive(true);
                         view.GetComponent<UIToggle>().enabled = false;
                     }
-                    else if (manager.isEvolutionMaterial(i) == false)
+                    else if (manager.isUnLimitMaterial(i) == false)
                     {
                         view.FindChild("Mask").gameObject.SetActive(true);
                         view.GetComponent<UIToggle>().enabled = false;
@@ -180,7 +180,7 @@ namespace SexyBackMenuScene
                 transform.FindChild("ButtonSet/Set1").gameObject.SetActive(false);
                 transform.FindChild("ButtonSet/Set1/Table/Button1").GetComponent<UIButton>().onClick.Clear();
             }
-            else if (state == EquipmentState.EnchantMode || state == EquipmentState.EvolutionMode)
+            else if (state == EquipmentState.EnchantMode || state == EquipmentState.UnLimitMode)
             {
                 transform.FindChild("Text").GetComponent<UILabel>().text = "";
                 transform.FindChild("ButtonSet/Set2").gameObject.SetActive(false);

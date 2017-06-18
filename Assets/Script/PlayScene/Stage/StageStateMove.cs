@@ -27,13 +27,12 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
-            if (owner.zPosition < 0 && owner.type == StageType.Normal)
+            if (owner.zPosition < 0)
             {
-                owner.ChangeState("Battle");
-            }
-            else if ( owner.zPosition < 0)
-            {
-                owner.ChangeState("PostMove");
+                if (owner.type == StageType.Normal && owner.floor == Singleton<StageManager>.getInstance().NextBattleStage)
+                    owner.ChangeState("Battle");
+                else
+                    owner.ChangeState("PostMove");
             }
         }
     }

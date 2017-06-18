@@ -89,72 +89,24 @@ internal class TableLoader
 
             {
                 XmlNode rNode = node.SelectSingleNode("MapReward");
-                newOne.MapReward.Level = int.Parse(rNode.Attributes["rewardlevel"].Value);
-                newOne.MapReward.PrevLevel = int.Parse(rNode.Attributes["prevrewardlevel"].Value);
+                //newOne.MapReward.Level = int.Parse(rNode.Attributes["rewardlevel"].Value);
+                //newOne.MapReward.PrevLevel = int.Parse(rNode.Attributes["prevrewardlevel"].Value);
                 newOne.MapReward.ItemCount = int.Parse(rNode.Attributes["itemcount"].Value);
             }
             {
                 XmlNode mNode = node.SelectSingleNode("MapMonster");
                 newOne.MapMonster.LevelPerFloor = int.Parse(mNode.Attributes["levelperfloor"].Value);
-                newOne.MapMonster.MonsterPerStage = int.Parse(mNode.Attributes["monsterperstage"].Value);
                 newOne.MapMonster.HP[0] = int.Parse(mNode.Attributes["monsterhp"].Value);
                 newOne.MapMonster.HP[1] = int.Parse(mNode.Attributes["bosshp"].Value);
-                newOne.MapMonster.HP[2] = int.Parse(mNode.Attributes["fastbosshp"].Value);
-                
+                //newOne.MapMonster.HP[2] = int.Parse(mNode.Attributes["fastbosshp"].Value);
                 newOne.MapMonster.Chest[0]= int.Parse(mNode.Attributes["chestpermonster"].Value);
                 newOne.MapMonster.Chest[1] = int.Parse(mNode.Attributes["chestperboss"].Value);
-                newOne.MapMonster.Chest[2] = 0;
+                //newOne.MapMonster.Chest[2] = 0;
                 newOne.MapMonster.BossTerm= int.Parse(mNode.Attributes["bossterm"].Value);
             }
             mapTable.Add(newOne);
         }
 
-
-
-        //MapData data1 = new MapData();
-        //data1.ID = "Map01";
-        //data1.Name = "50층돌파";
-        //data1.RequireMap = null;
-        //data1.LimitTime = 3600;
-        //data1.RewardData = new MapRewardData(50, 50, 1, 8);
-        //data1.MaxFloor = 50;        // 10
-        //data1.LevelPerFloor = 1;    // 5
-        //data1.MonsterPerStage = 1;
-        //data1.ChestPerMonster = 1;
-        //data1.BossHp = 2000;
-        //data1.ChestPerBoss = 1;
-        //data1.MonsterHP = 200;    // 1000;
-        //mapTable.Add(data1);
-
-        //MapData data2 = new MapData();
-        //data2.ID = "Map02";
-        //data2.Name = "100층돌파";
-        //data2.RequireMap = "Map01";
-        //data2.LimitTime = 7200;
-        //data2.RewardData = new MapRewardData(100, 100, 2, 8);
-        //data2.MaxFloor = 20;
-        //data2.LevelPerFloor = 5;
-        //data2.MonsterPerStage = 1;
-        //data2.ChestPerMonster = 1;
-        //data2.BossHp = 10;
-        //data2.ChestPerBoss = 3;
-        //data2.MonsterHP = 5;
-        //mapTable.Add(data2);
-
-        //MapData data3= new MapData();
-        //data3.ID = "Map03";
-        //data3.Name = "테스트맵";
-        //data3.RequireClearMap = "Map01";
-        //data3.LimitTime = 7200;
-        //data3.RewardData = new MapRewardData(167, 67, 3, 3);
-        //data3.MaxFloor = 1;
-        //data3.LevelPerFloor = 5;
-        //data3.MonsterPerStage = 1;
-        //data3.ChestPerMonster = 1;
-        //data3.BossMonsterHP = 10;
-        //data3.ChestPerBossMonster = 3;
-        //data3.MonsterHP = 5;
-        //mapTable.Add(data3);
     }
 
 
@@ -357,10 +309,6 @@ internal class TableLoader
             int count = statnodes.Attributes.Count;
             for(int i = 0; i < count; i++)
             {
-                if (newOne.ID == "E10")
-                {
-                    sexybacklog.Console("지금!");
-                }
                 newOne.stats.Add(new BonusStat(statnodes.Attributes[i].Value, Attribute.BaseDensityAdd, 1f / count));
             }
 

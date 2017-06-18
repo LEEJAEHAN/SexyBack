@@ -5,8 +5,8 @@ namespace SexyBackPlayScene
 {
     internal class StageStateBattle : BaseState<Stage>
     {
-        bool DuringBattle = false;
         MonsterManager mManager;
+        // 이개념을 몬스터에 넣을것인가 스테이지에 넣을것인가.
 
         public StageStateBattle(Stage owner, StateMachine<Stage> statemachine) : base(owner, statemachine)
         {
@@ -15,35 +15,10 @@ namespace SexyBackPlayScene
 
         internal override void Begin()
         {
+            Singleton<StageManager>.getInstance().MakeOrLoadMonster(owner.floor);// 미리 로드되있으면 있고, 없으면 만든다.
             owner.zPosition = 0;
             owner.avatar.transform.localPosition = Vector3.zero;
-            Singleton<HeroManager>.getInstance().GetHero().ChangeState("Ready");
-        }
-
-        public void BattleStart() // 사거리내에 들어옴. battle 시작. 
-        {
-            DuringBattle = true;
-
-            mManager.JoinBattle(owner.floor, owner.monsterCount, owner.avatar.transform.FindChild("monster"));
-
-            Monster BattleMonster = mManager.GetMonster();
-            BattleMonster.StateMachine.Action_changeEvent += onTargetStateChange;
-            Singleton<ElementalManager>.getInstance().SetTarget(BattleMonster);
-            Singleton<HeroManager>.getInstance().SetTarget(BattleMonster);
-        }
-
-        public void onTargetStateChange(string monsterid, string stateID)
-        {
-            if (stateID == "Flying")
-            {
-                owner.monsterCount--;
-            }
-            if (stateID == "Death")
-            {
-                mManager.GetMonster().StateMachine.Action_changeEvent -= onTargetStateChange;
-                mManager.EndBattle();
-                DuringBattle = false;
-            }
+            Singleton<StageManager>.getInstance().BattleStart(owner);
         }
 
         internal override void End()
@@ -52,30 +27,12 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
-            if(!DuringBattle && owner.monsterCount > 0)
+            if (mManager.GetBattleMonster() == null)  // 첨부터 없었거나 혹은 battle end
             {
-                BattleStart();
+                Singleton<StageManager>.getInstance().BattleEnd();
+                owner.ChangeState("PostMove");
             }
 
-            if(!DuringBattle && owner.monsterCount <= 0)  // battle end
-            {
-                NextState();
-            }
-        }
-
-        void NextState()
-        {
-            if (owner.floor == StageManager.MaxFloor)
-            {
-                sexybacklog.Console("마지막층도달!");
-            }
-
-            if (Singleton<PlayerStatus>.getInstance().GetGlobalStat.FastStage > owner.floor)
-                Singleton<HeroManager>.getInstance().GetHero().ChangeState("FastMove");
-            else
-                Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
-
-            owner.ChangeState("PostMove");
         }
 
     }

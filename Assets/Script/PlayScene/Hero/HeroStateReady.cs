@@ -23,13 +23,16 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
-            if(nextstate)
+            if (Singleton<HeroManager>.getInstance().AutoAttack)
+                onTouch(new TapPoint(ViewLoader.monsterbucket.transform.position, ViewLoader.monsterbucket.transform.position));
+
+            if (nextstate)
             {
                 stateMachine.ChangeState("Attack");
             }
         }
         internal void onTouch(TapPoint pos)
-        {   
+        {
             if (owner.TargetID != null)
             {
                 if(owner.AttackManager.CanMakePlan)

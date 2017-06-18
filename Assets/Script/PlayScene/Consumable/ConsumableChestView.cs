@@ -12,9 +12,11 @@ namespace SexyBackPlayScene
         bool Flash = false;
         bool Open = false;
         public bool RandomMove = true;
+        public bool AutoOpen = false;
 
         public Action Action_Open;
         public Action Action_Destroy;
+        
 
         public void Awake()
         {
@@ -52,6 +54,8 @@ namespace SexyBackPlayScene
         }
         public void onTweenComplete()
         {
+            if (AutoOpen)
+                onOpen();
             //TimeOutTime = 5f;
             Timer = TimeOutTime;
             //GetComponent<BoxCollider>().enabled = true;

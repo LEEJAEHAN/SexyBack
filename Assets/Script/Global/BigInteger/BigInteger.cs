@@ -302,6 +302,14 @@ public class BigInteger : ISerializable
     /// <summary>
     /// Creates a BigInteger for SexyBackGame
     /// </summary>
+    /// 
+    public object Clone()
+    {
+        var clone = new BigInteger(new DigitsArray(m_digits)); // clone
+        return clone;
+    }
+
+
     public BigInteger(int value, Digit digit)
     {
         string BigIntegerString = value.ToString();

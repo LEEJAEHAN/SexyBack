@@ -118,7 +118,7 @@ public static class StringParser
             case Attribute.RPriceReduceXH:
                 return string.Format("연구비용 -{0}%", bonus.value);
             case Attribute.InitExpCoef:
-                return string.Format("시작경험치 {0}배", (int)Math.Pow(2,bonus.value));
+                return string.Format("시작경험치 {0}배", bonus.value);
             case Attribute.RankBonus:
                 return string.Format("랭크보너스 +{0}", bonus.value);
             case Attribute.BonusEquipment:
@@ -130,9 +130,7 @@ public static class StringParser
             case Attribute.ReputationXH:
                 return string.Format("명성획득 +{0}%", bonus.value);
             case Attribute.BaseDensityAdd:
-                    return string.Format((bonus.dvalue >= 10)? "{0} 공격력 +{1:N0}" : "{0} 공격력 +{1:N2}", AttackName, bonus.dvalue);
-            case Attribute.FastStage:
-                return string.Format("{0}층 빠른진행", bonus.value);
+                    return string.Format((bonus.dvalue >= 10)? "{0} 피해량 {1:N0}배 증가" : "{0} 피해량 {1:N2}배 증가", AttackName, bonus.dvalue);
         }
         return "Can't Parse Attribute";
     }

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace SexyBackPlayScene
 {
     [Serializable]
-    internal class Monster : IStateOwner, IDisposable, ISerializable// model
+    internal class Monster : IStateOwner, IDisposable// model
     {
         ~Monster() { sexybacklog.Console("몬스터 소멸!"); }
 
@@ -14,8 +14,8 @@ namespace SexyBackPlayScene
         public int level;
         public BigInteger HP;
         public string Name;
-        public int type;
-        public int chestCount;
+        public MonsterType type;
+        //
         public BigInteger MAXHP;
         // view
         public GameObject avatar;
@@ -31,20 +31,20 @@ namespace SexyBackPlayScene
 
         public string GetID { get { return ID; } }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("ID", ID);
-            info.AddValue("DataID", DataID);
-            info.AddValue("level", level);
-            info.AddValue("HP", HP.ToString());
-        }
-        public Monster(SerializationInfo info, StreamingContext context)
-        {
-            ID = (string)info.GetValue("ID", typeof(string));
-            DataID = (string)info.GetValue("DataID", typeof(string));
-            level = (int)info.GetValue("level", typeof(int));
-            HP = new BigInteger((string)info.GetValue("HP", typeof(string)));
-        }
+        //public void GetObjectData(SerializationInfo info, StreamingContext context)
+        //{
+        //    info.AddValue("ID", ID);
+        //    info.AddValue("DataID", DataID);
+        //    info.AddValue("level", level);
+        //    info.AddValue("HP", HP.ToString());
+        //}
+        //public Monster(SerializationInfo info, StreamingContext context)
+        //{
+        //    ID = (string)info.GetValue("ID", typeof(string));
+        //    DataID = (string)info.GetValue("DataID", typeof(string));
+        //    level = (int)info.GetValue("level", typeof(int));
+        //    HP = new BigInteger((string)info.GetValue("HP", typeof(string)));
+        //}
 
         internal Monster(string id, string dataID)
         {

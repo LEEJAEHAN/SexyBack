@@ -13,7 +13,7 @@ internal class Talent
             if (BonusPerLevel == null)
                 return null;
             BonusStat temp = (BonusStat)BonusPerLevel.Clone();
-            if(temp.attribute == Attribute.ResearchTimeX)
+            if(temp.attribute == Attribute.ResearchTimeX || temp.attribute == Attribute.InitExpCoef)
                 temp.value = (int)Math.Pow(temp.value, Level);
             else
                 temp.value *= Level;

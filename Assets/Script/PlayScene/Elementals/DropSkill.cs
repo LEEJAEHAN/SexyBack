@@ -29,7 +29,10 @@ namespace SexyBackPlayScene
         {
             Enable = true;
             ReLoaded = false;
-            AttackTimer = 0;
+            if (NoReloadTime)
+                AttackTimer = CastInterval;
+            else
+                AttackTimer = 0;
         }
         internal override void ReLoad()
         {   // 리로드 없다.
@@ -56,8 +59,8 @@ namespace SexyBackPlayScene
 
         private void SetSpawnZone(string targetID)
         {
-            SpawnCenter = Singleton<MonsterManager>.getInstance().GetMonster().CenterPosition;
-            SpawnSize = Singleton<MonsterManager>.getInstance().GetMonster().Size;
+            SpawnCenter = Singleton<MonsterManager>.getInstance().GetBattleMonster().CenterPosition;
+            SpawnSize = Singleton<MonsterManager>.getInstance().GetBattleMonster().Size;
             SpawnCenter.y += 6.4f; // 천장에서떨군다.
         }
 

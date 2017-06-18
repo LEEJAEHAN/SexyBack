@@ -129,6 +129,7 @@ namespace SexyBackPlayScene
                 writer.WriteAttributeString("level", data.level.ToString());
                 writer.WriteAttributeString("type", data.type.ToString());
                 writer.WriteAttributeString("hp", data.HP.ToString());
+                writer.WriteAttributeString("maxhp", data.MAXHP.ToString());
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();
@@ -140,14 +141,20 @@ namespace SexyBackPlayScene
             writer.WriteStartElement("Stages");
             writer.WriteAttributeString("currentfloor", manager.CurrentFloor.ToString());
             writer.WriteAttributeString("lastclearedfloor", manager.lastClearedFloor.ToString());
+            writer.WriteAttributeString("nextbattlestage", manager.NextBattleStage.ToString());
+            writer.WriteAttributeString("nextmonsterhp", manager.NextMonsterHP.ToString());
+            writer.WriteAttributeString("combo", manager.Combo.ToString());
+            writer.WriteAttributeString("neednextstage", manager.needNextStage.ToString());
+            writer.WriteAttributeString("battletime", manager.BattleTime.ToString());
+
+
             foreach (Stage data in manager.Stages)
             {
                 writer.WriteStartElement("Stage");
                 writer.WriteAttributeString("floor", data.floor.ToString());
                 writer.WriteAttributeString("zPosition", data.zPosition.ToString());
-                writer.WriteAttributeString("rewardcomplete", data.rewardComplete.ToString());
                 writer.WriteAttributeString("state", data.CurrentState.ToString());
-                writer.WriteAttributeString("monstercount", data.monsterCount.ToString());
+                //writer.WriteAttributeString("monstercount", data.monsterCount.ToString());
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();
@@ -187,6 +194,7 @@ namespace SexyBackPlayScene
             writer.WriteStartElement("Hero");
             writer.WriteAttributeString("level", data.OriginalLevel.ToString());
             writer.WriteAttributeString("basedmg", data.DamageDensity.ToString());
+            writer.WriteAttributeString("state", data.CurrentState.ToString());
             writer.WriteEndElement();
         }
 

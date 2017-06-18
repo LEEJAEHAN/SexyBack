@@ -162,7 +162,7 @@ namespace SexyBackPlayScene
         {
             if (!AttackManager.CanAttack || TargetID == null)
                 return false;
-            Monster target = Singleton<MonsterManager>.getInstance().GetMonster();
+            Monster target = Singleton<MonsterManager>.getInstance().GetBattleMonster();
             if (target == null)
                 return false;
 
@@ -182,6 +182,7 @@ namespace SexyBackPlayScene
             // do deal
             TapPoint atkPlan = AttackManager.NextAttackPlan();
 
+            //target.Hit(atkPlan.PosInHeroCam, damage, isCritical); // 히어로캠에서봤던위치니까, ui캠으로본위치로 변환해서출력해야한다.
             target.Hit(atkPlan.PosInEffectCam, damage, isCritical);
 
             // make attack effect

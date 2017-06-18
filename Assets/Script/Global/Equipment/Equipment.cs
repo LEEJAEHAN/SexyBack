@@ -9,7 +9,8 @@ public class Equipment
     public Type type;
     public int grade; // N, R, SR ;;    // 글자색깔; 저장변수
     public double exp; // 저장변수
-    public int evolution; // n, +, ++;  // 저장변수
+    public const double MaxExp = 100f;
+    public int limit; // n, +, ++;  // 저장변수
     public string iconID;
     public bool isLock;   // 저장변수
 
@@ -18,42 +19,49 @@ public class Equipment
     readonly List<BonusStat> baseSkillStat; // data로부터
     public int skillLevel;  // 저장변수
     public string skillName;    // data로부터
-
+    
     internal static string StatToString(BaseStat stat, int exp, int maxExp)
     {
         BaseStat ExpectedStat = (BaseStat)stat.Clone();
         return ExpectedStat.ToString();
     }
 
-    public double GetMaterialExp(int targetlevel, int targetgrade)   // 대상이 100
+    public double GetMaterialExp(Equipment target)   // 대상이 100
     {
-        int levelDiff = level - targetlevel;
+        int levelDiff = level - target.level;
         // 0 이면 나누기 1 , 1이면 나누기
         double levelDiffCoef = PlayerStatus.CalGlobalGrowth(levelDiff);
-        return (50f * levelDiffCoef * (grade + 1) * (evolution + 1) / (targetgrade + 1));
+        int sourceGradeCoef = Math.Min(3,(grade + 1)); // 노멀1배,매직2배,레어3배,유니크3배
+        int targetGradeCoef = Math.Min(3, (target.grade + 1)); // 노멀1배,매직2배,레어3배,유니크3배
+        int targetLimitCoef = target.grade == 3 ? 7 : (int)Math.Pow(2, target.limit);
+        // None == 1,+ ==2, ++ ==4, 유니크 ==7
+        return (100f/6) * levelDiffCoef * sourceGradeCoef / targetGradeCoef / targetLimitCoef;
     }
 
     public List<BonusStat> DmgStat
     {
         get
         {
-            return ExpectDmgStat(this.exp, this.evolution);
+            return ExpectDmgStat(exp, limit, grade);
         }
     }
 
-    public List<BonusStat> ExpectDmgStat(double ExpectedExp, int ExpectedEvolution)
-    {
-        double BaseDmg = PlayerStatus.CalGlobalGrowth(level) / 4;//Singleton<TableLoader>.getInstance().powertable[level];
 
-        double gradeCoef = EquipmentWiki.CalgradeCoef(grade);
-        double evolCoef = EquipmentWiki.CalEvolCoef(ExpectedEvolution);
-        double expCoef = EquipmentWiki.CalExpCoef(ExpectedExp);
+
+    public List<BonusStat> ExpectDmgStat(double ExpectedExp, int ExpectedLimit, int ExpectedGrade)
+    {
+        // 장통계
+        double BaseDmg = PlayerStatus.CalGlobalGrowth(level) / 16;
+        //Singleton<TableLoader>.getInstance().powertable[level];
+        double gradeCoef = EquipmentWiki.CalgradeCoef(ExpectedGrade);
+        double CalLimitCoef = EquipmentWiki.CalLimitCoef(ExpectedLimit);
+        double expCoef = EquipmentWiki.CalExpCoef(ExpectedGrade, ExpectedExp);
 
         List<BonusStat> result = new List<BonusStat>();
         foreach (BonusStat one in damageStat)
         {
             BonusStat temp = (BonusStat)one.Clone();
-            temp.dvalue = one.dvalue * BaseDmg * gradeCoef * evolCoef * expCoef;
+            temp.dvalue = one.dvalue * BaseDmg * gradeCoef * CalLimitCoef * expCoef;
 
             if (one.targetID == "elementals")
             {
@@ -70,11 +78,11 @@ public class Equipment
         return result;
     }
 
-    public void DrawIconView(UISprite icon, UILabel name, int expectedEV)
+    public void DrawIconView(UISprite icon, UILabel name, int expectedgrade, int expectedlimit, int itemlevel)
     {
         icon.spriteName = iconID;
-        name.text = this.name + EquipmentWiki.EvToString(expectedEV);
-        name.color = EquipmentWiki.CalNameColor(grade);
+        name.text = string.Format("{0}{1} LV.{2}", this.name, EquipmentWiki.PrintLimit(expectedlimit), itemlevel);
+        name.color = EquipmentWiki.CalNameColor(expectedgrade);
     }
 
     public List<BonusStat> SkillStat
@@ -100,7 +108,7 @@ public class Equipment
         iconID = data.iconID;
 
         exp = 0;
-        evolution = 0;
+        limit = 0;
         grade = data.grade;
         this.level = level;
         skillLevel = 1;
@@ -127,32 +135,37 @@ public class Equipment
         Ring2
     }
 
-    internal bool Compare(Equipment equipment)
+    internal bool isSameItem(Equipment equipment)
     {
-        return (this.grade == equipment.grade && this.evolution == equipment.evolution && this.dataID.Equals(equipment.dataID));
+        //return (this.grade == equipment.grade && this.limit == equipment.limit && this.dataID.Equals(equipment.dataID));
+        return (this.grade == equipment.grade && this.dataID.Equals(equipment.dataID));
     }
 
     internal void AddExp(double amount)
     {
         exp += amount;
-        if (exp > 100f)
-            exp = 100f;
+        if (exp > MaxExp)
+            exp = MaxExp;
     }
-
-
-    internal void Evolution()
+    internal bool isMaxExp()
     {
-        evolution++;
-        if (evolution > 2)
-            evolution = 2;
+        return exp >= MaxExp;
     }
-    internal bool CanEvolution
+
+
+    internal void UnLimit()
+    {
+        limit++;
+        if (limit > 2)
+            limit = 2;
+    }
+    internal bool CanUnLimit
     {
         get
         {
-            return exp == 100 && evolution < 2;
+            return isMaxExp() && limit < 2;
         }
-
     }
+
 
 }

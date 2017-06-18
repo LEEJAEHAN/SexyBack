@@ -33,18 +33,18 @@ namespace SexyBackPlayScene
                 if (flipflop)
                 {
                     Singleton<HeroManager>.getInstance().GetHero().Action_DistanceChange -= onHeroMove;
-                    Singleton<StageManager>.getInstance().onStageClear(owner);
+                    Singleton<StageManager>.getInstance().onStageDestroy(owner);
                     flipflop = false;
                     return;
                 }
             }
 
-            if (owner.zPosition <= -(StageManager.DistancePerFloor)) // remove stage
+            if (owner.zPosition <= -20f) // remove stage
             {
                 if(flipflop)
                 {
                     Singleton<HeroManager>.getInstance().GetHero().Action_DistanceChange -= onHeroMove;
-                    Singleton<StageManager>.getInstance().onStageClear(owner);
+                    Singleton<StageManager>.getInstance().onStageDestroy(owner);
                     flipflop = false;
                 }
             }

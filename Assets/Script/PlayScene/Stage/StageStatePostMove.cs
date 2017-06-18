@@ -6,16 +6,10 @@ namespace SexyBackPlayScene
     internal class StageStatePostMove : BaseState<Stage>
     {
         // talent를 찍기 전까지.
-        bool waiting = false;
         bool PassDoor = false;
 
         public StageStatePostMove(Stage owner, StateMachine<Stage> statemachine) : base(owner, statemachine)
         {
-        }
-
-        void onTalentConfirm()
-        {
-            owner.rewardComplete = true;
         }
 
         internal override void Begin()
@@ -40,38 +34,13 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
-            if (waiting == false)
+            if (!PassDoor && owner.zPosition <= GameCameras.HeroCamPosition.z + 1.5f) // 영웅이 문을 지나칠때 change floortext
             {
-                if (!PassDoor && owner.zPosition <= GameCameras.HeroCamPosition.z + 1.5f) // 영웅이 문을 지나칠때 change floortext
-                {
-                    Singleton<StageManager>.getInstance().onStagePass(owner);
-                    PassDoor = true;
-                }
-                if (owner.zPosition <= GameCameras.HeroCamPosition.z) // 문이 완전히 화면에서 지나칠때 talent wait // StageManager.DistancePerFloor - 20
-                { //TODO: 계속 여기가 문제... 이거 해결해야함.
-                    waiting = true;
-                    if (owner.rewardComplete == false)
-                    {
-//                        Singleton<ConsumableManager>.getInstance().ShowNewTalentWindow(owner.floor);
-                        Singleton<HeroManager>.getInstance().GetHero().ChangeState("Ready");
-                    }
-                }
+                Singleton<StageManager>.getInstance().onStagePass(owner);
+                PassDoor = true;
             }
-            else if (waiting == true) // waiting true
-            {
-                // TODO : 테스트위해서
-                owner.rewardComplete = true;
-                if (owner.rewardComplete == true)
-                {
-                    if (Singleton<PlayerStatus>.getInstance().GetGlobalStat.FastStage > owner.floor)
-                        Singleton<HeroManager>.getInstance().GetHero().ChangeState("FastMove");
-                    else
-                        Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
-
-                    owner.ChangeState("Destroy");
-                    waiting = false;
-                }
-            }
+            if (owner.zPosition <= GameCameras.HeroCamPosition.z) // 문이 완전히 화면에서 지나칠때 talent wait // StageManager.DistancePerFloor - 20
+                owner.ChangeState("Destroy");
         }
     }
 }

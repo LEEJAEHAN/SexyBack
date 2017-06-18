@@ -32,7 +32,6 @@ public enum Attribute
     ConsumableX,
     ReputationXH,
     BaseDensityAdd,
-    FastStage,
 
     // only in instancegame "ingame"
     Active,

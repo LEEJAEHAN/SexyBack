@@ -94,9 +94,9 @@ namespace SexyBackMenuScene
         {
             statemachine.ChangeMode(EquipmentState.EnchantMode);
         }
-        public void onEvolutionButton()
+        public void onUnLimitButton()
         {
-            statemachine.ChangeMode(EquipmentState.EvolutionMode);
+            statemachine.ChangeMode(EquipmentState.UnLimitMode);
         }
         public void onLock()
         {
@@ -108,10 +108,10 @@ namespace SexyBackMenuScene
             statemachine.SubMode(EquipmentState.Working, true);
             Singleton<EquipmentManager>.getInstance().Enchant(CheckList); // 인첸트, 드로잉안함.
         }
-        public void onEvolutionConfirm()
+        public void onUnLimitConfirm()
         {
             statemachine.SubMode(EquipmentState.Working, true);
-            Singleton<EquipmentManager>.getInstance().Evolution(CheckList[0]); // 인첸트, 드로잉안함.
+            Singleton<EquipmentManager>.getInstance().UnLimit(CheckList[0]); // 인첸트, 드로잉안함.
         }
         public void onFinishWork()
         {
@@ -167,30 +167,34 @@ namespace SexyBackMenuScene
 
             transform.FindChild("인벤토리/ScrollView").GetComponent<UIScrollView>().ResetPosition();
         }
-        public void FillExpectedSelect(Equipment e, double NextExp, int NextEvolution) // 강화나 각성시 사전정보 들어오기.
+        public void FillExpectedSelect(Equipment e, double NextExp, int NextLimit, int NextGrade) // 강화나 각성시 사전정보 들어오기.
         {
-            if (NextExp > 100)
-                NextExp = 100;
-            if (NextEvolution > e.evolution) // 각성 예
+            if (NextExp > Equipment.MaxExp)
+                NextExp = Equipment.MaxExp;
+            if (NextLimit > e.limit) // 각성 예
                 NextExp = 0;
 
             Transform info = transform.FindChild("아이템정보");
             info.gameObject.SetActive(true);
-            e.DrawIconView(info.FindChild("Icon").GetComponent<UISprite>(), info.FindChild("Name").GetComponent<UILabel>(), NextEvolution);
+            e.DrawIconView(info.FindChild("Icon").GetComponent<UISprite>(),
+                info.FindChild("Name").GetComponent<UILabel>(),
+                NextGrade,
+                NextLimit,
+                e.level);
             info.FindChild("Lock").GetComponent<UISprite>().gameObject.SetActive(e.isLock);
             info.FindChild("Stat").GetComponent<UILabel>().color =
-                (NextExp > e.exp || NextEvolution > e.evolution)? Color.blue : Color.black;
+                (NextExp > e.exp || NextLimit > e.limit)? Color.blue : Color.black;
             info.FindChild("EnchantBar").GetComponent<UIProgressBar>().value =
-                NextEvolution > e.evolution ? 0 : (float)e.exp / 100f;
-            info.FindChild("Stat").GetComponent<UILabel>().text = EquipmentWiki.AttributeBox(e.ExpectDmgStat(NextExp, NextEvolution));
-            info.FindChild("EnchantBar/RBar_Fill2").GetComponent<UISprite>().fillAmount = (float)NextExp / 100f;
+                NextLimit > e.limit ? 0 : (float)e.exp / (float)Equipment.MaxExp;
+            info.FindChild("Stat").GetComponent<UILabel>().text = EquipmentWiki.AttributeBox(e.ExpectDmgStat(NextExp, NextLimit, NextGrade));
+            info.FindChild("EnchantBar/RBar_Fill2").GetComponent<UISprite>().fillAmount = (float)NextExp / (float)Equipment.MaxExp;
             info.FindChild("EnchantBar/RBar_Text").GetComponent<UILabel>().text = string.Format("{0:N0}% 강화", NextExp);
             info.FindChild("SkillName").GetComponent<UILabel>().text = e.skillName + " Lv." + e.skillLevel.ToString();
             info.FindChild("SkillStat").GetComponent<UILabel>().text = EquipmentWiki.AttributeBox(e.SkillStat);
         }
         public void FillSelected(Equipment selected)
         {
-            FillExpectedSelect(selected, selected.exp, selected.evolution);
+            FillExpectedSelect(selected, selected.exp, selected.limit, selected.grade);
         }
         private void ClearWindow()
         {

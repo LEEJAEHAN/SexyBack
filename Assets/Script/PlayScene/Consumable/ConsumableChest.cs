@@ -9,7 +9,7 @@ namespace SexyBackPlayScene
         GameObject view;
         int Level;
 
-        internal ConsumableChest(Consumable c, Vector3 dropWorldPosition, bool randmove, int level)
+        internal ConsumableChest(Consumable c, Vector3 dropWorldPosition, bool randmove, int level, bool openChest)
         {
             consumable = c;
             Level = level;
@@ -21,6 +21,7 @@ namespace SexyBackPlayScene
             view.GetComponent<ConsumableChestView>().RandomMove = randmove;
             view.GetComponent<ConsumableChestView>().Action_Open += Add;
             view.GetComponent<ConsumableChestView>().Action_Destroy += Destory;
+            view.GetComponent<ConsumableChestView>().AutoOpen = openChest;
         }
 
         internal void Add()

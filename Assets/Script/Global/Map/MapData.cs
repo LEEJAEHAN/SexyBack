@@ -19,8 +19,8 @@ public class MapData
 }
 public class MapRewardData
 {
-    public int Level;      // 보상의 질 레벨, 10층당 50레벨, 아이템과 리서치보상에서 참고한다.
-    public int PrevLevel;  // F랭크시 보상의 질 레벨.
+    //public int Level;      // 보상의 질 레벨, 10층당 50레벨, 아이템과 리서치보상에서 참고한다.
+    //public int PrevLevel;  // F랭크시 보상의 질 레벨.
     public int ItemCount;
     public List<string> FixCandidates;
 
@@ -32,12 +32,10 @@ public class MapRewardData
 public class MapMonsterData
 {
     public int LevelPerFloor;// float GrowthRate;
-    public int MonsterPerStage;
 
-    public int[] HP = new int[3];
-    public int[] Chest = new int[3];
+    public int[] HP = new int[2];
+    public int[] Chest = new int[2];
 
-    //public int ChestPerMonster;
-    //public int ChestPerBoss;
+    //public int MonsterPerStage;
     public int BossTerm;
 }

@@ -13,12 +13,12 @@
 	<Talent id="T03" name="모험가" maxlevel="10">
 		<Price baselevel="100" baselevelperlevel="50"/>
 		<JobBonus target="util" attribute="ConsumableX" value="2"/>
-		<LevelBonus target="global" attribute="FastStage" value="50"/>
-	</Talent>
-	<Talent id="T04" name="귀족/상인" maxlevel="1">
-		<Price baselevel="100" baselevelperlevel="100"/>
-		<JobBonus target="global" attribute="ReputationXH" value="100"/>
 		<LevelBonus/>
+	</Talent>
+	<Talent id="T04" name="귀족/상인" maxlevel="5">
+		<Price baselevel="0" baselevelperlevel="50"/>
+		<JobBonus target="global" attribute="ReputationXH" value="100"/>
+		<LevelBonus target="global" attribute="InitExpCoef" value="10"/>
 	</Talent>
 	<Talent id="T05" name="헌터" maxlevel="10">
 		<Price baselevel="150" baselevelperlevel="50"/>

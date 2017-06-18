@@ -21,6 +21,8 @@ namespace SexyBackPlayScene
             Singleton<PlayerStatus>.getInstance().Action_BaseStatChange -= onBaseStatChange;
         }
         Hero CurrentHero;
+        public bool AutoAttack = true;
+        public bool AutoChestOpen = true;
 
         // this class is event publisher
         public delegate void HeroCreate_Event(Hero hero);
@@ -40,11 +42,26 @@ namespace SexyBackPlayScene
         }
         internal void Load(XmlDocument doc)
         {
+            CreateHero();
             XmlNode rootNode = doc.SelectSingleNode("InstanceStatus/Hero");
-            CreateNewHero();
+            if(rootNode.Attributes["state"].Value == "FastMove")
+                CurrentHero.ChangeState("FastMove");
+            else
+                CurrentHero.ChangeState("Move");
             CurrentHero.DamageDensity = double.Parse(rootNode.Attributes["basedmg"].Value);
-            // 레벨업 이벤트를 안줘서 research를 생성하지 않는다.
-            CurrentHero.LevelUp(int.Parse(rootNode.Attributes["level"].Value));
+            CurrentHero.LevelUp(int.Parse(rootNode.Attributes["level"].Value));// 레벨업 이벤트를 안줘서 research를 생성하지 않는다.
+        }
+        public void Start()
+        {
+            CreateHero();
+            CurrentHero.ChangeState("Move"); //Init state is move
+            LevelUp(1);
+            //CurrentHero.onHeroStatChange(Singleton<PlayerStatus>.getInstance().GetHeroStat);
+        }
+        private void CreateHero()
+        {
+            CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable);
+            Action_HeroCreateEvent(CurrentHero);
         }
 
         internal void LevelUp(int value)
@@ -64,15 +81,7 @@ namespace SexyBackPlayScene
         {
             CurrentHero.onStatChange();
         }
-        public void CreateNewHero()
-        {
-            CurrentHero = new Hero(Singleton<TableLoader>.getInstance().herotable);
-            Action_HeroCreateEvent(CurrentHero);
-            CurrentHero.ChangeState("Move"); //Init state is move
-
-            //CurrentHero.onHeroStatChange(Singleton<PlayerStatus>.getInstance().GetHeroStat);
-        }
-
+        
         internal void Update()
         {
             if (CurrentHero == null)

@@ -85,6 +85,9 @@ namespace SexyBackPlayScene
 
         internal override void Update()
         {
+            if (Singleton<HeroManager>.getInstance().AutoAttack)
+                onTouch(new TapPoint(ViewLoader.monsterbucket.transform.position, ViewLoader.monsterbucket.transform.position));
+
             timer += Time.deltaTime;
             swingtimer += Time.deltaTime;
 

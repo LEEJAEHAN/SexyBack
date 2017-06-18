@@ -9,9 +9,10 @@ namespace SexyBackPlayScene
     {
         public int floor;
         public float zPosition;
-        public bool rewardComplete;
+        //public bool rewardComplete;
         public string savedState; // TODO : 이거빼는게좋을듯
-        public int monsterCount = 0;
+
+        //public int monsterCount = 0;
 
         [NonSerialized]
         public StageType type;
@@ -44,10 +45,10 @@ namespace SexyBackPlayScene
             StateMachine.ChangeState(stateid);
         }
 
-        public void MakeMonsters()
-        {
-            monsterCount = Singleton<MonsterManager>.getInstance().CreateStageMonster(floor);
-        }
+        //public void MakeMonsters()
+        //{
+        //    
+        //}
 
         ~Stage() { sexybacklog.Console("스테이지소멸!"); }
     }

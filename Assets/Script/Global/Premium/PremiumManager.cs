@@ -6,7 +6,7 @@ using System.Xml;
 internal class PremiumManager
 {
     public int Gem = 0;
-    public bool PremiumUser = false;
+    public bool PremiumUser = true;
     public List<string> PurchasedList;
 
     TopWindow topView;

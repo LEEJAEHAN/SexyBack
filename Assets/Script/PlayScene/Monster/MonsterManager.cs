@@ -5,6 +5,12 @@ using System.Xml;
 
 namespace SexyBackPlayScene
 {
+    enum MonsterType
+    {
+        Jako = 0,
+        Boss = 1,
+        Else = 2
+    }
     [Serializable]
     // 몬스터와 관련된 입력을 처리
     internal class MonsterManager : IDisposable
@@ -20,6 +26,7 @@ namespace SexyBackPlayScene
         int DeadCount;      // ready to pop;
         [NonSerialized]
         Monster BattleMonster; // TODO: bucket으로수정해야함;
+
         [NonSerialized]
         MonsterHpBar HpBar;
         [NonSerialized]
@@ -43,10 +50,10 @@ namespace SexyBackPlayScene
             }
         }
 
-        internal int CreateStageMonster(int floor)
+        internal void CreateStageMonster(int floor, BigInteger HP)
         {
-            int count = monsterFactory.CreateMonsters(floor, monsters);
-            return count;
+            Monster mob = monsterFactory.CreateStageMonsters(floor, HP);
+            monsters.Enqueue(mob);
         }
         public void Dispose()
         {
@@ -69,18 +76,18 @@ namespace SexyBackPlayScene
         //    return newmonster.GetID;
         //}
 
-        public void JoinBattle(int floor, int remainMonsterCount, Transform genTransform) // 사거리내에 들어옴. battle 시작. 
+        public void JoinBattle(int floor, Transform genTransform) // 사거리내에 들어옴. battle 시작. 
         {
+            if (monsters.Count == 0)
+                return;
+
             BattleMonster = monsters.Peek();
             BattleMonster.Spawn(genTransform);            // 여기가 실제 monstermanager의 기능.
-            string HpBarName;
 
-            int sequence = monsterFactory.info.MonsterPerStage - remainMonsterCount + 1;
-            
-            if (BattleMonster.type > 0)
-                HpBarName = string.Format("[{0}층 보스] {1}", floor, BattleMonster.Name);
-            else
-                HpBarName = string.Format("[{0}층 {1}단계] {2}", floor, sequence, BattleMonster.Name);
+            string HpBarName = BattleMonster.type == MonsterType.Boss? 
+                string.Format("[{0}층 보스] {1}", floor, BattleMonster.Name) :
+                string.Format("[{0}층] {1}", floor, BattleMonster.Name);
+
             HpBar.FillNewBar(HpBarName, BattleMonster);
         }
         internal void EndBattle()
@@ -117,10 +124,12 @@ namespace SexyBackPlayScene
         {
             DeadCount++;
         }
-        internal Monster GetMonster()
+        internal Monster GetBattleMonster()
         {
-            return monsters.Peek();
+            return BattleMonster;
+            //return monsters.Peek();
         }
+
         private void onElementalCreate(Elemental elemental)
         {
             if (BattleMonster == null)

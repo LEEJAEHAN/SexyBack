@@ -80,11 +80,11 @@ namespace SexyBackPlayScene
         internal void MakeInitialChest()
         {
             Consumable item = ConsumableFactory.PickRandomConsumable(0);
-            Chests.Add(new ConsumableChest(item, new Vector3(-1, 1.5f, 0), false, 0));
+            Chests.Add(new ConsumableChest(item, new Vector3(-1, 1.5f, 0), false, 0, false));
             Consumable item2 = ConsumableFactory.PickRandomConsumable(0);
-            Chests.Add(new ConsumableChest(item2, new Vector3(0, 1.5f, 0), false, 0));
+            Chests.Add(new ConsumableChest(item2, new Vector3(0, 1.5f, 0), false, 0, false));
             Consumable item3 = ConsumableFactory.PickRandomConsumable(0);
-            Chests.Add(new ConsumableChest(item3, new Vector3(1, 1.5f, 0), false, 0));
+            Chests.Add(new ConsumableChest(item3, new Vector3(1, 1.5f, 0), false, 0, false));
         }
 
         internal static string MakeConstrantText(string target)
@@ -95,12 +95,12 @@ namespace SexyBackPlayScene
                 return "아직 사용할 수 없습니다.";
         }
 
-        public void MakeChest(int ChestCount, int level, Vector3 monsterPosition)
+        public void MakeChest(int ChestCount, int level, Vector3 monsterPosition, bool isOpen)
         {
             for(int i = 0; i < ChestCount; i ++ )
             {
                 Consumable item = ConsumableFactory.PickRandomConsumable(level);
-                Chests.Add(new ConsumableChest(item, monsterPosition, true, level));
+                Chests.Add(new ConsumableChest(item, monsterPosition, true, level, isOpen));
             }
         }
 

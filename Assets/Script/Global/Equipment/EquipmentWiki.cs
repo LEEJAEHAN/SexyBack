@@ -7,16 +7,15 @@ using UnityEngine;
 public static class EquipmentWiki
 {
 
-    internal static string EvToString(int evolution)
+    internal static string PrintLimit(int limit)
     {
-        if (evolution == 1)
+        if (limit == 1)
             return "+";
-        else if (evolution == 2)
+        else if (limit == 2)
             return "++";
         else
             return "";
     }
-
 
     internal static string AttributeBox(List<BonusStat> skillStat)
     {
@@ -30,19 +29,19 @@ public static class EquipmentWiki
             return temp;
     }
 
-    internal static double CalEvolCoef(int evolution)
+    internal static double CalLimitCoef(int limit)
     {
-        if (evolution >= 2)
+        if (limit >= 2)
+            return 4f;
+        else if (limit == 1)
             return 2f;
-        else if (evolution == 1)
-            return 1.414213562f;
         else
             return 1f;
     }
 
     internal static double CalgradeCoef(int grade)
     {
-        if (grade == 2)
+        if (grade >= 2)
             return 3f;
         else if (grade == 1)
             return 2f;
@@ -56,9 +55,12 @@ public static class EquipmentWiki
         //else
         //    return 1f;
     }
-    internal static double CalExpCoef(double exp)
+    internal static double CalExpCoef(int grade, double exp)
     {
-        return 1 + 2*(exp / 100); // x1~x3
+        if(grade == 3 )
+            return 1 + (exp / Equipment.MaxExp) * 7; // x1 ~ x8 ( 유니크는 unlimit가없기떄문에)
+        else
+            return 1 + (exp / Equipment.MaxExp); // x1~x2
         // 원래는 x2까지였음.
     }
 
@@ -92,4 +94,6 @@ public static class EquipmentWiki
         else
             return Color.white;
     }
+
+
 }

@@ -32,7 +32,7 @@ namespace SexyBackPlayScene
         }
         private void GiveUpYes()
         {
-            Singleton<InstanceGameManager>.getInstance().EndGame(false);
+            Singleton<InstanceGameManager>.getInstance().EndGame(true);
         }
         private void GiveUpNo()
         {

@@ -281,7 +281,7 @@ internal class EquipmentManager
         double sum = 0;
         foreach(int i in checkList)
         {
-            sum += inventory[i].GetMaterialExp(Focused.level, Focused.grade);
+            sum += inventory[i].GetMaterialExp(Focused);
             if (inventory[i].skillName.Equals(Focused.skillName))
                 if (Focused.skillLevel < 10)
                     //if (UnityEngine.Random.Range(0, 10) >= 8) 
@@ -290,13 +290,13 @@ internal class EquipmentManager
         }
         Focused.AddExp(sum);
     }
-    internal void Evolution(int meterialIndex)
+    internal void UnLimit(int meterialIndex)
     {
-        if (!isEvolutionMaterial(meterialIndex))
+        if (!isUnLimitMaterial(meterialIndex))
             return;
 
         inventory.RemoveAt(meterialIndex);
-        Focused.Evolution();
+        Focused.UnLimit();
         Focused.exp = 0;
     }
 
@@ -310,24 +310,24 @@ internal class EquipmentManager
 
         double expSum = Focused.exp; 
         foreach( int index in checkList)
-            expSum += inventory[index].GetMaterialExp(Focused.level, Focused.grade);
+            expSum += inventory[index].GetMaterialExp(Focused);
 
         if (mode == EquipmentState.EnchantMode)
-            view.FillExpectedSelect(Focused, expSum, Focused.evolution);
-        else if (mode == EquipmentState.EvolutionMode)
-            view.FillExpectedSelect(Focused, 0, Focused.evolution + 1);
+            view.FillExpectedSelect(Focused, expSum, Focused.limit, Focused.grade);
+        else if (mode == EquipmentState.UnLimitMode)
+            view.FillExpectedSelect(Focused, 0, Focused.limit + 1, Focused.grade);
     }
 
     internal void reSelect()
     {
     }
 
-    internal bool isEvolutionMaterial(int meterialIndex)
+    internal bool isUnLimitMaterial(int meterialIndex)
     {
-        if (Focused.Compare(inventory[meterialIndex]) == false)
+        if (Focused.isSameItem(inventory[meterialIndex]) == false)
             return false;
-        if (inventory[meterialIndex].exp < 100 )
-            return false;
+        //if (inventory[meterialIndex].isMaxExp() == false )
+        //    return false;
 
         return true;
     }

@@ -54,7 +54,7 @@ namespace SexyBackPlayScene
             {
                 if (targetID != null)
                 {
-                    Shooter.Shoot(Singleton<MonsterManager>.getInstance().GetMonster().CenterPosition, Speed, projectile);
+                    Shooter.Shoot(Singleton<MonsterManager>.getInstance().GetBattleMonster().CenterPosition, Speed, projectile);
                     projectile = null;
                     AttackTimer = 0;
                     ReLoaded = false;
