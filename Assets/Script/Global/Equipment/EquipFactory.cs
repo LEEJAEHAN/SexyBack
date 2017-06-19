@@ -28,13 +28,13 @@ internal static class EquipFactory
         return e;
     }
 
-    internal static Equipment LotteryEquipment(string mapid, MapRewardData rewardInfo, RewardRank rank, int level)
+    internal static Equipment LotteryEquipment(MapRewardData rewardInfo, RewardRank rank, int level)
     {
         int resultGrade = LotteryGrade(rank); // = 로터리;
 
         // TODO : 랭크에따라 리워드레벨이나 grade변화를 줘야한다.
         //int resultLevel = rewardInfo.level; 
-        string resultEquipID = PopRandomEquipment(mapid, rewardInfo, resultGrade, level);//"E01"; // = 로터리(맵드랍레벨, 랭크)
+        string resultEquipID = PopRandomEquipment(rewardInfo, resultGrade, level);//"E01"; // = 로터리(맵드랍레벨, 랭크)
 
         EquipmentData equipment = Singleton<TableLoader>.getInstance().equipmenttable[resultEquipID];
         string resultSkillID = PopRandomSkill(equipment, level); //"ES01";// = 로터리
@@ -69,7 +69,7 @@ internal static class EquipFactory
     }
 
 
-    private static string PopRandomEquipment(string mapid, MapRewardData rewardData, int resultGrade, int level)
+    private static string PopRandomEquipment(MapRewardData rewardData, int resultGrade, int level)
     {
         List<string> Candidates = new List<string>();
 
@@ -93,7 +93,7 @@ internal static class EquipFactory
             if (resultGrade >= 0)
             {
                 sexybacklog.Console("재귀뽑기를합니다.");
-                return PopRandomEquipment(mapid, rewardData, resultGrade-1, level);
+                return PopRandomEquipment(rewardData, resultGrade-1, level);
             }
             else
                 return "E00";           // 정말아무것도없을땐 더미.

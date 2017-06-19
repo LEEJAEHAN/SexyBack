@@ -49,6 +49,7 @@ namespace SexyBackMenuScene
                 param.obj = Widget;
                 param.field = "selectedObject";
                 ed.parameters[0] = param;
+                Widget.transform.FindChild("StartButton").GetComponent<UIButton>().onClick.Clear();
                 Widget.transform.FindChild("StartButton").GetComponent<UIButton>().onClick.Add(ed);
             }
 

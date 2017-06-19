@@ -31,12 +31,13 @@ public static class EquipmentWiki
 
     internal static double CalLimitCoef(int limit)
     {
-        if (limit >= 2)
-            return 4f;
-        else if (limit == 1)
-            return 2f;
-        else
-            return 1f;
+        return 1f;
+        //if (limit >= 2)
+        //    return 4f;
+        //else if (limit == 1)
+        //    return 2f;
+        //else
+        //    return 1f;
     }
 
     internal static double CalgradeCoef(int grade)
@@ -57,10 +58,11 @@ public static class EquipmentWiki
     }
     internal static double CalExpCoef(int grade, double exp)
     {
-        if(grade == 3 )
-            return 1 + (exp / Equipment.MaxExp) * 7; // x1 ~ x8 ( 유니크는 unlimit가없기떄문에)
-        else
-            return 1 + (exp / Equipment.MaxExp); // x1~x2
+        return 1 + (exp / Equipment.MaxExp) * 7; // x1 ~ x8 ( 유니크는 unlimit가없기떄문에)
+        //if (grade == 3 )
+        //    return 1 + (exp / Equipment.MaxExp) * 7; // x1 ~ x8 ( 유니크는 unlimit가없기떄문에)
+        //else
+        //    return 1 + (exp / Equipment.MaxExp); // x1~x2
         // 원래는 x2까지였음.
     }
 

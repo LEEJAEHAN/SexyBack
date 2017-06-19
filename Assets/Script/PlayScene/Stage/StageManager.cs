@@ -115,27 +115,32 @@ namespace SexyBackPlayScene
         }
         internal void BattleEnd()
         {
-            if (BattleTime <= 5f)
+            if (BattleTime <= 5)
             {
+                // Combo 상승.
                 Combo++;
                 Singleton<HeroManager>.getInstance().GetHero().ChangeState("FastMove");
-                if (Combo < 3)
-                    NextBattleStage = CurrentFloor + 1;
-                else if (Combo < 6)
-                    NextBattleStage = ((CurrentFloor + 10) / 10) * 10;
-                else
-                    NextBattleStage = ((CurrentFloor + 100) / 100) * 100;
+            }
+            else if( BattleTime <= 50)
+            {
+                Combo = (Combo >= 6 ? 6 : (Combo >= 3 ? 3 : 0));
+                // Combo 변함없음.
+                Singleton<HeroManager>.getInstance().GetHero().ChangeState("FastMove");
             }
             else
             {
-                if (Combo > 3)
-                    Combo = 3;
-                else if (Combo > 0)
-                    Combo = 0;
-
+                //Combo 전단계로.
+                Combo = Combo >= 6 ? 3 : 0;
                 Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
-                NextBattleStage = CurrentFloor + 1;
             }
+
+            if (Combo < 3)
+                NextBattleStage = CurrentFloor + 1;
+            else if (Combo < 6)
+                NextBattleStage = ((CurrentFloor + 10) / 10) * 10;
+            else
+                NextBattleStage = ((CurrentFloor + 100) / 100) * 100;
+
             BattleTime = 0;
             TimerOn = false;
         }

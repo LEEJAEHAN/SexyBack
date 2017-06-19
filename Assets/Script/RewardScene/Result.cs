@@ -109,7 +109,7 @@ namespace SexyBackRewardScene
 
             for (int i = 0; i < rewardInfo.ItemCount; i++)
             {
-                Equipment newOne = EquipFactory.LotteryEquipment(mapid, rewardInfo, Rank, RewardLevel);
+                Equipment newOne = EquipFactory.LotteryEquipment(rewardInfo, Rank, RewardLevel);
                 NormalEquipments.Add(newOne);
                 eManager.AddEquipment(newOne);
             }
@@ -117,7 +117,7 @@ namespace SexyBackRewardScene
             int bonus = Singleton<PlayerStatus>.getInstance().GetGlobalStat.BonusEquipment;
             for ( int i = 0; i < bonus; i++)
             {
-                Equipment newOne = EquipFactory.LotteryEquipment(mapid, rewardInfo, Rank, RewardLevel);
+                Equipment newOne = EquipFactory.LotteryEquipment(rewardInfo, Rank, RewardLevel);
                 BonusEquipments.Add(ChestSource.Bonus, newOne);
                 eManager.AddEquipment(newOne);
             }
@@ -126,12 +126,12 @@ namespace SexyBackRewardScene
 
             if (Singleton<PremiumManager>.getInstance().PremiumUser) //
             {
-                Equipment newOne = EquipFactory.LotteryEquipment(mapid, rewardInfo, Rank, RewardLevel);
+                Equipment newOne = EquipFactory.LotteryEquipment(rewardInfo, Rank, RewardLevel);
                 BonusEquipments.Add(ChestSource.Premium, newOne);
                 eManager.AddEquipment(newOne);
             }
 
-            GemEquipment = EquipFactory.LotteryEquipment(mapid, rewardInfo, Rank, RewardLevel);
+            GemEquipment = EquipFactory.LotteryEquipment(rewardInfo, Rank, RewardLevel);
             // 아직 지급하지는 않는다.
         }
 

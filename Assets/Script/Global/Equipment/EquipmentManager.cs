@@ -108,12 +108,12 @@ internal class EquipmentManager
         currentEquipSet = equipSets[0];
         inventory = new List<Equipment>();
 
-        //int loop = 20;
-        //while(loop>0)
-        //{
-        //    AddEquipment(EquipFactory.LotteryEquipment());
-        //    loop--;
-        //}
+        int loop = 20;
+        while (loop > 0)
+        {
+            AddEquipment(EquipFactory.LotteryEquipment(new MapRewardData(), RewardRank.A, 50));
+            loop--;
+        }
     }
 
     internal void BindTopView(TopWindow view)
@@ -149,6 +149,7 @@ internal class EquipmentManager
     {
         Focused = null;
     }
+
 
     internal void AddEquipment(Equipment e)
     {
@@ -299,6 +300,17 @@ internal class EquipmentManager
         Focused.UnLimit();
         Focused.exp = 0;
     }
+    internal void GradeUp(int meterialIndex)
+    {
+        if (!isGradeUpMaterial(meterialIndex))
+            return;
+
+        inventory.RemoveAt(meterialIndex);
+        Focused.GradeUp();
+        Focused.exp = 0;
+    }
+
+
 
     internal void CalExpectedView(List<int> checkList, EquipmentState mode)
     {
@@ -313,9 +325,9 @@ internal class EquipmentManager
             expSum += inventory[index].GetMaterialExp(Focused);
 
         if (mode == EquipmentState.EnchantMode)
-            view.FillExpectedSelect(Focused, expSum, Focused.limit, Focused.grade);
-        else if (mode == EquipmentState.UnLimitMode)
-            view.FillExpectedSelect(Focused, 0, Focused.limit + 1, Focused.grade);
+            view.FillExpectedSelect(Focused, expSum, mode);
+        else if (mode == EquipmentState.GradeUpMode)
+            view.FillExpectedSelect(Focused, 0, mode);
     }
 
     internal void reSelect()
@@ -332,4 +344,13 @@ internal class EquipmentManager
         return true;
     }
 
+    internal bool isGradeUpMaterial(int meterialIndex)
+    {
+        if (Focused.isSameItem(inventory[meterialIndex]) == false)
+            return false;
+        if (inventory[meterialIndex].isMaxExp() == false)
+            return false;
+
+        return true;
+    }
 }

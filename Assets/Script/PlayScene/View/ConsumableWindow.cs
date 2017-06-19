@@ -33,6 +33,7 @@ namespace SexyBackPlayScene
             Constraint = gameObject.transform.FindChild("Content/Constraint").gameObject;
             CoolTime = gameObject.transform.FindChild("Content/CoolTime").GetComponent<UILabel>();
             gameObject.SetActive(false);
+            Button1.onClick.Clear();
             Button1.onClick.Add(new EventDelegate(this, "onButton1"));
         }
 

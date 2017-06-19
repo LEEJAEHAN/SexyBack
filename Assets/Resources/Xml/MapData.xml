@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Maps>
 	<Map id="Map01" name="100층돌파" limittime="28800" maxfloor="1000">
-		<MapReward rewardlevel="100" prevrewardlevel="50" itemcount="2"/>
+		<MapReward rewardlevel="100" prevrewardlevel="50" itemcount="4"/>
 		<MapMonster levelperfloor="1" monsterperstage="1" monsterhp="1000" bosshp="10000" fastbosshp="29175" chestpermonster="1" chestperboss="2" bossterm="10"/>
 	</Map>
 </Maps>

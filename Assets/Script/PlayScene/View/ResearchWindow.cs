@@ -60,7 +60,9 @@ namespace SexyBackPlayScene
 
             gameObject.SetActive(false);
 
+            Button1.onClick.Clear();
             Button1.onClick.Add(new EventDelegate(this, "onButton1"));
+            Button2.onClick.Clear();
             Button2.onClick.Add(new EventDelegate(this, "onButton2"));
         }
 

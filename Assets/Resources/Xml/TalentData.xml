@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Talents>
 	<Talent id="T01" name="일반인" maxlevel="1">
-		<Price baselevel="100" baselevelperlevel="100"/>
+		<Price baselevel="0" baselevelperlevel="100"/>
 		<JobBonus/>
 		<LevelBonus/>
 	</Talent>
 	<Talent id="T02" name="선구자" maxlevel="15">
-		<Price baselevel="100" baselevelperlevel="33.3333333333333"/>
+		<Price baselevel="0" baselevelperlevel="33.3333333333333"/>
 		<JobBonus target="util" attribute="MaxResearchThread" value="1"/>
 		<LevelBonus target="util" attribute="ResearchTimeX" value="2"/>
 	</Talent>
 	<Talent id="T03" name="모험가" maxlevel="10">
-		<Price baselevel="100" baselevelperlevel="50"/>
+		<Price baselevel="0" baselevelperlevel="50"/>
 		<JobBonus target="util" attribute="ConsumableX" value="2"/>
 		<LevelBonus/>
 	</Talent>
@@ -21,57 +21,57 @@
 		<LevelBonus target="global" attribute="InitExpCoef" value="10"/>
 	</Talent>
 	<Talent id="T05" name="헌터" maxlevel="10">
-		<Price baselevel="150" baselevelperlevel="50"/>
+		<Price baselevel="0" baselevelperlevel="50"/>
 		<JobBonus target="global" attribute="BonusEquipment" value="1"/>
 		<LevelBonus target="global" attribute="RankBonus" value="10"/>
 	</Talent>
 	<Talent id="T06" name="검사" maxlevel="10">
-		<Price baselevel="100" baselevelperlevel="50"/>
+		<Price baselevel="0" baselevelperlevel="50"/>
 		<JobBonus target="hero" attribute="BonusLevel" value="3"/>
 		<LevelBonus target="hero" attribute="BonusLevel" value="1"/>
 	</Talent>
 	<Talent id="T07" name="불마법사" maxlevel="10">
-		<Price baselevel="105" baselevelperlevel="50"/>
+		<Price baselevel="5" baselevelperlevel="50"/>
 		<JobBonus target="fireball" attribute="BonusLevel" value="3"/>
 		<LevelBonus target="fireball" attribute="BonusLevel" value="1"/>
 	</Talent>
 	<Talent id="T08" name="얼음마법사" maxlevel="10">
-		<Price baselevel="115" baselevelperlevel="50"/>
+		<Price baselevel="15" baselevelperlevel="50"/>
 		<JobBonus target="iceblock" attribute="BonusLevel" value="3"/>
 		<LevelBonus target="iceblock" attribute="BonusLevel" value="1"/>
 	</Talent>
 	<Talent id="T09" name="바위마법사" maxlevel="10">
-		<Price baselevel="130" baselevelperlevel="50"/>
+		<Price baselevel="30" baselevelperlevel="50"/>
 		<JobBonus target="rock" attribute="BonusLevel" value="3"/>
 		<LevelBonus target="rock" attribute="BonusLevel" value="1"/>
 	</Talent>
 	<Talent id="T10" name="전기마법사" maxlevel="10">
-		<Price baselevel="160" baselevelperlevel="50"/>
+		<Price baselevel="60" baselevelperlevel="50"/>
 		<JobBonus target="electricball" attribute="BonusLevel" value="3"/>
 		<LevelBonus target="electricball" attribute="BonusLevel" value="1"/>
 	</Talent>
 	<Talent id="T11" name="물마법사" maxlevel="10">
-		<Price baselevel="205" baselevelperlevel="50"/>
+		<Price baselevel="105" baselevelperlevel="50"/>
 		<JobBonus target="waterball" attribute="BonusLevel" value="3"/>
 		<LevelBonus target="waterball" attribute="BonusLevel" value="1"/>
 	</Talent>
 	<Talent id="T12" name="대지마법사" maxlevel="10">
-		<Price baselevel="255" baselevelperlevel="50"/>
+		<Price baselevel="155" baselevelperlevel="50"/>
 		<JobBonus target="earthball" attribute="BonusLevel" value="3"/>
 		<LevelBonus target="earthball" attribute="BonusLevel" value="1"/>
 	</Talent>
 	<Talent id="T13" name="바람마법사" maxlevel="10">
-		<Price baselevel="310" baselevelperlevel="50"/>
+		<Price baselevel="210" baselevelperlevel="50"/>
 		<JobBonus target="airball" attribute="BonusLevel" value="3"/>
 		<LevelBonus target="airball" attribute="BonusLevel" value="1"/>
 	</Talent>
 	<Talent id="T14" name="눈마법사" maxlevel="10">
-		<Price baselevel="360" baselevelperlevel="50"/>
+		<Price baselevel="260" baselevelperlevel="50"/>
 		<JobBonus target="snowball" attribute="BonusLevel" value="3"/>
 		<LevelBonus target="snowball" attribute="BonusLevel" value="1"/>
 	</Talent>
 	<Talent id="T15" name="용암마법사" maxlevel="10">
-		<Price baselevel="425" baselevelperlevel="50"/>
+		<Price baselevel="325" baselevelperlevel="50"/>
 		<JobBonus target="magmaball" attribute="BonusLevel" value="3"/>
 		<LevelBonus target="magmaball" attribute="BonusLevel" value="1"/>
 	</Talent>

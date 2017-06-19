@@ -43,7 +43,8 @@ internal class TalentManager
         var data = Singleton<TableLoader>.getInstance().talenttable["T01"];
         Talents.Add(data.ID, new Talent(data, 1));
         CurrentTalent = Talents["T01"];
-        Reputation = 10000000;//10000000;
+        Reputation = 0;//10000000;
+        SpendReputation = 0;
         NoticeReputation();
     }
     public void Load()
@@ -95,8 +96,9 @@ internal class TalentManager
 
     internal void Reset()
     {
-        Reputation += SpendReputation;
+        int totalR = Reputation + SpendReputation;
         NewData();
+        Reputation = totalR;
         Singleton<PlayerStatus>.getInstance().Init();
         Singleton<PlayerStatus>.getInstance().ReCheckStat();
         Notice();

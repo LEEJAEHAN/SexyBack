@@ -33,9 +33,10 @@ public class Equipment
         double levelDiffCoef = PlayerStatus.CalGlobalGrowth(levelDiff);
         int sourceGradeCoef = Math.Min(3,(grade + 1)); // 노멀1배,매직2배,레어3배,유니크3배
         int targetGradeCoef = Math.Min(3, (target.grade + 1)); // 노멀1배,매직2배,레어3배,유니크3배
-        int targetLimitCoef = target.grade == 3 ? 7 : (int)Math.Pow(2, target.limit);
+        //int targetLimitCoef = target.grade == 3 ? 7 : (int)Math.Pow(2, target.limit);
         // None == 1,+ ==2, ++ ==4, 유니크 ==7
-        return (100f/6) * levelDiffCoef * sourceGradeCoef / targetGradeCoef / targetLimitCoef;
+        int targetLimitCoef = 7;
+        return (100f) * levelDiffCoef * sourceGradeCoef / targetGradeCoef / targetLimitCoef;
     }
 
     public List<BonusStat> DmgStat
@@ -166,6 +167,17 @@ public class Equipment
             return isMaxExp() && limit < 2;
         }
     }
-
-
+    internal bool CanGradeUp
+    {
+        get
+        {
+            return isMaxExp() && grade < 2;
+        }
+    }
+    internal void GradeUp()
+    {
+        grade++;
+        if (grade > 2)
+            grade = 2;
+    }
 }

@@ -38,6 +38,7 @@ namespace SexyBackPlayScene
             StatValue = gameObject.transform.FindChild("Middle/StatValue").GetComponent<UILabel>();
 
             gameObject.SetActive(false);
+            Button1.onClick.Clear();
             Button1.onClick.Add(new EventDelegate(this, "onButton1"));
         }
 
