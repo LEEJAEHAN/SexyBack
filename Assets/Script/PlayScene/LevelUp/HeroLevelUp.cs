@@ -41,10 +41,8 @@ namespace SexyBackPlayScene
                     (double)hero.CriRateXK / 10f,
                     hero.CriDamageXH);
             //+ hero.DpcXH.ToString() + "%\n"
-            Damage = hero.DPC.To5String() + " / 탭";
-            PriceValue = string.Format("{0} / 탭\n[F9DB11]{1} 경험치[-]",
-                hero.DPCTick.To5String(),
-                PRICE.To5String());
+            PriceValue = PRICE.To5String();
+            Damage = string.Format("+{0} / 탭\n{1} / 탭", hero.DPCTick.To5String(), hero.DPC.To5String());
 
             ViewRefresh();
         }

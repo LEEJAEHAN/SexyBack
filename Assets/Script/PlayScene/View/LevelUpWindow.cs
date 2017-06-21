@@ -32,7 +32,7 @@ namespace SexyBackPlayScene
             Icon = gameObject.transform.FindChild("Icon").gameObject;
             Button1 = gameObject.transform.FindChild("Right/Button").GetComponent<UIButton>();
             Damage = gameObject.transform.FindChild("Right/Damage").GetComponent<UILabel>();
-            PriceValue = gameObject.transform.FindChild("Right/PriceValue").GetComponent<UILabel>();
+            PriceValue = gameObject.transform.FindChild("Right/Price").GetComponent<UILabel>();
             Name = gameObject.transform.FindChild("Middle/Name").GetComponent<UILabel>();
             StatName = gameObject.transform.FindChild("Middle/StatName").GetComponent<UILabel>();
             StatValue = gameObject.transform.FindChild("Middle/StatValue").GetComponent<UILabel>();

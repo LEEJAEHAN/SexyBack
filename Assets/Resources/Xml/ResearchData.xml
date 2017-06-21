@@ -217,16 +217,16 @@
 		<Bonus target="hero" attribute="DpcX" value="6"/>
 	</Research>
 	<Research id="hero03" requireid="hero" showlevel="40" requirelevel="60">
-		<Info icon="Icon_11" icontext="x8" subicon="IconSmall_01" name="검연마3" description="검술의 피해량이 8배 증가합니다."/>
+		<Info icon="Icon_11" icontext="x7" subicon="IconSmall_01" name="검연마3" description="검술의 피해량이 7배 증가합니다."/>
 		<Price level="60" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="hero" attribute="DpcX" value="8"/>
+		<Bonus target="hero" attribute="DpcX" value="7"/>
 	</Research>
 	<Research id="hero04" requireid="hero" showlevel="60" requirelevel="80">
-		<Info icon="Icon_11" icontext="x8" subicon="IconSmall_01" name="검연마4" description="검술의 피해량이 8배 증가합니다."/>
+		<Info icon="Icon_11" icontext="x7" subicon="IconSmall_01" name="검연마4" description="검술의 피해량이 7배 증가합니다."/>
 		<Price level="80" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="hero" attribute="DpcX" value="8"/>
+		<Bonus target="hero" attribute="DpcX" value="7"/>
 	</Research>
 	<Research id="hero05" requireid="hero" showlevel="80" requirelevel="100">
 		<Info icon="Icon_11" icontext="x8" subicon="IconSmall_01" name="검연마5" description="검술의 피해량이 8배 증가합니다."/>
@@ -235,34 +235,34 @@
 		<Bonus target="hero" attribute="DpcX" value="8"/>
 	</Research>
 	<Research id="hero06" requireid="hero" showlevel="100" requirelevel="121">
-		<Info icon="Icon_11" icontext="x11" subicon="IconSmall_01" name="검연마6" description="검술의 피해량이 11배 증가합니다."/>
+		<Info icon="Icon_11" icontext="x9" subicon="IconSmall_01" name="검연마6" description="검술의 피해량이 9배 증가합니다."/>
 		<Price level="120" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="hero" attribute="DpcX" value="11"/>
+		<Bonus target="hero" attribute="DpcX" value="9"/>
 	</Research>
 	<Research id="hero07" requireid="hero" showlevel="121" requirelevel="141">
-		<Info icon="Icon_11" icontext="x9" subicon="IconSmall_01" name="검연마7" description="검술의 피해량이 9배 증가합니다."/>
+		<Info icon="Icon_11" icontext="x8" subicon="IconSmall_01" name="검연마7" description="검술의 피해량이 8배 증가합니다."/>
 		<Price level="140" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="hero" attribute="DpcX" value="9"/>
+		<Bonus target="hero" attribute="DpcX" value="8"/>
 	</Research>
 	<Research id="hero08" requireid="hero" showlevel="141" requirelevel="162">
-		<Info icon="Icon_11" icontext="x11" subicon="IconSmall_01" name="검연마8" description="검술의 피해량이 11배 증가합니다."/>
+		<Info icon="Icon_11" icontext="x9" subicon="IconSmall_01" name="검연마8" description="검술의 피해량이 9배 증가합니다."/>
 		<Price level="160" baselevel="0" baseprice="300"/>
-		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="hero" attribute="DpcX" value="11"/>
-	</Research>
-	<Research id="hero09" requireid="hero" showlevel="162" requirelevel="182">
-		<Info icon="Icon_11" icontext="x9" subicon="IconSmall_01" name="검연마9" description="검술의 피해량이 9배 증가합니다."/>
-		<Price level="180" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
 		<Bonus target="hero" attribute="DpcX" value="9"/>
 	</Research>
+	<Research id="hero09" requireid="hero" showlevel="162" requirelevel="182">
+		<Info icon="Icon_11" icontext="x8" subicon="IconSmall_01" name="검연마9" description="검술의 피해량이 8배 증가합니다."/>
+		<Price level="180" baselevel="0" baseprice="300"/>
+		<PriceOverTime rate="80" basetime="20"/>
+		<Bonus target="hero" attribute="DpcX" value="8"/>
+	</Research>
 	<Research id="hero10" requireid="hero" showlevel="182" requirelevel="202">
-		<Info icon="Icon_11" icontext="x10" subicon="IconSmall_01" name="검연마10" description="검술의 피해량이 10배 증가합니다."/>
+		<Info icon="Icon_11" icontext="x8" subicon="IconSmall_01" name="검연마10" description="검술의 피해량이 8배 증가합니다."/>
 		<Price level="200" baselevel="0" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="hero" attribute="DpcX" value="10"/>
+		<Bonus target="hero" attribute="DpcX" value="8"/>
 	</Research>
 	<Research requireid="hero" showlevel="202" requirelevel="223">
 		<Info icon="Icon_11" icontext="x" subicon="IconSmall_01" name="검연마11" description="검술의 피해량이 배 증가합니다."/>
@@ -361,52 +361,52 @@
 		<Bonus target="fireball" attribute="DpsX" value="2"/>
 	</Research>
 	<Research id="fireball02" requireid="fireball" showlevel="20" requirelevel="40">
-		<Info icon="Icon_01" icontext="x8" subicon="IconSmall_01" name="불연마2" description="불의 피해량이 8배 증가합니다."/>
+		<Info icon="Icon_01" icontext="x7" subicon="IconSmall_01" name="불연마2" description="불의 피해량이 7배 증가합니다."/>
 		<Price level="40" baselevel="5" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="fireball" attribute="DpsX" value="8"/>
+		<Bonus target="fireball" attribute="DpsX" value="7"/>
 	</Research>
 	<Research id="fireball03" requireid="fireball" showlevel="40" requirelevel="60">
-		<Info icon="Icon_01" icontext="x9" subicon="IconSmall_01" name="불연마3" description="불의 피해량이 9배 증가합니다."/>
+		<Info icon="Icon_01" icontext="x7" subicon="IconSmall_01" name="불연마3" description="불의 피해량이 7배 증가합니다."/>
 		<Price level="60" baselevel="5" baseprice="300"/>
+		<PriceOverTime rate="80" basetime="20"/>
+		<Bonus target="fireball" attribute="DpsX" value="7"/>
+	</Research>
+	<Research id="fireball04" requireid="fireball" showlevel="60" requirelevel="80">
+		<Info icon="Icon_01" icontext="x7" subicon="IconSmall_01" name="불연마4" description="불의 피해량이 7배 증가합니다."/>
+		<Price level="80" baselevel="5" baseprice="300"/>
+		<PriceOverTime rate="80" basetime="20"/>
+		<Bonus target="fireball" attribute="DpsX" value="7"/>
+	</Research>
+	<Research id="fireball05" requireid="fireball" showlevel="80" requirelevel="100">
+		<Info icon="Icon_01" icontext="x9" subicon="IconSmall_01" name="불연마5" description="불의 피해량이 9배 증가합니다."/>
+		<Price level="100" baselevel="5" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
 		<Bonus target="fireball" attribute="DpsX" value="9"/>
 	</Research>
-	<Research id="fireball04" requireid="fireball" showlevel="60" requirelevel="80">
-		<Info icon="Icon_01" icontext="x8" subicon="IconSmall_01" name="불연마4" description="불의 피해량이 8배 증가합니다."/>
-		<Price level="80" baselevel="5" baseprice="300"/>
+	<Research id="fireball06" requireid="fireball" showlevel="100" requirelevel="121">
+		<Info icon="Icon_01" icontext="x7" subicon="IconSmall_01" name="불연마6" description="불의 피해량이 7배 증가합니다."/>
+		<Price level="120" baselevel="5" baseprice="300"/>
+		<PriceOverTime rate="80" basetime="20"/>
+		<Bonus target="fireball" attribute="DpsX" value="7"/>
+	</Research>
+	<Research id="fireball07" requireid="fireball" showlevel="121" requirelevel="141">
+		<Info icon="Icon_01" icontext="x8" subicon="IconSmall_01" name="불연마7" description="불의 피해량이 8배 증가합니다."/>
+		<Price level="140" baselevel="5" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
 		<Bonus target="fireball" attribute="DpsX" value="8"/>
 	</Research>
-	<Research id="fireball05" requireid="fireball" showlevel="80" requirelevel="100">
-		<Info icon="Icon_01" icontext="x10" subicon="IconSmall_01" name="불연마5" description="불의 피해량이 10배 증가합니다."/>
-		<Price level="100" baselevel="5" baseprice="300"/>
+	<Research id="fireball08" requireid="fireball" showlevel="141" requirelevel="162">
+		<Info icon="Icon_01" icontext="x10" subicon="IconSmall_01" name="불연마8" description="불의 피해량이 10배 증가합니다."/>
+		<Price level="160" baselevel="5" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
 		<Bonus target="fireball" attribute="DpsX" value="10"/>
 	</Research>
-	<Research id="fireball06" requireid="fireball" showlevel="100" requirelevel="121">
-		<Info icon="Icon_01" icontext="x9" subicon="IconSmall_01" name="불연마6" description="불의 피해량이 9배 증가합니다."/>
-		<Price level="120" baselevel="5" baseprice="300"/>
-		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="fireball" attribute="DpsX" value="9"/>
-	</Research>
-	<Research id="fireball07" requireid="fireball" showlevel="121" requirelevel="141">
-		<Info icon="Icon_01" icontext="x9" subicon="IconSmall_01" name="불연마7" description="불의 피해량이 9배 증가합니다."/>
-		<Price level="140" baselevel="5" baseprice="300"/>
-		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="fireball" attribute="DpsX" value="9"/>
-	</Research>
-	<Research id="fireball08" requireid="fireball" showlevel="141" requirelevel="162">
-		<Info icon="Icon_01" icontext="x11" subicon="IconSmall_01" name="불연마8" description="불의 피해량이 11배 증가합니다."/>
-		<Price level="160" baselevel="5" baseprice="300"/>
-		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="fireball" attribute="DpsX" value="11"/>
-	</Research>
 	<Research id="fireball09" requireid="fireball" showlevel="162" requirelevel="182">
-		<Info icon="Icon_01" icontext="x9" subicon="IconSmall_01" name="불연마9" description="불의 피해량이 9배 증가합니다."/>
+		<Info icon="Icon_01" icontext="x8" subicon="IconSmall_01" name="불연마9" description="불의 피해량이 8배 증가합니다."/>
 		<Price level="180" baselevel="5" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="fireball" attribute="DpsX" value="9"/>
+		<Bonus target="fireball" attribute="DpsX" value="8"/>
 	</Research>
 	<Research id="iceblock01" requireid="iceblock" showlevel="0" requirelevel="20">
 		<Info icon="Icon_05" icontext="x2" subicon="IconSmall_01" name="얼음연마1" description="얼음의 피해량이 2배 증가합니다."/>
@@ -415,10 +415,10 @@
 		<Bonus target="iceblock" attribute="DpsX" value="2"/>
 	</Research>
 	<Research id="iceblock02" requireid="iceblock" showlevel="20" requirelevel="40">
-		<Info icon="Icon_05" icontext="x6" subicon="IconSmall_01" name="얼음연마2" description="얼음의 피해량이 6배 증가합니다."/>
+		<Info icon="Icon_05" icontext="x4" subicon="IconSmall_01" name="얼음연마2" description="얼음의 피해량이 4배 증가합니다."/>
 		<Price level="40" baselevel="15" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="iceblock" attribute="DpsX" value="6"/>
+		<Bonus target="iceblock" attribute="DpsX" value="4"/>
 	</Research>
 	<Research id="iceblock03" requireid="iceblock" showlevel="40" requirelevel="60">
 		<Info icon="Icon_05" icontext="x8" subicon="IconSmall_01" name="얼음연마3" description="얼음의 피해량이 8배 증가합니다."/>
@@ -427,40 +427,40 @@
 		<Bonus target="iceblock" attribute="DpsX" value="8"/>
 	</Research>
 	<Research id="iceblock04" requireid="iceblock" showlevel="60" requirelevel="80">
-		<Info icon="Icon_05" icontext="x8" subicon="IconSmall_01" name="얼음연마4" description="얼음의 피해량이 8배 증가합니다."/>
+		<Info icon="Icon_05" icontext="x7" subicon="IconSmall_01" name="얼음연마4" description="얼음의 피해량이 7배 증가합니다."/>
 		<Price level="80" baselevel="15" baseprice="300"/>
+		<PriceOverTime rate="80" basetime="20"/>
+		<Bonus target="iceblock" attribute="DpsX" value="7"/>
+	</Research>
+	<Research id="iceblock05" requireid="iceblock" showlevel="80" requirelevel="100">
+		<Info icon="Icon_05" icontext="x9" subicon="IconSmall_01" name="얼음연마5" description="얼음의 피해량이 9배 증가합니다."/>
+		<Price level="100" baselevel="15" baseprice="300"/>
+		<PriceOverTime rate="80" basetime="20"/>
+		<Bonus target="iceblock" attribute="DpsX" value="9"/>
+	</Research>
+	<Research id="iceblock06" requireid="iceblock" showlevel="100" requirelevel="121">
+		<Info icon="Icon_05" icontext="x8" subicon="IconSmall_01" name="얼음연마6" description="얼음의 피해량이 8배 증가합니다."/>
+		<Price level="120" baselevel="15" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
 		<Bonus target="iceblock" attribute="DpsX" value="8"/>
 	</Research>
-	<Research id="iceblock05" requireid="iceblock" showlevel="80" requirelevel="100">
-		<Info icon="Icon_05" icontext="x10" subicon="IconSmall_01" name="얼음연마5" description="얼음의 피해량이 10배 증가합니다."/>
-		<Price level="100" baselevel="15" baseprice="300"/>
-		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="iceblock" attribute="DpsX" value="10"/>
-	</Research>
-	<Research id="iceblock06" requireid="iceblock" showlevel="100" requirelevel="121">
-		<Info icon="Icon_05" icontext="x9" subicon="IconSmall_01" name="얼음연마6" description="얼음의 피해량이 9배 증가합니다."/>
-		<Price level="120" baselevel="15" baseprice="300"/>
-		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="iceblock" attribute="DpsX" value="9"/>
-	</Research>
 	<Research id="iceblock07" requireid="iceblock" showlevel="121" requirelevel="141">
-		<Info icon="Icon_05" icontext="x10" subicon="IconSmall_01" name="얼음연마7" description="얼음의 피해량이 10배 증가합니다."/>
+		<Info icon="Icon_05" icontext="x9" subicon="IconSmall_01" name="얼음연마7" description="얼음의 피해량이 9배 증가합니다."/>
 		<Price level="140" baselevel="15" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="iceblock" attribute="DpsX" value="10"/>
+		<Bonus target="iceblock" attribute="DpsX" value="9"/>
 	</Research>
 	<Research id="iceblock08" requireid="iceblock" showlevel="141" requirelevel="162">
-		<Info icon="Icon_05" icontext="x10" subicon="IconSmall_01" name="얼음연마8" description="얼음의 피해량이 10배 증가합니다."/>
+		<Info icon="Icon_05" icontext="x8" subicon="IconSmall_01" name="얼음연마8" description="얼음의 피해량이 8배 증가합니다."/>
 		<Price level="160" baselevel="15" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="iceblock" attribute="DpsX" value="10"/>
+		<Bonus target="iceblock" attribute="DpsX" value="8"/>
 	</Research>
 	<Research id="iceblock09" requireid="iceblock" showlevel="162" requirelevel="182">
-		<Info icon="Icon_05" icontext="x9" subicon="IconSmall_01" name="얼음연마9" description="얼음의 피해량이 9배 증가합니다."/>
+		<Info icon="Icon_05" icontext="x8" subicon="IconSmall_01" name="얼음연마9" description="얼음의 피해량이 8배 증가합니다."/>
 		<Price level="180" baselevel="15" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="iceblock" attribute="DpsX" value="9"/>
+		<Bonus target="iceblock" attribute="DpsX" value="8"/>
 	</Research>
 	<Research id="rock01" requireid="rock" showlevel="0" requirelevel="20">
 		<Info icon="Icon_07" icontext="x2" subicon="IconSmall_01" name="바위연마1" description="바위의 피해량이 2배 증가합니다."/>
@@ -469,10 +469,10 @@
 		<Bonus target="rock" attribute="DpsX" value="2"/>
 	</Research>
 	<Research id="rock02" requireid="rock" showlevel="20" requirelevel="40">
-		<Info icon="Icon_07" icontext="x6" subicon="IconSmall_01" name="바위연마2" description="바위의 피해량이 6배 증가합니다."/>
+		<Info icon="Icon_07" icontext="x5" subicon="IconSmall_01" name="바위연마2" description="바위의 피해량이 5배 증가합니다."/>
 		<Price level="40" baselevel="30" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="rock" attribute="DpsX" value="6"/>
+		<Bonus target="rock" attribute="DpsX" value="5"/>
 	</Research>
 	<Research id="rock03" requireid="rock" showlevel="40" requirelevel="60">
 		<Info icon="Icon_07" icontext="x7" subicon="IconSmall_01" name="바위연마3" description="바위의 피해량이 7배 증가합니다."/>
@@ -481,34 +481,34 @@
 		<Bonus target="rock" attribute="DpsX" value="7"/>
 	</Research>
 	<Research id="rock04" requireid="rock" showlevel="60" requirelevel="80">
-		<Info icon="Icon_07" icontext="x10" subicon="IconSmall_01" name="바위연마4" description="바위의 피해량이 10배 증가합니다."/>
+		<Info icon="Icon_07" icontext="x8" subicon="IconSmall_01" name="바위연마4" description="바위의 피해량이 8배 증가합니다."/>
 		<Price level="80" baselevel="30" baseprice="300"/>
-		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="rock" attribute="DpsX" value="10"/>
-	</Research>
-	<Research id="rock05" requireid="rock" showlevel="80" requirelevel="100">
-		<Info icon="Icon_07" icontext="x8" subicon="IconSmall_01" name="바위연마5" description="바위의 피해량이 8배 증가합니다."/>
-		<Price level="100" baselevel="30" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
 		<Bonus target="rock" attribute="DpsX" value="8"/>
 	</Research>
+	<Research id="rock05" requireid="rock" showlevel="80" requirelevel="100">
+		<Info icon="Icon_07" icontext="x7" subicon="IconSmall_01" name="바위연마5" description="바위의 피해량이 7배 증가합니다."/>
+		<Price level="100" baselevel="30" baseprice="300"/>
+		<PriceOverTime rate="80" basetime="20"/>
+		<Bonus target="rock" attribute="DpsX" value="7"/>
+	</Research>
 	<Research id="rock06" requireid="rock" showlevel="100" requirelevel="121">
-		<Info icon="Icon_07" icontext="x9" subicon="IconSmall_01" name="바위연마6" description="바위의 피해량이 9배 증가합니다."/>
+		<Info icon="Icon_07" icontext="x8" subicon="IconSmall_01" name="바위연마6" description="바위의 피해량이 8배 증가합니다."/>
 		<Price level="120" baselevel="30" baseprice="300"/>
+		<PriceOverTime rate="80" basetime="20"/>
+		<Bonus target="rock" attribute="DpsX" value="8"/>
+	</Research>
+	<Research id="rock07" requireid="rock" showlevel="121" requirelevel="141">
+		<Info icon="Icon_07" icontext="x9" subicon="IconSmall_01" name="바위연마7" description="바위의 피해량이 9배 증가합니다."/>
+		<Price level="140" baselevel="30" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
 		<Bonus target="rock" attribute="DpsX" value="9"/>
 	</Research>
-	<Research id="rock07" requireid="rock" showlevel="121" requirelevel="141">
-		<Info icon="Icon_07" icontext="x10" subicon="IconSmall_01" name="바위연마7" description="바위의 피해량이 10배 증가합니다."/>
-		<Price level="140" baselevel="30" baseprice="300"/>
-		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="rock" attribute="DpsX" value="10"/>
-	</Research>
 	<Research id="rock08" requireid="rock" showlevel="141" requirelevel="162">
-		<Info icon="Icon_07" icontext="x10" subicon="IconSmall_01" name="바위연마8" description="바위의 피해량이 10배 증가합니다."/>
+		<Info icon="Icon_07" icontext="x8" subicon="IconSmall_01" name="바위연마8" description="바위의 피해량이 8배 증가합니다."/>
 		<Price level="160" baselevel="30" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="rock" attribute="DpsX" value="10"/>
+		<Bonus target="rock" attribute="DpsX" value="8"/>
 	</Research>
 	<Research id="electricball01" requireid="electricball" showlevel="0" requirelevel="20">
 		<Info icon="Icon_04" icontext="x2" subicon="IconSmall_01" name="전기연마1" description="전기의 피해량이 2배 증가합니다."/>
@@ -523,22 +523,22 @@
 		<Bonus target="electricball" attribute="DpsX" value="5"/>
 	</Research>
 	<Research id="electricball03" requireid="electricball" showlevel="40" requirelevel="60">
-		<Info icon="Icon_04" icontext="x9" subicon="IconSmall_01" name="전기연마3" description="전기의 피해량이 9배 증가합니다."/>
+		<Info icon="Icon_04" icontext="x7" subicon="IconSmall_01" name="전기연마3" description="전기의 피해량이 7배 증가합니다."/>
 		<Price level="60" baselevel="60" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="electricball" attribute="DpsX" value="9"/>
+		<Bonus target="electricball" attribute="DpsX" value="7"/>
 	</Research>
 	<Research id="electricball04" requireid="electricball" showlevel="60" requirelevel="80">
-		<Info icon="Icon_04" icontext="x8" subicon="IconSmall_01" name="전기연마4" description="전기의 피해량이 8배 증가합니다."/>
+		<Info icon="Icon_04" icontext="x7" subicon="IconSmall_01" name="전기연마4" description="전기의 피해량이 7배 증가합니다."/>
 		<Price level="80" baselevel="60" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="electricball" attribute="DpsX" value="8"/>
+		<Bonus target="electricball" attribute="DpsX" value="7"/>
 	</Research>
 	<Research id="electricball05" requireid="electricball" showlevel="80" requirelevel="100">
-		<Info icon="Icon_04" icontext="x10" subicon="IconSmall_01" name="전기연마5" description="전기의 피해량이 10배 증가합니다."/>
+		<Info icon="Icon_04" icontext="x8" subicon="IconSmall_01" name="전기연마5" description="전기의 피해량이 8배 증가합니다."/>
 		<Price level="100" baselevel="60" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="electricball" attribute="DpsX" value="10"/>
+		<Bonus target="electricball" attribute="DpsX" value="8"/>
 	</Research>
 	<Research id="electricball06" requireid="electricball" showlevel="100" requirelevel="121">
 		<Info icon="Icon_04" icontext="x8" subicon="IconSmall_01" name="전기연마6" description="전기의 피해량이 8배 증가합니다."/>
@@ -547,10 +547,10 @@
 		<Bonus target="electricball" attribute="DpsX" value="8"/>
 	</Research>
 	<Research id="electricball07" requireid="electricball" showlevel="121" requirelevel="141">
-		<Info icon="Icon_04" icontext="x10" subicon="IconSmall_01" name="전기연마7" description="전기의 피해량이 10배 증가합니다."/>
+		<Info icon="Icon_04" icontext="x8" subicon="IconSmall_01" name="전기연마7" description="전기의 피해량이 8배 증가합니다."/>
 		<Price level="140" baselevel="60" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="electricball" attribute="DpsX" value="10"/>
+		<Bonus target="electricball" attribute="DpsX" value="8"/>
 	</Research>
 	<Research id="waterball01" requireid="waterball" showlevel="0" requirelevel="20">
 		<Info icon="Icon_09" icontext="x2" subicon="IconSmall_01" name="물연마1" description="물의 피해량이 2배 증가합니다."/>
@@ -565,16 +565,16 @@
 		<Bonus target="waterball" attribute="DpsX" value="5"/>
 	</Research>
 	<Research id="waterball03" requireid="waterball" showlevel="40" requirelevel="60">
-		<Info icon="Icon_09" icontext="x8" subicon="IconSmall_01" name="물연마3" description="물의 피해량이 8배 증가합니다."/>
+		<Info icon="Icon_09" icontext="x7" subicon="IconSmall_01" name="물연마3" description="물의 피해량이 7배 증가합니다."/>
 		<Price level="60" baselevel="105" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="waterball" attribute="DpsX" value="8"/>
+		<Bonus target="waterball" attribute="DpsX" value="7"/>
 	</Research>
 	<Research id="waterball04" requireid="waterball" showlevel="60" requirelevel="80">
-		<Info icon="Icon_09" icontext="x8" subicon="IconSmall_01" name="물연마4" description="물의 피해량이 8배 증가합니다."/>
+		<Info icon="Icon_09" icontext="x7" subicon="IconSmall_01" name="물연마4" description="물의 피해량이 7배 증가합니다."/>
 		<Price level="80" baselevel="105" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="waterball" attribute="DpsX" value="8"/>
+		<Bonus target="waterball" attribute="DpsX" value="7"/>
 	</Research>
 	<Research id="earthball01" requireid="earthball" showlevel="0" requirelevel="20">
 		<Info icon="Icon_03" icontext="x2" subicon="IconSmall_01" name="대지연마1" description="대지의 피해량이 2배 증가합니다."/>
@@ -583,9 +583,9 @@
 		<Bonus target="earthball" attribute="DpsX" value="2"/>
 	</Research>
 	<Research id="earthball02" requireid="earthball" showlevel="20" requirelevel="40">
-		<Info icon="Icon_03" icontext="x5" subicon="IconSmall_01" name="대지연마2" description="대지의 피해량이 5배 증가합니다."/>
+		<Info icon="Icon_03" icontext="x4" subicon="IconSmall_01" name="대지연마2" description="대지의 피해량이 4배 증가합니다."/>
 		<Price level="40" baselevel="155" baseprice="300"/>
 		<PriceOverTime rate="80" basetime="20"/>
-		<Bonus target="earthball" attribute="DpsX" value="5"/>
+		<Bonus target="earthball" attribute="DpsX" value="4"/>
 	</Research>
 </Researches>

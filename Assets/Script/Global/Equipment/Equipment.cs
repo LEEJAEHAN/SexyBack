@@ -28,6 +28,7 @@ public class Equipment
 
     public double GetMaterialExp(Equipment target)   // 대상이 100
     {
+        // 3개재료로 넣어야 풀강된다.(쎄지는건 +3배 쎄지는데. +3개넣어야함)
         int levelDiff = level - target.level;
         // 0 이면 나누기 1 , 1이면 나누기
         double levelDiffCoef = PlayerStatus.CalGlobalGrowth(levelDiff);
@@ -35,8 +36,8 @@ public class Equipment
         int targetGradeCoef = Math.Min(3, (target.grade + 1)); // 노멀1배,매직2배,레어3배,유니크3배
         //int targetLimitCoef = target.grade == 3 ? 7 : (int)Math.Pow(2, target.limit);
         // None == 1,+ ==2, ++ ==4, 유니크 ==7
-        int targetLimitCoef = 7;
-        return (100f) * levelDiffCoef * sourceGradeCoef / targetGradeCoef / targetLimitCoef;
+        //int targetLimitCoef = 7;
+        return (100f) * levelDiffCoef * sourceGradeCoef / targetGradeCoef / 3;// / targetLimitCoef;
     }
 
     public List<BonusStat> DmgStat
@@ -52,7 +53,7 @@ public class Equipment
     public List<BonusStat> ExpectDmgStat(double ExpectedExp, int ExpectedLimit, int ExpectedGrade)
     {
         // 장통계
-        double BaseDmg = PlayerStatus.CalGlobalGrowth(level) / 16;
+        double BaseDmg = PlayerStatus.CalGlobalGrowth(level) / 4;
         //Singleton<TableLoader>.getInstance().powertable[level];
         double gradeCoef = EquipmentWiki.CalgradeCoef(ExpectedGrade);
         double CalLimitCoef = EquipmentWiki.CalLimitCoef(ExpectedLimit);
@@ -72,7 +73,7 @@ public class Equipment
                     if (level > e.BaseLevel)
                         ElementalCount++;
                 }
-                temp.dvalue /= ElementalCount;
+                temp.dvalue /= Math.Max(ElementalCount,3);
             }
             result.Add(temp);
         }
@@ -101,7 +102,7 @@ public class Equipment
         }
     }
 
-    public Equipment(EquipmentData data, EquipmentSkillData skilldata, int level)
+    public Equipment(EquipmentData data, EquipmentSkillData skilldata, int level, int grade)
     {
         dataID = data.ID;
         skillID = skilldata.ID;
@@ -110,7 +111,7 @@ public class Equipment
 
         exp = 0;
         limit = 0;
-        grade = data.grade;
+        this.grade = grade;
         this.level = level;
         skillLevel = 1;
         isLock = false;
@@ -171,7 +172,8 @@ public class Equipment
     {
         get
         {
-            return isMaxExp() && grade < 2;
+            return grade < 2;
+            //return isMaxExp() && grade < 2;
         }
     }
     internal void GradeUp()

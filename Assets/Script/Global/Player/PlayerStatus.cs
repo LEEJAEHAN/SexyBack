@@ -36,7 +36,7 @@ internal class PlayerStatus
 
 
     static int LevelUnit = 100;
-    static int GrowthPerLevelUnit = 8;
+    static int GrowthPerLevelUnit = 16;
 
     public static double CalGlobalGrowth(double level)
     {

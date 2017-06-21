@@ -7,8 +7,8 @@ namespace SexyBackPlayScene
     {
         internal static Consumable CreateConsumable(ConsumableData data, int level)
         {
-            if(data.type == Consumable.Type.ResearchTime)
-                return new Consumable(data, Mathf.Min(Mathf.Max((level / 10), 1), 4)); // 1~4;
+            //if(data.type == Consumable.Type.ResearchTime)
+            //    return new Consumable(data, Mathf.Min(Mathf.Max((level / 10), 1), 4)); // 1~4;
             if (data.type == Consumable.Type.Exp)
                 data.icon.IconText = ConsumableManager.CalChestExp(level, data.value).To5String();
             return new Consumable(data);

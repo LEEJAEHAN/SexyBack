@@ -345,6 +345,9 @@ public class BigInteger : ISerializable
 
     public string To5String()
     {
+        if (this < 1000000)
+            return ToCommaString();
+
         int digit3 = 3; // 3자리마다 단위를늘린다..
         int maxDigit3 = 0;
         string digitString = toRightDigitString(out maxDigit3, digit3, 3);

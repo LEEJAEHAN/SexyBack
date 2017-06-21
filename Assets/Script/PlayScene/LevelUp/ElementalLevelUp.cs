@@ -37,11 +37,8 @@ namespace SexyBackPlayScene
                 (double)elemental.SkillRateXH / 10f,
                 elemental.SkillRatioXH);
             //+ elemental.DpsXH.ToString() + "%\n"
-            Damage = elemental.DPS.To5String() + " / 초";
-            PriceValue = string.Format("{0} / 초\n[F9DB11]{1} 경험치[-]",
-                elemental.DPSTICK.To5String(),
-                PRICE.To5String());
-
+            PriceValue = PRICE.To5String();
+            Damage = string.Format("+{0} / 초\n{1} / 초", elemental.DPSTICK.To5String(), elemental.DPS.To5String());
             ViewRefresh();
         }
 

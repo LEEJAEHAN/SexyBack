@@ -29,7 +29,7 @@ namespace SexyBackPlayScene
         {
             if (mManager.GetBattleMonster() == null)  // 첨부터 없었거나 혹은 battle end
             {
-                Singleton<StageManager>.getInstance().BattleEnd();
+                Singleton<StageManager>.getInstance().BattleEnd(owner);
                 owner.ChangeState("PostMove");
             }
 

@@ -97,7 +97,7 @@ namespace SexyBackPlayScene
             Decreasing = false;
 
             // set text
-            HPBar_Unit.GetComponent<UILabel>().text = monster.HP.ToCommaString() + " (" + GetPercent().ToString() + "%)";
+            HPBar_Unit.GetComponent<UILabel>().text = monster.HP.To5String() + " (" + GetPercent().ToString() + "%)";
             HPBar_Name.GetComponent<UILabel>().text = BarTitle;
 
             //            HPBar_Count.GetComponent<UILabel>().text = "x" + currentIstack;
@@ -140,7 +140,7 @@ namespace SexyBackPlayScene
                 return;
 
             Decreasing = true;
-            HPBar_Unit.GetComponent<UILabel>().text = monster.HP.ToCommaString() + " (" + GetPercent().ToString() + "%)";
+            HPBar_Unit.GetComponent<UILabel>().text = monster.HP.To5String() + " (" + GetPercent().ToString() + "%)";
 
             //moveamount = goal - late; /// 음수
             if (goal < 0) // <= -0.001f 와 같다.

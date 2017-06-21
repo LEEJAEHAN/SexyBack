@@ -100,7 +100,7 @@
 		<Usage type="ElementalBuff" value="2" strvalue="magmaball" cooltime="30"/>
 		<DropInfo stackperchest="1" droplevel="325" density="1"/>
 	</Consumable>
-	<Consumable id="C20" name="깨닳음의 정수" description="경험치 획득량이 2배로 상승합니다." order="9">
+	<Consumable name="깨닳음의 정수" description="경험치 획득량이 2배로 상승합니다." order="9">
 		<NestedIcon icon="Icon_17" subicon="Icon_18"/>
 		<Usage type="ExpBuff" value="2" cooltime="20"/>
 		<DropInfo stackperchest="1" droplevel="0" density="1"/>

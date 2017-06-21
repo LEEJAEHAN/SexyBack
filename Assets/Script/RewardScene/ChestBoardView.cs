@@ -16,6 +16,7 @@ namespace SexyBackRewardScene
 
         internal void SetResultView(ResultReward result)
         {
+
             foreach (Equipment equip in result.NormalEquipments)
                 MakeChestIcon(ChestSource.Normal, result.Rank, equip);
             foreach (KeyValuePair<ChestSource, Equipment> pair in result.BonusEquipments)

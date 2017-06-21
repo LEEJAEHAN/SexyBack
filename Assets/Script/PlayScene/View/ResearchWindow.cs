@@ -32,10 +32,10 @@ namespace SexyBackPlayScene
 
         UILabel Name;
         UILabel Description;
-        UILabel PriceName;
+        UILabel TimeLabel;
+        UILabel TimeValue;
         UILabel PriceValue;
         UILabel Require;
-
         UIButton Button1;
         UIButton Button2;
 
@@ -51,9 +51,9 @@ namespace SexyBackPlayScene
 
             Button1 = gameObject.transform.FindChild("Right/Button1").GetComponent<UIButton>();
             Button2 = gameObject.transform.FindChild("Right/Button2").GetComponent<UIButton>();
-
-            PriceName = gameObject.transform.FindChild("Right/PriceName").GetComponent<UILabel>();
-            PriceValue = gameObject.transform.FindChild("Right/PriceValue").GetComponent<UILabel>();
+            TimeLabel = gameObject.transform.FindChild("Right/Label2").GetComponent<UILabel>();
+            TimeValue = gameObject.transform.FindChild("Right/Time").GetComponent<UILabel>();
+            PriceValue = gameObject.transform.FindChild("Right/Price").GetComponent<UILabel>();
             Require = gameObject.transform.FindChild("Right/Requirement").GetComponent<UILabel>();
             Name = gameObject.transform.FindChild("Middle/Name").GetComponent<UILabel>();
             Description = gameObject.transform.FindChild("Middle/Description").GetComponent<UILabel>();
@@ -76,17 +76,29 @@ namespace SexyBackPlayScene
             Action_Pause();
         }
 
-        public void Show(bool selected, ResearchData data, string pricename, string pricevalue)
+        public void Show(bool selected, ResearchData data, int time, BigInteger price, BigInteger pricepersec, bool instancemode)
         {   // infoview는 select상태에서만 갱신해야한다.
             if (!selected)
                 return;
+
+            if (instancemode)
+            {
+                TimeValue.gameObject.SetActive(false);
+                TimeLabel.gameObject.SetActive(false);
+                PriceValue.text = string.Format("{0}", price.To5String());
+            }
+            else
+            {
+                TimeValue.gameObject.SetActive(true);
+                TimeLabel.gameObject.SetActive(true);
+                PriceValue.text = string.Format("{0}\n{1} / 초", price.To5String(), pricepersec.To5String());
+            }
 
             gameObject.SetActive(true);
             NestedIcon.Draw(data.icon, this.Icon);
             Name.text = data.Name;
             Description.text = data.Description;
-            PriceName.text = pricename;
-            PriceValue.text = pricevalue;
+            TimeValue.text = string.Format("{0}초", time); 
             Require.text = StringParser.GetRequireText(data.requireID, data.requireLevel);
         }
 

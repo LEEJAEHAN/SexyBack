@@ -108,7 +108,7 @@ internal class EquipmentManager
         currentEquipSet = equipSets[0];
         inventory = new List<Equipment>();
 
-        int loop = 20;
+        int loop = 0;
         while (loop > 0)
         {
             AddEquipment(EquipFactory.LotteryEquipment(new MapRewardData(), RewardRank.A, 50));
@@ -348,8 +348,10 @@ internal class EquipmentManager
     {
         if (Focused.isSameItem(inventory[meterialIndex]) == false)
             return false;
-        if (inventory[meterialIndex].isMaxExp() == false)
+        if (inventory[meterialIndex].level < Focused.level)
             return false;
+        //if (inventory[meterialIndex].isMaxExp() == false)
+        //    return false;
 
         return true;
     }

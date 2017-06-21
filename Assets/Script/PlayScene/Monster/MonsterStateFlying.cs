@@ -15,12 +15,11 @@ namespace SexyBackPlayScene
 
         internal override void Begin()
         {
-            if (Singleton<StageManager>.getInstance().Combo < 3)
-                chestCount = Singleton<InstanceStatus>.getInstance().InstanceMap.baseData.MapMonster.Chest[(int)owner.type];
-            else
-                chestCount = 0;
-
-            chestCount *= Singleton<PlayerStatus>.getInstance().GetUtilStat.ConsumableX;
+            //if (Singleton<StageManager>.getInstance().Combo < 3)
+            //    chestCount = Singleton<InstanceStatus>.getInstance().InstanceMap.baseData.MapMonster.Chest[(int)owner.type];
+            //else
+            //    chestCount = 0;
+            chestCount = 1 * Singleton<PlayerStatus>.getInstance().GetUtilStat.ConsumableX;
             owner.avatar.GetComponent<MonsterView>().Fly();
         }
 
@@ -40,8 +39,6 @@ namespace SexyBackPlayScene
                 Singleton<ConsumableManager>.getInstance().MakeChest(1, owner.level, owner.avatar.transform.position, isOpen);
                 chestCount--;
                 DropTickTime = 0.5f;
-
-                
             }
 
             if (flyingTime <= 0)

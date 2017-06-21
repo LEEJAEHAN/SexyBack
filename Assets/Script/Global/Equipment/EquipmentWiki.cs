@@ -58,7 +58,7 @@ public static class EquipmentWiki
     }
     internal static double CalExpCoef(int grade, double exp)
     {
-        return 1 + (exp / Equipment.MaxExp) * 7; // x1 ~ x8 ( 유니크는 unlimit가없기떄문에)
+        return 1 + (exp / Equipment.MaxExp) * 3; // x1 ~ x4 ( 최대 12배수를맞추기위해 )
         //if (grade == 3 )
         //    return 1 + (exp / Equipment.MaxExp) * 7; // x1 ~ x8 ( 유니크는 unlimit가없기떄문에)
         //else

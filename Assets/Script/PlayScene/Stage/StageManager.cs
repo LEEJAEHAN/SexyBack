@@ -78,6 +78,7 @@ namespace SexyBackPlayScene
         public void onStagePass(Stage stage)
         {
             lastClearedFloor = stage.floor;
+
             if (stage.type == StageType.FirstPortal)
             {
                 needNextStage = true;
@@ -113,25 +114,24 @@ namespace SexyBackPlayScene
             Singleton<ElementalManager>.getInstance().SetTarget(battlemonster);
             Singleton<HeroManager>.getInstance().SetTarget(battlemonster);
         }
-        internal void BattleEnd()
+        internal void BattleEnd(Stage stage)
         {
+            lastClearedFloor = stage.floor;
+
             if (BattleTime <= 5)
             {
                 // Combo 상승.
                 Combo++;
-                Singleton<HeroManager>.getInstance().GetHero().ChangeState("FastMove");
             }
             else if( BattleTime <= 50)
             {
+                // Combo 변함없음
                 Combo = (Combo >= 6 ? 6 : (Combo >= 3 ? 3 : 0));
-                // Combo 변함없음.
-                Singleton<HeroManager>.getInstance().GetHero().ChangeState("FastMove");
             }
             else
             {
                 //Combo 전단계로.
                 Combo = Combo >= 6 ? 3 : 0;
-                Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
             }
 
             if (Combo < 3)
@@ -140,6 +140,11 @@ namespace SexyBackPlayScene
                 NextBattleStage = ((CurrentFloor + 10) / 10) * 10;
             else
                 NextBattleStage = ((CurrentFloor + 100) / 100) * 100;
+
+            if(Combo == 0)
+                Singleton<HeroManager>.getInstance().GetHero().ChangeState("Move");
+            else
+                Singleton<HeroManager>.getInstance().GetHero().ChangeState("FastMove");
 
             BattleTime = 0;
             TimerOn = false;

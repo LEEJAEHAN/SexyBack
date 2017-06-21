@@ -132,6 +132,11 @@ namespace SexyBackPlayScene
             sexybacklog.InGame("빨리감기 +" + Singleton<GameInput>.getInstance().fowardtimefordebug + " 초");
             sexybacklog.InGame("레벨업에쓴돈 " + lspend.To5String());
             sexybacklog.InGame("리서치에쓴돈 " + rspend.To5String());
+
+            if(CurrentGameTime > LimitGameTime)
+            {
+                Singleton<InstanceGameManager>.getInstance().EndGame(true);
+            }
         }
 
         private void SetStat()

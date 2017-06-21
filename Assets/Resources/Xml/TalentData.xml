@@ -6,7 +6,7 @@
 		<LevelBonus/>
 	</Talent>
 	<Talent id="T02" name="선구자" maxlevel="15">
-		<Price baselevel="0" baselevelperlevel="33.3333333333333"/>
+		<Price baselevel="0" baselevelperlevel="25"/>
 		<JobBonus target="util" attribute="MaxResearchThread" value="1"/>
 		<LevelBonus target="util" attribute="ResearchTimeX" value="2"/>
 	</Talent>

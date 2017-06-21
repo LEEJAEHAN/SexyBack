@@ -59,26 +59,26 @@ namespace SexyBackPlayScene
         }
         public void PrintExp(BigInteger exp)
         {
-            string context = exp.ToCommaString() + " 경험치";
+            string context = exp.To5String() + " 경험치";
             SetMiddleText(exp, context, LABEL_EXP);
         }
         void PrintEpc(BigInteger Epc, bool buff)
         {
             if (buff)
-                SetMiddleText(Epc, string.Format("[FFFF00]{0} 경험치 / 탭[-]", Epc.ToCommaString()), LABEL_DPC);
+                SetMiddleText(Epc, string.Format("[FFFF00]{0} 경험치 / 탭[-]", Epc.To5String()), LABEL_DPC);
             else
-                SetMiddleText(Epc, string.Format("{0} 경험치 / 탭", Epc.ToCommaString()), LABEL_DPC);
+                SetMiddleText(Epc, string.Format("{0} 경험치 / 탭", Epc.To5String()), LABEL_DPC);
         }
         public void PrintEps(BigInteger Eps, bool buff)
         {
             if (buff)
-                SetMiddleText(Eps, string.Format("[FFFF00]{0} 경험치 / 초[-]", Eps.ToCommaString()), LABEL_DPS);
+                SetMiddleText(Eps, string.Format("[FFFF00]{0} 경험치 / 초[-]", Eps.To5String()), LABEL_DPS);
             else
-                SetMiddleText(Eps, string.Format("{0} 경험치 / 초", Eps.ToCommaString()), LABEL_DPS);
+                SetMiddleText(Eps, string.Format("{0} 경험치 / 초", Eps.To5String()), LABEL_DPS);
         }
         public void PrintMinusEps(BigInteger totalMinusDps)
         {
-            SetMiddleText(totalMinusDps, string.Format("-{0} 경험치 / 초", totalMinusDps.ToCommaString()), LABEL_MINUSDPS);
+            SetMiddleText(totalMinusDps, string.Format("-{0} 경험치 / 초", totalMinusDps.To5String()), LABEL_MINUSDPS);
         }
 
         void BindHero(Hero hero)

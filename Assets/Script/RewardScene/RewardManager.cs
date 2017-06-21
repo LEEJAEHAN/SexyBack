@@ -12,7 +12,7 @@ namespace SexyBackRewardScene
         internal void Init()
         {
             if (CurrentResult == null)
-                RecordResult(Singleton<MapManager>.getInstance().Maps["Map01"], true, 100, 0, 0, 0);
+                RecordResult(Singleton<MapManager>.getInstance().Maps["Map01"], true, 189, 0, 0, 0);
             WaitingTime = 1.0f;
             Window = new RewardWindow();
             Window.SetWindowView(CurrentResult);
@@ -33,8 +33,11 @@ namespace SexyBackRewardScene
         {
             CurrentResult = new ResultReward(mapInfo, clear, floor, clearTime, totalElementLevel, FinishResearchCount);
 
-            CurrentResult.Record();
-            CurrentResult.MakeReward();
+            if(clear)
+            {
+                CurrentResult.Record();
+                CurrentResult.MakeReward();
+            }
         }
         
         internal void ShowNext()

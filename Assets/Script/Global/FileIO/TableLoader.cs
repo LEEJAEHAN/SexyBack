@@ -79,6 +79,8 @@ internal class TableLoader
 
         foreach (XmlNode node in nodes)
         {
+            if (node.Attributes["id"] == null)
+                continue;
             MapData newOne = new MapData();
             newOne.ID = node.Attributes["id"].Value;
             newOne.RequireMap = node.Attributes["requireclearmap"] == null ? null : node.Attributes["requireclearmap"].Value;
@@ -377,6 +379,9 @@ internal class TableLoader
         foreach (XmlNode node in nodes)
         {
             ConsumableData data = new ConsumableData();
+
+            if (node.Attributes["id"] == null)
+                continue;
 
             data.id = node.Attributes["id"].Value;
             data.name = node.Attributes["name"] != null ? node.Attributes["name"].Value : null;

@@ -168,7 +168,7 @@ internal class SaveSystem
         writer.WriteAttributeString("id", e.dataID);
         writer.WriteAttributeString("skillid", e.skillID);
         writer.WriteAttributeString("level", e.level.ToString());
-        //writer.WriteAttributeString("grade", e.grade.ToString());
+        writer.WriteAttributeString("grade", e.grade.ToString());
         writer.WriteAttributeString("limit", e.limit.ToString());
         writer.WriteAttributeString("exp", e.exp.ToString());
         writer.WriteAttributeString("skillLevel", e.skillLevel.ToString());

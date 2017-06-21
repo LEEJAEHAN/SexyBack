@@ -122,21 +122,7 @@ namespace SexyBackPlayScene
             if (!Selected)
                 return;
 
-            string pricename = "";
-            string pricevalue = "";
-            
-            if (!InstanceBuy)
-            {
-                pricename = "비용\n\n시간";
-                pricevalue = StartPrice.To5String() + " 경험치\n" + PricePerSec.To5String() + " 경험치 / 초\n" + ((int)ReducedTime).ToString() + " 초";
-            }
-            else
-            {
-                pricename = "비용";
-                pricevalue = StartPrice.To5String() + " 경험치";
-            }
-
-            Panel.Show(Selected, baseData, pricename, pricevalue);
+            Panel.Show(Selected, baseData, (int)ReducedTime, StartPrice, PricePerSec, InstanceBuy);
         }
 
         public void onConfirm()
