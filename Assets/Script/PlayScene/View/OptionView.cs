@@ -42,7 +42,7 @@ namespace SexyBackPlayScene
         public void ExitGame()
         {
             sexybacklog.Console("어플종료클릭, 명시적 세이브");
-            //Singleton<InstanceGameManager>.getInstance().SaveInstance();
+            Singleton<InstanceGameManager>.getInstance().SaveInstance();
             Application.Quit();
         }
         public void ExitOption()

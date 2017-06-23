@@ -48,7 +48,6 @@ namespace SexyBackPlayScene
 
         public delegate void HeroChange_Event(Hero hero);
         public event HeroChange_Event Action_Change = delegate { };
-
         public delegate void DistanceChange_Event(double distance);
         public event DistanceChange_Event Action_DistanceChange = delegate { };
 

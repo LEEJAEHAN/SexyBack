@@ -102,16 +102,16 @@ namespace SexyBackPlayScene
         }
         internal void SaveInstance()
         {
-            if(LoadComplete)
+            //if(LoadComplete)
                 InstanceSaveSystem.SaveInstacne();
             SaveSystem.SaveGlobalData();
         }
         public void EndGame(bool clear) // 메뉴로 버튼을 눌렀을때,
         {
+            SaveInstance(); // TODO : 테스트용으로있다.
             GameClear(clear);
             InstanceSaveSystem.ClearInstance();
             SceneManager.LoadScene("RewardScene");
-            //SaveInstance(); // TODO : 테스트용으로있다.
         }
 
         private void GameClear(bool clear)

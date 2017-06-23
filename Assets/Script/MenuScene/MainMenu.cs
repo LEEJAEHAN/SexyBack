@@ -8,8 +8,12 @@ namespace SexyBackMenuScene
 {
     public class MainMenu : MonoBehaviour
     {
+        GameCameras cameraSetting;
+        
         private void Awake()
         {
+            cameraSetting = new GameCameras();
+
             Singleton<TableLoader>.getInstance().Init();
             // TODO :  ResourceLoader 제작, 캐싱;
 

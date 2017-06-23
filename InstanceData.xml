@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<InstanceStatus Exp="10000000" MapID="Map01" IsBonused="False" CurrentGameTime="4.18721065577119">
+  <Hero level="1" basedmg="3" state="Move" />
+  <Elementals />
+  <Researchs currentthread="0">
+    <FinishResearchs />
+    <RemainResearchs>
+      <Research id="R00-1" state="Ready" remaintime="0" />
+      <Research id="R01-1" state="Ready" remaintime="0" />
+      <Research id="hero01" state="Ready" remaintime="0" />
+    </RemainResearchs>
+  </Researchs>
+  <Stages currentfloor="1" lastclearedfloor="0" nextbattlestage="1" nextmonsterhp="1000" combo="0" neednextstage="False" battletime="0">
+    <Stage floor="1" zPosition="5.098157" state="Move" />
+    <Stage floor="2" zPosition="35.09811" state="Move" />
+  </Stages>
+  <Monsters />
+  <Consumables />
+</InstanceStatus>

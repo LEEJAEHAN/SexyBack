@@ -112,7 +112,7 @@ namespace SexyBackPlayScene
             CurrentGameTime = 0;
 
             //int initexp = (int)Math.Pow(2, Singleton<PlayerStatus>.getInstance().GetGlobalStat.InitExpCoef) * 50;
-            int initexp = Singleton<PlayerStatus>.getInstance().GetGlobalStat.InitExpCoef * 100;
+            int initexp = Singleton<PlayerStatus>.getInstance().GetGlobalStat.InitExpCoef * 1000000;
             ExpGain(new BigInteger(initexp), false);
             LimitGameTime = MapInfo.baseData.LimitTime;
         }

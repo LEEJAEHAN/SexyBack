@@ -14,7 +14,7 @@ internal class UtilStat
     internal int ConsumableX;
     public UtilStat()
     {
-        ResearchTimeX = 1;
+        ResearchTimeX = 8;
         ResearchTime = 0;
         MaxResearchThread = 1; // for test
         ExpIncreaseXH = 0;

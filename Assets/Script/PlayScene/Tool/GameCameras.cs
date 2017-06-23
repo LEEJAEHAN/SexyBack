@@ -2,8 +2,7 @@
 using System.Collections;
 using System;
 
-namespace SexyBackPlayScene
-{
+
     public class GameCameras
     {
         // gamescale setting;
@@ -110,4 +109,3 @@ namespace SexyBackPlayScene
             return result;
         }
     }
-}

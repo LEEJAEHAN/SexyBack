@@ -21,8 +21,8 @@ namespace SexyBackPlayScene
             Singleton<PlayerStatus>.getInstance().Action_BaseStatChange -= onBaseStatChange;
         }
         Hero CurrentHero;
-        public bool AutoAttack = true;
-        public bool AutoChestOpen = true;
+        public bool AutoAttack = false;
+        public bool AutoChestOpen = false;
 
         // this class is event publisher
         public delegate void HeroCreate_Event(Hero hero);

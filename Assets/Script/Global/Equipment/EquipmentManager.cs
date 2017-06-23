@@ -108,10 +108,10 @@ internal class EquipmentManager
         currentEquipSet = equipSets[0];
         inventory = new List<Equipment>();
 
-        int loop = 0;
+        int loop = 10;
         while (loop > 0)
         {
-            AddEquipment(EquipFactory.LotteryEquipment(new MapRewardData(), RewardRank.A, 50));
+            AddEquipment(EquipFactory.LotteryEquipment(new MapRewardData(), RewardRank.A, 100));
             loop--;
         }
     }
