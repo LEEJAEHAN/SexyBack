@@ -122,6 +122,9 @@ internal class TableLoader
 
         foreach (XmlNode node in nodes)
         {
+            if (node.Attributes["id"] == null)
+                continue;
+
             TalentData newOne = new TalentData();
             newOne.ID= node.Attributes["id"].Value;
             newOne.Name = node.Attributes["name"].Value;

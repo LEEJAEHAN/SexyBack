@@ -42,8 +42,8 @@ internal static class EquipFactory
         string resultEquipID = PopRandomEquipment(rewardInfo, 0, lastlevel);//"E01"; // = 로터리(맵드랍레벨, 랭크)
         //string resultEquipID = PopRandomEquipment(rewardInfo, resultGrade, lastlevel);//"E01"; // = 로터리(맵드랍레벨, 랭크)
         EquipmentData eData = Singleton<TableLoader>.getInstance().equipmenttable[resultEquipID];
-        string resultSkillID = eData.skillID; //"ES01";// = 로터리
-        //string resultSkillID = PopRandomSkill(equipment, level); //"ES01";// = 로터리
+        //string resultSkillID = eData.skillID; //"ES01";// = 로터리
+        string resultSkillID = PopRandomSkill(lastlevel); //"ES01";// = 로터리
         EquipmentSkillData sData = Singleton<TableLoader>.getInstance().equipskilltable[resultSkillID];
 
         sexybacklog.Console("정해진 등급 : " + resultGrade);
@@ -53,10 +53,10 @@ internal static class EquipFactory
         return newOne;
     }
 
-    private static string PopRandomSkill(EquipmentData item, int rewardLevel)
+    private static string PopRandomSkill(int rewardLevel)
     {
-        if (item.skillID != null)
-            return item.skillID;
+        //if (item.skillID != null)
+        //    return item.skillID;
 
         List<string> Candidates = new List<string>();
         var sTable = Singleton<TableLoader>.getInstance().equipskilltable;

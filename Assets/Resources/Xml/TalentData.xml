@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Talents>
-	<Talent id="T01" name="일반인" maxlevel="1">
+	<Talent id="T01" name="모험가" maxlevel="1">
 		<Price baselevel="0" baselevelperlevel="100"/>
 		<JobBonus/>
 		<LevelBonus/>
@@ -10,7 +10,7 @@
 		<JobBonus target="util" attribute="MaxResearchThread" value="1"/>
 		<LevelBonus target="util" attribute="ResearchTimeX" value="2"/>
 	</Talent>
-	<Talent id="T03" name="모험가" maxlevel="10">
+	<Talent name="모험가" maxlevel="10">
 		<Price baselevel="0" baselevelperlevel="50"/>
 		<JobBonus target="util" attribute="ConsumableX" value="2"/>
 		<LevelBonus/>
