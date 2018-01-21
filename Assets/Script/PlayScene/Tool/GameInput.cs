@@ -44,6 +44,7 @@ namespace SexyBackPlayScene
             }
         }
 
+        // 치트
         public void CheckInput()
         {
             if (Input.GetMouseButtonDown(0))

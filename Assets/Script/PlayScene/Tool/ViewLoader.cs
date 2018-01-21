@@ -15,7 +15,6 @@ namespace SexyBackPlayScene
         public static GameObject monsterbucket;
         public static GameObject battlearea;
 
-
         // NGUI
 
         //NGUI STATIC OBJECT

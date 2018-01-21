@@ -257,42 +257,6 @@ internal class DigitsArray
 }
 #endregion
 
-/// <summary>
-/// Represents a integer of abitrary length.
-/// </summary>
-/// <remarks>
-/// <para>
-/// A BigInteger object is immutable like System.String. The object can not be modifed, and new BigInteger objects are
-/// created by using the operations of existing BigInteger objects.
-/// </para>
-/// <para>
-/// Internally a BigInteger object is an array of ? that is represents the digits of the n-place integer. Negative BigIntegers
-/// are stored internally as 1's complements, thus every BigInteger object contains 1 or more padding elements to hold the sign.
-/// </para>
-/// </remarks>
-/// <example>
-/// <code>
-/// public class MainProgram
-/// {
-///		[STAThread]
-///		public static void Main(string[] args)
-///		{
-///			BigInteger a = new BigInteger(25);
-///			a = a + 100;
-///			
-///			BigInteger b = new BigInteger("139435810094598308945890230913");
-///			
-///			BigInteger c = b / a;
-///			BigInteger d = b % a;
-///			
-///			BigInteger e = (c * a) + d;
-///			if (e != b)
-///			{
-///				Console.WriteLine("Can never be true.");
-///			}
-///		}
-///	</code>
-/// </example>
 [Serializable]
 public class BigInteger : ISerializable
 {

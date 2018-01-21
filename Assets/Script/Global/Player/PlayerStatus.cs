@@ -25,6 +25,7 @@ internal class PlayerStatus
 
     internal ElementalStat GetElementalStat(string id) { return elementalStats[id]; }
 
+
     //[field: NonSerialized]
     public event Action<BaseStat> Action_BaseStatChange = delegate { };
     [field: NonSerialized]
